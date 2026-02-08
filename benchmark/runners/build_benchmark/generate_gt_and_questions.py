@@ -40,39 +40,18 @@ Env:
 import argparse
 import base64
 import datetime as dt
-import hashlib
 import json
 import os
 import re
 from pathlib import Path
 from typing import Any, Dict, List, Tuple
 
-import yaml  
 from PIL import Image  
-
 from google import genai
 
-
-# -----------------------------
-# YAML IO (preserve readability)
-# -----------------------------
-
-def load_yaml(path: Path) -> Dict[str, Any]:
-    with path.open("r", encoding="utf-8") as f:
-        return yaml.safe_load(f) or {}
-
-def dump_yaml(path: Path, data: Dict[str, Any]) -> None:
-    # Keep output pretty and stable for diffs
-    with path.open("w", encoding="utf-8") as f:
-        yaml.safe_dump(
-            data,
-            f,
-            sort_keys=False,
-            allow_unicode=True,
-            width=100,
-            default_flow_style=False,
-        )
-
+from utils import resolve_task_paths
+from utils import load_yaml, dump_yaml
+from utils import sha256_bytes, sha256_file, sha256_text
 
 # -----------------------------
 # Task parsing
@@ -84,7 +63,6 @@ def read_text_maybe_path(value: str, base_dir: Path) -> str:
         return candidate.read_text(encoding="utf-8")
     return value
 
-
 def find_repo_root(start: Path) -> Path:
     cur = start.resolve()
     for _ in range(10):
@@ -94,7 +72,6 @@ def find_repo_root(start: Path) -> Path:
             break
         cur = cur.parent
     raise RuntimeError("Could not locate repo root (no .git or README.md found).")
-
 
 def get_task_fields(task: Dict[str, Any], task_path: Path) -> Tuple[str, str]:
     task_id = str(task.get("id") or task_path.stem)
@@ -127,19 +104,6 @@ def get_task_fields(task: Dict[str, Any], task_path: Path) -> Tuple[str, str]:
     # return task_id, initial_frame_path, video_prompt
     return task_id, video_prompt
 
-
-# -----------------------------
-# Hashing / digests
-# -----------------------------
-
-def sha256_bytes(b: bytes) -> str:
-    return hashlib.sha256(b).hexdigest()
-
-def sha256_text(s: str) -> str:
-    return sha256_bytes(s.encode("utf-8"))
-
-def sha256_file(path: Path) -> str:
-    return sha256_bytes(path.read_bytes())
 
 # -----------------------------
 # Gemini prompting
@@ -343,7 +307,8 @@ def main() -> None:
         type=str,
         help=(
             "Path to the task folder OR to the task YAML. "
-            "Folder convention: <task_dir>/<task_dir_name>.yaml and <task_dir>/<task_dir_name>_init_frame.png"
+            "Folder convention: <task_dir>/<task_dir_name>.yaml and "
+            "<task_dir>/<task_dir_name>_init_frame.png"
         ),
     )
     parser.add_argument("--model", default="gemini-2.5-pro", type=str)
@@ -356,52 +321,13 @@ def main() -> None:
     args = parser.parse_args()
 
     task_path = Path(args.task_path).resolve()
-    if not task_path.exists():
-        raise FileNotFoundError(task_path)
+    _, task_yaml_path, _, initial_frame_path = resolve_task_paths(task_path)
 
-    # Support passing either:
-    #  - a directory containing the task, OR
-    #  - a YAML file path directly
-    if task_path.is_dir():
-        task_dir = task_path
-        folder_name = task_dir.name
-        task_yaml_path = task_dir / f"{folder_name}.yaml"
-        initial_frame_path = task_dir / f"{folder_name}_init_frame.png"
-    else:
-        # If user passed YAML, infer task_dir and folder name from its parent dir
-        task_yaml_path = task_path
-        task_dir = task_yaml_path.parent
-        folder_name = task_dir.name
-
-        # Enforce naming convention: yaml name == folder name (warn/guard)
-        expected_yaml = task_dir / f"{folder_name}.yaml"
-        if task_yaml_path.name != expected_yaml.name:
-            raise ValueError(
-                f"YAML filename must match task folder name.\n"
-                f"  task_dir: {task_dir}\n"
-                f"  expected: {expected_yaml.name}\n"
-                f"  got:      {task_yaml_path.name}"
-            )
-
-        initial_frame_path = task_dir / f"{folder_name}_init_frame.png"
-
-    if not task_yaml_path.exists():
-        raise FileNotFoundError(
-            f"Task YAML not found.\n  expected: {task_yaml_path}\n  task_dir: {task_dir}"
-        )
-    if not initial_frame_path.exists():
-        raise FileNotFoundError(
-            f"Initial frame not found.\n  expected: {initial_frame_path}\n  task_dir: {task_dir}"
-        )
-
-    # Hash YAML before modification (for traceability)
+    # Hash YAML before modification
     task_yaml_before_bytes = task_yaml_path.read_bytes()
     task_yaml_sha_before = sha256_bytes(task_yaml_before_bytes)
 
-    # Load YAML
     task = load_yaml(task_yaml_path)
-
-    # New get_task_fields signature: returns (task_id, video_prompt)
     task_id, video_prompt = get_task_fields(task, task_yaml_path)
 
     api_key = os.environ.get("GOOGLE_API_KEY", "").strip()
