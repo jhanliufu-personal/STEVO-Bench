@@ -27,7 +27,6 @@ from typing import Literal, Optional, Protocol
 
 from PIL import Image
 
-
 # -----------------------------
 # Helpers
 # -----------------------------
@@ -74,6 +73,7 @@ class JudgeClient(Protocol):
 
     def judge(self, prompt: str, init_image: Path, final_image: Path) -> str:
         """Return raw text response from the judge model."""
+        # Includes both initial and final frame because some judge questions involve comparisons
         ...
 
 

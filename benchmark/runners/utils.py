@@ -39,6 +39,23 @@ def sha256_file(path: Path) -> str:
 # -----------------------------
 # Path resolution
 # -----------------------------
+
+def _find_task_yaml_in_dir(task_dir: Path) -> Path:
+    """By convention <task_dir>/<task_dir_name>.yaml"""
+    folder = task_dir.name
+    y = task_dir / f"{folder}.yaml"
+    if not y.exists():
+        raise FileNotFoundError(f"Missing task YAML: {y}")
+    return y
+
+def _find_init_frame_in_dir(task_dir: Path) -> Path:
+    """By convention <task_dir>/<task_dir_name>_init_frame.png"""
+    folder = task_dir.name
+    img = task_dir / f"{folder}_init_frame.png"
+    if not img.exists():
+        raise FileNotFoundError(f"Missing init frame: {img}")
+    return img
+
 def resolve_task_paths(task_path: Path) -> Tuple[Path, Path, str, Path]:
     """
     Returns:
@@ -49,9 +66,7 @@ def resolve_task_paths(task_path: Path) -> Tuple[Path, Path, str, Path]:
         raise FileNotFoundError(task_path)
 
     if task_path.is_dir():
-        task_dir = task_path
-        folder_name = task_dir.name
-        task_yaml_path = task_dir / f"{folder_name}.yaml"
+        task_yaml_path = _find_task_yaml_in_dir(task_path)
     else:
         task_yaml_path = task_path
         task_dir = task_yaml_path.parent
