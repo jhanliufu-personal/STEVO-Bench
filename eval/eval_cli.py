@@ -5,6 +5,7 @@ from typing import List
 
 from eval.task_resolver import resolve_tasks_from_outputs_json, ResolvedTask
 from eval.judge_runner import judge_all_tasks
+from eval.score_task import score_all_tasks, write_run_report
 
 def main() -> None:
     parser = argparse.ArgumentParser()
@@ -92,7 +93,15 @@ def main() -> None:
     # ---------------------------------------------------------------------------
     # Call judge runner
     # ---------------------------------------------------------------------------
-    _ = judge_all_tasks(resolved_tasks, provider=args.judge_vlm_provider, model=args.judge_vlm_model)
+    judge_results = judge_all_tasks(resolved_tasks, provider=args.judge_vlm_provider, model=args.judge_vlm_model)
+
+    print(f"[DONE] Produced task reports for {len(judge_results)} tasks")
+
+    # ---------------------------------------------------------------------------
+    # Call scorer
+    # ---------------------------------------------------------------------------
+    task_scores = score_all_tasks(judge_results=judge_results)
+    _ = write_run_report(task_scores=task_scores, run_dir=run_dir)
 
     return
 

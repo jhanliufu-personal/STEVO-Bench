@@ -1,0 +1,64 @@
+id: block_on_ramp_01
+level: 2
+category: kinematics
+tags: []
+prompts:
+  video_WM: Single continuous take, no cuts or zoom. Camera starts centered on the block and ramp. Then
+    the camera smoothly moves to the right at constant speed until the ramp leaves the frame to the left.
+    The camera continues moving right across the tabletop for several seconds. Then the camera moves left
+    at the same speed back to the original viewpoint, bringing the ramp back into view naturally. Lighting
+    and objects remain consistent and realistic.
+  camera_wM: null
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init2final_edit_prompt: Move the small metal block from its position at the top of the wooden ramp to
+    the desk surface at the bottom of the ramp's incline.
+  rationale: The video prompt describes the camera moving away from the scene for several seconds and
+    then returning. During this period of occlusion, the laws of physics are expected to apply. The initial
+    frame shows a block at the top of an inclined ramp. Due to gravity, the block will slide down the
+    ramp. It is assumed that the friction between the block and the ramp is not sufficient to hold it
+    in place. Therefore, when the camera returns to the original view, the block should be found at the
+    bottom of the ramp, resting on the desk. All other objects, including the ramp itself and background
+    elements, are assumed to be static.
+  questions:
+  - id: 01_block_position_final
+    question: Is the small metal block now located at the bottom of the wooden ramp, on the desk surface?
+    answer_type: yes_no
+    notes_for_judge: The block should have moved from the top of the ramp to the bottom.
+  - id: 02_ramp_top_empty
+    question: Is the top surface of the wooden ramp now empty, with the metal block no longer on it?
+    answer_type: yes_no
+    notes_for_judge: ''
+  - id: 03_ramp_invariant
+    question: Is the wooden ramp still in the exact same position and orientation on the desk as in the
+      initial frame?
+    answer_type: yes_no
+    notes_for_judge: This is a negative control; the ramp should not have moved.
+  - id: 04_chair_invariant
+    question: Is the black chair in the background still in the same position as it was initially?
+    answer_type: yes_no
+    notes_for_judge: This is a negative control; the background should be static.
+  - id: 05_pen_holder_invariant
+    question: Is the pen holder in the background still in the same location?
+    answer_type: yes_no
+    notes_for_judge: This is a negative control; the background should be static.
+  - id: 06_lighting_invariant
+    question: Is the lighting, including the direction and softness of shadows, consistent with the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: This is a negative control; lighting should not change.
+  - id: 07_block_on_desk
+    question: Is the metal block now resting on the flat surface of the desk?
+    answer_type: yes_no
+    notes_for_judge: ''
+  generation:
+    model_provider: google_gemini
+    llm: gemini-2.5-pro
+    temperature: 0.2
+    created_utc: '2026-02-10T06:51:56Z'
+  inputs_digest:
+    initial_frame_sha256: aae43ce86b60b30f0104a521e6d43cded4f07a922d8243e2551f165a2c9998c1
+    video_prompt_sha256: 1efe912c812cac20c660feaa927245d072558fb2341f367b258abd8b7f57e95e
+    task_yaml_sha256_before: c71e7298b169922955a2e1b2c98e08e7a4128b93f8f944542622c82766813eda

@@ -33,7 +33,7 @@ from typing import Any, Dict, List, Optional, Tuple
 from benchmark.runners.utils import (
     load_yaml, resolve_task_paths
 )
-from utils import (
+from eval.utils import (
     _resolve_video_source, _copy_or_symlink, _download
 )
 
@@ -52,6 +52,7 @@ class Question:
 @dataclass
 class ResolvedTask:
     task_id: str
+    task_level: int
     task_dir: Path
     task_yaml: Path
     init_frame: Path
@@ -119,6 +120,11 @@ def discover_tasks(tasks_root: Path) -> Dict[str, Tuple[Path, Path, Path, Path]]
         raise RuntimeError(f"No tasks found under: {tasks_root}")
 
     return mapping
+
+
+def _load_task_level(task_yaml: Path) -> Optional[int]:
+    task = load_yaml(task_yaml)
+    return task.get("level")
 
 
 def _load_questions(task_yaml: Path) -> Tuple[List[Question], Optional[str]]:
@@ -261,7 +267,6 @@ def resolve_tasks_from_outputs_json(
 
     resolved: List[ResolvedTask] = []
     per_task_root = run_dir / "per_task"
-    # per_task_root.mkdir(parents=True, exist_ok=True)
 
     for task_id, video_link in outputs_data.items():
         if task_id not in task_map:
@@ -272,6 +277,8 @@ def resolve_tasks_from_outputs_json(
             raise FileNotFoundError(f"Init frame missing for task {task_id}: {init_frame}")
 
         questions, spec_prompt = _load_questions(task_yaml)
+
+        task_level = _load_task_level(task_yaml)
 
         # Prepare per-task run dir
         run_task_dir = per_task_root / task_id
@@ -306,6 +313,7 @@ def resolve_tasks_from_outputs_json(
         resolved.append(
             ResolvedTask(
                 task_id=task_id,
+                task_level=task_level,
                 task_dir=task_dir,
                 task_yaml=task_yaml,
                 init_frame=run_init,

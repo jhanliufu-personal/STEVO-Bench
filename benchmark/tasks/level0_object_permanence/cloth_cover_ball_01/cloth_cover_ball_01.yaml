@@ -1,12 +1,58 @@
 id: cloth_cover_ball_01
 level: 0
 category: object_permanence
-tags: [occlusion, transport, reveal]
-
+tags:
+- occlusion
+- transport
+- reveal
 prompts:
-  video_WM: A hand covers the red ball with the blue cup, moves cup across the tabletop towards right, then lift the cup
-  camera_wM: A hand covers the red ball with the blue cup, moves cup across the tabletop towards right, then lift the cup
-
+  video_WM: A hand spreads the cloth over the ball and fully covers it. The hand drags the cloth across
+    the table towards right. Finally, the cloth is lifted.
+  camera_wM: A hand spreads the cloth over the ball and fully covers it. The hand drags the cloth across
+    the table towards right. Finally, the cloth is lifted.
 camera_control:
-  HY-WorldPlay: 
-  Genie: 
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init2final_edit_prompt: Remove the folded white cloth. Move the yellow ball to the right of its original
+    position.
+  rationale: The video prompt describes a sequence of actions. First, a hand spreads the cloth over the
+    ball. Then, the hand drags the cloth, with the ball underneath it, to the right. This action displaces
+    the ball. Finally, the cloth is lifted away, removing it from the scene entirely. Therefore, the final
+    image should show only the yellow ball, which has been moved to a new position to the right of where
+    it started.
+  questions:
+  - id: cloth_cover_ball_01_q1
+    question: Is the white cloth completely absent from the image?
+    answer_type: yes_no
+    notes_for_judge: ''
+  - id: cloth_cover_ball_01_q2
+    question: Is the yellow ball located further to the right than it was in the initial image?
+    answer_type: yes_no
+    notes_for_judge: ''
+  - id: cloth_cover_ball_01_q3
+    question: Is the yellow ball the only object remaining on the wooden surface?
+    answer_type: yes_no
+    notes_for_judge: ''
+  - id: cloth_cover_ball_01_q4
+    question: Is the yellow ball still present on the wooden surface?
+    answer_type: yes_no
+    notes_for_judge: ''
+  - id: cloth_cover_ball_01_q5
+    question: Is the wooden surface in the background unchanged from the initial frame?
+    answer_type: yes_no
+    notes_for_judge: ''
+  - id: cloth_cover_ball_01_q6
+    question: Does the yellow ball still have the same porous texture and spherical shape as in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: ''
+  generation:
+    model_provider: google_gemini
+    llm: gemini-2.5-pro
+    temperature: 0.2
+    created_utc: '2026-02-10T06:26:55Z'
+  inputs_digest:
+    initial_frame_sha256: 3083867c92c1f655a798b4c99f035d39581139d60442da186b850955c5b88efa
+    video_prompt_sha256: 4f6a01f2fc282faffed27dca198ba13c0a5b6f5cd48ef73db4c1f834a7e8f6c0
+    task_yaml_sha256_before: a13c845d72b10e4773e7213d5b38a15530e0100a99f3ef590a88b3b24d90174d

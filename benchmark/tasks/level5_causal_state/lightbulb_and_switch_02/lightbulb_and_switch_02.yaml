@@ -13,54 +13,51 @@ camera_control:
   HY-WorldPlay: null
   Genie: null
 evaluation:
-  init2final_edit_prompt: Change the light switch on the left wall to the opposite position. Turn
-    off the ceiling light, so the light bulb is no longer illuminated and the room is significantly darker,
-    with no warm glow cast on the ceiling or walls.
-  rationale: 'The video prompt describes a camera movement that first pans away from the light switch
-    and then returns to the original view. While the switch is off-camera, a hand flips it from the ''down''
-    to the ''up'' position. Based on the initial state where the light is on and the switch is down, this
-    action turns the ceiling light off. Consequently, the final frame should depict the same scene from
-    the original viewpoint but with two key changes: the light switch is now in the up position, and the
-    ceiling light is off, resulting in a much darker room illuminated only by ambient light from the window.'
+  init2final_edit_prompt: Flip the light switch on the left wall into the up position. Turn off the ceiling
+    light so it is no longer emitting light. Make the overall lighting in the room much darker, with the
+    only illumination coming from the window.
+  rationale: The camera initially shows a room with the ceiling light on and the wall switch in the down
+    position. The camera then pans left, moving both the switch and eventually the light out of view.
+    While occluded, a hand flips the switch upward. Based on the initial state (switch down, light on),
+    flipping the switch up should turn the light off. The camera then pans back to the original position.
+    The final frame should therefore show the same scene, but with the light switch in the up position,
+    the ceiling light off, and the room consequently much darker.
   questions:
   - id: lightbulb_and_switch_02_1
-    question: Is the ceiling light turned off?
+    question: Is the light switch on the left wall in the up position?
     answer_type: yes_no
     notes_for_judge: ''
   - id: lightbulb_and_switch_02_2
-    question: Is the light switch on the left wall in the 'up' position?
+    question: Is the ceiling light fixture turned off and no longer emitting light?
     answer_type: yes_no
     notes_for_judge: ''
   - id: lightbulb_and_switch_02_3
-    question: Is the room significantly darker than in the original image?
+    question: Is the overall lighting in the room significantly darker than in the initial image?
     answer_type: yes_no
     notes_for_judge: ''
   - id: lightbulb_and_switch_02_4
-    question: Is the ceiling light still on?
+    question: Is the blue armchair still in the same position and condition as in the initial frame?
     answer_type: yes_no
-    notes_for_judge: ''
+    notes_for_judge: This is a negative control question.
   - id: lightbulb_and_switch_02_5
-    question: Is the light switch on the left wall still in the 'down' position?
+    question: Are the side table and the books on it in the same location as in the initial frame?
     answer_type: yes_no
-    notes_for_judge: ''
+    notes_for_judge: This is a negative control question.
   - id: lightbulb_and_switch_02_6
-    question: Is the blue armchair still in the same location?
+    question: Is the window with the blinds still visible in the same position?
     answer_type: yes_no
-    notes_for_judge: ''
+    notes_for_judge: This is a negative control question.
   - id: lightbulb_and_switch_02_7
-    question: Is the small wooden table still next to the armchair?
-    answer_type: yes_no
-    notes_for_judge: ''
-  - id: lightbulb_and_switch_02_8
-    question: Are the blinds on the window in the same position as the start?
+    question: Does the room appear to be lit primarily by ambient light from the window, rather than the
+      ceiling fixture?
     answer_type: yes_no
     notes_for_judge: ''
   generation:
     model_provider: google_gemini
     llm: gemini-2.5-pro
     temperature: 0.2
-    created_utc: '2026-02-08T03:59:27Z'
+    created_utc: '2026-02-10T06:30:00Z'
   inputs_digest:
     initial_frame_sha256: 326528890debe3c52c25091d0d595a9a49b958fa916b7bb554ceec43034536eb
     video_prompt_sha256: a629ef49913753d4ec24a4a9390ab5738f5c318f0aeb6a58c12dfd2148f2e457
-    task_yaml_sha256_before: a1759c28dca012522d5ba69f5fc11a3b830ab1ad83cdfd95ab589da1ec8b9e0d
+    task_yaml_sha256_before: 33f02b0abe2a4720d35ccd52ad792ea3c9d7f1df53536a56651a4705c8ab5765

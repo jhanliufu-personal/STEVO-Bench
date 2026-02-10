@@ -1,0 +1,67 @@
+id: pouring_water_into_cup_01
+level: 3
+category: relational_state
+tags: []
+prompts:
+  video_WM: Single continuous shot, no cuts, no zoom, no scene transitions. Camera starts centered on
+    the hand holding the pitcher, the pouring water stream, and the empty glass. The hand continues holding
+    the pitcher in the same tilted position so that water keeps pouring continuously. While the pouring
+    continues, the camera smoothly moves to the right at constant speed until the pitcher, water stream,
+    and glass fully exit the frame to the left. The camera continues moving right across the tabletop
+    for several seconds while the pouring action remains out of view. Then the camera moves left at the
+    same constant speed back to the original viewpoint, bringing the pitcher and glass back into view
+    naturally while pouring has progressed over time.
+  camera_wM: null
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init2final_edit_prompt: The glass on the right is now almost full of water. The water level in the glass
+    pitcher is significantly lower. A stream of water is still flowing from the pitcher into the glass.
+    The hand, pitcher, glass, and spilled water on the table remain in their original positions.
+  rationale: 'The video prompt describes a continuous action of water being poured from a pitcher into
+    a glass. The camera moves away from the scene and then returns to the original viewpoint. During the
+    time the objects are off-screen, the pouring action is assumed to continue uninterrupted for several
+    seconds. Therefore, the final frame should show the result of this continuous pouring: the water level
+    in the glass is significantly higher (nearly full), and the water level in the pitcher is correspondingly
+    lower. The hand, pitcher, and glass remain in their original positions, as only the camera moves.'
+  questions:
+  - id: pouring_water_into_cup_01_1
+    question: Is the glass on the table now nearly full of water?
+    answer_type: yes_no
+    notes_for_judge: The glass starts mostly empty and should be at least 3/4 full in the final frame.
+  - id: pouring_water_into_cup_01_2
+    question: Is the water level in the glass pitcher significantly lower than it was in the initial image?
+    answer_type: yes_no
+    notes_for_judge: The pitcher starts more than half full; it should be less than half full in the final
+      frame.
+  - id: pouring_water_into_cup_01_3
+    question: Is a stream of water still flowing from the pitcher's spout into the glass?
+    answer_type: yes_no
+    notes_for_judge: The pouring action is continuous throughout the prompt.
+  - id: pouring_water_into_cup_01_4
+    question: Is the hand still holding the pitcher in the same pouring position as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: This is a negative control; the hand and pitcher should not have moved.
+  - id: pouring_water_into_cup_01_5
+    question: Is the glass still in the same position on the wooden table?
+    answer_type: yes_no
+    notes_for_judge: This is a negative control; the glass should not have moved.
+  - id: pouring_water_into_cup_01_6
+    question: Is the small puddle of spilled water still visible on the table to the left of the glass?
+    answer_type: yes_no
+    notes_for_judge: This is a negative control; the spilled water should remain unchanged.
+  - id: pouring_water_into_cup_01_7
+    question: Is the shadow cast by the pitcher, including the bright starburst reflection, still present
+      on the table in the same location?
+    answer_type: yes_no
+    notes_for_judge: This is a negative control; the lighting and shadows should not have changed.
+  generation:
+    model_provider: google_gemini
+    llm: gemini-2.5-pro
+    temperature: 0.2
+    created_utc: '2026-02-10T06:30:56Z'
+  inputs_digest:
+    initial_frame_sha256: 7c013517ba1877cf03975cbb55cc47b0726c5ce61f7d326661c387d85d292c0a
+    video_prompt_sha256: 0abf9aadcfd3191f0349abc149401babefc637fb6832ff94a7df9ce9b088f900
+    task_yaml_sha256_before: a65bdcb2c4157eb646ccd1c53cc9e378f9a696a4ef7df134ba676eee4a3a761f

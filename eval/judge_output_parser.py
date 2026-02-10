@@ -21,6 +21,7 @@ class JudgeAnswer:
 @dataclass
 class JudgeResult:
     task_id: str
+    task_level: int
     provider: str
     model: str
 

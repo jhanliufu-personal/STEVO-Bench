@@ -8,60 +8,59 @@ prompts:
     to the left and become completely invisible. The camera continues moving  right across the room for
     several seconds. Then the camera moves left at the same speed back to  the original viewpoint, bringing
     the funnel and jar cube back into view naturally.  Lighting and objects remain consistent and realistic.
-  camera_wM: 
+  camera_wM: null
 camera_control:
-  HY-WorldPlay: 
-  Genie: 
+  HY-WorldPlay: null
+  Genie: null
 evaluation:
-  init2final_edit_prompt: Increase the amount of sand inside the glass jar so that the top of the pile
-    is approximately level with the 600 mark. The stream of sand should still be falling from the funnel
-    into the jar.
+  init2final_edit_prompt: Increase the amount of sand in the glass jar so that the peak of the sand pile
+    is approximately level with the 600ml mark on the side of the jar. The sand should form a natural
+    conical pile. The stream of sand pouring from the funnel should still be visible.
   rationale: The video prompt describes the camera moving away from the scene for 'several seconds' and
-    then returning to the original view. The core assumption is that the action shown in the initial frame—sand
-    pouring from a funnel into a jar—continues uninterrupted while the objects are off-screen. 'Several
-    seconds' is interpreted as enough time for a significant amount of sand to accumulate. Therefore,
-    the final frame should show the same scene from the same viewpoint, but with the sand level in the
-    jar having risen considerably, to approximately the 600 mark. The stream of sand remains visible as
-    the process is ongoing.
+    then returning. The core physical action is sand pouring from a funnel into a jar. It is assumed this
+    action continues at a constant rate while the scene is occluded. Therefore, when the camera returns
+    to its original position, a significant amount of time has passed, and the jar should contain a much
+    larger volume of sand. The final sand level is estimated to be around the 600ml mark, reflecting several
+    seconds of continuous pouring.
   questions:
   - id: sand_level_increased
-    question: Is the amount of sand in the jar greater than in the original image?
+    question: Is the amount of sand inside the glass jar significantly greater than in the initial frame?
     answer_type: yes_no
     notes_for_judge: ''
-  - id: sand_level_above_400
-    question: Is the sand level in the jar now at or above the 400 mark?
+  - id: sand_level_at_600ml
+    question: Is the peak of the sand pile in the jar now approximately level with the 600ml marking?
     answer_type: yes_no
     notes_for_judge: ''
-  - id: jar_not_full
-    question: Is the jar now completely full of sand?
+  - id: sand_pile_wider
+    question: Is the base of the sand pile at the bottom of the jar wider than it was in the initial frame?
     answer_type: yes_no
     notes_for_judge: ''
-  - id: sand_still_pouring
-    question: Is sand still visibly pouring from the funnel into the jar?
+  - id: action_continuity
+    question: Is a stream of sand still visibly falling from the funnel into the jar?
     answer_type: yes_no
     notes_for_judge: ''
-  - id: funnel_present_neg_control
-    question: Is the metal funnel still positioned above the jar?
+  - id: invariant_funnel_position
+    question: Is the funnel still in the same position directly above the jar as in the initial frame?
     answer_type: yes_no
     notes_for_judge: ''
-  - id: jar_on_table_neg_control
-    question: Is the glass jar still sitting on the wooden table?
+  - id: invariant_jar_position
+    question: Is the glass jar still in the same location on the wooden table?
     answer_type: yes_no
     notes_for_judge: ''
-  - id: jar_not_broken_neg_control
-    question: Is the glass jar broken or tipped over?
+  - id: invariant_background
+    question: Is the background, including the window, the same as in the initial frame?
     answer_type: yes_no
     notes_for_judge: ''
-  - id: window_present_neg_control
-    question: Is the window still visible in the background?
+  - id: invariant_funnel_material
+    question: Does the funnel still appear to be made of the same metal material?
     answer_type: yes_no
     notes_for_judge: ''
   generation:
     model_provider: google_gemini
     llm: gemini-2.5-pro
     temperature: 0.2
-    created_utc: '2026-02-08T01:16:27Z'
+    created_utc: '2026-02-10T06:27:46Z'
   inputs_digest:
     initial_frame_sha256: 65692410a690a9a0dd1469e48717cc64692d295c82a6e3579b66968319256288
-    video_prompt_sha256: 93e18b539a26b4faec58c248252905d19ac24189d9773be2b4154a478bb019e8
-    task_yaml_sha256_before: b0b616c37833fedc2979f3c46e31782d722bfe9437b1c85370a7ff9cb52a519d
+    video_prompt_sha256: 34b7aa9aa5b5786bec842d7b91691c9aa7d08e3b321faa661018400bfd732512
+    task_yaml_sha256_before: b3ceffa73cc38446579e4d8432ee299de706f28a48b25e705d9ecce84c40e90a

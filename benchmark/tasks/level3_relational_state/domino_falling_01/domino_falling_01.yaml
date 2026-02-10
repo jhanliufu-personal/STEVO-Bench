@@ -1,0 +1,67 @@
+id: domino_falling_01
+level: 3
+category: relational_state
+tags: []
+prompts:
+  video_WM: Single continuous shot, no cuts or zoom. Camera starts centered on the domino row. The finger
+    pushes the first domino forward as interaction continues. While the dominoes interact, the camera
+    smoothly moves to the right at constant speed until the row exits the frame. The camera continues
+    moving right across the table for several seconds. Then the camera moves left at the same speed back
+    to the original framing.
+  camera_wM: null
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init2final_edit_prompt: Remove the hand and finger. Make all the dominoes lie flat on the table, having
+    been knocked over in a chain reaction.
+  rationale: The video prompt describes a sequence where a finger pushes the first domino, initiating
+    a chain reaction that topples the entire row. The camera then pans away to the right, showing an empty
+    table for a few seconds, before panning back to the original framing. The final state, therefore,
+    should show the scene from the initial viewpoint but after the action has completed. This means all
+    the dominoes are now lying flat on the table. The hand is assumed to have retracted after pushing
+    the first domino and is no longer in the frame. The background and table surface remain unchanged.
+  questions:
+  - id: domino_falling_01_q1
+    question: Are all of the dominoes lying flat on the table?
+    answer_type: yes_no
+    notes_for_judge: ''
+  - id: domino_falling_01_q2
+    question: Is the hand that was about to push the domino no longer visible?
+    answer_type: yes_no
+    notes_for_judge: ''
+  - id: domino_falling_01_q3
+    question: Is the bookshelf in the background in the same state and position as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: This is a negative control question to check for scene invariance.
+  - id: domino_falling_01_q4
+    question: Is the wooden table surface unchanged from the initial frame?
+    answer_type: yes_no
+    notes_for_judge: This is a negative control question to check for scene invariance.
+  - id: domino_falling_01_q5
+    question: Is the first domino in the row (the one with 6 and 3 dots) now lying down?
+    answer_type: yes_no
+    notes_for_judge: ''
+  - id: domino_falling_01_q6
+    question: Are the fallen dominoes located in the same general area on the table as they were when
+      standing?
+    answer_type: yes_no
+    notes_for_judge: ''
+  - id: domino_falling_01_q7
+    question: Does the final image have the same camera framing and viewpoint as the initial image?
+    answer_type: yes_no
+    notes_for_judge: ''
+  - id: domino_falling_01_q8
+    question: Are all the dominoes that were initially standing still present in the image, but in a fallen
+      state?
+    answer_type: yes_no
+    notes_for_judge: This question checks for object permanence.
+  generation:
+    model_provider: google_gemini
+    llm: gemini-2.5-pro
+    temperature: 0.2
+    created_utc: '2026-02-10T06:30:26Z'
+  inputs_digest:
+    initial_frame_sha256: 428e8e2c1815fe56bc3d3849a695a21b134a311549c7512d46bb3a04417131e3
+    video_prompt_sha256: 81b64de28815646e7d12d005d3a5b7c81a89c41fd356e9f6264a39080bf644b1
+    task_yaml_sha256_before: 1c7ad029031bb3085e81ce6be4b9f98eedd02e4b47a9c4f8bd8e9559e753a373

@@ -13,48 +13,55 @@ camera_control:
   HY-WorldPlay: null
   Genie: null
 evaluation:
-  init2final_edit_prompt: Flip the light switch on the left wall into the 'up' position. Turn on the ceiling
-    light so that it is glowing and illuminates the room, making the entire scene brighter.
-  rationale: The camera moves left, causing the light switch to go off-screen. While occluded, a hand
-    flips the switch from the 'down' to the 'up' position. This action turns on the ceiling light. The
-    camera then returns to its original viewpoint. The final state, therefore, should show the same scene
-    as the initial frame, but with the light switch flipped up and the ceiling light turned on, resulting
-    in a brighter room.
+  init2final_edit_prompt: Flip the light switch on the left wall to the 'up' position. Turn on the ceiling
+    light so it is brightly illuminated and casting a warm light throughout the room. The overall brightness
+    of the room should increase, consistent with the ceiling light being the main light source.
+  rationale: The video prompt describes a camera pan to the left and then back to the original position.
+    While the camera is panned away and the light switch is out of view, an unseen hand flips the switch
+    from the 'down' (off) position to the 'up' (on) position. This action causes the ceiling light, which
+    was initially off, to turn on. The final frame, being from the original viewpoint, should show the
+    switch in the 'up' position and the ceiling light illuminated. The overall lighting of the room should
+    be brighter, consistent with the ceiling light now being the primary light source. No other objects
+    in the room are affected.
   questions:
-  - id: light_switch_position
+  - id: lightbulb_and_switch_01_q01
     question: Is the light switch on the left wall in the 'up' position?
     answer_type: yes_no
-    notes_for_judge: ''
-  - id: ceiling_light_state
-    question: Is the ceiling light turned on and emitting light?
+    notes_for_judge: The toggle on the switch should be pointing towards the ceiling.
+  - id: lightbulb_and_switch_01_q02
+    question: Is the ceiling light fixture turned on and emitting light?
+    answer_type: yes_no
+    notes_for_judge: The glass bowl of the light fixture should be glowing.
+  - id: lightbulb_and_switch_01_q03
+    question: Is the overall brightness of the room noticeably greater than in the initial image?
     answer_type: yes_no
     notes_for_judge: ''
-  - id: room_illumination
-    question: Is the overall illumination in the room brighter than in the initial image?
+  - id: lightbulb_and_switch_01_q04
+    question: Does the light in the room appear to be originating from the ceiling fixture?
     answer_type: yes_no
-    notes_for_judge: ''
-  - id: armchair_moved
-    question: Has the blue armchair moved from its original position?
+    notes_for_judge: The ceiling and upper walls should be the most brightly lit areas.
+  - id: lightbulb_and_switch_01_q05
+    question: Is the blue armchair still in the same position and orientation as in the initial frame?
     answer_type: yes_no
-    notes_for_judge: ''
-  - id: table_present
-    question: Is the small wooden table still next to the armchair?
+    notes_for_judge: This is a negative control; the chair should not have moved.
+  - id: lightbulb_and_switch_01_q06
+    question: Is the small wooden table with books still located next to the armchair?
     answer_type: yes_no
-    notes_for_judge: ''
-  - id: books_on_table
-    question: Are there still books on the small wooden table?
+    notes_for_judge: This is a negative control; the table and books should not have moved.
+  - id: lightbulb_and_switch_01_q07
+    question: Are the blinds on the window still closed to the same degree as in the initial image?
     answer_type: yes_no
-    notes_for_judge: ''
-  - id: window_blinds_changed
-    question: Have the window blinds been opened or closed?
+    notes_for_judge: This is a negative control; the blinds should not have been adjusted.
+  - id: lightbulb_and_switch_01_q08
+    question: Is the electrical outlet on the wall still in the same location?
     answer_type: yes_no
-    notes_for_judge: ''
+    notes_for_judge: This is a negative control; the outlet should not have moved.
   generation:
     model_provider: google_gemini
     llm: gemini-2.5-pro
     temperature: 0.2
-    created_utc: '2026-02-08T01:36:57Z'
+    created_utc: '2026-02-10T06:29:36Z'
   inputs_digest:
     initial_frame_sha256: d6d0c60987ed32024ef3ac069e0c3b1c2210dcc641ba15b7521cb1c3730b7058
     video_prompt_sha256: a629ef49913753d4ec24a4a9390ab5738f5c318f0aeb6a58c12dfd2148f2e457
-    task_yaml_sha256_before: e387aaf7b353972d1836cc41534a681f5b7f46ed8482bb5bd74ffdbc4f023be6
+    task_yaml_sha256_before: 7e08394184f3a4047901e9f432a050df820fdc0f8e4ab1c881d70617ff999e28

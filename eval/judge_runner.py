@@ -110,6 +110,7 @@ def judge_one_task(
 
     return JudgeResult(
         task_id=task.task_id,
+        task_level=task.task_level,
         provider=provider,
         model=model,
         init_frame=str(task.init_frame),
