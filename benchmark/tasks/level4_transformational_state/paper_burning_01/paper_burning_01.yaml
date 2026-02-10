@@ -1,0 +1,67 @@
+id: paper_burning_01
+level: 4
+category: transformational_state_change
+tags: []
+prompts:
+  video_WM: Single continuous take, no cuts or zoom. Camera starts centered on the plate and burning paper.
+    Then the camera smoothly moves to the right at constant speed until the plate leaves the frame to
+    the left and become completely invisible. The camera continues moving right across the room for several
+    seconds. Then the camera moves left at the same speed back to the original viewpoint, bringing the
+    plate back into view naturally. Lighting and objects remain consistent and realistic.
+  camera_wM: null
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init2final_edit_prompt: The fire has spread from the top-right corner, consuming most of the white paper.
+    The majority of the paper is now black and charred, with the remaining unburnt portion at the bottom-left.
+    Orange flames and wisps of smoke are still visible along the edge of the burnt section.
+  rationale: The video prompt involves the camera panning away from a piece of burning paper for several
+    seconds before returning to the original view. During the time the paper is off-screen, the fire is
+    assumed to continue its natural progression. Consequently, the expected final state shows that a significant
+    additional portion of the paper has been consumed by the flames. The burnt area has expanded from
+    the top-right corner across most of the paper, leaving only a small section unburnt. The fire is depicted
+    as still being active when the camera returns.
+  questions:
+  - id: pb01_01
+    question: Has more of the paper been burned compared to the initial image?
+    answer_type: yes_no
+    notes_for_judge: The burnt/charred area should be significantly larger than in the starting frame.
+  - id: pb01_02
+    question: Is the majority of the paper now black and charred?
+    answer_type: yes_no
+    notes_for_judge: More than half of the paper's original area should be consumed by the fire.
+  - id: pb01_03
+    question: Is the unburnt portion of the paper located primarily in the bottom-left?
+    answer_type: yes_no
+    notes_for_judge: The fire started in the top-right, so the remaining paper should be in the opposite
+      corner.
+  - id: pb01_04
+    question: Are there still flames visible on the paper?
+    answer_type: yes_no
+    notes_for_judge: The fire should not have extinguished itself in the time elapsed.
+  - id: pb01_05
+    question: Is the paper still a pristine, unburnt rectangle?
+    answer_type: yes_no
+    notes_for_judge: This is a negative control; the paper should be significantly more burnt.
+  - id: pb01_06
+    question: Is the metal tray damaged or melted?
+    answer_type: yes_no
+    notes_for_judge: This is a negative control; the tray should be unaffected by the fire.
+  - id: pb01_07
+    question: Is the paper still on the metal tray?
+    answer_type: yes_no
+    notes_for_judge: This is a negative control; the overall scene setup should not have changed.
+  - id: pb01_08
+    question: Has the fire been completely extinguished?
+    answer_type: yes_no
+    notes_for_judge: There should still be active flames, not just smoldering embers or ash.
+  generation:
+    model_provider: google_gemini
+    llm: gemini-2.5-pro
+    temperature: 0.2
+    created_utc: '2026-02-09T20:36:21Z'
+  inputs_digest:
+    initial_frame_sha256: e39f9480f0ee006c7bc4ab481cb37f6e69f4440d46f635dc71b4a05c80072cd4
+    video_prompt_sha256: 8ac27c0796b4e7699f95e3b3452b188a5bf1e3fd3dd89760fef7474309d8df40
+    task_yaml_sha256_before: 7c3c658af4e99c6a70a964cd49e48deb3861318e592c828680d353fe70da9bf9

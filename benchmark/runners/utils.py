@@ -56,30 +56,25 @@ def _find_init_frame_in_dir(task_dir: Path) -> Path:
         raise FileNotFoundError(f"Missing init frame: {img}")
     return img
 
-def resolve_task_paths(task_path: Path) -> Tuple[Path, Path, str, Path]:
+def resolve_task_paths(task_dir: Path) -> Tuple[Path, Path, str, Path]:
     """
+    Expects task_dir to be a directory.
+
+    Convention:
+      <task_dir>/<task_dir_name>.yaml
+      <task_dir>/<task_dir_name>_init_frame.png
+
     Returns:
       task_dir, task_yaml_path, folder_name, init_frame_path
     """
-    task_path = task_path.resolve()
-    if not task_path.exists():
-        raise FileNotFoundError(task_path)
+    task_dir = Path(task_dir).expanduser().resolve()
+    if not task_dir.exists():
+        raise FileNotFoundError(task_dir)
+    if not task_dir.is_dir():
+        raise ValueError(f"Expected a task directory, got file: {task_dir}")
 
-    if task_path.is_dir():
-        task_yaml_path = _find_task_yaml_in_dir(task_path)
-    else:
-        task_yaml_path = task_path
-        task_dir = task_yaml_path.parent
-        folder_name = task_dir.name
-        expected_yaml = task_dir / f"{folder_name}.yaml"
-        if task_yaml_path.name != expected_yaml.name:
-            raise ValueError(
-                f"YAML filename must match task folder name.\n"
-                f"  task_dir: {task_dir}\n"
-                f"  expected: {expected_yaml.name}\n"
-                f"  got:      {task_yaml_path.name}"
-            )
-
+    folder_name = task_dir.name
+    task_yaml_path = task_dir / f"{folder_name}.yaml"
     init_frame_path = task_dir / f"{folder_name}_init_frame.png"
 
     if not task_yaml_path.exists():

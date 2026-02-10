@@ -3,7 +3,6 @@
 Task resolver (output-first).
 
 Input:
-  - tasks_root: directory containing task folders (recursively)
   - outputs_json: JSON mapping { task_id: video_path_or_url }
 Output:
   - list[ResolvedTask] where each task has:
@@ -11,7 +10,9 @@ Output:
       - wm video path (local, in run dir)
       - extracted final frame path (final_frame.png)
       - evaluation questions from YAML
-
+  - create per-task folders under run_root/per_task to store run
+  artifacts for each task (WM video output, final frame, init_frame etc.)
+      
 This module also performs "ingredient extraction" (final frame extraction).
 
 Conventions (per task folder):
@@ -94,7 +95,10 @@ def discover_tasks(tasks_root: Path) -> Dict[str, Tuple[Path, Path, Path, Path]]
         if not (d / f"{d.name}.yaml").exists():
             continue
 
-        task_dir, task_yaml, folder_name, init_frame = resolve_task_paths(d)
+        try:
+            task_dir, task_yaml, folder_name, init_frame = resolve_task_paths(d)
+        except FileNotFoundError:
+            continue
 
         # GT final frame path
         gt_final_frame = (task_dir / f'{folder_name}_gt_final_frame.png').resolve()
@@ -244,7 +248,7 @@ def resolve_tasks_from_outputs_json(
     outputs_json = Path(outputs_json).expanduser().resolve()
     run_dir = Path(run_dir).expanduser().resolve()
 
-    run_dir.mkdir(parents=True, exist_ok=True)
+    # run_dir.mkdir(parents=True, exist_ok=True)
 
     task_map = discover_tasks(tasks_root)
 
@@ -257,7 +261,7 @@ def resolve_tasks_from_outputs_json(
 
     resolved: List[ResolvedTask] = []
     per_task_root = run_dir / "per_task"
-    per_task_root.mkdir(parents=True, exist_ok=True)
+    # per_task_root.mkdir(parents=True, exist_ok=True)
 
     for task_id, video_link in outputs_data.items():
         if task_id not in task_map:
@@ -305,6 +309,7 @@ def resolve_tasks_from_outputs_json(
                 task_dir=task_dir,
                 task_yaml=task_yaml,
                 init_frame=run_init,
+                gt_final_frame=run_gt_final,
                 wm_video=run_video,
                 final_frame=final_frame,
                 extraction_meta=extraction_meta,

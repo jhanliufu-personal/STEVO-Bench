@@ -33,16 +33,35 @@ def _resolve_video_source(link: str, outputs_json_path: Path) -> Tuple[str, Path
     return "file", p
 
 
+# def _copy_or_symlink(src: Path, dst: Path, *, mode: str = "symlink") -> None:
+#     dst.parent.mkdir(parents=True, exist_ok=True)
+#     if dst.exists():
+#         dst.unlink()
+
+#     if mode == "copy":
+#         shutil.copy2(src, dst)
+#     else:
+#         # symlink by default (fast)
+#         dst.symlink_to(src)
+
 def _copy_or_symlink(src: Path, dst: Path, *, mode: str = "symlink") -> None:
     dst.parent.mkdir(parents=True, exist_ok=True)
-    if dst.exists():
+    if dst.exists() or dst.is_symlink():
         dst.unlink()
+
+    src = Path(src).resolve()
+    dst = Path(dst).resolve()
 
     if mode == "copy":
         shutil.copy2(src, dst)
-    else:
-        # symlink by default (fast)
+        return
+
+    # mode == "symlink"
+    try:
+        # On Windows this may fail without admin/dev mode
         dst.symlink_to(src)
+    except OSError:
+        shutil.copy2(src, dst)
 
 
 def _download(url: str, dst: Path) -> None:
