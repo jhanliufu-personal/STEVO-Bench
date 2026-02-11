@@ -101,7 +101,7 @@ def main() -> None:
     # Call scorer
     # ---------------------------------------------------------------------------
     task_scores = score_all_tasks(judge_results=judge_results)
-    _ = write_run_report(task_scores=task_scores, run_dir=run_dir)
+    _ = write_run_report(task_scores=task_scores, run_dir=run_root)
 
     return
 
