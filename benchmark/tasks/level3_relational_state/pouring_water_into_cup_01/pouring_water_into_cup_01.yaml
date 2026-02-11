@@ -16,52 +16,57 @@ camera_control:
   HY-WorldPlay: null
   Genie: null
 evaluation:
-  init2final_edit_prompt: The glass on the right is now almost full of water. The water level in the glass
-    pitcher is significantly lower. A stream of water is still flowing from the pitcher into the glass.
-    The hand, pitcher, glass, and spilled water on the table remain in their original positions.
-  rationale: 'The video prompt describes a continuous action of water being poured from a pitcher into
-    a glass. The camera moves away from the scene and then returns to the original viewpoint. During the
-    time the objects are off-screen, the pouring action is assumed to continue uninterrupted for several
-    seconds. Therefore, the final frame should show the result of this continuous pouring: the water level
-    in the glass is significantly higher (nearly full), and the water level in the pitcher is correspondingly
-    lower. The hand, pitcher, and glass remain in their original positions, as only the camera moves.'
+  init2final_edit_prompt: Edit the image to show the glass cup significantly filled with water, with a
+    visible water line well above the bottom of the glass. The water level inside the glass pitcher should
+    be noticeably lower than in the original image to account for the poured liquid. Maintain the stream
+    of water flowing from the pitcher into the cup. Keep the hand, the position of the glass on the table,
+    and the background lighting identical to the original view.
+  rationale: The video prompt describes a continuous pouring action that persists while the camera pans
+    away and then returns. During the occlusion period (several seconds), the water continues to flow
+    from the pitcher into the glass. Therefore, upon the camera's return, the state of the world must
+    reflect the accumulation of water in the destination container (the glass) and the depletion of water
+    from the source container (the pitcher). The prompt specifies the hand remains tilted, so the pouring
+    stream should still be active.
   questions:
-  - id: pouring_water_into_cup_01_1
-    question: Is the glass on the table now nearly full of water?
+  - id: cup_level_higher
+    question: Is the water level in the glass cup higher than it was in the initial frame?
     answer_type: yes_no
-    notes_for_judge: The glass starts mostly empty and should be at least 3/4 full in the final frame.
-  - id: pouring_water_into_cup_01_2
-    question: Is the water level in the glass pitcher significantly lower than it was in the initial image?
+    notes_for_judge: Compare the fluid level in the receiving glass.
+  - id: cup_contains_water
+    question: Does the glass cup contain a clearly visible amount of accumulated water?
     answer_type: yes_no
-    notes_for_judge: The pitcher starts more than half full; it should be less than half full in the final
-      frame.
-  - id: pouring_water_into_cup_01_3
-    question: Is a stream of water still flowing from the pitcher's spout into the glass?
+    notes_for_judge: The cup started empty; it should now have water.
+  - id: pitcher_level_lower
+    question: Is the water level inside the pitcher lower than in the initial frame?
     answer_type: yes_no
-    notes_for_judge: The pouring action is continuous throughout the prompt.
-  - id: pouring_water_into_cup_01_4
-    question: Is the hand still holding the pitcher in the same pouring position as in the initial frame?
+    notes_for_judge: Check if the source container has been depleted.
+  - id: pitcher_emptier_space
+    question: Is there more empty space visible in the pitcher compared to the initial frame?
     answer_type: yes_no
-    notes_for_judge: This is a negative control; the hand and pitcher should not have moved.
-  - id: pouring_water_into_cup_01_5
-    question: Is the glass still in the same position on the wooden table?
+    notes_for_judge: Alternative phrasing for source depletion.
+  - id: stream_visible
+    question: Is there a stream of water flowing from the pitcher into the cup?
     answer_type: yes_no
-    notes_for_judge: This is a negative control; the glass should not have moved.
-  - id: pouring_water_into_cup_01_6
-    question: Is the small puddle of spilled water still visible on the table to the left of the glass?
+    notes_for_judge: The prompt implies the pouring action is continuous.
+  - id: glass_position_invariant
+    question: Is the glass cup in the same position on the table as in the initial frame?
     answer_type: yes_no
-    notes_for_judge: This is a negative control; the spilled water should remain unchanged.
-  - id: pouring_water_into_cup_01_7
-    question: Is the shadow cast by the pitcher, including the bright starburst reflection, still present
-      on the table in the same location?
+    notes_for_judge: The cup should not have moved.
+  - id: hand_holding_pitcher
+    question: Is the hand still holding the pitcher?
     answer_type: yes_no
-    notes_for_judge: This is a negative control; the lighting and shadows should not have changed.
+    notes_for_judge: The agent (hand) should still be present.
   generation:
     model_provider: google_gemini
-    llm: gemini-2.5-pro
+    llm: gemini-3-pro-preview
     temperature: 0.2
-    created_utc: '2026-02-10T06:30:56Z'
+    created_utc: '2026-02-11T19:46:50Z'
   inputs_digest:
     initial_frame_sha256: 7c013517ba1877cf03975cbb55cc47b0726c5ce61f7d326661c387d85d292c0a
     video_prompt_sha256: 0abf9aadcfd3191f0349abc149401babefc637fb6832ff94a7df9ce9b088f900
-    task_yaml_sha256_before: a65bdcb2c4157eb646ccd1c53cc9e378f9a696a4ef7df134ba676eee4a3a761f
+    task_yaml_sha256_before: 644e6d6f54cfe453c86e159a378f0b78396a7464ca6af525d26d7d91afcf8f56
+  init_frame_description: A close-up shot of a hand holding a clear glass pitcher, tilting it to pour
+    water into a clear glass tumbler sitting on a wooden table. A distinct stream of water connects the
+    pitcher spout to the bottom of the glass. The glass is currently almost empty, with the water just
+    beginning to accumulate at the bottom. Sunlight creates bright caustics and shadows on the wooden
+    surface. The background is blurred, showing a window with sheer curtains.

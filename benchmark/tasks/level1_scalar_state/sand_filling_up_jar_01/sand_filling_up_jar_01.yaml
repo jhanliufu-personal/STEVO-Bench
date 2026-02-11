@@ -13,54 +13,56 @@ camera_control:
   HY-WorldPlay: null
   Genie: null
 evaluation:
-  init2final_edit_prompt: Increase the amount of sand in the glass jar so that the peak of the sand pile
-    is approximately level with the 600ml mark on the side of the jar. The sand should form a natural
-    conical pile. The stream of sand pouring from the funnel should still be visible.
-  rationale: The video prompt describes the camera moving away from the scene for 'several seconds' and
-    then returning. The core physical action is sand pouring from a funnel into a jar. It is assumed this
-    action continues at a constant rate while the scene is occluded. Therefore, when the camera returns
-    to its original position, a significant amount of time has passed, and the jar should contain a much
-    larger volume of sand. The final sand level is estimated to be around the 600ml mark, reflecting several
-    seconds of continuous pouring.
+  init2final_edit_prompt: Edit the image to show a significantly larger amount of sand inside the glass
+    jar. The conical pile of sand at the bottom should be much taller and wider, occupying more of the
+    jar's volume than before. The stream of sand pouring from the funnel should remain visible. Keep the
+    position of the jar, funnel, and background identical.
+  rationale: The video describes a continuous pouring action where sand flows from the funnel into the
+    jar. The camera pans away, occluding the scene for several seconds, and then returns to the original
+    viewpoint. During the time the objects are out of frame, the pouring process continues, resulting
+    in a higher accumulation of sand in the jar when the camera returns. The final state must show the
+    jar significantly fuller than the initial state.
   questions:
-  - id: sand_level_increased
-    question: Is the amount of sand inside the glass jar significantly greater than in the initial frame?
+  - id: sand_level_height
+    question: Is the peak of the sand pile inside the jar higher than it was in the initial frame?
     answer_type: yes_no
-    notes_for_judge: ''
-  - id: sand_level_at_600ml
-    question: Is the peak of the sand pile in the jar now approximately level with the 600ml marking?
+    notes_for_judge: Compare the height of the sand cone against the markings on the jar or the jar's
+      height.
+  - id: sand_volume_increase
+    question: Does the sand occupy a larger volume of the jar compared to the initial frame?
     answer_type: yes_no
-    notes_for_judge: ''
-  - id: sand_pile_wider
-    question: Is the base of the sand pile at the bottom of the jar wider than it was in the initial frame?
+    notes_for_judge: The overall amount of sand visible in the jar should be greater.
+  - id: jar_fullness
+    question: Is the jar fuller than it was in the initial frame?
     answer_type: yes_no
-    notes_for_judge: ''
-  - id: action_continuity
-    question: Is a stream of sand still visibly falling from the funnel into the jar?
+    notes_for_judge: General assessment of fullness.
+  - id: sand_pile_width
+    question: Is the base of the sand pile wider or does it cover more of the jar bottom than in the initial
+      frame?
     answer_type: yes_no
-    notes_for_judge: ''
-  - id: invariant_funnel_position
-    question: Is the funnel still in the same position directly above the jar as in the initial frame?
+    notes_for_judge: As the pile grows, it should spread out to fill the bottom diameter if not already
+      full.
+  - id: funnel_presence
+    question: Is the metal funnel still visible above the jar?
     answer_type: yes_no
-    notes_for_judge: ''
-  - id: invariant_jar_position
-    question: Is the glass jar still in the same location on the wooden table?
+    notes_for_judge: Check for object permanence of the funnel.
+  - id: jar_position
+    question: Is the glass jar still positioned on the wooden table?
     answer_type: yes_no
-    notes_for_judge: ''
-  - id: invariant_background
-    question: Is the background, including the window, the same as in the initial frame?
+    notes_for_judge: Check for object permanence and location consistency.
+  - id: background_consistency
+    question: Is the background still a blurred window?
     answer_type: yes_no
-    notes_for_judge: ''
-  - id: invariant_funnel_material
-    question: Does the funnel still appear to be made of the same metal material?
-    answer_type: yes_no
-    notes_for_judge: ''
+    notes_for_judge: Check for environment consistency.
   generation:
     model_provider: google_gemini
-    llm: gemini-2.5-pro
+    llm: gemini-3-pro-preview
     temperature: 0.2
-    created_utc: '2026-02-10T06:27:46Z'
+    created_utc: '2026-02-11T19:41:22Z'
   inputs_digest:
     initial_frame_sha256: 65692410a690a9a0dd1469e48717cc64692d295c82a6e3579b66968319256288
     video_prompt_sha256: 34b7aa9aa5b5786bec842d7b91691c9aa7d08e3b321faa661018400bfd732512
-    task_yaml_sha256_before: b3ceffa73cc38446579e4d8432ee299de706f28a48b25e705d9ecce84c40e90a
+    task_yaml_sha256_before: 4b27e05defc848a6f608448985e1ca4a1a24004719244345ec770a2e4e8eacb1
+  init_frame_description: A clear glass mason jar sits on a wooden table. Above the jar, a metal funnel
+    is suspended. A thin stream of sand is pouring from the funnel into the jar, forming a conical pile
+    of sand at the bottom. The background shows a blurred window frame with daylight coming through.

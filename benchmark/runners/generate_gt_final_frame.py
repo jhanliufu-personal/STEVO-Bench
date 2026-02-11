@@ -45,7 +45,7 @@ def call_nanobanana(
     initial_frame_path: Path,
     final_frame_path: Path,
     edit_prompt: str,
-    overwrite: bool = False
+    overwrite: bool = True
 ) -> Path:
     # Validate inputs
     if not api_key or not api_key.strip():
@@ -128,7 +128,7 @@ def main() -> None:
         initial_frame_path=init_frame_path,
         final_frame_path=final_frame_path,
         edit_prompt=edit_prompt,
-        overwrite=args.overwrite
+        # overwrite=args.overwrite
     )
 
 if __name__ == "__main__":

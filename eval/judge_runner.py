@@ -58,8 +58,22 @@ def build_judge_prompt(task: ResolvedTask) -> str:
     lines.append("- Ignore any timestamps, watermarks, subtitles, or text overlays if present.")
     lines.append("- Base answers only on visible content.")
     lines.append("")
+    # lines.append("Return your answers in this JSON format ONLY (no extra text):")
+    # lines.append('{"answers":[{"id":"q01","answer":"yes|no|unknown","confidence":0.0-1.0,"notes":"optional"}]}')
     lines.append("Return your answers in this JSON format ONLY (no extra text):")
-    lines.append('{"answers":[{"id":"q01","answer":"yes|no|unknown","confidence":0.0-1.0,"notes":"optional"}]}')
+    lines.append(
+        '{"answers": ['
+        '{"id": "<EXACT_QUESTION_ID>", '
+        '"answer": "yes|no|unknown", '
+        '"confidence": 0.0-1.0, '
+        '"notes": "optional"}'
+        ']}'
+    )
+    lines.append("")
+    lines.append("IMPORTANT:")
+    lines.append("- You MUST copy the question ID EXACTLY as provided in the question list.")
+    lines.append("- Do NOT rename, shorten, or reformat the IDs.")
+    lines.append("- Every question ID must appear exactly once in the output.")
     lines.append("")
     lines.append("Questions:")
 
@@ -88,7 +102,10 @@ def judge_one_task(
 
     prompt = build_judge_prompt(task)
 
+    # print(prompt)
+
     raw = client.judge(prompt, init_image=task.init_frame, final_image=task.final_frame)
+    # raw = client.judge(prompt, init_image=task.init_frame, final_image=task.gt_final_frame)
 
     expected_ids = [q.id for q in task.questions]
     answers = parse_judge_output(raw, expected_ids)
@@ -102,6 +119,7 @@ def judge_one_task(
         "judge_model": model,
         "init_frame": str(task.init_frame),
         "final_frame": str(task.final_frame),
+        # "final_frame": str(task.gt_final_frame),
         "prompt": prompt,
         "raw_text": raw,
         "answers": [asdict(a) for a in answers],

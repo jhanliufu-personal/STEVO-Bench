@@ -3,61 +3,64 @@ level: 5
 category: causal_reasoning
 tags: []
 prompts:
-  video_WM: Single continuous shot, no cuts, no zoom. Camera starts centered on the ceiling light. The
-    camera smoothly moves left at constant speed until the light exits the frame to the right. While the
-    switch is out of view, a human hand flips the wall switch in one continuous motion. The camera
-    continues moving left for several seconds. Then the camera moves right at the same constant speed
-    back to the original viewpoint, bringing the ceiling light back into view.
+  video_WM: Single continuous shot, no cuts, no zoom. The scene contains one functioning ceiling light
+    that is controlled only by the wall switch (switch up = light ON, switch down = light OFF). The bulb
+    is working. Camera starts centered on the ceiling light. The camera smoothly moves left at constant
+    speed until the ceiling light exits the frame to the right. While the switch is out of view, a human
+    hand toggles the wall switch (changing it to the opposite position). The camera continues moving left
+    for several seconds. Then the camera moves right at the same constant speed back to the original viewpoint,
+    bringing the ceiling light back into view.
   camera_wM: null
 camera_control:
   HY-WorldPlay: null
   Genie: null
 evaluation:
-  init2final_edit_prompt: Flip the light switch on the left wall into the up position. Turn off the ceiling
-    light so it is no longer emitting light. Make the overall lighting in the room much darker, with the
-    only illumination coming from the window.
-  rationale: The camera initially shows a room with the ceiling light on and the wall switch in the down
-    position. The camera then pans left, moving both the switch and eventually the light out of view.
-    While occluded, a hand flips the switch upward. Based on the initial state (switch down, light on),
-    flipping the switch up should turn the light off. The camera then pans back to the original position.
-    The final frame should therefore show the same scene, but with the light switch in the up position,
-    the ceiling light off, and the room consequently much darker.
+  init2final_edit_prompt: Turn the ceiling light off. The glass dome of the ceiling fixture should appear
+    dark and unlit, with no glow. The overall room lighting should be dimmer, consistent with the main
+    light source being extinguished. The toggle on the light switch on the left wall should be flipped
+    to the down position.
+  rationale: The video prompt specifies that the camera moves away and then returns to the original viewpoint.
+    During the time the relevant objects are unobserved, a human hand toggles the wall switch to the opposite
+    position. In the initial frame, the switch is up and the light is on. Therefore, the action flips
+    the switch to the down position, which cuts power to the light. The final frame must show the switch
+    down and the ceiling light turned off (dark), with the room lighting adjusted to reflect the loss
+    of the main light source.
   questions:
-  - id: lightbulb_and_switch_02_1
-    question: Is the light switch on the left wall in the up position?
+  - id: light_state_1
+    question: Is the ceiling light fixture unlit?
     answer_type: yes_no
-    notes_for_judge: ''
-  - id: lightbulb_and_switch_02_2
-    question: Is the ceiling light fixture turned off and no longer emitting light?
+    notes_for_judge: The light should no longer be glowing.
+  - id: light_state_2
+    question: Does the glass dome of the ceiling light appear dark?
     answer_type: yes_no
-    notes_for_judge: ''
-  - id: lightbulb_and_switch_02_3
-    question: Is the overall lighting in the room significantly darker than in the initial image?
+    notes_for_judge: It should look like an opaque or translucent glass object without internal illumination.
+  - id: switch_position
+    question: Is the toggle of the light switch in the down position?
     answer_type: yes_no
-    notes_for_judge: ''
-  - id: lightbulb_and_switch_02_4
-    question: Is the blue armchair still in the same position and condition as in the initial frame?
+    notes_for_judge: The switch on the left wall must be flipped down.
+  - id: room_brightness
+    question: Is the room lighting dimmer than in the initial frame?
     answer_type: yes_no
-    notes_for_judge: This is a negative control question.
-  - id: lightbulb_and_switch_02_5
-    question: Are the side table and the books on it in the same location as in the initial frame?
+    notes_for_judge: The scene should be darker due to the light being turned off.
+  - id: chair_consistency
+    question: Is the blue armchair still visible in the corner?
     answer_type: yes_no
-    notes_for_judge: This is a negative control question.
-  - id: lightbulb_and_switch_02_6
-    question: Is the window with the blinds still visible in the same position?
+    notes_for_judge: Secondary consistency check.
+  - id: books_consistency
+    question: Is the stack of books still on the side table?
     answer_type: yes_no
-    notes_for_judge: This is a negative control question.
-  - id: lightbulb_and_switch_02_7
-    question: Does the room appear to be lit primarily by ambient light from the window, rather than the
-      ceiling fixture?
-    answer_type: yes_no
-    notes_for_judge: ''
+    notes_for_judge: Secondary consistency check.
   generation:
     model_provider: google_gemini
-    llm: gemini-2.5-pro
+    llm: gemini-3-pro-preview
     temperature: 0.2
-    created_utc: '2026-02-10T06:30:00Z'
+    created_utc: '2026-02-11T19:44:58Z'
   inputs_digest:
     initial_frame_sha256: 326528890debe3c52c25091d0d595a9a49b958fa916b7bb554ceec43034536eb
-    video_prompt_sha256: a629ef49913753d4ec24a4a9390ab5738f5c318f0aeb6a58c12dfd2148f2e457
-    task_yaml_sha256_before: 33f02b0abe2a4720d35ccd52ad792ea3c9d7f1df53536a56651a4705c8ab5765
+    video_prompt_sha256: e2471c987542bb7ac6acac19c23a91dc4e04e4cf5a40960a5cc4284a0236eb24
+    task_yaml_sha256_before: 4431296ceceef7c499f8fa9fb486bde1557bf7e5bacde7a1213d7b558c354a8d
+  init_frame_description: A corner of a room with beige walls and carpet. A dome-style ceiling light is
+    turned on and glowing brightly in the upper center. On the left wall, there is a white light switch
+    with the toggle in the up position. On the right, a window with closed blinds is visible. Below the
+    window, there is a blue upholstered armchair and a small wooden side table with a stack of books on
+    it.

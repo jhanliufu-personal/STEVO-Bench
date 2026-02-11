@@ -13,55 +13,50 @@ camera_control:
   HY-WorldPlay: null
   Genie: null
 evaluation:
-  init2final_edit_prompt: Remove the hand and finger. Make all the dominoes lie flat on the table, having
-    been knocked over in a chain reaction.
-  rationale: The video prompt describes a sequence where a finger pushes the first domino, initiating
-    a chain reaction that topples the entire row. The camera then pans away to the right, showing an empty
-    table for a few seconds, before panning back to the original framing. The final state, therefore,
-    should show the scene from the initial viewpoint but after the action has completed. This means all
-    the dominoes are now lying flat on the table. The hand is assumed to have retracted after pushing
-    the first domino and is no longer in the frame. The background and table surface remain unchanged.
+  init2final_edit_prompt: Edit the image to show the row of dominoes toppled over. The dominoes should
+    be lying flat or leaning against one another in a sequential chain on the table surface, rather than
+    standing upright. Maintain the original camera angle, lighting, and background.
+  rationale: The video prompt describes a finger pushing the first domino, which initiates a chain reaction.
+    The camera pans away from the scene for several seconds and then returns to the original framing.
+    During the occlusion caused by the camera panning away, the physical process of the dominoes falling
+    continues. Since dominoes fall relatively quickly and the camera movement takes several seconds, the
+    expected final state upon the camera's return is that the row of dominoes has completely or mostly
+    fallen over.
   questions:
-  - id: domino_falling_01_q1
-    question: Are all of the dominoes lying flat on the table?
+  - id: domino_state_1
+    question: Is the leftmost domino toppled over or leaning significantly against the next one?
     answer_type: yes_no
-    notes_for_judge: ''
-  - id: domino_falling_01_q2
-    question: Is the hand that was about to push the domino no longer visible?
+    notes_for_judge: The first domino should no longer be standing upright.
+  - id: domino_state_2
+    question: Are the majority of the visible dominoes lying down or leaning rather than standing vertically?
     answer_type: yes_no
-    notes_for_judge: ''
-  - id: domino_falling_01_q3
-    question: Is the bookshelf in the background in the same state and position as in the initial frame?
+    notes_for_judge: The chain reaction should have propagated.
+  - id: domino_height
+    question: Is the overall vertical height of the domino row lower than it was in the initial frame?
     answer_type: yes_no
-    notes_for_judge: This is a negative control question to check for scene invariance.
-  - id: domino_falling_01_q4
-    question: Is the wooden table surface unchanged from the initial frame?
+    notes_for_judge: Fallen dominoes are shorter than standing ones.
+  - id: domino_configuration
+    question: Do the dominoes appear to be resting on top of each other in a sequence?
     answer_type: yes_no
-    notes_for_judge: This is a negative control question to check for scene invariance.
-  - id: domino_falling_01_q5
-    question: Is the first domino in the row (the one with 6 and 3 dots) now lying down?
+    notes_for_judge: Checks for the visual pattern of a fallen domino chain.
+  - id: background_consistency
+    question: Is the blurred bookshelf background consistent with the initial frame?
     answer_type: yes_no
-    notes_for_judge: ''
-  - id: domino_falling_01_q6
-    question: Are the fallen dominoes located in the same general area on the table as they were when
-      standing?
+    notes_for_judge: Secondary consistency check.
+  - id: surface_consistency
+    question: Is the wooden table surface texture consistent with the initial frame?
     answer_type: yes_no
-    notes_for_judge: ''
-  - id: domino_falling_01_q7
-    question: Does the final image have the same camera framing and viewpoint as the initial image?
-    answer_type: yes_no
-    notes_for_judge: ''
-  - id: domino_falling_01_q8
-    question: Are all the dominoes that were initially standing still present in the image, but in a fallen
-      state?
-    answer_type: yes_no
-    notes_for_judge: This question checks for object permanence.
+    notes_for_judge: Secondary consistency check.
   generation:
     model_provider: google_gemini
-    llm: gemini-2.5-pro
+    llm: gemini-3-pro-preview
     temperature: 0.2
-    created_utc: '2026-02-10T06:30:26Z'
+    created_utc: '2026-02-11T19:46:14Z'
   inputs_digest:
     initial_frame_sha256: 428e8e2c1815fe56bc3d3849a695a21b134a311549c7512d46bb3a04417131e3
     video_prompt_sha256: 81b64de28815646e7d12d005d3a5b7c81a89c41fd356e9f6264a39080bf644b1
-    task_yaml_sha256_before: 1c7ad029031bb3085e81ce6be4b9f98eedd02e4b47a9c4f8bd8e9559e753a373
+    task_yaml_sha256_before: 30403f8c64e9a829eb31973f24bbad26e3bf988876b19b733b82691680a6f634
+  init_frame_description: A close-up, eye-level shot of a row of white dominoes with black dots standing
+    vertically on a polished wooden table. A human hand enters from the left side, with an index finger
+    pressing against the top of the first (leftmost) domino, causing it to tilt slightly forward. The
+    background is a blurred library setting with shelves of books.

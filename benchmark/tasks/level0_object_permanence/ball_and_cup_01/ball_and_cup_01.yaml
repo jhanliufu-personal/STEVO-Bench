@@ -11,54 +11,47 @@ camera_control:
   HY-WorldPlay: null
   Genie: null
 evaluation:
-  init2final_edit_prompt: Relocate the red ball to the right side of the table and remove the blue cup
-    from the scene.
-  rationale: The prompt describes a sequence of actions similar to a shell game. A hand, which is not
-    part of the initial or final state, covers the red ball with the blue cup. It is assumed the ball
-    is now hidden under the cup and moves with it as the cup is slid to the right. The final action is
-    to "lift the cup," which is interpreted as removing the cup from the scene entirely. This reveals
-    the red ball in its new position on the right side of the table. The rest of the scene remains static.
+  init2final_edit_prompt: A hand is visible holding the blue cup in the air above the table. The red ball
+    is sitting on the table surface, positioned significantly to the right of its original location, having
+    been revealed by the lifted cup.
+  rationale: 'The video prompt describes a sequence where the ball is captured by the cup, moved to the
+    right, and then revealed. The final state must show the result of this transport: the ball is no longer
+    at its starting position but has moved to the right. The cup is lifted (revealing the ball), and a
+    hand is present because it performed the manipulation.'
   questions:
-  - id: ball_and_cup_01_q1
-    question: Is the red ball now located on the right side of the table?
+  - id: ball_visible
+    question: Is the red ball visible in the final frame?
     answer_type: yes_no
-    notes_for_judge: The ball should have moved from its initial position on the left to a new position
-      on the right.
-  - id: ball_and_cup_01_q2
-    question: Is the blue cup no longer on the table?
+    notes_for_judge: The cup was lifted at the end, so the ball should be revealed.
+  - id: ball_position_shift
+    question: Is the red ball positioned further to the right than it was in the initial frame?
     answer_type: yes_no
-    notes_for_judge: The cup should be completely absent from the final frame.
-  - id: ball_and_cup_01_q3
-    question: Is the red ball the only object remaining in the foreground on the table surface?
+    notes_for_judge: The cup moved the ball to the right before lifting.
+  - id: cup_lifted
+    question: Is the blue cup lifted off the surface of the table?
     answer_type: yes_no
-    notes_for_judge: This confirms both the ball's presence and the cup's absence.
-  - id: ball_and_cup_01_q4
-    question: Is the wooden table itself unchanged in appearance (e.g., color, wood grain, reflections)?
+    notes_for_judge: The prompt explicitly states 'lift the cup'.
+  - id: hand_presence
+    question: Is a hand or arm visible in the frame?
     answer_type: yes_no
-    notes_for_judge: This is a negative control. The table surface should be identical to the initial
-      frame, apart from the moved/removed objects.
-  - id: ball_and_cup_01_q5
-    question: Are the chairs in the background in the same positions as in the initial frame?
+    notes_for_judge: A hand is required to manipulate the cup.
+  - id: ball_uncovered
+    question: Is the red ball uncovered (not hidden inside the cup)?
     answer_type: yes_no
-    notes_for_judge: This is a negative control. The background elements should not have moved.
-  - id: ball_and_cup_01_q6
-    question: Is the fireplace/screen in the distant background still in the same position?
+    notes_for_judge: Since the cup is lifted, the ball must be exposed.
+  - id: background_consistency
+    question: Are the blurred chairs in the background still visible?
     answer_type: yes_no
-    notes_for_judge: This is a negative control for the background.
-  - id: ball_and_cup_01_q7
-    question: Is the ball still red and spherical?
-    answer_type: yes_no
-    notes_for_judge: The ball's intrinsic properties should not have changed.
-  - id: ball_and_cup_01_q8
-    question: Is the overall lighting of the room consistent with the initial frame?
-    answer_type: yes_no
-    notes_for_judge: This is a negative control. There should be no change in lighting conditions.
+    notes_for_judge: Secondary consistency check.
   generation:
     model_provider: google_gemini
-    llm: gemini-2.5-pro
+    llm: gemini-3-pro-preview
     temperature: 0.2
-    created_utc: '2026-02-10T06:27:23Z'
+    created_utc: '2026-02-11T19:40:47Z'
   inputs_digest:
     initial_frame_sha256: ceaa74ad485e773a9fe6b7dc9acd8d7c749a28fd42cb3140e9a2f11857c48c9e
     video_prompt_sha256: e8fedb12015f5e769880318f271a6fd33f181d861123fb76f36cf479bb2b2d43
-    task_yaml_sha256_before: ed5eea7f05be1a50fa9ef04785c24a15ac34f84782048919273b770158b0eadc
+    task_yaml_sha256_before: b0d3bc5fb4c5a369a44322156804199852bcd6adc4de7d2ab3bc34eb5f46c687
+  init_frame_description: A polished wooden conference table with a red ball on the left side and an inverted
+    blue cup sitting to its right. In the background, there are blurred office chairs, a window, and a
+    digital clock on the wall.
