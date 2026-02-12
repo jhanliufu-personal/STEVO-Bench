@@ -1,7 +1,8 @@
 from eval.task_resolver import resolve_one_task, discover_tasks
 from eval.judge_runner import judge_one_task
-from eval.score_task import score_one_task, write_run_report
+# from eval.score_task import score_one_task, write_run_report
 from dataclasses import asdict
+from eval.control_judge import evaluate_control_one_task
 
 run_name = "veo_output_test_1"
 
@@ -10,8 +11,9 @@ tasks_root = "benchmark/tasks/"
 task_map = discover_tasks(tasks_root)
 
 outputs_json_path = f"outputs/{run_name}/veo_output_map_test_1.json"
+# task_id = "paper_burning_01"
 task_id = "lightbulb_and_switch_01"
-video_link = "lightbulb_and_switch_01.mp4"
+video_link = f"{task_id}.mp4"
 
 task = resolve_one_task(
     task_id=task_id, 
@@ -21,7 +23,10 @@ task = resolve_one_task(
     outputs_json_path=outputs_json_path
 )
 
-judge_result = judge_one_task(task, provider='gemini', model='gemini-3-pro-preview')
+# judge_result = judge_one_task(task, provider='gemini', model='gemini-3-pro-preview')
 
-task_score = score_one_task(judge_result)
-_ = write_run_report(task_scores={task_id: task_score}, run_dir=run_dir)
+# task_score = score_one_task(judge_result)
+# _ = write_run_report(task_scores={task_id: task_score}, run_dir=run_dir)
+
+control_judge_result = evaluate_control_one_task(task=task, model="gemini-2.5-pro")
+print(asdict(control_judge_result))

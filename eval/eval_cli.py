@@ -6,6 +6,7 @@ from typing import List
 from eval.task_resolver import resolve_tasks_from_outputs_json, ResolvedTask
 from eval.judge_runner import judge_all_tasks
 from eval.score_task import score_all_tasks, write_run_report
+from eval.control_judge import evaluate_control_all_tasks, append_control_results_to_summary
 
 def main() -> None:
     parser = argparse.ArgumentParser()
@@ -90,20 +91,30 @@ def main() -> None:
     print(f"[DONE] Prepared run directory: {run_root}")
     print(f"[DONE] Resolved {len(resolved_tasks)} tasks into: {per_task_root}")
 
-    # ---------------------------------------------------------------------------
-    # Call judge runner
-    # ---------------------------------------------------------------------------
-    judge_results = judge_all_tasks(resolved_tasks, provider=args.judge_vlm_provider, model=args.judge_vlm_model)
+    # # ---------------------------------------------------------------------------
+    # # Call control judge
+    # # ---------------------------------------------------------------------------
+    # _ = evaluate_control_all_tasks(resolved_tasks)
+    # print("[DONE]")
 
-    print(f"[DONE] Produced task reports for {len(judge_results)} tasks")
+    # return
 
-    # ---------------------------------------------------------------------------
-    # Call scorer
-    # ---------------------------------------------------------------------------
-    task_scores = score_all_tasks(judge_results=judge_results)
-    _ = write_run_report(task_scores=task_scores, run_dir=run_root)
+    # # ---------------------------------------------------------------------------
+    # # Call judge runner
+    # # ---------------------------------------------------------------------------
+    # judge_results = judge_all_tasks(resolved_tasks, provider=args.judge_vlm_provider, model=args.judge_vlm_model)
 
-    return
+    # print(f"[DONE] Produced task reports for {len(judge_results)} tasks")
+
+    # # ---------------------------------------------------------------------------
+    # # Call scorer
+    # # ---------------------------------------------------------------------------
+    # task_scores = score_all_tasks(judge_results=judge_results)
+    # _ = write_run_report(task_scores=task_scores, run_dir=run_root)
+
+    # return
+
+    append_control_results_to_summary(tasks=resolved_tasks)
 
 
 if __name__ == "__main__":
