@@ -6,9 +6,11 @@ import sys
 from pathlib import Path
 
 
-# SCRIPT_PATH = Path("benchmark/runners/build_benchmark/generate_gt_and_questions.py")
+# script_name = "generate_init_frame.py"
+# script_name = "generate_gt_and_questions.py"
+script_name = "generate_gt_final_frame.py"
 SCRIPT_PATH = Path(
-    r"G:\My Drive\Gkioxari_Lab\StateWMBench\StateWM\benchmark\runners\generate_gt_final_frame.py"
+    rf"G:\My Drive\Gkioxari_Lab\StateWMBench\StateWM\benchmark\runners\{script_name}"
 )
 
 def run_task(python_bin: str, task_dir: Path) -> int:
@@ -64,15 +66,15 @@ def main() -> int:
 
         basename = task_dir.name
         yaml_path = task_dir / f"{basename}.yaml"
-        init_frame = task_dir / f"{basename}_init_frame.png"
+        # init_frame = task_dir / f"{basename}_init_frame.png"
 
         # Check naming convention
         if not yaml_path.is_file():
             print(f"[SKIP] {task_dir} (missing {basename}.yaml)")
             continue
-        if not init_frame.is_file():
-            print(f"[SKIP] {task_dir} (missing {basename}_init_frame.png)")
-            continue
+        # if not init_frame.is_file():
+        #     print(f"[SKIP] {task_dir} (missing {basename}_init_frame.png)")
+        #     continue
 
         found_any = True
         print()

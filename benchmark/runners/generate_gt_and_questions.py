@@ -162,6 +162,7 @@ This must be a SINGLE prompt for an IMAGE EDITING model that edits the INITIAL F
 into the EXPECTED FINAL FRAME after the rollout completes.
 
 CRITICAL RULES:
+- This prompt must start with "Edit the given image ..."
 - This field must contain ONLY concrete image-editing instructions.
 - Do NOT include reasoning, explanation, justification, or references to time passing.
 - Do NOT mention camera motion, occlusion, or video dynamics.
@@ -291,7 +292,7 @@ def call_gemini(
     )
 
     raw = getattr(resp, "text", None) or str(resp)
-    print(raw)
+    # print(raw)
     data = extract_json(raw)
 
     # Normalize
@@ -388,6 +389,11 @@ def main() -> None:
     task_yaml_sha_before = sha256_bytes(task_yaml_before_bytes)
 
     task = load_yaml(task_yaml_path)
+
+    if task.get('evaluation') is not None and not args.overwrite:
+        print("Evaluation block already exists and --overwrite is not set. Returning.")
+        return
+
     task_id, video_prompt = get_task_fields(task, task_yaml_path)
 
     api_key = os.environ.get("GOOGLE_API_KEY", "").strip()

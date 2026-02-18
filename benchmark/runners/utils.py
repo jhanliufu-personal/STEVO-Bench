@@ -1,7 +1,10 @@
 import yaml  
 import hashlib
 from pathlib import Path
-from typing import Dict, Any, Tuple
+from typing import Dict, Any, Tuple, Optional
+
+from PIL import Image
+from google import genai
 
 # -----------------------------
 # YAML IO (preserve readability)
@@ -80,6 +83,72 @@ def resolve_task_paths(task_dir: Path) -> Tuple[Path, Path, str, Path]:
     if not task_yaml_path.exists():
         raise FileNotFoundError(f"Task YAML not found: {task_yaml_path}")
     if not init_frame_path.exists():
-        raise FileNotFoundError(f"Init frame not found: {init_frame_path}")
+        # raise FileNotFoundError(f"Init frame not found: {init_frame_path}")
+        # print(f"Init frame not found: {init_frame_path}")
+        init_frame_path = None
 
     return task_dir, task_yaml_path, folder_name, init_frame_path
+
+# -----------------------------
+# Nanobanana
+# -----------------------------
+
+def call_nanobanana(
+    api_key: str,
+    model: str,
+    prompt: str,
+    output_path: Path,
+    input_image: Path = None,
+    overwrite: bool = False
+) -> Optional[Path]:
+    # 1. Validate mandatory string inputs
+    if not all(isinstance(i, str) and i.strip() for i in [api_key, model, prompt]):
+        raise ValueError("api_key, model, and prompt must be non-empty strings.")
+
+    # 2. Handle Path resolution
+    output_path = Path(output_path).expanduser().resolve()
+    
+    if output_path.exists() and not overwrite:
+        print(
+            f"Output already exists: {output_path}. Set overwrite=True to replace it."
+        )
+        return None
+
+    # 3. Prepare content list for the model
+    contents = [prompt]
+    
+    if input_image:
+        input_image_path = Path(input_image).expanduser().resolve()
+        if not input_image_path.is_file():
+            raise FileNotFoundError(f"Input image not found: {input_image_path}")
+        
+        # Load and add image to contents
+        image = Image.open(input_image_path)
+        contents.append(image)
+
+    # 4. Initialize client and generate
+    client = genai.Client(api_key=api_key)
+    
+    response = client.models.generate_content(
+        model=model,
+        contents=contents,
+    )
+
+    if not response.parts:
+        raise RuntimeError("Gemini response contained no parts.")
+
+    # 5. Process response parts
+    image_saved = False
+    for part in response.parts:
+        if part.text:
+            print(f"Model response: {part.text}")
+        elif part.inline_data:
+            # Note: as_image() assumes the part contains image data
+            generated_img = part.as_image()
+            generated_img.save(output_path)
+            image_saved = True
+
+    if not image_saved:
+        print("Warning: No image data was returned in the response parts.")
+
+    return output_path

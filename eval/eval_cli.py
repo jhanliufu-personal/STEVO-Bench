@@ -91,13 +91,14 @@ def main() -> None:
     print(f"[DONE] Prepared run directory: {run_root}")
     print(f"[DONE] Resolved {len(resolved_tasks)} tasks into: {per_task_root}")
 
-    # # ---------------------------------------------------------------------------
-    # # Call control judge
-    # # ---------------------------------------------------------------------------
-    # _ = evaluate_control_all_tasks(resolved_tasks)
-    # print("[DONE]")
+    # ---------------------------------------------------------------------------
+    # Call control judge
+    # ---------------------------------------------------------------------------
+    _ = evaluate_control_all_tasks(resolved_tasks)
 
-    # return
+    append_control_results_to_summary(tasks=resolved_tasks)
+
+    return
 
     # # ---------------------------------------------------------------------------
     # # Call judge runner
@@ -113,8 +114,6 @@ def main() -> None:
     # _ = write_run_report(task_scores=task_scores, run_dir=run_root)
 
     # return
-
-    append_control_results_to_summary(tasks=resolved_tasks)
 
 
 if __name__ == "__main__":

@@ -17,8 +17,6 @@ Environment variables:
 
 Usage:
   python generate_gt_final_frame.py --task_path path/to/task_dir
-  OR
-  python generate_gt_final_frame.py --task_path path/to/task_dir/task_dir.yaml
 
 Optional:
   --out_name <filename.png>   (default: <folder>_gt_final_frame.png)
@@ -29,69 +27,7 @@ import os
 import argparse
 from pathlib import Path
 
-from utils import resolve_task_paths
-from utils import load_yaml
-
-from google import genai
-# from google.genai import types
-from PIL import Image
-
-# -----------------------------
-# Nano Banana
-# -----------------------------
-def call_nanobanana(
-    api_key: str,
-    model: str,
-    initial_frame_path: Path,
-    final_frame_path: Path,
-    edit_prompt: str,
-    overwrite: bool = True
-) -> Path:
-    # Validate inputs
-    if not api_key or not api_key.strip():
-        raise ValueError("api_key is empty. Provide a valid Google API key.")
-    if not model or not model.strip():
-        raise ValueError("model is empty.")
-    if not edit_prompt or not edit_prompt.strip():
-        raise ValueError("edit_prompt is empty.")
-
-    initial_frame_path = Path(initial_frame_path).expanduser().resolve()
-    final_frame_path = Path(final_frame_path).expanduser().resolve()
-
-    if not initial_frame_path.exists():
-        raise FileNotFoundError(f"Initial frame does not exist: {initial_frame_path}")
-    if not initial_frame_path.is_file():
-        raise ValueError(f"Initial frame path is not a file: {initial_frame_path}")
-
-    if final_frame_path.exists() and not overwrite:
-        raise FileExistsError(
-            f"Output already exists: {final_frame_path}. Use overwrite=True to replace it."
-        )
-
-    # Load initial frame
-    image = Image.open(initial_frame_path)
-
-    client = genai.Client(api_key=api_key)
-
-    
-    response = client.models.generate_content(
-        model=model,
-        contents=[edit_prompt, image],
-    )
-
-    if not response.parts:
-        raise RuntimeError(
-            "Gemini response contained no parts. "
-        )
-
-    for part in response.parts:
-        if part.text is not None:
-            print(part.text)
-        elif part.inline_data is not None:
-            image = part.as_image()
-            image.save(final_frame_path)
-
-    return final_frame_path
+from utils import resolve_task_paths, load_yaml, call_nanobanana
 
 # -----------------------------
 # Main
@@ -109,6 +45,11 @@ def main() -> None:
     task = load_yaml(task_yaml_path)
     eval_block = (task.get("evaluation") or {})
 
+    final_frame_path = (task_dir / f"{folder_name}_gt_final_frame.png").resolve()
+    if final_frame_path.exists() and not args.overwrite:
+        print("GT final frame already exists and --overwrite is not set. Returning.")
+        return
+
     # Load edit prompt (init2final)
     edit_prompt = (eval_block.get("init2final_edit_prompt") or "").strip()
     if not edit_prompt:
@@ -125,9 +66,9 @@ def main() -> None:
     _ = call_nanobanana(
         api_key=api_key,
         model=args.model,
-        initial_frame_path=init_frame_path,
-        final_frame_path=final_frame_path,
-        edit_prompt=edit_prompt,
+        input_image=init_frame_path,
+        output_path=final_frame_path,
+        prompt=edit_prompt,
         # overwrite=args.overwrite
     )
 

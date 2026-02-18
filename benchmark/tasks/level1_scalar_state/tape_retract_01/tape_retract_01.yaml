@@ -1,0 +1,58 @@
+id: tape_retract_01
+level: 1
+category: scalar_state
+scalar_variable: Extension length
+prompts:
+  image_gen_prompt: "A yellow metal tape measure extended 5 feet across a wooden floor. A hand is visible holding the tape housing, with a finger pressing the retraction button."
+  video_WM: "A metal tape measure is extended 5 feet. The retraction button is held down, and the tape is visibly zipping back into the housing. The retraction continues until the tape is gone. The camera rotates right until the tape and housing completely exit the view, then rotates toward the left smoothly at the same rate until the housing is back in the center of view. No zoom, no cut, no scene change. STOP."
+  camera_WM: "A tape measure is retracting; the zipping motion continues steadily as the button is held. STOP."
+camera_control:
+  HY-WorldPlay: "s-3, right-30, left-30"
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a yellow tape measure resting on a wooden floor.
+    A hand holds the body of the tape measure on the right side. A yellow metal tape strip extends to
+    the left, displaying black and red measurement markings including a red '5 FT' marker and inch marks
+    2, 3, 4, 6, and 7. The background shows a blurred baseboard and window.
+  init2final_edit_prompt: The yellow metal tape strip extending to the left has been fully retracted into
+    the yellow case. The wooden floor is now visible where the tape was. The metal hook of the tape measure
+    is visible resting against the opening of the yellow case held by the hand. The hand and background
+    remain unchanged.
+  rationale: The video prompt describes the tape retracting while a person blocks the view for 4 seconds.
+    Since tape measures typically retract 5 feet in less than 2 seconds, the tape will be fully retracted
+    by the time the person moves away. The final frame should show the tape hook resting against the case
+    with the extended strip gone, and the person mentioned in the prompt is no longer in the scene.
+  questions:
+  - id: tape_retracted
+    question: Is the extended yellow metal tape strip mostly or completely gone?
+    answer_type: yes_no
+    notes_for_judge: The tape should have retracted into the case.
+  - id: 5ft_marker_gone
+    question: Is the red '5 FT' marker no longer visible?
+    answer_type: yes_no
+    notes_for_judge: Since the tape retracted, the 5ft mark should be inside the case.
+  - id: hook_visible
+    question: Is the metal hook of the tape measure visible near the case opening?
+    answer_type: yes_no
+    notes_for_judge: In the initial frame, the hook is off-screen to the left. In the final frame, it
+      should be at the case.
+  - id: floor_visible
+    question: Is the wooden floor visible in the area previously covered by the extended tape?
+    answer_type: yes_no
+    notes_for_judge: The retraction reveals the floor.
+  - id: hand_consistency
+    question: Is the hand holding the tape measure case still present?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: no_person
+    question: Is the view free of the person who stood in front of the camera?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the person moves away, so the final frame should be clear.
+  generation:
+    model_provider: google_gemini
+    llm: gemini-3-pro-preview
+    temperature: 0.2
+    created_utc: '2026-02-15T21:52:16Z'
+  inputs_digest:
+    initial_frame_sha256: abc3ac30e9ab6bee33da6a9f6fd93b07b3e98d91f9f88272a198fedbb3772759
+    video_prompt_sha256: 1fa2e1d6aedf8542b748b87923c01bd5875b8c094828a3f91b9636eba02df616
+    task_yaml_sha256_before: 299c16aba5d20097318e68b17b33013ae49b76123f4bddaaf6ca43e9e0df06c1

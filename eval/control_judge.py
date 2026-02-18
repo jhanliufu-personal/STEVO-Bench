@@ -83,8 +83,8 @@ def build_control_judge_prompt(video_wm_prompt: str) -> str:
         "- Use only visual evidence from the video.\n"
         "- Prefer causal evidence over strict timing or framing constraints.\n"
         "- Ignore timestamps, watermarks, subtitles, and UI overlays.\n"
-        "- If the prompt does not specify a trigger, set requested_trigger to \"none\" and trigger_applied to false.\n"
-        "- If the prompt does not specify camera motion, set requested_camera_motion to \"none\" and camera_motion_done to false.\n\n"
+        "- If the prompt does not specify a trigger, set requested_trigger to \"none\" and trigger_applied to true.\n"
+        "- If the prompt does not specify camera motion, set requested_camera_motion to \"none\" and camera_motion_done to true.\n\n"
 
         "Return ONLY valid JSON in this exact format (no markdown, no commentary):\n"
         "{\n"
