@@ -1,0 +1,62 @@
+id: ball_and_cup
+level: 0
+category: object_permanence
+tags: []
+prompts:
+  image_gen_prompt: A bright red ball sits on a wooden table. An opaque blue plastic cup is held by a
+    hand directly above the ball.
+  video_WM: The hand lowers the blue cup until it completely covers the red ball, then slides the cup
+    12 inches to the right. After the movement, the hand lifts the cup straight up 6 inches. The camera
+    rotates right until the cup completely exits the view, then rotates toward the left smoothly at the
+    same rate until the table surface where the cup was moved is back in the center of view. No zoom,
+    no cut, no scene change. STOP.
+  camera_WM: The blue cup covers the red ball, moves to a new location, and is then lifted to reveal the
+    contents. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init2final_edit_prompt: A hand is visible holding the blue cup in the air above the table. The red ball
+    is sitting on the table surface, positioned significantly to the right of its original location, having
+    been revealed by the lifted cup.
+  rationale: 'The video prompt describes a sequence where the ball is captured by the cup, moved to the
+    right, and then revealed. The final state must show the result of this transport: the ball is no longer
+    at its starting position but has moved to the right. The cup is lifted (revealing the ball), and a
+    hand is present because it performed the manipulation.'
+  questions:
+  - id: ball_visible
+    question: Is the red ball visible in the final frame?
+    answer_type: yes_no
+    notes_for_judge: The cup was lifted at the end, so the ball should be revealed.
+  - id: ball_position_shift
+    question: Is the red ball positioned further to the right than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The cup moved the ball to the right before lifting.
+  - id: cup_lifted
+    question: Is the blue cup lifted off the surface of the table?
+    answer_type: yes_no
+    notes_for_judge: The prompt explicitly states 'lift the cup'.
+  - id: hand_presence
+    question: Is a hand or arm visible in the frame?
+    answer_type: yes_no
+    notes_for_judge: A hand is required to manipulate the cup.
+  - id: ball_uncovered
+    question: Is the red ball uncovered (not hidden inside the cup)?
+    answer_type: yes_no
+    notes_for_judge: Since the cup is lifted, the ball must be exposed.
+  - id: background_consistency
+    question: Are the blurred chairs in the background still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  generation:
+    model_provider: google_gemini
+    llm: gemini-3-pro-preview
+    temperature: 0.2
+    created_utc: '2026-02-11T19:40:47Z'
+  inputs_digest:
+    initial_frame_sha256: ceaa74ad485e773a9fe6b7dc9acd8d7c749a28fd42cb3140e9a2f11857c48c9e
+    video_prompt_sha256: e8fedb12015f5e769880318f271a6fd33f181d861123fb76f36cf479bb2b2d43
+    task_yaml_sha256_before: b0d3bc5fb4c5a369a44322156804199852bcd6adc4de7d2ab3bc34eb5f46c687
+  init_frame_description: A polished wooden conference table with a red ball on the left side and an inverted
+    blue cup sitting to its right. In the background, there are blurred office chairs, a window, and a
+    digital clock on the wall.

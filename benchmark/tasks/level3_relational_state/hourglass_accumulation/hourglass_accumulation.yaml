@@ -1,0 +1,65 @@
+id: sand_pile
+level: 1
+category: scalar_state
+scalar_variable: Bottom pile height
+prompts:
+  image_gen_prompt: A large wooden hourglass with white sand flowing through the narrow neck in a steady
+    line. A small conical mound of sand is visible in the bottom bulb.
+  video_WM: Sand flows into the bottom of an hourglass. The camera rotates right until the hourglass completely
+    exits the view, then rotates toward the left smoothly at the same rate until the hourglass is back
+    in the center of view. No zoom, no cut, no scene change. STOP.
+  camera_WM: White sand is flowing through the neck of an hourglass.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A wooden hourglass with zodiac symbols carved into its frame stands in the center
+    of a wooden desk. White sand is flowing from the top bulb into the bottom bulb, forming a conical
+    pile. To the left of the hourglass, there is a row of vertical antique books and a stack of two horizontal
+    books. To the right, there is another stack of books and an open book. The background features blurred
+    bookshelves, windows, and two globes.
+  init2final_edit_prompt: The hourglass on the desk contains a significantly larger and taller pile of
+    white sand in the bottom bulb. The level of sand in the top bulb is lower. The surrounding books,
+    desk surface, and background elements remain identical to the original image.
+  rationale: The video prompt describes a continuous physical process (sand flowing) occurring while the
+    camera pans away and returns. Although the hourglass is temporarily occluded by the camera rotation,
+    the accumulation of sand continues throughout the duration of the movement. Therefore, in the final
+    frame, the bottom bulb must contain more sand and the top bulb less sand than in the initial frame,
+    while the camera angle returns to the original view.
+  questions:
+  - id: sand_pile_height
+    question: Is the pile of sand in the bottom bulb taller than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the peak of the sand cone in the bottom bulb between the two frames.
+  - id: sand_volume_bottom
+    question: Does the bottom bulb contain a visibly larger volume of sand compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The pile should be wider and higher.
+  - id: sand_level_top
+    question: Is the level of sand in the top bulb lower than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Check the remaining sand supply.
+  - id: hourglass_position
+    question: Is the hourglass centered in the frame?
+    answer_type: yes_no
+    notes_for_judge: The camera should have returned to the starting viewpoint.
+  - id: books_left_consistency
+    question: Are the vertical books on the left side of the image still present and unchanged?
+    answer_type: yes_no
+    notes_for_judge: Static objects should not move.
+  - id: books_right_consistency
+    question: Is the open book on the right side of the desk still present?
+    answer_type: yes_no
+    notes_for_judge: Static objects should not move.
+  - id: sand_pile_width
+    question: Is the base of the sand pile in the bottom bulb wider than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: As the pile grows, it should spread outwards.
+  generation:
+    model_provider: google_gemini
+    llm: gemini-3-pro-preview
+    temperature: 0.2
+    created_utc: '2026-02-15T21:54:14Z'
+  inputs_digest:
+    initial_frame_sha256: 46b2913ad7973da9c68a57398a3b0df5bc05b35af6d0e191b6d355e37dcf62ac
+    video_prompt_sha256: 39047fa5b9689e5d5f84d2fd32ddade2a62ca82b0a58a7738ebe19de09f5e06e
+    task_yaml_sha256_before: 48423de95ae98e4e072a0109d3f9f04aedb8368ac4ec66cbec890bef7eb541a2

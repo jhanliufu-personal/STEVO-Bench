@@ -1,0 +1,66 @@
+id: paper_burning
+level: 4
+category: transformational_state_change
+tags: []
+prompts:
+  video_WM: Single continuous take, no cuts or zoom. Camera starts centered on the plate and burning paper.
+    Then the camera smoothly moves to the right at constant speed until the plate leaves the frame to
+    the left and become completely invisible. The camera continues moving right across the room for several
+    seconds. Then the camera moves left at the same speed back to the original viewpoint, bringing the
+    plate back into view naturally. Lighting and objects remain consistent and realistic.
+  camera_wM: null
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init2final_edit_prompt: Edit the image to show the result of the fire burning for several more seconds.
+    The area of black charred ash should be significantly larger, extending further from the top right
+    corner into the center of the paper. The remaining area of white paper should be noticeably smaller.
+    Orange flames should be visible along the new, advanced edge of the burn. The metal tray and background
+    should remain unchanged.
+  rationale: The video depicts a continuous physical process (combustion) that persists even when the
+    object is out of frame. The camera pans away from the burning paper, occluding it for several seconds,
+    and then returns to the original viewpoint. During this time, the fire should continue to consume
+    the paper. Therefore, the final frame must show a more advanced state of burning (larger charred area,
+    smaller white area) compared to the initial frame, rather than a frozen state or a reset.
+  questions:
+  - id: burn_area_increase
+    question: Is the area of black charred ash larger in the final frame than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the size of the black region on the paper. It should have grown.
+  - id: white_paper_decrease
+    question: Is the area of remaining white paper smaller in the final frame than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The fire should have consumed more of the white paper.
+  - id: burn_progression_direction
+    question: Has the burn edge advanced further into the paper from the top right corner compared to
+      the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The fire travels from the ignition point inwards.
+  - id: fire_persistence
+    question: Does the paper show signs of continued burning (e.g., flames, smoke, or expanded ash) rather
+      than looking identical to the start?
+    answer_type: yes_no
+    notes_for_judge: The state should not be frozen.
+  - id: tray_presence
+    question: Is the metal tray visible in the final frame?
+    answer_type: yes_no
+    notes_for_judge: The camera returns to the tray.
+  - id: tray_consistency
+    question: Does the metal tray appear to be the same object (e.g., same color and texture) as in the
+      initial frame?
+    answer_type: yes_no
+    notes_for_judge: The environment should be consistent.
+  generation:
+    model_provider: google_gemini
+    llm: gemini-3-pro-preview
+    temperature: 0.2
+    created_utc: '2026-02-11T19:47:22Z'
+  inputs_digest:
+    initial_frame_sha256: e39f9480f0ee006c7bc4ab481cb37f6e69f4440d46f635dc71b4a05c80072cd4
+    video_prompt_sha256: 8ac27c0796b4e7699f95e3b3452b188a5bf1e3fd3dd89760fef7474309d8df40
+    task_yaml_sha256_before: 4a4386b24cc5b913a8b9a88d614075a1eb4af8fc2b55a0fc21f4f08bb16f0b31
+  init_frame_description: A top-down close-up view of a silver metal baking sheet. A rectangular piece
+    of white paper sits in the center. The top right corner of the paper is actively burning, with bright
+    orange flames and a distinct curved line of black charred ash where the fire is consuming the material.
+    Smoke is rising from the flames.
