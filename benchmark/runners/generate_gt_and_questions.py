@@ -109,6 +109,149 @@ def get_task_fields(task: Dict[str, Any], task_path: Path) -> Tuple[str, str]:
 # Gemini prompting
 # -----------------------------
 
+def get_level_specific_guidance(level: int) -> str:
+    """Return level-specific guidance for question generation based on task level."""
+
+    guidance_map = {
+        0: """
+==============================
+LEVEL 0: OBJECT PERMANENCE FOCUS
+==============================
+
+This is a Level 0 task testing OBJECT PERMANENCE under occlusion.
+
+The primary evaluation should focus on CONSISTENCY and PERSISTENCE:
+- Does the occluded object still exist when revealed?
+- Is the object in the expected location?
+- Are the object's attributes (color, shape, size, identity) preserved?
+- Are spatial relationships maintained?
+
+MOST questions (70%+) should verify that objects remain UNCHANGED during occlusion.
+Questions about dynamics or state evolution are SECONDARY at this level.
+
+Example good questions:
+- "Is the [object] still visible in the final frame?"
+- "Is the [object] in the same [location] as before occlusion?"
+- "Does the [object] maintain its original [attribute]?"
+- "Is the number of visible [objects] the same as initially?"
+""",
+        1: """
+==============================
+LEVEL 1: SCALAR STATE FOCUS
+==============================
+
+This is a Level 1 task testing SCALAR STATE CHANGES (continuous property evolution).
+
+The primary evaluation should focus on DIRECTIONAL CHANGES in scalar quantities:
+- Volume (filling, emptying, expansion, compression)
+- Temperature (heating, cooling, phase changes)
+- Mass/amount (accumulation, depletion, dissolution)
+- Length/height/distance (growth, shrinkage, extension)
+
+MOST questions (70%+) should test whether the key scalar variable changed in the correct DIRECTION.
+Avoid requiring specific amounts or completion states - focus on "more/less", "higher/lower", "larger/smaller".
+
+Example good questions:
+- "Is the water level higher than in the initial frame?"
+- "Is there less ice remaining than before?"
+- "Is the balloon larger than it was initially?"
+- "Has the pile grown taller compared to the start?"
+""",
+        2: """
+==============================
+LEVEL 2: SPATIAL/KINEMATIC FOCUS
+==============================
+
+This is a Level 2 task testing SPATIAL STATE and KINEMATICS (position, velocity, momentum).
+
+The primary evaluation should focus on POSITION and MOTION changes:
+- Has the object moved from its initial position?
+- Is the object's trajectory consistent with the physical setup?
+- Is momentum/velocity in the expected direction?
+- Are kinematic relationships preserved?
+
+MOST questions (70%+) should test spatial displacement and motion dynamics.
+Consider forces like inertia, gravity, friction, and conservation of momentum.
+
+Example good questions:
+- "Is the [object] at a different position than initially?"
+- "Has the [object] moved [down/up/left/right] from its starting location?"
+- "Is the [object] lower in height than its initial position?"
+- "Has the [moving object] traveled past the [reference point]?"
+""",
+        3: """
+==============================
+LEVEL 3: RELATIONAL/COUPLED STATE FOCUS
+==============================
+
+This is a Level 3 task testing RELATIONAL STATE (coupled systems, conservation, interactions).
+
+The primary evaluation should focus on RELATIONSHIPS between multiple objects/variables:
+- Are conservation laws maintained (mass, energy, momentum, volume)?
+- Do coupled objects respond to each other correctly?
+- Are relational constraints preserved (pulley ratios, lever balance, mirror symmetry)?
+- Do interactions produce the expected relative changes?
+
+MOST questions (70%+) should test RELATIONSHIPS, not individual object states in isolation.
+Use phrases like "total amount", "relative to each other", "ratio between", "correspondingly", "balanced", "conserved".
+
+Example good questions:
+- "Does the total amount of [substance] appear conserved between the containers?"
+- "When one side [changes], does the other side [change] correspondingly?"
+- "Is the relative position between [object A] and [object B] consistent with the [mechanism]?"
+- "Do the coupled [objects] show coordinated behavior?"
+""",
+        4: """
+==============================
+LEVEL 4: TRANSFORMATIONAL STATE FOCUS
+==============================
+
+This is a Level 4 task testing IRREVERSIBLE TRANSFORMATIONS (structural changes).
+
+The primary evaluation should focus on PROGRESSIVE IRREVERSIBLE CHANGES:
+- Has the object undergone permanent structural change?
+- Are previously connected parts now separated or damaged?
+- Has material integrity been compromised?
+- Is there evidence of irreversible transformation (breaking, tearing, crushing, burning, shredding)?
+
+MOST questions (70%+) should test whether irreversible transformation has BEGUN or PROGRESSED.
+Focus on structural discontinuity, fragmentation, loss of original form, or material degradation.
+Avoid requiring complete transformation - partial transformation is valid.
+
+Example good questions:
+- "Does the [object] show visible [tearing/breaking/damage]?"
+- "Are there fragments or pieces that were not present initially?"
+- "Has the [object]'s structural integrity been compromised compared to the start?"
+- "Is the [damaged area] larger than it was initially?"
+""",
+        5: """
+==============================
+LEVEL 5: CAUSAL/FUNCTIONAL FOCUS
+==============================
+
+This is a Level 5 task testing CAUSAL MECHANISMS (discrete state transitions, functional relationships).
+
+The primary evaluation should focus on FUNCTIONAL STATE CHANGES resulting from the causal action:
+- Did the causal trigger produce the expected output state?
+- Has the system transitioned to a different discrete state?
+- Is the functional relationship between input and output correct?
+- Did the mechanism respond to the control action?
+
+MOST questions (70%+) should test the FUNCTIONAL OUTCOME at the output device, not intermediate mechanisms.
+Focus on: was the device activated/deactivated, did the system respond, did state transition occur?
+The causal action happened while the output was occluded - questions should verify the result.
+
+Example good questions:
+- "Is the [output device] now [activated/illuminated/open] compared to the initial frame?"
+- "Has the [display/indicator] changed to show a different state?"
+- "Is the [movable component] in a different position than initially?"
+- "Does the [output] show evidence of the mechanism being triggered?"
+"""
+    }
+
+    return guidance_map.get(level, "")
+
+
 def image_to_inline_data(image_path: Path, max_side: int = 1024) -> Dict[str, Any]:
     img = Image.open(image_path).convert("RGB")
     w, h = img.size
@@ -138,14 +281,23 @@ JSON_SCHEMA_HINT = {
   ]
 }
 
-def build_gemini_request(task_id: str, video_prompt: str) -> str:
+def build_gemini_request(task_id: str, video_prompt: str, level: int = None) -> str:
+    """Build Gemini prompt with level-specific guidance for question generation."""
+
+    # Get level-specific guidance if available
+    level_guidance = ""
+    if level is not None:
+        level_guidance = get_level_specific_guidance(level)
+        if level_guidance:
+            level_guidance = f"\n{level_guidance}\n"
+
     return f"""
 You are helping build a stateful world-model benchmark.
 
 You are given:
 - an initial frame image (the starting visual state)
 - a video-generation prompt describing camera motion, occlusion, and physical actions
-
+{level_guidance}
 Your job is to produce THREE artifacts with a STRICT separation of roles:
 
 ==============================
@@ -279,6 +431,7 @@ def call_gemini(
     task_id: str,
     video_prompt: str,
     temperature: float,
+    level: int = None,
 ) -> Dict[str, Any]:
     client = genai.Client(api_key=api_key)
 
@@ -286,7 +439,7 @@ def call_gemini(
         model=model,
         contents=[
             image_to_inline_data(initial_frame_path),
-            {"text": build_gemini_request(task_id, video_prompt)},
+            {"text": build_gemini_request(task_id, video_prompt, level)},
         ],
         config={"temperature": temperature},
     )
@@ -396,6 +549,13 @@ def main() -> None:
 
     task_id, video_prompt = get_task_fields(task, task_yaml_path)
 
+    # Extract task level for level-specific guidance
+    task_level = task.get("level")
+    if task_level is not None:
+        print(f"Task level: {task_level}")
+    else:
+        print("Warning: Task level not found in YAML, using generic guidance")
+
     api_key = os.environ.get("GOOGLE_API_KEY", "").strip()
     if not api_key:
         raise RuntimeError("Missing GOOGLE_API_KEY environment variable.")
@@ -407,6 +567,7 @@ def main() -> None:
         task_id=task_id,
         video_prompt=video_prompt,
         temperature=args.temperature,
+        level=task_level,
     )
 
     upsert_evaluation_block(

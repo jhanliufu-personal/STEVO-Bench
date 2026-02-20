@@ -3,9 +3,9 @@
 Generate initial frame for a task.
 
 Handles three situations:
-1. No init frame exists → Generate from scratch using image_gen_prompt
-2. Init frame exists but from different task (variant) → Edit using init_frame_edit_prompt
-3. Init frame exists and matches current task → Skip unless --overwrite
+1. No init frame exists -> Generate from scratch using image_gen_prompt
+2. Init frame exists but from different task (variant) -> Edit using init_frame_edit_prompt
+3. Init frame exists and matches current task -> Skip unless --overwrite
 
 Usage:
   python benchmark/runners/generate_init_frame.py \
@@ -40,7 +40,7 @@ def find_existing_init_frame(task_dir: Path) -> Optional[Tuple[Path, str]]:
         print(f"Warning: Multiple init frames found in {task_dir}, using first: {matches[0].name}")
 
     frame_path = matches[0]
-    # Extract base name: "task_01_init_frame.png" → "task_01"
+    # Extract base name: "task_01_init_frame.png" -> "task_01"
     base_name = frame_path.stem.replace("_init_frame", "")
 
     return frame_path, base_name
@@ -87,7 +87,7 @@ def main() -> None:
         # Situation 2: Frame from different task (variant)
         if existing_base_name != task_id:
             print(f"Found init frame from different task: {existing_base_name}")
-            print(f"→ Will edit existing frame for variant: {task_id}")
+            print(f"-> Will edit existing frame for variant: {task_id}")
 
             # Get edit prompt
             init_frame_edit = prompts_block.get("init_frame_edit_prompt", "").strip()
@@ -98,14 +98,14 @@ def main() -> None:
                 )
 
             if init_frame_edit.upper() == "[NO CHANGE]":
-                print("→ Edit prompt is [NO CHANGE]")
+                print("-> Edit prompt is [NO CHANGE]")
 
                 # Rename existing frame to match current task if needed
                 if existing_path != output_path:
-                    print(f"→ Renaming {existing_path.name} to {output_path.name}")
+                    print(f"-> Renaming {existing_path.name} to {output_path.name}")
                     existing_path.rename(output_path)
                 else:
-                    print("→ Frame already has correct name, keeping as-is")
+                    print("-> Frame already has correct name, keeping as-is")
 
                 print("✓ Init frame ready (no changes)")
                 return
@@ -115,7 +115,7 @@ def main() -> None:
             if not api_key:
                 raise RuntimeError("Missing GOOGLE_API_KEY environment variable.")
 
-            print(f"→ Editing with prompt: {init_frame_edit[:80]}...")
+            print(f"-> Editing with prompt: {init_frame_edit[:80]}...")
 
             result = call_nanobanana(
                 api_key=api_key,
@@ -131,17 +131,17 @@ def main() -> None:
                 # Clean up old frame if different
                 if existing_path != output_path:
                     existing_path.unlink()
-                    print(f"→ Removed old frame: {existing_path.name}")
+                    print(f"-> Removed old frame: {existing_path.name}")
 
         # Situation 3: Frame already exists for this task
         else:
             if not args.overwrite:
                 print(f"Init frame already exists: {existing_path.name}")
-                print("→ Use --overwrite to regenerate")
+                print("-> Use --overwrite to regenerate")
                 return
 
             print(f"Init frame exists, but --overwrite is set")
-            print(f"→ Regenerating init frame for: {task_id}")
+            print(f"-> Regenerating init frame for: {task_id}")
 
             # Fall through to Situation 1 logic below
 
@@ -158,8 +158,8 @@ def main() -> None:
         if not api_key:
             raise RuntimeError("Missing GOOGLE_API_KEY environment variable.")
 
-        print(f"→ Generating from scratch: {task_id}")
-        print(f"→ Prompt: {init_gen_prompt[:80]}...")
+        print(f"-> Generating from scratch: {task_id}")
+        print(f"-> Prompt: {init_gen_prompt[:80]}...")
 
         result = call_nanobanana(
             api_key=api_key,

@@ -4,6 +4,8 @@ Generate task variants along two axes:
 1. Occlusion method (camera rotation → object blocking, zoom out, etc.)
 2. Dynamic conditions (key variables that affect state evolution)
 
+IMPORTANT: Always creates a fully observable baseline variant (v0) first.
+
 Usage:
   python benchmark/runners/generate_task_variants.py \
     --level_dir benchmark/tasks/level1_scalar_state \
@@ -347,6 +349,78 @@ def call_gemini_for_variants(
 
 
 # -----------------------------
+# Fully observable baseline
+# -----------------------------
+
+def create_fully_observable_baseline(
+    original_task: Dict[str, Any],
+    task_id: str,
+) -> Dict[str, Any]:
+    """Create fully observable baseline variant (v0) with no occlusion.
+
+    This variant has the same dynamics as the original but the camera
+    remains stationary throughout - no occlusion, always visible.
+    """
+
+    prompts = original_task.get("prompts", {})
+    video_wm = prompts.get("video_WM", "")
+    camera_wm = prompts.get("camera_WM", "")
+
+    # Remove camera movement from video_WM
+    # Look for common patterns where camera movement starts
+    camera_movement_patterns = [
+        r'Camera starts.*?STOP\.',
+        r'The camera starts.*?STOP\.',
+        r'Then the camera.*?STOP\.',
+        r'Camera rotates.*?STOP\.',
+        r'The camera rotates.*?STOP\.',
+        r'Camera moves.*?STOP\.',
+        r'camera starts.*?STOP\.',
+        r'the camera starts.*?STOP\.',
+        r'then the camera.*?STOP\.',
+        r'camera rotates.*?STOP\.',
+        r'the camera rotates.*?STOP\.',
+        r'camera moves.*?STOP\.',
+    ]
+
+    baseline_video_wm = video_wm
+    replaced = False
+
+    for pattern in camera_movement_patterns:
+        match = re.search(pattern, baseline_video_wm, re.IGNORECASE | re.DOTALL)
+        if match:
+            # Replace camera movement with stationary camera statement
+            before_camera = baseline_video_wm[:match.start()].strip()
+            baseline_video_wm = f"{before_camera} Camera remains stationary, centered on the scene throughout. Continuous shot, no camera movement, no rotation, no panning, no cuts, no zoom. STOP."
+            replaced = True
+            break
+
+    # If no pattern matched, append stationary camera note
+    if not replaced:
+        baseline_video_wm = f"{video_wm.rstrip()} Camera remains stationary throughout. No camera movement, no cuts, no zoom. STOP."
+
+    # Simplified camera_WM
+    baseline_camera_wm = "Camera remains stationary throughout. No camera movement. STOP."
+
+    baseline_variant = {
+        "variant_id": f"{task_id}_00",
+        "variant_suffix": "fully_observable",
+        "variation_type": "full_observability_baseline",
+        "variation_description": "Fully observable baseline - camera remains stationary, no occlusion, always visible",
+        "changes": {
+            "occlusion_method": "No occlusion - camera remains stationary throughout",
+            "dynamic_conditions": None,
+            "expected_outcome_change": "Same dynamics as original, but scene remains visible at all times"
+        },
+        "init_frame_edit_prompt": "[NO CHANGE]",
+        "video_WM": baseline_video_wm,
+        "camera_WM": baseline_camera_wm,
+    }
+
+    return baseline_variant
+
+
+# -----------------------------
 # Variant saving
 # -----------------------------
 
@@ -377,9 +451,49 @@ def create_variant_yaml(
         "camera_WM": variant["camera_WM"],
     }
 
-    # Copy camera control if present
-    if "camera_control" in original_task:
-        new_task["camera_control"] = original_task["camera_control"]
+    # Handle camera_control based on occlusion method
+    # Only keep camera_control if using camera rotation/panning
+    occlusion_method = variant.get("changes", {}).get("occlusion_method", "")
+    variation_type = variant.get("variation_type", "")
+
+    # Check if this variant uses camera rotation as the occlusion method
+    uses_camera_rotation = (
+        occlusion_method is None or  # No change to occlusion (original method)
+        "camera rotation" in (occlusion_method or "").lower() or
+        "camera pan" in (occlusion_method or "").lower() or
+        "rotates right" in (occlusion_method or "").lower() or
+        "rotates left" in (occlusion_method or "").lower() or
+        "pans away" in (occlusion_method or "").lower() or
+        "pans right" in (occlusion_method or "").lower()
+    )
+
+    # Check if this is fully observable baseline or uses non-camera occlusion
+    no_camera_movement = (
+        variation_type == "full_observability_baseline" or
+        "no occlusion" in (occlusion_method or "").lower() or
+        "stationary" in (occlusion_method or "").lower() or
+        "blocking" in (occlusion_method or "").lower() or
+        "zoom" in (occlusion_method or "").lower() or
+        "fog" in (occlusion_method or "").lower() or
+        "smoke" in (occlusion_method or "").lower() or
+        "lighting" in (occlusion_method or "").lower() or
+        "lights" in (occlusion_method or "").lower() or
+        "foreground" in (occlusion_method or "").lower()
+    )
+
+    if uses_camera_rotation and not no_camera_movement:
+        # Keep original camera control for camera rotation variants
+        if "camera_control" in original_task:
+            new_task["camera_control"] = original_task["camera_control"]
+    else:
+        # Set to null for non-camera-rotation occlusion methods
+        # Match the structure from existing tasks
+        if "camera_control" in original_task:
+            new_task["camera_control"] = {
+                key: None for key in original_task["camera_control"]
+            }
+        else:
+            new_task["camera_control"] = {"HY-WorldPlay": None, "Genie": None}
 
     # Don't copy evaluation - will be regenerated
 
@@ -459,7 +573,11 @@ def process_task(
     temperature: float,
     dry_run: bool = False,
 ) -> None:
-    """Process a single task to generate variants."""
+    """Process a single task to generate variants.
+
+    Always creates a fully observable baseline (v0) first, then generates
+    additional variants with different occlusion methods and conditions.
+    """
 
     _, task_yaml_path, folder_name, initial_frame_path = resolve_task_paths(task_dir)
 
@@ -486,8 +604,15 @@ def process_task(
         print(f"  ⚠ Skipping {task_id}: missing video_WM prompt")
         return
 
-    # Call Gemini to generate variants
-    print(f"  🤖 Calling {model} to generate {num_variants} variants...")
+    # Step 1: Create fully observable baseline variant (v0)
+    print(f"  📹 Creating fully observable baseline variant (v0)...")
+    baseline_variant = create_fully_observable_baseline(task, task_id)
+
+    all_variants = [baseline_variant]
+    print(f"  ✓ Created baseline variant: {baseline_variant['variant_id']}")
+
+    # Step 2: Call Gemini to generate additional variants
+    print(f"  🤖 Calling {model} to generate {num_variants} additional variants...")
 
     try:
         result = call_gemini_for_variants(
@@ -504,12 +629,14 @@ def process_task(
         )
 
         variants = result["variants"]
-        print(f"  ✓ Generated {len(variants)} variants")
+        all_variants.extend(variants)
+        print(f"  ✓ Generated {len(variants)} additional variants")
+        print(f"  ✓ Total variants (including baseline): {len(all_variants)}")
 
-        # Save variants
+        # Save all variants (baseline + generated)
         level_dir = task_dir.parent
         created = save_variants(
-            level_dir, task_id, task_dir, task, variants, dry_run=dry_run
+            level_dir, task_id, task_dir, task, all_variants, dry_run=dry_run
         )
 
         if not dry_run:
@@ -548,7 +675,7 @@ def main() -> None:
     )
     parser.add_argument(
         "--num_variants",
-        default=8,
+        default=10,
         type=int,
         help="Number of variants to generate per task",
     )
