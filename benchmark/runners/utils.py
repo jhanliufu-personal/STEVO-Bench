@@ -1,3 +1,7 @@
+import base64
+import io
+import json
+import re
 import yaml  
 import hashlib
 from pathlib import Path
@@ -89,9 +93,51 @@ def resolve_task_paths(task_dir: Path) -> Tuple[Path, Path, str, Path]:
 
     return task_dir, task_yaml_path, folder_name, init_frame_path
 
+
 # -----------------------------
-# Nanobanana
+# Image handling
 # -----------------------------
+
+def image_to_inline_data(image_path: Path, max_side: int = 1024) -> Dict[str, Any]:
+    """Convert image to inline data for Gemini API."""
+    img = Image.open(image_path).convert("RGB")
+    w, h = img.size
+    scale = min(1.0, max_side / float(max(w, h)))
+    if scale < 1.0:
+        img = img.resize((int(w * scale), int(h * scale)), Image.Resampling.LANCZOS)
+
+    buf = io.BytesIO()
+    img.save(buf, format="PNG")
+    data = base64.b64encode(buf.getvalue()).decode("utf-8")
+
+    return {"inline_data": {"mime_type": "image/png", "data": data}}
+
+
+# -----------------------------
+# Gemini API
+# -----------------------------
+
+def extract_json(text: str) -> Dict[str, Any]:
+    """Extract JSON from Gemini response (handles markdown code blocks)."""
+    try:
+        return json.loads(text)
+    except json.JSONDecodeError:
+        pass
+
+    # Try to find JSON in markdown code block
+    m = re.search(r"```(?:json)?\s*(\{.*?\})\s*```", text, flags=re.DOTALL)
+    if m:
+        try:
+            return json.loads(m.group(1))
+        except json.JSONDecodeError:
+            pass
+
+    # Try to find any JSON object
+    m = re.search(r"\{.*\}", text, flags=re.DOTALL)
+    if not m:
+        raise ValueError("Could not find JSON object in Gemini response.")
+    return json.loads(m.group(0))
+
 
 def call_nanobanana(
     api_key: str,

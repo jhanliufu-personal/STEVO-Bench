@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Generate task variants along two axes:
-1. Occlusion method (camera rotation → object blocking, zoom out, etc.)
+1. Occlusion method (camera rotation -> object blocking, zoom out, etc.)
 2. Dynamic conditions (key variables that affect state evolution)
 
 IMPORTANT: Always creates a fully observable baseline variant (v0) first.
@@ -18,19 +18,13 @@ Env:
 """
 
 import argparse
-import base64
-import io
-import json
 import os
-import re
 import shutil
 from pathlib import Path
 from typing import Any, Dict, List
-
-from PIL import Image
 from google import genai
 
-from utils import load_yaml, dump_yaml, resolve_task_paths
+from utils import load_yaml, dump_yaml, resolve_task_paths, image_to_inline_data, extract_json
 
 # -----------------------------
 # Master prompt for variant generation
@@ -61,8 +55,8 @@ The starting visual state with all relevant objects, properties, and conditions.
 **Part A - Scene Description & Implied Dynamics**:
 - Describes physical actions and conditions
 - **IMPLIES but does NOT explicitly state** the resulting physics
-- Example: "A cooktop displaying 350°F" → implies heat, but doesn't say "the ice will melt"
-- Example: "A smooth, frictionless ramp" → implies sliding, but doesn't say "the block will accelerate"
+- Example: "A cooktop displaying 350F" -> implies heat, but doesn't say "the ice will melt"
+- Example: "A smooth, frictionless ramp" -> implies sliding, but doesn't say "the block will accelerate"
 
 **Part B - Camera Movement (Creates Occlusion)**:
 - Camera moves to occlude the scene
@@ -115,39 +109,39 @@ Your task is to generate variants along TWO independent axes:
 **Examples by category**:
 
 **For kinematic tasks** (projectiles, sliding, pendulums):
-- Surface friction (frictionless → high friction)
-- Initial velocity (slow → fast)
-- Mass (light → heavy)
-- Angle of incline (steep → shallow)
-- Air resistance (vacuum → normal air)
+- Surface friction (frictionless -> high friction)
+- Initial velocity (slow -> fast)
+- Mass (light -> heavy)
+- Angle of incline (steep -> shallow)
+- Air resistance (vacuum -> normal air)
 
 **For thermal tasks** (melting, heating, cooling):
-- Temperature differential (hot surface → lukewarm)
-- Initial object state (frozen solid → partially thawed)
-- Thermal conductivity (metal surface → wood surface)
-- Ambient conditions (hot room → cold room)
+- Temperature differential (hot surface -> lukewarm)
+- Initial object state (frozen solid -> partially thawed)
+- Thermal conductivity (metal surface -> wood surface)
+- Ambient conditions (hot room -> cold room)
 
 **For phase change tasks** (inflating, deflating, dissolving):
-- Rate of change (fast pump → slow leak)
-- Initial state (empty → partially filled)
-- Pressure differential (high → low)
-- Concentration (pure → diluted)
+- Rate of change (fast pump -> slow leak)
+- Initial state (empty -> partially filled)
+- Pressure differential (high -> low)
+- Concentration (pure -> diluted)
 
 **For relational tasks** (pulleys, collisions, reflections):
-- Mass ratios (equal masses → unequal)
-- Coupling strength (tight → loose)
-- Symmetry (symmetric → asymmetric)
-- Initial energy (high → low)
+- Mass ratios (equal masses -> unequal)
+- Coupling strength (tight -> loose)
+- Symmetry (symmetric -> asymmetric)
+- Initial energy (high -> low)
 
 **For causal tasks** (switches, mechanisms):
-- Activation threshold (binary → gradual)
-- Preconditions (already met → not met)
-- State history (first pull → second pull)
-- External enabling conditions (power on → power off)
+- Activation threshold (binary -> gradual)
+- Preconditions (already met -> not met)
+- State history (first pull -> second pull)
+- External enabling conditions (power on -> power off)
 
 **Requirements**:
 - Variants should test the MODEL'S understanding of how conditions affect dynamics
-- Some variants should have NO state change (e.g., ice on cold surface → no melting)
+- Some variants should have NO state change (e.g., ice on cold surface -> no melting)
 - Some variants should have OPPOSITE direction of change (e.g., cooling instead of heating)
 - Some variants should have FASTER/SLOWER rates of change
 - Conditions should be IMPLIED in the scene description, not explicitly stated
@@ -195,7 +189,7 @@ You are given an ORIGINAL task with:
 1. **Visual consistency**: Variants should use the SAME initial frame with minimal edits
    - **Occlusion-only variants**: `init_frame_edit_prompt` = "[NO CHANGE]" (reuse original frame)
    - **Condition variants**: `init_frame_edit_prompt` = "Edit the image to change [ONLY the key condition]"
-   - Example: "Edit the image to show the cooktop display reading '32°F' instead of '350°F'"
+   - Example: "Edit the image to show the cooktop display reading '32F' instead of '350F'"
    - Example: "Edit the image to change the ramp surface to rough wood texture instead of smooth metal"
    - **DO NOT** change camera angle, lighting, background, or unrelated objects
 
@@ -248,50 +242,6 @@ Now generate {num_variants} variants exploring both occlusion methods and dynami
 
 Remember: You are seeing the ORIGINAL initial frame. For each variant, decide if it needs editing or can use "[NO CHANGE]".
 """
-
-# -----------------------------
-# Image handling
-# -----------------------------
-
-def image_to_inline_data(image_path: Path, max_side: int = 1024) -> Dict[str, Any]:
-    """Convert image to inline data for Gemini API."""
-    img = Image.open(image_path).convert("RGB")
-    w, h = img.size
-    scale = min(1.0, max_side / float(max(w, h)))
-    if scale < 1.0:
-        img = img.resize((int(w * scale), int(h * scale)), Image.Resampling.LANCZOS)
-
-    buf = io.BytesIO()
-    img.save(buf, format="PNG")
-    data = base64.b64encode(buf.getvalue()).decode("utf-8")
-
-    return {"inline_data": {"mime_type": "image/png", "data": data}}
-
-
-# -----------------------------
-# Gemini API
-# -----------------------------
-
-def extract_json(text: str) -> Dict[str, Any]:
-    """Extract JSON from Gemini response (handles markdown code blocks)."""
-    try:
-        return json.loads(text)
-    except json.JSONDecodeError:
-        pass
-
-    # Try to find JSON in markdown code block
-    m = re.search(r"```(?:json)?\s*(\{.*?\})\s*```", text, flags=re.DOTALL)
-    if m:
-        try:
-            return json.loads(m.group(1))
-        except json.JSONDecodeError:
-            pass
-
-    # Try to find any JSON object
-    m = re.search(r"\{.*\}", text, flags=re.DOTALL)
-    if not m:
-        raise ValueError("Could not find JSON object in Gemini response.")
-    return json.loads(m.group(0))
 
 
 def call_gemini_for_variants(
@@ -352,9 +302,60 @@ def call_gemini_for_variants(
 # Fully observable baseline
 # -----------------------------
 
+def rewrite_prompt_for_full_observability(
+    video_wm: str,
+    api_key: str,
+    model: str = "gemini-2.0-flash-exp",
+    temperature: float = 0.2,
+) -> str:
+    """Use Gemini to rewrite video_WM prompt to remove all occlusion methods."""
+
+    rewrite_prompt = f"""You are helping create a fully observable baseline variant of a video generation prompt.
+
+ORIGINAL PROMPT:
+{video_wm}
+
+TASK:
+Rewrite this prompt to make the scene FULLY OBSERVABLE throughout the entire video. Specifically:
+1. Remove ALL camera movement (panning, rotation, zooming, etc.) - make the camera completely stationary
+2. Remove ANY other occlusion methods (objects blocking view, going off-screen, etc.)
+3. Keep ALL the physical dynamics and actions in the scene exactly as described
+4. Keep the scene composition and framing the same
+5. The result should be a continuous shot with a stationary camera where everything remains visible
+
+GUIDELINES:
+- If the prompt describes camera movement, replace it with "Camera remains stationary throughout"
+- If the prompt describes objects going out of view, remove that and keep them in view
+- Preserve all physical processes, state changes, and actions
+- Keep the same writing style and level of detail
+- Do NOT add new elements or dynamics
+- Output ONLY the rewritten prompt, no explanations or commentary
+
+REWRITTEN PROMPT:"""
+
+    try:
+        client = genai.Client(api_key=api_key)
+        resp = client.models.generate_content(
+            model=model,
+            contents=[{"text": rewrite_prompt}],
+            config={"temperature": temperature},
+        )
+
+        rewritten = getattr(resp, "text", None) or str(resp)
+        return rewritten.strip()
+
+    except Exception as e:
+        print(f"[WARN] Gemini API call failed: {e}")
+        print(f"[WARN] Falling back to simple camera removal")
+        # Fallback: simple append
+        return f"{video_wm.rstrip()} Camera remains stationary throughout."
+
+
 def create_fully_observable_baseline(
     original_task: Dict[str, Any],
     task_id: str,
+    api_key: str,
+    model: str = "gemini-2.0-flash-exp",
 ) -> Dict[str, Any]:
     """Create fully observable baseline variant (v0) with no occlusion.
 
@@ -364,43 +365,13 @@ def create_fully_observable_baseline(
 
     prompts = original_task.get("prompts", {})
     video_wm = prompts.get("video_WM", "")
-    camera_wm = prompts.get("camera_WM", "")
 
-    # Remove camera movement from video_WM
-    # Look for common patterns where camera movement starts
-    camera_movement_patterns = [
-        r'Camera starts.*?STOP\.',
-        r'The camera starts.*?STOP\.',
-        r'Then the camera.*?STOP\.',
-        r'Camera rotates.*?STOP\.',
-        r'The camera rotates.*?STOP\.',
-        r'Camera moves.*?STOP\.',
-        r'camera starts.*?STOP\.',
-        r'the camera starts.*?STOP\.',
-        r'then the camera.*?STOP\.',
-        r'camera rotates.*?STOP\.',
-        r'the camera rotates.*?STOP\.',
-        r'camera moves.*?STOP\.',
-    ]
-
-    baseline_video_wm = video_wm
-    replaced = False
-
-    for pattern in camera_movement_patterns:
-        match = re.search(pattern, baseline_video_wm, re.IGNORECASE | re.DOTALL)
-        if match:
-            # Replace camera movement with stationary camera statement
-            before_camera = baseline_video_wm[:match.start()].strip()
-            baseline_video_wm = f"{before_camera} Camera remains stationary, centered on the scene throughout. Continuous shot, no camera movement, no rotation, no panning, no cuts, no zoom. STOP."
-            replaced = True
-            break
-
-    # If no pattern matched, append stationary camera note
-    if not replaced:
-        baseline_video_wm = f"{video_wm.rstrip()} Camera remains stationary throughout. No camera movement, no cuts, no zoom. STOP."
-
-    # Simplified camera_WM
-    baseline_camera_wm = "Camera remains stationary throughout. No camera movement. STOP."
+    # Use Gemini to intelligently rewrite the prompt
+    baseline_video_wm = rewrite_prompt_for_full_observability(
+        video_wm=video_wm,
+        api_key=api_key,
+        model=model,
+    )
 
     baseline_variant = {
         "variant_id": f"{task_id}_00",
@@ -414,7 +385,7 @@ def create_fully_observable_baseline(
         },
         "init_frame_edit_prompt": "[NO CHANGE]",
         "video_WM": baseline_video_wm,
-        "camera_WM": baseline_camera_wm,
+        "camera_WM": None,  # No camera movement, so set to null
     }
 
     return baseline_variant
@@ -546,15 +517,15 @@ def save_variants(
             if init_frame_edit.strip().upper() == "[NO CHANGE]":
                 # Copy original frame unchanged
                 shutil.copy2(original_init_frame, variant_init_frame)
-                print(f"    → Copied original init frame (no changes)")
+                print(f"    -> Copied original init frame (no changes)")
             else:
                 # Mark for editing (will need separate image editing step)
-                print(f"    → Init frame needs editing: {init_frame_edit[:60]}...")
+                print(f"    -> Init frame needs editing: {init_frame_edit[:60]}...")
                 # Store edit prompt in YAML for later image generation
                 # Actual image editing would require a separate pass with an image editing model
                 # For now, copy original and mark it for manual editing
                 shutil.copy2(original_init_frame, variant_init_frame)
-                print(f"    → Copied original as placeholder (run image editing separately)")
+                print(f"    -> Copied original as placeholder (run image editing separately)")
 
         created_paths.append(variant_yaml_path)
 
@@ -586,7 +557,7 @@ def process_task(
     print(f"{'='*60}")
 
     if not initial_frame_path or not initial_frame_path.exists():
-        print(f"  ⚠ Skipping {folder_name}: missing initial frame")
+        print(f"  [WARN] Skipping {folder_name}: missing initial frame")
         return
 
     task = load_yaml(task_yaml_path)
@@ -601,18 +572,23 @@ def process_task(
     camera_wm = prompts.get("camera_WM", "")
 
     if not video_wm:
-        print(f"  ⚠ Skipping {task_id}: missing video_WM prompt")
+        print(f"  [WARN] Skipping {task_id}: missing video_WM prompt")
         return
 
     # Step 1: Create fully observable baseline variant (v0)
-    print(f"  📹 Creating fully observable baseline variant (v0)...")
-    baseline_variant = create_fully_observable_baseline(task, task_id)
+    print(f" Creating fully observable baseline variant (v0)...")
+    baseline_variant = create_fully_observable_baseline(
+        original_task=task,
+        task_id=task_id,
+        api_key=api_key,
+        model=model,
+    )
 
     all_variants = [baseline_variant]
-    print(f"  ✓ Created baseline variant: {baseline_variant['variant_id']}")
+    print(f"  [OK] Created baseline variant: {baseline_variant['variant_id']}")
 
     # Step 2: Call Gemini to generate additional variants
-    print(f"  🤖 Calling {model} to generate {num_variants} additional variants...")
+    print(f" Calling {model} to generate {num_variants} additional variants...")
 
     try:
         result = call_gemini_for_variants(
@@ -630,8 +606,8 @@ def process_task(
 
         variants = result["variants"]
         all_variants.extend(variants)
-        print(f"  ✓ Generated {len(variants)} additional variants")
-        print(f"  ✓ Total variants (including baseline): {len(all_variants)}")
+        print(f"  [OK] Generated {len(variants)} additional variants")
+        print(f"  [OK] Total variants (including baseline): {len(all_variants)}")
 
         # Save all variants (baseline + generated)
         level_dir = task_dir.parent
@@ -640,10 +616,10 @@ def process_task(
         )
 
         if not dry_run:
-            print(f"  ✓ Saved {len(created)} variant YAMLs")
+            print(f"  [OK] Saved {len(created)} variant YAMLs")
 
     except Exception as e:
-        print(f"  ✗ Error generating variants: {e}")
+        print(f"  [ERROR] Error generating variants: {e}")
         raise
 
 
@@ -657,13 +633,14 @@ def main() -> None:
         help="Level directory (e.g., benchmark/tasks/level1_scalar_state)",
     )
     parser.add_argument(
-        "--task_dir",
+        "--task_path",
         type=str,
-        help="Single task directory to process (alternative to --level_dir)",
+        help="Single task directory or YAML to process (alternative to --level_dir)",
     )
     parser.add_argument(
         "--model",
-        default="gemini-3-pro-preview",
+        # default="gemini-3-pro-preview",
+        default="gemini-2.5-pro",
         type=str,
         help="Gemini model to use",
     )
@@ -687,16 +664,21 @@ def main() -> None:
 
     args = parser.parse_args()
 
-    if not args.level_dir and not args.task_dir:
-        parser.error("Must specify either --level_dir or --task_dir")
+    if not args.level_dir and not args.task_path:
+        parser.error("Must specify either --level_dir or --task_path")
 
     api_key = os.environ.get("GOOGLE_API_KEY", "").strip()
     if not api_key:
         raise RuntimeError("Missing GOOGLE_API_KEY environment variable.")
 
-    if args.task_dir:
+    if args.task_path:
         # Process single task
-        task_dir = Path(args.task_dir).resolve()
+        task_path = Path(args.task_path).resolve()
+        # If it's a YAML file, get the parent directory
+        if task_path.is_file():
+            task_dir = task_path.parent
+        else:
+            task_dir = task_path
         process_task(
             task_dir,
             api_key,
@@ -728,11 +710,11 @@ def main() -> None:
                     args.dry_run,
                 )
             except Exception as e:
-                print(f"  ✗ Failed to process {task_dir.name}: {e}")
+                print(f"  x Failed to process {task_dir.name}: {e}")
                 continue
 
         print(f"\n{'='*60}")
-        print("✓ Variant generation complete!")
+        print(" Variant generation complete!")
         print(f"{'='*60}")
 
 

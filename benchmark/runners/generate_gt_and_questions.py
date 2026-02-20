@@ -52,6 +52,7 @@ from google import genai
 from utils import resolve_task_paths
 from utils import load_yaml, dump_yaml
 from utils import sha256_bytes, sha256_file, sha256_text
+from utils import extract_json, image_to_inline_data
 
 # -----------------------------
 # Task parsing
@@ -252,20 +253,6 @@ Example good questions:
     return guidance_map.get(level, "")
 
 
-def image_to_inline_data(image_path: Path, max_side: int = 1024) -> Dict[str, Any]:
-    img = Image.open(image_path).convert("RGB")
-    w, h = img.size
-    scale = min(1.0, max_side / float(max(w, h)))
-    if scale < 1.0:
-        img = img.resize((int(w * scale), int(h * scale)))
-
-    import io
-    buf = io.BytesIO()
-    img.save(buf, format="PNG")
-    data = base64.b64encode(buf.getvalue()).decode("utf-8")
-
-    return {"inline_data": {"mime_type": "image/png", "data": data}}
-
 JSON_SCHEMA_HINT = {
   "task_id": "string",
   "init_frame_description": "string",
@@ -413,16 +400,6 @@ Task ID: {task_id}
 Video prompt:
 \"\"\"{video_prompt}\"\"\"
 """.strip()
-
-def extract_json(text: str) -> Dict[str, Any]:
-    try:
-        return json.loads(text)
-    except json.JSONDecodeError:
-        pass
-    m = re.search(r"\{.*\}", text, flags=re.DOTALL)
-    if not m:
-        raise ValueError("Could not find JSON object in Gemini response.")
-    return json.loads(m.group(0))
 
 def call_gemini(
     api_key: str,
