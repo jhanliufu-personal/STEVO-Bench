@@ -3,9 +3,69 @@ level: 1
 category: scalar_state
 tags: []
 prompts:
-  image_gen_prompt: A small puddle of clear rubbing alcohol sits on a warm metal plate surface. The metal plate has a temperature indicator showing it is warm but not extremely hot. The alcohol puddle is roughly circular with clearly defined edges.
-  video_WM: Rubbing alcohol sits on the warm metal plate. The plate temperature is elevated above room temperature. Alcohol is volatile with a low boiling point of 180°F and high vapor pressure. The surrounding air is not saturated with alcohol vapor. The camera rotates right at constant speed until the metal plate completely exits the view to the right. The camera continues rotating right for several seconds while off-screen. Then the camera rotates left smoothly at the same rate back to the original viewpoint, bringing the metal plate back into view. No zoom, no cut, no scene change. STOP.
-  camera_WM: Rubbing alcohol sits on the warm metal plate. The plate is heated. Alcohol is volatile with low boiling point and high vapor pressure. The air is not saturated during the occlusion period. STOP.
+  image_gen_prompt: A small puddle of clear rubbing alcohol sits on a warm metal plate surface. The metal
+    plate has a temperature indicator showing it is warm but not extremely hot. The alcohol puddle is
+    roughly circular with clearly defined edges.
+  video_WM: Rubbing alcohol sits on the warm metal plate. The plate temperature is elevated above room
+    temperature. Alcohol is volatile with a low boiling point of 180°F and high vapor pressure. The surrounding
+    air is not saturated with alcohol vapor. The camera rotates right at constant speed until the metal
+    plate completely exits the view to the right. The camera continues rotating right for several seconds
+    while off-screen. Then the camera rotates left smoothly at the same rate back to the original viewpoint,
+    bringing the metal plate back into view. No zoom, no cut, no scene change. STOP.
+  camera_WM: Rubbing alcohol sits on the warm metal plate. The plate is heated. Alcohol is volatile with
+    low boiling point and high vapor pressure. The air is not saturated during the occlusion period. STOP.
 camera_control:
   HY-WorldPlay: s-3, right-30, left-30
   Genie: null
+evaluation:
+  init_frame_description: 'A close-up, slightly high-angle shot of a scratched metal hot plate. In the
+    center of the plate is a circular pool of clear liquid (rubbing alcohol). Faint wisps of vapor are
+    visible rising from the liquid. At the bottom of the device, a digital display with blue text reads
+    ''WARM: 55°C''. In the background, out of focus, are white cables and laboratory equipment.'
+  init2final_edit_prompt: 'Edit the given image to significantly reduce the size of the liquid pool on
+    the metal plate. Show the puddle with a smaller diameter and receding edges, revealing more of the
+    dry scratched metal surface that was previously covered by liquid. Keep the digital display reading
+    ''WARM: 55°C'' and the background cables exactly as they are in the original image.'
+  rationale: The video prompt describes a camera panning away from the subject and then returning to the
+    exact same viewpoint. During the time the plate is off-screen, the rubbing alcohol sits on a heated
+    surface (55°C). Since alcohol is volatile, the heat will cause significant evaporation over the duration
+    of the camera movement. Therefore, the physical state change is a reduction in the volume and surface
+    area of the liquid. The final frame should show the same scene but with less liquid remaining.
+  questions:
+  - id: liquid_area_smaller
+    question: Is the surface area of the liquid pool smaller than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: ''
+  - id: liquid_amount_less
+    question: Is there less liquid visible on the plate compared to the start?
+    answer_type: yes_no
+    notes_for_judge: ''
+  - id: dry_metal_visible
+    question: Is more of the dry metal surface visible around the center than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: ''
+  - id: puddle_shrunk
+    question: Has the puddle of liquid shrunk in size?
+    answer_type: yes_no
+    notes_for_judge: ''
+  - id: edges_receded
+    question: Are the edges of the liquid pool closer to the center than they were initially?
+    answer_type: yes_no
+    notes_for_judge: ''
+  - id: display_consistency
+    question: 'Does the digital display still read ''WARM: 55°C''?'
+    answer_type: yes_no
+    notes_for_judge: ''
+  - id: background_consistency
+    question: Are the background cables in the same position as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: ''
+  generation:
+    model_provider: google_gemini
+    llm: gemini-3-pro-preview
+    temperature: 0.2
+    created_utc: '2026-02-20T10:17:34Z'
+  inputs_digest:
+    initial_frame_sha256: 19e87904baf613d4e0a3f280b3315278bac777d58356c4e6fe3d47248af3998f
+    video_prompt_sha256: 4df94344c83b97c627755c51a278a9df5d034dd3dc4c7336c2a602b1d9c5d2aa
+    task_yaml_sha256_before: 9a79794587087cd537e08c106b2636dd73abe13ab4bb742dabae9ae9fac10642

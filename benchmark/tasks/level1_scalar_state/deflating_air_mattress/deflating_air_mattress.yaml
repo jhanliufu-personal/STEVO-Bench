@@ -1,0 +1,63 @@
+id: deflating_air_mattress
+level: 1
+category: scalar_state
+scalar_variable: Mattress height
+prompts:
+  image_gen_prompt: A fully inflated blue vinyl air mattress on a floor. The black air valve is wide open,
+    and the mattress is just starting to show slight surface wrinkles.
+  video_WM: A thick air mattress has its valve open and is visibly deflating. The air continues to escape
+    steadily. The camera rotates right until the mattress completely exits the view, then rotates toward
+    the left smoothly at the same rate until the mattress is back in the center of view. No zoom, no cut,
+    no scene change. STOP.
+  camera_WM: The air mattress is deflating; the air continues to flow out of the open valve steadily.
+    STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up, high-angle shot of a blue air mattress placed on a wooden floor.
+    The mattress is currently inflated and appears taut with a tufted surface texture. In the bottom left
+    foreground, a black air valve is visible with its cap off, indicating it is open. A window with white
+    trim is visible in the blurred background.
+  init2final_edit_prompt: Edit the given image to show the blue air mattress in a significantly more deflated
+    state. Reduce the height and volume of the mattress so it appears flatter and less taut. Introduce
+    sagging and wrinkles to the top surface to reflect the loss of air pressure. Keep the black valve
+    open and in the same position. Maintain the wooden floor and background exactly as they are.
+  rationale: The video prompt describes a continuous process of air escaping from the mattress (deflation).
+    The camera pans away and then returns to the original view. During the time the mattress is out of
+    view (occluded), the deflation process continues. Therefore, when the camera returns to the initial
+    framing, the mattress must physically appear less inflated—flatter, more wrinkled, and with reduced
+    volume—compared to the initial frame.
+  questions:
+  - id: deflation_check_volume
+    question: Does the air mattress appear less inflated than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the overall fullness/tautness. The final frame should look less full.
+  - id: deflation_check_height
+    question: Is the height of the mattress lower or flatter compared to the starting image?
+    answer_type: yes_no
+    notes_for_judge: The vertical dimension of the mattress should be reduced.
+  - id: deflation_check_surface
+    question: Is the surface of the mattress more wrinkled or sagging than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Loss of pressure typically causes the surface to wrinkle or sag.
+  - id: deflation_check_tautness
+    question: Does the material of the mattress look less taut than it did initially?
+    answer_type: yes_no
+    notes_for_judge: The initial frame shows a firm, inflated surface. The final should look looser.
+  - id: valve_consistency
+    question: Is the black valve still visible and open?
+    answer_type: yes_no
+    notes_for_judge: The valve should not disappear or close.
+  - id: deflation_check_general
+    question: Has the overall volume of the mattress decreased compared to the start?
+    answer_type: yes_no
+    notes_for_judge: General check for shrinkage due to air loss.
+  generation:
+    model_provider: google_gemini
+    llm: gemini-3-pro-preview
+    temperature: 0.2
+    created_utc: '2026-02-20T10:25:52Z'
+  inputs_digest:
+    initial_frame_sha256: ba48a53d427ae06f027be70c684a609c6e7b67d18e6ab1b6085b278a0a6ed9ed
+    video_prompt_sha256: 130c600357b4db8993b54a5995c50ea1f31e338f7b959dcc81a5f354c72b3cdd
+    task_yaml_sha256_before: e9bb383b57824c4c6aa0640bf5fa2e6922f0f40eb95101364106edf28d007d8f

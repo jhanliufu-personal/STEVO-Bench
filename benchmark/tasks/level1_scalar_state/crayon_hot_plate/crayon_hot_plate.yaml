@@ -3,9 +3,70 @@ level: 1
 category: scalar_state
 tags: []
 prompts:
-  image_gen_prompt: A bright blue crayon stands vertically upright on a black electric hot plate. The hot plate indicator light shows it is actively heating. The crayon is intact and solid.
-  video_WM: The crayon is in contact with the hot plate surface. The plate is actively heating. The crayon is made of paraffin wax with a melting point around 130°F. The plate temperature exceeds the wax melting point. The camera rotates right at constant speed until the hot plate completely exits the view to the right. The camera continues rotating right for several seconds while off-screen. Then the camera rotates left smoothly at the same rate back to the original viewpoint, bringing the hot plate and crayon back into view. No zoom, no cut, no scene change. STOP.
-  camera_WM: The crayon is in contact with the hot plate surface. The plate is actively heating. The crayon is made of paraffin wax with a melting point around 130°F. The plate temperature exceeds the wax melting point during the occlusion period. STOP.
+  image_gen_prompt: A bright blue crayon stands vertically upright on a black electric hot plate. The
+    hot plate indicator light shows it is actively heating. The crayon is intact and solid.
+  video_WM: The crayon is in contact with the hot plate surface. The plate is actively heating. The crayon
+    is made of paraffin wax with a melting point around 130°F. The plate temperature exceeds the wax melting
+    point. The camera rotates right at constant speed until the hot plate completely exits the view to
+    the right. The camera continues rotating right for several seconds while off-screen. Then the camera
+    rotates left smoothly at the same rate back to the original viewpoint, bringing the hot plate and
+    crayon back into view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The crayon is in contact with the hot plate surface. The plate is actively heating. The crayon
+    is made of paraffin wax with a melting point around 130°F. The plate temperature exceeds the wax melting
+    point during the occlusion period. STOP.
 camera_control:
   HY-WorldPlay: s-3, right-30, left-30
   Genie: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a black electric hot plate with a circular heating
+    element. A blue crayon is standing upright in the center of the heating coils. A red indicator light
+    labeled 'HEATING' is illuminated on the front panel. Faint steam or smoke is visible rising from the
+    hot plate area. The background is dark and out of focus, suggesting a kitchen counter.
+  init2final_edit_prompt: Edit the given image to show the blue crayon significantly melted. The crayon
+    should be much shorter, deformed, or collapsed into a pool of blue liquid wax on the center of the
+    black heating element. Ensure the blue wax is spread out on the surface rather than standing tall.
+    Keep the red heating indicator light illuminated.
+  rationale: 'The initial frame establishes that the crayon is standing on an active hot plate (indicated
+    by the red light and steam). The prompt describes a camera movement that pans away and then returns
+    to the original view after a duration of time. During this occlusion, the heat from the plate will
+    cause the paraffin wax of the crayon to melt. Therefore, when the camera returns to the initial viewpoint,
+    the crayon must exhibit signs of melting: reduced height, loss of cylindrical shape, and the formation
+    of a liquid wax pool on the surface.'
+  questions:
+  - id: crayon_height_reduction
+    question: Is the blue crayon shorter than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the vertical height of the blue object. It should be lower due to melting.
+  - id: wax_pooling
+    question: Is there a pool of melted blue wax visible on the hot plate surface?
+    answer_type: yes_no
+    notes_for_judge: Look for blue liquid spreading horizontally on the black coils.
+  - id: shape_deformation
+    question: Has the crayon lost its original perfect cylindrical shape?
+    answer_type: yes_no
+    notes_for_judge: The object should look deformed, slumped, or liquefied.
+  - id: wax_spread_area
+    question: Does the blue wax cover a wider area on the black plate than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Melting causes the material to spread out.
+  - id: state_change_melting
+    question: Does the crayon appear to be melting or melted?
+    answer_type: yes_no
+    notes_for_judge: General assessment of the physical state change.
+  - id: light_consistency
+    question: Is the red heating indicator light still illuminated?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check; the plate is still active.
+  - id: plate_presence
+    question: Is the black hot plate still visible in the frame?
+    answer_type: yes_no
+    notes_for_judge: Verifies the camera returned to the correct object.
+  generation:
+    model_provider: google_gemini
+    llm: gemini-3-pro-preview
+    temperature: 0.2
+    created_utc: '2026-02-20T10:17:03Z'
+  inputs_digest:
+    initial_frame_sha256: 054b320c309276c1a9141f05039e71f440b5d369a947bb55d257b40b8194d892
+    video_prompt_sha256: 27e6ce8b67cef62db7f4370b3d43a87d7e9233e27b1a6619a1acc6187c9d0f01
+    task_yaml_sha256_before: 504f364ac452d23b0b1673075f27028f4f72d9d447e05adc1bf2835d60154474

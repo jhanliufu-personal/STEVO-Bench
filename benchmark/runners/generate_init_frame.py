@@ -170,7 +170,7 @@ def main() -> None:
         )
 
         if result:
-            print(f"✓ Generated init frame: {output_path.name}")
+            print(f" Generated init frame: {output_path.name}")
 
 
 if __name__ == "__main__":

@@ -11,3 +11,56 @@ prompts:
   camera_WM: The dough is rising in the bowl; the expansion continues at a constant rate. STOP.
 camera_control:
   HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A clear glass bowl sits on a wooden countertop containing a ball of flour-dusted
+    dough. A beige cloth is draped over the back rim of the bowl. To the right, a window frame has a thermometer
+    attached. To the left, a red-lidded container and a can are visible in the background. Sunlight illuminates
+    the scene from the right.
+  init2final_edit_prompt: Edit the given image so that the dough inside the glass bowl appears significantly
+    larger and expanded in volume. The dough should fill more of the bowl's interior and reach higher
+    up the sides compared to the original state, simulating the rising process. Keep the bowl, cloth,
+    countertop, lighting, and background objects unchanged.
+  rationale: The video prompt describes a continuous biological process (yeast fermentation causing dough
+    to rise) occurring while the camera pans away and back. During the occlusion caused by the camera
+    rotation, the dough continues to expand. When the camera returns to the initial viewpoint, the primary
+    state change is an increase in the dough's volume (scalar expansion). The environment and static objects
+    remain unchanged.
+  questions:
+  - id: dough_volume_increase
+    question: Is the volume of the dough visibly larger than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the overall size of the dough ball.
+  - id: dough_height_rise
+    question: Does the dough reach higher up the sides of the glass bowl compared to the start?
+    answer_type: yes_no
+    notes_for_judge: Check the vertical level of the dough against the bowl's markings or rim.
+  - id: dough_fill_ratio
+    question: Does the dough occupy a greater percentage of the bowl's interior space than before?
+    answer_type: yes_no
+    notes_for_judge: Assess the empty space vs filled space in the bowl.
+  - id: dough_expansion_visual
+    question: Does the dough appear more puffed or expanded compared to the initial image?
+    answer_type: yes_no
+    notes_for_judge: Look for signs of expansion like stretching or increased convexity.
+  - id: camera_return_centering
+    question: Is the glass bowl centered in the frame, matching the initial view?
+    answer_type: yes_no
+    notes_for_judge: The camera should have rotated back to the starting position.
+  - id: cloth_consistency
+    question: Is the beige cloth still draped over the back rim of the bowl?
+    answer_type: yes_no
+    notes_for_judge: The cloth should remain in place unless displaced by extreme dough growth (unlikely
+      here).
+  - id: background_thermometer
+    question: Is the thermometer on the window frame still visible in the background?
+    answer_type: yes_no
+    notes_for_judge: Checks for background consistency.
+  generation:
+    model_provider: google_gemini
+    llm: gemini-3-pro-preview
+    temperature: 0.2
+    created_utc: '2026-02-20T10:15:39Z'
+  inputs_digest:
+    initial_frame_sha256: 5ec0afabb5742836ce77e4ecf3554adf741d3fb75ac26270b48bf9c52b2d3012
+    video_prompt_sha256: 37987efbc43d9b78969f94e0c4637f9f5f747fc2b4a186c8fde34c34fd7192fa
+    task_yaml_sha256_before: 8b75c52cb26fb9c8a54cca2480375c9e9a7ff78cb12e70585b0ca0fdb9fe7630

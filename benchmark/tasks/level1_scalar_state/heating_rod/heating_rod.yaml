@@ -1,4 +1,4 @@
-id: induction_glow
+id: heating_rod
 level: 1
 category: scalar_state
 scalar_variable: Glow brightness
@@ -13,3 +13,52 @@ prompts:
     brightness is steadily increasing. STOP.
 camera_control:
   HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up view of a thick steel rod passing horizontally through a copper induction
+    heating coil in an industrial workshop. The section of the rod inside the coil is glowing a dull,
+    faint red color. To the left, the unheated portion of the rod is dark grey metal. The background features
+    industrial machinery, including a green press and various pipes.
+  init2final_edit_prompt: Edit the given image so that the heated section of the metal rod inside the
+    copper coil glows with a significantly brighter, more intense orange-yellow light, representing an
+    increase in temperature. Ensure the unheated parts of the rod, the copper coil, and the industrial
+    background remain identical to the original image.
+  rationale: The video prompt describes the rod sitting in an active induction coil and 'getting brighter'.
+    The camera pans away and then returns to the original view. During the time the rod is occluded by
+    the camera movement, the induction heating process continues. Therefore, when the rod comes back into
+    view in the final frame, the glowing section must be significantly hotter (brighter and shifting towards
+    orange/yellow) than it was in the initial frame due to the continuous accumulation of heat.
+  questions:
+  - id: brightness_increase
+    question: Is the glowing section of the rod brighter than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the luminosity of the heated zone. It should be higher in the final frame.
+  - id: color_temperature_shift
+    question: Does the heated part of the rod appear hotter (e.g., more orange or yellow) than the dull
+      red in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Check for a color shift indicating higher temperature (red -> orange -> yellow).
+  - id: glow_intensity
+    question: Is the intensity of the glow emanating from the rod stronger than in the starting image?
+    answer_type: yes_no
+    notes_for_judge: The glow should appear more intense/radiant.
+  - id: rod_presence
+    question: Is the steel rod still visible in the center of the frame?
+    answer_type: yes_no
+    notes_for_judge: The rod should return to view.
+  - id: coil_presence
+    question: Is the copper induction coil still wrapped around the rod?
+    answer_type: yes_no
+    notes_for_judge: The coil structure should remain unchanged.
+  - id: unheated_section
+    question: Is the unheated left end of the rod still visible as dark metal?
+    answer_type: yes_no
+    notes_for_judge: The heating is localized; the cold end should remain cold/dark.
+  generation:
+    model_provider: google_gemini
+    llm: gemini-3-pro-preview
+    temperature: 0.2
+    created_utc: '2026-02-20T10:22:32Z'
+  inputs_digest:
+    initial_frame_sha256: d13c7ed10d6cec33eed043d75d5d347e871e3b70e42ad44fd45465e9b3b52553
+    video_prompt_sha256: 7e4ccd37f9a2abbbbf10a36861f0be291aad3815c79329d84f00f789e813e03b
+    task_yaml_sha256_before: a0fbe4991417e94ec49c7d5ec98b62b594a035ae3e7d384d5815a812aa0ee219

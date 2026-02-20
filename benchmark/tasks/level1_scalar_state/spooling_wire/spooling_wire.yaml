@@ -1,4 +1,4 @@
-id: wire_spool
+id: spooling_wire
 level: 1
 category: scalar_state
 scalar_variable: Spool radius
@@ -12,3 +12,54 @@ prompts:
     increasing as it spins. STOP.
 camera_control:
   HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up view of an industrial wire winding machine in a factory setting.
+    The central focus is a horizontal spindle actively winding a coil of bright yellow wire. To the left
+    of the wire coil is a large metal gear and machine housing; to the right is a black flange securing
+    the spool. The background shows a warehouse environment with metal beams, overhead lights, and other
+    spools of wire, including a blue one on the bottom left, a black one in the center background, and
+    another yellow one on the far right.
+  init2final_edit_prompt: Edit the given image to increase the diameter of the central coil of yellow
+    wire, making the layer of wire significantly thicker to represent that more wire has been wound onto
+    the spool. The yellow wire should occupy more vertical space relative to the spindle axis. Keep the
+    machine parts, gears, background objects, and camera perspective exactly identical to the original
+    image.
+  rationale: The prompt describes a continuous physical process (winding wire) that increases the volume
+    of the material on the spool. The camera pans away, fully occluding the subject, and then returns
+    to the original framing. During the occlusion, the motor continues to run, so the logical state change
+    is an increase in the amount of wire on the spool (growth in diameter) while the surrounding environment
+    and camera angle remain unchanged.
+  questions:
+  - id: diameter_growth
+    question: Is the diameter of the central yellow wire coil larger than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the thickness of the yellow cylinder.
+  - id: wire_thickness
+    question: Is the layer of yellow wire on the spindle thicker than it was initially?
+    answer_type: yes_no
+    notes_for_judge: The wire should extend further out from the center axis.
+  - id: volume_increase
+    question: Does the central spool appear to hold a greater volume of yellow wire compared to the start?
+    answer_type: yes_no
+    notes_for_judge: Look for accumulation of material.
+  - id: fullness_check
+    question: Is the yellow wire spool fuller than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Ordinal comparison of fullness.
+  - id: machine_consistency
+    question: Is the metal gear mechanism on the left still in the same position?
+    answer_type: yes_no
+    notes_for_judge: Check for scene stability.
+  - id: background_consistency
+    question: Are the background wire spools (blue and black) unchanged?
+    answer_type: yes_no
+    notes_for_judge: Check for background hallucination or shifts.
+  generation:
+    model_provider: google_gemini
+    llm: gemini-3-pro-preview
+    temperature: 0.2
+    created_utc: '2026-02-20T10:22:43Z'
+  inputs_digest:
+    initial_frame_sha256: 068526a4c5a4fb3b13b8362ebe961536bf0518c3faff27e83157ca390375b222
+    video_prompt_sha256: 1550429752c9771a9d351e24e5fbd7cbaf1cbc359bcd0a3d3fa02671ad81924d
+    task_yaml_sha256_before: 6a6d0b9bcaf701067f11bf5b51122f01aef8ae3698beaa281c2e3f5285ded66c

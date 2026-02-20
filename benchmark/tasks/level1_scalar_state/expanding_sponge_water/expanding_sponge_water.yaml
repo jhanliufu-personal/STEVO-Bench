@@ -3,9 +3,77 @@ level: 1
 category: scalar_state
 tags: []
 prompts:
-  image_gen_prompt: A compressed dry sponge sits flat in a shallow white dish. The sponge is thin and compact in its dehydrated state. A hand holds a pitcher of water positioned above the sponge, about to pour.
-  video_WM: Water is poured over the compressed dry sponge. The sponge is made of porous cellulose material compressed to remove air. When dry sponges contact water, capillary forces draw liquid into the pore spaces. The sponge structure can expand as pores fill with liquid. The camera rotates right at constant speed until the dish and sponge completely exit the view to the right. The camera continues rotating right for several seconds while off-screen. Then the camera rotates left smoothly at the same rate back to the original viewpoint, bringing the dish and sponge back into view. No zoom, no cut, no scene change. STOP.
-  camera_WM: Water is poured over the compressed dry sponge. The sponge is porous cellulose compressed to remove air. Capillary forces draw liquid into pore spaces. The structure can expand as pores fill during the occlusion period. STOP.
+  image_gen_prompt: A compressed dry sponge sits flat in a shallow white dish. The sponge is thin and
+    compact in its dehydrated state. A hand holds a pitcher of water positioned above the sponge, about
+    to pour.
+  video_WM: Water is poured over the compressed dry sponge. The sponge is made of porous cellulose material
+    compressed to remove air. When dry sponges contact water, capillary forces draw liquid into the pore
+    spaces. The sponge structure can expand as pores fill with liquid. The camera rotates right at constant
+    speed until the dish and sponge completely exit the view to the right. The camera continues rotating
+    right for several seconds while off-screen. Then the camera rotates left smoothly at the same rate
+    back to the original viewpoint, bringing the dish and sponge back into view. No zoom, no cut, no scene
+    change. STOP.
+  camera_WM: Water is poured over the compressed dry sponge. The sponge is porous cellulose compressed
+    to remove air. Capillary forces draw liquid into pore spaces. The structure can expand as pores fill
+    during the occlusion period. STOP.
 camera_control:
   HY-WorldPlay: s-3, right-30, left-30
   Genie: null
+evaluation:
+  init_frame_description: A close-up, slightly high-angle shot of a wooden countertop. In the center sits
+    a white, shallow, circular dish containing a thin, dry, beige rectangular sponge with a porous texture.
+    A hand is visible in the upper right, holding a clear glass pitcher and tilting it to pour water onto
+    the sponge. A droplet of water is visible at the spout, about to fall. A window with natural light
+    is in the background.
+  init2final_edit_prompt: Edit the given image to show the beige rectangular sponge as fully saturated
+    and expanded. The sponge should appear significantly thicker and taller, rising vertically from the
+    dish compared to its original flat state. The texture of the sponge should look wet and slightly darker.
+    Ensure the white dish and wooden table remain unchanged.
+  rationale: The prompt describes water being poured onto a compressed dry sponge, followed by a camera
+    movement that occludes the scene before returning. Physically, compressed cellulose sponges expand
+    significantly in thickness (volume) when they absorb water. During the time the camera is looking
+    away, the water poured from the pitcher will be absorbed by the sponge, causing it to swell and grow
+    taller. The final state should show this expanded, wet sponge.
+  questions:
+  - id: sponge_thickness
+    question: Is the sponge thicker vertically than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the vertical height of the sponge slab. It should be significantly taller/thicker.
+  - id: sponge_expansion
+    question: Does the sponge appear to have expanded in volume compared to the start?
+    answer_type: yes_no
+    notes_for_judge: The sponge should look like it has grown or puffed up.
+  - id: sponge_wetness
+    question: Does the sponge texture appear wet or saturated?
+    answer_type: yes_no
+    notes_for_judge: Look for darkening or glistening associated with water absorption.
+  - id: sponge_height_rel
+    question: Is the top surface of the sponge higher relative to the rim of the dish than before?
+    answer_type: yes_no
+    notes_for_judge: In the init frame, the sponge is likely below or level with the rim. In the final,
+      it should be higher.
+  - id: sponge_flatness
+    question: Is the sponge less flat than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The initial sponge is a flat wafer; the final should be a block.
+  - id: dish_presence
+    question: Is the white circular dish still present?
+    answer_type: yes_no
+    notes_for_judge: Invariant check.
+  - id: table_texture
+    question: Is the wooden surface texture visible and consistent with the start?
+    answer_type: yes_no
+    notes_for_judge: Invariant check.
+  - id: sponge_color_change
+    question: Is the sponge darker in color than the dry sponge in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Wet sponges usually appear darker beige/brown.
+  generation:
+    model_provider: google_gemini
+    llm: gemini-3-pro-preview
+    temperature: 0.2
+    created_utc: '2026-02-20T10:17:38Z'
+  inputs_digest:
+    initial_frame_sha256: 6d4348cb5f7ffc3e04afdd0494ef90e563e19fd42930d2a7152f5f078c49b3a0
+    video_prompt_sha256: 12b1017ede3114e21ce11fb92cfd45220f83cad1e2d4292308b08b6b2a29c168
+    task_yaml_sha256_before: 52bff807ec6fd8d97022d88cb4fb61f29d2733a5cf2452f58d84f7af2d3779e4

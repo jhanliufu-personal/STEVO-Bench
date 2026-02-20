@@ -3,9 +3,76 @@ level: 1
 category: scalar_state
 tags: []
 prompts:
-  image_gen_prompt: A clear glass container sits on a tray. White baking soda powder fills the bottom third of the container. A hand holds a small pitcher of clear vinegar positioned above the container, about to pour.
-  video_WM: The hand pours vinegar into the container with baking soda. Vinegar contains acetic acid. Baking soda is sodium bicarbonate. The acid-base reaction produces carbon dioxide gas. The reaction is exothermic and rapid. The camera rotates right at constant speed until the container completely exits the view to the right. The camera continues rotating right for several seconds while off-screen. Then the camera rotates left smoothly at the same rate back to the original viewpoint, bringing the container back into view. No zoom, no cut, no scene change. STOP.
-  camera_WM: Vinegar is poured onto baking soda. Vinegar contains acetic acid. Baking soda is sodium bicarbonate. The acid-base reaction produces carbon dioxide gas. The reaction is exothermic and rapid during the occlusion period. STOP.
+  image_gen_prompt: A clear glass container sits on a tray. White baking soda powder fills the bottom
+    third of the container. A hand holds a small pitcher of clear vinegar positioned above the container,
+    about to pour.
+  video_WM: The hand pours vinegar into the container with baking soda. Vinegar contains acetic acid.
+    Baking soda is sodium bicarbonate. The acid-base reaction produces carbon dioxide gas. The reaction
+    is exothermic and rapid. The camera rotates right at constant speed until the container completely
+    exits the view to the right. The camera continues rotating right for several seconds while off-screen.
+    Then the camera rotates left smoothly at the same rate back to the original viewpoint, bringing the
+    container back into view. No zoom, no cut, no scene change. STOP.
+  camera_WM: Vinegar is poured onto baking soda. Vinegar contains acetic acid. Baking soda is sodium bicarbonate.
+    The acid-base reaction produces carbon dioxide gas. The reaction is exothermic and rapid during the
+    occlusion period. STOP.
 camera_control:
   HY-WorldPlay: s-3, right-30, left-30
   Genie: null
+evaluation:
+  init_frame_description: A high-angle shot of a wooden kitchen counter. A rustic wooden tray sits in
+    the center, holding a clear glass apothecary jar filled about one-third with white powder. To the
+    left of the tray is a bottle of vinegar. A hand enters from the top right, holding a small glass pitcher
+    filled with clear liquid, tilted slightly over the jar.
+  init2final_edit_prompt: Edit the given image to show the aftermath of pouring the liquid into the jar.
+    The small glass pitcher held by the hand should contain significantly less liquid. The central glass
+    jar should be filled with rising white foam and bubbles that have expanded in volume, reaching a level
+    much higher than the original white powder, potentially overflowing the rim of the jar onto the wooden
+    tray.
+  rationale: 'The prompt describes a classic baking soda and vinegar reaction. Physically, pouring the
+    vinegar (acetic acid) into the baking soda (base) creates carbon dioxide gas rapidly. This results
+    in two primary scalar changes: the volume of liquid in the source pitcher decreases as it is poured,
+    and the volume of the substance in the destination jar increases dramatically as it turns into foam.
+    The camera rotation provides a period of occlusion during which this reaction occurs. Upon returning
+    to the initial view, the scene must show the expanded foam and the depleted pitcher.'
+  questions:
+  - id: jar_level_rise
+    question: Is the level of the substance in the central glass jar higher than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The reaction causes expansion, so the level must rise.
+  - id: pitcher_level_drop
+    question: Is the amount of liquid in the handheld pitcher less than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The liquid was poured out during the occlusion.
+  - id: foam_presence
+    question: Is there white foam or bubbles visible in the central jar?
+    answer_type: yes_no
+    notes_for_judge: The reaction produces gas bubbles/foam.
+  - id: volume_expansion
+    question: Has the volume of the mixture in the jar increased compared to the initial powder?
+    answer_type: yes_no
+    notes_for_judge: Scalar check for volume expansion.
+  - id: jar_fullness
+    question: Is the jar fuller than it was initially?
+    answer_type: yes_no
+    notes_for_judge: Comparative check on container fill level.
+  - id: texture_change
+    question: Is the smooth powder texture replaced by a fizzy or bubbly texture?
+    answer_type: yes_no
+    notes_for_judge: Check for state change from solid powder to reacting foam.
+  - id: invariant_bottle
+    question: Is the vinegar bottle to the left of the tray still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: invariant_tray
+    question: Is the wooden tray underneath the jar still present?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  generation:
+    model_provider: google_gemini
+    llm: gemini-3-pro-preview
+    temperature: 0.2
+    created_utc: '2026-02-20T10:17:42Z'
+  inputs_digest:
+    initial_frame_sha256: 902570e56557e09facc180c05c3eceafe8ea41f36e30d90c13232948093ff1bb
+    video_prompt_sha256: e912404a50eece3738c9577086015a5ce0af99bc904b9eac4377c64141b6aa6d
+    task_yaml_sha256_before: b7c7fec6281932669c6d8e848bc85dd3c95adebd3a6b620e2ef31e59d3b8fbec

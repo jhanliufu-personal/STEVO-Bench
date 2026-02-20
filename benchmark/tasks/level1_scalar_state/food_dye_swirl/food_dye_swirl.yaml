@@ -3,9 +3,74 @@ level: 1
 category: scalar_state
 tags: []
 prompts:
-  image_gen_prompt: A clear glass filled with still, transparent water sits on a white surface. A dropper is positioned above the glass, releasing a single drop of bright red food coloring that has just made contact with the water surface, beginning to disperse.
-  video_WM: A drop of red food coloring contacts the still water surface. The dye is water-soluble. Molecular diffusion occurs driven by concentration gradients. The water is stationary with no forced convection. The camera rotates right at constant speed until the glass completely exits the view to the right. The camera continues rotating right for several seconds while off-screen. Then the camera rotates left smoothly at the same rate back to the original viewpoint, bringing the glass back into view. No zoom, no cut, no scene change. STOP.
-  camera_WM: A drop of red food coloring contacts the still water. The dye is water-soluble. Molecular diffusion occurs driven by concentration gradients. The water is stationary during the occlusion period. STOP.
+  image_gen_prompt: A clear glass filled with still, transparent water sits on a white surface. A dropper
+    is positioned above the glass, releasing a single drop of bright red food coloring that has just made
+    contact with the water surface, beginning to disperse.
+  video_WM: A drop of red food coloring contacts the still water surface. The dye is water-soluble. Molecular
+    diffusion occurs driven by concentration gradients. The water is stationary with no forced convection.
+    The camera rotates right at constant speed until the glass completely exits the view to the right.
+    The camera continues rotating right for several seconds while off-screen. Then the camera rotates
+    left smoothly at the same rate back to the original viewpoint, bringing the glass back into view.
+    No zoom, no cut, no scene change. STOP.
+  camera_WM: A drop of red food coloring contacts the still water. The dye is water-soluble. Molecular
+    diffusion occurs driven by concentration gradients. The water is stationary during the occlusion period.
+    STOP.
 camera_control:
   HY-WorldPlay: s-3, right-30, left-30
   Genie: null
+evaluation:
+  init_frame_description: A clear glass tumbler filled with water sits on a white surface. A glass dropper
+    is positioned above the center, dispensing red liquid. A drop of red dye has just entered the water,
+    creating a concentrated, mushroom-shaped red plume suspended just below the surface of the water.
+  init2final_edit_prompt: Edit the given image to show the red dye having diffused and sunk deeper into
+    the water. The red plume should be significantly larger, wider, and extend further down towards the
+    bottom of the glass compared to the original state. The edges of the red color should appear softer
+    and more dispersed, occupying a greater volume of the water. Keep the glass container, the water level,
+    the dropper position, and the white background exactly as they are.
+  rationale: The prompt describes a diffusion process where water-soluble dye spreads into stationary
+    water. The camera performs a panning motion away from the subject and then returns to the original
+    viewpoint, implying a passage of time while the glass is off-screen. During this interval, the red
+    dye must continue to sink (due to gravity/density) and spread (due to diffusion). Therefore, the final
+    frame must show the dye occupying a larger volume and extending deeper into the glass than in the
+    initial frame, while the static objects remain unchanged.
+  questions:
+  - id: dye_volume_growth
+    question: Does the red dye occupy a larger volume of the water than it did in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the total area/volume of red coloration. It should be greater in the final
+      frame.
+  - id: dye_depth
+    question: Has the red plume sunk deeper into the glass compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The lowest point of the red dye should be closer to the bottom of the glass than
+      in the start image.
+  - id: dye_spread_width
+    question: Is the red coloration wider horizontally than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Diffusion should cause the dye to expand horizontally as well as vertically.
+  - id: diffusion_softness
+    question: Do the edges of the red dye appear more diffuse and less sharp than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Diffusion causes gradients; the initial drop is sharp, the final state should be
+      softer.
+  - id: clear_water_reduction
+    question: Is there less clear, uncolored water visible in the glass compared to the start?
+    answer_type: yes_no
+    notes_for_judge: As the dye spreads, it consumes the volume previously occupied by clear water.
+  - id: glass_consistency
+    question: Is the glass tumbler still in the same position and orientation?
+    answer_type: yes_no
+    notes_for_judge: The camera returns to the original viewpoint; the glass should not have moved.
+  - id: dropper_presence
+    question: Is the dropper still visible above the water?
+    answer_type: yes_no
+    notes_for_judge: The prompt does not indicate the dropper is removed, only that the camera moves.
+  generation:
+    model_provider: google_gemini
+    llm: gemini-3-pro-preview
+    temperature: 0.2
+    created_utc: '2026-02-20T10:16:56Z'
+  inputs_digest:
+    initial_frame_sha256: 09891b94e7531686078bc1249acb7f59d2982f028f2ff719e34060ae4b702036
+    video_prompt_sha256: 8e1c2d3cab56fde24565d3b9951a82e376d599f95d32020b14b58dcc89a134de
+    task_yaml_sha256_before: 463b6173f4d05e90ca4ed4cbd5ef51c37206fed5b311d0628a684b2dcba07d69

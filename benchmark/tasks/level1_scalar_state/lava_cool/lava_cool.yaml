@@ -12,3 +12,55 @@ prompts:
   camera_WM: The lava rock is cooling; the dimming of the orange glow continues at a constant rate. STOP.
 camera_control:
   HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up shot of a large, jagged chunk of volcanic rock sitting on a dirty,
+    weathered metal baking sheet. The rock is intensely hot, with bright orange and yellow molten lava
+    glowing from deep cracks and fissures, contrasting with the blackened, cooled crust on the exterior.
+    Smoke and heat distortion rise from the rock. The tray reflects the orange glow of the heat. The background
+    is a dark, blurred industrial workshop environment.
+  init2final_edit_prompt: Edit the given image to make the volcanic rock appear significantly cooler.
+    Replace the bright orange and yellow glowing areas within the cracks with dark grey and black solidified
+    rock textures. Reduce the intensity of the light emitted by the rock and the corresponding orange
+    reflection on the metal tray. The rock should look mostly dark and solid, with the glowing heat largely
+    extinguished.
+  rationale: The prompt describes a continuous cooling process. While the camera rotates away and then
+    returns to the original view, the rock's temperature must decrease. Visually, this scalar change is
+    represented by a reduction in incandescence (glowing brightness) and a transition from orange/yellow
+    colors to black/grey solid rock. The final frame should show the rock in the same position but in
+    a later state of cooling, meaning it should be darker and less luminous than the initial frame.
+  questions:
+  - id: glow_reduction
+    question: Is the intensity of the orange and yellow glow coming from the rock reduced compared to
+      the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the brightness of the cracks. The final frame should be dimmer.
+  - id: surface_darkening
+    question: Does the rock surface appear darker and more solidified than it was initially?
+    answer_type: yes_no
+    notes_for_judge: The area that was previously molten orange should now be darker grey or black.
+  - id: tray_reflection
+    question: Is the orange light reflected on the metal tray dimmer than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: As the rock cools, it emits less light, so the tray should reflect less color.
+  - id: black_dominance
+    question: Is there a greater proportion of black or grey rock visible compared to the glowing sections
+      than in the start?
+    answer_type: yes_no
+    notes_for_judge: Assess the ratio of cooled crust to molten core.
+  - id: object_permanence
+    question: Is the volcanic rock visible in the center of the frame?
+    answer_type: yes_no
+    notes_for_judge: The camera rotates back to the center, so the rock must be present.
+  - id: background_consistency
+    question: Is the background environment (dark workshop setting) consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The location has not changed.
+  generation:
+    model_provider: google_gemini
+    llm: gemini-3-pro-preview
+    temperature: 0.2
+    created_utc: '2026-02-20T10:15:50Z'
+  inputs_digest:
+    initial_frame_sha256: f6ac8fa57dd2bc48d7efd7d050f5010245a00d59c3657221d80d1bf19ab046c6
+    video_prompt_sha256: 0a8aeb177ca0c24c166379fecd53966ef432aac458c5212c503bfcada72fee5c
+    task_yaml_sha256_before: 31e5940d6daad868b33393fcb683b0f3988f8164d851a403317e058402b984f1

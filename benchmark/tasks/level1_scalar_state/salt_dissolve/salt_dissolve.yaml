@@ -1,4 +1,4 @@
-id: salt_dissolve_14
+id: salt_dissolve
 level: 1
 category: scalar_state
 scalar_variable: Block size
@@ -12,3 +12,60 @@ prompts:
   camera_WM: The salt block is dissolving in the water; the reduction in size continues steadily. STOP.
 camera_control:
   HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A rectangular glass aquarium tank filled with water. Inside the tank, a large,
+    roughly cubic white block (a salt lick) is submerged. The water is turbulent, with visible agitation
+    and bubbles rising around the block. To the right of the tank, black pipes and a red valve handle
+    are visible. The background shows a window with a view of a building.
+  init2final_edit_prompt: Edit the given image to show the white salt block significantly reduced in size
+    due to dissolution. The block should appear eroded, with rounded edges and a smaller overall volume
+    compared to the original state. Maintain the turbulent water texture and bubbles. Keep the glass tank,
+    the water level, the black pipes on the right, and the background window exactly as they are.
+  rationale: The prompt describes a continuous dissolution process occurring while the camera pans away
+    and returns. The camera motion (pan right, then pan left) serves as a temporal occlusion, implying
+    that time has passed when the view returns to the center. During this elapsed time, the salt block
+    dissolves in the turbulent water. Therefore, the final frame must show the salt block as physically
+    smaller and more eroded than the initial frame, while the static environment (tank, pipes, background)
+    remains unchanged.
+  questions:
+  - id: block_size_reduction
+    question: Is the white salt block smaller than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the overall volume/area of the white block. It should be noticeably smaller.
+  - id: block_erosion
+    question: Does the salt block appear more eroded or rounded than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Look for smoothing of edges or loss of material.
+  - id: volume_decrease
+    question: Has the mass or volume of the white block decreased?
+    answer_type: yes_no
+    notes_for_judge: The block should take up less space in the tank.
+  - id: height_reduction
+    question: Is the salt block shorter in height compared to the start?
+    answer_type: yes_no
+    notes_for_judge: Check vertical extent of the block.
+  - id: width_reduction
+    question: Is the salt block narrower in width compared to the start?
+    answer_type: yes_no
+    notes_for_judge: Check horizontal extent of the block.
+  - id: tank_centered
+    question: Is the glass tank centered in the view?
+    answer_type: yes_no
+    notes_for_judge: The camera should have returned to the initial position.
+  - id: pipes_visibility
+    question: Are the black pipes on the right side still visible?
+    answer_type: yes_no
+    notes_for_judge: Static objects should remain.
+  - id: water_turbulence
+    question: Is the water still turbulent with bubbles?
+    answer_type: yes_no
+    notes_for_judge: The prompt implies the condition continues.
+  generation:
+    model_provider: google_gemini
+    llm: gemini-3-pro-preview
+    temperature: 0.2
+    created_utc: '2026-02-20T10:23:04Z'
+  inputs_digest:
+    initial_frame_sha256: 940835641ab2728948eb673c8f4685aca46fcd5c805e001fe69b6b9aee635ef1
+    video_prompt_sha256: ba630817d88a6e288c5312b2c4001a8b5de67a0a2189c6bb9e1b8380631070c5
+    task_yaml_sha256_before: c18a2e0ca8c671d12b4b50a39fb08c572ffb1c5c04eea72ddec919cb12ae802b

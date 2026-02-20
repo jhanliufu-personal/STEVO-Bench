@@ -13,3 +13,59 @@ prompts:
     at a constant rate. STOP.
 camera_control:
   HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up, low-angle shot of a bicycle wheel resting on a concrete garage floor.
+    The tire is currently under-inflated or flat, visible by the significant flattening and squashing
+    of the rubber at the bottom contact patch where it meets the ground. A black air hose with a brass
+    fitting is connected to the tire's valve stem. In the foreground, a wrench lies on the floor. In the
+    background, out of focus, there is a red air compressor, a window, and other garage items.
+  init2final_edit_prompt: Edit the given image to show the bicycle tire fully inflated. The tire rubber
+    should appear round, taut, and firm, eliminating the flattened, squashed appearance at the bottom
+    contact patch seen in the original. The wheel rim should be elevated slightly higher off the ground
+    as a result of the tire filling with air. Keep the air hose connected to the valve and ensure all
+    background objects and foreground tools remain in their original positions.
+  rationale: The prompt describes a continuous high-pressure inflation process. Although the camera pans
+    away and then returns, the inflation action continues throughout the duration of the video. Therefore,
+    when the camera returns to the initial viewpoint, the tire must be significantly more inflated than
+    it was at the start. The primary visual indicator of this state change is the disappearance of the
+    'flat spot' at the bottom of the tire and the lifting of the rim as the tire expands to its full round
+    shape.
+  questions:
+  - id: tire_inflation_status
+    question: Is the tire more inflated than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the overall fullness of the tire.
+  - id: contact_patch_shape
+    question: Is the flattened section of the tire at the bottom smaller or less pronounced than in the
+      starting image?
+    answer_type: yes_no
+    notes_for_judge: The tire should look less squashed against the ground.
+  - id: tire_roundness
+    question: Does the tire appear rounder and firmer than it did initially?
+    answer_type: yes_no
+    notes_for_judge: The shape should be closer to a perfect circle.
+  - id: rim_height
+    question: Is the metal rim of the wheel sitting higher off the ground compared to the first frame?
+    answer_type: yes_no
+    notes_for_judge: As the tire inflates, it lifts the rim.
+  - id: sidewall_tautness
+    question: Do the sidewalls of the tire look less wrinkled or bulged than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Inflation smooths out the sidewalls.
+  - id: hose_connection
+    question: Is the air hose still connected to the valve stem?
+    answer_type: yes_no
+    notes_for_judge: Consistency check.
+  - id: tool_consistency
+    question: Are the wrenches on the floor in the same position as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Consistency check.
+  generation:
+    model_provider: google_gemini
+    llm: gemini-3-pro-preview
+    temperature: 0.2
+    created_utc: '2026-02-20T10:16:07Z'
+  inputs_digest:
+    initial_frame_sha256: 1b5d34321d053845b98a72e1e10a6be3dba16d2c88b348826fd60d1f6def8de1
+    video_prompt_sha256: e078cd0ff4e9f253482316e4443cd162dffb70e7c3a7dab2ddc28feaa75cc563
+    task_yaml_sha256_before: 3cda44d980fcb8b676fc9e9fe75dc6914916dfcd086bbe980976e379069a21ab

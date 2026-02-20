@@ -1,4 +1,4 @@
-id: piston_ext
+id: extending_piston
 level: 1
 category: scalar_state
 scalar_variable: Extension length
@@ -12,3 +12,52 @@ prompts:
     STOP.
 camera_control:
   HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up view of a weathered green excavator arm mechanism. A prominent hydraulic
+    cylinder is visible diagonally, with a green barrel and a partially extended shiny silver rod. Hydraulic
+    hoses run along the top of the arm. In the foreground, there is a control lever mechanism with a black
+    handle and a 'EXTEND' label on the base plate. The machinery is dirty with grease and rust.
+  init2final_edit_prompt: Edit the given image to show the hydraulic piston in a more extended state.
+    Increase the visible length of the shiny silver rod protruding from the green cylinder barrel. Shift
+    the mechanical joint attached to the end of the rod further away from the cylinder body to account
+    for the extension. Maintain the exact camera angle, lighting, and the position of the foreground control
+    lever.
+  rationale: The video prompt specifies that the hydraulic piston is extending slowly. While the camera
+    rotates away (occlusion) and then returns to the original view, the physical process of extension
+    continues. Therefore, in the final frame, the piston rod must be visibly longer (more extended) than
+    it was in the initial frame, representing a scalar increase in length.
+  questions:
+  - id: q1_length_change
+    question: Is the shiny silver section of the piston longer than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the length of the chrome rod. It should be longer in the final frame.
+  - id: q2_extension_direction
+    question: Has the hydraulic cylinder extended further outward compared to the start?
+    answer_type: yes_no
+    notes_for_judge: The mechanism should look like it has pushed out.
+  - id: q3_relative_distance
+    question: Is the distance between the green cylinder barrel and the rod's end attachment point greater
+      than before?
+    answer_type: yes_no
+    notes_for_judge: The gap spanned by the silver rod should be wider.
+  - id: q4_visible_surface
+    question: Is more of the chrome piston rod surface visible now than in the initial image?
+    answer_type: yes_no
+    notes_for_judge: Extension exposes more of the internal rod.
+  - id: q5_consistency_lever
+    question: Is the control lever with the black handle still visible in the foreground?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: q6_consistency_color
+    question: Is the machinery still primarily green?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  generation:
+    model_provider: google_gemini
+    llm: gemini-3-pro-preview
+    temperature: 0.2
+    created_utc: '2026-02-20T10:23:14Z'
+  inputs_digest:
+    initial_frame_sha256: a8e8f35596fdf9e36fcd7d22c8d417ab30d9a093b687e294826a36e46e5e2f57
+    video_prompt_sha256: 6fea856e5cc6337812d89a9b5c2c714e0bae63d1edf3f610c500be9f5286e180
+    task_yaml_sha256_before: 675be5629c85be80fab121e6595eb1fcc8734b0ca37eb7956c60f00a23c42080

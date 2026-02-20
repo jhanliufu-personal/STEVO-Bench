@@ -3,9 +3,72 @@ level: 1
 category: scalar_state
 tags: []
 prompts:
-  image_gen_prompt: A metal kettle with a visible spout sits on an electric burner with the indicator light showing active heating. The kettle contains water. A thin wisp of steam is just beginning to emerge from the spout opening.
-  video_WM: The kettle sits on an active hot burner. The kettle contains water. Water boils at 212°F at standard pressure. The burner provides continuous heat. Steam exits through the spout opening. The camera rotates right at constant speed until the kettle completely exits the view to the right. The camera continues rotating right for several seconds while off-screen. Then the camera rotates left smoothly at the same rate back to the original viewpoint, bringing the kettle back into view. No zoom, no cut, no scene change. STOP.
-  camera_WM: The kettle sits on an active hot burner. The kettle contains water. Water boils at 212°F. The burner provides continuous heat. Steam exits through the spout during the occlusion period. STOP.
+  image_gen_prompt: A metal kettle with a visible spout sits on an electric burner with the indicator
+    light showing active heating. The kettle contains water. A thin wisp of steam is just beginning to
+    emerge from the spout opening.
+  video_WM: The kettle sits on an active hot burner. The kettle contains water. Water boils at 212°F at
+    standard pressure. The burner provides continuous heat. Steam exits through the spout opening. The
+    camera rotates right at constant speed until the kettle completely exits the view to the right. The
+    camera continues rotating right for several seconds while off-screen. Then the camera rotates left
+    smoothly at the same rate back to the original viewpoint, bringing the kettle back into view. No zoom,
+    no cut, no scene change. STOP.
+  camera_WM: The kettle sits on an active hot burner. The kettle contains water. Water boils at 212°F.
+    The burner provides continuous heat. Steam exits through the spout during the occlusion period. STOP.
 camera_control:
   HY-WorldPlay: s-3, right-30, left-30
   Genie: null
+evaluation:
+  init_frame_description: A stainless steel gooseneck kettle sits on a black electric stovetop. The spiral
+    burner coil underneath the kettle is glowing bright red. The kettle has a black handle and a glass
+    lid with visible water droplets (condensation) on the underside. A wisp of white steam is exiting
+    the spout and rising to the right. The background features a speckled countertop and a window frame
+    with natural light coming through.
+  init2final_edit_prompt: Edit the given image to show the electric burner coil glowing bright red. Ensure
+    a wisp of white steam is exiting the gooseneck spout. The kettle should have condensation droplets
+    on the glass lid. The background and lighting should remain unchanged.
+  rationale: 'The prompt describes a continuous physical process where the kettle is subjected to constant
+    heat. The water inside is boiling (212°F) and generating steam. Although the camera rotates away and
+    returns, the ''continuous heat'' instruction ensures that the boiling state persists throughout the
+    occlusion. Therefore, in the final frame, the scalar state variables for temperature and phase change
+    must remain active: the burner must still be glowing red, and steam must still be exiting the spout.
+    While the mass of water decreases due to evaporation, this is not visible through the metal body;
+    the primary visual evidence of the state evolution is the persistence of the boiling indicators (glow
+    and steam).'
+  questions:
+  - id: burner_glow_check
+    question: Is the burner coil glowing red?
+    answer_type: yes_no
+    notes_for_judge: Checks if the high-temperature state is maintained.
+  - id: steam_presence_check
+    question: Is steam visible exiting the spout?
+    answer_type: yes_no
+    notes_for_judge: Checks if the phase change (boiling) state is maintained.
+  - id: steam_rising_check
+    question: Is the steam rising upwards or outwards from the spout?
+    answer_type: yes_no
+    notes_for_judge: Verifies the dynamics of the steam.
+  - id: burner_active_check
+    question: Does the burner appear to be active/hot?
+    answer_type: yes_no
+    notes_for_judge: Verifies the heat source state.
+  - id: lid_condensation_check
+    question: Are there condensation droplets visible on the glass lid?
+    answer_type: yes_no
+    notes_for_judge: Checks for details consistent with boiling water.
+  - id: kettle_position_check
+    question: Is the kettle still positioned on the burner?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: background_window_check
+    question: Is the window visible in the background?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  generation:
+    model_provider: google_gemini
+    llm: gemini-3-pro-preview
+    temperature: 0.2
+    created_utc: '2026-02-20T10:18:04Z'
+  inputs_digest:
+    initial_frame_sha256: 38739590b2b879eb45c97f2798e975d2e00206c4ff8b2a312e4b4af78f135021
+    video_prompt_sha256: ffeb7ecba3cee38843abbefb8874e435d01d08b591554d77f0134cf85b55d6ec
+    task_yaml_sha256_before: b70ef34f14a53541eb4fa1fd6cf1daeb58aaddc90b9a5f2345ffff2c962c1242

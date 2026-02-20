@@ -13,3 +13,52 @@ prompts:
     continues steadily. STOP.
 camera_control:
   HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a beige ceramic bowl filled with water sitting
+    on a wooden surface. Inside the bowl, a large, translucent white block of dry ice is submerged, vigorously
+    producing thick white fog that billows out over the rim of the bowl. The water is bubbling around
+    the ice block.
+  init2final_edit_prompt: Edit the given image to show the block of dry ice significantly reduced in size,
+    appearing much smaller than in the original view. Keep the thick white fog and bubbling water active
+    around the shrunken ice block. Ensure the bowl remains centered and the background remains unchanged.
+  rationale: 'The prompt describes a continuous physical process of rapid sublimation where the dry ice
+    shrinks over time. The camera performs a panning motion that temporarily occludes the bowl but returns
+    to the exact starting position. Therefore, the final frame should be visually identical to the initial
+    frame in terms of composition and camera angle, but the state of the dry ice must reflect the elapsed
+    time: the solid block must be visibly smaller due to sublimation that occurred during the camera movement.'
+  questions:
+  - id: ice_size_reduction
+    question: Is the block of dry ice smaller than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the visible volume of the solid ice block. It should be noticeably reduced.
+  - id: ice_mass_diminished
+    question: Does the solid mass of the dry ice appear to have diminished?
+    answer_type: yes_no
+    notes_for_judge: The solid white chunk should occupy less space in the bowl.
+  - id: fog_presence
+    question: Is there still white fog or mist visible in or around the bowl?
+    answer_type: yes_no
+    notes_for_judge: The process is ongoing, so fog should still be generated.
+  - id: bowl_centered
+    question: Is the bowl positioned in the center of the frame?
+    answer_type: yes_no
+    notes_for_judge: The camera returns to the initial view, so the bowl should be centered.
+  - id: water_state
+    question: Is the water still visible in the bowl?
+    answer_type: yes_no
+    notes_for_judge: Consistency check; water should not disappear.
+  - id: ice_not_gone
+    question: Is there at least some solid dry ice remaining?
+    answer_type: yes_no
+    notes_for_judge: The prompt implies shrinking, not necessarily total disappearance, though very small
+      is acceptable. If it's completely gone, this might be NO, but usually 'shrinking' implies some remnant.
+      Ideally, a small piece remains.
+  generation:
+    model_provider: google_gemini
+    llm: gemini-3-pro-preview
+    temperature: 0.2
+    created_utc: '2026-02-20T10:16:16Z'
+  inputs_digest:
+    initial_frame_sha256: 028f0ba9777d46b17619f99931e46dd8cb1388a25748a9a3160ea7d9624a71fb
+    video_prompt_sha256: 00c7cfdf177cad98c50506db4dcafb717efaa9d18ef9ef7ea8fb5088fb18ecd1
+    task_yaml_sha256_before: 7845e51acce01e8583a5cfdc8413479f768d082e827085e23cbc53aa2ed91ed0
