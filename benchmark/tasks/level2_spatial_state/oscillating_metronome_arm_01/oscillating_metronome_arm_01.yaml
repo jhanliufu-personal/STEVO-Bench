@@ -1,0 +1,64 @@
+id: oscillating_metronome_arm_01
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: oscillating_metronome_arm
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to lights turning off and on.
+changes:
+  occlusion_method: Room lights turn off completely (pitch black) then turn back on
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The metronome arm is released and begins its rhythmic, high-frequency oscillation back and
+    forth. The internal spring mechanism is fully active. Suddenly, the room lights turn off completely,
+    plunging the scene into pitch black darkness. After a brief duration, the lights turn back on to reveal
+    the scene again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The metronome arm is released and begins its rhythmic, high-frequency oscillation back and
+    forth. The internal spring mechanism is fully active. Suddenly, the room lights turn off completely,
+    plunging the scene into pitch black darkness. After a brief duration, the lights turn back on to reveal
+    the scene again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up shot of a wooden clock mechanism or metronome on a workbench. The
+    device has a wooden casing with an open front door, revealing brass gears inside. A long metal pendulum
+    arm with a weighted end extends diagonally downwards to the right. A brass winding key is attached
+    to the left side of the box. The background shows a workshop setting with tools like files and pliers
+    scattered on the wooden surface, and a window in the distance.
+  init2final_edit_prompt: Edit the given image so that the long metal pendulum arm is swung to the opposite
+    side, leaning diagonally downwards to the left instead of the right. Ensure the arm looks like it
+    has moved along its arc. Keep the wooden box, the brass gears, the winding key, and the background
+    tools exactly as they are. The lighting should be fully restored and identical to the initial frame.
+  rationale: The prompt describes the arm being released and oscillating. Oscillation implies the arm
+    swings back and forth along an arc. After the lights turn off and back on, time has passed, and the
+    arm should be captured in a different phase of its swing to demonstrate that motion has occurred.
+    The most distinct change to verify kinematic evolution is showing the arm on the opposite side of
+    its trajectory (left) compared to the initial static position (right). The lighting returns to the
+    initial state.
+  questions:
+  - id: arm_position_change
+    question: Is the metal pendulum arm in a different position than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The arm should not be in the exact same static position (leaning right) as the start.
+  - id: arm_direction_left
+    question: Is the pendulum arm now leaning towards the left or positioned vertically?
+    answer_type: yes_no
+    notes_for_judge: It started leaning right; valid motion would place it vertical or leaning left.
+  - id: arm_not_right
+    question: Has the pendulum arm moved away from its initial right-leaning angle?
+    answer_type: yes_no
+    notes_for_judge: Check for displacement from the specific initial angle.
+  - id: lighting_restored
+    question: Is the scene fully illuminated, similar to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the lights turn back on.
+  - id: box_consistency
+    question: Is the wooden box in the same location on the table?
+    answer_type: yes_no
+    notes_for_judge: The object itself should not move, only its arm.
+  - id: tools_consistency
+    question: Are the tools on the workbench in the same arrangement as the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Background objects should remain undisturbed.

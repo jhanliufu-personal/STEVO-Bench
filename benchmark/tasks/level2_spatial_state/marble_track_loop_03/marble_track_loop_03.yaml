@@ -1,0 +1,59 @@
+id: marble_track_loop_03
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: marble_track_loop
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to zooming out until details are lost.
+changes:
+  occlusion_method: Camera zooms out rapidly until the track is too small to see, then zooms back in.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The steel ball rolls into and through the vertical loop. Its momentum is sufficient to carry
+    it through the curve of the manifold. The camera zooms out rapidly and continuously until the workbench
+    becomes a tiny distant speck and the ball is no longer visible. The camera then zooms back in to the
+    original framing. No cut, no scene change. STOP.
+  camera_WM: The ball travels through the vertical loop, guided by the track's geometry and its own momentum.
+    STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+evaluation:
+  init_frame_description: A close-up view of a wooden marble run construction on a workbench. A clear
+    plastic twin-rail track forms a vertical loop-the-loop. A shiny steel ball bearing is positioned at
+    the bottom of the loop, sitting on the track. The background features a wooden workbench surface with
+    scattered wood shavings, various tools including chisels and a hammer, and a window letting in daylight.
+  init2final_edit_prompt: Edit the given image to remove the steel ball from the track. The clear plastic
+    track should appear empty at the bottom of the loop where the ball was previously located. Ensure
+    the wooden structure, the workbench background, the tools, and the lighting remain exactly unchanged.
+  rationale: The prompt describes the ball rolling through the loop, followed by a significant camera
+    maneuver (zooming out until the workbench is a speck and then zooming back in). The time required
+    for this camera movement is much longer than the time it takes for a moving ball to traverse the loop
+    and exit the frame to the right. Therefore, when the camera returns to the original framing, the ball
+    will have long since exited the view, leaving the track empty.
+  questions:
+  - id: ball_moved_from_start
+    question: Is the steel ball absent from its initial position at the bottom of the loop?
+    answer_type: yes_no
+    notes_for_judge: The ball should no longer be at the bottom of the loop.
+  - id: track_empty_at_start
+    question: Is the plastic track empty where the ball was originally located?
+    answer_type: yes_no
+    notes_for_judge: Check the specific spot at the bottom of the loop.
+  - id: ball_exited_loop
+    question: Has the ball moved past the loop section of the track?
+    answer_type: yes_no
+    notes_for_judge: The ball should have completed the loop and moved to the right or off-screen.
+  - id: ball_not_stuck
+    question: Is the loop structure free of the steel ball?
+    answer_type: yes_no
+    notes_for_judge: The ball should not be visible inside the loop anymore.
+  - id: background_consistency_tools
+    question: Are the tools on the workbench (hammer, chisels) in the same position as the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The camera returns to the original framing, so static objects should not move.
+  - id: structure_consistency
+    question: Is the wooden support structure for the track unchanged?
+    answer_type: yes_no
+    notes_for_judge: The structure itself should not have moved or changed shape.

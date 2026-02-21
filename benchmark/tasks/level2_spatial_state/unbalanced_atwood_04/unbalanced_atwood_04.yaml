@@ -1,0 +1,75 @@
+id: unbalanced_atwood_04
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: unbalanced_atwood
+variation_type: dynamic_condition
+variation_description: The weights are now equal mass (50kg each), creating a balanced system.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Equal masses (50kg vs 50kg)
+  expected_outcome_change: No movement (static equilibrium)
+prompts:
+  init_frame_edit_prompt: Edit the image so the weight on the right is identical in size and shape to
+    the large weight on the left, and change its text label to '50 KG'.
+  video_WM: The mechanical brake is released. The system consists of two equal masses of 50kg each hanging
+    from the pulley. The central pulley is well-oiled. The camera rotates right until the pulley completely
+    exits the view, then rotates toward the left smoothly at the same rate until the original height position
+    is back in the center of view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The mechanical brake is released. The system consists of two equal masses of 50kg each hanging
+    from the pulley. The central pulley is well-oiled. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A rustic workshop interior featuring a large, central metal pulley system mounted
+    on a wooden beam. Two rusty, blocky iron weights hang from thick ropes on either side of the central
+    gear mechanism. Both weights are embossed with the text '50 KG'. The left weight is positioned in
+    the foreground on the left, while the right weight hangs in the background on the right. A gear mechanism
+    with a handle is visible between the ropes. The background consists of rough stone walls adorned with
+    hanging chains and tools.
+  init2final_edit_prompt: Edit the given image to show the scene unchanged. Ensure the left and right
+    50kg weights remain at their exact initial vertical heights and positions. Do not move the weights
+    up or down. The ropes, gear mechanism, and background tools must remain in their original configuration.
+    The final image should be visually identical to the starting frame.
+  rationale: The video prompt describes an Atwood machine with two equal masses (50kg each). According
+    to Newton's laws, if the masses on an Atwood machine are equal, the net force on the system is zero.
+    Assuming the system starts from rest (implied by the brake release), the acceleration is zero and
+    the velocity remains zero. Therefore, the weights do not move vertically despite the brake being released
+    and the pulley being well-oiled. The camera pans away and then returns to the original position, so
+    the final frame should be visually identical to the initial frame, showing the weights in their original
+    balanced positions.
+  questions:
+  - id: q1
+    question: Is the left 50kg weight at the same vertical height as it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The weights are equal (50kg each), so the system is in equilibrium and should not
+      move.
+  - id: q2
+    question: Is the right 50kg weight at the same vertical height as it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The weights are equal (50kg each), so the system is in equilibrium and should not
+      move.
+  - id: q3
+    question: Is the vertical distance between the central pulley and the left weight unchanged?
+    answer_type: yes_no
+    notes_for_judge: Checks for lack of motion.
+  - id: q4
+    question: Does the left weight remain in the foreground at its original position?
+    answer_type: yes_no
+    notes_for_judge: Checks for spatial consistency.
+  - id: q5
+    question: Is the text '50 KG' on the left weight still visible at the same location?
+    answer_type: yes_no
+    notes_for_judge: Checks for lack of displacement.
+  - id: q6
+    question: Is the gear mechanism still centered in the view?
+    answer_type: yes_no
+    notes_for_judge: Verifies the camera returned to the original position.
+  - id: q7
+    question: Are the ropes holding the weights still taut and in their original configuration?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: q8
+    question: Does the overall scene appear identical to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Global check for the static outcome.

@@ -1,0 +1,65 @@
+id: magnetic_sled_02
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: magnetic_sled
+variation_type: occlusion_method
+variation_description: The lab lights turn off completely to occlude the scene.
+changes:
+  occlusion_method: Lighting change (darkness)
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The mechanical pin is retracted, allowing the sled to move freely along the rail. The sled
+    is made of a highly ferromagnetic material. Suddenly, the laboratory lights turn off completely, plunging
+    the scene into pitch black darkness. After a moment, the lights turn back on, illuminating the lab
+    bench. No zoom, no cut, no scene change. STOP.
+  camera_WM: The mechanical pin is retracted, allowing the sled to move freely along the rail. The sled
+    is made of a highly ferromagnetic material. Suddenly, the laboratory lights turn off completely, plunging
+    the scene into pitch black darkness. After a moment, the lights turn back on, illuminating the lab
+    bench. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: 'A laboratory setup featuring a long clear plastic rail extending diagonally
+    from the bottom left to the right. A U-shaped metal sled is positioned on the rail in the foreground,
+    held in place by a locking pin with a red handle. At the far end of the rail is a large, square metal
+    device with a yellow label reading ''CAUTION: HIGH MAGNETIC FIELD''. In the background, there is a
+    lab bench with electronic test equipment like oscilloscopes and white cabinets.'
+  init2final_edit_prompt: Edit the given image to show the U-shaped metal sled moved to the far right
+    end of the clear plastic track, resting firmly against the face of the large square magnet housing.
+    The red-handled pin in the foreground should be pulled outwards (retracted) from the rail. The section
+    of the track where the sled was originally sitting should now be empty. Maintain the original lighting,
+    camera angle, and background equipment positions.
+  rationale: The prompt specifies that the sled is highly ferromagnetic and the pin holding it is retracted.
+    Once the pin is removed, the strong magnetic field from the device at the end of the track will attract
+    the sled. During the blackout period, the sled will accelerate along the rail and collide with the
+    magnet. When the lights turn back on, the sled will be resting against the magnet face at the end
+    of the track.
+  questions:
+  - id: sled_moved_right
+    question: Has the metal sled moved to the right of its starting position?
+    answer_type: yes_no
+    notes_for_judge: The sled should have moved towards the magnet.
+  - id: sled_at_magnet
+    question: Is the metal sled now positioned at the far end of the track against the large square device?
+    answer_type: yes_no
+    notes_for_judge: The sled should be resting against the magnet face.
+  - id: initial_spot_empty
+    question: Is the initial location of the sled on the track now empty?
+    answer_type: yes_no
+    notes_for_judge: The sled should have vacated its starting spot.
+  - id: pin_retracted
+    question: Is the red-handled pin pulled further out from the rail than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The pin must be retracted to release the sled.
+  - id: sled_closer_magnet
+    question: Is the distance between the sled and the magnet significantly smaller than in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: The sled moves towards the magnet.
+  - id: background_invariant
+    question: Are the oscilloscopes and lab equipment in the background in the same position?
+    answer_type: yes_no
+    notes_for_judge: Only the sled and pin should move.

@@ -1,0 +1,66 @@
+id: magnetic_sled_06
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: magnetic_sled
+variation_type: dynamic_condition
+variation_description: The large block is an inert metal weight, not a magnet.
+changes:
+  occlusion_method: null
+  dynamic_conditions: No magnetic field present
+  expected_outcome_change: The sled will not move.
+prompts:
+  init_frame_edit_prompt: Edit the image to remove the yellow 'CAUTION:HIGH MAGNETIC FIELD' sticker from
+    the large metal square.
+  video_WM: The mechanical pin is retracted, allowing the sled to move freely along the rail. The large
+    metal block at the end of the track is a standard inert steel weight with no magnetic properties.
+    The camera rotates right until the sled completely exits the view, then rotates toward the left smoothly
+    at the same rate until the block is back in the center of view. No zoom, no cut, no scene change.
+    STOP.
+  camera_WM: The mechanical pin is retracted, allowing the sled to move freely along the rail. The large
+    metal block at the end of the track is a standard inert steel weight with no magnetic properties.
+    STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A laboratory setup featuring a long clear plastic track on a black countertop.
+    On the left side of the track sits a silver aluminum sled with two parallel rods underneath. A red-handled
+    pin is inserted into the side of the track near the sled. On the right side of the track is a large
+    square metal block encased in a metal frame. In the background, there is an oscilloscope on the left
+    and other lab equipment.
+  init2final_edit_prompt: Edit the given image to position the large square metal block and its frame
+    in the horizontal center of the image. Remove the aluminum sled, the red-handled pin, and the oscilloscope
+    from the view, as they should be cropped out of the left side due to the shift in perspective. Ensure
+    the clear track extends from the left edge to the centered block. Shift the remaining background elements
+    to the left to align with the centered position of the block.
+  rationale: The prompt explicitly states that the metal block is inert and has no magnetic properties.
+    Assuming a standard level lab bench, there are no forces (gravity or magnetism) to move the sled once
+    the pin is retracted, so the sled remains stationary. The camera motion ends with the block centered
+    in the view. Since the block was originally on the right side, centering it requires the final camera
+    angle to be panned to the right relative to the initial frame. This shift causes the stationary sled
+    (originally on the far left) to exit the field of view completely.
+  questions:
+  - id: block_centered
+    question: Is the large metal block positioned in the horizontal center of the image?
+    answer_type: yes_no
+    notes_for_judge: The final view should be centered on the block.
+  - id: sled_not_visible
+    question: Is the aluminum sled no longer visible in the image?
+    answer_type: yes_no
+    notes_for_judge: The sled should be off-screen to the left due to the camera pan.
+  - id: pin_not_visible
+    question: Is the red-handled pin no longer visible?
+    answer_type: yes_no
+    notes_for_judge: The pin is near the sled and should also be off-screen.
+  - id: empty_space_left_of_block
+    question: Is the space immediately to the left of the metal block empty?
+    answer_type: yes_no
+    notes_for_judge: Verifies that the sled has not moved to attach to the block (no magnetic attraction).
+  - id: oscilloscope_gone
+    question: Is the oscilloscope no longer visible?
+    answer_type: yes_no
+    notes_for_judge: The oscilloscope was on the far left and should be panned out of view.
+  - id: track_visible
+    question: Is the clear track visible extending from the left edge to the block?
+    answer_type: yes_no
+    notes_for_judge: Checks for scene consistency.

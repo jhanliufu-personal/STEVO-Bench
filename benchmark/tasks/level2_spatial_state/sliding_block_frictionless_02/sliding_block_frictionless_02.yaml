@@ -1,0 +1,63 @@
+id: sliding_block_frictionless_02
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: sliding_block_frictionless
+variation_type: occlusion_method
+variation_description: Replaces camera rotation with dense fog obscuring the view.
+changes:
+  occlusion_method: Environmental occlusion (dense fog)
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The metal block is sliding rapidly across the polished ice to the right. The surface is nearly
+    frictionless, and the block maintains its constant velocity. Dense, opaque white fog rapidly fills
+    the scene, completely obscuring the block and the environment. The fog holds for a moment, then dissipates
+    quickly to reveal the scene again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The metal block is sliding rapidly across the polished ice to the right. The surface is nearly
+    frictionless, and the block maintains its constant velocity. Dense, opaque white fog rapidly fills
+    the scene, completely obscuring the block and the environment. The fog holds for a moment, then dissipates
+    quickly to reveal the scene again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A large, reflective metal cubic block rests on a frozen, polished ice surface.
+    To the left, a black mechanical arm with hydraulic pistons is positioned, appearing to have just pushed
+    or released the block. The sun is low on the horizon, casting a glare on the ice and creating a lens
+    flare. Small ice particles or shards are visible near the base of the block, suggesting recent movement.
+    The background features a flat, icy horizon under a clear sky.
+  init2final_edit_prompt: Edit the given image to position the metal block significantly further to the
+    right side of the frame, creating a large gap between it and the mechanical arm. Keep the mechanical
+    arm stationary on the left. Ensure the scene is clear and free of any fog or obstruction.
+  rationale: The video prompt establishes that the block is sliding rapidly to the right on a frictionless
+    surface. The fog acts as a temporary occlusion that hides the movement. Due to the lack of friction
+    and the initial velocity, the block must continue its trajectory to the right while obscured. When
+    the fog dissipates, the block should be found at a new position significantly to the right of its
+    starting point, while the stationary mechanical arm remains on the left.
+  questions:
+  - id: block_moved_right
+    question: Is the metal block positioned further to the right than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the horizontal position of the block relative to the frame edges.
+  - id: separation_increased
+    question: Is the distance between the mechanical arm and the metal block greater than in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: The gap between the arm (left) and block (center/right) should have widened.
+  - id: closer_to_right_edge
+    question: Is the metal block closer to the right edge of the image than it was initially?
+    answer_type: yes_no
+    notes_for_judge: Check the proximity of the block to the right border.
+  - id: arm_stationary
+    question: Is the mechanical arm still visible on the left side of the frame?
+    answer_type: yes_no
+    notes_for_judge: The arm should remain as a reference point.
+  - id: fog_cleared
+    question: Is the scene clear of the dense white fog mentioned in the prompt?
+    answer_type: yes_no
+    notes_for_judge: The final frame should be clear, not foggy.
+  - id: block_visible
+    question: Is the metal block clearly visible in the final frame?
+    answer_type: yes_no
+    notes_for_judge: The block should not have vanished completely.

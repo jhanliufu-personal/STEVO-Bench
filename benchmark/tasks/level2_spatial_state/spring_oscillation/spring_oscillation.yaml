@@ -13,3 +13,49 @@ prompts:
     the weight determine the motion. STOP.
 camera_control:
   HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A workshop scene showing a rusty 20kg cylindrical weight hanging from a thick
+    vertical coiled spring. The vertical spring is attached at the top to a horizontal spring mechanism
+    near a wooden beam. To the right of the weight, a vertical wooden post features a measuring tape with
+    visible numbers and a '20cm' mark. A gloved hand is visible on the right edge, positioned near the
+    measuring tape. In the background, a window with a grid pattern illuminates the dusty workshop. The
+    weight is currently in a low, pulled-down position, causing the vertical spring to appear extended.
+  init2final_edit_prompt: Edit the given image to show the 20kg weight in a higher vertical position,
+    as if it has recoiled upwards. The vertical spring should appear significantly shorter and more compressed,
+    with its coils packed closer together compared to the initial state. The weight should be positioned
+    higher relative to the measuring tape on the wooden post and the background window. Keep the camera
+    framing, lighting, and background elements, including the wooden post and window, identical to the
+    original view.
+  rationale: The weight is released from a pulled-down position, which represents the point of maximum
+    extension (lowest point) in its oscillatory trajectory. As the camera pans away and returns, time
+    elapses, and the weight moves under the restoring force of the spring. Since the initial frame captures
+    the bottom extremum, any subsequent state captured upon the camera's return will show the weight at
+    a higher vertical position (closer to the equilibrium or top extremum). Consequently, the vertical
+    spring will be less extended (shorter) than in the initial frame. The camera movement explicitly returns
+    to the original center of view, preserving the background alignment.
+  questions:
+  - id: weight_height_change
+    question: Is the 20kg weight positioned higher than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The weight started at the bottom (pulled down), so it must be higher in the final
+      frame.
+  - id: spring_compression
+    question: Is the vertical spring shorter and more compressed than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The spring was maximally extended initially; it should now be shorter.
+  - id: weight_vs_tape
+    question: Is the top of the weight higher relative to the markings on the measuring tape?
+    answer_type: yes_no
+    notes_for_judge: Compare the weight's position against the static wooden post.
+  - id: gap_ceiling
+    question: Is the distance between the weight and the top mounting point smaller?
+    answer_type: yes_no
+    notes_for_judge: The weight moves up, reducing the gap.
+  - id: weight_visibility
+    question: Is the 20kg weight still visible in the frame?
+    answer_type: yes_no
+    notes_for_judge: It should not have exited the frame permanently.
+  - id: post_consistency
+    question: Is the wooden post with the measuring tape still visible on the right?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

@@ -1,0 +1,59 @@
+id: funnel_marble_vortex_05
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: funnel_marble_vortex
+variation_type: dynamic_condition
+variation_description: Ball released from standstill instead of nudged.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Initial velocity is zero (released from hold).
+  expected_outcome_change: Ball slides straight down the slope into the hole without spiraling.
+prompts:
+  init_frame_edit_prompt: Edit the image to show the steel ball being held stationary by a small mechanical
+    gripper at the very edge of the rim.
+  video_WM: The mechanical gripper opens, releasing the steel ball from a complete standstill at the rim.
+    Gravity acts on the ball on the smooth slope. The camera rotates right until the funnel completely
+    exits the view, then rotates toward the left smoothly at the same rate until the wide upper rim is
+    back in the center of view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The mechanical gripper opens, releasing the steel ball from a complete standstill at the
+    rim. Gravity acts on the ball on the smooth slope. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A large, clear plastic gravity well funnel in a museum setting. At the top left
+    rim of the funnel, a metal mechanical gripper holds a large, shiny steel ball. The funnel slopes downward
+    towards a central circular hole. The background shows windows and museum visitors.
+  init2final_edit_prompt: Edit the given image so that the mechanical gripper at the top left is open
+    and empty, with its jaws apart. Place the large steel ball at the bottom center of the clear funnel,
+    positioned right next to the central drain hole. Maintain the original camera angle and background.
+  rationale: The video prompt describes the ball being released from a standstill. Under gravity, the
+    ball will roll down the slope of the funnel. Since it starts with zero tangential velocity, it will
+    travel radially inward towards the center hole rather than orbiting. By the time the camera pans away
+    and returns, the ball will have accelerated to the bottom of the funnel and will be located near the
+    center hole or falling through it.
+  questions:
+  - id: gripper_empty
+    question: Is the mechanical gripper at the top left empty?
+    answer_type: yes_no
+    notes_for_judge: The gripper should no longer hold the ball.
+  - id: gripper_open
+    question: Is the mechanical gripper in an open position?
+    answer_type: yes_no
+    notes_for_judge: The jaws of the gripper should be apart.
+  - id: ball_displacement
+    question: Has the steel ball moved away from its initial position at the rim?
+    answer_type: yes_no
+    notes_for_judge: The ball should not be at the top left anymore.
+  - id: ball_location_bottom
+    question: Is the steel ball located at the bottom of the funnel near the center hole?
+    answer_type: yes_no
+    notes_for_judge: The ball should be visible near the drain hole, significantly lower than the rim.
+  - id: ball_lower
+    question: Is the steel ball at a lower elevation in the funnel than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Check if the ball is closer to the bottom/center than the top rim.
+  - id: ball_closer_to_center
+    question: Is the steel ball closer to the central hole than to the outer rim?
+    answer_type: yes_no
+    notes_for_judge: It should be near the center.

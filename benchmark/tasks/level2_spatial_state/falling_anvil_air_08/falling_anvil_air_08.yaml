@@ -1,0 +1,59 @@
+id: falling_anvil_air_08
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: falling_anvil_air
+variation_type: combined
+variation_description: Feather dynamics combined with bird occlusion.
+changes:
+  occlusion_method: Bird blocking view.
+  dynamic_conditions: Object is a feather.
+  expected_outcome_change: Slower fall, drifting.
+prompts:
+  init_frame_edit_prompt: Edit the image to replace the anvil with a single white feather floating in
+    the air.
+  video_WM: The feather drifts gently through the air, falling very slowly. A large bird flies close to
+    the camera lens, completely blocking the view of the feather and crane with its wings. The bird flies
+    away, revealing the scene. No zoom, no cut, no scene change. STOP.
+  camera_WM: The feather drifts gently through the air, falling very slowly. A large bird flies close
+    to the camera lens, completely blocking the view of the feather and crane with its wings. The bird
+    flies away, revealing the scene. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A yellow construction crane stands on the left side of the frame against a clear
+    blue sky, overlooking a sprawling cityscape below. A large white feather floats in the air on the
+    right side, positioned roughly level with the top section of the crane.
+  init2final_edit_prompt: Edit the given image to position the white feather slightly lower in the sky
+    than its original location. Maintain the exact appearance and position of the yellow crane and the
+    cityscape background. Ensure the sky remains clear and no birds or other obstructions are present.
+  rationale: The feather is a light object with high air resistance, meaning it falls very slowly compared
+    to heavier objects. During the period where the bird blocks the view and then departs, the feather
+    will have drifted downwards due to gravity, but only by a small amount given its slow terminal velocity.
+    The final frame should show the feather slightly lower than its starting position, with the temporary
+    occluder (the bird) gone and the static background unchanged.
+  questions:
+  - id: falling_feather_position_change
+    question: Is the white feather positioned lower in the sky compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The feather should have fallen downwards due to gravity.
+  - id: falling_feather_displacement
+    question: Has the white feather moved downward from its starting vertical level?
+    answer_type: yes_no
+    notes_for_judge: Check for vertical displacement in the downward direction.
+  - id: feather_visibility
+    question: Is the white feather still visible in the frame?
+    answer_type: yes_no
+    notes_for_judge: Since it falls slowly, it should not have fallen completely out of the frame.
+  - id: occluder_absence
+    question: Is the view clear of the large bird described in the prompt?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the bird flies away, revealing the scene.
+  - id: crane_stability
+    question: Is the yellow crane in the same position as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The crane is a static object and should not move.
+  - id: background_consistency
+    question: Is the cityscape background identical to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The camera does not move, so the background should be static.

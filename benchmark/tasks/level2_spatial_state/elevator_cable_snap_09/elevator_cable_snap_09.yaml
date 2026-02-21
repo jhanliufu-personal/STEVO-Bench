@@ -1,0 +1,68 @@
+id: elevator_cable_snap_09
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: elevator_cable_snap
+variation_type: combined
+variation_description: Upward pull from counterweight + Camera zoom occlusion.
+changes:
+  occlusion_method: Camera zoom out
+  dynamic_conditions: Counterweight heavier than car (upward force)
+  expected_outcome_change: Elevator moves UP instead of down.
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The elevator motor clutch has disengaged. The elevator car is empty, and the connected counterweight
+    is significantly heavier than the car itself, creating a strong upward pull. The camera zooms out
+    rapidly until the elevator car is too small to be seen clearly, then zooms back in to the original
+    framing. No cut, no scene change. STOP.
+  camera_WM: The elevator motor clutch has disengaged. The elevator car is empty, and the connected counterweight
+    is significantly heavier than the car itself, creating a strong upward pull. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+evaluation:
+  init_frame_description: A high-angle, wide shot looking down into a multi-story atrium featuring a central
+    glass-walled elevator shaft. Inside the shaft, a rectangular elevator car with a metal roof and glass
+    sides is suspended in the middle of the frame. Steel beams and vertical guide rails frame the shaft.
+    On either side of the shaft, there are walkways with metal railings where several people are standing
+    or walking. Below the elevator, the tiled ground floor of the atrium is visible through the shaft
+    structure. Large arched windows provide natural light from the background.
+  init2final_edit_prompt: Edit the given image to move the elevator car to a significantly higher vertical
+    position within the shaft. The elevator car should appear closer to the top of the frame than in the
+    original image. Ensure the area of the shaft where the car was originally positioned is now empty,
+    revealing the structural beams and background that were previously blocked by the car.
+  rationale: The prompt specifies that the elevator car is empty and the counterweight is significantly
+    heavier, creating a net upward force when the clutch disengages. This physical setup dictates that
+    the elevator car will accelerate upwards, contrary to the typical expectation of falling. The camera
+    action involves a zoom out and back in, which implies a duration of time has passed. Therefore, in
+    the final frame (which returns to the original framing), the elevator car must have displaced upwards
+    from its initial position.
+  questions:
+  - id: elevator_height_check
+    question: Is the elevator car positioned higher in the shaft than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The car should have moved up towards the top of the image.
+  - id: elevator_motion_direction
+    question: Has the elevator car moved in an upward direction relative to the background?
+    answer_type: yes_no
+    notes_for_judge: Check for upward displacement.
+  - id: elevator_distance_floor
+    question: Is the distance between the elevator car and the ground floor greater than in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: Since the car moves up, the gap between it and the bottom floor must increase.
+  - id: elevator_initial_pos_empty
+    question: Is the specific location where the elevator car started now empty?
+    answer_type: yes_no
+    notes_for_judge: The car should have vacated its starting spot.
+  - id: elevator_top_proximity
+    question: Is the elevator car closer to the top edge of the image than it was initially?
+    answer_type: yes_no
+    notes_for_judge: Verifies upward movement.
+  - id: bystander_consistency
+    question: Are the people on the walkways still present?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: architecture_consistency
+    question: Are the arched windows and railings structurally unchanged?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

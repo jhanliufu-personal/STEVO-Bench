@@ -1,0 +1,59 @@
+id: bowling_inertia_06
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: bowling_inertia
+variation_type: dynamic_condition
+variation_description: The ball is initially at rest, not in motion.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Initial velocity is zero (static object)
+  expected_outcome_change: No change in position; ball remains in the exact same spot.
+prompts:
+  init_frame_edit_prompt: Edit the image to remove any suggestion of motion, making the bowling ball appear
+    completely static and resting heavily on the lane.
+  video_WM: The heavy bowling ball is sitting completely stationary on the polished lane. There are no
+    external forces acting on it. The camera rotates right until the ball completely exits the view, then
+    rotates toward the left smoothly at the same rate until the ball's location is back in the center
+    of view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The heavy bowling ball is sitting completely stationary on the polished lane. There are no
+    external forces acting on it. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A black, marbled bowling ball sits centered on a polished wooden bowling lane.
+    The lane consists of vertical wood planks that converge in perspective toward a set of bowling pins
+    in the background. Dark gutters run along both sides of the lane. The ball reflects the overhead lighting.
+  init2final_edit_prompt: Edit the given image to show the bowling ball in the exact same position on
+    the wooden lane, ensuring it has not moved forward, backward, or sideways relative to the floorboards.
+  rationale: The prompt explicitly states that the bowling ball is stationary and that no external forces
+    are acting on it. According to the laws of physics (specifically inertia), an object at rest remains
+    at rest unless acted upon by a force. Although the camera pans away to occlude the ball and then returns
+    to the original angle, the ball itself must not move. Therefore, the final frame should be visually
+    identical to the initial frame regarding the ball's position.
+  questions:
+  - id: pos_static_01
+    question: Is the bowling ball in the same position on the lane as it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the ball's position relative to the specific wood planks on the floor.
+  - id: pos_plank_alignment_02
+    question: Is the bowling ball resting on the same wooden planks as seen in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The ball should not have shifted left or right across the boards.
+  - id: pos_distance_03
+    question: Is the distance between the bowling ball and the background pins unchanged?
+    answer_type: yes_no
+    notes_for_judge: The ball should not have rolled forward toward the pins.
+  - id: pos_center_04
+    question: Is the bowling ball still centered horizontally between the two gutters?
+    answer_type: yes_no
+    notes_for_judge: It should not have drifted into the gutter.
+  - id: obj_presence_05
+    question: Is the bowling ball visible in the frame?
+    answer_type: yes_no
+    notes_for_judge: The camera has returned to the center view, so the ball must be visible.
+  - id: scale_consistency_06
+    question: Is the apparent size of the bowling ball consistent with it remaining at the starting location?
+    answer_type: yes_no
+    notes_for_judge: If the ball rolled away, it would appear smaller; if it rolled closer, larger. It
+      should be the same size.

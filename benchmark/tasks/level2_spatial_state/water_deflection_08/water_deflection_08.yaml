@@ -1,0 +1,65 @@
+id: water_deflection_08
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: water_deflection
+variation_type: combined
+variation_description: Weak water flow combined with object blocking occlusion.
+changes:
+  occlusion_method: A person walks in front of the camera.
+  dynamic_conditions: Water pressure is very low (trickle).
+  expected_outcome_change: Water is deflected violently.
+prompts:
+  init_frame_edit_prompt: Edit the image to show a very thin, weak trickle of water coming from the tap
+    instead of a strong steady stream.
+  video_WM: The electric fan is switched to its maximum setting against the weak trickle of water. A person
+    wearing a dark apron walks in front of the camera from left to right, completely blocking the view
+    of the sink and fan. The person exits the frame to the right, revealing the scene again. No zoom,
+    no cut, no scene change. STOP.
+  camera_WM: The electric fan is switched to its maximum setting against the weak trickle of water. A
+    person wearing a dark apron walks in front of the camera from left to right, completely blocking the
+    view of the sink and fan. The person exits the frame to the right, revealing the scene again. No zoom,
+    no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up shot of a utility sink with a metal faucet on the left emitting a
+    thin, vertical trickle of water. To the right, a black electric fan with a wire guard is held by a
+    person's hands, pointing directly at the water stream. The background consists of a white tiled wall.
+  init2final_edit_prompt: Edit the given image to show the fan blades spinning rapidly with motion blur.
+    Change the trajectory of the water stream so that it is deflected significantly to the left, curving
+    away from the fan due to the airflow, instead of falling straight down.
+  rationale: The video prompt initiates the fan to its maximum setting. The fan is positioned to blow
+    air from right to left, directly at the falling water. The force of the airflow will overcome the
+    momentum of the weak trickle, causing the water to deflect, curve, or spray to the left (away from
+    the fan). The person walking by acts as a temporary occluder to mask the transition; since they exit
+    the frame, the final state shows the scene clearly with the fan running and the water deflected.
+  questions:
+  - id: water_deflection_direction
+    question: Is the water stream deflected to the left?
+    answer_type: yes_no
+    notes_for_judge: The water should bend away from the fan.
+  - id: water_curve
+    question: Does the water stream curve away from the fan?
+    answer_type: yes_no
+    notes_for_judge: The trajectory should no longer be straight down.
+  - id: water_displacement
+    question: Is the bottom of the water stream horizontally displaced relative to the faucet nozzle?
+    answer_type: yes_no
+    notes_for_judge: Due to the wind, the water should land or disappear further left than where it started.
+  - id: fan_state
+    question: Do the fan blades appear to be spinning or blurred?
+    answer_type: yes_no
+    notes_for_judge: The fan is on max setting.
+  - id: water_verticality
+    question: Is the water stream no longer falling in a straight vertical line?
+    answer_type: yes_no
+    notes_for_judge: It should be bent by the wind.
+  - id: occluder_absence
+    question: Is the scene free of the person wearing the apron?
+    answer_type: yes_no
+    notes_for_judge: The person walked in and then exited.
+  - id: faucet_consistency
+    question: Is the faucet still located on the left side of the image?
+    answer_type: yes_no
+    notes_for_judge: Static object consistency.

@@ -13,3 +13,51 @@ prompts:
     gravity. STOP.
 camera_control:
   HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a wooden plank acting as an inclined ramp. The
+    ramp is angled diagonally from the bottom-left to the top-right of the frame. A polished, reflective
+    steel sphere (marble) rests on the ramp near the center. The background shows a blurred rural landscape
+    with green grass, trees, and a red barn in the distance.
+  init2final_edit_prompt: Edit the given image to move the steel sphere to a new position significantly
+    further down the wooden ramp, towards the bottom-left corner. The sphere should be positioned lower
+    on the incline than it was in the original image, maintaining its contact with the wood surface.
+  rationale: The prompt describes a physical scenario where a steel marble rolls down an inclined ramp
+    under gravity. The camera pans away (rotates right) and then returns (rotates left) to the ramp. During
+    this occlusion, the marble continues to accelerate down the slope. Therefore, in the final frame,
+    the marble must be located further down the ramp (towards the bottom-left) compared to its initial
+    position. The camera instructions imply a return to the ramp, so the viewpoint is treated as effectively
+    restored to the initial framing to allow for position comparison.
+  questions:
+  - id: position_change_check
+    question: Is the steel sphere at a different position on the ramp than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The ball should have moved due to gravity.
+  - id: direction_down_slope
+    question: Has the steel sphere moved towards the bottom-left of the image?
+    answer_type: yes_no
+    notes_for_judge: The slope goes down towards the bottom-left; gravity pulls the ball this way.
+  - id: lower_on_ramp
+    question: Is the steel sphere positioned lower on the wooden plank than its starting point?
+    answer_type: yes_no
+    notes_for_judge: Check relative position along the ramp's length.
+  - id: distance_from_top
+    question: Is the steel sphere further away from the top-right end of the ramp compared to the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: It should move away from the top edge.
+  - id: closer_to_bottom
+    question: Is the steel sphere closer to the bottom-left edge of the frame (or off-screen) than initially?
+    answer_type: yes_no
+    notes_for_judge: It moves towards the bottom-left.
+  - id: not_moved_up
+    question: Has the steel sphere moved up towards the top-right corner?
+    answer_type: yes_no
+    notes_for_judge: This should be NO. The ball rolls down, not up.
+  - id: background_consistency
+    question: Is the red barn in the background still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: object_permanence_ramp
+    question: Is the wooden ramp still present and angled in the same direction?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

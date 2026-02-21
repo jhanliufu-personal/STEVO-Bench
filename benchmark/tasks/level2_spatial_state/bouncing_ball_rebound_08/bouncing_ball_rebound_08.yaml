@@ -1,0 +1,64 @@
+id: bouncing_ball_rebound_08
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: bouncing_ball_rebound
+variation_type: combined
+variation_description: Combined steel ball (low bounce) with screen blocking occlusion.
+changes:
+  occlusion_method: Opaque screen slides in.
+  dynamic_conditions: Ball is heavy steel.
+  expected_outcome_change: Ball bounces poorly; occlusion is via blocking object.
+prompts:
+  init_frame_edit_prompt: Edit the image to change the tennis ball into a shiny, heavy, chrome steel sphere.
+  video_WM: The heavy steel sphere is released from the hand and becomes free to move. The floor is solid
+    hardwood. The ball is dense metal with low coefficient of restitution on wood. Gravity acts on the
+    ball. A large, opaque black screen slides in from the left, completely blocking the view of the room
+    and the ball. The screen remains in place for several seconds. Then the screen slides back out to
+    the left, revealing the scene again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The heavy steel sphere is released from the hand and becomes free to move. The floor is solid
+    hardwood. The ball is dense metal with low coefficient of restitution on wood. Gravity acts on the
+    ball. A large, opaque black screen slides in from the left, completely blocking the view of the room
+    and the ball. The screen remains in place for several seconds. Then the screen slides back out to
+    the left, revealing the scene again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A close-up view of a person's hand in the upper right, palm facing down, with
+    a shiny steel sphere hovering in mid-air just below the fingers. The background features a polished
+    hardwood floor and a window sill with natural light coming from the right.
+  init2final_edit_prompt: Edit the given image to show the steel sphere resting on the hardwood floor,
+    vertically below the hand's position. The hand should remain in the upper right area but must be empty,
+    with no object floating immediately beneath it. Ensure the sphere casts a shadow on the floor appropriate
+    for its new position.
+  rationale: The video prompt describes a physical sequence where a heavy ball is released and subjected
+    to gravity. The 'low coefficient of restitution' indicates the ball will not bounce significantly.
+    The occlusion lasts for 'several seconds,' which is ample time for the ball to fall, impact the floor,
+    lose its kinetic energy, and settle on the ground. Therefore, in the final frame, the ball should
+    be located on the floor rather than in the air.
+  questions:
+  - id: ball_vertical_pos
+    question: Is the steel sphere positioned lower in the frame than it was initially?
+    answer_type: yes_no
+    notes_for_judge: The ball should have fallen due to gravity.
+  - id: ball_on_floor
+    question: Is the steel sphere resting on or very near the wooden floor?
+    answer_type: yes_no
+    notes_for_judge: After several seconds, the ball should have settled on the ground.
+  - id: hand_empty
+    question: Is the space immediately below the hand empty?
+    answer_type: yes_no
+    notes_for_judge: The ball should no longer be hovering right next to the hand.
+  - id: separation_distance
+    question: Is the vertical distance between the hand and the sphere greater than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The ball falls away from the hand, increasing the gap.
+  - id: screen_gone
+    question: Is the view of the room clear of the large black screen?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the screen slides back out.
+  - id: floor_visible
+    question: Is the hardwood floor visible in the image?
+    answer_type: yes_no
+    notes_for_judge: Consistency check for the background.

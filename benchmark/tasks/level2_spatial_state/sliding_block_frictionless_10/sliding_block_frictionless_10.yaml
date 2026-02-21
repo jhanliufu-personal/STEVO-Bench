@@ -1,0 +1,68 @@
+id: sliding_block_frictionless_10
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: sliding_block_frictionless
+variation_type: combined
+variation_description: Strong magnet placed ahead implies acceleration, combined with blocking object.
+changes:
+  occlusion_method: Foreground object blocking
+  dynamic_conditions: Strong magnetic attraction pulling the block
+  expected_outcome_change: Block accelerates faster to the right.
+prompts:
+  init_frame_edit_prompt: Edit the image to add a large, horseshoe magnet positioned to the right of the
+    block, facing it.
+  video_WM: The ferrous metal block is sliding across the ice toward a large, powerful magnet. The magnetic
+    force pulls the block forward. A large wooden crate falls from above into the foreground, blocking
+    the view of the block completely. The crate is then lifted away, revealing the scene. No zoom, no
+    cut, no scene change. STOP.
+  camera_WM: The ferrous metal block is sliding across the ice toward a large, powerful magnet. The magnetic
+    force pulls the block forward. A large wooden crate falls from above into the foreground, blocking
+    the view of the block completely. The crate is then lifted away, revealing the scene. No zoom, no
+    cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A wide shot of a frozen icy surface with a robotic arm on the left, a silver
+    metal cube in the center, and a large red horseshoe magnet on the right. The sun is low on the horizon,
+    creating a flare and reflections on the ice.
+  init2final_edit_prompt: Edit the given image to move the silver metal cube from the center of the frame
+    to the right side, placing it directly against the poles of the red horseshoe magnet. Ensure the cube
+    is in contact with the magnet. Keep the robotic arm on the left and the icy background unchanged.
+  rationale: The prompt describes a metal block sliding on a low-friction surface (ice) towards a powerful
+    magnet. The magnetic force acts as an attractor, accelerating the block to the right. The sequence
+    involves a crate falling and then being lifted, which implies a duration of time has passed during
+    which the block is occluded. Given the physics of magnetism and low friction, the block will continue
+    its trajectory and attach itself to the magnet by the time the view is restored.
+  questions:
+  - id: block_moved_right
+    question: Has the silver metal block moved to the right of its initial position?
+    answer_type: yes_no
+    notes_for_judge: The block should have moved towards the magnet.
+  - id: block_closer_to_magnet
+    question: Is the metal block significantly closer to the red horseshoe magnet than it was in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: Check relative distance; the gap should be much smaller or non-existent.
+  - id: block_contact_magnet
+    question: Is the metal block touching or immediately adjacent to the red horseshoe magnet?
+    answer_type: yes_no
+    notes_for_judge: Ideally, it should be attached, but very close proximity is acceptable.
+  - id: block_further_from_arm
+    question: Is the distance between the metal block and the robotic arm greater than in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: As the block moves right, it moves away from the arm on the left.
+  - id: gap_reduced
+    question: Is the empty space between the metal block and the magnet reduced compared to the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: Focus on the gap size.
+  - id: arm_consistency
+    question: Is the robotic arm still visible on the left side of the frame?
+    answer_type: yes_no
+    notes_for_judge: The arm should remain as a static or near-static reference.
+  - id: magnet_consistency
+    question: Is the red horseshoe magnet still visible on the right side of the frame?
+    answer_type: yes_no
+    notes_for_judge: The magnet is a static object.

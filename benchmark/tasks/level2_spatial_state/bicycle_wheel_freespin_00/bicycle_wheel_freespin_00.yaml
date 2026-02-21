@@ -1,0 +1,72 @@
+id: bicycle_wheel_freespin_00
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: bicycle_wheel_freespin
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The wheel continues spinning freely on its axle bearing. The axle bearing has moderate friction
+    typical of standard ball bearings without lubrication. Air resistance acts on the rotating spokes
+    and rim as they move through the air. No external torque is applied to the wheel. The wheel has standard
+    mass distribution for a bicycle wheel. Camera remains stationary throughout. No zoom, no cut, no scene
+    change. STOP.
+  camera_WM: The wheel continues spinning freely on its axle bearing. The axle bearing has moderate friction
+    typical of standard ball bearings without lubrication. Air resistance acts on the rotating spokes
+    and rim as they move through the air. No external torque is applied to the wheel. The wheel has standard
+    mass distribution for a bicycle wheel. Camera remains stationary throughout. No zoom, no cut, no scene
+    change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A bicycle wheel with a black tire and silver rim is mounted horizontally on
+    a metal truing stand. The wheel is spinning rapidly, causing the silver spokes to appear as a translucent,
+    motion-blurred disc. The central hub is silver and attached to a vertical metal rod extending from
+    the stand's arm. The background is a workshop environment featuring a workbench with tools, a blue
+    vise, and overhead fluorescent lights.
+  init2final_edit_prompt: Edit the given image to show the bicycle wheel continuing to spin in its original
+    location. The wheel must remain mounted horizontally on the metal stand without shifting position,
+    tilting, or falling. The spokes must continue to exhibit motion blur to indicate ongoing rotation.
+    The tire, rim, and hub must remain in the exact same spatial coordinates relative to the frame. The
+    background workshop environment, including the workbench and lights, must remain unchanged.
+  rationale: The wheel is mounted on a fixed axle, constraining its translational position; it cannot
+    move left, right, up, or down. The prompt specifies the wheel 'continues spinning freely,' and while
+    friction is present, the inertia of a bicycle wheel typically prevents it from coming to a complete
+    stop within the duration of a short video clip. Therefore, the final state should show the wheel still
+    in motion (blurred spokes) and in the exact same position (kinematic constraint). The camera is stationary,
+    so the background and perspective remain constant.
+  questions:
+  - id: wheel_mounted
+    question: Is the bicycle wheel still mounted on the metal stand?
+    answer_type: yes_no
+    notes_for_judge: The wheel should not detach, fall, or fly off the axle.
+  - id: hub_position
+    question: Is the central hub of the wheel in the same position as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Check if the center of rotation has shifted relative to the background.
+  - id: motion_blur
+    question: Do the spokes still appear blurred, indicating the wheel is rotating?
+    answer_type: yes_no
+    notes_for_judge: The spokes should not be sharp/distinct; blur indicates continued momentum.
+  - id: horizontal_orientation
+    question: Is the wheel still oriented horizontally?
+    answer_type: yes_no
+    notes_for_judge: The wheel should not tilt or wobble significantly off its horizontal plane.
+  - id: rim_height
+    question: Is the height of the wheel rim consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The wheel should not have moved down (gravity) or up.
+  - id: stand_stability
+    question: Is the metal arm holding the wheel in the same position?
+    answer_type: yes_no
+    notes_for_judge: The fixture holding the wheel should be static.
+  - id: background_consistency
+    question: Are the workbench and lights in the background unchanged?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check for camera stationarity.

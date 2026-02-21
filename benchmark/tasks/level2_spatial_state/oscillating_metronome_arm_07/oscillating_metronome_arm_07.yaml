@@ -1,0 +1,64 @@
+id: oscillating_metronome_arm_07
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: oscillating_metronome_arm
+variation_type: combined
+variation_description: Combined lighting occlusion with slow tempo condition (weight at top).
+changes:
+  occlusion_method: Room lights turn off completely (pitch black) then turn back on
+  dynamic_conditions: Weight at top of rod implies slow tempo
+  expected_outcome_change: Oscillation is slower than original
+prompts:
+  init_frame_edit_prompt: Edit the image to move the sliding metal weight on the metronome's pendulum
+    arm to the very top position of the rod.
+  video_WM: The metronome arm is released. With the sliding weight positioned at the very top of the rod,
+    the arm begins a slow, sweeping oscillation. The room lights abruptly turn off, plunging the scene
+    into total darkness. After a moment, the lights turn back on, illuminating the scene again. No zoom,
+    no cut, no scene change. STOP.
+  camera_WM: The metronome arm is released. With the sliding weight positioned at the very top of the
+    rod, the arm begins a slow, sweeping oscillation. The room lights abruptly turn off, plunging the
+    scene into total darkness. After a moment, the lights turn back on, illuminating the scene again.
+    No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up shot of a wooden metronome with its front door open, revealing the
+    internal brass mechanism and a vertical silver pendulum rod. A rectangular sliding weight is positioned
+    near the top of the silver rod. A brass winding key is inserted on the left side of the wooden case.
+    The metronome sits on a cluttered wooden workbench with various tools, including screwdrivers and
+    pliers, visible in the background and foreground.
+  init2final_edit_prompt: Edit the given image to show the silver pendulum rod tilted to the right, capturing
+    it in the middle of a swing. Maintain the position of the sliding weight near the top of the rod.
+    Ensure the lighting is fully illuminated and the surrounding tools, workbench, and wooden case remain
+    unchanged.
+  rationale: The prompt describes the release of the metronome arm, which initiates an oscillating motion.
+    The lights turn off and then back on, implying a passage of time during which the arm continues to
+    swing. Since the weight is at the top, the oscillation is slow. In the final frame, the arm will likely
+    be captured at a point in its arc (tilted to the left or right) rather than returning to the exact
+    dead-center vertical position. The lighting returns to the initial state.
+  questions:
+  - id: arm_tilted
+    question: Is the silver pendulum rod tilted away from the vertical center position?
+    answer_type: yes_no
+    notes_for_judge: The arm should be angled to the left or right, not perfectly vertical.
+  - id: weight_moved_horizontally
+    question: Has the rectangular weight on the rod moved horizontally from its initial center position?
+    answer_type: yes_no
+    notes_for_judge: Due to the tilt, the weight should be displaced to the side.
+  - id: arm_orientation_change
+    question: Is the orientation of the pendulum arm different from the initial vertical stance?
+    answer_type: yes_no
+    notes_for_judge: ''
+  - id: lighting_on
+    question: Is the scene illuminated?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the lights turn back on.
+  - id: tools_static
+    question: Are the tools on the workbench in the same position as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: ''
+  - id: box_static
+    question: Is the wooden metronome box in the same position as initially?
+    answer_type: yes_no
+    notes_for_judge: ''

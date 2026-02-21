@@ -1,0 +1,73 @@
+id: unbalanced_atwood_00
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: unbalanced_atwood
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The mechanical brake is released, allowing the weights to move freely. The central pulley
+    is well-oiled and has negligible friction. Camera remains stationary throughout. No zoom, no cut,
+    no scene change. STOP.
+  camera_WM: The mechanical brake is released, allowing the weights to move freely. The central pulley
+    is well-oiled and has negligible friction. Camera remains stationary throughout. No zoom, no cut,
+    no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A rustic workshop scene featuring a pulley system against a stone wall. On the
+    left, a large, rusty rectangular iron weight labeled '50 KG' hangs from a thick rope. On the right,
+    a smaller, similar weight labeled '5 KG' hangs from another rope. Both ropes ascend to a system of
+    pulleys and a central gear mechanism with a handle. To the left of the 50kg weight, heavy chains hang
+    vertically. Below the 50kg weight sits an anvil on a wooden stump. The lighting is natural, coming
+    from a window on the right.
+  init2final_edit_prompt: Edit the given image to show the large 50 KG weight on the left in a significantly
+    lower position, closer to the anvil beneath it. Simultaneously, show the small 5 KG weight on the
+    right in a significantly higher position, closer to the pulley block above it. Ensure the ropes remain
+    taut and connected to the weights. Keep the hanging chains on the far left, the stone wall background,
+    and the window unchanged.
+  rationale: The scene depicts an unbalanced system (essentially an Atwood machine) where a 50kg mass
+    is connected to a 5kg mass. When the brake is released, the significantly heavier 50kg weight will
+    accelerate downwards due to gravity, overcoming the tension from the lighter weight. Consequently,
+    the 5kg weight will be pulled upwards. The camera remains stationary, so the primary visual change
+    is the vertical displacement of the two weights in opposite directions.
+  questions:
+  - id: primary_motion_heavy_down
+    question: Is the 50 KG weight lower than its position in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the vertical position of the 50kg weight relative to the background wall
+      or the anvil below.
+  - id: primary_motion_light_up
+    question: Is the 5 KG weight higher than its position in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the vertical position of the 5kg weight relative to the window or pulley
+      above.
+  - id: relative_displacement_heavy
+    question: Has the 50 KG weight moved closer to the anvil or floor?
+    answer_type: yes_no
+    notes_for_judge: The weight should have moved downwards.
+  - id: relative_displacement_light
+    question: Has the 5 KG weight moved closer to the upper pulley block?
+    answer_type: yes_no
+    notes_for_judge: The weight should have moved upwards.
+  - id: directional_check_heavy
+    question: Has the 50 KG weight moved downwards from its starting location?
+    answer_type: yes_no
+    notes_for_judge: Check for downward displacement.
+  - id: directional_check_light
+    question: Has the 5 KG weight moved upwards from its starting location?
+    answer_type: yes_no
+    notes_for_judge: Check for upward displacement.
+  - id: consistency_chains
+    question: Are the hanging chains on the far left still in the same position?
+    answer_type: yes_no
+    notes_for_judge: The chains are unconnected to the mechanism and should not move.
+  - id: consistency_wall
+    question: Is the stone wall background unchanged?
+    answer_type: yes_no
+    notes_for_judge: The environment should remain static.

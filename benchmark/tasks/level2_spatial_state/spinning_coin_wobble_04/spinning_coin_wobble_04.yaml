@@ -1,0 +1,68 @@
+id: spinning_coin_wobble_04
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: spinning_coin_wobble
+variation_type: dynamic_condition
+variation_description: Surface changed from wood to polished glass (low friction).
+changes:
+  occlusion_method: null
+  dynamic_conditions: Surface is smooth glass with extremely low friction.
+  expected_outcome_change: The coin spins longer and decays much slower than on wood.
+prompts:
+  init_frame_edit_prompt: Edit the image to change the wooden table surface to a smooth, polished glass
+    surface.
+  video_WM: The coin continues spinning on the smooth glass surface. The coin edge maintains contact with
+    the glass. The friction coefficient between the metal edge and the polished glass is extremely low.
+    Air resistance acts on the rotating coin. The coin is a standard metal quarter. The camera rotates
+    right at constant speed until the coin completely exits the view to the right. The camera continues
+    rotating right for several seconds while the coin remains off-screen. Then the camera rotates left
+    smoothly at the same rate back to the original viewpoint. No zoom, no cut, no scene change. STOP.
+  camera_WM: The coin continues spinning on the smooth glass surface. The coin edge maintains contact
+    with the glass. The friction coefficient between the metal edge and the polished glass is extremely
+    low. Air resistance acts on the rotating coin. The coin is a standard metal quarter during the occlusion
+    period. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a silver US quarter dollar coin standing vertically
+    on its edge on a reflective glass table. The coin is sharp and in focus, displaying the 'tails' side
+    with an eagle. A clear, inverted reflection of the coin is visible on the smooth surface immediately
+    below it. The background is blurred, showing a window with daylight and dark furniture legs.
+  init2final_edit_prompt: Edit the given image to show the coin still standing on its edge in the center
+    of the frame. The coin must remain upright and visible, appearing to balance or spin on the glass
+    surface. The coin should not be lying flat. The position of the coin and the background elements must
+    match the original perspective and framing exactly.
+  rationale: The video prompt describes a camera panning away and then returning to the exact original
+    viewpoint. The coin is described as spinning on a surface with 'extremely low' friction, which implies
+    conservation of angular momentum and a prolonged spin duration. Despite air resistance and the passage
+    of time while the camera is looking away, the low friction instruction suggests the coin should still
+    be spinning and upright (or wobbling but not fallen) upon the camera's return. Since no lateral force
+    is described, the coin should remain in its initial central position. The primary test is object permanence
+    and state maintenance (upright spin) after occlusion.
+  questions:
+  - id: coin_visible
+    question: Is the coin visible in the final frame?
+    answer_type: yes_no
+    notes_for_judge: Test for object permanence after the camera returns.
+  - id: coin_upright
+    question: Is the coin standing on its edge?
+    answer_type: yes_no
+    notes_for_judge: The coin should not be lying flat on the table.
+  - id: coin_position
+    question: Is the coin located in the center of the image?
+    answer_type: yes_no
+    notes_for_judge: The coin should not have drifted significantly to the edge.
+  - id: coin_reflection
+    question: Is the reflection of the coin visible on the glass surface?
+    answer_type: yes_no
+    notes_for_judge: Checks for physical consistency of the reflective surface.
+  - id: coin_not_flat
+    question: Is the coin vertically oriented rather than lying flat?
+    answer_type: yes_no
+    notes_for_judge: Redundant check for upright state to ensure robustness.
+  - id: background_consistency
+    question: Is the background (window and furniture) identical to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Verifies the camera returned to the correct viewpoint.

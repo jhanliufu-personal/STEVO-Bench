@@ -1,0 +1,64 @@
+id: hockey_puck_friction_stop_04
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: hockey_puck_friction_stop
+variation_type: dynamic_condition
+variation_description: Surface changed from rough concrete to smooth ice (low friction).
+changes:
+  occlusion_method: null
+  dynamic_conditions: Surface is smooth ice with very low friction.
+  expected_outcome_change: Puck slides much further/longer due to reduced friction.
+prompts:
+  init_frame_edit_prompt: Edit the image to change the ground surface to a sheet of smooth, reflective
+    ice.
+  video_WM: The puck slides across a smooth sheet of ice. The ice has a very low coefficient of friction,
+    offering minimal resistance to motion. The puck is standard rubber. No external forces are applied
+    to the puck after it is already in motion. The camera rotates right at constant speed until the puck
+    completely exits the view to the right. The camera continues rotating right for several seconds. Then
+    the camera rotates left smoothly at the same rate back to the original viewpoint. No zoom, no cut,
+    no scene change. STOP.
+  camera_WM: The puck slides across a smooth sheet of ice. The ice has a very low coefficient of friction,
+    offering minimal resistance to motion. The puck is standard rubber. No external forces are applied
+    to the puck after it is already in motion. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, low-angle shot of a black hockey puck sliding on a gray, scratched
+    ice surface. White ice shavings and spray are visible around the base of the puck, indicating motion.
+    The background is blurred, showing warm lighting and indistinct structures.
+  init2final_edit_prompt: Edit the given image to remove the black hockey puck and the white ice shavings.
+    Fill the space with the surrounding scratched, gray ice texture to create a seamless, empty surface.
+    Maintain the original lighting, reflections, and blurred background exactly as they are.
+  rationale: The prompt establishes that the puck is moving to the right faster than the camera is panning
+    (since it exits the view to the right). The camera pans right, pauses, and then returns to the original
+    viewpoint. Due to the low friction of the ice and the absence of opposing forces, the puck continues
+    sliding to the right and moves further away from the starting position. Therefore, when the camera
+    returns to the initial view, the puck is far out of frame to the right, leaving the scene empty.
+  questions:
+  - id: puck_absence
+    question: Is the hockey puck absent from the final frame?
+    answer_type: yes_no
+    notes_for_judge: The puck should have moved out of frame to the right and not returned.
+  - id: empty_ice
+    question: Does the image show the empty ice surface where the puck was initially located?
+    answer_type: yes_no
+    notes_for_judge: The area previously occupied by the puck should now show only ice texture.
+  - id: shavings_gone
+    question: Are the ice shavings and spray associated with the puck's motion gone?
+    answer_type: yes_no
+    notes_for_judge: Since the object causing the spray has left, the dynamic spray should not be visible.
+  - id: background_consistency
+    question: Is the blurred background identical to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The camera returns to the exact original viewpoint, so static background elements
+      must match.
+  - id: lighting_consistency
+    question: Are the reflections and lighting on the ice consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Global lighting should not change.
+  - id: no_new_objects
+    question: Is the frame free of any new objects that were not in the initial scene?
+    answer_type: yes_no
+    notes_for_judge: No other objects were introduced.

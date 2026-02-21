@@ -1,0 +1,65 @@
+id: spring_oscillation_01
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: spring_oscillation
+variation_type: occlusion_method
+variation_description: Replaces camera rotation with a sliding wooden board that blocks the view.
+changes:
+  occlusion_method: A large wooden board slides in front of the camera.
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The weight is released from the pulled-down position. The spring is high-quality and the system
+    has negligible air resistance. A large plywood board slides from the right side of the frame to completely
+    cover the view of the spring and weight. After a pause, the board slides back to the right, revealing
+    the scene again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The weight is released from the pulled-down position. The spring is high-quality and the
+    system has negligible air resistance. A large plywood board slides from the right side of the frame
+    to completely cover the view of the spring and weight. After a pause, the board slides back to the
+    right, revealing the scene again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A workshop scene featuring a 20kg cylindrical metal weight hanging from a vertical
+    coil spring. The vertical spring is attached to a horizontal spring mechanism near the ceiling. A
+    wooden post with a measuring tape is positioned to the right of the weight. A gloved hand is visible
+    on the right side, near the ruler. A window with a grid pattern is visible on the left. The weight
+    is in a low, pulled-down position, causing the vertical spring to be extended.
+  init2final_edit_prompt: Edit the given image to show the 20kg weight at a higher vertical position than
+    in the original frame, closer to the top beam. Make the vertical spring appear shorter with its coils
+    more compressed. Remove the gloved hand from the right side of the image. Ensure the background workshop,
+    window, and wooden post with the ruler remain unchanged.
+  rationale: The video prompt describes the weight being released from a pulled-down position. Physically,
+    this initial state represents the maximum extension (lowest point) of the spring-mass system. Upon
+    release, the restoring force will accelerate the weight upwards. Since the initial frame captures
+    the lowest extreme of the oscillation, any subsequent frame (unless captured at the exact same phase
+    instant, which is statistically unlikely) will show the weight at a higher position. The hand must
+    release the weight for motion to occur, so it should be removed or moved away. The occlusion board
+    slides back to reveal the scene, so the final view is unobstructed.
+  questions:
+  - id: position_change
+    question: Is the 20kg weight positioned higher than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The weight starts at the bottom (pulled down). After release, it must move up.
+  - id: spring_compression
+    question: Is the vertical spring shorter and more compressed than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: As the weight moves up, the spring contracts.
+  - id: hand_removal
+    question: Is the gloved hand absent or no longer holding the apparatus?
+    answer_type: yes_no
+    notes_for_judge: The weight was released, so the hand should not be holding it.
+  - id: occlusion_clear
+    question: Is the view of the weight and spring unobstructed by any board?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the board slides back to reveal the scene.
+  - id: background_consistency_window
+    question: Is the window on the left side still visible and unchanged?
+    answer_type: yes_no
+    notes_for_judge: Background invariant.
+  - id: background_consistency_post
+    question: Is the wooden post with the measuring tape still present on the right?
+    answer_type: yes_no
+    notes_for_judge: Background invariant.

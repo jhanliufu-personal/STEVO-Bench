@@ -1,0 +1,69 @@
+id: block_on_ramp_06
+level: 2
+category: kinematics
+tags: []
+variant_of: block_on_ramp
+variation_type: dynamic_condition
+variation_description: Wooden block replaced with an ice cube (lower friction + potential melting).
+changes:
+  occlusion_method: null
+  dynamic_conditions: Object is an ice cube instead of wood.
+  expected_outcome_change: The object should slide faster due to lower friction.
+prompts:
+  init_frame_edit_prompt: Edit the image to replace the wooden block with a clear ice cube of the same
+    size.
+  video_WM: Single continuous take, no cuts or zoom. A clear ice cube is resting on a smooth metal inclined
+    ramp at room temperature. The surface is extremely slippery. Camera starts centered on the ice and
+    ramp. Then the camera smoothly moves to the right at constant speed until the ramp leaves the frame
+    to the left. While the ramp is out of view, the physical interaction between the ice and ramp continues
+    naturally. The camera continues moving right across the tabletop for several seconds. Then the camera
+    moves left at the same speed back to the original viewpoint.
+  camera_WM: A clear ice cube rests on a smooth metal inclined ramp at room temperature. The surface is
+    extremely slippery. Lighting and objects remain consistent and realistic. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A clear, cubic block of ice rests on a brushed metal inclined ramp. The ramp
+    slopes downwards from the left side of the frame to the right. The setup sits on a light-colored wooden
+    table. There is a small amount of melted water visible around the base of the ice cube on the metal
+    surface. The background features a laboratory setting with windows and cabinets.
+  init2final_edit_prompt: Edit the given image to show the ice cube located at the bottom end of the metal
+    ramp, or resting on the wooden table immediately to the right of the ramp's end. The ice cube must
+    be displaced significantly down the slope from its original position. The original location of the
+    ice cube on the middle of the ramp should now be empty, revealing the metal surface underneath.
+  rationale: The scene establishes a physical system with an object (ice cube) on an inclined plane (metal
+    ramp). The presence of water indicates a low-friction interface. Under the influence of gravity, the
+    ice cube will slide down the ramp. The video prompt describes a camera pan away and back over several
+    seconds. During this unobserved interval, the kinematic process (sliding) continues. Therefore, when
+    the camera returns, the ice cube must have moved down the ramp, likely reaching the bottom or sliding
+    off onto the table.
+  questions:
+  - id: primary_displacement_1
+    question: Has the ice cube moved down the ramp from its initial position?
+    answer_type: yes_no
+    notes_for_judge: The ice cube should be lower and to the right compared to the first frame.
+  - id: primary_displacement_2
+    question: Is the ice cube located further to the right in the frame than it was initially?
+    answer_type: yes_no
+    notes_for_judge: Checks for horizontal displacement consistent with the ramp's slope.
+  - id: primary_displacement_3
+    question: Is the vertical position of the ice cube lower than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Checks for vertical displacement due to gravity.
+  - id: primary_empty_space
+    question: Is the original starting position of the ice cube now empty?
+    answer_type: yes_no
+    notes_for_judge: The spot where the ice was initially should now show the bare ramp surface.
+  - id: primary_proximity
+    question: Is the ice cube closer to the bottom edge of the ramp than the top edge?
+    answer_type: yes_no
+    notes_for_judge: It should have slid towards the bottom.
+  - id: secondary_invariant_ramp
+    question: Does the metal ramp appear to be in the same position and orientation?
+    answer_type: yes_no
+    notes_for_judge: The ramp itself is static.
+  - id: secondary_invariant_background
+    question: Are the background cabinets and windows unchanged?
+    answer_type: yes_no
+    notes_for_judge: Background elements should remain static.

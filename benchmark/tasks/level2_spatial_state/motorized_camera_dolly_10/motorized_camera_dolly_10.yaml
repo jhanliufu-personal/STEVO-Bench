@@ -1,0 +1,68 @@
+id: motorized_camera_dolly_10
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: motorized_camera_dolly
+variation_type: combined
+variation_description: Broken track + Fog occlusion
+changes:
+  occlusion_method: Thick fog fills room
+  dynamic_conditions: Track is broken/missing segment
+  expected_outcome_change: Dolly derails or stops at break
+prompts:
+  init_frame_edit_prompt: Edit the image to show the metal tracks ending abruptly in a jagged break a
+    few feet ahead of the dolly.
+  video_WM: The camera dolly is moving steadily along the tracks toward a section where the tracks are
+    completely broken and missing. Thick white stage fog rapidly fills the room, obscuring the dolly,
+    tracks, and background completely. The fog swirls for a moment, then dissipates to reveal the scene
+    again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The camera dolly is moving steadily along the tracks toward a section where the tracks are
+    completely broken and missing. Thick white stage fog rapidly fills the room, obscuring the dolly,
+    tracks, and background completely. The fog swirls for a moment, then dissipates to reveal the scene
+    again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A professional film studio set featuring a large camera dolly mounted on metal
+    tracks. A camera operator sits on the dolly seat, and another crew member stands behind him. A large
+    camera is mounted on a jib arm extending from the dolly. The background features a green screen and
+    studio lighting grids. In the immediate foreground, the tracks appear damaged with scattered wood
+    splinters and debris lying on and around the rails.
+  init2final_edit_prompt: Edit the given image to show the camera dolly and the seated operator positioned
+    further along the tracks, significantly closer to the broken wood and debris in the foreground. The
+    dolly should appear to have advanced down the rails. Ensure the entire scene is clear and fully visible,
+    with no fog obscuring the view, maintaining the original studio lighting and background details.
+  rationale: The prompt establishes that the dolly is moving steadily toward the broken track section.
+    Although fog temporarily obscures the scene, the physical action of the dolly moving continues or
+    the time elapsed implies a change in position. When the fog dissipates, the dolly must be located
+    further along its trajectory (closer to the foreground debris) than it was initially. The final state
+    requires the fog to be gone and the object to be spatially displaced.
+  questions:
+  - id: dolly_moved
+    question: Is the camera dolly in a different position on the tracks compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The dolly should have moved along the rails.
+  - id: dolly_closer_debris
+    question: Has the dolly moved closer to the broken wood debris in the foreground?
+    answer_type: yes_no
+    notes_for_judge: The motion is described as 'toward' the broken section.
+  - id: operator_position
+    question: Is the seated camera operator closer to the bottom of the frame than initially?
+    answer_type: yes_no
+    notes_for_judge: Assuming the tracks lead towards the foreground/bottom.
+  - id: dolly_advance
+    question: Has the dolly advanced along the track rails?
+    answer_type: yes_no
+    notes_for_judge: Check for displacement along the vector of the tracks.
+  - id: fog_cleared
+    question: Is the studio scene clear of the thick white fog described in the prompt?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the fog dissipates to reveal the scene.
+  - id: background_visibility
+    question: Is the green screen in the background visible again?
+    answer_type: yes_no
+    notes_for_judge: Verifies the fog has cleared.
+  - id: jib_arm_position
+    question: Has the position of the camera jib arm shifted relative to the background?
+    answer_type: yes_no
+    notes_for_judge: As the dolly moves, the parallax or position of the arm should change.

@@ -1,0 +1,62 @@
+id: bowling_inertia_10
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: bowling_inertia
+variation_type: combined
+variation_description: Ball rolling uphill with foreground object occlusion.
+changes:
+  occlusion_method: Object blocking
+  dynamic_conditions: Uphill incline
+  expected_outcome_change: Ball slows/reverses.
+prompts:
+  init_frame_edit_prompt: Edit the image so the bowling lane is tilted upwards at a steep angle, creating
+    an uphill ramp.
+  video_WM: The bowling ball is rolling up a steep, polished wooden ramp. A large opaque scoreboard is
+    lowered into the foreground, completely blocking the view of the ramp. After a moment, the scoreboard
+    is lifted back up, revealing the ramp again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The bowling ball is rolling up a steep, polished wooden ramp. A large opaque scoreboard is
+    lowered into the foreground, completely blocking the view of the ramp. After a moment, the scoreboard
+    is lifted back up, revealing the ramp again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A low-angle, first-person perspective of a polished wooden bowling lane. A black,
+    marbled bowling ball sits in the immediate foreground, centered on the lane. The lane features vertical
+    wood planks and is flanked by gutters. In the distance, a set of white bowling pins is visible. The
+    lighting creates strong vertical reflections on the oiled lane surface.
+  init2final_edit_prompt: Edit the given image to show the black bowling ball positioned further down
+    the lane, significantly closer to the pins than in the original view. The ball should appear smaller
+    due to perspective, indicating it has traveled away from the camera. Ensure the ball remains centered
+    on the wooden surface. The view should be clear of any obstructions.
+  rationale: The prompt describes the ball 'rolling up' the ramp (the lane), which implies motion away
+    from the camera and towards the pins. Although the ramp is 'steep', the action described is the upward
+    rolling phase, so the ball must displace forward along its trajectory during the occlusion. The scoreboard
+    blocks the view temporarily but is lifted by the end, restoring the original camera angle. Therefore,
+    the final state is the same scene with the ball displaced further into the distance (higher in the
+    frame, smaller in scale).
+  questions:
+  - id: ball_distance_1
+    question: Is the bowling ball closer to the pins than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The ball should have moved away from the camera, towards the background.
+  - id: ball_size_perspective
+    question: Does the bowling ball appear smaller than it did in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Perspective dictates the ball shrinks as it moves away.
+  - id: ball_vertical_position
+    question: Is the bowling ball positioned higher in the image frame than its starting position?
+    answer_type: yes_no
+    notes_for_judge: Moving 'up' the lane/ramp corresponds to moving up in the 2D image plane.
+  - id: ball_moved_from_bottom
+    question: Has the bowling ball moved away from the immediate bottom edge of the frame?
+    answer_type: yes_no
+    notes_for_judge: It started at the very bottom; it should now be further in.
+  - id: scoreboard_removed
+    question: Is the view of the lane clear of the large opaque scoreboard mentioned in the prompt?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the scoreboard is lifted back up, revealing the ramp.
+  - id: ball_in_lane
+    question: Is the bowling ball still positioned on the wooden lane surface?
+    answer_type: yes_no
+    notes_for_judge: It should not be in the gutter or off-screen.

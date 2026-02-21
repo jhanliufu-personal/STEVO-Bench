@@ -1,0 +1,68 @@
+id: treadmill_projectile_06
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: treadmill_projectile
+variation_type: dynamic_condition
+variation_description: The launcher is tilted to fire at a 45-degree angle in the direction of motion.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Launch angle is 45 degrees left (with the belt) instead of vertical.
+  expected_outcome_change: The ball will travel faster horizontally than the belt and land further to
+    the left.
+prompts:
+  init_frame_edit_prompt: Edit the image to tilt the robotic launcher mechanism 45 degrees to the left.
+  video_WM: The robotic launcher fires a tennis ball at a 45-degree angle to the left (in the direction
+    of the belt's motion) while the treadmill belt continues its constant leftward motion. The air in
+    the room is still. The camera rotates right until the treadmill completely exits the view, then rotates
+    toward the left smoothly at the same rate until the launcher is back in the center of view. No zoom,
+    no cut, no scene change. STOP.
+  camera_WM: The ball is launched at a 45-degree angle in the same direction that the treadmill belt is
+    moving. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A custom-built robotic launcher mechanism sitting on a dark treadmill belt.
+    The robot is constructed from aluminum extrusions, motors, and electronics, with a central vertical
+    or angled tube/barrel. To the right, a yellow vertical safety post is visible. To the left, a black
+    mesh safety fence. The background features concrete walls and blurred industrial machinery.
+  init2final_edit_prompt: Edit the image to shift the background perspective to the right, simulating
+    a camera pan to the left. The robotic launcher must remain in the center of the frame. The yellow
+    vertical post on the right edge should be shifted further right or completely out of the frame. The
+    black mesh fence on the left should appear closer to the center. The background machinery and walls
+    should be shifted to the right relative to the robot. The treadmill belt texture should remain visible
+    under the robot.
+  rationale: The treadmill belt is moving to the left, carrying the robotic launcher with it (as it is
+    not described as driving against the belt). The camera rotates right (looking away) and then rotates
+    left to find the launcher again. Since the launcher has moved to the left during the occlusion, the
+    camera must pan further to the left than its initial position to re-center the launcher. This results
+    in the background shifting to the right relative to the centered robot. The tennis ball, having been
+    fired, is likely out of frame.
+  questions:
+  - id: launcher_centered
+    question: Is the robotic launcher positioned in the center of the frame?
+    answer_type: yes_no
+    notes_for_judge: The prompt explicitly states the camera rotates until the launcher is back in the
+      center.
+  - id: background_shift_right
+    question: Have the background objects (walls, machinery) shifted to the right relative to the launcher?
+    answer_type: yes_no
+    notes_for_judge: Since the robot moved left and the camera panned left to track it, the background
+      must shift right.
+  - id: yellow_post_position
+    question: Is the yellow vertical post on the right side either further to the right or out of the
+      frame compared to the initial view?
+    answer_type: yes_no
+    notes_for_judge: Camera panning left moves right-side objects out of view.
+  - id: left_fence_position
+    question: Is the black mesh fence on the left side closer to the center of the image than initially?
+    answer_type: yes_no
+    notes_for_judge: Camera panning left brings left-side objects closer to the center.
+  - id: robot_on_belt
+    question: Is the robotic launcher still situated on the treadmill belt?
+    answer_type: yes_no
+    notes_for_judge: The robot should not have fallen off or disappeared.
+  - id: ball_fired
+    question: Is the launcher tube empty or devoid of a visible tennis ball?
+    answer_type: yes_no
+    notes_for_judge: The ball was fired and the camera looked away; it should not be visible in the launcher.

@@ -1,0 +1,63 @@
+id: projectile_horizontal_launch_07
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: projectile_horizontal_launch
+variation_type: combined
+variation_description: Combines the obstacle condition with lights-out occlusion.
+changes:
+  occlusion_method: Lights turn off completely then turn on
+  dynamic_conditions: A vertical wooden board is placed in the projectile's path
+  expected_outcome_change: Ball hits obstacle in the dark
+prompts:
+  init_frame_edit_prompt: Edit the image to place a large vertical sheet of plywood standing about 3 feet
+    in front of the cannon muzzle, directly in the path of the red ball.
+  video_WM: The red ball is traveling through the air after its horizontal launch, heading directly toward
+    a vertical wooden board. Suddenly, the overhead lights in the workshop turn off, plunging the room
+    into complete darkness. After a moment, the lights flicker and turn back on, fully illuminating the
+    scene. No zoom, no cut, no scene change. STOP.
+  camera_WM: The red ball is traveling through the air after its horizontal launch, heading directly toward
+    a vertical wooden board. Suddenly, the overhead lights in the workshop turn off, plunging the room
+    into complete darkness. After a moment, the lights flicker and turn back on, fully illuminating the
+    scene. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A workshop scene showing a brass cannon mounted on a wooden carriage on the
+    left, angled slightly upward. A puff of white smoke is exiting the cannon barrel. To the right, a
+    red ball is impacting a vertical plywood board, creating a cloud of dust and debris at the point of
+    contact.
+  init2final_edit_prompt: Edit the given image to remove the white smoke coming from the cannon and the
+    dust cloud on the wooden board. Place the red ball resting on the wooden workbench surface directly
+    below the area where it hit the board. Ensure the scene is fully illuminated and the background remains
+    unchanged.
+  rationale: The initial frame captures the moment of impact between the ball and the board, accompanied
+    by smoke and dust. The video prompt describes a sequence where the lights go out and then come back
+    on, implying a passage of time. During this interval, the smoke would dissipate, and gravity would
+    cause the ball to fall from the impact point to the surface below (the workbench). The final state
+    should show the aftermath with the ball settled and the air clear.
+  questions:
+  - id: ball_height_change
+    question: Is the red ball lower in the frame than it was initially?
+    answer_type: yes_no
+    notes_for_judge: The ball should have fallen due to gravity after the impact shown in the first frame.
+  - id: smoke_dissipation
+    question: Is the white smoke and dust cloud from the initial frame gone?
+    answer_type: yes_no
+    notes_for_judge: Time has passed, so the smoke from the cannon and impact should have cleared.
+  - id: ball_resting_surface
+    question: Is the red ball resting on the workbench surface?
+    answer_type: yes_no
+    notes_for_judge: After hitting the board, the ball should fall and settle on the table/workbench.
+  - id: ball_displacement
+    question: Has the red ball moved away from the impact point on the vertical board?
+    answer_type: yes_no
+    notes_for_judge: It should not be stuck to the board in the same position.
+  - id: cannon_stationary
+    question: Is the brass cannon still in the same position?
+    answer_type: yes_no
+    notes_for_judge: The cannon should not move significantly after firing.
+  - id: board_stationary
+    question: Is the vertical wooden board still standing in its original location?
+    answer_type: yes_no
+    notes_for_judge: The board should remain upright.

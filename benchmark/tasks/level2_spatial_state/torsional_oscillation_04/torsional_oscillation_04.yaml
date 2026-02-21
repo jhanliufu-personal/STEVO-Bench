@@ -1,0 +1,64 @@
+id: torsional_oscillation_04
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: torsional_oscillation
+variation_type: dynamic_condition
+variation_description: The wire is straight and untwisted, implying no initial torque.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Wire is untwisted (equilibrium state).
+  expected_outcome_change: The disk remains stationary (no oscillation).
+prompts:
+  init_frame_edit_prompt: Edit the image to straighten the wire so it looks vertical and untwisted, removing
+    the spiral pattern.
+  video_WM: The disk hangs motionless, suspended by a straight, vertical wire with no twist. The system
+    is in equilibrium. The camera rotates right until the disk completely exits the view, then rotates
+    toward the left smoothly at the same rate until the top of the wire is back in the center of view.
+    No zoom, no cut, no scene change. STOP.
+  camera_WM: The disk hangs motionless, suspended by a straight, vertical wire with no twist. The system
+    is in equilibrium. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a thick, circular brass disk suspended horizontally
+    by a thin, vertical, twisted metal wire. The disk is positioned in the center of the frame. The background
+    is a blurred workshop interior, featuring a bright window on the left side and dark wooden walls and
+    shelving on the right side.
+  init2final_edit_prompt: Edit the given image to show the brass disk suspended in the center of the frame,
+    maintaining its original horizontal orientation and vertical position, with the background window
+    on the left and wooden walls on the right, identical to the starting view.
+  rationale: The prompt specifies that the disk is motionless and the system is in equilibrium, meaning
+    no physical forces initiate movement on the object itself. The camera pans to the right until the
+    object is out of view, then pans back to the left to restore the original framing (centering the wire).
+    Because the object is static and the camera returns to its initial angle, the final frame should be
+    visually identical to the initial frame, demonstrating object permanence and spatial consistency.
+  questions:
+  - id: disk_visible
+    question: Is the brass disk visible in the frame?
+    answer_type: yes_no
+    notes_for_judge: The camera pans away and returns; the object should be visible again.
+  - id: wire_centered
+    question: Is the suspension wire positioned in the horizontal center of the frame?
+    answer_type: yes_no
+    notes_for_judge: The prompt specifies the camera returns until the wire is centered.
+  - id: disk_orientation
+    question: Is the brass disk oriented horizontally, appearing flat as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The object is motionless/in equilibrium, so it should not tilt or swing.
+  - id: disk_height
+    question: Is the disk at the same vertical height relative to the background as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: No vertical camera movement or object motion occurred.
+  - id: window_left
+    question: Is the window visible on the left side of the image?
+    answer_type: yes_no
+    notes_for_judge: Checks if the camera returned to the correct azimuth.
+  - id: wood_right
+    question: Is the wooden wall structure visible on the right side of the image?
+    answer_type: yes_no
+    notes_for_judge: Checks background consistency.
+  - id: wire_straight
+    question: Is the suspension wire straight and vertical?
+    answer_type: yes_no
+    notes_for_judge: The system is in equilibrium with no twist.

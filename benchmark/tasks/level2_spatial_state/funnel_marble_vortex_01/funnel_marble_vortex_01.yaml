@@ -1,0 +1,61 @@
+id: funnel_marble_vortex_01
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: funnel_marble_vortex
+variation_type: occlusion_method
+variation_description: A large opaque object blocks the view instead of camera rotation.
+changes:
+  occlusion_method: A person walks in front of the camera, blocking the view.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The steel ball is given a rapid horizontal nudge along the inner circumference of the funnel's
+    rim. The acrylic surface is polished and smooth. A person wearing a dark coat walks slowly from left
+    to right, completely blocking the view of the funnel for several seconds, then exits frame right to
+    reveal the scene again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The steel ball is given a rapid horizontal nudge along the inner circumference of the funnel's
+    rim. The acrylic surface is polished and smooth. A person wearing a dark coat walks slowly from left
+    to right, completely blocking the view of the funnel for several seconds, then exits frame right to
+    reveal the scene again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A large, clear acrylic vortex funnel (gravity well) exhibit in a museum setting.
+    A shiny steel ball is positioned on the upper left rim of the funnel. The background shows large windows,
+    a polished floor, and museum visitors.
+  init2final_edit_prompt: Edit the given image to show the steel ball located deep inside the funnel,
+    spiraling near the central hole, instead of at the top rim. The ball should appear lower in the vortex
+    structure.
+  rationale: The prompt describes a standard gravity well exhibit. When the ball is nudged along the rim,
+    gravity and conservation of angular momentum cause it to spiral downwards towards the center. After
+    several seconds of occlusion, the ball will have lost height due to friction and gravity, resulting
+    in a position significantly lower and closer to the central hole than the initial state. The person
+    blocking the view exits, leaving the view clear again.
+  questions:
+  - id: ball_height_lower
+    question: Is the steel ball positioned lower in the funnel than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The ball should have spiraled down towards the center.
+  - id: ball_radius_smaller
+    question: Is the steel ball closer to the central hole than it was initially?
+    answer_type: yes_no
+    notes_for_judge: It starts at the rim and should move inward.
+  - id: ball_not_at_rim
+    question: Has the steel ball moved away from the top outer rim of the funnel?
+    answer_type: yes_no
+    notes_for_judge: It should no longer be balancing on the edge.
+  - id: occluder_gone
+    question: Is the view of the funnel unobstructed by the person mentioned in the prompt?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the person exits frame right to reveal the scene.
+  - id: funnel_structure_preserved
+    question: Is the clear acrylic funnel structure still intact and visible?
+    answer_type: yes_no
+    notes_for_judge: The environment should remain stable.
+  - id: ball_visible
+    question: Is the steel ball visible somewhere within the funnel?
+    answer_type: yes_no
+    notes_for_judge: Unless it fell through the hole (unlikely in 'several seconds' from the rim), it
+      should be visible.

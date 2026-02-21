@@ -12,3 +12,47 @@ prompts:
     is governed by the length of the wire and gravity. STOP.
 camera_control:
   HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A large, spherical metal pendulum bob hangs suspended by a thin vertical wire
+    in the center of a cylindrical glass vacuum chamber. To the left of the sphere, an angled mechanical
+    arm structure is visible. The background shows a laboratory setting with windows and desks. The sphere
+    appears to be at rest in its equilibrium position, with its shadow directly beneath it.
+  init2final_edit_prompt: Edit the image to show the pendulum bob hanging vertically in the center of
+    the glass chamber, in the exact same position as the original image. Ensure the mechanical arm remains
+    on the left and the background laboratory equipment is unchanged. The view should remain centered
+    on the pendulum structure.
+  rationale: The initial image displays the pendulum bob hanging vertically at equilibrium, despite the
+    prompt's text description of a '45-degree position' (which likely refers to the mechanical arm's angle
+    or a hypothetical setup not depicted). Since the visual evidence shows the bob at rest at its lowest
+    point, 'releasing' it results in no motion. The camera rotates away and then returns to the exact
+    same viewpoint. Consequently, the final frame should be visually identical to the initial frame, with
+    the bob remaining stationary in the center.
+  questions:
+  - id: bob_centered
+    question: Is the metal sphere located in the center of the glass chamber?
+    answer_type: yes_no
+    notes_for_judge: The bob should be in the center, as it started at equilibrium and shouldn't move.
+  - id: wire_vertical
+    question: Is the wire supporting the sphere vertical?
+    answer_type: yes_no
+    notes_for_judge: The wire should be straight up and down, indicating no swing.
+  - id: height_unchanged
+    question: Is the sphere at the same height as it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: It should not have risen or fallen.
+  - id: no_displacement
+    question: Has the sphere moved to the left or right side of the chamber?
+    answer_type: yes_no
+    notes_for_judge: Answer should be NO. The sphere should remain centered.
+  - id: arm_visibility
+    question: Is the mechanical arm still visible to the left of the sphere?
+    answer_type: yes_no
+    notes_for_judge: The arm is a static object and should remain in view.
+  - id: view_centered
+    question: Is the view centered on the pendulum structure?
+    answer_type: yes_no
+    notes_for_judge: The camera returns to the center pivot point.
+  - id: bob_swinging
+    question: Is the sphere displaced from the center equilibrium position?
+    answer_type: yes_no
+    notes_for_judge: Answer should be NO.

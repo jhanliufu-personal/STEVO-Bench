@@ -1,0 +1,64 @@
+id: projectile_horizontal_launch_04
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: projectile_horizontal_launch
+variation_type: dynamic_condition
+variation_description: Introduces a wooden board in the ball's path, implying a collision.
+changes:
+  occlusion_method: null
+  dynamic_conditions: A vertical wooden board is placed in the projectile's path
+  expected_outcome_change: The ball will hit the board and stop or bounce instead of flying forward
+prompts:
+  init_frame_edit_prompt: Edit the image to place a large vertical sheet of plywood standing about 3 feet
+    in front of the cannon muzzle, directly in the path of the red ball.
+  video_WM: The red ball is traveling through the air after its horizontal launch, heading directly toward
+    a vertical wooden board. The camera rotates right until the ball completely exits the view, then rotates
+    toward the left smoothly at the same rate until the cannon on the table is back in the center of view.
+    No zoom, no cut, no scene change. STOP.
+  camera_WM: The red ball is traveling through the air after its horizontal launch, heading directly toward
+    a vertical wooden board. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A workshop scene showing a brass cannon mounted on a wooden carriage on the
+    left side of a workbench. To the right, a red ball is in mid-air, impacting a vertical plywood board
+    and creating a splintered hole. White smoke surrounds the cannon muzzle and the impact site. Flying
+    wood debris is visible around the ball.
+  init2final_edit_prompt: Edit the given image to show the static aftermath of the event. Remove the red
+    ball from the impact site on the board. Remove all flying wood splinters and debris from the air.
+    Remove the white smoke to leave the air clear. Keep the cannon, the workbench, and the damaged wooden
+    board with the hole in their original positions and perspective. The scene should appear settled and
+    motionless.
+  rationale: 'The initial frame captures the moment of impact. The video prompt describes a camera movement
+    that pans away and then returns to the original view, implying a passage of time (likely several seconds).
+    During this interval, the physical dynamics will resolve: the ball will complete its trajectory (likely
+    passing through the board or falling), gravity will pull the flying debris to the ground, and the
+    smoke will dissipate. Therefore, the final frame should depict the same scene but in a settled state,
+    without the transient elements like the mid-air ball, suspended debris, or dense smoke.'
+  questions:
+  - id: ball_position_change
+    question: Is the red ball absent from the mid-air position where it was initially impacting the board?
+    answer_type: yes_no
+    notes_for_judge: The ball should have fallen, passed through, or bounced away; it should not be frozen
+      in the air.
+  - id: smoke_dissipation
+    question: Has the white smoke dissipated compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The air should be clearer.
+  - id: debris_settled
+    question: Are the flying wood splinters no longer visible in the air?
+    answer_type: yes_no
+    notes_for_judge: Debris should have fallen to the ground/table.
+  - id: cannon_position
+    question: Is the cannon still positioned in the center of the view?
+    answer_type: yes_no
+    notes_for_judge: The camera returns to the initial center view.
+  - id: board_damage_visible
+    question: Is the hole in the wooden board still visible?
+    answer_type: yes_no
+    notes_for_judge: The damage to the board is permanent.
+  - id: ball_height_check
+    question: Is the red ball lower in height than its initial impact position (or completely gone)?
+    answer_type: yes_no
+    notes_for_judge: Gravity acts on the ball; it should not be higher or hovering.

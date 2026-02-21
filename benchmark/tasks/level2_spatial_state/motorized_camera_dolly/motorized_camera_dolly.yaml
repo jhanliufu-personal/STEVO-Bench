@@ -12,3 +12,54 @@ prompts:
   camera_WM: The dolly moves along the track at a constant velocity, driven by its internal motor. STOP.
 camera_control:
   HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: 'A film studio scene featuring a large camera dolly on metal tracks. The tracks
+    run diagonally from the bottom-right foreground towards the middle-left background. A professional
+    film camera is mounted on the dolly. Two men are operating it: one seated on the dolly looking into
+    the viewfinder (facing left), and another standing behind the dolly. The background includes a green
+    screen on the right, black curtains on the left, and a lighting grid overhead.'
+  init2final_edit_prompt: Edit the given image to show the camera dolly and the two operators positioned
+    significantly further down the tracks, towards the left background. The dolly should appear smaller
+    due to perspective, located deeper in the studio along the same metal rails. The section of the tracks
+    in the foreground, originally occupied by the dolly, should now be empty and visible. Maintain the
+    original background, lighting, and camera viewpoint.
+  rationale: The video prompt describes the dolly moving steadily along the tracks. Based on the orientation
+    of the operators and the camera lens, the dolly is moving 'forward' along the tracks (towards the
+    left/background). The observer camera pans away (right) and then returns to the initial view ('start
+    of the tracks in center'). During this occlusion, the dolly continues its steady motion. Therefore,
+    in the final frame, the dolly must be displaced further along the tracks away from the camera, revealing
+    the foreground section of the tracks it previously occupied.
+  questions:
+  - id: dolly_moved
+    question: Is the camera dolly at a different position than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The dolly should have moved along the tracks.
+  - id: dolly_direction_away
+    question: Has the camera dolly moved further along the tracks towards the background?
+    answer_type: yes_no
+    notes_for_judge: The dolly should be deeper in the scene (towards the left).
+  - id: tracks_empty
+    question: Is the section of the tracks where the dolly was initially located now empty?
+    answer_type: yes_no
+    notes_for_judge: Since the dolly moved away, the foreground tracks should be visible.
+  - id: dolly_smaller
+    question: Does the camera dolly appear smaller in the frame than it did initially?
+    answer_type: yes_no
+    notes_for_judge: Perspective dictates it should be smaller as it moves away.
+  - id: dolly_left_shift
+    question: Is the dolly positioned to the left of its starting location?
+    answer_type: yes_no
+    notes_for_judge: Motion follows the tracks to the left.
+  - id: operators_closer_to_screen
+    question: Are the operators closer to the green screen background than they were initially?
+    answer_type: yes_no
+    notes_for_judge: The green screen is in the background; moving down the tracks brings them closer
+      to that plane.
+  - id: background_consistency
+    question: Is the green screen still visible in the background?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: lighting_consistency
+    question: Is the overhead lighting grid unchanged?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

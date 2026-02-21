@@ -1,0 +1,61 @@
+id: funnel_marble_vortex_09
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: funnel_marble_vortex
+variation_type: combined
+variation_description: Sticky surface condition with lighting change occlusion.
+changes:
+  occlusion_method: Lights turn off completely.
+  dynamic_conditions: Surface coated in sticky glue.
+  expected_outcome_change: Ball moves very slowly or gets stuck immediately.
+prompts:
+  init_frame_edit_prompt: Edit the image to show the inner surface of the funnel coated with a thick layer
+    of sticky, amber-colored glue.
+  video_WM: The steel ball is given a rapid horizontal nudge on the sticky, glue-coated surface of the
+    funnel. The lights in the room suddenly turn off, plunging the scene into total darkness. After a
+    duration, the lights turn back on to reveal the scene. No zoom, no cut, no scene change. STOP.
+  camera_WM: The steel ball is given a rapid horizontal nudge on the sticky, glue-coated surface of the
+    funnel. The lights in the room suddenly turn off, plunging the scene into total darkness. After a
+    duration, the lights turn back on to reveal the scene. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A large, clear circular funnel or gravity well exhibit coated in a thick, amber-colored,
+    viscous-looking substance. A shiny steel ball is perched on the upper left rim of the funnel. The
+    background shows a museum setting with large windows, daylight, and blurred figures of people.
+  init2final_edit_prompt: Edit the given image to move the steel ball from the upper left rim to a position
+    lower down inside the basin of the amber funnel, closer to the central hole. Remove the steel ball
+    from its original position on the rim. Keep the lighting, the amber texture of the funnel, and the
+    background environment identical to the original view.
+  rationale: The initial state shows a ball at the top of a gravity well (funnel). The prompt specifies
+    a rapid nudge, which overcomes static friction and initiates motion. Gravity pulls the ball down the
+    slope towards the center. The 'sticky' surface acts as a damping force (friction), meaning the ball
+    will roll down but likely not orbit as freely as on smooth plastic. The period of darkness represents
+    elapsed time. When the lights return, the ball must have moved from the high potential energy position
+    (rim) to a lower position inside the funnel due to gravity and the initial impulse.
+  questions:
+  - id: ball_moved_from_rim
+    question: Is the steel ball no longer on the upper left rim of the funnel?
+    answer_type: yes_no
+    notes_for_judge: The ball should have vacated its starting position.
+  - id: ball_lower_position
+    question: Is the steel ball positioned lower in the funnel than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: It should be inside the basin, not on the edge.
+  - id: ball_closer_to_center
+    question: Is the steel ball closer to the central hole than it was initially?
+    answer_type: yes_no
+    notes_for_judge: The trajectory in a funnel is towards the center.
+  - id: ball_inside_basin
+    question: Is the steel ball visible on the inner slope of the amber funnel?
+    answer_type: yes_no
+    notes_for_judge: It should be on the amber surface, not floating or gone.
+  - id: funnel_structure_preserved
+    question: Does the amber funnel retain its shape and texture?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: background_consistency
+    question: Are the windows and background elements still visible and consistent?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

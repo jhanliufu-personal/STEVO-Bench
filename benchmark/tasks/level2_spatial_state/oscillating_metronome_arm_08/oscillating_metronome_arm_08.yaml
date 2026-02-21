@@ -1,0 +1,67 @@
+id: oscillating_metronome_arm_08
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: oscillating_metronome_arm
+variation_type: combined
+variation_description: Combined object blocking occlusion with static condition (rusted/broken).
+changes:
+  occlusion_method: A wooden board blocks the view
+  dynamic_conditions: Rusted mechanism and missing key implies static state
+  expected_outcome_change: Arm remains stationary throughout
+prompts:
+  init_frame_edit_prompt: Edit the image to make the metronome's metal mechanism look heavily rusted and
+    remove the wind-up key from the side.
+  video_WM: The metronome appears ancient, with a heavily rusted mechanism and the wind-up key missing
+    entirely. The arm sits motionless. A large wooden board is placed in the foreground, completely blocking
+    the view of the metronome. The board is then removed, revealing the scene again. No zoom, no cut,
+    no scene change. STOP.
+  camera_WM: The metronome appears ancient, with a heavily rusted mechanism and the wind-up key missing
+    entirely. The arm sits motionless. A large wooden board is placed in the foreground, completely blocking
+    the view of the metronome. The board is then removed, revealing the scene again. No zoom, no cut,
+    no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A wooden box with an open door sits on a workbench, revealing a heavily rusted
+    internal gear mechanism. A rusty metal arm extends from the mechanism, pointing diagonally downwards
+    to the right. The workbench is cluttered with various hand tools like chisels and files. A window
+    is visible in the background.
+  init2final_edit_prompt: Edit the given image to show the scene exactly as it appeared initially. Ensure
+    the rusty metal arm remains in the precise original position and angle, pointing downwards to the
+    right. Keep the internal gears, the wooden box, and all tools on the workbench in their original locations
+    and orientations.
+  rationale: The metronome is explicitly described as 'heavily rusted' and 'missing the wind-up key',
+    indicating it is a broken, seized mechanism with no energy source. It is stated to be 'motionless'
+    at the start. The occlusion event (a board placed and removed) is a visual obstruction that does not
+    impart physical force to the object. Due to the lack of kinetic energy and the high friction from
+    rust, the arm must remain stationary throughout the sequence.
+  questions:
+  - id: arm_position_static
+    question: Is the rusty metal arm in the same position as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The arm should not have moved.
+  - id: arm_angle_unchanged
+    question: Is the angle of the metal arm identical to its angle in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The angle should be preserved exactly.
+  - id: arm_direction_down_right
+    question: Does the metal arm still point diagonally downwards to the right?
+    answer_type: yes_no
+    notes_for_judge: It should not have swung to the left or upwards.
+  - id: arm_tip_location
+    question: Is the tip of the metal arm in the same location relative to the workbench surface?
+    answer_type: yes_no
+    notes_for_judge: Check for vertical or horizontal displacement.
+  - id: gears_orientation
+    question: Are the visible gears inside the box in the same orientation as initially?
+    answer_type: yes_no
+    notes_for_judge: The mechanism should not have rotated.
+  - id: box_position
+    question: Is the wooden box in the same position on the table?
+    answer_type: yes_no
+    notes_for_judge: The box itself should not have moved.
+  - id: tools_static
+    question: Are the tools on the workbench in their original positions?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

@@ -1,0 +1,72 @@
+id: marble_helix_descent_02
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: marble_helix_descent
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to lights turning off.
+changes:
+  occlusion_method: The room lights turn off, plunging the scene into darkness.
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The marble is released from the top entrance of the helical track. The marble is free to move
+    along the grooved helical path. The track provides lateral constraint but allows motion along the
+    spiral. Gravity acts on the marble. The helical path has low friction typical of acrylic plastic.
+    The track descends vertically through multiple spiral turns from top to bottom. Suddenly, all lights
+    in the workshop turn off, plunging the scene into complete darkness where nothing is visible. The
+    darkness lasts for several seconds. Then the lights turn back on, illuminating the scene again. No
+    zoom, no cut, no scene change. STOP.
+  camera_WM: The marble is released from the top entrance of the helical track. The marble is free to
+    move along the grooved helical path. The track provides lateral constraint but allows motion along
+    the spiral. Gravity acts on the marble. The helical path has low friction typical of acrylic plastic.
+    The track descends vertically through multiple spiral turns from top to bottom. Suddenly, all lights
+    in the workshop turn off, plunging the scene into complete darkness where nothing is visible. The
+    darkness lasts for several seconds. Then the lights turn back on, illuminating the scene again. No
+    zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A clear acrylic spiral marble run sits on a wooden workbench. A blue and green
+    glass marble is positioned at the very top entrance of the helical track. The background features
+    a workshop environment with tools hanging on a pegboard and a window letting in light.
+  init2final_edit_prompt: Edit the given image to show the blue and green marble located at the bottom
+    of the spiral track. Remove the marble from the top entrance of the track so that the starting position
+    is empty. Place the marble resting in the lowest loop of the clear acrylic track, near the wooden
+    table surface.
+  rationale: The marble is released and subjected to gravity, causing it to roll down the low-friction
+    helical path. The prompt specifies that 'several seconds' pass in darkness, which is sufficient time
+    for the marble to traverse the length of the track and reach the bottom. Therefore, in the final frame,
+    the marble should be located at the lowest point of the spiral or near the exit, while the top entrance
+    should be empty. The camera angle and background remain static.
+  questions:
+  - id: marble_moved_from_start
+    question: Is the marble absent from the top entrance of the track?
+    answer_type: yes_no
+    notes_for_judge: The starting position at the very top should now be empty.
+  - id: marble_vertical_pos
+    question: Is the marble located at a lower vertical position than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The marble should have moved downwards due to gravity.
+  - id: marble_proximity_bottom
+    question: Is the marble closer to the wooden table surface than to the top of the track?
+    answer_type: yes_no
+    notes_for_judge: It should be in the lower portion of the track.
+  - id: marble_path_consistency
+    question: Does the marble appear to be inside or on the track structure?
+    answer_type: yes_no
+    notes_for_judge: It should not be floating in mid-air outside the spiral.
+  - id: marble_visibility
+    question: Is the blue and green marble visible in the frame?
+    answer_type: yes_no
+    notes_for_judge: The marble should not have vanished.
+  - id: background_consistency
+    question: Are the tools on the pegboard in the background unchanged?
+    answer_type: yes_no
+    notes_for_judge: The environment should be static.
+  - id: track_stability
+    question: Is the acrylic track standing in the same position as initially?
+    answer_type: yes_no
+    notes_for_judge: The track itself should not move.

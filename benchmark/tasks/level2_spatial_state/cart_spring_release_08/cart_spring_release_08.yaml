@@ -1,0 +1,70 @@
+id: cart_spring_release_08
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: cart_spring_release
+variation_type: combined
+variation_description: Uncompressed spring combined with lights off occlusion.
+changes:
+  occlusion_method: Lights turn off.
+  dynamic_conditions: Spring is loose (no energy).
+  expected_outcome_change: Cart does not move.
+prompts:
+  init_frame_edit_prompt: Edit the image so the large spring appears loose, extended, and not compressed.
+  video_WM: The release mechanism is toggled. The spring is loose and not under compression. The cart
+    sits on the track with low friction wheels. The workshop lights turn off completely, plunging the
+    scene into total darkness. The darkness lasts for several seconds. Then the lights turn back on, illuminating
+    the scene again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The release mechanism is toggled. The spring is loose and not under compression. The cart
+    sits on the track with low friction wheels. The workshop lights turn off completely, plunging the
+    scene into total darkness. The darkness lasts for several seconds. Then the lights turn back on, illuminating
+    the scene again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A red metal wagon or cart with black rubber wheels sits on a wooden workbench
+    surface. A large, thick metal coil spring is attached to the front of the cart and lies in a loose,
+    irregular spiral on the table in front of it. To the right, a person's hand holds a metal lever or
+    tool connected to the end of the spring mechanism. The background shows a workshop wall with tools
+    and a window.
+  init2final_edit_prompt: Edit the given image to show the scene with the lighting fully restored. The
+    red cart and the coiled metal spring must remain in the exact same positions as in the original image.
+    The hand on the right should remain visible holding the lever. Do not move the cart, do not uncoil
+    the spring, and do not change the camera angle.
+  rationale: The prompt explicitly states that the spring is 'loose and not under compression' and the
+    cart is on a track with low friction wheels. Since the spring is slack (indicated by 'loose' and the
+    visual evidence of the coils resting on the table) and there is no mention of an incline, there is
+    no stored potential energy or gravitational force to propel the cart. Toggling the release mechanism
+    therefore results in no net force. According to physical laws, the cart must remain stationary. The
+    period of darkness is an occlusion event testing spatial permanence; the final state should show the
+    cart in the identical position.
+  questions:
+  - id: cart_moved
+    question: Has the red cart moved from its starting position?
+    answer_type: yes_no
+    notes_for_judge: The cart should remain stationary as there is no force applied.
+  - id: cart_position_same
+    question: Is the red cart in the same location as it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Check for spatial permanence.
+  - id: spring_uncoiled
+    question: Has the metal spring extended or uncoiled?
+    answer_type: yes_no
+    notes_for_judge: The spring was loose and should remain loose.
+  - id: spring_position
+    question: Is the spring still coiled on the surface in front of the cart?
+    answer_type: yes_no
+    notes_for_judge: The spring should not have moved significantly.
+  - id: cart_stationary
+    question: Did the cart remain stationary throughout the event?
+    answer_type: yes_no
+    notes_for_judge: Primary test of physics compliance (zero force = zero motion).
+  - id: cart_visible
+    question: Is the red cart still visible in the frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: hand_visible
+    question: Is the hand on the right side still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

@@ -1,0 +1,64 @@
+id: sliding_block_frictionless_01
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: sliding_block_frictionless
+variation_type: occlusion_method
+variation_description: Replaces camera rotation with lights turning off (pitch black) then back on.
+changes:
+  occlusion_method: Lighting change (lights off/on)
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The metal block is sliding rapidly across the polished ice to the right. The surface is nearly
+    frictionless, and the block maintains its constant velocity. Suddenly, all lights in the environment
+    turn off, plunging the scene into complete pitch-black darkness. After a duration equal to the previous
+    camera movement, the lights turn back on instantly. No zoom, no cut, no scene change. STOP.
+  camera_WM: The metal block is sliding rapidly across the polished ice to the right. The surface is nearly
+    frictionless, and the block maintains its constant velocity. Suddenly, all lights in the environment
+    turn off, plunging the scene into complete pitch-black darkness. After a duration equal to the previous
+    camera movement, the lights turn back on instantly. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A wide shot of a frozen lake surface with a large, reflective metal cube resting
+    on the ice in the center-left. A mechanical robotic arm is visible on the far left edge, extended
+    towards the cube. The sun is low on the horizon in the background, casting a warm glow and long reflections
+    on the polished ice. The sky is clear and blue.
+  init2final_edit_prompt: Edit the given image to show the metal cube positioned significantly further
+    to the right side of the frame, closer to the right edge. Increase the horizontal distance between
+    the robotic arm on the left and the metal cube, depicting the cube as having slid across the ice.
+    Keep the robotic arm, the background landscape, the lighting, and the ice surface texture unchanged.
+  rationale: The prompt establishes that the block is sliding rapidly to the right on a frictionless surface.
+    The period of darkness (lights off) represents a duration of time during which the block continues
+    its motion due to conservation of momentum. When the lights turn back on, the camera view is unchanged
+    (no zoom/cut), but the block must have displaced significantly to the right from its initial position
+    relative to the static robotic arm and background.
+  questions:
+  - id: pos_displacement_right
+    question: Is the metal block positioned further to the right side of the frame than it was in the
+      initial image?
+    answer_type: yes_no
+    notes_for_judge: Compare the horizontal position of the block's center relative to the frame edges.
+  - id: separation_increase
+    question: Is the distance between the robotic arm and the metal block greater than in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: The gap between the arm (left) and block should have increased significantly.
+  - id: closer_to_right_edge
+    question: Is the metal block closer to the right edge of the image than it was initially?
+    answer_type: yes_no
+    notes_for_judge: The block should have moved towards the right border.
+  - id: motion_direction
+    question: Has the metal block moved away from its starting position near the center-left?
+    answer_type: yes_no
+    notes_for_judge: The block should no longer be in its initial spot.
+  - id: lighting_restored
+    question: Is the scene fully illuminated, matching the brightness of the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The prompt states lights turn back on; the image should not be dark.
+  - id: arm_consistency
+    question: Is the robotic arm still visible on the left side of the frame?
+    answer_type: yes_no
+    notes_for_judge: The arm is a static reference object.

@@ -12,3 +12,47 @@ prompts:
     of the wire is the only driver. STOP.
 camera_control:
   HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a circular brass disk suspended horizontally by
+    a thin vertical steel cable in a workshop. A thicker wire is spiraled loosely around the central suspension
+    cable, indicating a twisted state. The disk has some tarnish and surface imperfections on its rim.
+    In the background, out of focus, is a wooden workshop interior with a window on the left and tools
+    on a workbench below.
+  init2final_edit_prompt: Edit the given image to show the suspended brass disk and the spiral wire rotated
+    to a different angle around the vertical axis. The texture details on the rim of the disk should be
+    shifted along the circumference to reflect this rotation. Ensure the background, lighting, and camera
+    framing are identical to the original image.
+  rationale: The scene depicts a torsional pendulum. Upon release, the restorative torque causes the disk
+    to rotate around the vertical axis (unwinding or oscillating). The camera pans away (right) and then
+    returns to the exact starting position (left). Therefore, the final frame should show the same background
+    and camera angle as the initial frame, but the suspended object (disk and spiral wire) must be in
+    a different rotational orientation due to the physical motion that occurred during the camera's absence.
+  questions:
+  - id: disk_visible
+    question: Is the brass disk visible in the frame?
+    answer_type: yes_no
+    notes_for_judge: The camera returns to the initial view, so the disk should be visible.
+  - id: rotation_change_wire
+    question: Is the spiral wire oriented differently than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The system rotates, so the spiral shape should be at a different phase or angle.
+  - id: rotation_change_texture
+    question: Are the surface markings on the disk rim at a different position along the circumference?
+    answer_type: yes_no
+    notes_for_judge: The disk rotates, so specific blemishes should shift position.
+  - id: camera_return_window
+    question: Is the window on the left side of the image still visible?
+    answer_type: yes_no
+    notes_for_judge: The camera pans back to the center, so the window should be in view.
+  - id: vertical_position_invariant
+    question: Is the disk at approximately the same vertical height as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Torsional motion does not involve significant vertical displacement.
+  - id: horizontal_position_invariant
+    question: Is the central suspension wire still centered horizontally in the frame?
+    answer_type: yes_no
+    notes_for_judge: The camera returns to center the wire.
+  - id: background_consistency
+    question: Are the wooden walls and workbench tools in the background consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The camera returns to the original viewpoint.

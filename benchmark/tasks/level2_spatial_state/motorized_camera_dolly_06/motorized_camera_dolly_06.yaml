@@ -1,0 +1,73 @@
+id: motorized_camera_dolly_06
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: motorized_camera_dolly
+variation_type: dynamic_condition
+variation_description: Tracks are angled steeply upwards
+changes:
+  occlusion_method: null
+  dynamic_conditions: Gravity acts against the motion (steep uphill)
+  expected_outcome_change: Dolly slows down significantly or rolls back (depending on motor strength)
+prompts:
+  init_frame_edit_prompt: Edit the image so the tracks are angled steeply upwards, creating a sharp incline
+    for the dolly to climb.
+  video_WM: The camera dolly is attempting to move up the steep incline of the tracks. Gravity pulls heavily
+    against the ascent. The camera rotates right until the dolly completely exits the view, then rotates
+    toward the left smoothly at the same rate until the start of the tracks is back in the center of view.
+    No zoom, no cut, no scene change. STOP.
+  camera_WM: The camera dolly is attempting to move up the steep incline of the tracks. Gravity pulls
+    heavily against the ascent. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A film studio set featuring a large green screen in the background. A metal
+    camera track system is constructed on a wooden support structure, inclining steeply from the bottom
+    left towards the top right. A grey camera dolly with wheels sits on the lower section of the tracks.
+    A camera operator dressed in black sits on the dolly. A black camera crane arm extends from the dolly,
+    holding a large professional film camera. Overhead, studio lights and a lighting grid are visible.
+    The floor is concrete.
+  init2final_edit_prompt: Edit the given image to show the camera dolly, the seated operator, and the
+    mounted camera positioned significantly higher up the inclined tracks. Move the entire assembly towards
+    the top right of the ramp. The lower section of the tracks, where the dolly was originally located,
+    should now be empty and the wooden cross-beams visible. Keep the background, lighting, and track structure
+    unchanged.
+  rationale: The prompt describes the dolly attempting to move up the incline. The camera rotation (panning
+    away and then returning) creates a temporal gap during which the physical action occurs. Although
+    gravity is mentioned as a resisting force, the instruction 'attempting to move up' implies an active
+    motor force driving the dolly upwards. Therefore, the expected state change is a displacement of the
+    dolly up the tracks. The camera movement ends by returning the view to the start of the tracks, which
+    implies a return to a viewpoint similar to the initial frame, allowing for direct comparison of the
+    dolly's position.
+  questions:
+  - id: dolly_position_up
+    question: Is the camera dolly positioned higher up the inclined tracks than it was in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the position of the dolly along the rails. It should be further from the
+      bottom.
+  - id: dolly_displacement_from_start
+    question: Is the dolly further away from the bottom end of the tracks compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The distance between the start of the tracks (bottom left) and the dolly should have
+      increased.
+  - id: track_visibility
+    question: Is the section of the track where the dolly was originally sitting now empty?
+    answer_type: yes_no
+    notes_for_judge: The wooden supports and rails at the previous location should be visible.
+  - id: operator_height
+    question: Is the camera operator seated at a higher elevation relative to the floor than initially?
+    answer_type: yes_no
+    notes_for_judge: Since the tracks are inclined, moving up the tracks increases height.
+  - id: dolly_proximity_background
+    question: Has the dolly moved closer to the green screen background?
+    answer_type: yes_no
+    notes_for_judge: The tracks lead towards the background.
+  - id: dolly_on_tracks
+    question: Is the dolly still positioned on the tracks?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: background_consistency
+    question: Is the green screen still visible in the background?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

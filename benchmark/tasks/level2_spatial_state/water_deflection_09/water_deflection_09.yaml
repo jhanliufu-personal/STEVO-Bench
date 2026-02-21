@@ -1,0 +1,61 @@
+id: water_deflection_09
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: water_deflection
+variation_type: combined
+variation_description: Fan facing away combined with steam occlusion.
+changes:
+  occlusion_method: Thick steam fills the room.
+  dynamic_conditions: Fan faces away from water.
+  expected_outcome_change: Water flows vertically straight down.
+prompts:
+  init_frame_edit_prompt: Edit the image so the fan is rotated 180 degrees, showing the back of the fan
+    motor housing facing the sink instead of the blades.
+  video_WM: The electric fan runs at high speed but faces away from the sink, blowing air to the right.
+    The water flows vertically. Thick steam fills the room, obscuring the entire scene in a white fog.
+    The steam slowly clears. No zoom, no cut, no scene change. STOP.
+  camera_WM: The electric fan runs at high speed but faces away from the sink, blowing air to the right.
+    The water flows vertically. Thick steam fills the room, obscuring the entire scene in a white fog.
+    The steam slowly clears. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A side-view photo of a utility sink area. On the left, a chrome faucet extends
+    from a tiled wall, with water flowing out. On the right, a pair of hands holds a black electric fan
+    with a wire cage. The fan is facing left, blowing air directly at the water stream. The strong airflow
+    causes the water to atomize and spray violently into a chaotic mist, deflecting it away from a vertical
+    path.
+  init2final_edit_prompt: Edit the given image to show the fan turned around so it faces the right side
+    of the frame, away from the faucet. Change the water stream to flow vertically straight down from
+    the faucet into the sink in a coherent column, removing the chaotic spray and mist caused by the wind.
+  rationale: The video prompt states that the fan faces away from the sink and blows air to the right.
+    In the initial frame, the fan faces the sink (left) and disrupts the water. During the steam occlusion,
+    the fan is rotated 180 degrees to face the right. Physically, this removes the aerodynamic force that
+    was deflecting the water. Without the direct wind blast, gravity becomes the dominant force, causing
+    the water to fall vertically in a standard stream rather than spraying.
+  questions:
+  - id: q1
+    question: Is the water flowing vertically straight down?
+    answer_type: yes_no
+    notes_for_judge: The water should follow a gravity-driven path without wind deflection.
+  - id: q2
+    question: Is the fan facing towards the right side of the image?
+    answer_type: yes_no
+    notes_for_judge: The fan orientation must change to face away from the sink.
+  - id: q3
+    question: Has the chaotic water spray and mist been removed?
+    answer_type: yes_no
+    notes_for_judge: Without the wind blowing at it, the water should not atomize.
+  - id: q4
+    question: Does the water stream land in the sink directly below the faucet?
+    answer_type: yes_no
+    notes_for_judge: Check for vertical alignment between faucet and impact point.
+  - id: q5
+    question: Is the fan oriented away from the faucet?
+    answer_type: yes_no
+    notes_for_judge: The front of the fan should point away from the water source.
+  - id: q6
+    question: Is the water stream coherent rather than scattered?
+    answer_type: yes_no
+    notes_for_judge: It should look like a normal tap flow.

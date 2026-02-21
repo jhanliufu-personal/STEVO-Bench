@@ -1,0 +1,60 @@
+id: funnel_marble_vortex_02
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: funnel_marble_vortex
+variation_type: occlusion_method
+variation_description: Thick fog obscures the scene instead of camera rotation.
+changes:
+  occlusion_method: Dense fog fills the room, hiding the funnel.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The steel ball is given a rapid horizontal nudge along the inner circumference of the funnel's
+    rim. The acrylic surface is polished and smooth. Suddenly, dense white fog pumps into the room, rapidly
+    thickening until the funnel is completely obscured from view. The fog then clears away to reveal the
+    scene. No zoom, no cut, no scene change. STOP.
+  camera_WM: The steel ball is given a rapid horizontal nudge along the inner circumference of the funnel's
+    rim. The acrylic surface is polished and smooth. Suddenly, dense white fog pumps into the room, rapidly
+    thickening until the funnel is completely obscured from view. The fog then clears away to reveal the
+    scene. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A large, clear acrylic vortex funnel stands in a well-lit room with floor-to-ceiling
+    windows. A shiny chrome steel ball rests on the upper metal rim (launch track) of the funnel. The
+    background features a polished concrete floor, brick columns, and blurred figures of people.
+  init2final_edit_prompt: Edit the given image to reposition the steel ball so that it is located on the
+    inner curved surface of the acrylic funnel, significantly lower than the top rim and closer to the
+    central drain hole.
+  rationale: The prompt describes the ball being nudged horizontally, which initiates a spiraling motion
+    around the funnel's interior surface. During the period of occlusion (fog), the ball continues to
+    orbit while descending due to gravity and friction. When the view clears, the ball should be located
+    lower down on the acrylic slope, spiraling inwards towards the center hole, rather than resting on
+    the top rim.
+  questions:
+  - id: ball_moved_from_rim
+    question: Has the steel ball moved away from its starting position on the top metal rim?
+    answer_type: yes_no
+    notes_for_judge: The ball should no longer be perched on the upper track.
+  - id: ball_lower_height
+    question: Is the steel ball positioned lower in the funnel than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The ball should be down on the slope, not at the top edge.
+  - id: ball_closer_center
+    question: Is the steel ball closer to the central hole than it was initially?
+    answer_type: yes_no
+    notes_for_judge: The trajectory is a spiral inward.
+  - id: ball_on_acrylic
+    question: Is the steel ball now located on the clear acrylic surface?
+    answer_type: yes_no
+    notes_for_judge: It should have moved off the metal launch rail onto the plastic slope.
+  - id: funnel_integrity
+    question: Is the large clear acrylic funnel still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: background_consistency
+    question: Are the windows in the background still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

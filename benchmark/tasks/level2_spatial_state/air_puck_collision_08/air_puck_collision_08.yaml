@@ -1,0 +1,65 @@
+id: air_puck_collision_08
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: air_puck_collision
+variation_type: combined
+variation_description: Obstacle in path combined with a person blocking the view.
+changes:
+  occlusion_method: Person blocks view
+  dynamic_conditions: Stationary obstacle in path
+  expected_outcome_change: Puck bounces off obstacle while hidden
+prompts:
+  init_frame_edit_prompt: Edit the image to place a solid red air hockey mallet fixed to the table surface
+    directly in the puck's forward path.
+  video_WM: The puck slides across the frictionless air-cushioned surface toward a heavy, stationary mallet
+    fixed in its path. A person wearing a dark shirt walks directly in front of the camera, completely
+    blocking the view of the table. They pause for a moment, then walk away, revealing the table again.
+    No zoom, no cut, no scene change. STOP.
+  camera_WM: The puck slides across the frictionless air-cushioned surface toward a heavy, stationary
+    mallet fixed in its path. A person wearing a dark shirt walks directly in front of the camera, completely
+    blocking the view of the table. They pause for a moment, then walk away, revealing the table again.
+    No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up view of an air hockey table with a reflective surface featuring a
+    neon grid pattern. A red mallet is positioned in the foreground, slightly to the right of the center.
+    To the left, near the metal side rail, is a white glowing puck, accompanied by bright sparks or lens
+    flares indicating impact or high speed. The background is dark, showing blurred arcade machines and
+    people.
+  init2final_edit_prompt: Edit the given image to move the white glowing puck to a different position
+    on the table surface, specifically away from the left rail. Remove the sparks and light flare effects
+    near the left rail. Keep the red mallet exactly in its original stationary position. Ensure the view
+    of the table is completely unobstructed, with no person or object blocking the camera.
+  rationale: The prompt describes a sequence where the puck slides across the frictionless surface while
+    a person temporarily blocks the view. By the time the person walks away and the view is restored,
+    the puck will have traveled across the table, collided with the stationary mallet, and moved to a
+    new location (likely rebounding). The transient sparks seen in the initial frame would have dissipated.
+    The mallet is described as fixed and stationary, so it should not move. The final frame must show
+    the unblocked table with the puck displaced from its starting point.
+  questions:
+  - id: puck_moved
+    question: Is the white puck in a different position than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The puck should have moved from its starting spot near the left rail.
+  - id: sparks_gone
+    question: Are the sparks or light flares near the left rail absent?
+    answer_type: yes_no
+    notes_for_judge: The initial impact sparks are transient and should not persist after the delay.
+  - id: puck_away_from_rail
+    question: Has the puck moved away from the immediate contact point with the left rail?
+    answer_type: yes_no
+    notes_for_judge: It should no longer be touching the left rail where the sparks were.
+  - id: mallet_stationary
+    question: Is the red mallet in the same position as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the mallet is stationary and fixed.
+  - id: view_unobstructed
+    question: Is the view of the air hockey table clear of the person who blocked the camera?
+    answer_type: yes_no
+    notes_for_judge: The prompt says the person walks away, revealing the table.
+  - id: grid_visible
+    question: Is the neon grid pattern on the table surface visible?
+    answer_type: yes_no
+    notes_for_judge: Checks that the occlusion is gone.

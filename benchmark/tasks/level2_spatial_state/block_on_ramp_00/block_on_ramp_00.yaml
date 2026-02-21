@@ -1,0 +1,68 @@
+id: block_on_ramp_00
+level: 2
+category: kinematics
+tags: []
+variant_of: block_on_ramp
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: Single continuous take, no cuts or zoom. The block is resting on a smooth inclined ramp with
+    very low friction. The block is not glued or fixed in place. Camera remains stationary throughout,
+    keeping the block and ramp fully in frame. The physical interaction between the block and ramp proceeds
+    naturally according to gravity and the low-friction surface. Lighting and objects remain consistent
+    and realistic.
+  camera_WM: Single continuous take, no cuts or zoom. The block is resting on a smooth inclined ramp with
+    very low friction. The block is not glued or fixed in place. Camera remains stationary throughout,
+    keeping the block and ramp fully in frame. The physical interaction between the block and ramp proceeds
+    naturally according to gravity and the low-friction surface. Lighting and objects remain consistent
+    and realistic.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A rectangular wooden block rests near the top left of a shiny metal inclined
+    ramp. The ramp slopes downwards from left to right and sits on a wooden table. In the background,
+    there is a window and laboratory cabinets. A small metal clamp or stop is visible behind the block
+    at the top of the ramp.
+  init2final_edit_prompt: Edit the given image to show the wooden block positioned near the bottom right
+    end of the metal ramp. Remove the block from its original position at the top left of the ramp. Ensure
+    the block is aligned with the surface of the ramp. Update the reflections on the metal ramp surface
+    to match the new position of the block. Keep the background, table, and ramp structure unchanged.
+  rationale: The prompt describes a block on a low-friction inclined plane subject to gravity. Since the
+    block is not fixed and friction is low, the force of gravity parallel to the ramp will overcome static
+    friction, causing the block to slide down the ramp. The final state should show the block significantly
+    further down the slope, towards the bottom right, while the camera and environment remain static.
+  questions:
+  - id: block_moved_down
+    question: Is the wooden block positioned lower on the ramp than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The block should have slid down the incline.
+  - id: block_moved_right
+    question: Has the wooden block moved towards the right side of the image?
+    answer_type: yes_no
+    notes_for_judge: Since the ramp slopes down to the right, the block must move right.
+  - id: start_pos_empty
+    question: Is the original position of the block at the top left of the ramp now empty?
+    answer_type: yes_no
+    notes_for_judge: The block should have vacated its starting spot.
+  - id: distance_from_top
+    question: Is the distance between the block and the top of the ramp greater than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Check for displacement away from the top clamp.
+  - id: block_orientation
+    question: Is the block still oriented parallel to the surface of the ramp?
+    answer_type: yes_no
+    notes_for_judge: The block should slide, not tumble or float.
+  - id: ramp_invariant
+    question: Is the metal ramp structure in the same position as the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The ramp itself should not move.
+  - id: background_invariant
+    question: Are the background objects (window, cabinets) unchanged?
+    answer_type: yes_no
+    notes_for_judge: Camera is stationary.

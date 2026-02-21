@@ -1,0 +1,69 @@
+id: frictionless_pendulum_00
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: frictionless_pendulum
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The lead bob is released from its initial 45-degree position. The chamber is a vacuum, and
+    the pivot point at the top is a low-friction bearing. Camera remains stationary throughout, keeping
+    the entire pendulum fully visible within the frame. No zoom, no cut, no scene change. STOP.
+  camera_WM: The lead bob is released from its initial 45-degree position. The chamber is a vacuum, and
+    the pivot point at the top is a low-friction bearing. Camera remains stationary throughout, keeping
+    the entire pendulum fully visible within the frame. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A large spherical metal bob suspended by a thin wire inside a cylindrical glass
+    vacuum chamber. The bob is positioned to the left side of the chamber, held at an elevated angle by
+    an articulated mechanical arm. The background shows a laboratory setting with windows and equipment
+    visible through the glass chamber.
+  init2final_edit_prompt: Edit the image to show the metal sphere hanging vertically in the center of
+    the chamber, at the lowest point of its swing. The sphere should be positioned lower than in the original
+    image and centered within the glass cylinder. The mechanical arm on the left should remain in place
+    but no longer be touching or holding the sphere. The wire suspending the sphere should appear straight
+    and vertical.
+  rationale: Upon release, gravity acts on the pendulum bob, causing it to swing downwards and towards
+    the center of the chamber (the equilibrium position). Since the environment is a vacuum with low friction,
+    the motion is a smooth arc. The final state represents the bob having traveled along this arc, resulting
+    in a lower vertical position and a horizontal shift towards the center of the chamber compared to
+    the initial held position.
+  questions:
+  - id: pos_change_01
+    question: Is the metal sphere at a different position than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Check for any displacement.
+  - id: pos_height_02
+    question: Is the metal sphere lower in height than its initial position?
+    answer_type: yes_no
+    notes_for_judge: The bob should swing downwards under gravity.
+  - id: pos_lateral_03
+    question: Has the metal sphere moved horizontally towards the center of the chamber?
+    answer_type: yes_no
+    notes_for_judge: The swing should take it from the side towards the central vertical axis.
+  - id: mech_separation_04
+    question: Is the metal sphere separated from the mechanical arm that was holding it?
+    answer_type: yes_no
+    notes_for_judge: The arm releases the bob, so there should be a gap.
+  - id: wire_angle_05
+    question: Is the suspension wire closer to a vertical orientation than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: As it swings to the center, the wire angle relative to vertical decreases.
+  - id: motion_direction_06
+    question: Has the metal sphere moved to the right relative to its starting position?
+    answer_type: yes_no
+    notes_for_judge: Assuming the arm is on the left, the swing is towards the right/center.
+  - id: bg_consistency_07
+    question: Are the laboratory windows in the background still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: chamber_consistency_08
+    question: Does the glass vacuum chamber appear structurally unchanged?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

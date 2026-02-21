@@ -1,0 +1,61 @@
+id: unbalanced_atwood_10
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: unbalanced_atwood
+variation_type: combined
+variation_description: The brake remains locked (preventing motion) and camera zooms out/in.
+changes:
+  occlusion_method: Camera zoom out
+  dynamic_conditions: Brake locked (static system)
+  expected_outcome_change: No movement
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The mechanical brake remains firmly engaged, locking the pulley system in place despite the
+    heavy weight on the left. The camera zooms out rapidly until the pulley system is just a tiny dot
+    in the distance, then zooms back in to the original framing. No cut, no scene change. STOP.
+  camera_WM: The mechanical brake remains firmly engaged, locking the pulley system in place despite the
+    heavy weight on the left. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+evaluation:
+  init_frame_description: A rustic workshop interior featuring a pulley system against a stone wall. On
+    the left, a large, rusty rectangular weight labeled '50 KG' hangs suspended by a thick rope over an
+    anvil. On the right, a smaller weight labeled '5 KG' hangs from a separate rope. In the center, a
+    gear and winch mechanism with a handle connects the ropes. Chains hang vertically on the far left.
+    The lighting is natural, coming from a window on the right.
+  init2final_edit_prompt: Edit the given image to show the scene exactly as it appeared initially. Ensure
+    the 50kg weight on the left and the 5kg weight on the right remain at their exact original vertical
+    heights. Keep the central gear mechanism and its handle in the same orientation. Maintain the original
+    framing, lighting, and background details without any displacement of objects.
+  rationale: The video generation prompt explicitly states that a mechanical brake locks the system, preventing
+    any movement despite the weight imbalance (50kg vs 5kg). The camera zooms out and then back in to
+    the original framing. Because the system is physically locked and the camera returns to its starting
+    point, the final frame should be visually identical to the initial frame. This tests the model's ability
+    to maintain state stability and object permanence through a camera excursion without hallucinating
+    motion based on the implied weight imbalance.
+  questions:
+  - id: q1
+    question: Is the 50kg weight at the same vertical height as it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the bottom of the weight relative to the anvil or background stones.
+  - id: q2
+    question: Is the 5kg weight at the same vertical height as it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Check its position relative to the window or wall features.
+  - id: q3
+    question: Is the handle of the central gear mechanism in the same orientation as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The handle angle should not have changed.
+  - id: q4
+    question: Is the 50kg weight still suspended above the anvil without touching it?
+    answer_type: yes_no
+    notes_for_judge: The weight should not have dropped to rest on the anvil.
+  - id: q5
+    question: Are the ropes connecting the weights still in the same taut configuration?
+    answer_type: yes_no
+    notes_for_judge: Ropes should not be slack or displaced.
+  - id: q6
+    question: Is the distance between the top of the 50kg weight and the pulley above it unchanged?
+    answer_type: yes_no
+    notes_for_judge: Verifies no upward or downward movement.

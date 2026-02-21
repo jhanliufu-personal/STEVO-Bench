@@ -1,0 +1,66 @@
+id: block_on_ramp_05
+level: 2
+category: kinematics
+tags: []
+variant_of: block_on_ramp
+variation_type: dynamic_condition
+variation_description: A physical stopper is added to the ramp in front of the block.
+changes:
+  occlusion_method: null
+  dynamic_conditions: A metal stopper is fixed to the ramp directly in the block's path.
+  expected_outcome_change: The block will be physically prevented from sliding.
+prompts:
+  init_frame_edit_prompt: Edit the image to place a small silver metal stopper fixed to the ramp surface
+    immediately in front of the wooden block (on the downhill side).
+  video_WM: Single continuous take, no cuts or zoom. The block is resting on a smooth inclined ramp. A
+    small metal stopper is fixed securely to the ramp directly in front of the block, physically blocking
+    its path downhill. Camera starts centered on the block and ramp. Then the camera smoothly moves to
+    the right at constant speed until the ramp leaves the frame to the left. While the ramp is out of
+    view, the physical interaction continues naturally. The camera continues moving right across the tabletop
+    for several seconds. Then the camera moves left at the same speed back to the original viewpoint.
+  camera_WM: A block rests on a smooth inclined ramp. A small metal stopper is fixed securely to the ramp
+    directly in front of the block, physically blocking its path downhill. Lighting and objects remain
+    consistent and realistic. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A metal inclined ramp sits on a wooden table. A rectangular wooden block rests
+    on the slope of the ramp. A cylindrical metal stopper is placed on the ramp directly downhill from
+    the block, physically blocking its path. A small rectangular shim is also visible near the stopper
+    mechanism. In the background, there is a window and laboratory cabinetry.
+  init2final_edit_prompt: Edit the given image to show the scene unchanged, with the wooden block remaining
+    in its exact original position resting against the cylindrical metal stopper on the inclined ramp.
+    Do not move the block downhill.
+  rationale: The prompt explicitly states that a metal stopper is fixed securely to the ramp in front
+    of the block, blocking its path. Although the block is on an incline and subject to gravity, the physical
+    constraint of the stopper prevents any motion. Therefore, the system is in static equilibrium. When
+    the camera returns to the original viewpoint, the block must be in the exact same location as the
+    initial frame, having not moved.
+  questions:
+  - id: pos_static_01
+    question: Is the wooden block located at the same position on the ramp as it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The block should not have moved because of the stopper.
+  - id: pos_relative_02
+    question: Is the wooden block still resting against or immediately adjacent to the cylindrical metal
+      stopper?
+    answer_type: yes_no
+    notes_for_judge: It should not have moved away or through the stopper.
+  - id: pos_height_03
+    question: Is the top edge of the wooden block at the same height on the ramp as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Check if the block slid down; it should not have.
+  - id: pos_distance_04
+    question: Is the distance between the top of the ramp and the wooden block unchanged?
+    answer_type: yes_no
+    notes_for_judge: The block should remain stationary.
+  - id: obj_presence_05
+    question: Is the cylindrical metal stopper still visible in front of the wooden block?
+    answer_type: yes_no
+    notes_for_judge: The stopper must remain to block the block.
+  - id: global_consistency_06
+    question: Does the scene appear identical to the initial frame in terms of object placement?
+    answer_type: yes_no
+    notes_for_judge: Since the camera returns to the start and the object is blocked, the frame should
+      look the same.

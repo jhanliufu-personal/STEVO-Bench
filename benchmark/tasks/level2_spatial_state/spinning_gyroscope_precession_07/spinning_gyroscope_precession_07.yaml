@@ -1,0 +1,70 @@
+id: spinning_gyroscope_precession_07
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: spinning_gyroscope_precession
+variation_type: combined
+variation_description: Combines stationary condition (it should fall) with lighting occlusion.
+changes:
+  occlusion_method: Lighting change (pitch black)
+  dynamic_conditions: Gyroscope is stationary (0 RPM)
+  expected_outcome_change: Gyroscope falls over/collapses
+prompts:
+  init_frame_edit_prompt: Edit the image to make the gyroscope look completely stationary. Remove all
+    motion blur from the wheel so the metal texture is sharp and distinct. Keep it tilted at the same
+    angle.
+  video_WM: The gyroscope sits motionless on the pivot, tilted at an angle, with no spin. Gravity acts
+    on the unbalanced mass. Suddenly, the workshop lights turn off completely, plunging the scene into
+    total darkness. After a few seconds, the lights turn back on to reveal the scene. No zoom, no cut,
+    no scene change. STOP.
+  camera_WM: The gyroscope sits motionless on the pivot, tilted at an angle, with no spin. Gravity acts
+    on the unbalanced mass. Suddenly, the workshop lights turn off completely, plunging the scene into
+    total darkness. After a few seconds, the lights turn back on to reveal the scene. No zoom, no cut,
+    no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up of a large metal gyroscope with a thick brass flywheel and a steel
+    outer ring, balancing on a sharp conical pivot point on a metal plate. The gyroscope is tilted at
+    a significant angle relative to the vertical. The surface is covered in metal shavings. To the left,
+    a metal chain hangs vertically. The background shows a cluttered workshop with cabinets, tools, and
+    fluorescent lighting.
+  init2final_edit_prompt: Edit the given image to show the gyroscope having fallen over onto the metal
+    surface. The gyroscope should be lying on its side or resting on its rim against the base plate, rather
+    than balancing on the pivot tip. The object should appear to have toppled completely from its initial
+    tilted stance to a resting position on the table.
+  rationale: The prompt explicitly states the gyroscope has 'no spin'. Without angular momentum, a tilted
+    gyroscope cannot precess or maintain its balance; it is simply a top-heavy object on a pivot. Gravity
+    will exert a torque causing it to topple over immediately. During the period of darkness, the gyroscope
+    falls. In the final frame, it must be lying on the table or base plate, having reached a stable resting
+    position.
+  questions:
+  - id: fallen_state
+    question: Is the gyroscope lying on the metal surface or base plate?
+    answer_type: yes_no
+    notes_for_judge: The object should no longer be balancing on the tip; it should be resting on its
+      side/rim.
+  - id: height_change
+    question: Is the center of the brass flywheel lower than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Since it falls over, the center of mass must be lower.
+  - id: pivot_contact
+    question: Is the gyroscope no longer balancing solely on the sharp pivot tip?
+    answer_type: yes_no
+    notes_for_judge: It should have toppled, so other parts (rim, frame) should touch the ground.
+  - id: orientation_change
+    question: Is the central axis of the gyroscope closer to horizontal than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: It should have fallen from a diagonal tilt to a flatter position.
+  - id: rim_contact
+    question: Is the outer ring or brass flywheel touching or nearly touching the table surface?
+    answer_type: yes_no
+    notes_for_judge: Check for contact with the ground plane.
+  - id: background_consistency
+    question: Is the hanging chain on the left still in the same position?
+    answer_type: yes_no
+    notes_for_judge: The chain should not move as it is not part of the gyroscope assembly.
+  - id: lighting_consistency
+    question: Are the workshop lights on?
+    answer_type: yes_no
+    notes_for_judge: The prompt says lights turn back on to reveal the scene.

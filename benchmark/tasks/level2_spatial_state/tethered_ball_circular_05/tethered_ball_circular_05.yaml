@@ -1,0 +1,69 @@
+id: tethered_ball_circular_05
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: tethered_ball_circular
+variation_type: dynamic_condition
+variation_description: The ball is resting on the ground with no initial velocity.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Ball is stationary on the ground with slack string.
+  expected_outcome_change: The ball remains in the same spot (no motion).
+prompts:
+  init_frame_edit_prompt: Edit the image to show the ball resting on the dirt ground with the string slack
+    and curved downwards, indicating no tension or motion.
+  video_WM: The ball sits stationary on the dirt ground. The string connecting it to the pole is slack
+    and rests on the earth. The camera rotates right until the entire apparatus completely exits the view,
+    then rotates toward the left smoothly at the same rate until the central pole is back in the center
+    of view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The ball sits stationary on the dirt ground. The string connecting it to the pole is slack
+    and rests on the earth. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A vertical wooden pole stands in the foreground, slightly to the right of the
+    center. A red ball sits stationary on the dirt ground to the left of the pole. A thin rope hangs from
+    the pole, loops loosely on the ground, and connects to the ball; the rope is clearly slack. The background
+    consists of a blurred dirt field.
+  init2final_edit_prompt: Edit the given image to center the wooden pole in the view while keeping the
+    red ball stationary on the dirt ground to the left of the pole. Ensure the rope remains slack and
+    resting on the earth, and the ball remains in the same relative position to the pole as in the original
+    view.
+  rationale: 'The prompt describes a static scene where the ball is stationary and the rope is slack.
+    The camera pans right (causing the apparatus to exit the view to the left relative to the frame, or
+    the frame moves left relative to the world? Wait, ''rotates right'' means the view pans right, so
+    objects move left. ''Exits the view'' implies the camera looks away). Then the camera pans back left
+    to center the pole. Since no physical forces (wind, impact) are described, the ball must remain in
+    its original position on the ground, and the rope must remain slack. The challenge is object permanence:
+    the model must restore the ball and rope in their correct static states after they have been occluded
+    by the camera motion.'
+  questions:
+  - id: ball_visible
+    question: Is the red ball visible in the final frame?
+    answer_type: yes_no
+    notes_for_judge: Test for object permanence after occlusion.
+  - id: ball_on_ground
+    question: Is the red ball resting on the ground?
+    answer_type: yes_no
+    notes_for_judge: The ball should not be floating or hanging.
+  - id: rope_slack
+    question: Is the rope connecting the ball to the pole slack?
+    answer_type: yes_no
+    notes_for_judge: The rope should be loose/curved, not a straight taut line.
+  - id: ball_relative_pos
+    question: Is the red ball positioned to the left of the wooden pole?
+    answer_type: yes_no
+    notes_for_judge: Check relative spatial configuration.
+  - id: pole_centered
+    question: Is the wooden pole visible in the center of the frame?
+    answer_type: yes_no
+    notes_for_judge: The prompt explicitly asks for the pole to be back in the center.
+  - id: ball_static_check
+    question: Does the red ball appear to be in the same location relative to the pole as it was in the
+      initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the distance and angle between ball and pole in both frames.
+  - id: rope_ground_contact
+    question: Is part of the rope resting on the ground?
+    answer_type: yes_no
+    notes_for_judge: Consistent with the slack state.

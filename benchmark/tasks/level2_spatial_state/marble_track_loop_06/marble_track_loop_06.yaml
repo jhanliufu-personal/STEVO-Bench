@@ -1,0 +1,63 @@
+id: marble_track_loop_06
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: marble_track_loop
+variation_type: dynamic_condition
+variation_description: The top section of the plastic loop is missing.
+changes:
+  occlusion_method: null
+  dynamic_conditions: The track is incomplete; the top apex of the loop is removed.
+  expected_outcome_change: The ball flies out of the track at the top gap instead of completing the loop.
+prompts:
+  init_frame_edit_prompt: Edit the image to remove the top section of the clear plastic loop, leaving
+    a large gap in the track at the apex.
+  video_WM: The steel ball rolls into the vertical loop with significant momentum. The plastic track has
+    a large section missing at the very top of the loop. The camera rotates right until the loop completely
+    exits the view, then rotates toward the left smoothly at the same rate until the loop entrance is
+    back in the center of view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The steel ball rolls into the vertical loop, approaching a large gap where the top section
+    of the track is missing. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up shot of a homemade wooden marble run on a workbench. The main focus
+    is a clear plastic track forming a vertical loop. A shiny steel ball is positioned at the bottom of
+    the loop, resting in the track. The track has a visible gap at the very top of the loop. The structure
+    is made of light-colored plywood. In the background, there is a workbench with tools, sawdust, and
+    a window with daylight coming through.
+  init2final_edit_prompt: Edit the given image to remove the steel ball from the bottom of the plastic
+    track loop. The clear plastic track should appear empty at the location where the ball was originally
+    sitting, revealing the wood and background behind it. Do not place the ball anywhere else in the loop
+    structure; the track should look as if the ball has passed through and exited the frame.
+  rationale: The prompt describes the ball rolling with significant momentum into a loop. The camera performs
+    a panning motion away from the loop and then back to the original position. This camera maneuver implies
+    a duration of several seconds. Given the momentum and the timescale, the ball will have had ample
+    time to traverse the loop and exit the immediate view (likely moving off to the right along the exit
+    track). Therefore, in the final frame, the ball should no longer be present at its starting position
+    at the bottom of the loop.
+  questions:
+  - id: ball_moved_from_start
+    question: Is the steel ball absent from its initial position at the bottom of the loop?
+    answer_type: yes_no
+    notes_for_judge: The ball should have moved along the track and no longer be at the bottom.
+  - id: track_empty_at_bottom
+    question: Is the clear plastic track empty at the lowest point of the loop?
+    answer_type: yes_no
+    notes_for_judge: Check the specific spot where the ball was initially sitting.
+  - id: ball_progress
+    question: Has the ball moved forward along the track trajectory?
+    answer_type: yes_no
+    notes_for_judge: If the ball is gone or further along, the answer is yes.
+  - id: wood_visibility
+    question: Is the wooden structure visible through the track where the ball used to be?
+    answer_type: yes_no
+    notes_for_judge: Since the ball is gone, the background/support behind the clear track should be visible.
+  - id: structure_consistency
+    question: Is the wooden loop structure still in the same position and orientation?
+    answer_type: yes_no
+    notes_for_judge: The camera returns to the original view, so the static structure should be unchanged.
+  - id: background_consistency
+    question: Are the window and workbench tools in the background still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

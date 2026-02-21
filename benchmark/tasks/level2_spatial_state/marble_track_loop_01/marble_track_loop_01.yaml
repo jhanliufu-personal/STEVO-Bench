@@ -1,0 +1,64 @@
+id: marble_track_loop_01
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: marble_track_loop
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to a wooden board sliding in front of the
+  lens.
+changes:
+  occlusion_method: A large wooden board slides in front of the camera, fully blocking the view, then
+    slides away.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The steel ball rolls into and through the vertical loop. Its momentum is sufficient to carry
+    it through the curve of the manifold. A large wooden board slides in from the right, completely blocking
+    the view of the track. The board remains for a moment, then slides back out to the right. No zoom,
+    no cut, no scene change. STOP.
+  camera_WM: The steel ball rolls into and through the vertical loop. Its momentum is sufficient to carry
+    it through the curve of the manifold. A large wooden board slides in from the right, completely blocking
+    the view of the track. The board remains for a moment, then slides back out to the right. No zoom,
+    no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up shot of a homemade marble run constructed from plywood and clear
+    flexible plastic tubing. The central feature is a vertical loop of tubing. A shiny steel ball (marble)
+    is positioned at the bottom of the loop, resting in the track. The track enters from the upper left
+    and exits to the right. The background shows a workbench with various tools, wood shavings, and a
+    window letting in daylight.
+  init2final_edit_prompt: Edit the given image to show the steel ball has moved forward along the track.
+    Remove the steel ball from its initial position at the bottom of the loop. Place the steel ball on
+    the horizontal section of the track to the right of the loop structure, near the right edge of the
+    frame.
+  rationale: The prompt describes the ball rolling through the loop with sufficient momentum. An occlusion
+    event (the board) hides the progress, but physically, the ball must continue its trajectory. Upon
+    the removal of the occlusion, the ball should have completed the loop and traveled onto the exit track
+    to the right. The final state depicts the ball further along this path.
+  questions:
+  - id: ball_moved
+    question: Has the steel ball moved from its initial position at the bottom of the loop?
+    answer_type: yes_no
+    notes_for_judge: The ball should no longer be at the nadir of the loop.
+  - id: ball_trajectory_right
+    question: Is the steel ball now located to the right of the loop structure?
+    answer_type: yes_no
+    notes_for_judge: The ball should be on the exit track which extends to the right.
+  - id: loop_empty
+    question: Is the vertical loop section of the track empty?
+    answer_type: yes_no
+    notes_for_judge: Since the ball rolled through, the loop itself should now be clear.
+  - id: ball_height
+    question: Is the steel ball at a lower vertical position than the top of the loop?
+    answer_type: yes_no
+    notes_for_judge: The ball should be on the flat exit track, which is lower than the loop's apex.
+  - id: background_consistency
+    question: Are the tools and window in the background still visible and unchanged?
+    answer_type: yes_no
+    notes_for_judge: The environment should remain static.
+  - id: structure_stability
+    question: Is the wooden track structure in the same position as the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The camera and structure should not have moved.

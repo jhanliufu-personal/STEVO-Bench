@@ -1,0 +1,66 @@
+id: treadmill_projectile_01
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: treadmill_projectile
+variation_type: occlusion_method
+variation_description: Replaces camera rotation with a rolling shutter door that blocks the view.
+changes:
+  occlusion_method: A rolling shutter door descends to block the view completely, then ascends.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The robotic launcher fires a tennis ball vertically into the air while the treadmill belt
+    continues its constant leftward motion. The air in the room is still. A heavy metal rolling shutter
+    descends from the top of the frame until the scene is completely blocked from view, then ascends smoothly
+    until the treadmill is fully visible again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The robotic launcher fires a tennis ball vertically into the air while the treadmill belt
+    continues its constant leftward motion. The air in the room is still. A heavy metal rolling shutter
+    descends from the top of the frame until the scene is completely blocked from view, then ascends smoothly
+    until the treadmill is fully visible again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A complex robotic rig constructed from aluminum extrusion profiles sits on a
+    dark, textured treadmill belt. The robot features a vertical tube (launcher barrel), motors, wiring,
+    and visible blue and orange LED indicators. The background is an industrial lab setting with concrete
+    walls, yellow safety posts, and black wire mesh cages.
+  init2final_edit_prompt: Edit the given image to move the robotic launcher device significantly to the
+    left along the treadmill belt. The device should be positioned closer to the left edge of the frame
+    compared to its original central position, appearing as if it has been transported by the moving belt.
+    Ensure the background, treadmill structure, and lighting remain unchanged. Do not show any tennis
+    ball in the air. Ensure the view is completely clear, with no rolling shutter visible.
+  rationale: The treadmill belt is described as having constant leftward motion. Since the robotic launcher
+    is resting on the belt (and not described as actively driving to stay stationary), it will be transported
+    to the left relative to the static camera. The tennis ball is fired vertically; due to the conservation
+    of momentum (sharing the launcher's leftward velocity), it travels in an arc relative to the room
+    but stays vertically aligned with the launcher, eventually landing back on or near it. The occlusion
+    by the rolling shutter implies a duration of time sufficient for the ball to land and the launcher
+    to be displaced significantly to the left. The final state should show the launcher displaced leftward
+    and the shutter fully retracted.
+  questions:
+  - id: launcher_moved_left
+    question: Is the robotic launcher positioned further to the left than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the horizontal position of the robot on the belt.
+  - id: launcher_displacement
+    question: Has the robotic launcher moved away from the center of the image?
+    answer_type: yes_no
+    notes_for_judge: It should have moved left.
+  - id: empty_start_pos
+    question: Is the area of the treadmill belt where the robot was initially sitting now empty?
+    answer_type: yes_no
+    notes_for_judge: The space originally occupied by the robot should now show the empty belt.
+  - id: shutter_gone
+    question: Is the view of the treadmill completely free of the metal rolling shutter?
+    answer_type: yes_no
+    notes_for_judge: The shutter should have ascended fully.
+  - id: ball_landed
+    question: Is the air above the launcher free of a floating tennis ball?
+    answer_type: yes_no
+    notes_for_judge: The ball should have landed during the occlusion.
+  - id: robot_integrity
+    question: Is the robotic launcher still upright on the treadmill belt?
+    answer_type: yes_no
+    notes_for_judge: It should not have fallen over or disappeared.

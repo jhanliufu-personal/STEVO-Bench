@@ -1,0 +1,67 @@
+id: bicycle_wheel_freespin_05
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: bicycle_wheel_freespin
+variation_type: dynamic_condition
+variation_description: Constant torque applied by a motor.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Motor applies constant torque.
+  expected_outcome_change: Wheel maintains speed or accelerates (does not slow down).
+prompts:
+  init_frame_edit_prompt: Edit the image to add a small electric motor mechanism attached to the metal
+    arm, with a rubber roller pressing firmly against the top of the tire tread.
+  video_WM: A motorized friction roller is pressed against the tire tread, applying constant driving torque
+    to the wheel to counter friction and drag. The axle bearing allows rotation. The camera rotates right
+    at constant speed until the wheel completely exits the view to the right. The camera continues rotating
+    right for several seconds while the wheel remains off-screen. Then the camera rotates left smoothly
+    at the same rate back to the original viewpoint. No zoom, no cut, no scene change. STOP.
+  camera_WM: A motorized friction roller is pressed against the tire tread, applying constant driving
+    torque to the wheel to counter friction and drag. The axle bearing allows rotation. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A bicycle wheel mounted horizontally on a metal stand in a workshop, spinning
+    rapidly with motion-blurred spokes. A small electric motor with a friction roller is attached to a
+    metal arm and presses against the tire tread. The background features a workbench and workshop tools.
+  init2final_edit_prompt: Edit the given image to show the bicycle wheel and motor setup exactly as they
+    appeared initially. The wheel should remain mounted on the central stand in the center of the frame.
+    The motor and friction roller should remain engaged with the tire. The spokes should exhibit motion
+    blur indicating continued rotation. The background, lighting, and object positions should remain identical
+    to the original view.
+  rationale: The bicycle wheel is mechanically fixed to a stationary stand, preventing any translational
+    movement. The motor applies constant torque, maintaining the wheel's rotation. The camera pans away
+    until the object is occluded and then returns to the exact original viewpoint. Therefore, the final
+    frame must demonstrate object permanence by showing the wheel in the exact same position and rotational
+    state (spinning) as the initial frame.
+  questions:
+  - id: wheel_presence
+    question: Is the bicycle wheel visible in the frame?
+    answer_type: yes_no
+    notes_for_judge: Tests object permanence after the camera returns.
+  - id: wheel_position_fixed
+    question: Is the bicycle wheel located in the same position within the frame as it was initially?
+    answer_type: yes_no
+    notes_for_judge: Tests spatial consistency; the wheel should not have drifted.
+  - id: mounting_integrity
+    question: Is the wheel still mounted on the central vertical stand?
+    answer_type: yes_no
+    notes_for_judge: Tests kinematic constraints; the wheel should not have fallen off.
+  - id: motor_engagement
+    question: Is the friction roller of the motor still touching the tire?
+    answer_type: yes_no
+    notes_for_judge: Tests physical configuration stability.
+  - id: rotational_motion
+    question: Does the wheel appear to be spinning (e.g., motion blur on spokes)?
+    answer_type: yes_no
+    notes_for_judge: Tests momentum/state preservation.
+  - id: arm_position
+    question: Is the metal arm holding the motor still in its original position?
+    answer_type: yes_no
+    notes_for_judge: Tests structural stability.
+  - id: background_consistency
+    question: Is the background workbench visible in the same relative position to the wheel?
+    answer_type: yes_no
+    notes_for_judge: Verifies the camera returned to the correct angle.

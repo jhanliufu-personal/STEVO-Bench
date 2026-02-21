@@ -1,0 +1,60 @@
+id: marble_track_loop_10
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: marble_track_loop
+variation_type: combined
+variation_description: Missing track top combined with lights-out occlusion.
+changes:
+  occlusion_method: Lights turn off.
+  dynamic_conditions: Top of loop is missing.
+  expected_outcome_change: Ball flies out at the top.
+prompts:
+  init_frame_edit_prompt: Edit the image to remove the top section of the clear plastic loop, leaving
+    a large gap in the track at the apex.
+  video_WM: The steel ball rolls into the vertical loop, heading toward a large gap where the top of the
+    track is missing. The lights in the room suddenly cut out, leaving the scene in total darkness. After
+    a few seconds, the lights flicker back on. No zoom, no cut, no scene change. STOP.
+  camera_WM: The steel ball rolls into the vertical loop, heading toward a large gap where the top of
+    the track is missing. The lights in the room suddenly cut out, leaving the scene in total darkness.
+    After a few seconds, the lights flicker back on. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up view of a homemade wooden marble run with clear flexible plastic
+    tracks. A shiny steel ball bearing is positioned at the bottom of a U-shaped dip in the track. The
+    background shows a workbench with various tools like a drill, hammers, and screwdrivers, along with
+    a window providing natural daylight.
+  init2final_edit_prompt: Edit the given image to remove the steel ball from the clear plastic track.
+    The track should appear empty at the bottom of the curve where the ball was previously located. Maintain
+    the lighting, background tools, and wooden structure exactly as they are in the original image.
+  rationale: The prompt indicates the ball is in motion ('rolls into') and heading towards a loop. The
+    scene is occluded by darkness for 'a few seconds', which is a significant amount of time in the context
+    of a marble run. Physically, the ball would have traversed the loop and either continued down the
+    track, flown off at the gap, or fallen. In any of these kinematic scenarios, the ball would no longer
+    be at the starting position (the bottom of the dip) when the lights come back on.
+  questions:
+  - id: q1
+    question: Is the bottom of the track loop empty?
+    answer_type: yes_no
+    notes_for_judge: The ball should have moved away from the lowest point of the curve.
+  - id: q2
+    question: Has the steel ball moved from its initial position?
+    answer_type: yes_no
+    notes_for_judge: If the ball is missing or in a new spot, the answer is Yes.
+  - id: q3
+    question: Is the clear plastic track visible without the ball at the starting dip?
+    answer_type: yes_no
+    notes_for_judge: Verifies the specific location is now empty.
+  - id: q4
+    question: Are the tools on the workbench in the background still visible?
+    answer_type: yes_no
+    notes_for_judge: Checks for consistency of the background.
+  - id: q5
+    question: Is the scene illuminated (not pitch black)?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the lights flicker back on.
+  - id: q6
+    question: Is the wooden structure of the marble run unchanged?
+    answer_type: yes_no
+    notes_for_judge: Only the ball should move.

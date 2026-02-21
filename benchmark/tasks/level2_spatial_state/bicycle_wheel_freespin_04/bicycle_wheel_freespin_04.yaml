@@ -1,0 +1,78 @@
+id: bicycle_wheel_freespin_04
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: bicycle_wheel_freespin
+variation_type: dynamic_condition
+variation_description: High friction condition due to rusted bearings.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Bearing is rusted and seized (high friction).
+  expected_outcome_change: Wheel decelerates much faster, likely stopping.
+prompts:
+  init_frame_edit_prompt: Edit the image to make the central metal hub and axle look heavily rusted, corroded,
+    and dirty, implying old age and poor maintenance.
+  video_WM: The wheel spins on its axle bearing, which is heavily rusted and seized, creating significant
+    internal friction. Air resistance acts on the rotating spokes. No external torque is applied to the
+    wheel. The camera rotates right at constant speed until the wheel completely exits the view to the
+    right. The camera continues rotating right for several seconds while the wheel remains off-screen.
+    Then the camera rotates left smoothly at the same rate back to the original viewpoint. No zoom, no
+    cut, no scene change. STOP.
+  camera_WM: The wheel spins on its axle bearing, which is heavily rusted and seized, creating significant
+    internal friction. Air resistance acts on the rotating spokes. No external torque is applied to the
+    wheel. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A bicycle wheel with a black tire and silver rim mounted horizontally on a metal
+    truing stand. The central axle is a vertical threaded rod, heavily rusted, held by a square metal
+    arm. The background is a workshop with a workbench, tools, and overhead lights.
+  init2final_edit_prompt: Edit the given image to show the bicycle wheel rotated to a new random angle
+    around its central axis. The spokes, rim, and hub flange must be in a different rotational orientation
+    compared to the original. The central vertical rusted axle, the metal support arm, and the background
+    must remain exactly unchanged. The wheel should appear sharp and stationary.
+  rationale: The video begins with the bicycle wheel spinning, but the prompt specifies the bearing is
+    rusted and seized, creating significant friction. As the camera pans away, the wheel is occluded for
+    several seconds. During this time, the internal friction and air resistance act to rapidly decelerate
+    the wheel, likely bringing it to a complete stop. When the camera returns to the original viewpoint,
+    the wheel should be in the same spatial position on the stand but at a different rotational angle
+    due to the motion that occurred before stopping. The stationary components, such as the rusted axle
+    and support arm, must remain unchanged.
+  questions:
+  - id: wheel_visible
+    question: Is the bicycle wheel visible in the frame?
+    answer_type: yes_no
+    notes_for_judge: Checks for object permanence.
+  - id: wheel_rotated
+    question: Has the wheel rotated to a different angle compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the position of spokes, valve hole, or rim marks.
+  - id: spokes_orientation
+    question: Are the spokes in a different orientation than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Checks for rotational motion.
+  - id: wheel_centered
+    question: Is the wheel still centered on the vertical rusted axle?
+    answer_type: yes_no
+    notes_for_judge: Checks kinematic consistency.
+  - id: wheel_plane
+    question: Is the wheel still aligned in the same horizontal plane?
+    answer_type: yes_no
+    notes_for_judge: Checks that the wheel hasn't tilted or fallen.
+  - id: axle_stationary
+    question: Is the vertical rusted axle in the same position as initially?
+    answer_type: yes_no
+    notes_for_judge: The axle is fixed to the stand and should not move.
+  - id: arm_unchanged
+    question: Is the metal support arm unchanged?
+    answer_type: yes_no
+    notes_for_judge: Fixed object consistency.
+  - id: background_identical
+    question: Is the background workshop scene identical to the initial view?
+    answer_type: yes_no
+    notes_for_judge: Camera returned to original viewpoint.
+  - id: wheel_sharp
+    question: Does the wheel appear sharp and not blurry?
+    answer_type: yes_no
+    notes_for_judge: The wheel should have stopped spinning due to friction.

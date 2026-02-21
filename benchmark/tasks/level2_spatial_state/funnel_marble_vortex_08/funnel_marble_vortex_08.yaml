@@ -1,0 +1,64 @@
+id: funnel_marble_vortex_08
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: funnel_marble_vortex
+variation_type: combined
+variation_description: Static release condition with blocking object occlusion.
+changes:
+  occlusion_method: A person blocks the view.
+  dynamic_conditions: Zero initial velocity.
+  expected_outcome_change: Ball slides straight down.
+prompts:
+  init_frame_edit_prompt: Edit the image to show the steel ball being held stationary by a small mechanical
+    gripper at the very edge of the rim.
+  video_WM: The mechanical gripper releases the steel ball from a complete standstill at the rim. Gravity
+    acts on the ball on the smooth slope. A person wearing a dark coat walks slowly from left to right,
+    completely blocking the view of the funnel for several seconds, then exits frame right to reveal the
+    scene again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The mechanical gripper releases the steel ball from a complete standstill at the rim. Gravity
+    acts on the ball on the smooth slope. A person wearing a dark coat walks slowly from left to right,
+    completely blocking the view of the funnel for several seconds, then exits frame right to reveal the
+    scene again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A large, clear plastic gravity well or vortex funnel exhibit. A mechanical articulated
+    arm with a gripper holds a large, shiny steel ball at the top left rim of the funnel. The funnel is
+    transparent, revealing the floor and reflections. In the background, there are large windows and museum
+    visitors, including a woman in a pink shirt and a boy in a blue shirt.
+  init2final_edit_prompt: Edit the given image to remove the steel ball from the mechanical gripper at
+    the top left, leaving the gripper empty. Do not show the ball in the funnel bowl, implying it has
+    fallen through the center hole. Ensure the view remains clear and unobstructed, with no people blocking
+    the funnel.
+  rationale: The ball is released from a complete standstill at the rim. Lacking initial tangential velocity,
+    it will not orbit or spiral significantly but will roll directly down the slope towards the center
+    hole due to gravity. Given the duration of the occlusion (several seconds), the ball has sufficient
+    time to reach the bottom and fall through the center hole, leaving the funnel bowl empty. The person
+    mentioned in the prompt acts as a temporary occluder and exits the frame, restoring the original unobstructed
+    view.
+  questions:
+  - id: gripper_empty
+    question: Is the mechanical gripper at the top left empty?
+    answer_type: yes_no
+    notes_for_judge: The gripper should no longer hold the ball.
+  - id: ball_moved_from_start
+    question: Is the steel ball no longer at its initial position at the rim?
+    answer_type: yes_no
+    notes_for_judge: The ball must have left the starting point.
+  - id: ball_lower
+    question: Is the steel ball significantly lower in the funnel or completely gone?
+    answer_type: yes_no
+    notes_for_judge: Since it rolls down and likely falls through, it should not be high up on the slope.
+  - id: occluder_gone
+    question: Is the view of the funnel unobstructed by a person in a dark coat?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the person exits the frame.
+  - id: ball_not_orbiting
+    question: Is the upper rim of the funnel free of the rolling ball?
+    answer_type: yes_no
+    notes_for_judge: The ball should not be orbiting near the rim; it should have fallen inward.
+  - id: gripper_state
+    question: Does the mechanical arm appear to have released the object?
+    answer_type: yes_no
+    notes_for_judge: Check if the jaws are open or the ball is simply missing.

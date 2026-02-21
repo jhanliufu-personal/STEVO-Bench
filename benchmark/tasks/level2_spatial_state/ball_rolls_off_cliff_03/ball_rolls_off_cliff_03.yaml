@@ -1,0 +1,70 @@
+id: ball_rolls_off_cliff_03
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: ball_rolls_off_cliff
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to dense fog filling the room.
+changes:
+  occlusion_method: Thick white fog fills the room, reducing visibility to zero, then clears.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The ball continues rolling across the table surface toward the edge. The table edge is a sharp
+    drop-off with no barrier. The ball has sufficient velocity to reach the edge. Once past the table
+    edge, the ball is no longer supported by the surface. Gravity acts on the ball continuously. Air resistance
+    is negligible. Dense, opaque white fog rapidly fills the room, reducing visibility to zero. The fog
+    swirls for several seconds, completely obscuring the table and ball. Then the fog dissipates rapidly,
+    restoring clear view of the scene. No zoom, no cut, no scene change. STOP.
+  camera_WM: The ball continues rolling across the table surface toward the edge. The table edge is a
+    sharp drop-off with no barrier. The ball has sufficient velocity to reach the edge. Once past the
+    table edge, the ball is no longer supported by the surface. Gravity acts on the ball continuously.
+    Air resistance is negligible. Dense, opaque white fog rapidly fills the room, reducing visibility
+    to zero. The fog swirls for several seconds, completely obscuring the table and ball. Then the fog
+    dissipates rapidly, restoring clear view of the scene. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A red textured ball is rolling across a rustic wooden table surface. The ball
+    exhibits motion blur indicating movement towards the right. The table has a visible edge on the right
+    side. Below the table, a wooden floor and a patterned rug are visible. A window with white frames
+    is seen in the background on the left.
+  init2final_edit_prompt: Edit the given image to remove the red ball from the wooden table surface. The
+    table top should appear completely empty, revealing the continuous wood grain texture where the ball
+    was previously located. Do not place the ball anywhere else in the scene; assume it has fallen and
+    rolled out of view. Keep the window, floor, rug, and table legs exactly as they are.
+  rationale: The ball has initial velocity moving it towards the table edge. The prompt states it rolls
+    off the edge and is acted upon by gravity. The occlusion lasts for several seconds, which is sufficient
+    time for the ball to fall to the floor and roll away or out of the camera's static field of view.
+    Therefore, the primary state change is that the ball is no longer on the table surface.
+  questions:
+  - id: ball_not_on_table
+    question: Is the red ball no longer on the table surface?
+    answer_type: yes_no
+    notes_for_judge: The ball should have rolled off the edge.
+  - id: table_empty
+    question: Is the table surface empty where the red ball was initially?
+    answer_type: yes_no
+    notes_for_judge: Check the specific location where the ball started.
+  - id: ball_moved
+    question: Has the red ball moved from its starting position?
+    answer_type: yes_no
+    notes_for_judge: Any displacement counts, but specifically it should be gone from the start point.
+  - id: table_top_clear
+    question: Is the top of the table clear of the red ball?
+    answer_type: yes_no
+    notes_for_judge: The ball should not be resting on the table top.
+  - id: wood_texture_visible
+    question: Is the wood grain texture visible where the ball was previously located?
+    answer_type: yes_no
+    notes_for_judge: If the ball is gone, the texture underneath should be revealed.
+  - id: window_consistency
+    question: Is the window still visible in the background?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: rug_consistency
+    question: Is the patterned rug still visible on the floor?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

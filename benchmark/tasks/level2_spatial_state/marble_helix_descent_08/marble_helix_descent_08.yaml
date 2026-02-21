@@ -1,0 +1,73 @@
+id: marble_helix_descent_08
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: marble_helix_descent
+variation_type: combined
+variation_description: Blocked path combined with an object blocking the camera view.
+changes:
+  occlusion_method: A large blueprint blocks the view.
+  dynamic_conditions: Clamp obstructing the path.
+  expected_outcome_change: Marble stops at clamp while view is blocked.
+prompts:
+  init_frame_edit_prompt: Edit the image to show a black clamp attached to the helical track halfway down,
+    physically blocking the groove where the marble rolls.
+  video_WM: The marble is released from the top entrance of the helical track. The marble is free to move
+    along the grooved helical path. The track provides lateral constraint but allows motion along the
+    spiral. Gravity acts on the marble. The helical path has low friction typical of acrylic plastic.
+    A black clamp is attached securely to the track halfway down the spiral, completely blocking the groove.
+    The track descends vertically through multiple spiral turns from top to bottom. A large opaque blueprint
+    is moved into the foreground, completely blocking the view of the helical track. The blueprint remains
+    in place for several seconds while the marble remains hidden behind it. Then the blueprint is moved
+    away, revealing the scene again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The marble is released from the top entrance of the helical track. The marble is free to
+    move along the grooved helical path. The track provides lateral constraint but allows motion along
+    the spiral. Gravity acts on the marble. The helical path has low friction typical of acrylic plastic.
+    A black clamp is attached securely to the track halfway down the spiral, completely blocking the groove.
+    The track descends vertically through multiple spiral turns from top to bottom. A large opaque blueprint
+    is moved into the foreground, completely blocking the view of the helical track. The blueprint remains
+    in place for several seconds while the marble remains hidden behind it. Then the blueprint is moved
+    away, revealing the scene again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A clear acrylic helical marble run stands on a wooden workbench. A glass marble
+    with blue and green swirls sits at the very top entrance of the spiral track. A large black C-clamp
+    is attached to the track approximately halfway down the spiral, with its jaws clamped over the groove,
+    physically obstructing the path. The background features a workshop setting with tools hanging on
+    a pegboard.
+  init2final_edit_prompt: Edit the given image to move the marble from the top entrance of the track to
+    a new position further down the spiral. Place the marble resting directly against the black clamp
+    attached to the middle of the track, specifically on the upper side of the clamp's obstruction within
+    the groove. Ensure the marble is removed from its original position at the top.
+  rationale: The marble is released and accelerates down the spiral track due to gravity. However, the
+    prompt specifies that the black clamp attached halfway down blocks the groove. Therefore, the marble
+    will roll down until it hits the clamp and stop there. It cannot pass the clamp to reach the bottom.
+    The final state should show the marble resting against the clamp, having moved from the top but not
+    reached the bottom.
+  questions:
+  - id: pos_change_01
+    question: Is the marble no longer at the very top entrance of the track?
+    answer_type: yes_no
+    notes_for_judge: The marble should have moved from the start position.
+  - id: pos_change_02
+    question: Is the marble positioned lower vertically than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: It should have moved down due to gravity.
+  - id: pos_location_03
+    question: Is the marble resting against or immediately adjacent to the black clamp?
+    answer_type: yes_no
+    notes_for_judge: The clamp blocks the path, so the marble should stop there.
+  - id: pos_limit_04
+    question: Is the marble positioned higher than the bottom-most turn of the spiral?
+    answer_type: yes_no
+    notes_for_judge: The marble should be stopped at the clamp (middle), not at the bottom.
+  - id: path_consistency_05
+    question: Is the marble located within the groove of the helical track?
+    answer_type: yes_no
+    notes_for_judge: The marble should remain on the track path.
+  - id: occlusion_check_06
+    question: Is the helical track fully visible without being blocked by a blueprint?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the blueprint is moved away at the end.

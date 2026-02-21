@@ -1,0 +1,61 @@
+id: rolling_sphere_inclined_plane_08
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: rolling_sphere_inclined_plane
+variation_type: combined
+variation_description: Blocked path combined with zoom occlusion.
+changes:
+  occlusion_method: Camera zooms out and back in.
+  dynamic_conditions: A brick blocks the path.
+  expected_outcome_change: The marble remains stationary.
+prompts:
+  init_frame_edit_prompt: Edit the image to place a standard red brick directly in front of the steel
+    marble on the ramp, physically blocking its downward path.
+  video_WM: The steel marble is positioned on the inclined ramp, resting against a red brick that blocks
+    its path. Gravity acts on the marble, but the brick prevents any downward motion. The camera zooms
+    out rapidly until the ramp is indistinguishable from the background, then zooms back in to the exact
+    original framing. No cut, no scene change. STOP.
+  camera_WM: The steel marble is positioned on the inclined ramp, resting against a red brick that blocks
+    its path. Gravity acts on the marble, but the brick prevents any downward motion. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+evaluation:
+  init_frame_description: A close-up shot of a weathered wooden plank inclined as a ramp. A polished steel
+    marble rests on the plank to the left of a red clay brick. The marble reflects the surrounding grassy
+    field and sky. The brick is positioned horizontally across the plank. In the background, a blurred
+    rural landscape with a barn is visible.
+  init2final_edit_prompt: Edit the given image to show the scene exactly as it appeared initially. The
+    steel marble must remain in its original position, resting against the red brick on the wooden ramp.
+    The red brick must not move. The camera framing and perspective should be identical to the original
+    view, showing no displacement of objects.
+  rationale: The prompt establishes a state of static equilibrium where the marble's potential motion
+    due to gravity is physically blocked by the brick. Although the camera zooms out and back in, the
+    physical setup dictates that the objects remain stationary because the brick prevents the marble from
+    rolling down the incline. Therefore, the final frame should be visually identical to the initial frame,
+    testing the model's ability to maintain object permanence and spatial stability during camera motion.
+  questions:
+  - id: q1
+    question: Is the steel marble still in its original position on the wooden ramp?
+    answer_type: yes_no
+    notes_for_judge: The marble should not have moved.
+  - id: q2
+    question: Is the red brick still in its original position on the wooden ramp?
+    answer_type: yes_no
+    notes_for_judge: The brick should be stationary.
+  - id: q3
+    question: Is the steel marble still touching the red brick?
+    answer_type: yes_no
+    notes_for_judge: The marble should remain resting against the obstacle.
+  - id: q4
+    question: Is the steel marble positioned to the left of the red brick?
+    answer_type: yes_no
+    notes_for_judge: Verifies relative spatial configuration is preserved.
+  - id: q5
+    question: Is the camera framing identical to the initial image?
+    answer_type: yes_no
+    notes_for_judge: The prompt specifies zooming back to the exact original framing.
+  - id: q6
+    question: Has the steel marble remained on the ramp without rolling away?
+    answer_type: yes_no
+    notes_for_judge: Checks that the model respected the physical constraint.

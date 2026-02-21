@@ -1,0 +1,68 @@
+id: rolling_sphere_inclined_plane_06
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: rolling_sphere_inclined_plane
+variation_type: dynamic_condition
+variation_description: The ramp is coated in a sticky substance (honey/glue).
+changes:
+  occlusion_method: null
+  dynamic_conditions: Ramp surface is coated in thick sticky substance.
+  expected_outcome_change: The marble moves significantly slower or gets stuck.
+prompts:
+  init_frame_edit_prompt: Edit the image to show the wooden ramp covered in a thick, sticky layer of honey
+    or glue around the marble.
+  video_WM: The steel marble sits on the inclined ramp, which is coated in a thick, sticky substance.
+    The high viscosity of the surface opposes the pull of gravity. The camera rotates right until the
+    ramp completely exits the view, then rotates toward the left smoothly at the same rate until the top
+    of the ramp is back in the center of view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The steel marble sits on the inclined ramp, which is coated in a thick, sticky substance.
+    The high viscosity of the surface opposes the pull of gravity. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up shot of a steel sphere resting on a wooden plank that is inclined
+    upwards from left to right. The plank is coated in a thick, amber-colored viscous substance, likely
+    honey or syrup, which is dripping vertically from the right-hand edge of the plank. The background
+    shows a blurred grassy field and a barn in the distance.
+  init2final_edit_prompt: Edit the given image to show the steel sphere displaced to the left and slightly
+    downwards along the wooden ramp. The sphere should be positioned closer to the bottom-left corner
+    of the frame than in the original image. The viscous liquid on the ramp should show a trail or disturbance
+    to the right of the sphere, marking its previous location. Maintain the original background, lighting,
+    and the vertical drips on the side of the ramp.
+  rationale: The visual evidence (vertical drips on the side of the plank) indicates that the ramp is
+    inclined upwards to the right. Therefore, gravity pulls the object downwards to the left. Although
+    the high viscosity of the coating opposes motion, the heavy steel sphere will slowly slide or roll
+    down the incline (to the left) over time. The camera rotation away and back simulates a duration of
+    time, during which the sphere moves further down the ramp. Upon the camera's return to the initial
+    view, the sphere should be located further to the left and lower in the frame.
+  questions:
+  - id: q1_pos_change
+    question: Is the steel sphere in a different position than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The sphere should have moved due to gravity.
+  - id: q2_direction_left
+    question: Has the steel sphere moved to the left relative to the background?
+    answer_type: yes_no
+    notes_for_judge: Gravity pulls down the slope, which goes down-left.
+  - id: q3_direction_down_ramp
+    question: Is the steel sphere closer to the bottom-left corner of the image than before?
+    answer_type: yes_no
+    notes_for_judge: The sphere moves down the incline towards the camera/bottom-left.
+  - id: q4_trail_existence
+    question: Is there a visible trail or disturbance in the liquid to the right of the sphere?
+    answer_type: yes_no
+    notes_for_judge: As the ball moves left, it should leave a trace where it was.
+  - id: q5_displacement
+    question: Is the distance between the sphere and the top-right end of the ramp larger than in the
+      initial frame?
+    answer_type: yes_no
+    notes_for_judge: The sphere moves away from the top (right).
+  - id: q6_consistency_bg
+    question: Is the barn in the background still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: q7_consistency_drips
+    question: Are the vertical drips on the side of the ramp still present?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

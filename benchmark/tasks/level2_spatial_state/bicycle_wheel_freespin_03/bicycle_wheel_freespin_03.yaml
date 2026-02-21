@@ -1,0 +1,71 @@
+id: bicycle_wheel_freespin_03
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: bicycle_wheel_freespin
+variation_type: occlusion_method
+variation_description: Occlusion via extreme zoom out instead of rotation.
+changes:
+  occlusion_method: Camera zooms out until the wheel is too small to see, then zooms back in.
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics (wheel slows down gradually due to friction).
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The wheel continues spinning freely on its axle bearing. The axle bearing has moderate friction
+    typical of standard ball bearings without lubrication. Air resistance acts on the rotating spokes
+    and rim as they move through the air. No external torque is applied to the wheel. The wheel has standard
+    mass distribution for a bicycle wheel. The camera zooms out rapidly until the wheel becomes a tiny,
+    indistinguishable dot in the distance, losing all visual detail. The camera holds this distant view
+    for several seconds. Then the camera zooms back in smoothly to the original framing. No cut, no scene
+    change. STOP.
+  camera_WM: The wheel continues spinning freely on its axle bearing. The axle bearing has moderate friction
+    typical of standard ball bearings without lubrication. Air resistance acts on the rotating spokes
+    and rim as they move through the air. No external torque is applied to the wheel. The wheel has standard
+    mass distribution for a bicycle wheel during the occlusion period. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+  Genie: null
+evaluation:
+  init_frame_description: A bicycle wheel mounted horizontally on a metal test stand in a workshop. The
+    wheel is spinning rapidly, causing significant rotational motion blur that makes the individual spokes
+    indistinct and merges them into a translucent blur. The tire is black and the rim is silver. The background
+    shows a workbench, tools, and workshop lighting.
+  init2final_edit_prompt: Edit the given image to show the bicycle wheel spinning much slower or completely
+    stopped. Render the individual spokes as sharp, distinct lines, removing the strong rotational motion
+    blur seen in the original. The tire and rim should also appear sharp. Keep the metal stand, the mounting
+    apparatus, and the workshop background exactly identical to the original image.
+  rationale: The prompt describes a bicycle wheel spinning freely with moderate friction and air resistance,
+    with no external torque maintaining the speed. The camera sequence involves a zoom out, a hold for
+    several seconds, and a zoom back in. During this elapsed time, the physical forces of friction and
+    air resistance will continuously oppose the rotation, causing the wheel to decelerate significantly.
+    By the time the camera returns to the initial framing, the wheel's angular velocity should be drastically
+    reduced or zero, resulting in a visual state where motion blur is absent or minimal and individual
+    spokes are clearly visible.
+  questions:
+  - id: spoke_sharpness
+    question: Are the individual spokes of the wheel sharper and more distinct than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: In the initial frame, spokes are blurred. In the final frame, they should be distinct
+      lines due to deceleration.
+  - id: blur_reduction
+    question: Is the rotational motion blur on the wheel significantly reduced compared to the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: The wheel should have slowed down, reducing the visual smear of the spokes.
+  - id: velocity_change
+    question: Does the wheel appear to be spinning slower or stopped compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Judge based on the visual cues of speed, primarily motion blur.
+  - id: spoke_visibility
+    question: Are the spokes clearly resolvable as individual wires, whereas they were blurred in the
+      initial frame?
+    answer_type: yes_no
+    notes_for_judge: Tests for the visual consequence of the kinematic change (deceleration).
+  - id: stand_consistency
+    question: Is the metal mounting stand in the same position and orientation as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The camera returns to the original framing; the static object should not move.
+  - id: background_consistency
+    question: Is the workshop background (workbench, walls) consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The environment should remain unchanged.

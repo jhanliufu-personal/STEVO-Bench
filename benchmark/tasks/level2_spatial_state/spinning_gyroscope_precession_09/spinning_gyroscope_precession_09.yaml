@@ -1,0 +1,70 @@
+id: spinning_gyroscope_precession_09
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: spinning_gyroscope_precession
+variation_type: combined
+variation_description: Combines stationary condition (it should fall) with object blocking occlusion.
+changes:
+  occlusion_method: Object blocking
+  dynamic_conditions: Gyroscope is stationary (0 RPM)
+  expected_outcome_change: Gyroscope falls over/collapses
+prompts:
+  init_frame_edit_prompt: Edit the image to make the gyroscope look completely stationary. Remove all
+    motion blur from the wheel so the metal texture is sharp and distinct. Keep it tilted at the same
+    angle.
+  video_WM: The gyroscope sits motionless on the pivot, tilted at an angle, with no spin. A large, opaque
+    metal sheet slides into the foreground from the right, completely blocking the view of the gyroscope.
+    The sheet then slides back to the right, revealing the pedestal again. No zoom, no cut, no scene change.
+    STOP.
+  camera_WM: The gyroscope sits motionless on the pivot, tilted at an angle, with no spin. A large, opaque
+    metal sheet slides into the foreground from the right, completely blocking the view of the gyroscope.
+    The sheet then slides back to the right, revealing the pedestal again. No zoom, no cut, no scene change.
+    STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A large, heavy brass and metal gyroscope is balancing on a sharp conical pivot
+    point on a scratched metal workbench. The gyroscope is tilted at a significant angle (roughly 45 degrees)
+    relative to the vertical. A metal chain hangs vertically on the left side of the frame. The background
+    is a workshop setting with white brick walls, shelves, and various industrial tools and containers.
+  init2final_edit_prompt: Edit the given image to show the gyroscope having toppled over. The gyroscope
+    should be lying on its side on the metal workbench surface, with the brass flywheel or outer ring
+    resting on the plate, rather than balancing in the air on the pivot. The gyroscope's height should
+    be significantly lower than in the original image. Keep the hanging chain and the workshop background
+    unchanged.
+  rationale: The video prompt explicitly states that the gyroscope has 'no spin'. Without the angular
+    momentum required to maintain stability or precess, a tilted gyroscope is in an unstable equilibrium
+    and will immediately succumb to gravity. During the occlusion by the metal sheet, the gyroscope will
+    fall from its pivot point. Therefore, in the final frame, the gyroscope must be shown lying on the
+    workbench surface or tipped over, rather than maintaining its initial balanced, tilted position.
+  questions:
+  - id: gyro_fallen_01
+    question: Is the gyroscope resting on the metal workbench surface?
+    answer_type: yes_no
+    notes_for_judge: The gyroscope should have fallen over and be touching the table with its rim or frame,
+      not just the pivot.
+  - id: gyro_height_02
+    question: Is the highest point of the gyroscope lower than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Since it fell, the overall vertical extent should be reduced.
+  - id: gyro_tilt_03
+    question: Has the gyroscope stopped balancing on the pivot point?
+    answer_type: yes_no
+    notes_for_judge: It should no longer be suspended in the air at an angle.
+  - id: gyro_contact_04
+    question: Is the outer ring or flywheel of the gyroscope touching the table?
+    answer_type: yes_no
+    notes_for_judge: In the initial frame, only the pivot touches. In the final, the body should touch.
+  - id: gyro_position_05
+    question: Does the gyroscope appear to have toppled over?
+    answer_type: yes_no
+    notes_for_judge: Check for a collapsed state.
+  - id: chain_consistency_06
+    question: Is the hanging chain on the left still present and vertical?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: background_consistency_07
+    question: Are the background shelves and tools unchanged?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

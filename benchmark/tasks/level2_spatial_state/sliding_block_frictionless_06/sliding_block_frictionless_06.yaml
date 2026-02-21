@@ -1,0 +1,66 @@
+id: sliding_block_frictionless_06
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: sliding_block_frictionless
+variation_type: dynamic_condition
+variation_description: Changes surface to be covered in thick adhesive.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Surface covered in sticky adhesive
+  expected_outcome_change: The block should stop almost immediately.
+prompts:
+  init_frame_edit_prompt: Edit the image to show the surface covered in a thick, yellow, sticky adhesive
+    substance instead of ice.
+  video_WM: The metal block is sliding into a patch of thick, sticky adhesive on the ground. The substance
+    is viscous and tacky. The camera rotates right until the block completely exits the view, then rotates
+    toward the left smoothly at the same rate until the original starting point is back in the center
+    of view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The metal block is sliding into a patch of thick, sticky adhesive on the ground. The substance
+    is viscous and tacky. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A metal cube-like block sits on a reflective, icy surface, covered in a thick,
+    translucent yellow adhesive substance. To the left, a mechanical arm or nozzle is also coated in the
+    goo. Strands of the viscous material stretch between the arm, the block, and the ground. The background
+    features a flat horizon with a low sun, creating a bright, backlit scene with long shadows and reflections
+    on the ground.
+  init2final_edit_prompt: Edit the given image to show the metal block still present in the center of
+    the frame, resting on the surface. The yellow adhesive substance should still cover the block and
+    the ground, with the strands appearing settled or slightly stretched. The position of the block should
+    be nearly identical to the original or slightly advanced, reflecting that it has stopped or slowed
+    significantly due to the sticky substance. The mechanical arm on the left and the background horizon
+    must remain unchanged.
+  rationale: The video involves a camera panning away and then returning to the original view. Physically,
+    the block is sliding into a highly viscous adhesive, which acts as a strong braking force. Therefore,
+    during the time the block is out of view (occluded by the camera frame), the friction from the adhesive
+    will likely cause the block to stop or move only a very short distance. When the camera returns to
+    the starting position, the block must still be visible (object permanence) and located near its initial
+    coordinates, rather than having slid out of the scene.
+  questions:
+  - id: block_visible
+    question: Is the metal block visible in the final frame?
+    answer_type: yes_no
+    notes_for_judge: The camera returns to the original view, and the sticky adhesive prevents the block
+      from moving far, so it must be visible.
+  - id: block_position_retained
+    question: Is the metal block located near the center of the frame, similar to its starting position?
+    answer_type: yes_no
+    notes_for_judge: The block should not have slid off-screen due to the high viscosity of the adhesive.
+  - id: adhesive_presence
+    question: Is the yellow adhesive substance still visible on and around the block?
+    answer_type: yes_no
+    notes_for_judge: The material state should persist.
+  - id: arm_visibility
+    question: Is the mechanical arm on the left side still visible?
+    answer_type: yes_no
+    notes_for_judge: The camera returns to the original view, so static elements must remain.
+  - id: block_grounded
+    question: Is the metal block resting on the ground surface?
+    answer_type: yes_no
+    notes_for_judge: It should not be floating or flying.
+  - id: strands_connected
+    question: Are there strands of the adhesive connecting the block to the ground or the arm?
+    answer_type: yes_no
+    notes_for_judge: Checks for physical consistency of the sticky material.

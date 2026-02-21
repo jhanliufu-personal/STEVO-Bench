@@ -1,0 +1,66 @@
+id: treadmill_projectile_04
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: treadmill_projectile
+variation_type: dynamic_condition
+variation_description: Introduces a strong industrial fan blowing against the direction of motion.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Strong wind blowing rightward (opposing belt motion).
+  expected_outcome_change: The ball's trajectory will drift to the right relative to the launcher due
+    to air resistance.
+prompts:
+  init_frame_edit_prompt: Edit the image to add a large, powerful industrial fan on the left side of the
+    frame, facing towards the treadmill.
+  video_WM: The robotic launcher fires a tennis ball vertically into the air while the treadmill belt
+    continues its constant leftward motion. A large industrial fan on the left is running at maximum power,
+    blowing a strong gale-force wind to the right across the treadmill. The camera rotates right until
+    the treadmill completely exits the view, then rotates toward the left smoothly at the same rate until
+    the launcher is back in the center of view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The ball is launched vertically relative to the treadmill belt, which is moving horizontally.
+    A strong wind is blowing horizontally in the opposite direction of the belt's motion. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A robotic launcher device mounted on a treadmill belt in an industrial room.
+    The launcher is constructed from aluminum extrusion profiles and has a vertical guide mechanism. To
+    the left of the treadmill stands a large industrial floor fan with a wire cage, positioned on a metal
+    base. The background consists of a concrete block wall and some pipes/conduit. The treadmill belt
+    has a dark, textured surface with longitudinal lines.
+  init2final_edit_prompt: Edit the image to show the robotic launcher positioned further to the left on
+    the treadmill, significantly closer to the large industrial fan. The distance between the launcher
+    and the fan should be reduced. Ensure the launcher's mechanism appears empty, with no tennis ball
+    visible.
+  rationale: The treadmill belt is moving to the left, carrying the robotic launcher with it. Since the
+    camera tracks the launcher and re-centers on it for the final frame, the launcher remains in the center
+    of the view, but the stationary background objects (like the fan and wall) will appear shifted to
+    the right relative to the launcher. Consequently, the fan will appear closer to the launcher than
+    in the initial frame. The tennis ball, having been fired vertically into a strong rightward wind,
+    will have been blown away from the launcher and is no longer present.
+  questions:
+  - id: launcher_fan_proximity
+    question: Is the robotic launcher closer to the industrial fan than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The launcher moves left with the belt towards the stationary fan.
+  - id: fan_position_relative
+    question: Is the industrial fan closer to the center of the image relative to the launcher?
+    answer_type: yes_no
+    notes_for_judge: As the launcher moves left and the camera centers on it, the fan (which is to the
+      left) enters further into the central field of view.
+  - id: ball_absence
+    question: Is the tennis ball absent from the launcher's mechanism?
+    answer_type: yes_no
+    notes_for_judge: The ball was fired and blown away by the wind.
+  - id: launcher_displacement
+    question: Has the launcher moved to the left relative to the background wall features?
+    answer_type: yes_no
+    notes_for_judge: Compare the launcher's position against the concrete blocks or pipes in the background.
+  - id: fan_visibility
+    question: Is the industrial fan still visible to the left of the launcher?
+    answer_type: yes_no
+    notes_for_judge: The fan should not have disappeared, just gotten closer.
+  - id: belt_presence
+    question: Is the robotic launcher still positioned on the treadmill belt?
+    answer_type: yes_no
+    notes_for_judge: The launcher should not be floating or on the floor.

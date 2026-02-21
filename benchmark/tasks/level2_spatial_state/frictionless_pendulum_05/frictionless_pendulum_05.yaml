@@ -1,0 +1,60 @@
+id: frictionless_pendulum_05
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: frictionless_pendulum
+variation_type: dynamic_condition
+variation_description: Pendulum starts hanging vertically at rest instead of at an angle.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Initial state is vertical (equilibrium) instead of 45 degrees.
+  expected_outcome_change: No motion; pendulum remains stationary.
+prompts:
+  init_frame_edit_prompt: Edit the image to show the pendulum hanging vertically straight down in the
+    center of the chamber, motionless.
+  video_WM: The lead bob hangs motionless in the vertical center of the vacuum chamber. The camera rotates
+    right until the pendulum completely exits the view, then rotates toward the left smoothly at the same
+    rate until the pivot point is back in the center of view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The lead bob hangs motionless in the vertical center of the vacuum chamber. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A large, spherical, textured metal pendulum bob hangs suspended by a thin vertical
+    wire inside a large cylindrical glass vacuum chamber with a metal frame. The chamber is situated in
+    a laboratory with white walls, windows on the right showing outdoor greenery, and tables with electronic
+    equipment in the background. The bob is positioned in the center of the chamber.
+  init2final_edit_prompt: Edit the given image to show the large metal sphere hanging in the center of
+    the glass chamber, maintaining its exact original position and height relative to the background and
+    chamber walls.
+  rationale: The prompt establishes that the pendulum bob is initially motionless. The camera rotates
+    away (panning right) until the object is occluded, and then rotates back (panning left) to the original
+    viewpoint. Since the object is motionless and no physical forces are applied to it, it must remain
+    stationary in world space. Therefore, when the camera returns to the initial angle, the final frame
+    must show the object in the exact same position as the initial frame, demonstrating object permanence
+    and zero velocity.
+  questions:
+  - id: '1'
+    question: Is the large metal sphere visible in the final frame?
+    answer_type: yes_no
+    notes_for_judge: Test for object permanence after the camera pans away and returns.
+  - id: '2'
+    question: Is the metal sphere located in the horizontal center of the glass chamber?
+    answer_type: yes_no
+    notes_for_judge: Test for spatial consistency; the camera returned to the center.
+  - id: '3'
+    question: Is the metal sphere at the same vertical height as it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Test for stationarity; the object should not have fallen or risen.
+  - id: '4'
+    question: Is the position of the metal sphere relative to the background windows unchanged?
+    answer_type: yes_no
+    notes_for_judge: Test for camera alignment and object stationarity.
+  - id: '5'
+    question: Is the suspension wire still visible extending upwards from the sphere?
+    answer_type: yes_no
+    notes_for_judge: Structural consistency check.
+  - id: '6'
+    question: Does the metal sphere appear to be in the same location relative to the laboratory tables
+      in the background?
+    answer_type: yes_no
+    notes_for_judge: Verifies the camera returned to the exact starting perspective.

@@ -1,0 +1,59 @@
+id: falling_anvil_air_09
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: falling_anvil_air
+variation_type: combined
+variation_description: Helium balloons rising combined with camera tilting down.
+changes:
+  occlusion_method: Camera tilts down.
+  dynamic_conditions: Object is helium balloons.
+  expected_outcome_change: Object moves UP.
+prompts:
+  init_frame_edit_prompt: Edit the image to replace the anvil with a bunch of colorful helium balloons.
+  video_WM: The helium balloons rise steadily upward. The camera tilts downward toward the ground until
+    the balloons completely exit the top of the view. The camera tilts back up smoothly at the same rate
+    until the crane hook is back in the center of view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The helium balloons rise steadily upward. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A low-angle shot of a large, colorful bunch of helium balloons floating in a
+    clear blue sky. To the bottom left, a yellow construction crane is visible, with its jib extending
+    horizontally and a hook hanging down. Below the crane and balloons, a sprawling city skyline with
+    high-rise buildings is visible in the distance.
+  init2final_edit_prompt: Edit the given image to show the bunch of balloons positioned significantly
+    higher in the sky, increasing the vertical distance between the balloons and the crane. The balloons
+    should be closer to the top edge of the frame. Keep the crane, city skyline, and camera framing exactly
+    the same as the initial image.
+  rationale: The video prompt describes the balloons rising steadily. The camera tilts down (looking away
+    from the sky) and then tilts back up to the original position (centering the crane hook). Since the
+    camera returns to its initial orientation but time has passed while the balloons continued to rise,
+    the balloons must appear higher in the final frame relative to the stationary crane and background.
+  questions:
+  - id: balloons_higher
+    question: Are the balloons positioned higher in the frame than they were in the initial image?
+    answer_type: yes_no
+    notes_for_judge: Compare the vertical position of the balloon cluster relative to the top edge of
+      the frame and the crane.
+  - id: distance_crane_balloons
+    question: Is the vertical distance between the crane hook and the balloons greater than in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: The balloons should have moved further away (upward) from the crane.
+  - id: balloons_moved_up
+    question: Have the balloons moved upward from their starting location?
+    answer_type: yes_no
+    notes_for_judge: Check for upward displacement.
+  - id: crane_position_static
+    question: Is the construction crane in the same position and orientation as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The camera returns to the original view, so the static crane should look the same.
+  - id: skyline_consistency
+    question: Is the city skyline at the bottom visible and consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The background scenery should not change.
+  - id: balloons_closer_top
+    question: Is the balloon cluster closer to the top edge of the image than it was initially?
+    answer_type: yes_no
+    notes_for_judge: They should be nearing the top edge due to rising.

@@ -1,0 +1,69 @@
+id: water_deflection_07
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: water_deflection
+variation_type: combined
+variation_description: Fan off combined with lights off occlusion.
+changes:
+  occlusion_method: Lights turn off completely.
+  dynamic_conditions: Fan is switched off.
+  expected_outcome_change: Water flows vertically straight down.
+prompts:
+  init_frame_edit_prompt: Edit the image so the fan blades look stationary and distinct, and ensure the
+    fan appears powered down.
+  video_WM: The electric fan is switched off. The water flows vertically from the tap. Suddenly, the lights
+    in the room turn off completely, plunging the scene into pitch black darkness. The sound of flowing
+    water continues. After a moment, the lights turn back on. No zoom, no cut, no scene change. STOP.
+  camera_WM: The electric fan is switched off. The water flows vertically from the tap. Suddenly, the
+    lights in the room turn off completely, plunging the scene into pitch black darkness. The sound of
+    flowing water continues. After a moment, the lights turn back on. No zoom, no cut, no scene change.
+    STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A side-view close-up of a vintage industrial sink area. On the left, a metal
+    tap extends horizontally from a tiled wall, with a clear stream of water flowing vertically downwards
+    into a stone sink. On the right, a person's hands are holding a black electric fan with a wire grille,
+    positioned close to and facing the water stream. The fan appears to be off or not blowing forcefully
+    enough to affect the water, as the stream falls straight down. The background consists of white tiled
+    walls.
+  init2final_edit_prompt: Edit the given image to show the scene with the lights turned back on. The water
+    stream continues to flow vertically straight down from the tap into the sink, maintaining a completely
+    vertical trajectory without any deflection. The electric fan on the right remains held in the same
+    position and is switched off. The lighting is bright and consistent with the initial frame.
+  rationale: The prompt establishes that the fan is switched off, meaning there is no lateral aerodynamic
+    force acting on the water stream. The only significant force is gravity, which pulls the water vertically
+    downwards. The sequence involves a temporary lighting blackout, but the physical state of the objects
+    (fan off, water flowing) remains constant throughout. Therefore, in the final frame, the water must
+    still be flowing in a straight vertical line, and the fan must remain in its original position without
+    affecting the water's path.
+  questions:
+  - id: water_vertical
+    question: Is the water stream flowing vertically downwards?
+    answer_type: yes_no
+    notes_for_judge: The water should fall straight down, following the gravity vector.
+  - id: water_undeflected
+    question: Does the water stream maintain a straight path without bending away from the fan?
+    answer_type: yes_no
+    notes_for_judge: Since the fan is off, the water should not curve to the left.
+  - id: water_continuous
+    question: Is the water stream continuous from the tap to the sink?
+    answer_type: yes_no
+    notes_for_judge: The flow should not be interrupted.
+  - id: fan_position
+    question: Is the fan held in the same position on the right side of the frame?
+    answer_type: yes_no
+    notes_for_judge: The fan should not have moved significantly.
+  - id: lighting_restored
+    question: Is the scene illuminated and clearly visible?
+    answer_type: yes_no
+    notes_for_judge: The lights should be on in the final frame.
+  - id: sink_landing
+    question: Does the water stream land in the sink directly below the tap?
+    answer_type: yes_no
+    notes_for_judge: Checks for vertical alignment.
+  - id: tap_position
+    question: Is the metal tap visible in its original position on the left?
+    answer_type: yes_no
+    notes_for_judge: Invariant check.

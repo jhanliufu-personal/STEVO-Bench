@@ -1,0 +1,74 @@
+id: marble_helix_descent_07
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: marble_helix_descent
+variation_type: combined
+variation_description: Sticky track combined with lights-off occlusion.
+changes:
+  occlusion_method: Lights turn off.
+  dynamic_conditions: Rough, sticky track surface.
+  expected_outcome_change: Marble moves slower/stops during the darkness.
+prompts:
+  init_frame_edit_prompt: Edit the image to make the transparent track surface appear frosted and rough,
+    with a visible sticky texture, instead of smooth and clear.
+  video_WM: The marble is released from the top entrance of the helical track. The marble is free to move
+    along the grooved helical path. The track provides lateral constraint but allows motion along the
+    spiral. Gravity acts on the marble. The helical path is coated with a rough, sticky residue that creates
+    high friction against the marble. The track descends vertically through multiple spiral turns from
+    top to bottom. Suddenly, all lights in the workshop turn off, plunging the scene into complete darkness
+    where nothing is visible. The darkness lasts for several seconds. Then the lights turn back on, illuminating
+    the scene again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The marble is released from the top entrance of the helical track. The marble is free to
+    move along the grooved helical path. The track provides lateral constraint but allows motion along
+    the spiral. Gravity acts on the marble. The helical path is coated with a rough, sticky residue that
+    creates high friction against the marble. The track descends vertically through multiple spiral turns
+    from top to bottom. Suddenly, all lights in the workshop turn off, plunging the scene into complete
+    darkness where nothing is visible. The darkness lasts for several seconds. Then the lights turn back
+    on, illuminating the scene again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A transparent, 3D-printed helical spiral track stands vertically on a wooden
+    workbench. A glass marble with a blue and green swirl core is positioned at the very top entrance
+    of the spiral groove. The background features a workshop environment with tools hanging on a pegboard
+    and a desk lamp.
+  init2final_edit_prompt: Edit the given image to move the glass marble from the top of the spiral track
+    to a position lower down on the helical path. Place the marble approximately halfway down the vertical
+    height of the spiral coil, resting inside the translucent track groove. Ensure the top entrance of
+    the track where the marble started is now empty. Keep the background, lighting, and track structure
+    unchanged.
+  rationale: Gravity acts on the marble, pulling it downwards along the helical path. The prompt specifies
+    a 'rough, sticky residue' creating high friction; this is a critical physical constraint that opposes
+    motion, causing the marble to descend significantly slower than it would on a smooth surface. Over
+    the 'several seconds' of darkness, the marble rolls down the track but, due to the friction, is unlikely
+    to have gained enough speed to exit the track completely. Therefore, the final state shows the marble
+    at a lower vertical position, still contained within the spiral structure, rather than at the top
+    (stuck) or on the table (exited).
+  questions:
+  - id: marble_moved_down
+    question: Is the marble at a lower vertical position than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The marble should have descended due to gravity.
+  - id: top_empty
+    question: Is the top entrance of the spiral track empty?
+    answer_type: yes_no
+    notes_for_judge: The marble should have moved away from the starting point.
+  - id: marble_on_track
+    question: Is the marble visible on the spiral track structure?
+    answer_type: yes_no
+    notes_for_judge: Due to high friction ('sticky residue'), the marble should likely remain on the track
+      rather than exiting quickly.
+  - id: marble_displacement
+    question: Has the marble moved along the helical path from its starting point?
+    answer_type: yes_no
+    notes_for_judge: Check for displacement along the spiral.
+  - id: marble_below_first_turn
+    question: Is the marble positioned below the first top loop of the spiral?
+    answer_type: yes_no
+    notes_for_judge: It should have traversed at least the first turn given 'several seconds'.
+  - id: track_stationary
+    question: Does the helical track remain in the same position on the table?
+    answer_type: yes_no
+    notes_for_judge: The track itself should not move.

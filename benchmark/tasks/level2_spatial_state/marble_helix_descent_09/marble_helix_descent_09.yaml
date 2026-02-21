@@ -1,0 +1,73 @@
+id: marble_helix_descent_09
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: marble_helix_descent
+variation_type: combined
+variation_description: Glued marble combined with fog occlusion.
+changes:
+  occlusion_method: Thick dust/fog.
+  dynamic_conditions: Marble glued in place.
+  expected_outcome_change: Marble remains at top during fog.
+prompts:
+  init_frame_edit_prompt: Edit the image to show a visible glob of clear epoxy glue surrounding the base
+    of the marble at the top entrance, securing it to the track.
+  video_WM: The marble sits at the top entrance of the helical track. A visible amount of epoxy glue secures
+    the marble firmly to the plastic, preventing it from rolling. The track provides lateral constraint.
+    Gravity acts on the marble, but the adhesive bond holds it in place. The helical path has low friction
+    typical of acrylic plastic. The track descends vertically through multiple spiral turns from top to
+    bottom. A cloud of thick, opaque workshop dust billows into the frame, completely obscuring the helical
+    track from view. The dust cloud lingers for several seconds, hiding the marble. Then the dust settles
+    and clears, revealing the scene again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The marble sits at the top entrance of the helical track. A visible amount of epoxy glue
+    secures the marble firmly to the plastic, preventing it from rolling. The track provides lateral constraint.
+    Gravity acts on the marble, but the adhesive bond holds it in place. The helical path has low friction
+    typical of acrylic plastic. The track descends vertically through multiple spiral turns from top to
+    bottom. A cloud of thick, opaque workshop dust billows into the frame, completely obscuring the helical
+    track from view. The dust cloud lingers for several seconds, hiding the marble. Then the dust settles
+    and clears, revealing the scene again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A clear acrylic helical track stands vertically on a wooden workbench. A glass
+    marble with blue and green swirls rests at the very top entrance of the spiral track. The background
+    shows a workshop setting with tools hanging on a pegboard to the left and a window to the right. The
+    lighting is bright and natural.
+  init2final_edit_prompt: Edit the given image to show the scene after the dust has cleared. Keep the
+    marble in its exact original position at the very top of the helical track, as it is glued in place.
+    Do not move the marble down the spiral. Ensure the background and track structure remain unchanged.
+  rationale: The video generation prompt explicitly states that the marble is secured to the track with
+    epoxy glue, which counteracts the force of gravity. Despite the occlusion by the dust cloud and the
+    passage of time, the physical constraint (the adhesive) prevents any motion. Therefore, the correct
+    final state is identical to the initial state regarding the marble's position; it must not roll down
+    the track.
+  questions:
+  - id: marble_at_top
+    question: Is the marble still located at the very top of the helical track?
+    answer_type: yes_no
+    notes_for_judge: The marble should not have moved from the entrance.
+  - id: marble_static
+    question: Is the marble in the same position as it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare with the initial frame; the position should be identical.
+  - id: marble_height
+    question: Is the marble positioned higher than the first spiral turn?
+    answer_type: yes_no
+    notes_for_judge: It should be at the very top, not lower down.
+  - id: marble_no_descent
+    question: Has the marble remained at the starting point without descending?
+    answer_type: yes_no
+    notes_for_judge: The marble must not have rolled down.
+  - id: marble_visibility
+    question: Is the marble visible at the track's entrance?
+    answer_type: yes_no
+    notes_for_judge: It should be clearly visible at the top.
+  - id: track_upright
+    question: Is the helical track still standing upright?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: background_tools
+    question: Are the tools in the background still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

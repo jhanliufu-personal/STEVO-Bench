@@ -1,0 +1,68 @@
+id: spinning_gyroscope_precession_00
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: spinning_gyroscope_precession
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The gyroscope is spinning rapidly while its axis slowly circles around the vertical pedestal
+    in a precessional motion. The high angular momentum is maintained. Camera remains stationary throughout.
+    No zoom, no cut, no scene change. STOP.
+  camera_WM: The gyroscope is spinning rapidly while its axis slowly circles around the vertical pedestal
+    in a precessional motion. The high angular momentum is maintained. Camera remains stationary throughout.
+    No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A large, heavy-duty metal gyroscope with a brass rotor and dark iron frame is
+    balanced on a pointed pivot on a scratched metal workbench. The gyroscope is tilted significantly
+    towards the back-left. A metal chain hangs vertically in the foreground on the left. The background
+    is a cluttered workshop with shelves, tools, and industrial equipment.
+  init2final_edit_prompt: Edit the given image to show the gyroscope's upper axis rotated to a new azimuthal
+    orientation around the vertical pivot line, pointing in a different direction relative to the background
+    shelves. Keep the bottom pivot tip fixed at the exact same point on the table. Maintain the original
+    angle of tilt relative to the table surface. Apply strong rotational motion blur to the central brass
+    rotor to indicate rapid spinning.
+  rationale: The gyroscope possesses high angular momentum due to its rapid spin. Gravity exerts a torque
+    on the tilted gyroscope, causing it to precess (rotate its axis) around the vertical direction rather
+    than falling over. The pivot point remains fixed due to friction and the weight of the object. The
+    tilt angle remains approximately constant during precession. The rotor should exhibit motion blur
+    consistent with rapid rotation.
+  questions:
+  - id: gyro_top_moved
+    question: Has the top handle of the gyroscope moved to a different horizontal position relative to
+      the background?
+    answer_type: yes_no
+    notes_for_judge: The gyroscope should precess, meaning the top moves in a circle while the bottom
+      stays fixed. It should not be in the exact same spot.
+  - id: gyro_balanced
+    question: Is the gyroscope still balanced on its bottom pivot tip?
+    answer_type: yes_no
+    notes_for_judge: The object should not have fallen over onto the table.
+  - id: rotor_blur
+    question: Does the central brass rotor appear blurred?
+    answer_type: yes_no
+    notes_for_judge: The prompt specifies rapid spinning, which should be visualized as motion blur.
+  - id: tilt_maintained
+    question: Is the gyroscope still tilted at approximately the same angle relative to the table surface?
+    answer_type: yes_no
+    notes_for_judge: Precession maintains the tilt angle; it should not stand up straight or fall flat.
+  - id: pivot_fixed
+    question: Is the bottom point of the gyroscope touching the table at the same location as in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: The pivot is the center of the precessional motion and should not slide.
+  - id: chain_static
+    question: Is the hanging chain on the left in the same position?
+    answer_type: yes_no
+    notes_for_judge: Static background object.
+  - id: not_fallen
+    question: Is the upper part of the gyroscope clearly elevated above the table surface?
+    answer_type: yes_no
+    notes_for_judge: Verifies the object has not collapsed.

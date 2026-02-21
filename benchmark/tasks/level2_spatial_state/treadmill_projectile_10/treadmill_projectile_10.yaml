@@ -1,0 +1,64 @@
+id: treadmill_projectile_10
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: treadmill_projectile
+variation_type: combined
+variation_description: Combines camera physical movement with a ceiling obstruction.
+changes:
+  occlusion_method: Camera physically moves backward away from the scene.
+  dynamic_conditions: A low metal beam is positioned directly above the launcher.
+  expected_outcome_change: The ball will hit the ceiling beam mid-flight and deflect downwards/backwards.
+prompts:
+  init_frame_edit_prompt: Edit the image to add a low horizontal metal beam directly above the treadmill
+    launcher.
+  video_WM: The robotic launcher fires a tennis ball vertically toward a low-hanging metal beam positioned
+    directly above it, while the treadmill belt continues its constant leftward motion. The camera dolly
+    moves backward, retreating down the hallway until the treadmill is lost from sight, then moves forward
+    returning to the exact original position. No zoom, no cut, no scene change. STOP.
+  camera_WM: The ball is launched vertically from a moving treadmill belt toward a solid metal beam positioned
+    directly in its path. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A small, custom-built robotic rig constructed from aluminum extrusion and exposed
+    electronics is sitting on a dark, textured treadmill belt. A rusty steel I-beam runs horizontally
+    directly above the robot. To the right, there is a vertical yellow support post and a black wire mesh
+    safety cage. The background features a concrete wall, conduits, and blurred industrial machinery.
+    The robot has a vertical tube structure on top.
+  init2final_edit_prompt: Edit the given image to shift the robotic rig significantly to the left along
+    the treadmill belt. The robot should be positioned closer to the left edge of the frame, increasing
+    the distance between it and the yellow post on the right. Keep the background, overhead beam, and
+    treadmill structure stationary. Ensure the robot maintains its orientation on the belt.
+  rationale: The treadmill belt is described as having constant leftward motion. As the robot is resting
+    on the belt, it will be carried to the left (downstream) over time. The camera's departure and return
+    introduces a time delay, during which the robot travels significantly to the left relative to the
+    stationary camera and background. The fired ball would have hit the beam and bounced away, leaving
+    the launcher empty.
+  questions:
+  - id: robot_moved_left
+    question: Is the robotic rig positioned further to the left than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the robot's position relative to the background and the frame edges.
+  - id: distance_from_yellow_post
+    question: Is the distance between the robot and the yellow post on the right larger than before?
+    answer_type: yes_no
+    notes_for_judge: The robot should have moved away from the yellow post.
+  - id: closer_to_left_edge
+    question: Is the robot closer to the left edge of the image compared to the starting position?
+    answer_type: yes_no
+    notes_for_judge: Check the gap between the robot and the left image border.
+  - id: beam_stationary
+    question: Is the overhead rusty beam in the same position relative to the camera?
+    answer_type: yes_no
+    notes_for_judge: The camera returns to the exact original position, so static background objects must
+      align.
+  - id: robot_orientation
+    question: Is the robot still upright and oriented in the same direction?
+    answer_type: yes_no
+    notes_for_judge: The robot should slide left, not rotate or flip.
+  - id: robot_visible
+    question: Is the robotic rig still visible on the treadmill belt?
+    answer_type: yes_no
+    notes_for_judge: The robot should not have disappeared completely unless it fell off, but the prompt
+      implies a shift.

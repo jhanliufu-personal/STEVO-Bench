@@ -1,0 +1,63 @@
+id: water_deflection_05
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: water_deflection
+variation_type: dynamic_condition
+variation_description: Fan is rotated 180 degrees to face away from the water.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Fan faces away from the water stream.
+  expected_outcome_change: Water flows vertically straight down; airflow is directed away from the stream.
+prompts:
+  init_frame_edit_prompt: Edit the image so the fan is rotated 180 degrees, showing the back of the fan
+    motor housing facing the sink instead of the blades.
+  video_WM: The electric fan is switched to its maximum setting, but it is positioned facing away from
+    the sink. The airflow is directed to the right, away from the water. The camera rotates right until
+    the fan completely exits the view, then rotates toward the left smoothly at the same rate until the
+    drain directly below the tap is back in the center of view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The electric fan is switched to its maximum setting, but it is positioned facing away from
+    the sink. The airflow is directed to the right, away from the water. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up shot of a utility sink with a metal tap running water. On the right
+    side, a person's hands are holding a large wire-frame electric fan. The fan is facing left, towards
+    the water stream. The strong airflow from the fan is violently deflecting the water, causing it to
+    spray into a chaotic mist rather than falling straight down. The background shows a tiled wall and
+    workshop equipment.
+  init2final_edit_prompt: Edit the given image so that the water stream falls straight down vertically
+    from the tap into the sink in a coherent column, without being deflected or sprayed. Remove the mist
+    and scattered water droplets. Change the orientation of the electric fan on the right so that it faces
+    away from the sink, directing its airflow to the right.
+  rationale: 'The video prompt describes a sequence where the camera pans away and then returns to the
+    original view of the sink. During this sequence, the physical setup changes: the fan is reoriented
+    to face away from the sink. As a result, the airflow no longer hits the water stream. Without the
+    lateral force of the wind, the water must obey gravity and fall in a straight vertical line into the
+    drain, ceasing to spray or deflect.'
+  questions:
+  - id: water_vertical
+    question: Is the water stream falling straight down vertically?
+    answer_type: yes_no
+    notes_for_judge: The water should form a vertical column directly below the tap, indicating gravity
+      is the sole major force.
+  - id: no_spray
+    question: Has the chaotic water spray and mist disappeared?
+    answer_type: yes_no
+    notes_for_judge: The initial frame shows heavy spraying; the final frame should show a clean stream.
+  - id: deflection_check
+    question: Is the water stream deflected to the side?
+    answer_type: yes_no
+    notes_for_judge: The answer should be NO. The water should not be bending away from the vertical.
+  - id: drain_target
+    question: Does the water land in the area directly below the tap?
+    answer_type: yes_no
+    notes_for_judge: The stream should align with the drain or sink bottom directly under the spout.
+  - id: fan_orientation
+    question: Is the fan facing away from the water stream?
+    answer_type: yes_no
+    notes_for_judge: If the fan is visible, it should be oriented to the right or away from the sink.
+  - id: fan_airflow
+    question: Is the fan blowing air towards the tap?
+    answer_type: yes_no
+    notes_for_judge: The answer should be NO. The prompt states the airflow is directed away.

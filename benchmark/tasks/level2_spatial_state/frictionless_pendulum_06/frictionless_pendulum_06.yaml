@@ -1,0 +1,62 @@
+id: frictionless_pendulum_06
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: frictionless_pendulum
+variation_type: dynamic_condition
+variation_description: Pivot bearing is rusted and seized, introducing extreme friction.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Pivot is rusted/seized (high friction) instead of low-friction bearing.
+  expected_outcome_change: Pendulum barely moves or stops immediately upon release.
+prompts:
+  init_frame_edit_prompt: Edit the image to show the mechanical pivot point at the top is heavily rusted,
+    corroded, and jammed.
+  video_WM: The pivot point is rusted and seized, creating immense friction. The lead bob is released
+    from its initial 45-degree position. The camera rotates right until the pendulum completely exits
+    the view, then rotates toward the left smoothly at the same rate until the pivot point is back in
+    the center of view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The pivot point is rusted and seized, creating immense friction. The lead bob is released
+    from its initial 45-degree position. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A large, textured metal sphere (pendulum bob) is suspended inside a cylindrical
+    glass chamber. The sphere hangs from a vertical rod connected to a heavily rusted, orange-brown mechanical
+    pivot mechanism at the top center of the frame. To the left of the sphere, an angled mechanical arm
+    structure is visible, extending towards the suspension rod. The background shows a laboratory setting
+    with windows and equipment visible through the glass walls.
+  init2final_edit_prompt: Edit the given image to show the exact same scene as the original. The metal
+    sphere, the angled mechanical arm, and the rusted pivot must remain in their original positions. Do
+    not move the sphere or change its height. Ensure the camera view is identical to the initial frame,
+    with the pivot centered and the sphere stationary.
+  rationale: The prompt specifies that the pivot point is 'rusted and seized,' creating immense friction.
+    In a physical simulation, a seized pivot prevents the pendulum from swinging, even if released. Therefore,
+    the pendulum should remain stationary in its initial position throughout the video. The camera rotates
+    away and then returns to the exact starting orientation (pivot back in center). Consequently, the
+    final frame should be visually identical to the initial frame, showing no displacement of the object.
+  questions:
+  - id: pos_static_sphere
+    question: Is the metal sphere in the same position as it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The sphere should not have moved because the pivot is seized.
+  - id: pos_static_arm
+    question: Is the angled mechanical arm on the left still in its original position?
+    answer_type: yes_no
+    notes_for_judge: The arm should remain stationary.
+  - id: height_check
+    question: Is the metal sphere at the same height as it was initially?
+    answer_type: yes_no
+    notes_for_judge: It should not swing down or fall.
+  - id: pivot_center
+    question: Is the rusted pivot point visible in the center of the frame?
+    answer_type: yes_no
+    notes_for_judge: The camera should have returned to the center view.
+  - id: no_swing
+    question: Did the sphere remain stationary without swinging to the side?
+    answer_type: yes_no
+    notes_for_judge: Seized pivot implies no swinging motion.
+  - id: glass_clearance
+    question: Is the sphere still suspended centrally, not touching the glass walls?
+    answer_type: yes_no
+    notes_for_judge: It should maintain its clearance from the walls.

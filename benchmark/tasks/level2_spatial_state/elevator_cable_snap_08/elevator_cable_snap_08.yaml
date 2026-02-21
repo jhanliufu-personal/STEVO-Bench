@@ -1,0 +1,66 @@
+id: elevator_cable_snap_08
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: elevator_cable_snap
+variation_type: combined
+variation_description: Cable intact (static) + Lighting blackout occlusion.
+changes:
+  occlusion_method: Lighting change
+  dynamic_conditions: Cable intact
+  expected_outcome_change: Elevator remains stationary.
+prompts:
+  init_frame_edit_prompt: Edit the image to emphasize the steel cable above the elevator car is thick,
+    taut, and securely attached, looking brand new and unbroken.
+  video_WM: The elevator car is securely supported by a reinforced steel cable. The motor is locked and
+    the car is stationary. Suddenly, the building power fails, and the lights in the shaft turn off completely,
+    leaving the scene in pitch blackness. After a moment, the power is restored and lights turn back on.
+    No zoom, no cut, no scene change. STOP.
+  camera_WM: The elevator car is securely supported by a reinforced steel cable. The motor is locked and
+    the car is stationary. Suddenly, the building power fails, and the lights in the shaft turn off completely,
+    leaving the scene in pitch blackness. After a moment, the power is restored and lights turn back on.
+    No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A high-angle shot looking down into a multi-story atrium. A glass-walled elevator
+    car is suspended in the center of the frame by a thick, twisted steel cable extending upwards. The
+    elevator is positioned vertically between floor levels, flanked by walkways with metal railings on
+    the left and right. Several people are visible on the lower tiled floor and the walkways. Large arched
+    windows and a modern architectural style are visible in the background.
+  init2final_edit_prompt: Edit the given image to show the scene after a brief interval. Keep the elevator
+    car in the exact same vertical position and location as the initial image. Ensure the thick steel
+    cable remains taut, connected, and supporting the car. The lighting should be fully on and bright,
+    matching the initial state. The surrounding architecture, railings, and windows must remain unchanged.
+    The elevator should not have moved.
+  rationale: The prompt explicitly states that the elevator is securely supported, the motor is locked,
+    and the car is stationary. The only event described is a temporary power failure where the lights
+    go out and then come back on. Since the mechanical support (cable and locked motor) is unaffected
+    by the lighting change, the elevator must remain in the exact same position. This task tests the model's
+    ability to maintain object permanence and spatial stability (kinematic state v=0) across a visual
+    interruption (blackout).
+  questions:
+  - id: elevator_pos_same
+    question: Is the elevator car at the same vertical height as it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The elevator should not have moved.
+  - id: cable_connected
+    question: Is the steel cable still taut and connected to the top of the elevator car?
+    answer_type: yes_no
+    notes_for_judge: The cable should not be broken.
+  - id: elevator_suspended
+    question: Is the elevator car still suspended in the shaft rather than resting at the bottom?
+    answer_type: yes_no
+    notes_for_judge: It should be suspended in the middle of the frame.
+  - id: lights_on
+    question: Is the scene illuminated with the lights turned back on?
+    answer_type: yes_no
+    notes_for_judge: The final state requires power restoration.
+  - id: relative_pos_walkway
+    question: Is the top of the elevator car still aligned relative to the walkways as it was initially?
+    answer_type: yes_no
+    notes_for_judge: Check alignment with the railings/floor levels.
+  - id: stationary_state
+    question: Does the elevator appear to be in a stationary position identical to the start?
+    answer_type: yes_no
+    notes_for_judge: No motion should have occurred.

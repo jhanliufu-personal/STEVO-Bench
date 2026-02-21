@@ -1,0 +1,66 @@
+id: spring_oscillation_02
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: spring_oscillation
+variation_type: occlusion_method
+variation_description: Replaces camera rotation with the workshop lights turning off.
+changes:
+  occlusion_method: Lights turn off completely.
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The weight is released from the pulled-down position. The spring is high-quality and the system
+    has negligible air resistance. Suddenly, the workshop lights turn off, plunging the entire scene into
+    pitch blackness where nothing is visible. After a moment, the lights switch back on. No zoom, no cut,
+    no scene change. STOP.
+  camera_WM: The weight is released from the pulled-down position. The spring is high-quality and the
+    system has negligible air resistance. Suddenly, the workshop lights turn off, plunging the entire
+    scene into pitch blackness where nothing is visible. After a moment, the lights switch back on. No
+    zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A rustic workshop scene featuring a heavy cylindrical metal weight labeled '20
+    KG' hanging from a thick vertical coil spring attached to a wooden overhead beam. A horizontal spring
+    connects to the left. To the right, a vertical wooden post has a measuring tape attached to it, and
+    a gloved hand is visible holding or resting on the post. The weight is currently in a low position,
+    significantly extending the vertical spring.
+  init2final_edit_prompt: Edit the given image to show the 20kg weight positioned higher up, closer to
+    the overhead wooden beam, indicating it has moved upward. The vertical coil spring should appear significantly
+    shorter and more compressed than in the original image. Ensure the lighting is bright and visible
+    again. Maintain the appearance of the workshop background, the wooden post, and the measuring tape.
+  rationale: The prompt establishes that the weight starts in a 'pulled-down' position (maximum extension)
+    and is then released. Physically, the restoring force of the spring will accelerate the weight upward
+    against gravity. Since the initial frame represents the lowest possible point in the oscillation trajectory,
+    any subsequent frame after release (barring the unlikely event of capturing the exact same bottom
+    peak after a full period) will show the weight at a higher vertical position and the spring in a more
+    compressed state. The lighting blackout is a temporal transition, implying time has passed for this
+    motion to occur.
+  questions:
+  - id: weight_height_change
+    question: Is the 20kg weight positioned higher than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The weight started at the bottom-most pulled position; it must move up.
+  - id: spring_compression
+    question: Is the vertical coil spring shorter or more compressed than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: As the weight moves up, the spring must contract.
+  - id: gap_reduction
+    question: Is the distance between the top of the weight and the overhead wooden beam smaller than
+      in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Upward motion reduces this gap.
+  - id: upward_motion
+    question: Has the weight moved upwards from its starting location?
+    answer_type: yes_no
+    notes_for_judge: Checks for vertical displacement in the correct direction.
+  - id: weight_identity
+    question: Is the text '20 KG' still visible on the weight?
+    answer_type: yes_no
+    notes_for_judge: Consistency check for object identity.
+  - id: tape_consistency
+    question: Is the measuring tape still visible on the wooden post to the right?
+    answer_type: yes_no
+    notes_for_judge: Consistency check for static background elements.

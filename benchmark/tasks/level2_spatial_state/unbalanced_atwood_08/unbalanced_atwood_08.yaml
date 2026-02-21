@@ -1,0 +1,71 @@
+id: unbalanced_atwood_08
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: unbalanced_atwood
+variation_type: combined
+variation_description: Rusted/seized pulley with object blocking occlusion.
+changes:
+  occlusion_method: Object blocking
+  dynamic_conditions: High friction (seized)
+  expected_outcome_change: No movement
+prompts:
+  init_frame_edit_prompt: Edit the image to make the metal pulley wheels look heavily corroded, orange
+    with rust, and old.
+  video_WM: The mechanical brake is released, but the pulley mechanism is rusted frozen and seized. A
+    large metal sheet descends from above, blocking the entire view of the apparatus. The sheet then ascends,
+    revealing the scene again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The mechanical brake is released, but the pulley mechanism is rusted frozen and seized. A
+    large metal sheet descends from above, blocking the entire view of the apparatus. The sheet then ascends,
+    revealing the scene again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A rustic workshop interior featuring a pulley system with two hanging metal
+    weights. On the left, a large, rusty, rectangular weight labeled '50 KG' is suspended by a thick rope.
+    On the right, a smaller rectangular weight labeled '5 KG' hangs at a slightly higher elevation. The
+    ropes pass through rusty orange pulleys attached to a wooden beam above. In the center foreground,
+    a gear mechanism with a handle is visible. The background includes stone walls, hanging chains, and
+    various metalworking tools.
+  init2final_edit_prompt: Edit the given image to show the scene exactly as it was initially, ensuring
+    the 50kg weight on the left and the 5kg weight on the right remain at their precise original heights
+    and positions, reflecting that the mechanism remained seized and no movement occurred.
+  rationale: The prompt explicitly states that the pulley mechanism is 'rusted frozen and seized'. Although
+    the mechanical brake is released, the seizure prevents the unbalanced weights (50kg vs 5kg) from moving.
+    The occlusion by the metal sheet implies a passage of time, but due to the physical constraint of
+    the seized mechanism, the state of the system must remain static. Therefore, the final frame should
+    be identical to the initial frame regarding the positions of the weights and gears.
+  questions:
+  - id: q1
+    question: Is the 50kg weight at the same vertical height as it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The mechanism is seized, so the heavy weight should not drop.
+  - id: q2
+    question: Is the 5kg weight at the same vertical height as it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The mechanism is seized, so the light weight should not rise.
+  - id: q3
+    question: Has the 50kg weight remained in its starting position without dropping?
+    answer_type: yes_no
+    notes_for_judge: Check for downward motion; there should be none.
+  - id: q4
+    question: Has the 5kg weight remained in its starting position without rising?
+    answer_type: yes_no
+    notes_for_judge: Check for upward motion; there should be none.
+  - id: q5
+    question: Are the ropes connecting the weights still in the same tension and configuration as initially?
+    answer_type: yes_no
+    notes_for_judge: No movement means the rope configuration should not change.
+  - id: q6
+    question: Is the gear mechanism in the center still in its original orientation?
+    answer_type: yes_no
+    notes_for_judge: The mechanism is frozen.
+  - id: q7
+    question: Is the 50kg weight still suspended at the same distance from the floor as in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: Verifying lack of displacement.
+  - id: q8
+    question: Does the overall scene appear spatially identical to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Since the mechanism is seized, nothing should have moved.

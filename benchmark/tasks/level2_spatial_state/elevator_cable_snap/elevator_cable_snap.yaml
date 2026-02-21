@@ -12,3 +12,47 @@ prompts:
     rails are the only physical constraints. STOP.
 camera_control:
   HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A high-angle shot of a modern multi-story atrium featuring a central glass elevator
+    shaft. Inside the shaft, a metal and glass elevator car is suspended in the middle of the frame by
+    steel cables. The shaft is flanked by walkways with metal railings on multiple levels. Several people
+    are standing on the walkways in the lower left and right corners, looking towards the center. Large
+    windows are visible in the background through the shaft structure.
+  init2final_edit_prompt: Edit the given image to show that the elevator car has fallen down the shaft.
+    Remove the elevator car from its central position, leaving that section of the glass shaft empty.
+    Show the snapped end of the steel cable hanging vertically in the center of the shaft where the car
+    used to be attached. Ensure the background windows and structural beams of the shaft are visible through
+    the space previously occupied by the car. Keep the surrounding walkways, railings, and people unchanged.
+  rationale: The prompt specifies that the elevator cable snaps and the car is unsupported, causing it
+    to fall under the influence of gravity. The camera rotates away and then back to the center, introducing
+    a time delay during which the car accelerates downwards. By the time the camera returns to the initial
+    viewing angle (centered on the snapped cable), the elevator car should have fallen significantly,
+    either appearing much lower in the shaft or having exited the frame entirely. The cable remains hanging
+    from above.
+  questions:
+  - id: q1
+    question: Is the elevator car absent from its initial position in the center of the frame?
+    answer_type: yes_no
+    notes_for_judge: The car should have fallen, so the center of the shaft should be empty or contain
+      only the cable.
+  - id: q2
+    question: Is the space where the elevator car was initially located now empty?
+    answer_type: yes_no
+    notes_for_judge: Check if the background/shaft structure is visible where the car used to be.
+  - id: q3
+    question: Is a snapped cable visible hanging in the shaft?
+    answer_type: yes_no
+    notes_for_judge: A cable should be dangling in the center.
+  - id: q4
+    question: Has the elevator car moved downwards from its starting height?
+    answer_type: yes_no
+    notes_for_judge: If the car is visible, it must be lower. If it is gone, it has moved down.
+  - id: q5
+    question: Are the background windows visible through the section of the shaft where the car used to
+      be?
+    answer_type: yes_no
+    notes_for_judge: The car's occlusion should be removed.
+  - id: q6
+    question: Are the walkways and railings in the same position as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Static environment check.

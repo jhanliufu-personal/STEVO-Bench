@@ -1,0 +1,71 @@
+id: motorized_camera_dolly_09
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: motorized_camera_dolly
+variation_type: combined
+variation_description: Steep incline + Zoom occlusion
+changes:
+  occlusion_method: Zoom in on floor
+  dynamic_conditions: Steep incline (gravity)
+  expected_outcome_change: Dolly slows/stops/reverses
+prompts:
+  init_frame_edit_prompt: Edit the image so the tracks are angled steeply upwards, creating a sharp incline
+    for the dolly to climb.
+  video_WM: The camera dolly is attempting to move up the steep incline of the tracks. Gravity pulls heavily
+    against the ascent. The camera zooms in tightly on the concrete floor texture next to the tracks until
+    the dolly and tracks are completely excluded from the frame. The camera holds this close-up, then
+    zooms back out smoothly until the camera returns to the original viewpoint. No cut, no scene change.
+    STOP.
+  camera_WM: The camera dolly is attempting to move up the steep incline of the tracks. Gravity pulls
+    heavily against the ascent. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A film studio set featuring a large wooden ramp with metal dolly tracks inclined
+    upwards from the foreground. A heavy camera dolly with a seated operator (a man in dark clothing)
+    and a black crane arm is positioned at the bottom of the ramp. The crane arm extends to the left,
+    holding a professional cinema camera. The background includes a green screen wall, black curtains,
+    and overhead studio lighting grids. The floor is grey concrete.
+  init2final_edit_prompt: Edit the given image to show the camera dolly and operator positioned higher
+    up the inclined wooden track. Move the entire dolly assembly, including the wheels, seat, operator,
+    and crane arm, along the rails towards the top of the ramp. Ensure the bottom section of the tracks,
+    previously covered by the dolly, is now visible and empty. Maintain the exact same camera angle, lighting,
+    and background environment.
+  rationale: The video prompt describes a sequence where the viewing camera temporarily zooms in on the
+    floor (occluding the scene) and then returns to the original viewpoint. During this interval, the
+    camera dolly is described as attempting to move up the incline. Although gravity is mentioned as a
+    resisting force, the primary action is an ascent. Therefore, in the final frame, the dolly should
+    be spatially displaced further up the tracks compared to the initial frame, while the framing of the
+    scene returns to the starting configuration.
+  questions:
+  - id: dolly_position_up
+    question: Is the camera dolly positioned higher up the inclined track than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the position of the dolly wheels relative to the wooden cross-beams of the
+      ramp.
+  - id: dolly_moved_from_start
+    question: Has the dolly moved away from the bottom end of the tracks?
+    answer_type: yes_no
+    notes_for_judge: The dolly should no longer be at the very start of the rails.
+  - id: track_visibility
+    question: Is the section of track at the bottom of the ramp now visible and empty?
+    answer_type: yes_no
+    notes_for_judge: In the initial frame, the dolly covers the bottom of the track. In the final frame,
+      this area should be exposed.
+  - id: operator_position
+    question: Is the operator seated on the dolly closer to the top of the ramp?
+    answer_type: yes_no
+    notes_for_judge: The person should have moved along with the dolly.
+  - id: crane_arm_displacement
+    question: Has the crane arm moved spatially consistent with the dolly's ascent?
+    answer_type: yes_no
+    notes_for_judge: The arm is attached to the dolly and should move with it.
+  - id: background_consistency_greenscreen
+    question: Is the green screen background still visible in the same location?
+    answer_type: yes_no
+    notes_for_judge: The camera view returns to the original, so the background should be static.
+  - id: ramp_structure_consistency
+    question: Is the wooden ramp structure in the same position and orientation?
+    answer_type: yes_no
+    notes_for_judge: The ramp itself should not move, only the dolly on it.

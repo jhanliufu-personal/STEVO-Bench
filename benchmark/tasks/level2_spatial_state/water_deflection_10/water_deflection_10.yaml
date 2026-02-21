@@ -1,0 +1,60 @@
+id: water_deflection_10
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: water_deflection
+variation_type: combined
+variation_description: Fan off combined with camera zoom occlusion.
+changes:
+  occlusion_method: Camera zooms out until details are lost.
+  dynamic_conditions: Fan is switched off.
+  expected_outcome_change: Water flows vertically straight down.
+prompts:
+  init_frame_edit_prompt: Edit the image so the fan blades look stationary and distinct, and ensure the
+    fan appears powered down.
+  video_WM: The electric fan is switched off and remains stationary. The water flows vertically. The camera
+    zooms out rapidly until the sink and fan appear as tiny, indistinguishable dots in the distance. The
+    camera then zooms back in to the exact original framing. No cut, no scene change. STOP.
+  camera_WM: The electric fan is switched off and remains stationary. The water flows vertically. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+evaluation:
+  init_frame_description: A dirty concrete utility sink with a metal faucet on the left emitting a vertical
+    stream of water. On the right, a person's hands hold a black wire-frame electric fan. The fan is angled
+    towards the water stream but the blades are distinct and sharp, indicating it is currently stationary
+    or off. The background consists of a white tiled wall and blurred workshop equipment.
+  init2final_edit_prompt: Edit the given image to show the scene in the exact same configuration as the
+    original. The water stream flows vertically downwards from the faucet into the sink, remaining straight
+    and undeflected. The electric fan on the right remains stationary in its original position with distinct,
+    unblurred blades. The hands, faucet, and sink are in identical positions to the start, maintaining
+    the original framing and perspective.
+  rationale: 'The prompt specifies a camera movement that leaves and returns to the exact original framing,
+    while explicitly stating the fan remains off and stationary. Physically, this means no new forces
+    (like wind) are introduced, and gravity remains the dominant force on the water. Therefore, the final
+    frame must demonstrate object permanence and spatial consistency: the water must still flow vertically,
+    the fan must remain off (unblurred), and all objects must be in their original positions.'
+  questions:
+  - id: water_vertical
+    question: Is the water stream flowing vertically downwards?
+    answer_type: yes_no
+    notes_for_judge: The water should fall straight down due to gravity, as the fan is off.
+  - id: water_undeflected
+    question: Is the water stream straight, without bending away from the fan?
+    answer_type: yes_no
+    notes_for_judge: Since the fan is off, there is no air current to deflect the water.
+  - id: fan_position
+    question: Is the fan located in the same position on the right side as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Tests spatial consistency after the camera zoom.
+  - id: fan_state
+    question: Are the fan blades clearly visible and unblurred?
+    answer_type: yes_no
+    notes_for_judge: The fan is stationary/off, so blades should not be motion-blurred.
+  - id: faucet_position
+    question: Is the faucet located in the same position on the left side as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Tests spatial consistency of static objects.
+  - id: framing_match
+    question: Is the framing of the scene identical to the initial image?
+    answer_type: yes_no
+    notes_for_judge: The camera should have returned to the exact starting view.

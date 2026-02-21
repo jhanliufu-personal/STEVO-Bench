@@ -1,0 +1,71 @@
+id: spinning_coin_wobble_01
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: spinning_coin_wobble
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to a hand blocking the view.
+changes:
+  occlusion_method: A large hand moves in front of the lens to block the view.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The coin continues spinning on the table surface. The coin edge maintains contact with the
+    table. Friction exists between the coin edge and the wooden surface. Air resistance acts on the rotating
+    coin. The coin is a standard metal quarter with typical mass distribution. A large hand moves into
+    the frame from the right, completely covering the coin and blocking the view. The hand remains in
+    place for several seconds. Then the hand moves away to the right, revealing the table surface again.
+    No zoom, no cut, no scene change. STOP.
+  camera_WM: The coin continues spinning on the table surface. The coin edge maintains contact with the
+    table. Friction exists between the coin edge and the wooden surface. Air resistance acts on the rotating
+    coin. The coin is a standard metal quarter with typical mass distribution. A large hand moves into
+    the frame from the right, completely covering the coin and blocking the view. The hand remains in
+    place for several seconds. Then the hand moves away to the right, revealing the table surface again.
+    No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, low-angle shot of a silver US quarter standing vertically on its
+    edge on a scratched, brown wooden table. The 'tails' side featuring the eagle is visible. The coin
+    is centered and in sharp focus, while the background shows a blurred room corner with a window.
+  init2final_edit_prompt: Edit the given image to show the quarter lying flat on the wooden table surface.
+    The coin should be resting horizontally on one of its faces, positioned near the center where it was
+    previously standing. Ensure the coin is no longer standing on its edge. Do not show any hand or obstruction
+    in the frame; the table surface should be fully visible.
+  rationale: The initial state describes a coin spinning on its edge, which is an unstable equilibrium.
+    The prompt explicitly mentions friction and air resistance, forces that dissipate angular momentum
+    over time. The occlusion lasts for 'several seconds,' a duration typically sufficient for a spinning
+    coin to lose stability, wobble, and fall to a resting position. Therefore, the most physically probable
+    final state is the coin lying flat on the table after the hand is removed.
+  questions:
+  - id: coin_flat
+    question: Is the coin lying flat on the table surface?
+    answer_type: yes_no
+    notes_for_judge: The coin should be resting on one of its faces, not standing on its edge.
+  - id: coin_not_vertical
+    question: Is the coin no longer standing vertically on its edge?
+    answer_type: yes_no
+    notes_for_judge: The coin should have fallen from its initial vertical orientation.
+  - id: height_reduction
+    question: Is the vertical height of the coin significantly less than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Since the coin has fallen flat, its vertical extent in the image should be much smaller
+      (thickness vs diameter).
+  - id: resting_on_face
+    question: Is the coin resting on one of its flat faces?
+    answer_type: yes_no
+    notes_for_judge: It should not be balanced on the rim.
+  - id: fallen_state
+    question: Has the coin fallen from its initial upright position?
+    answer_type: yes_no
+    notes_for_judge: Check for the change in state from standing to fallen.
+  - id: hand_removed
+    question: Is the hand completely absent from the frame?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the hand moves away.
+  - id: table_visible
+    question: Is the wooden table surface visible where the coin is resting?
+    answer_type: yes_no
+    notes_for_judge: The view should be unobstructed.

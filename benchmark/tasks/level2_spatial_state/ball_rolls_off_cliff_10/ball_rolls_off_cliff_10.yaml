@@ -1,0 +1,72 @@
+id: ball_rolls_off_cliff_10
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: ball_rolls_off_cliff
+variation_type: combined
+variation_description: Surface changed to high-friction rug AND blocking person used.
+changes:
+  occlusion_method: Person blocks the camera view.
+  dynamic_conditions: Surface changed to high-friction rug (implies slowing/stopping).
+  expected_outcome_change: Ball slows down significantly or stops on the rug before reaching the edge.
+prompts:
+  init_frame_edit_prompt: Edit the image to change the table surface texture from smooth wood to a thick,
+    shaggy wool rug.
+  video_WM: The ball rolls slowly across the thick rug toward the edge. The rug fibers create high friction
+    and resistance against the ball's movement. The ball's velocity is low and decreasing. A person walks
+    into the frame, standing directly in front of the camera and blocking the view completely. The person
+    stands there for several seconds. Then the person walks away, revealing the scene. No zoom, no cut,
+    no scene change. STOP.
+  camera_WM: The ball rolls slowly across the thick rug toward the edge. The rug fibers create high friction
+    and resistance against the ball's movement. The ball's velocity is low and decreasing. A person walks
+    into the frame, standing directly in front of the camera and blocking the view completely. The person
+    stands there for several seconds. Then the person walks away, revealing the scene. No zoom, no cut,
+    no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A red lacrosse ball is positioned on the left side of a thick, shaggy, cream-colored
+    rug that sits atop a wooden bench. To the right of the solid ball, there is a pinkish motion blur
+    trail or 'ghost' indicating movement. The background features a window on the left and a wooden floor
+    below.
+  init2final_edit_prompt: Edit the given image to show the red ball stationary on the rug, positioned
+    to the right of its original location (closer to the center of the rug). Remove the pinkish motion
+    blur trail completely so the ball appears static and clearly defined. The ball should be resting on
+    the rug fibers. Ensure the person mentioned in the context is not visible; the scene should be empty
+    except for the objects.
+  rationale: The prompt specifies that the ball has 'low and decreasing' velocity and is rolling on a
+    'thick rug' which creates 'high friction'. Physically, these opposing forces will cause the ball to
+    rapidly lose momentum and come to a stop rather than maintaining enough speed to roll off the edge.
+    The occlusion period of 'several seconds' is sufficient for the ball to decelerate to a complete halt.
+    Therefore, the final state should show the ball at rest on the rug, displaced along its path (assumed
+    to be 'across' the rug to the right), rather than falling off.
+  questions:
+  - id: ball_on_rug
+    question: Is the red ball still resting on the rug?
+    answer_type: yes_no
+    notes_for_judge: The ball should not have fallen off the bench.
+  - id: ball_displaced
+    question: Is the red ball at a different position than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Check for spatial displacement.
+  - id: ball_direction
+    question: Is the red ball positioned to the right of its starting location?
+    answer_type: yes_no
+    notes_for_judge: It should have moved across the rug.
+  - id: motion_stopped
+    question: Is the red ball stationary (appearing without motion blur)?
+    answer_type: yes_no
+    notes_for_judge: The motion blur trail should be gone.
+  - id: ball_visible
+    question: Is the red ball clearly visible in the frame?
+    answer_type: yes_no
+    notes_for_judge: It should not be occluded or missing.
+  - id: occluder_absent
+    question: Is the view free of the person who blocked the camera?
+    answer_type: yes_no
+    notes_for_judge: The person should have walked away.
+  - id: bench_visible
+    question: Is the wooden bench still visible beneath the rug?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

@@ -1,0 +1,65 @@
+id: oscillating_metronome_arm_05
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: oscillating_metronome_arm
+variation_type: dynamic_condition
+variation_description: Mechanism is rusted and key is missing, implying no motion.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Rusted mechanism and missing key implies static state (no movement)
+  expected_outcome_change: Arm remains stationary throughout
+prompts:
+  init_frame_edit_prompt: Edit the image to make the metronome's metal mechanism look heavily rusted and
+    remove the wind-up key from the side.
+  video_WM: The metronome appears ancient, with a heavily rusted mechanism and the wind-up key missing
+    entirely. The arm sits motionless in its resting position. The camera rotates right until the metronome
+    completely exits the view, then rotates toward the left smoothly at the same rate until the metronome's
+    wooden casing is back in the center of view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The metronome appears ancient, with a heavily rusted mechanism and the wind-up key missing
+    entirely. The arm sits motionless in its resting position. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A wooden metronome sits on a workbench with its front door open, revealing a
+    heavily rusted internal gear mechanism. A long, rusty metal pendulum arm extends from the mechanism,
+    protruding out of the box and angling downwards to the left. A rectangular sliding weight is attached
+    to the arm. Various tools are scattered on the wooden surface in the background.
+  init2final_edit_prompt: Edit the given image to show the metronome centered in the view with the scene
+    unchanged. The rusted metal arm must remain in the exact same position and orientation as the original,
+    pointing down and to the left. The wooden door must remain open. The internal gears must appear rusted
+    and static. The tools on the workbench must remain in their original positions.
+  rationale: The prompt explicitly states that the metronome is ancient, rusted, missing its wind-up key,
+    and motionless. The camera rotates away and then returns to the center. Since the mechanism is broken
+    and no external force is applied, the metronome arm must not move. The final frame should be visually
+    identical to the initial frame. This task tests whether the model hallucinates motion (ticking) based
+    on the object class or correctly adheres to the static constraints described in the text.
+  questions:
+  - id: arm_position_static
+    question: Is the rusted arm in the same position relative to the box as it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The arm should not have moved; it should still be pointing down and to the left.
+  - id: arm_angle_unchanged
+    question: Is the angle of the pendulum arm unchanged from the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The arm should maintain its specific tilt.
+  - id: weight_position
+    question: Is the sliding weight on the arm at the same location along the rod as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The weight should not slide up or down.
+  - id: door_state
+    question: Is the metronome door still open?
+    answer_type: yes_no
+    notes_for_judge: The door should not close.
+  - id: rust_visible
+    question: Is the internal mechanism still visible and rusted?
+    answer_type: yes_no
+    notes_for_judge: The rust texture implies the mechanism is seized.
+  - id: camera_centering
+    question: Is the metronome casing centered in the view?
+    answer_type: yes_no
+    notes_for_judge: The camera returns to the center.
+  - id: background_tools
+    question: Are the tools on the workbench in the same positions as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Background objects should remain static.

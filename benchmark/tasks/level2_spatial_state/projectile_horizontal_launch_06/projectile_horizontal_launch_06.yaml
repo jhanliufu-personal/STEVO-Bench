@@ -1,0 +1,64 @@
+id: projectile_horizontal_launch_06
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: projectile_horizontal_launch
+variation_type: dynamic_condition
+variation_description: Replaces the heavy plastic ball with a light crumpled paper ball, implying high
+  air resistance.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Projectile is a light paper ball instead of plastic
+  expected_outcome_change: Ball will lose velocity rapidly due to air resistance and drop quickly
+prompts:
+  init_frame_edit_prompt: Edit the image to change the red plastic ball into a crumpled ball of white
+    paper of the same size.
+  video_WM: The crumpled paper ball is traveling through the air after its horizontal launch. It is encountering
+    significant air resistance. The camera rotates right until the paper ball completely exits the view,
+    then rotates toward the left smoothly at the same rate until the cannon on the table is back in the
+    center of view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The crumpled paper ball is traveling through the air after its horizontal launch, encountering
+    significant air resistance. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A wooden workbench featuring a brass and steel model cannon with a large spring
+    mechanism. A crumpled paper ball is suspended in mid-air just in front of the cannon's muzzle, accompanied
+    by a puff of white smoke. To the left is a window with daylight coming through; to the right is an
+    open doorway leading to a workshop or garage. Blueprints, a pencil, and wood shavings are scattered
+    on the table surface.
+  init2final_edit_prompt: Edit the given image to remove the crumpled paper ball and the white smoke cloud
+    from the air. The scene should show the cannon and workbench clearly without the projectile or the
+    discharge smoke, as if time has passed and the air has cleared. Keep the camera angle, lighting, and
+    background objects (window, door, tools) exactly the same as the original view.
+  rationale: The video prompt describes a sequence where the camera pans away to follow the projectile
+    and then returns to the original position. During this elapsed time, the paper ball continues its
+    trajectory and exits the immediate area, while the smoke from the discharge dissipates. Therefore,
+    the final frame should be visually identical to the initial frame in terms of camera angle and static
+    objects (cannon, table, background), but the dynamic elements (the paper ball and the smoke cloud)
+    should be absent.
+  questions:
+  - id: ball_absence
+    question: Is the crumpled paper ball no longer visible in the air?
+    answer_type: yes_no
+    notes_for_judge: The ball should have traveled out of frame.
+  - id: smoke_dissipation
+    question: Has the white smoke cloud dissipated or disappeared?
+    answer_type: yes_no
+    notes_for_judge: Smoke is a transient effect and should be gone after the camera movement.
+  - id: clear_path
+    question: Is the space directly in front of the cannon muzzle clear?
+    answer_type: yes_no
+    notes_for_judge: Check for the absence of the projectile and smoke.
+  - id: cannon_presence
+    question: Is the cannon still visible on the wooden workbench?
+    answer_type: yes_no
+    notes_for_judge: The cannon is a static object and should remain.
+  - id: camera_return
+    question: Is the cannon centered in the view, matching the initial framing?
+    answer_type: yes_no
+    notes_for_judge: The prompt specifies the camera rotates back to the center.
+  - id: blueprints_visible
+    question: Are the blueprints and pencil still visible on the table?
+    answer_type: yes_no
+    notes_for_judge: Static foreground objects should remain unchanged.

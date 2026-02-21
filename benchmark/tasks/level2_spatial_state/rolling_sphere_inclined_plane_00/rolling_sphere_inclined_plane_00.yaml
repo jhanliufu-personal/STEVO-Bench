@@ -1,0 +1,67 @@
+id: rolling_sphere_inclined_plane_00
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: rolling_sphere_inclined_plane
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The steel marble is rolling down the smooth inclined ramp. Gravity is accelerating the marble's
+    descent, and there is no visible obstruction. Camera remains stationary throughout. No zoom, no cut,
+    no scene change. STOP.
+  camera_WM: The steel marble is rolling down the smooth inclined ramp. Gravity is accelerating the marble's
+    descent, and there is no visible obstruction. Camera remains stationary throughout. No zoom, no cut,
+    no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up view of a polished steel sphere resting on a weathered wooden beam.
+    The beam acts as a ramp, angled diagonally across the frame from the bottom left to the top right.
+    Based on the distance to the ground visible in the background, the ramp is inclined upwards towards
+    the right. The wood has visible grain and texture. The background features a blurred grassy field
+    and a rustic wooden barn structure. The sphere reflects the surrounding environment, including the
+    sky and trees.
+  init2final_edit_prompt: Edit the given image to move the steel sphere along the wooden beam towards
+    the bottom-left corner of the frame. Place the sphere at a position significantly lower down the ramp
+    than its starting point, closer to the viewer. Keep the wooden beam, the grassy background, and the
+    barn exactly as they are, only changing the position of the sphere.
+  rationale: The visual cues indicate the wooden beam is an inclined plane sloping upwards from left to
+    right (the right side is higher off the ground). Gravity acts downwards, so a ball rolling 'down'
+    the ramp will move towards the lower end, which is the bottom-left of the frame. The camera is stationary,
+    so the background and the ramp itself should remain static while the ball translates along the surface
+    towards the bottom-left.
+  questions:
+  - id: position_change_01
+    question: Is the steel sphere in a different position on the wood than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Check for any displacement along the beam.
+  - id: direction_check_01
+    question: Has the steel sphere moved towards the bottom-left of the image?
+    answer_type: yes_no
+    notes_for_judge: The ball should move down the ramp, which slopes down to the left.
+  - id: direction_check_02
+    question: Is the steel sphere positioned lower on the ramp than its starting position?
+    answer_type: yes_no
+    notes_for_judge: Lower refers to the position along the slope, closer to the ground/bottom-left.
+  - id: relative_distance_01
+    question: Is the steel sphere closer to the bottom edge of the frame compared to the initial image?
+    answer_type: yes_no
+    notes_for_judge: Motion should be towards the camera/bottom edge.
+  - id: separation_check_01
+    question: Is the distance between the steel sphere and the top-right end of the plank larger than
+      in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: As it rolls down (left), it moves away from the top (right).
+  - id: background_consistency_01
+    question: Is the wooden barn in the background still in the same position?
+    answer_type: yes_no
+    notes_for_judge: The camera is stationary.
+  - id: ramp_consistency_01
+    question: Does the wooden ramp appear stationary relative to the background?
+    answer_type: yes_no
+    notes_for_judge: The ramp should not move, only the ball.

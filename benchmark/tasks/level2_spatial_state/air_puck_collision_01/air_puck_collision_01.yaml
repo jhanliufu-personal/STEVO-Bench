@@ -1,0 +1,66 @@
+id: air_puck_collision_01
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: air_puck_collision
+variation_type: occlusion_method
+variation_description: Replaces camera rotation with the arcade lights turning off completely.
+changes:
+  occlusion_method: Arcade lights turn off (pitch black) then back on
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The puck slides across the frictionless air-cushioned surface at a constant velocity. The
+    path is a straight line across the table. Suddenly, the arcade lights turn off completely, plunging
+    the scene into total darkness. After a few seconds, the lights turn back on, revealing the scene again.
+    No zoom, no cut, no scene change. STOP.
+  camera_WM: The puck slides across the frictionless air-cushioned surface at a constant velocity. The
+    path is a straight line across the table. Suddenly, the arcade lights turn off completely, plunging
+    the scene into total darkness. After a few seconds, the lights turn back on, revealing the scene again.
+    No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up, low-angle shot of an air hockey table with a dark surface illuminated
+    by a neon grid of pink, blue, and green lines. A glowing white puck with a blue center is positioned
+    on the far left side, directly contacting the metal side rail. A bright spark-like visual effect appears
+    at the contact point between the puck and the rail. A motion blur trail extends from the puck, and
+    a player's hand with an orange pusher is partially visible on the far right.
+  init2final_edit_prompt: Edit the given image to show the white air hockey puck in a new position significantly
+    further to the right, near the center of the table. Remove the puck and the spark effect from the
+    original location against the left metal rail. Ensure the scene remains fully illuminated with the
+    neon grid lines bright and visible, identical to the initial lighting conditions. The puck should
+    appear to have slid across the table away from the left rail.
+  rationale: The initial frame captures the puck at the moment of impact or launch from the left rail,
+    with velocity directed across the table (to the right). The video prompt states the puck slides in
+    a straight line at constant velocity while the lights turn off and then back on. Physically, the puck
+    retains its momentum during the darkness. When the lights return (the final state), the puck must
+    have traveled a significant distance along its trajectory, placing it further to the right and away
+    from the left rail.
+  questions:
+  - id: position_change
+    question: Is the air hockey puck in a different position than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The puck must not be in the exact same spot.
+  - id: displacement_direction
+    question: Is the puck positioned further to the right side of the image compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The trajectory is from left to right.
+  - id: rail_separation
+    question: Is there a visible gap between the puck and the left metal rail?
+    answer_type: yes_no
+    notes_for_judge: The puck started touching the rail; it should now be detached.
+  - id: center_proximity
+    question: Has the puck moved closer to the center of the table?
+    answer_type: yes_no
+    notes_for_judge: It should be moving away from the edge.
+  - id: spark_removal
+    question: Is the spark effect at the left rail absent or diminished?
+    answer_type: yes_no
+    notes_for_judge: The spark was an instantaneous impact event; it should not persist if the puck has
+      moved.
+  - id: lighting_consistency
+    question: Are the neon grid lines on the table surface clearly visible?
+    answer_type: yes_no
+    notes_for_judge: Verifies that the lights have turned back on as described.

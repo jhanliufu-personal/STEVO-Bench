@@ -1,0 +1,61 @@
+id: rolling_sphere_inclined_plane_10
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: rolling_sphere_inclined_plane
+variation_type: combined
+variation_description: Shape change (cube instead of sphere) combined with camera rotation.
+changes:
+  occlusion_method: Camera rotation (original method).
+  dynamic_conditions: Object is a cube, not a sphere.
+  expected_outcome_change: The cube slides (if steep) or stays put, but does not roll.
+prompts:
+  init_frame_edit_prompt: Edit the image to replace the steel marble with a steel cube of the same size.
+  video_WM: A steel cube sits on the inclined wooden ramp. Unlike a sphere, the flat bottom of the cube
+    creates friction against the wood, resisting the pull of gravity. The camera rotates right until the
+    ramp completely exits the view, then rotates toward the left smoothly at the same rate until the top
+    of the ramp is back in the center of view. No zoom, no cut, no scene change. STOP.
+  camera_WM: A steel cube sits on the inclined wooden ramp. Unlike a sphere, the flat bottom of the cube
+    creates friction against the wood, resisting the pull of gravity. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A shiny steel cube sits on an inclined wooden plank ramp that slopes upwards
+    from the bottom-left to the top-right. The wood is weathered with visible grain and cracks. In the
+    background, there is a grassy field and a rustic wooden barn. The cube is positioned near the center
+    of the frame, reflecting the sky and surroundings.
+  init2final_edit_prompt: Edit the given image to show the steel cube remaining in the exact same position
+    on the wooden ramp. Ensure the cube does not slide down the incline and maintains its original location
+    relative to the wood surface.
+  rationale: The prompt describes a steel cube on an inclined ramp. Unlike a sphere, the flat base of
+    the cube creates static friction that resists the pull of gravity. The prompt explicitly contrasts
+    the cube with a sphere to highlight this resistance, implying the cube should remain stationary or
+    slide negligibly. The camera performs a panning motion to occlude the scene and then returns to the
+    ramp. Therefore, the final state should show the cube at the same position on the ramp as the initial
+    state, unaffected by the time passed.
+  questions:
+  - id: cube_position_stationary
+    question: Is the steel cube located at the same position on the wooden ramp as it was in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: The cube should not have moved down the ramp.
+  - id: cube_relative_wood
+    question: Has the cube remained stationary relative to the specific wood grain and knots on the ramp?
+    answer_type: yes_no
+    notes_for_judge: Check the position of the cube against the texture of the wood.
+  - id: cube_no_slide
+    question: Did the cube resist sliding down the incline?
+    answer_type: yes_no
+    notes_for_judge: The cube should be in the same spot, not lower.
+  - id: cube_distance_bottom
+    question: Is the distance between the cube and the bottom-left edge of the ramp unchanged?
+    answer_type: yes_no
+    notes_for_judge: Compare the gap between the object and the bottom of the plank.
+  - id: cube_orientation
+    question: Is the cube's orientation on the ramp identical to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: It should not have tipped or rotated.
+  - id: cube_presence
+    question: Is the cube still visible on the ramp?
+    answer_type: yes_no
+    notes_for_judge: It should not have fallen off.

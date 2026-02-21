@@ -1,0 +1,63 @@
+id: sliding_block_frictionless_05
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: sliding_block_frictionless
+variation_type: dynamic_condition
+variation_description: Changes the geometry so the block is sliding up a steep incline.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Surface is now a steep uphill ramp
+  expected_outcome_change: The block should decelerate due to gravity, potentially stopping or sliding
+    back.
+prompts:
+  init_frame_edit_prompt: Edit the image so the surface is tilted upwards to the right, creating a steep
+    30-degree ramp that the block is sliding up.
+  video_WM: The metal block is sliding rapidly up a steep, polished metal ramp. The incline is significant,
+    opposing the block's motion. The camera rotates right, following the upward angle until the block
+    exits the view, then rotates back left to the original viewpoint. No zoom, no cut, no scene change.
+    STOP.
+  camera_WM: The metal block is sliding rapidly up a steep, polished metal ramp. The incline is significant,
+    opposing the block's motion. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A large, cubic silver metal block is positioned in the center, attached to a
+    black hydraulic arm extending from the left edge of the frame. The block is sliding across a reflective,
+    blue-white textured surface that resembles ice or polished metal. White spray or debris is kicking
+    up from the base of the block, indicating rapid motion. The background features a flat horizon line
+    and a bright sky.
+  init2final_edit_prompt: Edit the given image to remove the large metal block, the black hydraulic arm,
+    and the white spray/debris. Fill the empty space with the textured, reflective surface and the background
+    sky, matching the lighting and perspective of the surrounding environment. The final image should
+    depict the empty landscape as seen from the original viewpoint, with no machinery present.
+  rationale: The prompt describes the block sliding rapidly 'up' the incline and eventually exiting the
+    view while the camera tracks it. The camera then rotates back to the original viewpoint. Since the
+    block has moved away from the starting position and exited the scene, and the camera has returned
+    to the initial location, the final frame should show the empty environment (the surface and horizon)
+    without the block or the arm.
+  questions:
+  - id: block_absence
+    question: Is the large metal block absent from the image?
+    answer_type: yes_no
+    notes_for_judge: The block should have moved out of the frame.
+  - id: arm_absence
+    question: Is the black hydraulic arm removed from the left side of the frame?
+    answer_type: yes_no
+    notes_for_judge: The arm is attached to the block and should move with it.
+  - id: surface_visibility
+    question: Is the reflective surface visible in the area previously occupied by the block?
+    answer_type: yes_no
+    notes_for_judge: The background should be revealed.
+  - id: spray_absence
+    question: Is the white spray or debris from the motion gone?
+    answer_type: yes_no
+    notes_for_judge: Transient effects of motion should settle or disappear once the object leaves.
+  - id: scene_empty
+    question: Does the image show an empty landscape without the central machinery?
+    answer_type: yes_no
+    notes_for_judge: The scene should be devoid of the main subject.
+  - id: horizon_continuity
+    question: Is the horizon line visible and uninterrupted across the frame?
+    answer_type: yes_no
+    notes_for_judge: The background should remain consistent.

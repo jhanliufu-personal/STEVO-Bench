@@ -1,0 +1,62 @@
+id: air_puck_collision_00
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: air_puck_collision
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The puck slides across the frictionless air-cushioned surface at a constant velocity. The
+    path is a straight line across the table. Camera remains stationary throughout, keeping the puck in
+    view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The puck slides across the frictionless air-cushioned surface at a constant velocity. The
+    path is a straight line across the table. Camera remains stationary throughout, keeping the puck in
+    view. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: Close-up view of an air hockey table with a dark surface and neon grid lines
+    in pink, blue, and green. A white glowing puck is positioned at the far left edge, impacting the metal
+    side rail. Orange sparks or light effects are visible at the point of contact with the rail. A motion
+    blur trail extends to the right of the puck, indicating it traveled from right to left. The background
+    is dark with blurred arcade machines.
+  init2final_edit_prompt: Edit the given image to move the white air hockey puck to the right, positioning
+    it near the center of the table surface. Remove the orange sparks and impact light effects from the
+    left metal rail. Ensure the puck is no longer touching the left wall. Update the reflections on the
+    glossy table surface to align with the puck's new position near the center.
+  rationale: The initial frame shows the puck at the moment of impact with the left wall, evidenced by
+    the sparks and the motion trail extending to the right (indicating right-to-left motion). Since the
+    puck cannot move through the wall, and the prompt describes it sliding across the table, the physical
+    progression is a rebound. The puck will bounce off the wall and slide towards the right (center of
+    the table) at a constant velocity. The impact sparks are transient and will disappear as the puck
+    moves away.
+  questions:
+  - id: puck_moved_right
+    question: Is the air hockey puck positioned further to the right than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The puck should have bounced off the left wall and moved towards the center/right.
+  - id: puck_detached_from_wall
+    question: Is the puck separated from the left metal rail?
+    answer_type: yes_no
+    notes_for_judge: There should be visible space between the puck and the left wall.
+  - id: sparks_gone
+    question: Have the orange sparks at the left rail disappeared?
+    answer_type: yes_no
+    notes_for_judge: Sparks are an impact event and should not persist as the puck slides away.
+  - id: puck_center_proximity
+    question: Is the puck closer to the center of the table than to the left edge?
+    answer_type: yes_no
+    notes_for_judge: It should have traveled a significant distance across the table.
+  - id: grid_lines_visible
+    question: Are the neon grid lines on the table surface still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: puck_not_at_start
+    question: Is the puck at a different location than its starting position?
+    answer_type: yes_no
+    notes_for_judge: Basic motion check.

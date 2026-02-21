@@ -1,0 +1,64 @@
+id: magnetic_sled_04
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: magnetic_sled
+variation_type: dynamic_condition
+variation_description: The sled is made of plastic (non-ferromagnetic) instead of metal.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Sled material changed to non-magnetic plastic
+  expected_outcome_change: The sled will not move when the pin is retracted.
+prompts:
+  init_frame_edit_prompt: Edit the image to change the material of the sled to a matte blue plastic texture
+    instead of aluminum.
+  video_WM: The mechanical pin is retracted, allowing the sled to move freely along the rail. The sled
+    is made of lightweight blue plastic. The camera rotates right until the sled completely exits the
+    view, then rotates toward the left smoothly at the same rate until the magnet is back in the center
+    of view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The mechanical pin is retracted, allowing the sled to move freely along the rail. The sled
+    is made of lightweight blue plastic. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: 'A laboratory setup on a black benchtop showing a clear plastic track with two
+    parallel metal rails. A blue 3D-printed sled rests on the left side of the track, secured by a mechanism
+    with a red handle. To the right, a large square metal structure labeled ''CAUTION: HIGH MAGNETIC FIELD''
+    houses a magnet at the end of the track. Background includes lab equipment like oscilloscopes and
+    cabinets.'
+  init2final_edit_prompt: Edit the given image so that the large square magnet is positioned in the horizontal
+    center of the frame. The blue plastic sled must be moved from the left side to the right side, positioned
+    directly in contact with the face of the magnet.
+  rationale: The retraction of the pin releases the sled. Due to the high magnetic field indicated by
+    the sign, the sled (containing ferromagnetic material) is attracted to the magnet and accelerates
+    to the right until it impacts and sticks to the magnet face. The camera rotates right, causing the
+    view to shift right (objects move left) until the sled exits the frame. The camera then rotates back
+    to the left to center the magnet. In the final state, the magnet is centered in the view, and the
+    sled has traveled across the track to rest against the magnet, making it visible in the center as
+    well.
+  questions:
+  - id: sled_contact
+    question: Is the blue sled touching or nearly touching the large square magnet?
+    answer_type: yes_no
+    notes_for_judge: The sled should have been attracted by the magnet and moved across the track to hit
+      it.
+  - id: sled_displacement
+    question: Has the blue sled moved from the left side of the track to the right side?
+    answer_type: yes_no
+    notes_for_judge: It starts on the left and should end up on the right against the magnet.
+  - id: magnet_centered
+    question: Is the square magnet positioned near the horizontal center of the image?
+    answer_type: yes_no
+    notes_for_judge: The camera motion instructions specify centering the magnet.
+  - id: sled_visible
+    question: Is the blue sled visible in the final frame?
+    answer_type: yes_no
+    notes_for_judge: Since the magnet is centered and the sled is attached to it, the sled must be visible.
+  - id: gap_closed
+    question: Is the empty space between the sled and the magnet significantly reduced or eliminated?
+    answer_type: yes_no
+    notes_for_judge: Check for the absence of the large gap seen in the initial frame.
+  - id: sled_not_at_start
+    question: Is the blue sled no longer at its initial starting position on the far left?
+    answer_type: yes_no
+    notes_for_judge: It must have moved.

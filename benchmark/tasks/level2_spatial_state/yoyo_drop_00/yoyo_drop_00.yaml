@@ -1,0 +1,59 @@
+id: yoyo_drop_00
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: yoyo_drop
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The yo-yo is released from the hand. The end of the string remains fixed in the air. The yo-yo
+    is free to move toward the floor. Camera remains stationary throughout. No zoom, no cut, no scene
+    change. STOP.
+  camera_WM: The yo-yo is released from the hand. The end of the string remains fixed in the air. The
+    yo-yo is free to move toward the floor. Camera remains stationary throughout. No zoom, no cut, no
+    scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A silver metal yo-yo is suspended in the air by a white string, held by fingers
+    visible at the very top edge of the frame. The yo-yo is positioned in the upper-middle portion of
+    the image. White string is wound around the central axle of the yo-yo. The background is an industrial
+    workshop with a concrete floor, metal beams, and bright windows in the distance.
+  init2final_edit_prompt: Edit the given image to move the silver yo-yo vertically downwards so it is
+    positioned significantly lower in the frame, closer to the floor. Extend the white string straight
+    down from the top edge to connect to the new, lower position of the yo-yo's axle. Keep the background
+    and the top anchor point of the string unchanged.
+  rationale: The prompt specifies that the yo-yo is released while the string end remains fixed. Under
+    gravity, the yo-yo will fall vertically towards the floor. As it descends, the string will unwind
+    or simply extend if it was slack, increasing the vertical distance between the top of the frame and
+    the yo-yo. The camera is stationary, so the background perspective does not change.
+  questions:
+  - id: yoyo_position_lower
+    question: Is the yo-yo positioned lower in the frame than it was in the initial image?
+    answer_type: yes_no
+    notes_for_judge: The yo-yo should have moved vertically downwards.
+  - id: string_length_increase
+    question: Is the visible segment of the string extending from the top longer than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: As the yo-yo drops, the string connecting it to the top must appear longer.
+  - id: distance_from_top
+    question: Has the vertical distance between the top edge of the image and the yo-yo increased?
+    answer_type: yes_no
+    notes_for_judge: Check for increased separation between the anchor point and the object.
+  - id: closer_to_floor
+    question: Is the yo-yo closer to the concrete floor than it was initially?
+    answer_type: yes_no
+    notes_for_judge: The gap between the bottom of the yo-yo and the floor should be smaller.
+  - id: background_stability
+    question: Do the background elements (windows, pillars, floor) remain in the same position?
+    answer_type: yes_no
+    notes_for_judge: The camera is stationary.
+  - id: string_connection
+    question: Is the string still connected to the center of the yo-yo?
+    answer_type: yes_no
+    notes_for_judge: The physical connection should be maintained during the drop.

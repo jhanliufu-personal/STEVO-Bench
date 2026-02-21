@@ -1,0 +1,67 @@
+id: magnetic_sled_09
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: magnetic_sled
+variation_type: combined
+variation_description: Inert block (no magnet) combined with zoom-out occlusion.
+changes:
+  occlusion_method: Camera zoom out
+  dynamic_conditions: No magnetic field present
+  expected_outcome_change: The sled will not move.
+prompts:
+  init_frame_edit_prompt: Edit the image to remove the yellow 'CAUTION:HIGH MAGNETIC FIELD' sticker from
+    the large metal square.
+  video_WM: The mechanical pin is retracted, allowing the sled to move freely along the rail. The large
+    metal block at the end of the track is a standard inert steel weight with no magnetic properties.
+    The camera zooms out rapidly until the entire lab bench becomes a distant, indistinguishable speck.
+    Then, the camera zooms back in smoothly to the original framing. No cut, no scene change. STOP.
+  camera_WM: The mechanical pin is retracted, allowing the sled to move freely along the rail. The large
+    metal block at the end of the track is a standard inert steel weight with no magnetic properties.
+    STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+evaluation:
+  init_frame_description: A physics lab setup on a black benchtop. In the foreground, a clear plastic
+    track with two parallel metal rails supports a U-shaped aluminum sled. A red-handled locking pin is
+    inserted horizontally into the side of the plastic track, acting as a stop or release mechanism. At
+    the far end of the track, a large square metal block is mounted inside a heavy metal frame. Background
+    details include white cabinets, electrical outlets, and lab equipment like oscilloscopes.
+  init2final_edit_prompt: Edit the given image to show the red-handled pin pulled outwards (retracted)
+    from the side of the clear plastic track. Keep the aluminum sled exactly in its original position
+    on the rails. Keep the large metal block and the background equipment unchanged. Maintain the exact
+    original camera framing and perspective.
+  rationale: The prompt explicitly states that the large metal block is inert and has no magnetic properties.
+    Although the pin is retracted to allow potential movement, there is no driving force (such as magnetic
+    attraction or a sloped track) to move the aluminum sled. Therefore, due to inertia and friction, the
+    sled must remain stationary in its original position. The camera movement zooms out and back in to
+    the original framing, resulting in a final view identical to the start except for the retracted pin.
+  questions:
+  - id: pin_retracted
+    question: Is the red-handled pin in a retracted or pulled-out position relative to the track?
+    answer_type: yes_no
+    notes_for_judge: The pin should appear pulled away from the plastic rail compared to the initial frame.
+  - id: sled_position_static
+    question: Is the aluminum sled in the same position on the rails as it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The sled should not have moved towards the block.
+  - id: sled_stationary
+    question: Has the sled remained stationary despite the pin being retracted?
+    answer_type: yes_no
+    notes_for_judge: Check for any displacement along the track.
+  - id: distance_unchanged
+    question: Is the distance between the sled and the large metal block unchanged?
+    answer_type: yes_no
+    notes_for_judge: Since there is no magnetic force, the gap should remain constant.
+  - id: pin_handle_displacement
+    question: Is the red handle positioned further from the clear plastic beam than it was initially?
+    answer_type: yes_no
+    notes_for_judge: This confirms the 'retracted' state.
+  - id: block_position
+    question: Is the large metal block still in its original position at the end of the track?
+    answer_type: yes_no
+    notes_for_judge: The block is a heavy weight and should not move.
+  - id: sled_orientation
+    question: Is the sled still oriented the same way as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: It should not have tipped or rotated.

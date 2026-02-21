@@ -1,0 +1,70 @@
+id: bicycle_wheel_freespin_01
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: bicycle_wheel_freespin
+variation_type: occlusion_method
+variation_description: Occlusion via lights turning off instead of camera rotation.
+changes:
+  occlusion_method: Lights turn off completely (pitch black) then turn back on.
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics (wheel slows down gradually due to friction).
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The wheel continues spinning freely on its axle bearing. The axle bearing has moderate friction
+    typical of standard ball bearings without lubrication. Air resistance acts on the rotating spokes
+    and rim as they move through the air. No external torque is applied to the wheel. The wheel has standard
+    mass distribution for a bicycle wheel. Suddenly, the overhead lights in the workshop turn off completely,
+    plunging the scene into total darkness. The darkness persists for several seconds while the wheel
+    remains unseen. Then the lights turn back on, illuminating the original viewpoint. No zoom, no cut,
+    no scene change. STOP.
+  camera_WM: The wheel continues spinning freely on its axle bearing. The axle bearing has moderate friction
+    typical of standard ball bearings without lubrication. Air resistance acts on the rotating spokes
+    and rim as they move through the air. No external torque is applied to the wheel. The wheel has standard
+    mass distribution for a bicycle wheel. Suddenly, the overhead lights in the workshop turn off completely,
+    plunging the scene into total darkness. The darkness persists for several seconds while the wheel
+    remains unseen. Then the lights turn back on, illuminating the original viewpoint. No zoom, no cut,
+    no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A bicycle wheel mounted horizontally on a metal stand in a workshop environment.
+    The wheel is spinning rapidly, evidenced by significant radial motion blur on the spokes. The background
+    features a workbench with tools and bright overhead lighting.
+  init2final_edit_prompt: Edit the image to make the bicycle wheel appear to have slowed down significantly.
+    Render the spokes as sharp, distinct lines with little to no motion blur, replacing the original blurred
+    appearance. Ensure the scene remains fully illuminated with the same lighting and background as the
+    original image.
+  rationale: The prompt describes a system with initial kinetic energy (spinning wheel) subject to dissipative
+    forces (bearing friction and air resistance) with no energy input. During the period of darkness,
+    conservation of energy dictates that the friction will do negative work, reducing the kinetic energy
+    and angular velocity of the wheel. Therefore, when the lights return, the wheel must be spinning slower
+    than before. Visually, this reduction in speed is represented by a decrease in motion blur, making
+    the spokes appear sharper and more distinct.
+  questions:
+  - id: kinematics_blur_reduction
+    question: Is the motion blur on the wheel spokes significantly reduced compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The initial frame has high blur; the final frame should show sharper spokes indicating
+      deceleration.
+  - id: kinematics_spoke_sharpness
+    question: Do the spokes appear sharper and more distinct than they did in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Tests for the visual consequence of reduced angular velocity.
+  - id: kinematics_speed_inference
+    question: Does the wheel appear to be spinning slower (or stopped) compared to the initial state?
+    answer_type: yes_no
+    notes_for_judge: Based on the visual cue of blur vs sharpness.
+  - id: kinematics_visibility
+    question: Are individual spokes easier to distinguish now than in the starting image?
+    answer_type: yes_no
+    notes_for_judge: Less blur means individual spokes are more resolvable.
+  - id: lighting_consistency
+    question: Is the scene illuminated (lights on)?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the lights turn back on at the end.
+  - id: object_permanence
+    question: Is the wheel still mounted on the metal stand?
+    answer_type: yes_no
+    notes_for_judge: The wheel should not have moved spatially, only changed rotational speed.

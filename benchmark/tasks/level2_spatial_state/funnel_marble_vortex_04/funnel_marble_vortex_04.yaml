@@ -1,0 +1,62 @@
+id: funnel_marble_vortex_04
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: funnel_marble_vortex
+variation_type: dynamic_condition
+variation_description: Surface changed from smooth acrylic to rough sandpaper.
+changes:
+  occlusion_method: null
+  dynamic_conditions: High friction surface (sandpaper texture).
+  expected_outcome_change: Ball loses energy much faster, spiraling inward steeply rather than maintaining
+    orbit.
+prompts:
+  init_frame_edit_prompt: Edit the image to make the clear acrylic surface of the funnel look frosted,
+    rough, and textured like heavy-grit sandpaper.
+  video_WM: The steel ball is given a rapid horizontal nudge along the inner circumference of the funnel's
+    rim. The funnel surface is rough and textured like sandpaper, creating significant friction against
+    the ball. The camera rotates right until the funnel completely exits the view, then rotates toward
+    the left smoothly at the same rate until the wide upper rim is back in the center of view. No zoom,
+    no cut, no scene change. STOP.
+  camera_WM: The steel ball is given a rapid horizontal nudge along the inner circumference of the funnel's
+    rim. The funnel surface is rough and textured like sandpaper, creating significant friction against
+    the ball. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A large, translucent, textured plastic funnel or vortex exhibit in a museum
+    setting. A shiny steel ball is positioned high up on the inner rim of the funnel, on the left side.
+    The background features large windows, a brick column, and museum visitors.
+  init2final_edit_prompt: Edit the given image to show the steel ball positioned significantly lower inside
+    the funnel, spiraling down towards the central hole, instead of at the top rim.
+  rationale: The video prompt describes a rapid horizontal nudge which initiates orbital motion. However,
+    the prompt explicitly states the surface is rough like sandpaper, creating significant friction. In
+    a gravity well (funnel), friction causes a loss of orbital energy, which results in the orbiting object
+    spiraling inward and downward toward the center. Therefore, after the camera pans away and returns,
+    the ball must be located lower in the funnel, closer to the central drain, rather than maintaining
+    its height at the rim.
+  questions:
+  - id: ball_height_change
+    question: Is the steel ball positioned lower in the funnel than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The ball should have spiraled down due to friction and gravity.
+  - id: ball_radial_position
+    question: Is the steel ball closer to the central hole than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: As the ball loses energy, its orbit decays, bringing it closer to the center.
+  - id: ball_moved_from_start
+    question: Has the steel ball moved away from its starting position on the upper left rim?
+    answer_type: yes_no
+    notes_for_judge: The ball was nudged and should be in motion.
+  - id: camera_return
+    question: Is the large funnel exhibit centered in the view?
+    answer_type: yes_no
+    notes_for_judge: The camera prompt specifies rotating back to the initial view.
+  - id: ball_not_at_rim
+    question: Is the steel ball clearly below the top edge of the funnel?
+    answer_type: yes_no
+    notes_for_judge: It should no longer be at the very top edge.
+  - id: background_consistency
+    question: Are the windows and brick column still visible in the background?
+    answer_type: yes_no
+    notes_for_judge: The camera returns to the original angle, so the background should be consistent.

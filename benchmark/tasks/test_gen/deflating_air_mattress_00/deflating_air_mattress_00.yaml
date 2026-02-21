@@ -1,0 +1,61 @@
+id: deflating_air_mattress_00
+level: 1
+category: scalar_state
+tags: []
+variant_of: deflating_air_mattress
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A thick air mattress has its valve open and is visibly deflating. The air continues to escape
+    steadily. Camera remains stationary throughout. No zoom, no cut, no scene change. STOP.
+  camera_WM: A thick air mattress has its valve open and is visibly deflating. The air continues to escape
+    steadily. Camera remains stationary throughout. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a blue, inflated air mattress resting on a wooden
+    floor. The mattress is thick and taut. On the side facing the viewer, there is a black air valve with
+    its cap unplugged and hanging loose. The background shows a blurry window and white wall.
+  init2final_edit_prompt: Edit the given image to show the blue air mattress in a deflated state. Reduce
+    the height and overall volume of the mattress so it sits lower to the ground. Add significant wrinkles,
+    creases, and sagging folds to the top and side surfaces to indicate the loss of air pressure and tension.
+    Ensure the black valve remains open. Keep the wooden floor and background window unchanged.
+  rationale: The video prompt describes an air mattress that is actively deflating through an open valve.
+    Physically, this results in a loss of air volume, causing the mattress to lose its rigid shape. The
+    height of the mattress will decrease, and the previously taut surface will become loose, wrinkled,
+    and saggy as the internal pressure drops. The camera remains stationary, so the background and floor
+    perspective should not change.
+  questions:
+  - id: volume_reduction
+    question: Does the air mattress appear to have less volume than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Check if the overall size/bulk of the mattress has diminished.
+  - id: height_decrease
+    question: Is the top surface of the mattress lower than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The vertical height of the mattress should be reduced.
+  - id: surface_wrinkles
+    question: Are there more wrinkles or folds on the surface of the mattress compared to the start?
+    answer_type: yes_no
+    notes_for_judge: Deflation causes the material to slacken and wrinkle.
+  - id: tautness_loss
+    question: Does the mattress look less taut and rigid than it did initially?
+    answer_type: yes_no
+    notes_for_judge: The surface should look looser or saggier.
+  - id: valve_visibility
+    question: Is the black valve still visible and open?
+    answer_type: yes_no
+    notes_for_judge: The valve should not disappear or close.
+  - id: floor_consistency
+    question: Is the wooden floor texture consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The environment should not change.
+  - id: flattening_check
+    question: Does the mattress appear flatter against the floor than before?
+    answer_type: yes_no
+    notes_for_judge: General check for the deflation effect.

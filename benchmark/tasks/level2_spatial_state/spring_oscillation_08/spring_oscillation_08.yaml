@@ -1,0 +1,70 @@
+id: spring_oscillation_08
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: spring_oscillation
+variation_type: combined
+variation_description: Weight is at rest (no motion) and view is blocked by a sliding metal sheet.
+changes:
+  occlusion_method: A metal sheet blocks the view.
+  dynamic_conditions: System is at equilibrium.
+  expected_outcome_change: No movement
+prompts:
+  init_frame_edit_prompt: Edit the image to remove the gloved hand entirely, showing the weight hanging
+    freely.
+  video_WM: The weight hangs motionless at the spring's equilibrium point. A large corrugated metal sheet
+    moves in from the left, blocking the camera's view of the apparatus completely. The sheet pauses,
+    then moves back to the left. No zoom, no cut, no scene change. STOP.
+  camera_WM: The weight hangs motionless at the spring's equilibrium point. A large corrugated metal sheet
+    moves in from the left, blocking the camera's view of the apparatus completely. The sheet pauses,
+    then moves back to the left. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A rusty 20kg cylindrical iron weight hangs from a heavy-duty vertical coil spring.
+    The text '20 KG' is embossed on the front of the weight. Above the vertical spring, a horizontal spring
+    runs along a wooden beam. To the right, a vertical wooden post has a white measuring tape attached,
+    with a black marker line labeled '20cm'. The background shows a workshop interior with a large window
+    on the left and various tools.
+  init2final_edit_prompt: Edit the given image to show the scene exactly as it appeared initially. Ensure
+    the 20kg weight is hanging at the exact same vertical position and the spring has the same length.
+    Remove any occluding objects or metal sheets, leaving the view of the apparatus completely clear and
+    identical to the starting state.
+  rationale: The prompt establishes that the weight is initially motionless at equilibrium. The action
+    described is purely an occlusion event where a sheet moves in and then retreats. No physical forces
+    are applied to the weight, and no collision occurs. Therefore, the physical state of the system (position,
+    velocity) remains unchanged. The final frame should be visually identical to the initial frame, demonstrating
+    object permanence and stability.
+  questions:
+  - id: weight_visible
+    question: Is the 20kg weight visible in the final frame?
+    answer_type: yes_no
+    notes_for_judge: Checks for object permanence after occlusion.
+  - id: weight_position_static
+    question: Is the 20kg weight at the same vertical height as it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The weight should not have moved.
+  - id: spring_length_static
+    question: Is the vertical spring stretched to the same length as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Since the weight didn't move, the spring extension should be constant.
+  - id: occluder_gone
+    question: Is the view free of the corrugated metal sheet?
+    answer_type: yes_no
+    notes_for_judge: The sheet should have moved back to the left, clearing the view.
+  - id: text_legible
+    question: Is the '20 KG' text on the weight clearly visible?
+    answer_type: yes_no
+    notes_for_judge: Verifies the object details are preserved.
+  - id: ruler_alignment
+    question: Is the weight aligned with the same markings on the ruler as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Checks relative position stability.
+  - id: horizontal_spring_visible
+    question: Is the horizontal spring at the top of the frame visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: window_visible
+    question: Is the window in the background visible again?
+    answer_type: yes_no
+    notes_for_judge: Verifies the occluder has fully retreated.

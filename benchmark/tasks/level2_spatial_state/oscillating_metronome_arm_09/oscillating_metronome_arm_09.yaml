@@ -1,0 +1,65 @@
+id: oscillating_metronome_arm_09
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: oscillating_metronome_arm
+variation_type: combined
+variation_description: Combined zoom-out occlusion with fast tempo condition (weight at bottom).
+changes:
+  occlusion_method: Camera zooms out until details are lost, then zooms back in
+  dynamic_conditions: Weight at bottom of rod implies fast tempo
+  expected_outcome_change: Oscillation is faster than original
+prompts:
+  init_frame_edit_prompt: Edit the image to move the sliding metal weight on the metronome's pendulum
+    arm to the very bottom position near the pivot.
+  video_WM: The metronome arm is released. With the sliding weight positioned at the very bottom of the
+    rod, the arm begins a rapid, high-tempo oscillation. The camera zooms out continuously until the metronome
+    is too small to discern details, then zooms back in smoothly to the original framing. No cut, no scene
+    change. STOP.
+  camera_WM: The metronome arm is released. With the sliding weight positioned at the very bottom of the
+    rod, the arm begins a rapid, high-tempo oscillation. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+evaluation:
+  init_frame_description: A close-up shot of a wooden metronome sitting on a workbench. The metronome's
+    front door is open, revealing the brass clockwork mechanism and a vertical metal pendulum rod. A trapezoidal
+    sliding weight is positioned roughly halfway up the pendulum rod. At the bottom of the visible rod
+    is a round fixed component. A winding key is inserted on the left side of the wooden case. The background
+    features a workbench with various tools like screwdrivers and files.
+  init2final_edit_prompt: Edit the image to show the metronome in action. Move the trapezoidal sliding
+    weight down the pendulum rod so it sits at the very bottom, just above the round fixed piece. Tilt
+    the pendulum rod to the right or left to capture it in the middle of a swing, indicating motion. Keep
+    the camera framing, lighting, and background tools exactly as they are in the original image.
+  rationale: The video prompt specifies that the metronome operates with the sliding weight at the 'very
+    bottom' to achieve a 'rapid, high-tempo' oscillation. This implies a configuration change from the
+    initial state where the weight is in the middle. The camera zooms out and then back in to the original
+    framing, meaning the final view is identical to the start but captures the ongoing physical process.
+    Therefore, the final frame should show the sliding weight at the bottom position and the arm tilted
+    (displaced from vertical) due to the oscillation.
+  questions:
+  - id: arm_tilt
+    question: Is the metronome's pendulum arm tilted to one side rather than being perfectly vertical?
+    answer_type: yes_no
+    notes_for_judge: The arm should be captured mid-swing, so it should not be in the initial resting
+      vertical position.
+  - id: weight_position_lower
+    question: Is the sliding weight on the pendulum rod positioned lower than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: In the init frame, it is in the middle. In the final frame, it should be at the bottom.
+  - id: weight_at_bottom
+    question: Is the sliding weight located near the bottom of the pendulum rod, close to the fixed round
+      bob?
+    answer_type: yes_no
+    notes_for_judge: Check for the specific configuration requested in the prompt.
+  - id: arm_displacement
+    question: Has the pendulum arm moved from its initial center position?
+    answer_type: yes_no
+    notes_for_judge: Any visible tilt or motion blur indicating displacement counts as yes.
+  - id: winding_key_presence
+    question: Is the winding key still visible on the left side of the metronome?
+    answer_type: yes_no
+    notes_for_judge: Consistency check.
+  - id: tools_consistency
+    question: Are the tools on the workbench in the same arrangement as the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Consistency check for the background.

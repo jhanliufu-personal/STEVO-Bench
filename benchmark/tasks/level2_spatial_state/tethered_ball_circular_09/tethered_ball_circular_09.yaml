@@ -1,0 +1,60 @@
+id: tethered_ball_circular_09
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: tethered_ball_circular
+variation_type: combined
+variation_description: Obstacle in path combined with camera zoom occlusion.
+changes:
+  occlusion_method: Camera zoom out.
+  dynamic_conditions: Large rock in path.
+  expected_outcome_change: Ball collides with rock.
+prompts:
+  init_frame_edit_prompt: Edit the image to place a large rock on the ground directly in the projected
+    path of the ball.
+  video_WM: The tethered ball is spinning in a horizontal circle at a constant angular velocity. A large
+    rock sits on the ground directly in the ball's orbital path. The camera rapidly zooms out until the
+    apparatus is a tiny, indistinguishable dot in the landscape, then zooms back in to the original framing.
+    No cut, no scene change. STOP.
+  camera_WM: The tethered ball is spinning in a horizontal circle at a constant angular velocity. A large
+    rock sits on the ground directly in the ball's orbital path. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+evaluation:
+  init_frame_description: A red ball attached to a taut horizontal string is suspended in mid-air to the
+    left of a vertical wooden pole. The ball appears to be in motion. A large grey rock sits on the sandy
+    ground in the foreground, positioned in the orbital path of the ball.
+  init2final_edit_prompt: Edit the given image to show the red ball resting on the dirt ground next to
+    the large rock. The string connecting the ball to the pole should appear slack and draped downwards
+    instead of taut and horizontal. Ensure the wooden pole and the rock remain in their original positions.
+  rationale: The prompt specifies that the rock is directly in the ball's orbital path, making a collision
+    inevitable. The camera action (zoom out and back in) implies a passage of time sufficient for the
+    physics of the collision to play out. Upon hitting the stationary rock, the ball will lose its angular
+    momentum and kinetic energy, causing the centrifugal force keeping the string taut to vanish. Gravity
+    will then pull the ball to the ground, resulting in a final state where the ball is resting on the
+    dirt and the tether is slack.
+  questions:
+  - id: ball_on_ground
+    question: Is the red ball resting on the ground?
+    answer_type: yes_no
+    notes_for_judge: The ball should no longer be suspended in the air.
+  - id: string_slack
+    question: Is the tether string slack or draped downwards?
+    answer_type: yes_no
+    notes_for_judge: The string should not be a straight, taut line.
+  - id: ball_height_lower
+    question: Is the red ball lower in height than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare vertical position relative to the pole/rock.
+  - id: ball_moved
+    question: Has the red ball moved from its initial position?
+    answer_type: yes_no
+    notes_for_judge: It should not be in the exact same spot in mid-air.
+  - id: rock_present
+    question: Is the large rock still visible?
+    answer_type: yes_no
+    notes_for_judge: The rock should persist.
+  - id: pole_present
+    question: Is the wooden pole still visible?
+    answer_type: yes_no
+    notes_for_judge: The pole should persist.

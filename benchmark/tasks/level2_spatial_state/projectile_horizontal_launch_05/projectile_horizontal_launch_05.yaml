@@ -1,0 +1,61 @@
+id: projectile_horizontal_launch_05
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: projectile_horizontal_launch
+variation_type: dynamic_condition
+variation_description: Changes the cannon angle to 45 degrees up, implying a high arc trajectory.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Cannon angled 45 degrees upwards
+  expected_outcome_change: Ball travels in a high arc and lands further away or stays in air longer
+prompts:
+  init_frame_edit_prompt: Edit the image to rotate the cannon barrel upwards to a 45-degree angle pointing
+    towards the ceiling.
+  video_WM: The red ball is traveling upward and forward after being launched at a 45-degree angle. It
+    is moving under the influence of its initial momentum and gravity. The camera rotates right until
+    the ball completely exits the view, then rotates toward the left smoothly at the same rate until the
+    cannon on the table is back in the center of view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The red ball is traveling upward and forward after being launched at a 45-degree angle, governed
+    by its initial velocity and gravity. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A workshop scene featuring a brass and wood model cannon on a wooden workbench.
+    A red ball has just been launched and is visible in mid-air to the upper right of the cannon, trailing
+    a puff of white smoke. Blueprints and a pencil lie on the table in the foreground. A window is on
+    the left and an open door leading to a garage is on the right.
+  init2final_edit_prompt: Edit the given image to remove the red ball and the white smoke trail completely.
+    Show the workshop scene with the cannon resting on the table in its original position. Ensure the
+    air above and to the right of the cannon is clear of any projectile or exhaust. Keep the workbench,
+    blueprints, tools, and background environment exactly as they were.
+  rationale: The video prompt directs the camera to pan right to follow the projectile until it exits
+    the view, and then pan left back to the starting position. During this sequence, the ball continues
+    its trajectory away from the cannon and leaves the immediate area. The smoke from the discharge dissipates
+    over the elapsed time. Consequently, the final frame captures the original view of the cannon but
+    without the transient elements (the flying ball and the smoke).
+  questions:
+  - id: ball_absence
+    question: Is the red ball absent from the final frame?
+    answer_type: yes_no
+    notes_for_judge: The ball should have traveled out of the frame during the camera pan and not returned.
+  - id: smoke_dissipation
+    question: Has the white smoke trail disappeared or significantly dissipated?
+    answer_type: yes_no
+    notes_for_judge: Time has passed for the pan-away and pan-back; the initial smoke puff should be gone.
+  - id: ball_position_check
+    question: Is the space originally occupied by the red ball now empty?
+    answer_type: yes_no
+    notes_for_judge: The ball should have moved on from its starting point.
+  - id: cannon_presence
+    question: Is the model cannon visible in the center of the frame?
+    answer_type: yes_no
+    notes_for_judge: The camera returns to the initial view.
+  - id: cannon_position
+    question: Is the cannon in the same position on the workbench as it was initially?
+    answer_type: yes_no
+    notes_for_judge: The cannon itself is static; only the camera moved.
+  - id: blueprints_consistency
+    question: Are the blueprints and pencil still visible in the foreground?
+    answer_type: yes_no
+    notes_for_judge: Static objects should remain unchanged.

@@ -1,0 +1,64 @@
+id: frictionless_pendulum_01
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: frictionless_pendulum
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to room lights turning off.
+changes:
+  occlusion_method: Room lights turn off completely (pitch black) then turn back on.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The lead bob is released from its initial 45-degree position. The chamber is a vacuum, and
+    the pivot point at the top is a low-friction bearing. Suddenly, the room lights turn off completely,
+    plunging the scene into pitch blackness. After a duration sufficient for the pendulum to swing, the
+    lights turn back on. No zoom, no cut, no scene change. STOP.
+  camera_WM: The lead bob is released from its initial 45-degree position. The chamber is a vacuum, and
+    the pivot point at the top is a low-friction bearing. Suddenly, the room lights turn off completely,
+    plunging the scene into pitch blackness. After a duration sufficient for the pendulum to swing, the
+    lights turn back on. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A large, spherical metal pendulum bob hangs from a thin vertical wire in the
+    center of a cylindrical glass vacuum chamber. The bob is positioned directly above a circular marking
+    on the chamber floor, indicating it is at the equilibrium (lowest) position. To the left, a mechanical
+    arm structure is visible inside the chamber. The background shows a laboratory setting with windows
+    and equipment.
+  init2final_edit_prompt: Edit the given image to show the pendulum bob displaced to the right side of
+    the chamber, simulating a swinging motion. The bob should be positioned higher than its initial central
+    location, and the wire should be angled diagonally from the top pivot towards the bob. Ensure the
+    bob is clearly offset from the central floor marker. Maintain the same lighting and background.
+  rationale: The initial frame shows the pendulum at rest (equilibrium). The prompt specifies the bob
+    is released from a 45-degree position, introducing potential energy into the system. In a frictionless
+    vacuum, the pendulum swings indefinitely between +/- 45 degrees. After the lights toggle (occlusion),
+    the bob will be at a random point in its trajectory. Statistically, it is highly probable that the
+    bob is displaced from the equilibrium point (where velocity is highest) and is located somewhere along
+    the arc. The final frame should therefore show the bob displaced from the center, with the wire angled.
+  questions:
+  - id: q1
+    question: Is the pendulum bob displaced from its initial central position?
+    answer_type: yes_no
+    notes_for_judge: The bob should not be hanging straight down over the center mark.
+  - id: q2
+    question: Is the wire angled relative to the vertical axis?
+    answer_type: yes_no
+    notes_for_judge: The wire should follow the bob's displacement.
+  - id: q3
+    question: Is the pendulum bob positioned away from the center of the floor marker?
+    answer_type: yes_no
+    notes_for_judge: Check for horizontal displacement.
+  - id: q4
+    question: Is the pendulum bob higher than its initial resting position?
+    answer_type: yes_no
+    notes_for_judge: Any swinging position is higher than the equilibrium point.
+  - id: q5
+    question: Are the room lights turned on?
+    answer_type: yes_no
+    notes_for_judge: The scene should be lit, not pitch black.
+  - id: q6
+    question: Is the mechanical arm on the left still present?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

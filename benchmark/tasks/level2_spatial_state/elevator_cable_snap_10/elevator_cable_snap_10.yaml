@@ -1,0 +1,75 @@
+id: elevator_cable_snap_10
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: elevator_cable_snap
+variation_type: combined
+variation_description: Rusted rails (slow fall) + Object blocking occlusion.
+changes:
+  occlusion_method: Object blocking
+  dynamic_conditions: High friction (rusted rails)
+  expected_outcome_change: Elevator falls very slowly or gets stuck.
+prompts:
+  init_frame_edit_prompt: Edit the image to make the metal guide rails look heavily corroded, jagged,
+    and covered in rust and debris.
+  video_WM: The elevator cable has snapped. However, the guide rails are severely corroded and bent, creating
+    immense friction against the car's movement. A large opaque maintenance screen moves into position,
+    completely blocking the view of the shaft. The screen remains for a duration, then moves away to reveal
+    the shaft again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The elevator cable has snapped. However, the guide rails are severely corroded and bent,
+    creating immense friction against the car's movement. A large opaque maintenance screen moves into
+    position, completely blocking the view of the shaft. The screen remains for a duration, then moves
+    away to reveal the shaft again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A high-angle shot looking down into a multi-story atrium containing a central,
+    heavily corroded metal elevator shaft. A glass-walled elevator car is suspended in the middle of the
+    vertical shaft, held by cables extending upwards. The shaft structure consists of rusted vertical
+    beams and cross-bracing. Surrounding the shaft are walkways with metal railings, and several people
+    are standing on the lower left and right walkways observing the structure. The floor of the atrium
+    is tiled.
+  init2final_edit_prompt: Edit the given image to show the elevator car at a significantly lower position
+    within the shaft. Move the glass elevator car downwards from its original central position so it appears
+    closer to the bottom of the visible shaft section. The area where the car was originally suspended
+    should now be empty, revealing the back of the shaft structure. The cables above the car should appear
+    snapped or slack, no longer holding the car taut in its original position. Keep the surrounding rusted
+    beams, walkways, and architectural details unchanged.
+  rationale: The video prompt describes the elevator cable snapping, which removes the upward support
+    force. Gravity acts on the elevator car, causing it to accelerate downwards. Although the prompt mentions
+    immense friction from corroded rails, this force opposes but does not negate gravity initially, resulting
+    in a downward displacement of the car. The occlusion event (maintenance screen) covers the duration
+    of this movement. When the screen is removed, the elevator car must be located at a lower vertical
+    position than in the initial frame, having slid or fallen down the shaft.
+  questions:
+  - id: elevator_lower
+    question: Is the elevator car at a lower vertical position than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the vertical position of the elevator car relative to the shaft structure.
+  - id: original_spot_empty
+    question: Is the specific section of the shaft where the elevator car was originally suspended now
+      empty?
+    answer_type: yes_no
+    notes_for_judge: The original location (center of the shaft) should no longer contain the car.
+  - id: downward_displacement
+    question: Has the elevator car moved downwards relative to the surrounding walkways?
+    answer_type: yes_no
+    notes_for_judge: Check relative position against the fixed walkways.
+  - id: closer_to_bottom
+    question: Is the elevator car closer to the bottom of the image frame than in the initial state?
+    answer_type: yes_no
+    notes_for_judge: Assess the distance between the car and the bottom edge of the image.
+  - id: cables_changed
+    question: Do the cables above the elevator car appear slack, broken, or displaced compared to the
+      initial taut state?
+    answer_type: yes_no
+    notes_for_judge: The prompt implies the cable snapped, so the tension should be visually different
+      or the connection broken.
+  - id: structure_consistency
+    question: Do the rusted vertical beams of the shaft remain in the same position?
+    answer_type: yes_no
+    notes_for_judge: The structural frame should not move, only the car within it.
+  - id: viewpoint_consistency
+    question: Is the camera angle and framing identical to the initial image?
+    answer_type: yes_no
+    notes_for_judge: The prompt specifies no zoom or cut.

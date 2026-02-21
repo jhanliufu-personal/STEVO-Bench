@@ -13,3 +13,43 @@ prompts:
     STOP.
 camera_control:
   HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up view of a wooden marble run with a clear plastic track forming a
+    vertical loop. A shiny steel ball is positioned at the bottom of the loop's entrance, moving from
+    left to right. The background features a workbench with various woodworking tools, including chisels
+    and a hammer, and a window letting in daylight.
+  init2final_edit_prompt: Edit the given image to remove the steel ball from the clear plastic track.
+    The track at the bottom of the loop should be empty, revealing the wood and background through the
+    clear plastic where the ball was previously located. Keep the wooden structure, the loop geometry,
+    and the background workbench tools exactly as they are.
+  rationale: The prompt states that the ball has sufficient momentum to travel through the loop. The camera
+    performs a panning motion away from the loop and then back to the original view. This camera movement
+    takes a significant amount of time relative to the speed of a marble on a track. By the time the camera
+    returns to the initial framing, the ball will have completed the loop and traveled further down the
+    track, exiting the frame to the right. Therefore, the final image should show the same scene but with
+    the ball absent from its starting position.
+  questions:
+  - id: ball_moved
+    question: Is the steel ball no longer at its initial position at the bottom of the loop?
+    answer_type: yes_no
+    notes_for_judge: The ball should have moved through the loop and out of frame.
+  - id: track_empty
+    question: Is the clear plastic track empty at the loop entrance?
+    answer_type: yes_no
+    notes_for_judge: The spot where the ball started should now be empty.
+  - id: ball_progress
+    question: Has the ball moved further along the track trajectory (i.e., is it gone from the start)?
+    answer_type: yes_no
+    notes_for_judge: Since the ball exits the frame, 'moved along' implies it is no longer at the start.
+  - id: structure_consistency
+    question: Is the wooden structure of the loop unchanged?
+    answer_type: yes_no
+    notes_for_judge: The track itself should not change shape or position.
+  - id: background_consistency
+    question: Are the tools on the workbench in the background still in the same position?
+    answer_type: yes_no
+    notes_for_judge: The camera returns to the original view, so static background objects should be identical.
+  - id: loop_integrity
+    question: Is the vertical loop still intact and visible in the center of the frame?
+    answer_type: yes_no
+    notes_for_judge: The camera returns to center the loop.

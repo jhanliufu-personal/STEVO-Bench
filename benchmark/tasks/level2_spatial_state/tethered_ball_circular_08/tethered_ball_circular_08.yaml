@@ -1,0 +1,68 @@
+id: tethered_ball_circular_08
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: tethered_ball_circular
+variation_type: combined
+variation_description: Stationary ball condition combined with fog occlusion.
+changes:
+  occlusion_method: Thick fog/dust.
+  dynamic_conditions: Ball is stationary with slack string.
+  expected_outcome_change: Ball remains stationary.
+prompts:
+  init_frame_edit_prompt: Edit the image to show the ball resting on the dirt ground with the string slack
+    and curved downwards.
+  video_WM: The ball sits stationary on the dirt ground. The string connecting it to the pole is slack.
+    A sudden gust of wind kicks up a thick, opaque cloud of brown dust that completely obscures the pole
+    and ball. The dust lingers for a moment before settling and clearing the view. No zoom, no cut, no
+    scene change. STOP.
+  camera_WM: The ball sits stationary on the dirt ground. The string connecting it to the pole is slack.
+    A sudden gust of wind kicks up a thick, opaque cloud of brown dust that completely obscures the pole
+    and ball. The dust lingers for a moment before settling and clearing the view. No zoom, no cut, no
+    scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A red tetherball rests on the dirt ground on the left side of the frame. A vertical
+    wooden pole stands on the right side. A thin white string connects the top of the pole to the ball;
+    the string is slack and curves downwards towards the ground. The ground is dry, textured dirt with
+    some small stones.
+  init2final_edit_prompt: Edit the given image to show the red ball resting on the ground in its original
+    position to the left of the pole. The wooden pole stands vertically on the right. The string connects
+    the ball and pole and appears slack. The atmosphere is clear and free of dust, haze, or visual obstructions.
+    The ground and background details are visible and unchanged.
+  rationale: The video generation prompt describes a wind event that creates a temporary visual occlusion
+    (dust) but does not explicitly state that the wind exerts enough force to move the heavy tetherball.
+    Given the physics of a rubber ball on dirt (friction) and the lack of described motion for the ball
+    itself, the correct physical rollout preserves the ball's position (stationarity) and existence (permanence)
+    through the occlusion. The final state should be visually similar to the initial state, with the dust
+    settled and the view cleared.
+  questions:
+  - id: q1
+    question: Is the red ball visible in the final frame?
+    answer_type: yes_no
+    notes_for_judge: Tests object permanence after occlusion.
+  - id: q2
+    question: Is the scene clear of the opaque dust cloud mentioned in the prompt?
+    answer_type: yes_no
+    notes_for_judge: Tests the environmental state change (dust settling).
+  - id: q3
+    question: Is the red ball located on the ground to the left of the wooden pole?
+    answer_type: yes_no
+    notes_for_judge: Tests spatial position.
+  - id: q4
+    question: Is the red ball in approximately the same location as it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Tests kinematic consistency (inertia/stationarity).
+  - id: q5
+    question: Is the wooden pole visible on the right side of the frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: q6
+    question: Is the string connecting the ball and the pole visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: q7
+    question: Has the ball remained on the ground rather than being lifted into the air?
+    answer_type: yes_no
+    notes_for_judge: Tests physical plausibility (gravity).

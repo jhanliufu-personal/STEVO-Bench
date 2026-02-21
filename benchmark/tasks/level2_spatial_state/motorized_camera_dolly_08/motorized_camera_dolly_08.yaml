@@ -1,0 +1,68 @@
+id: motorized_camera_dolly_08
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: motorized_camera_dolly
+variation_type: combined
+variation_description: Obstacle on track + Flag blocking occlusion
+changes:
+  occlusion_method: Black flag blocks lens
+  dynamic_conditions: Obstacle (sandbag) on track
+  expected_outcome_change: Dolly collides and stops
+prompts:
+  init_frame_edit_prompt: Edit the image to place a large, heavy orange sandbag on the metal tracks directly
+    in the path of the dolly.
+  video_WM: The camera dolly is moving steadily along the tracks toward a heavy sandbag obstructing the
+    path. A crew member moves a large black studio flag close to the camera lens, completely blocking
+    the view of the scene. The flag remains in place for a duration, then is moved away to reveal the
+    scene again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The camera dolly is moving steadily along the tracks toward a heavy sandbag obstructing the
+    path. A crew member moves a large black studio flag close to the camera lens, completely blocking
+    the view of the scene. The flag remains in place for a duration, then is moved away to reveal the
+    scene again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A film studio set featuring a green screen background and a grid of overhead
+    lights. A metal dolly track runs diagonally across the concrete floor. In the foreground, a large
+    orange sandbag sits on the floor near the end of the tracks. A camera dolly assembly, carrying a seated
+    operator and a large film camera on a jib arm, is positioned on the tracks in the middle ground. A
+    second crew member stands behind the dolly.
+  init2final_edit_prompt: Edit the given image to show the camera dolly, the seated operator, and the
+    mounted camera rig positioned further along the tracks, significantly closer to the orange sandbag
+    in the foreground. Shift the entire dolly assembly along the rails towards the bottom-left. Ensure
+    the tracks, the orange sandbag, and the studio background remain in their original positions.
+  rationale: The prompt describes the dolly moving steadily toward the sandbag, which is located in the
+    foreground relative to the dolly's starting position. The occlusion event (the flag blocking the view)
+    covers a period of time during which this motion continues. When the view is revealed, the dolly must
+    have displaced along the track's trajectory, ending up closer to the sandbag and the camera viewpoint.
+  questions:
+  - id: dolly_proximity
+    question: Is the camera dolly closer to the orange sandbag than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the distance between the dolly wheels and the orange sandbag in both frames.
+  - id: dolly_motion_direction
+    question: Has the dolly assembly moved along the tracks towards the foreground?
+    answer_type: yes_no
+    notes_for_judge: The dolly should have shifted from the background/right towards the foreground/left.
+  - id: operator_position
+    question: Is the seated operator positioned closer to the viewer than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Since the dolly moves towards the foreground sandbag, the operator should appear
+      larger or lower in the frame.
+  - id: track_alignment
+    question: Is the dolly still aligned with the metal tracks?
+    answer_type: yes_no
+    notes_for_judge: The motion must be constrained to the physical rails.
+  - id: sandbag_static
+    question: Is the orange sandbag in the same position on the floor?
+    answer_type: yes_no
+    notes_for_judge: The sandbag is an obstruction/static object and should not move on its own.
+  - id: background_consistency
+    question: Are the overhead lights and green screen in the same configuration as the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Only the dolly and crew on it should move.
+  - id: dolly_displacement
+    question: Has the gap between the dolly and the sandbag decreased?
+    answer_type: yes_no
+    notes_for_judge: This is the primary kinematic change described.

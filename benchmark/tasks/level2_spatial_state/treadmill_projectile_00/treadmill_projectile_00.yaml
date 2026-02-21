@@ -1,0 +1,68 @@
+id: treadmill_projectile_00
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: treadmill_projectile
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The robotic launcher fires a tennis ball vertically into the air while the treadmill belt
+    continues its constant leftward motion. The air in the room is still. Camera remains stationary throughout,
+    keeping both the launcher and the treadmill completely within the frame. No zoom, no cut, no scene
+    change. STOP.
+  camera_WM: The robotic launcher fires a tennis ball vertically into the air while the treadmill belt
+    continues its constant leftward motion. The air in the room is still. Camera remains stationary throughout,
+    keeping both the launcher and the treadmill completely within the frame. No zoom, no cut, no scene
+    change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A silver robotic device constructed from aluminum extrusions is positioned on
+    a wide, dark treadmill belt in an industrial room. The robot features exposed orange and black wiring,
+    a vertical launch tube, and small blue and orange LED lights. The background includes a concrete wall,
+    yellow safety cage posts, and blurred industrial machinery.
+  init2final_edit_prompt: Edit the given image to shift the entire robotic device to the left along the
+    treadmill belt. Add a yellow tennis ball floating in the air, positioned vertically directly above
+    the robot's launch tube. Ensure the background, including the safety cage and walls, remains unchanged
+    and stationary.
+  rationale: The treadmill belt is moving leftward. Since the prompt does not specify that the robot is
+    driving to maintain position, the physical assumption is that the robot is carried leftward by the
+    belt's motion. The launcher fires a ball vertically relative to itself. Due to the conservation of
+    momentum (inertia), the ball retains the leftward horizontal velocity of the launcher at the moment
+    of firing. Thus, in the final frame, the robot should be displaced to the left, and the ball should
+    appear in the air directly above the launcher, maintaining vertical alignment.
+  questions:
+  - id: robot_displacement_left
+    question: Is the robotic device positioned further to the left than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the robot's position relative to the background vertical beams/cage posts.
+  - id: ball_presence
+    question: Is a tennis ball visible in the air?
+    answer_type: yes_no
+    notes_for_judge: Look for a yellow/green ball above the robot.
+  - id: kinematic_alignment
+    question: Is the tennis ball positioned vertically directly above the robotic device?
+    answer_type: yes_no
+    notes_for_judge: The ball should share the robot's horizontal position (conservation of momentum).
+  - id: ball_detached
+    question: Is the tennis ball completely detached from the launch tube?
+    answer_type: yes_no
+    notes_for_judge: It should be floating in the air, not resting on the robot.
+  - id: robot_on_belt
+    question: Is the robotic device still resting on the treadmill belt?
+    answer_type: yes_no
+    notes_for_judge: The robot should not be floating or off the belt.
+  - id: background_static
+    question: Are the background safety cages and walls in the same position as the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The camera is stationary; background landmarks should not shift.
+  - id: robot_height_consistency
+    question: Is the base of the robotic device at approximately the same vertical height in the frame
+      as initially?
+    answer_type: yes_no
+    notes_for_judge: The robot should move horizontally, not vertically.

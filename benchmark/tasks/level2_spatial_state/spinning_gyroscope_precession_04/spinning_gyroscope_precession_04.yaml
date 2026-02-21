@@ -1,0 +1,63 @@
+id: spinning_gyroscope_precession_04
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: spinning_gyroscope_precession
+variation_type: dynamic_condition
+variation_description: The gyroscope is not spinning at all. Without angular momentum, it should not precess
+  but simply fall due to gravity.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Gyroscope is stationary (0 RPM) but tilted
+  expected_outcome_change: Gyroscope falls over/collapses instead of precessing
+prompts:
+  init_frame_edit_prompt: Edit the image to make the gyroscope look completely stationary. Remove all
+    motion blur from the wheel so the metal texture is sharp and distinct. Keep it tilted at the same
+    angle on the pivot.
+  video_WM: The gyroscope sits motionless on the pivot, tilted at an angle, with no spin. Gravity acts
+    on the unbalanced mass. The camera rotates right until the gyroscope completely exits the view, then
+    rotates toward the left smoothly at the same rate until the pedestal base is back in the center of
+    view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The gyroscope sits motionless on the pivot, tilted at an angle, with no spin. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A large brass gyroscope with a heavy outer rim and a central axle is balancing
+    on a sharp conical pivot point on a metal workbench. The gyroscope is tilted to the left. A metal
+    chain hangs vertically on the left side of the frame. The table is covered in metal shavings. The
+    background shows a workshop environment with shelves and lights.
+  init2final_edit_prompt: Edit the given image to show the large brass gyroscope lying on the metal table
+    surface, having fallen from its pivot. The gyroscope should be resting on its side or against the
+    base, no longer balancing in the air. The sharp pivot point should be visible without the gyroscope
+    balancing on it, or the gyroscope should be collapsed around it. Keep the hanging chain, metal shavings,
+    and workshop background unchanged.
+  rationale: The prompt explicitly states that the gyroscope has 'no spin'. Without the angular momentum
+    required to maintain stability or precess, the tilted gyroscope is mechanically unstable and acts
+    like a falling object. Gravity will cause it to topple over immediately. Since the camera pans away
+    and then returns to the original view, enough time passes for the gyroscope to fall completely and
+    come to rest on the table surface.
+  questions:
+  - id: gyro_fallen_1
+    question: Is the gyroscope lying on the table surface or resting against the base?
+    answer_type: yes_no
+    notes_for_judge: The gyroscope should have toppled over due to lack of spin.
+  - id: gyro_fallen_2
+    question: Is the gyroscope no longer balancing on the sharp pivot point?
+    answer_type: yes_no
+    notes_for_judge: It should have fallen off the pivot.
+  - id: gyro_height
+    question: Is the main brass wheel of the gyroscope lower in the frame than it was initially?
+    answer_type: yes_no
+    notes_for_judge: Since it fell, its vertical position must be lower.
+  - id: gyro_touching_table
+    question: Is the rim or axle of the gyroscope touching the metal table?
+    answer_type: yes_no
+    notes_for_judge: It should be resting on the surface.
+  - id: chain_consistency
+    question: Is the hanging chain on the left still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: background_consistency
+    question: Is the workshop background consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

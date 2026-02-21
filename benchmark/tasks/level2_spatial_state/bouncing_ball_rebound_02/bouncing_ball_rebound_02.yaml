@@ -1,0 +1,65 @@
+id: bouncing_ball_rebound_02
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: bouncing_ball_rebound
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to a large opaque screen sliding in front
+  of the view.
+changes:
+  occlusion_method: A large opaque screen slides into view, blocking the camera completely.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The ball is released from the hand and becomes free to move. The floor is solid hardwood with
+    elastic properties. The ball is a standard tennis ball with typical bounce characteristics. Gravity
+    acts on the ball. A large, opaque black screen slides in from the left, completely blocking the view
+    of the room and the ball. The screen remains in place for several seconds. Then the screen slides
+    back out to the left, revealing the scene again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The ball is released from the hand and becomes free to move. The floor is solid hardwood
+    with elastic properties. The ball is a standard tennis ball with typical bounce characteristics. Gravity
+    acts on the ball. A large, opaque black screen slides in from the left, completely blocking the view
+    of the room and the ball. The screen remains in place for several seconds. Then the screen slides
+    back out to the left, revealing the scene again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A high-angle shot showing a person's arm and hand with fingers extended, having
+    just released a yellow tennis ball. The ball is suspended in mid-air slightly below the fingertips.
+    The background consists of a polished hardwood floor and a section of a white wall with a baseboard.
+  init2final_edit_prompt: Edit the given image to show the tennis ball resting on the hardwood floor,
+    significantly vertically lower than its starting position. The hand should remain in the frame but
+    appear empty, with no ball touching the fingers. The ball should be positioned on the ground surface.
+  rationale: The prompt specifies that the ball is released and gravity acts upon it. During the 'several
+    seconds' that the scene is occluded by the black screen, the ball will have had sufficient time to
+    fall, impact the floor, bounce, and settle on the ground. When the screen slides away, the ball should
+    be located on the floor rather than in mid-air, and the hand should be empty. The camera view remains
+    static, so the background geometry should be preserved.
+  questions:
+  - id: ball_vertical_pos
+    question: Is the tennis ball located lower in the frame than it was in the initial image?
+    answer_type: yes_no
+    notes_for_judge: The ball should have fallen to the floor.
+  - id: ball_on_floor
+    question: Is the tennis ball resting on or positioned immediately adjacent to the hardwood floor?
+    answer_type: yes_no
+    notes_for_judge: It should no longer be hovering near the hand.
+  - id: hand_empty
+    question: Is the hand empty, with the ball no longer touching the fingers?
+    answer_type: yes_no
+    notes_for_judge: The ball was released.
+  - id: separation_distance
+    question: Is the vertical distance between the hand and the ball significantly greater than in the
+      initial frame?
+    answer_type: yes_no
+    notes_for_judge: The ball has fallen away from the hand.
+  - id: screen_gone
+    question: Is the view free of the large opaque black screen mentioned in the prompt?
+    answer_type: yes_no
+    notes_for_judge: The prompt says the screen slides back out.
+  - id: background_consistency
+    question: Are the hardwood floor and baseboard visible and consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Check for scene preservation.

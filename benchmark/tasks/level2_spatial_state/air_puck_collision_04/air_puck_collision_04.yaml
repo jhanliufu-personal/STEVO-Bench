@@ -1,0 +1,63 @@
+id: air_puck_collision_04
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: air_puck_collision
+variation_type: dynamic_condition
+variation_description: The air table is turned off, creating high friction.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Air cushion deactivated (high friction surface)
+  expected_outcome_change: Puck decelerates rapidly and stops
+prompts:
+  init_frame_edit_prompt: Edit the image to make the table surface look matte and unlit, removing the
+    glowing reflection from the air holes to imply the air jets are deactivated.
+  video_WM: The puck slides across the rough surface of the deactivated air hockey table. Without the
+    air cushion, friction is significant. The camera rotates right until the puck completely exits the
+    view, then rotates toward the left smoothly at the same rate until the left wall is back in the center
+    of view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The puck slides across the rough surface of the deactivated air hockey table. Without the
+    air cushion, friction is significant. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up view of an air hockey table surface, which is dark blue with a grid
+    of small air holes. On the left side, there is a metal rail with a yellow light strip running along
+    its top. A white, glowing air hockey puck is in the midst of colliding with this left rail, creating
+    a burst of orange sparks and exhibiting motion blur. In the background, slightly out of focus, a person's
+    arm and a red mallet are visible, along with other arcade screens.
+  init2final_edit_prompt: Edit the given image to show the white puck positioned further to the right
+    on the dark blue table surface, clearly separated from the left metal rail. Remove the orange sparks,
+    particles, and impact motion blur near the rail. The puck should appear to be resting or sliding on
+    the perforated surface at a distance from the wall. Keep the framing of the left metal rail and the
+    background elements identical to the original view.
+  rationale: The puck initially impacts the left wall and bounces to the right. Since the table is deactivated,
+    friction is significant, causing the puck to decelerate and likely stop a short distance away from
+    the wall. The camera rotates away and then returns to the exact initial framing (left wall in center).
+    Therefore, in the final state, the view is unchanged, but the puck has moved to the right (away from
+    the wall) and the collision effects (sparks) have dissipated.
+  questions:
+  - id: puck_displacement_right
+    question: Is the puck positioned further to the right than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The puck should have bounced off the wall and moved right.
+  - id: puck_separation_wall
+    question: Is there a visible gap between the puck and the left metal rail?
+    answer_type: yes_no
+    notes_for_judge: The puck should no longer be touching the wall.
+  - id: sparks_removed
+    question: Are the orange sparks and impact particles from the collision absent?
+    answer_type: yes_no
+    notes_for_judge: The collision event has ended.
+  - id: wall_visibility
+    question: Is the left metal rail with the yellow light strip still visible on the left side?
+    answer_type: yes_no
+    notes_for_judge: Checks if the camera returned to the initial view.
+  - id: puck_on_surface
+    question: Is the puck visible on the blue table surface?
+    answer_type: yes_no
+    notes_for_judge: The puck should not have disappeared; it should be on the table.
+  - id: puck_not_at_edge
+    question: Is the puck further from the left edge of the image than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Verifies displacement away from the left border.

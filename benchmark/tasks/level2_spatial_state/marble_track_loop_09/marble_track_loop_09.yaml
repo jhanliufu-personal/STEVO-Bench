@@ -1,0 +1,63 @@
+id: marble_track_loop_09
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: marble_track_loop
+variation_type: combined
+variation_description: High friction surface combined with zoom-out occlusion.
+changes:
+  occlusion_method: Camera zoom out.
+  dynamic_conditions: Track lined with rough sandpaper (high friction).
+  expected_outcome_change: Ball slows down drastically and likely fails to reach the top.
+prompts:
+  init_frame_edit_prompt: Edit the image to show strips of rough, dark sandpaper lining the inside bottom
+    surface of the clear plastic loop track.
+  video_WM: The steel ball rolls into the vertical loop. The inside of the track is lined with rough,
+    high-friction sandpaper. The camera zooms out rapidly until the entire workshop is visible but the
+    track details are lost. The camera then zooms back in to the original framing. No cut, no scene change.
+    STOP.
+  camera_WM: The steel ball rolls into the vertical loop, encountering high friction from the sandpaper
+    lining the track. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+evaluation:
+  init_frame_description: 'A side-view close-up of a wooden marble run track featuring a vertical loop.
+    The track path is lined with two strips of sandpaper: a reddish-brown strip closer to the camera and
+    a black strip further back. A large, shiny steel ball sits at the bottom of the loop, resting on the
+    sandpaper. The track has clear plastic sidewalls. In the background, a workshop environment with a
+    workbench, tools, and a window is visible.'
+  init2final_edit_prompt: Edit the given image to remove the steel ball from the bottom of the loop, revealing
+    the reddish-brown and black sandpaper strips underneath. The track should appear empty at the bottom
+    of the loop, implying the ball has rolled forward and exited the frame to the right.
+  rationale: The prompt describes the ball rolling into the loop, followed by a camera zoom-out and zoom-in
+    sequence. This camera maneuver implies a duration of several seconds. A steel ball traversing a loop
+    of this size typically takes less than a second. Therefore, by the time the camera returns to the
+    original framing, the ball will have completed the loop and traveled further down the track to the
+    right, exiting the current field of view. The final state should show the track empty at the starting
+    position.
+  questions:
+  - id: ball_moved_from_start
+    question: Has the steel ball moved away from its initial position at the bottom of the loop?
+    answer_type: yes_no
+    notes_for_judge: The ball should no longer be at the lowest point of the loop.
+  - id: track_empty_at_bottom
+    question: Is the track empty at the bottom of the loop where the ball was originally located?
+    answer_type: yes_no
+    notes_for_judge: Check if the sandpaper texture is visible where the ball used to be.
+  - id: ball_progression
+    question: Is the ball either further along the track to the right or completely absent from the frame?
+    answer_type: yes_no
+    notes_for_judge: The ball should have moved forward (right) or exited.
+  - id: sandpaper_visibility
+    question: Are the reddish-brown and black sandpaper strips visible without the ball obstructing them
+      at the bottom?
+    answer_type: yes_no
+    notes_for_judge: The texture should be revealed.
+  - id: loop_structure_consistency
+    question: Is the wooden structure of the loop unchanged?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: background_consistency
+    question: Are the tools and workbench in the background still in the same position?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

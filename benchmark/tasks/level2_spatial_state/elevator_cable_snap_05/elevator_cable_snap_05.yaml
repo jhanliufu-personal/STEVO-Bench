@@ -1,0 +1,67 @@
+id: elevator_cable_snap_05
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: elevator_cable_snap
+variation_type: dynamic_condition
+variation_description: 'Condition changed: The cable does not snap and holds the car firmly.'
+changes:
+  occlusion_method: null
+  dynamic_conditions: Cable is intact and secure
+  expected_outcome_change: Elevator does not move (static).
+prompts:
+  init_frame_edit_prompt: Edit the image to emphasize the steel cable above the elevator car is thick,
+    taut, and securely attached, looking brand new and unbroken.
+  video_WM: The elevator car is securely supported by a reinforced steel cable which is under normal tension.
+    The motor is locked and the car is stationary. The camera rotates right until the elevator car completely
+    exits the view, then rotates toward the left smoothly at the same rate until the camera returns to
+    the original viewpoint. No zoom, no cut, no scene change. STOP.
+  camera_WM: The elevator car is securely supported by a reinforced steel cable which is under normal
+    tension. The motor is locked and the car is stationary. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A high-angle shot looking down into a modern elevator shaft. A thick, braided
+    steel cable hangs vertically in the center, terminating in a heavy metal shackle and thimble assembly
+    that connects to the top of the elevator car or counterweight frame. The cable is taut. The elevator
+    structure is surrounded by vertical steel beams and glass panels. Through the glass, a multi-story
+    atrium is visible with railings, windows, and a tiled floor below where a few people are standing.
+  init2final_edit_prompt: Edit the given image to show the elevator car and central steel cable in their
+    exact original positions. The cable must appear taut, vertical, and securely connected to the elevator
+    car via the metal shackle. The elevator car must be at the same vertical level as in the source image,
+    with no signs of damage, displacement, or cable failure. The background architecture and perspective
+    should match the initial view.
+  rationale: The video prompt explicitly states that the elevator car is stationary, the motor is locked,
+    and the cable is under normal tension. Although the camera rotates away to occlude the elevator and
+    then returns to the original viewpoint, the physical state of the elevator system remains unchanged.
+    Therefore, the final frame should demonstrate object permanence and stationarity, showing the elevator
+    and cable in the exact same position and condition as the initial frame.
+  questions:
+  - id: elevator_visible
+    question: Is the elevator car visible in the frame?
+    answer_type: yes_no
+    notes_for_judge: The camera returns to the original viewpoint, so the object should be visible again.
+  - id: cable_intact
+    question: Is the central steel cable intact and unbroken?
+    answer_type: yes_no
+    notes_for_judge: The prompt specifies normal tension and a stationary car; no snap occurs.
+  - id: cable_connected
+    question: Is the steel cable still connected to the elevator car via the shackle?
+    answer_type: yes_no
+    notes_for_judge: The connection should remain secure.
+  - id: position_height
+    question: Is the metal shackle at the same vertical height as it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The car is stationary, so its vertical position should not change.
+  - id: cable_tension
+    question: Does the steel cable appear straight and taut?
+    answer_type: yes_no
+    notes_for_judge: The cable is under normal tension.
+  - id: position_relative
+    question: Is the elevator car in the same position relative to the background windows as initially?
+    answer_type: yes_no
+    notes_for_judge: Checks for spatial consistency after camera movement.
+  - id: shackle_orientation
+    question: Is the shackle assembly oriented vertically as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: It should not be twisted or dangling loosely.

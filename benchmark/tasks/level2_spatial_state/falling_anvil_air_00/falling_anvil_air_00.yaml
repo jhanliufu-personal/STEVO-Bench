@@ -1,0 +1,60 @@
+id: falling_anvil_air_00
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: falling_anvil_air
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The anvil continues its rapid descent toward the ground. Due to its high mass, air resistance
+    has negligible effect on its acceleration. Camera remains stationary throughout. No zoom, no cut,
+    no scene change. STOP.
+  camera_WM: The anvil continues its rapid descent toward the ground. Due to its high mass, air resistance
+    has negligible effect on its acceleration. Camera remains stationary throughout. No zoom, no cut,
+    no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A large, rusty metal anvil is falling through the air against a blue sky. It
+    is angled downwards to the right. Behind it, there is a trail of brown dust and debris indicating
+    motion. In the lower left, a yellow construction crane is visible. Far below, a city skyline with
+    skyscrapers and streets is visible.
+  init2final_edit_prompt: Edit the given image to show the rusty anvil positioned significantly lower
+    in the frame, closer to the city skyline at the bottom. The anvil should be vertically displaced downwards
+    compared to its original position. Keep the yellow construction crane and the city background exactly
+    in their original positions and appearance.
+  rationale: The video prompt specifies that the anvil continues its rapid descent and the camera remains
+    stationary. Physically, gravity will accelerate the heavy anvil downwards. Therefore, in the final
+    frame, the anvil must appear lower in the visual field (closer to the bottom edge) relative to the
+    static background elements like the crane and the city.
+  questions:
+  - id: falling_anvil_air_00_q1
+    question: Is the anvil positioned lower in the frame than it was in the initial image?
+    answer_type: yes_no
+    notes_for_judge: Compare the vertical center of mass of the anvil in both images.
+  - id: falling_anvil_air_00_q2
+    question: Has the anvil moved closer to the city skyline at the bottom of the image?
+    answer_type: yes_no
+    notes_for_judge: The gap between the object and the bottom background should decrease.
+  - id: falling_anvil_air_00_q3
+    question: Is the vertical distance between the top of the frame and the anvil greater than in the
+      initial frame?
+    answer_type: yes_no
+    notes_for_judge: The object should have moved away from the top edge.
+  - id: falling_anvil_air_00_q4
+    question: Is the anvil closer to the bottom edge of the image than it was initially?
+    answer_type: yes_no
+    notes_for_judge: Check proximity to the bottom border.
+  - id: falling_anvil_air_00_q5
+    question: Does the yellow construction crane remain in the same position?
+    answer_type: yes_no
+    notes_for_judge: The camera is stationary, so static background objects should not move.
+  - id: falling_anvil_air_00_q6
+    question: Is the city skyline in the background unchanged in position?
+    answer_type: yes_no
+    notes_for_judge: Background should be static.

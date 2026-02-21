@@ -1,0 +1,66 @@
+id: water_deflection_02
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: water_deflection
+variation_type: occlusion_method
+variation_description: Occlusion changed to a large board blocking the view.
+changes:
+  occlusion_method: A large opaque board moves in front of the lens.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The electric fan is switched to its maximum setting. The horizontal airflow makes direct contact
+    with the falling vertical stream of water. A large wooden board slides in from the right, completely
+    blocking the view of the sink and fan. The board remains for a moment, then slides back out to the
+    right. No zoom, no cut, no scene change. STOP.
+  camera_WM: The electric fan is switched to its maximum setting. The horizontal airflow makes direct
+    contact with the falling vertical stream of water. A large wooden board slides in from the right,
+    completely blocking the view of the sink and fan. The board remains for a moment, then slides back
+    out to the right. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A side view of a deep concrete sink with a metal faucet on the left wall. A
+    stream of water flows vertically straight down from the faucet into the sink. On the right, a person's
+    hands are holding a black wire-frame electric fan, pointing it directly at the water stream. The background
+    features white tiled walls and workshop tools.
+  init2final_edit_prompt: Edit the given image to show the stream of water being blown forcefully to the
+    left. The water stream should curve and spray away from the fan, no longer falling in a straight vertical
+    line. The fan blades should appear blurred to indicate high rotational speed. The water should appear
+    to be splashing against the left side of the sink or wall due to the deflection.
+  rationale: The prompt specifies that the fan is switched to its maximum setting, creating a strong horizontal
+    airflow from right to left. This force acts on the falling water, overcoming gravity's vertical pull
+    and deflecting the stream sideways (to the left). The occlusion event (wooden board) hides the transition,
+    but upon removal, the physical state must reflect the ongoing interaction between the high-speed air
+    and the water. The fan blades must be blurry to show operation.
+  questions:
+  - id: water_deflection_direction
+    question: Is the water stream deflected towards the left side of the image?
+    answer_type: yes_no
+    notes_for_judge: The fan is on the right blowing left; the water must bend to the left.
+  - id: water_curve
+    question: Does the water stream curve away from the fan instead of falling straight down?
+    answer_type: yes_no
+    notes_for_judge: Check for a parabolic or chaotic spray trajectory away from the air source.
+  - id: water_landing_pos
+    question: Does the water land further to the left in the sink compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the impact point in the sink with the initial vertical line.
+  - id: fan_state_blur
+    question: Do the fan blades appear blurred or in motion?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the fan is on maximum setting.
+  - id: stream_integrity
+    question: Is the vertical integrity of the water stream disrupted by the airflow?
+    answer_type: yes_no
+    notes_for_judge: The stream should break up or spray rather than remaining a solid laminar column.
+  - id: faucet_position
+    question: Is the metal faucet still attached to the wall in the same position?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: hands_holding_fan
+    question: Are the hands holding the fan still visible on the right?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

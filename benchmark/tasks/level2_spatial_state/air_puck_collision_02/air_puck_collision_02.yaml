@@ -1,0 +1,63 @@
+id: air_puck_collision_02
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: air_puck_collision
+variation_type: occlusion_method
+variation_description: Replaces camera rotation with a person walking in front of the view.
+changes:
+  occlusion_method: A person walks in front of the camera, blocking the view
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The puck slides across the frictionless air-cushioned surface at a constant velocity. The
+    path is a straight line across the table. A person wearing a dark shirt walks directly in front of
+    the camera, completely blocking the view of the table. They pause for a moment, then walk away, revealing
+    the table again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The puck slides across the frictionless air-cushioned surface at a constant velocity. The
+    path is a straight line across the table. A person wearing a dark shirt walks directly in front of
+    the camera, completely blocking the view of the table. They pause for a moment, then walk away, revealing
+    the table again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up, low-angle view of an air hockey table with a retro neon grid design.
+    A glowing white puck is on the left side of the frame, appearing to have just impacted the left rail
+    with a burst of sparks and light. A motion blur trail indicates high speed. On the right side, an
+    orange mallet is held by a hand, waiting. The background is dark with arcade lights.
+  init2final_edit_prompt: Edit the given image to show the glowing white puck positioned further to the
+    right, near the center or right side of the table, well away from the left rail. Remove the impact
+    sparks and explosion effect from the left rail. Ensure the table surface is fully visible and unobstructed
+    by any person or object.
+  rationale: The video prompt describes the puck sliding across the table at a constant velocity in a
+    straight line. In the initial frame, the puck is at the far left, having just impacted the wall. During
+    the occlusion event (person walking by), time passes, allowing the puck to travel significantly to
+    the right along the table surface. Therefore, in the final frame, the puck must be displaced to the
+    right of its starting position, and the person must be gone to reveal the table again.
+  questions:
+  - id: puck_moved_right
+    question: Is the glowing puck positioned further to the right than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The puck starts on the far left rail. It should now be closer to the center or right.
+  - id: puck_detached_left
+    question: Is the puck clearly separated from the left wall/rail?
+    answer_type: yes_no
+    notes_for_judge: In the initial frame, it is impacting the left wall. It should have moved away.
+  - id: impact_sparks_gone
+    question: Are the impact sparks on the left rail absent or significantly reduced?
+    answer_type: yes_no
+    notes_for_judge: The impact event happened in the past; the sparks should dissipate as the puck moves
+      away.
+  - id: closer_to_mallet
+    question: Is the puck closer to the orange mallet on the right than it was initially?
+    answer_type: yes_no
+    notes_for_judge: Kinematic progression requires the puck to move towards the opponent/mallet.
+  - id: no_occlusion
+    question: Is the air hockey table fully visible without being blocked by a person?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the person walks away, revealing the table.
+  - id: table_consistency
+    question: Are the neon grid lines on the table surface still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

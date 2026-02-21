@@ -1,0 +1,67 @@
+id: motorized_camera_dolly_07
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: motorized_camera_dolly
+variation_type: combined
+variation_description: Stationary dolly (chocked) + Lights off occlusion
+changes:
+  occlusion_method: Lights turn off
+  dynamic_conditions: Dolly is stationary (chocked)
+  expected_outcome_change: Dolly remains in place
+prompts:
+  init_frame_edit_prompt: Edit the image to add yellow wheel chocks wedged tightly under the dolly's wheels
+    to prevent any movement.
+  video_WM: The camera dolly is sitting on the tracks with heavy wheel chocks wedged under the tires,
+    preventing any motion. Suddenly, all studio lights are cut, plunging the entire scene into total pitch-black
+    darkness where nothing is visible. After a pause, the lights turn back on abruptly. No zoom, no cut,
+    no scene change. STOP.
+  camera_WM: The camera dolly is sitting on the tracks with heavy wheel chocks wedged under the tires,
+    preventing any motion. Suddenly, all studio lights are cut, plunging the entire scene into total pitch-black
+    darkness where nothing is visible. After a pause, the lights turn back on abruptly. No zoom, no cut,
+    no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A film studio set featuring a large camera dolly system on metal tracks. The
+    dolly has a black base with wheels secured by bright yellow wheel chocks. A large camera crane arm
+    extends from the base, holding a professional cinema camera. Two men are on the dolly; one is seated
+    operating the dolly, and the other is standing behind him. The background features a green screen
+    and studio walls with various lighting equipment overhead.
+  init2final_edit_prompt: Edit the given image to show the scene exactly as it was initially. Ensure the
+    camera dolly, the two men, and the camera rig remain in their exact original positions on the tracks.
+    Keep the yellow wheel chocks wedged under the tires. Ensure the studio lights are on and the scene
+    is fully illuminated, matching the lighting and composition of the original image.
+  rationale: The prompt describes a sequence where the lights go out and then come back on. Crucially,
+    the prompt explicitly states that heavy wheel chocks prevent any motion. Therefore, despite the period
+    of darkness, the physical state of the scene (the position of the dolly, the men, and the camera)
+    must remain unchanged. The final frame should be visually identical to the initial frame, testing
+    the model's ability to maintain state persistence and respect physical constraints (the chocks) across
+    a temporal gap.
+  questions:
+  - id: dolly_position_stationarity
+    question: Is the camera dolly in the exact same position on the tracks as it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the position of the dolly wheels relative to the track sleepers/markings.
+      They should not have moved.
+  - id: chocks_presence
+    question: Are the yellow wheel chocks still visible and wedged under the dolly's tires?
+    answer_type: yes_no
+    notes_for_judge: The chocks are the physical constraint preventing motion; they must be present.
+  - id: lighting_restored
+    question: Is the scene fully illuminated with the studio lights on?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the lights turn back on. The image should not be dark.
+  - id: crew_position
+    question: Are the two men on the dolly still in their original locations and poses?
+    answer_type: yes_no
+    notes_for_judge: Since motion was prevented, the crew should not have moved significantly.
+  - id: camera_arm_position
+    question: Is the camera crane arm at the same angle and height as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Check for drift in the mechanical arm.
+  - id: background_alignment
+    question: Is the dolly's position relative to the green screen background unchanged?
+    answer_type: yes_no
+    notes_for_judge: 'Parallax check: the foreground object should align with the background exactly as
+      before.'

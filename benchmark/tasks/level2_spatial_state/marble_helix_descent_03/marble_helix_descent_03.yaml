@@ -1,0 +1,75 @@
+id: marble_helix_descent_03
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: marble_helix_descent
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to thick workshop dust/fog filling the air.
+changes:
+  occlusion_method: Thick dust/fog fills the room, obscuring the view.
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The marble is released from the top entrance of the helical track. The marble is free to move
+    along the grooved helical path. The track provides lateral constraint but allows motion along the
+    spiral. Gravity acts on the marble. The helical path has low friction typical of acrylic plastic.
+    The track descends vertically through multiple spiral turns from top to bottom. A cloud of thick,
+    opaque workshop dust billows into the frame, completely obscuring the helical track from view. The
+    dust cloud lingers for several seconds, hiding the marble's progress. Then the dust settles and clears,
+    revealing the scene again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The marble is released from the top entrance of the helical track. The marble is free to
+    move along the grooved helical path. The track provides lateral constraint but allows motion along
+    the spiral. Gravity acts on the marble. The helical path has low friction typical of acrylic plastic.
+    The track descends vertically through multiple spiral turns from top to bottom. A cloud of thick,
+    opaque workshop dust billows into the frame, completely obscuring the helical track from view. The
+    dust cloud lingers for several seconds, hiding the marble's progress. Then the dust settles and clears,
+    revealing the scene again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A clear acrylic spiral marble run stands on a wooden workbench. A glass marble
+    with blue and green swirls is positioned at the very top entrance of the helical track. The background
+    features a workshop setting with tools hanging on a pegboard, a drill press, and a window providing
+    natural lighting from the right.
+  init2final_edit_prompt: Edit the given image to move the glass marble from the top of the spiral track
+    to the bottom. Remove the marble from the top entrance, leaving that area empty. Place the marble
+    resting in the lowest curve of the clear acrylic track or on the wooden table surface directly at
+    the base of the spiral. Keep the acrylic track structure, the wooden workbench, and the background
+    tools identical to the original image.
+  rationale: The prompt initiates a physical process where gravity pulls the marble down the low-friction
+    helical path. The occlusion by the dust cloud lasts for 'several seconds,' which is a significant
+    duration relative to the scale of the object. A marble rolling down a track of this size would typically
+    reach the bottom within 2-4 seconds. Therefore, when the dust clears, the marble must have completed
+    its descent and should be located at the bottom of the structure, leaving the top empty.
+  questions:
+  - id: marble_displacement_01
+    question: Is the marble no longer at the top entrance of the track?
+    answer_type: yes_no
+    notes_for_judge: The top of the track should be empty.
+  - id: marble_vertical_pos_02
+    question: Is the marble located at a lower vertical position than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: It must have moved downwards due to gravity.
+  - id: marble_at_bottom_03
+    question: Is the marble visible at the bottom of the spiral structure or on the table surface?
+    answer_type: yes_no
+    notes_for_judge: Given the duration of the occlusion, the marble should have reached the bottom.
+  - id: track_top_empty_04
+    question: Is the starting position at the top of the spiral empty?
+    answer_type: yes_no
+    notes_for_judge: Check if the marble has vacated the start point.
+  - id: trajectory_consistency_05
+    question: Is the marble's final position consistent with having rolled down the spiral track?
+    answer_type: yes_no
+    notes_for_judge: The marble should be somewhere along the path or at the end, not floating or in an
+      unrelated spot.
+  - id: background_consistency_06
+    question: Are the tools hanging on the background pegboard unchanged?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: structure_stability_07
+    question: Is the acrylic spiral track still standing in the same position?
+    answer_type: yes_no
+    notes_for_judge: The track itself should not move, only the marble.

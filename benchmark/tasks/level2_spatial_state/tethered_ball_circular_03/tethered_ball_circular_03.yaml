@@ -1,0 +1,61 @@
+id: tethered_ball_circular_03
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: tethered_ball_circular
+variation_type: occlusion_method
+variation_description: The camera zooms out until details are lost instead of rotating.
+changes:
+  occlusion_method: Camera zooms out to extreme distance.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The tethered ball is spinning in a horizontal circle at a constant angular velocity. The tension
+    in the string maintains its orbital path. The camera rapidly zooms out until the apparatus is a tiny,
+    indistinguishable dot in the landscape, then zooms back in to the original framing. No cut, no scene
+    change. STOP.
+  camera_WM: The tethered ball rotates in a horizontal circle at a constant speed, maintained by the tension
+    of the string. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+evaluation:
+  init_frame_description: A red ball is suspended in the air, attached to a thin, taut string connected
+    to a vertical wooden pole on the right. The ball is positioned on the left side of the frame. The
+    ground is dry, dusty earth with scattered debris. The string forms a straight horizontal line between
+    the ball and the pole, indicating tension.
+  init2final_edit_prompt: Edit the given image to move the red ball to a different visible position along
+    its circular path around the wooden pole. Place the ball at a new angle on the circle, ensuring it
+    remains at the same radial distance from the pole and the same height above the ground. The string
+    must remain straight, taut, and connected to the pole, reflecting the tension of the spinning motion.
+  rationale: The video describes a continuous physical process where the ball spins at a constant angular
+    velocity. The camera zooms out and back in, which takes a non-zero amount of time. During this interval,
+    the ball continues its orbit. When the camera returns to the original framing, the ball will have
+    moved to a new position along its circular trajectory. Due to the conservation of angular momentum
+    and the constraints of the tether, the ball must remain at the same height and distance from the pole,
+    and the string must remain taut.
+  questions:
+  - id: ball_moved
+    question: Has the red ball moved from its initial position on the left side of the image?
+    answer_type: yes_no
+    notes_for_judge: The ball should be in a different location along the circular arc.
+  - id: ball_new_loc
+    question: Is the red ball visible in a different location along its circular path?
+    answer_type: yes_no
+    notes_for_judge: Checks for spatial displacement along the orbit.
+  - id: string_taut
+    question: Is the string connecting the ball to the pole straight and taut?
+    answer_type: yes_no
+    notes_for_judge: Centripetal force requires the string to be taut (straight line).
+  - id: radius_conserved
+    question: Is the ball approximately the same distance from the wooden pole as it was initially?
+    answer_type: yes_no
+    notes_for_judge: The tether length is constant.
+  - id: height_conserved
+    question: Is the ball at approximately the same height above the ground as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The motion is a horizontal circle.
+  - id: pole_static
+    question: Is the wooden pole still in the same vertical position?
+    answer_type: yes_no
+    notes_for_judge: The pole is a static anchor.

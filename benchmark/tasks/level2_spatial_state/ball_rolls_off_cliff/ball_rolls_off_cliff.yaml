@@ -4,9 +4,65 @@ category: spatial_kinematics
 kinematic_variable: Position transition from rolling to projectile trajectory
 tags: []
 prompts:
-  image_gen_prompt: A red rubber ball is rolling across a wooden table surface from left to right at moderate speed. The table edge is visible ahead in the ball's path. The table is elevated 1 meter above the floor. The ball is approaching the edge.
-  video_WM: The ball continues rolling across the table surface toward the edge. The table edge is a sharp drop-off with no barrier. The ball has sufficient velocity to reach the edge. Once past the table edge, the ball is no longer supported by the surface. Gravity acts on the ball continuously. Air resistance is negligible. The camera rotates right at constant speed until the table completely exits the view to the right. The camera continues rotating right for several seconds while the ball trajectory continues off-screen. Then the camera rotates left smoothly at the same rate back to the original viewpoint, bringing the table and floor area back into view. No zoom, no cut, no scene change. STOP.
-  camera_WM: The ball continues rolling across the table surface toward the edge. The table edge is a sharp drop-off with no barrier. The ball has sufficient velocity to reach the edge. Once past the table edge, the ball is no longer supported by the surface. Gravity acts on the ball continuously. Air resistance is negligible during the occlusion period. STOP.
+  image_gen_prompt: A red rubber ball is rolling across a wooden table surface from left to right at moderate
+    speed. The table edge is visible ahead in the ball's path. The table is elevated 1 meter above the
+    floor. The ball is approaching the edge.
+  video_WM: The ball continues rolling across the table surface toward the edge. The table edge is a sharp
+    drop-off with no barrier. The ball has sufficient velocity to reach the edge. Once past the table
+    edge, the ball is no longer supported by the surface. Gravity acts on the ball continuously. Air resistance
+    is negligible. The camera rotates right at constant speed until the table completely exits the view
+    to the right. The camera continues rotating right for several seconds while the ball trajectory continues
+    off-screen. Then the camera rotates left smoothly at the same rate back to the original viewpoint,
+    bringing the table and floor area back into view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The ball continues rolling across the table surface toward the edge. The table edge is a
+    sharp drop-off with no barrier. The ball has sufficient velocity to reach the edge. Once past the
+    table edge, the ball is no longer supported by the surface. Gravity acts on the ball continuously.
+    Air resistance is negligible during the occlusion period. STOP.
 camera_control:
   HY-WorldPlay: s-3, right-30, left-30
   Genie: null
+evaluation:
+  init_frame_description: A red textured ball is rolling across a rustic wooden table surface, exhibiting
+    motion blur that indicates movement from left to right. The table has a rich wood grain texture. In
+    the background, a window with white framing is visible on the left, and a dark corner is on the right.
+    Below the table, wide wooden floorboards and the edge of a patterned rug are visible.
+  init2final_edit_prompt: Edit the given image to remove the red ball from the wooden table surface. The
+    table surface should be completely empty, revealing the wood grain texture where the ball was previously
+    located. Do not place the ball anywhere else in the visible frame. Keep the window, walls, floor,
+    rug, and table legs exactly as they appear in the original image.
+  rationale: The ball has initial velocity towards the right edge of the table. The prompt states it rolls
+    off the edge and is acted upon by gravity. The camera rotates away for several seconds, which is a
+    significant duration relative to the physics of a falling ball. By the time the camera rotates back
+    to the original viewpoint, the ball will have fallen to the floor and likely rolled out of the frame
+    or settled in a different position on the floor. The most definitive and robust state change is that
+    the ball is no longer on the table surface.
+  questions:
+  - id: ball_removed_from_table
+    question: Is the red ball absent from the top of the table?
+    answer_type: yes_no
+    notes_for_judge: The ball should have rolled off the edge; it must not be on the table surface.
+  - id: table_surface_empty
+    question: Is the wooden surface of the table empty where the ball was initially?
+    answer_type: yes_no
+    notes_for_judge: Check the specific spot where the ball started.
+  - id: ball_displacement
+    question: Has the ball moved away from its starting position?
+    answer_type: yes_no
+    notes_for_judge: Any change in position counts, but specifically it should be gone from the start
+      point.
+  - id: ball_not_floating
+    question: Is the space above the table surface free of the red ball?
+    answer_type: yes_no
+    notes_for_judge: The ball should not be floating in the air above the table.
+  - id: wood_grain_visible
+    question: Is the wood grain texture visible in the area previously covered by the ball?
+    answer_type: yes_no
+    notes_for_judge: Verifies the object has been removed/moved revealing the background.
+  - id: secondary_window
+    question: Is the white window frame still visible on the left?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: secondary_rug
+    question: Is the patterned rug still visible on the floor?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

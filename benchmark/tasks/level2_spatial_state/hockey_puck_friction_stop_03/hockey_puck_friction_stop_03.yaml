@@ -1,0 +1,68 @@
+id: hockey_puck_friction_stop_03
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: hockey_puck_friction_stop
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to thick smoke filling the room.
+changes:
+  occlusion_method: Thick smoke fills the space, obscuring the view, then clears.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The puck slides across the rough concrete surface. The concrete has a high coefficient of
+    friction typical of unpolished concrete. The puck is standard rubber. No external forces are applied.
+    Suddenly, thick opaque smoke rapidly fills the space, completely obscuring the floor and the puck
+    from view. The smoke swirls densely for several seconds. Then a strong draft clears the smoke, revealing
+    the concrete floor area again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The puck slides across the rough concrete surface. The concrete has a high coefficient of
+    friction typical of unpolished concrete. The puck is standard rubber. No external forces are applied.
+    Suddenly, thick opaque smoke rapidly fills the space, completely obscuring the floor and the puck
+    from view. The smoke swirls densely for several seconds. Then a strong draft clears the smoke, revealing
+    the concrete floor area again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a black hockey puck sliding on a rough, cracked
+    concrete floor. There is visible dust and debris spraying up around the base of the puck, and slight
+    motion blur indicating movement. The background is a blurred outdoor or garage setting with concrete
+    pavement.
+  init2final_edit_prompt: Edit the given image to show the hockey puck at a new position on the concrete
+    floor, displaced from its original location. Remove the dust spray, flying debris, and motion blur
+    around the puck to depict it as completely stationary and resting flat on the ground. Keep the concrete
+    texture, lighting, and background identical to the original.
+  rationale: The initial frame captures a puck in motion on a high-friction surface (rough concrete).
+    The video prompt describes a period of occlusion ('several seconds' of smoke) during which the puck
+    continues to slide. Due to the high coefficient of friction and the duration of the event, the physical
+    expectation is that the puck will decelerate and come to a complete stop. In the final frame, after
+    the smoke clears, the puck should be located at a different position (due to the slide) but should
+    appear static, with no dust kick-up or motion blur.
+  questions:
+  - id: position_displacement
+    question: Is the hockey puck located in a different position on the concrete floor compared to the
+      initial frame?
+    answer_type: yes_no
+    notes_for_judge: The puck must have moved from its starting spot due to the sliding momentum.
+  - id: motion_state_dust
+    question: Is the dust and debris spray around the base of the puck absent?
+    answer_type: yes_no
+    notes_for_judge: In the initial frame, dust indicates motion. In the final frame, the puck should
+      be stopped, so dust should be gone.
+  - id: motion_state_blur
+    question: Does the hockey puck appear sharp and stationary, without motion blur?
+    answer_type: yes_no
+    notes_for_judge: The puck should have come to a stop due to friction.
+  - id: visibility_smoke
+    question: Is the view completely clear of the opaque smoke mentioned in the prompt?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the smoke clears, revealing the floor again.
+  - id: object_persistence
+    question: Is the hockey puck visible in the final frame?
+    answer_type: yes_no
+    notes_for_judge: The puck should be revealed after the smoke clears.
+  - id: background_consistency
+    question: Is the concrete floor texture consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The environment should remain unchanged.

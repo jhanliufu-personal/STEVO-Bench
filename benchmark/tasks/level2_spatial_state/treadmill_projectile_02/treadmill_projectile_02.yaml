@@ -1,0 +1,66 @@
+id: treadmill_projectile_02
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: treadmill_projectile
+variation_type: occlusion_method
+variation_description: Replaces camera rotation with the room lights turning off completely.
+changes:
+  occlusion_method: Room lights turn off creating pitch blackness, then turn back on.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The robotic launcher fires a tennis ball vertically into the air while the treadmill belt
+    continues its constant leftward motion. The air in the room is still. Suddenly, the room lights turn
+    off, plunging the scene into complete pitch blackness where nothing is visible. After a moment, the
+    lights turn back on, revealing the scene again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The robotic launcher fires a tennis ball vertically into the air while the treadmill belt
+    continues its constant leftward motion. The air in the room is still. Suddenly, the room lights turn
+    off, plunging the scene into complete pitch blackness where nothing is visible. After a moment, the
+    lights turn back on, revealing the scene again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up shot of a custom-built robotic device mounted on a treadmill belt.
+    The robot features a vertical silver metal tube (launcher), stepper motors, exposed multi-colored
+    wiring (orange, black), and LED indicators (blue, orange). It sits on a dark, textured treadmill belt
+    that shows signs of motion. To the right, a yellow safety post and black mesh cage are visible. The
+    background consists of a concrete wall and blurred industrial machinery, suggesting the camera is
+    tracking the robot's motion or the background is moving.
+  init2final_edit_prompt: Edit the given image to include a yellow tennis ball suspended in the air, positioned
+    vertically directly above the robot's central metal launcher tube. The ball should appear to be in
+    mid-flight, clearly separated from the mechanism. Ensure the scene is fully illuminated with the same
+    brightness and lighting as the original image, showing the industrial environment clearly. Keep the
+    robot, treadmill, and background details unchanged.
+  rationale: 'The primary action is the robot firing a projectile vertically. The ''lights off'' and ''lights
+    on'' sequence serves as a transition of time. When the lights return, the physical state of the system
+    has advanced: the tennis ball, previously inside the launcher, has been ejected and is now visible
+    in the air. Since the camera appears to be tracking the robot (indicated by the sharp robot and blurred
+    background), the ball will appear vertically aligned with the launcher in the frame, despite any horizontal
+    velocity of the system.'
+  questions:
+  - id: ball_visible
+    question: Is a tennis ball visible in the image?
+    answer_type: yes_no
+    notes_for_judge: The ball should be clearly visible in the air.
+  - id: ball_position_vertical
+    question: Is the tennis ball positioned above the vertical metal tube?
+    answer_type: yes_no
+    notes_for_judge: Check for vertical alignment with the launcher.
+  - id: ball_in_air
+    question: Is the tennis ball floating in the air, not touching the robot?
+    answer_type: yes_no
+    notes_for_judge: The ball must be separated from the launcher to indicate flight.
+  - id: lighting_restored
+    question: Is the scene fully illuminated (not pitch black)?
+    answer_type: yes_no
+    notes_for_judge: The prompt specifies lights turn back on.
+  - id: robot_presence
+    question: Is the robotic launcher still present on the treadmill?
+    answer_type: yes_no
+    notes_for_judge: The robot should not disappear.
+  - id: safety_post_consistency
+    question: Is the yellow safety post still visible on the right side?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

@@ -1,0 +1,70 @@
+id: magnetic_sled_03
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: magnetic_sled
+variation_type: occlusion_method
+variation_description: The camera zooms out until details are lost instead of rotating.
+changes:
+  occlusion_method: Camera zoom out
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The mechanical pin is retracted, allowing the sled to move freely along the rail. The sled
+    is made of a highly ferromagnetic material. The camera zooms out rapidly until the entire lab bench
+    becomes a distant, indistinguishable speck. Then, the camera zooms back in smoothly to the original
+    framing. No cut, no scene change. STOP.
+  camera_WM: The mechanical pin is retracted, allowing the sled to move freely along the rail. The sled
+    is made of a highly ferromagnetic material. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+evaluation:
+  init_frame_description: 'A laboratory setup featuring a clear plastic track with two metal guide rails
+    running horizontally. A U-shaped silver metal sled is positioned on the left side of the track. A
+    red-handled locking pin is inserted into the side of the track near the sled. To the right, there
+    is a large, square metal housing with a yellow label reading ''CAUTION: HIGH MAGNETIC FIELD''. In
+    the background, there is a lab bench with electronic equipment like an oscilloscope and signal generator.'
+  init2final_edit_prompt: Edit the given image to show the silver metal sled moved to the far right end
+    of the track, firmly attached to the face of the large square magnet housing. The red-handled pin
+    should be shown in a retracted position, pulled away from the track. The area of the track where the
+    sled was originally sitting should now be empty, revealing the clear plastic and metal guide rails
+    underneath.
+  rationale: The prompt specifies that the locking pin is retracted and the sled is highly ferromagnetic.
+    The large structure on the right is a high-field magnet. Once the pin is removed, the magnetic force
+    will attract the sled, accelerating it to the right until it impacts and sticks to the magnet face.
+    The camera zoom-out and zoom-in sequence provides a duration of time for this physical motion to occur,
+    meaning the sled will be found at the magnet in the final frame when the camera returns to the original
+    view.
+  questions:
+  - id: sled_moved_right
+    question: Is the silver sled positioned further to the right than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The sled should have moved towards the magnet on the right.
+  - id: sled_at_magnet
+    question: Is the silver sled now located at the end of the track, near or touching the large square
+      magnet?
+    answer_type: yes_no
+    notes_for_judge: Due to the high magnetic field and time elapsed, the sled should be stuck to the
+      magnet.
+  - id: start_pos_empty
+    question: Is the section of the track where the sled was initially sitting now empty?
+    answer_type: yes_no
+    notes_for_judge: The sled should have vacated its starting spot.
+  - id: pin_retracted
+    question: Is the red-handled pin in a different position than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the pin is retracted.
+  - id: sled_closer_to_caution_sign
+    question: Is the silver sled closer to the yellow 'CAUTION' sign than it was initially?
+    answer_type: yes_no
+    notes_for_judge: The sign is on the magnet housing, which attracts the sled.
+  - id: background_consistency
+    question: Are the electronic instruments in the background (e.g., oscilloscope) still visible and
+      in the same location?
+    answer_type: yes_no
+    notes_for_judge: The camera returns to the original framing, so the background should be consistent.
+  - id: magnet_housing_stationary
+    question: Is the large square magnet housing still in the same position on the right side of the image?
+    answer_type: yes_no
+    notes_for_judge: The magnet housing is heavy and stationary; it should not move.

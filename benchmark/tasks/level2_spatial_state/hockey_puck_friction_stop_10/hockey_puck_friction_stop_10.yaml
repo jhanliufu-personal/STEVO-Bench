@@ -1,0 +1,64 @@
+id: hockey_puck_friction_stop_10
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: hockey_puck_friction_stop
+variation_type: combined
+variation_description: Combined downhill slope with foreground object blocking view.
+changes:
+  occlusion_method: Large box blocks view in foreground.
+  dynamic_conditions: Puck slides downhill (gravity assists motion).
+  expected_outcome_change: Puck maintains speed or accelerates.
+prompts:
+  init_frame_edit_prompt: Edit the image to make the concrete surface slant downwards in the direction
+    the puck is sliding.
+  video_WM: The puck slides down a rough concrete slope. Gravity acts in the direction of motion, assisting
+    the slide. A large cardboard box falls in the immediate foreground, completely blocking the camera's
+    view of the puck and slope. The box remains for several seconds before being lifted away, revealing
+    the slope again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The puck slides down a rough concrete slope. Gravity acts in the direction of motion, assisting
+    the slide. A large cardboard box falls in the immediate foreground, completely blocking the camera's
+    view of the puck and slope. The box remains for several seconds before being lifted away, revealing
+    the slope again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A black hockey puck rests on a rough, textured concrete surface, likely a garage
+    floor or driveway. Small pebbles and dust are visible on the concrete around the puck. The lighting
+    is natural, casting a soft shadow from the puck.
+  init2final_edit_prompt: Edit the given image to move the black hockey puck to a new position on the
+    concrete surface, significantly displaced from its original central location. The area where the puck
+    was originally sitting should now be empty concrete. Maintain the rough texture of the concrete floor.
+  rationale: The prompt specifies that the puck slides down a slope with gravity assisting the motion.
+    This implies that the puck will continue to move or accelerate rather than stopping immediately, especially
+    as gravity acts in the direction of motion. The occlusion by the box lasts for several seconds, allowing
+    time for significant displacement. When the box is lifted, the puck should be in a different position
+    further along its trajectory (or potentially out of frame), and the box itself should be gone, restoring
+    the view of the concrete.
+  questions:
+  - id: puck_moved
+    question: Is the hockey puck in a different position than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the puck's location relative to the concrete cracks/texture. It should have
+      moved.
+  - id: puck_displacement
+    question: Has the puck moved away from its starting center location?
+    answer_type: yes_no
+    notes_for_judge: The puck should not be in the exact center where it started.
+  - id: original_spot_empty
+    question: Is the specific patch of concrete where the puck was originally sitting now empty?
+    answer_type: yes_no
+    notes_for_judge: The original resting spot should be visible and bare.
+  - id: box_absent
+    question: Is the cardboard box absent from the final frame?
+    answer_type: yes_no
+    notes_for_judge: The box should have been lifted away, revealing the scene.
+  - id: view_unobstructed
+    question: Is the view of the concrete slope unobstructed?
+    answer_type: yes_no
+    notes_for_judge: There should be no large objects blocking the camera's view of the floor.
+  - id: concrete_texture
+    question: Is the rough concrete texture still visible and consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The background environment should not change.

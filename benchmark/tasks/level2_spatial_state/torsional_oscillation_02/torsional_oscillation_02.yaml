@@ -1,0 +1,67 @@
+id: torsional_oscillation_02
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: torsional_oscillation
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to lights turning off.
+changes:
+  occlusion_method: Lights turn off completely (pitch black).
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The disk is released from its twisted position. The wire provides a restorative torque proportional
+    to the twist. The lights in the workshop suddenly turn off, leaving the screen pitch black. After
+    a few seconds, the lights turn back on. No zoom, no cut, no scene change. STOP.
+  camera_WM: The disk is released from its twisted position. The wire provides a restorative torque proportional
+    to the twist. The lights in the workshop suddenly turn off, leaving the screen pitch black. After
+    a few seconds, the lights turn back on. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a brass circular disk suspended horizontally by
+    a vertical steel cable in a rustic workshop. The cable features a distinct twisted or helical wire
+    section immediately above the disk, indicating torsional stress. The disk has visible surface tarnish
+    and texture. In the background, out of focus, there is a window on the left and wooden walls with
+    hanging tools on the right.
+  init2final_edit_prompt: Edit the given image to show the brass disk rotated around its central vertical
+    axis, changing the orientation of the surface tarnish marks. Modify the twisted wire section above
+    the disk to appear less tightly coiled or structurally different, reflecting that the wire has begun
+    to untwist. Keep the disk at the same height and horizontal position. Maintain the original lighting,
+    background details, and camera angle.
+  rationale: The scene depicts a torsional pendulum released from a twisted state. Physically, the restorative
+    torque from the twisted wire causes the disk to rotate (oscillate) around its vertical axis. The blackout
+    implies a passage of time, during which the disk spins and the wire's twist configuration changes
+    (untwisting or twisting in the opposite direction). When the lights return, the disk should be in
+    a different rotational orientation, and the wire's helical shape should look different than the initial
+    stressed state. The disk's vertical position and the background remain unchanged.
+  questions:
+  - id: wire_twist_change
+    question: Is the configuration of the twisted wire above the disk different than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The wire should look untwisted, looser, or twisted differently due to the rotation.
+  - id: disk_rotation
+    question: Are the surface texture marks on the brass disk rotated relative to their initial positions?
+    answer_type: yes_no
+    notes_for_judge: Compare specific tarnish spots; they should have shifted angularly around the center.
+  - id: disk_horizontal
+    question: Is the disk still suspended in a horizontal orientation?
+    answer_type: yes_no
+    notes_for_judge: The disk should not tilt significantly, only spin.
+  - id: position_height
+    question: Is the disk at approximately the same vertical height as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Torsional motion does not cause significant vertical displacement.
+  - id: position_center
+    question: Is the center of the disk in the same horizontal position within the frame?
+    answer_type: yes_no
+    notes_for_judge: The pendulum spins in place; it does not swing left or right.
+  - id: lighting_restored
+    question: Is the scene illuminated similarly to the initial frame (not pitch black)?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the lights turn back on.
+  - id: background_consistency
+    question: Are the window and tools in the background unchanged?
+    answer_type: yes_no
+    notes_for_judge: Only the pendulum should change state.

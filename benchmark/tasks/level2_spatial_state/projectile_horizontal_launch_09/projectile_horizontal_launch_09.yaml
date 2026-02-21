@@ -1,0 +1,68 @@
+id: projectile_horizontal_launch_09
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: projectile_horizontal_launch
+variation_type: combined
+variation_description: Combines the paper ball condition with zoom occlusion.
+changes:
+  occlusion_method: Camera zooms out until details are lost, then zooms in
+  dynamic_conditions: Projectile is a light paper ball instead of plastic
+  expected_outcome_change: Paper ball drops quickly while camera is zoomed out
+prompts:
+  init_frame_edit_prompt: Edit the image to change the red plastic ball into a crumpled ball of white
+    paper of the same size.
+  video_WM: The crumpled paper ball is traveling through the air after its horizontal launch. It is encountering
+    significant air resistance. The camera zooms out rapidly until the cannon and paper ball are too small
+    to distinguish, revealing the wider workshop context. Then, the camera zooms back in to the exact
+    original framing. No cut, no scene change. STOP.
+  camera_WM: The crumpled paper ball is traveling through the air after its horizontal launch, encountering
+    significant air resistance. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a wooden workbench inside a workshop. In the center,
+    a model cannon made of wood and brass sits on the table. It has just fired; a white cloud of smoke
+    or steam is billowing from the brass muzzle. To the right of the smoke, a crumpled white paper ball
+    is suspended in mid-air, traveling to the right. On the left side of the table, there are blueprints
+    and a yellow pencil. On the right side, there are wooden chisels. The background features a window
+    on the left and an open doorway leading to a garage area on the right.
+  init2final_edit_prompt: Edit the given image to remove the suspended crumpled paper ball and the white
+    smoke cloud from the air. The scene should appear as it would after the projectile has flown away
+    and the smoke has cleared. Ensure the cannon, the wooden workbench, the blueprints, the pencil, the
+    chisels, and the background room remain exactly in their original positions and lighting.
+  rationale: 'The video prompt describes a sequence where the camera zooms out to show a wider context
+    and then zooms back in to the exact original framing. This camera maneuver implies a passage of time
+    (likely several seconds). During this interval, the physics of the scene continue: the paper ball,
+    having been launched, will travel forward and fall due to gravity and air resistance, likely leaving
+    the immediate frame of the close-up or landing on the floor in the background. Similarly, the smoke
+    from the discharge will dissipate. Therefore, in the final frame, the dynamic elements (ball and smoke)
+    should be absent or significantly displaced from their initial positions, while the static environment
+    remains unchanged.'
+  questions:
+  - id: ball_moved_from_origin
+    question: Is the crumpled paper ball absent from its original position near the cannon muzzle?
+    answer_type: yes_no
+    notes_for_judge: The ball should have moved forward/down or left the frame entirely. It should not
+      be hovering in the initial spot.
+  - id: smoke_dissipated
+    question: Has the white smoke cloud near the muzzle dissipated or disappeared?
+    answer_type: yes_no
+    notes_for_judge: After the time elapsed for the camera move, the smoke should have cleared.
+  - id: ball_trajectory_check
+    question: Has the paper ball traveled to the right or out of the frame?
+    answer_type: yes_no
+    notes_for_judge: If the ball is visible, it must be further right/down. If it is not visible, answer
+      Yes.
+  - id: cannon_static
+    question: Is the cannon still in the same position on the workbench?
+    answer_type: yes_no
+    notes_for_judge: The cannon itself should not have moved.
+  - id: blueprints_static
+    question: Are the blueprints and pencil on the left still in their original position?
+    answer_type: yes_no
+    notes_for_judge: Static objects should remain unchanged.
+  - id: clear_air
+    question: Is the space immediately in front of the cannon muzzle clear of obstructions?
+    answer_type: yes_no
+    notes_for_judge: The smoke and ball should be gone from the immediate firing line.

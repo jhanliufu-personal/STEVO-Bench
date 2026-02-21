@@ -1,0 +1,66 @@
+id: rolling_sphere_inclined_plane_02
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: rolling_sphere_inclined_plane
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to extreme camera zoom out.
+changes:
+  occlusion_method: Camera zooms out until details are lost, then zooms back in.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The steel marble is rolling down the smooth inclined ramp. Gravity is accelerating the marble's
+    descent, and there is no visible obstruction. The camera zooms out rapidly until the ramp becomes
+    a tiny, indistinguishable speck in the distant landscape. Then the camera zooms back in to the exact
+    original framing. No cut, no scene change. STOP.
+  camera_WM: The steel marble is rolling down the smooth inclined ramp. Gravity is accelerating the marble's
+    descent, and there is no visible obstruction. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+evaluation:
+  init_frame_description: A shiny steel sphere resting on a weathered wooden plank that serves as a ramp.
+    The plank is inclined, sloping upwards from the bottom-left foreground towards the top-right background.
+    The sphere reflects the surrounding grassy field, sky, and a person. A red barn is visible in the
+    background.
+  init2final_edit_prompt: Edit the given image to move the steel sphere to a new position significantly
+    further down the wooden ramp, towards the bottom-left corner. The sphere should be located closer
+    to the foreground edge of the plank than it was originally.
+  rationale: The wooden ramp is inclined with the higher end in the background (top-right) and the lower
+    end in the foreground (bottom-left). Gravity will cause the sphere to accelerate down the ramp towards
+    the camera. The video prompt describes a sequence where the camera zooms out and back in, implying
+    a passage of time during which the sphere rolls. Upon returning to the original framing, the sphere
+    must be positioned further down the slope (closer to the bottom-left) than in the initial frame.
+  questions:
+  - id: moved_from_start
+    question: Is the steel sphere in a different position than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The sphere should have moved from its original spot.
+  - id: moved_down_slope
+    question: Has the steel sphere moved towards the bottom-left of the image?
+    answer_type: yes_no
+    notes_for_judge: The slope goes down towards the bottom-left; the ball should follow this path.
+  - id: closer_to_camera
+    question: Is the steel sphere closer to the bottom edge of the wooden plank than before?
+    answer_type: yes_no
+    notes_for_judge: Motion down the ramp brings it closer to the viewer/bottom edge.
+  - id: lower_in_frame
+    question: Is the center of the steel sphere located lower in the frame (closer to the bottom pixel
+      edge) than initially?
+    answer_type: yes_no
+    notes_for_judge: Since the ramp slopes down to the left, the ball's vertical position in the image
+      should decrease.
+  - id: original_spot_empty
+    question: Is the specific location on the wood where the sphere started now empty?
+    answer_type: yes_no
+    notes_for_judge: The ball should have vacated its starting position.
+  - id: ramp_invariant
+    question: Is the wooden ramp in the same position and orientation as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The camera returns to the exact original framing, so the static environment should
+      not change.
+  - id: background_invariant
+    question: Are the barn and grass in the background unchanged?
+    answer_type: yes_no
+    notes_for_judge: Static background elements should remain consistent.

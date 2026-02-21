@@ -1,0 +1,67 @@
+id: tethered_ball_circular_10
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: tethered_ball_circular
+variation_type: combined
+variation_description: Shortened string (faster implied angular velocity) combined with foreground object
+  occlusion.
+changes:
+  occlusion_method: Person walks in front.
+  dynamic_conditions: String is much shorter (implies faster orbit).
+  expected_outcome_change: Ball completes more orbits or is in a different phase position compared to
+    original due to higher speed.
+prompts:
+  init_frame_edit_prompt: Edit the image to show the string is half the original length, placing the ball
+    much closer to the central pole.
+  video_WM: The tethered ball spins rapidly in a tight horizontal circle close to the pole, held by a
+    short taut string. A person walks slowly across the foreground from right to left, completely blocking
+    the view of the spinning ball for several seconds, then steps out of frame. No zoom, no cut, no scene
+    change. STOP.
+  camera_WM: The tethered ball spins rapidly in a tight horizontal circle close to the pole, held by a
+    short taut string. A person walks slowly across the foreground from right to left, completely blocking
+    the view of the spinning ball for several seconds, then steps out of frame. No zoom, no cut, no scene
+    change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A red ball is suspended in mid-air to the left of a vertical wooden pole, connected
+    to the pole by a taut, horizontal white string. The background is a blurry, sunlit dirt field.
+  init2final_edit_prompt: Edit the given image to place the red ball on the right side of the wooden pole,
+    with the white string extending horizontally to the right, as if the ball has rotated 180 degrees
+    around the pole. Remove the ball and string from the left side. Ensure the background and wooden pole
+    remain unchanged.
+  rationale: The video depicts a ball spinning rapidly around a pole. A person temporarily blocks the
+    view but then leaves the frame. In the final state, the person is gone, restoring the view of the
+    tethered ball. Due to the rapid spinning motion and the passage of time, the ball will be in a different
+    position along its circular path compared to the initial frame (e.g., rotated to a different angle).
+    The edit prompt simulates this by placing the ball on the opposite side, representing the displacement
+    caused by the motion.
+  questions:
+  - id: ball_displacement
+    question: Is the red ball at a different position than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The ball should not be in the exact same pixel coordinates as the initial frame;
+      it should have moved along its circular path.
+  - id: ball_suspended
+    question: Is the red ball suspended in the air?
+    answer_type: yes_no
+    notes_for_judge: The ball should not be resting on the ground; it should be held up by the string/centripetal
+      force.
+  - id: string_visible
+    question: Is the string connecting the ball to the pole visible?
+    answer_type: yes_no
+    notes_for_judge: The physical constraint (tether) must be preserved.
+  - id: radius_constraint
+    question: Is the ball's distance from the pole roughly consistent with (or smaller than) the initial
+      string length?
+    answer_type: yes_no
+    notes_for_judge: The ball should not have flown away; it must remain tethered.
+  - id: person_absence
+    question: Is the scene free of the person who walked across the frame?
+    answer_type: yes_no
+    notes_for_judge: The person steps out of frame, so the final view should be clear.
+  - id: pole_consistency
+    question: Is the wooden pole in the same position as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The static environment should not change.

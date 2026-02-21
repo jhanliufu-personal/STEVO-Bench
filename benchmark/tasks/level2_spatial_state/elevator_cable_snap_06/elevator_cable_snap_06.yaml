@@ -1,0 +1,65 @@
+id: elevator_cable_snap_06
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: elevator_cable_snap
+variation_type: dynamic_condition
+variation_description: 'Condition changed: Rails are rusted and jammed, causing high friction/resistance.'
+changes:
+  occlusion_method: null
+  dynamic_conditions: 'High friction: rusted and deformed rails'
+  expected_outcome_change: Elevator falls very slowly or gets stuck.
+prompts:
+  init_frame_edit_prompt: Edit the image to make the metal guide rails look heavily corroded, jagged,
+    and covered in rust and debris.
+  video_WM: The elevator cable has snapped. However, the guide rails are severely corroded, bent, and
+    clogged with debris, creating immense friction against the car's movement. The camera rotates right
+    until the elevator car completely exits the view, then rotates toward the left smoothly at the same
+    rate until the camera returns to the original viewpoint. No zoom, no cut, no scene change. STOP.
+  camera_WM: The elevator cable has snapped. However, the guide rails are severely corroded, bent, and
+    clogged with debris, creating immense friction against the car's movement. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A high-angle shot looking down into an atrium with a central elevator shaft.
+    A glass-walled elevator car is suspended in the center of the frame. The vertical guide rails and
+    structural beams surrounding the elevator are heavily rusted and corroded. There are walkways with
+    metal railings on the left and right sides, and people are visible on the floor below.
+  init2final_edit_prompt: Edit the given image to show the elevator car positioned lower in the shaft
+    than in the original view, as if it has slid downwards. The cable extending upwards from the car should
+    appear severed, slack, or absent. Maintain the exact same camera angle, perspective, and background
+    architecture, ensuring the surrounding railings and building structure remain unchanged.
+  rationale: The prompt establishes that the cable snaps, removing the upward support force. Gravity acts
+    to pull the elevator car down. However, the 'immense friction' from the corroded rails acts as a significant
+    opposing force, preventing a rapid freefall. As the camera pans away and then returns to the original
+    viewpoint, time elapses. During this interval, the elevator car must displace downwards due to gravity,
+    but because of the friction, it should slide down rather than plummet instantly to the bottom. The
+    final state should show the car at a noticeably lower vertical position within the shaft, consistent
+    with a resisted downward slide.
+  questions:
+  - id: elevator_lower_pos
+    question: Is the elevator car positioned lower in the shaft compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the vertical position of the elevator car relative to the background structure.
+      It should be lower.
+  - id: elevator_moved_down
+    question: Has the elevator car moved downwards from its starting location?
+    answer_type: yes_no
+    notes_for_judge: Check for downward displacement along the vertical axis.
+  - id: elevator_top_level
+    question: Is the roof of the elevator car at a lower level than it was initially?
+    answer_type: yes_no
+    notes_for_judge: Focus on the top edge of the car to verify downward movement.
+  - id: cable_state
+    question: Does the cable above the elevator appear severed, slack, or absent?
+    answer_type: yes_no
+    notes_for_judge: The cable should no longer be taut and straight up if it snapped.
+  - id: camera_view_consistency
+    question: Is the camera view angle and framing approximately the same as the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The prompt specifies the camera returns to the original viewpoint.
+  - id: background_static
+    question: Are the structural beams and railings in the background in the same position as the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: Only the elevator should move; the building structure is static.

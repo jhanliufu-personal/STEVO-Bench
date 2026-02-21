@@ -1,0 +1,57 @@
+id: marble_track_loop_00
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: marble_track_loop
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The steel ball rolls toward the vertical loop with high momentum. Camera remains stationary
+    throughout. No zoom, no cut, no scene change. STOP.
+  camera_WM: The steel ball rolls toward the vertical loop with high momentum. Camera remains stationary
+    throughout. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up shot of a homemade wooden marble run on a workbench. A clear, flexible
+    plastic track forms a vertical loop in the center. A shiny steel ball bearing is positioned at the
+    very bottom of the loop, resting in the track. To the left, the track ramps upwards. To the right,
+    the track extends horizontally. The background shows a workshop environment with tools, sawdust, and
+    a window.
+  init2final_edit_prompt: Edit the given image to show the steel ball located on the horizontal track
+    section to the right of the loop structure. Remove the steel ball from its original position at the
+    bottom of the loop, leaving that section of the track empty.
+  rationale: The initial image shows a steel ball at the base of a loop with a prompt indicating high
+    momentum. Physically, the ball will travel up the loop, complete the circle, and exit onto the track
+    segment extending to the right. The rollout simulates this motion, resulting in the ball being positioned
+    on the exit track to the right of the loop structure.
+  questions:
+  - id: ball_moved
+    question: Is the steel ball at a different position than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The ball should no longer be at the bottom of the loop.
+  - id: ball_right_of_loop
+    question: Is the steel ball now located to the right of the vertical loop structure?
+    answer_type: yes_no
+    notes_for_judge: The ball should have traversed the loop and exited to the right.
+  - id: ball_not_at_bottom
+    question: Is the bottom of the loop, where the ball started, now empty?
+    answer_type: yes_no
+    notes_for_judge: The original position should be vacant.
+  - id: ball_on_exit_track
+    question: Is the steel ball visible on the track segment that extends to the right?
+    answer_type: yes_no
+    notes_for_judge: It should be on the flat/horizontal section after the loop.
+  - id: track_integrity
+    question: Does the plastic track loop remain structurally unchanged?
+    answer_type: yes_no
+    notes_for_judge: The track itself should not move or deform, only the ball moves.
+  - id: background_consistency
+    question: Are the tools and workbench in the background unchanged?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

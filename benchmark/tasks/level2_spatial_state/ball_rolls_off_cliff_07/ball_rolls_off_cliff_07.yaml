@@ -1,0 +1,66 @@
+id: ball_rolls_off_cliff_07
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: ball_rolls_off_cliff
+variation_type: combined
+variation_description: Ball is stationary AND lights turn off (changing both axis).
+changes:
+  occlusion_method: Room lights turn off completely.
+  dynamic_conditions: Initial velocity set to zero.
+  expected_outcome_change: Ball remains on table (outcome change) + different occlusion style.
+prompts:
+  init_frame_edit_prompt: Edit the image to make the red ball appear completely stationary on the table
+    surface.
+  video_WM: The ball sits stationary on the table surface near the edge. It has zero velocity. Gravity
+    acts on the ball, but it is supported by the table. Suddenly, the room lights turn off completely,
+    plunging the scene into pitch black darkness. The darkness lasts for several seconds. Then the lights
+    turn back on, restoring visibility to the original viewpoint. No zoom, no cut, no scene change. STOP.
+  camera_WM: The ball sits stationary on the table surface near the edge. It has zero velocity. Gravity
+    acts on the ball, but it is supported by the table. Suddenly, the room lights turn off completely,
+    plunging the scene into pitch black darkness. The darkness lasts for several seconds. Then the lights
+    turn back on, restoring visibility to the original viewpoint. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A red, textured spherical ball sitting on the corner of a worn, light-brown
+    wooden table. The table surface has visible scratches and wood grain. In the background, a white window
+    frame is visible on the left. Below the table, a wooden floor and the edge of a patterned red and
+    beige rug are visible.
+  init2final_edit_prompt: Edit the given image to show the red ball remaining in the exact same position
+    on the wooden table. Ensure the lighting is fully restored to the original bright daylight conditions.
+    The ball must not be moved, rotated, or displaced from its original spot near the table corner. The
+    background and table texture should remain unchanged.
+  rationale: The video prompt explicitly states that the ball has zero velocity and is supported by the
+    table, establishing a stable equilibrium. No external forces such as a push, wind, or table tilt are
+    introduced to overcome the ball's inertia. The only event described is the room lights turning off
+    and then back on. Therefore, according to physical laws (Newton's First Law), the ball must remain
+    stationary throughout the duration of darkness. The final frame should show the ball in the exact
+    same position as the initial frame, with visibility restored.
+  questions:
+  - id: ball_presence
+    question: Is the red ball still present on the table?
+    answer_type: yes_no
+    notes_for_judge: The ball should not have disappeared or fallen off.
+  - id: ball_position_static
+    question: Is the red ball located in the same spot relative to the table corner as in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: The ball should not have moved.
+  - id: ball_on_surface
+    question: Is the red ball still resting on the top surface of the table?
+    answer_type: yes_no
+    notes_for_judge: It should not be falling or on the floor.
+  - id: ball_no_displacement
+    question: Has the ball remained stationary without rolling away?
+    answer_type: yes_no
+    notes_for_judge: Check for displacement.
+  - id: lighting_restored
+    question: Is the scene brightly lit, comparable to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Lights should be back on.
+  - id: camera_stability
+    question: Is the patterned rug still visible at the bottom of the image?
+    answer_type: yes_no
+    notes_for_judge: Checks that the camera view hasn't shifted.

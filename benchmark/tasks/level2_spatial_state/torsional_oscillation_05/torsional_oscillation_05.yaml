@@ -1,0 +1,62 @@
+id: torsional_oscillation_05
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: torsional_oscillation
+variation_type: dynamic_condition
+variation_description: The suspension wire is much thicker, implying higher stiffness.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Thicker, stiffer wire.
+  expected_outcome_change: Oscillation frequency increases (faster rotation).
+prompts:
+  init_frame_edit_prompt: Edit the image to make the suspension wire significantly thicker and more robust,
+    while keeping the twisted appearance.
+  video_WM: The disk is released from its twisted position, suspended by a thick, heavy-duty steel cable.
+    The stiffness of the cable creates a strong restorative torque. The camera rotates right until the
+    disk completely exits the view, then rotates toward the left smoothly at the same rate until the top
+    of the wire is back in the center of view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The disk is released from its twisted position, suspended by a thick, heavy-duty steel cable.
+    The stiffness of the cable creates a strong restorative torque. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A heavy, circular brass disk is suspended horizontally by a thick, multi-strand
+    steel cable. The cable features a distinct twisted spiral pattern where outer strands wrap around
+    the core, indicating stored torsional energy. The setting is a workshop with a window visible on the
+    left side, admitting natural light, and a background of wooden walls, a workbench, and various tools.
+  init2final_edit_prompt: Edit the given image to show the brass disk and steel cable positioned in the
+    horizontal center of the frame, matching the initial composition. The background should remain consistent,
+    displaying the workshop interior with the window on the left and wooden walls behind the suspended
+    object.
+  rationale: 'The video describes a camera panning action that moves the object out of frame to the left
+    (camera pans right) and then returns exactly to the starting viewpoint (camera pans left). The physical
+    action is the release of the torsional pendulum, causing it to spin, but the exact phase of rotation
+    in the final frame is indeterminate. Therefore, the primary evaluation metric is spatial consistency
+    and object permanence: the world model must successfully ''find'' the object again and place it back
+    in the center of the frame with the correct background alignment after the occlusion event.'
+  questions:
+  - id: permanence_disk
+    question: Is the brass disk visible in the final frame?
+    answer_type: yes_no
+    notes_for_judge: The object should be visible again after the camera returns.
+  - id: spatial_centering
+    question: Is the brass disk positioned in the horizontal center of the frame?
+    answer_type: yes_no
+    notes_for_judge: The camera movement ends when the wire is back in the center.
+  - id: vertical_height
+    question: Is the disk suspended at approximately the same vertical height as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The camera motion was horizontal; the object should not have fallen or risen significantly.
+  - id: cable_integrity
+    question: Is the steel cable visible extending upwards from the center of the disk?
+    answer_type: yes_no
+    notes_for_judge: The suspension mechanism must remain intact.
+  - id: background_consistency_window
+    question: Is the window still visible on the left side of the frame?
+    answer_type: yes_no
+    notes_for_judge: Checks for background consistency after the camera pan.
+  - id: background_consistency_wood
+    question: Does the background behind the disk still show the wooden workshop walls?
+    answer_type: yes_no
+    notes_for_judge: Checks that the scene has not hallucinated a new environment.

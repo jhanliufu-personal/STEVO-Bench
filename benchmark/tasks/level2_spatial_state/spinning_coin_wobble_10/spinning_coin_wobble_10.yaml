@@ -1,0 +1,70 @@
+id: spinning_coin_wobble_10
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: spinning_coin_wobble
+variation_type: combined
+variation_description: Coin spinning in viscous oil + Fog occlusion.
+changes:
+  occlusion_method: Thick smoke fills the view.
+  dynamic_conditions: Coin is spinning in viscous oil (high fluid resistance).
+  expected_outcome_change: Coin stops almost immediately due to viscous damping.
+prompts:
+  init_frame_edit_prompt: Edit the image to show a thin layer of viscous oil on the table surface around
+    the coin.
+  video_WM: The coin spins in a thin layer of viscous oil on the table surface. Fluid resistance acts
+    strongly against the coin's rotation. The oil creates significant drag on the metal edge. The coin
+    is a standard metal quarter. Thick white smoke blows into the scene, completely obscuring the coin
+    and table from view. The smoke swirls densely for several seconds. Then the smoke clears rapidly,
+    revealing the table surface again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The coin spins in a thin layer of viscous oil on the table surface. Fluid resistance acts
+    strongly against the coin's rotation. The oil creates significant drag on the metal edge. The coin
+    is a standard metal quarter. Thick white smoke blows into the scene, completely obscuring the coin
+    and table from view. The smoke swirls densely for several seconds. Then the smoke clears rapidly,
+    revealing the table surface again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A silver US quarter standing vertically on its edge on a scratched wooden table.
+    The coin is surrounded by a small, irregular puddle of yellowish viscous oil. The background is blurred,
+    showing a window with natural light coming through.
+  init2final_edit_prompt: Edit the given image so that the quarter is lying flat on its side on the wooden
+    table surface inside the oil puddle, instead of standing vertically on its edge.
+  rationale: The prompt describes a coin spinning in viscous oil, which exerts significant drag force.
+    The presence of 'thick white smoke' that lasts for 'several seconds' implies a passage of time sufficient
+    for the fluid resistance to dissipate the coin's rotational kinetic energy. Since the coin is not
+    being actively driven, the drag will cause it to lose stability and fall over under gravity. Therefore,
+    when the smoke clears, the coin should be lying flat on the table rather than standing upright.
+  questions:
+  - id: coin_orientation_flat
+    question: Is the coin lying flat on the table surface?
+    answer_type: yes_no
+    notes_for_judge: The coin should no longer be standing on its edge; it should be resting on one of
+      its faces.
+  - id: coin_vertical_state
+    question: Is the coin no longer standing vertically on its edge?
+    answer_type: yes_no
+    notes_for_judge: The coin must have fallen over due to drag and time.
+  - id: coin_height_change
+    question: Is the highest point of the coin significantly lower than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Since the coin has fallen flat, its vertical extent should be much smaller (thickness
+      vs diameter).
+  - id: coin_face_visibility
+    question: Is a circular face of the coin (heads or tails) visible facing upwards?
+    answer_type: yes_no
+    notes_for_judge: If the coin is flat, the camera looking down/at an angle should see the face, not
+      just the rim.
+  - id: oil_puddle_presence
+    question: Is the oil puddle still visible on the table?
+    answer_type: yes_no
+    notes_for_judge: The environment should remain consistent.
+  - id: smoke_cleared
+    question: Is the view of the table and coin clear of thick smoke?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the smoke clears rapidly, revealing the surface.
+  - id: background_consistency
+    question: Is the background window still visible?
+    answer_type: yes_no
+    notes_for_judge: The camera angle and scene context should remain unchanged.

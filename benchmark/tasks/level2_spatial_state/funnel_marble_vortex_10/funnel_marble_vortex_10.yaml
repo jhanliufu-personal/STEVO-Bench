@@ -1,0 +1,61 @@
+id: funnel_marble_vortex_10
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: funnel_marble_vortex
+variation_type: combined
+variation_description: Capped hole condition with camera dolly occlusion.
+changes:
+  occlusion_method: Camera dollies away.
+  dynamic_conditions: Hole at bottom is sealed.
+  expected_outcome_change: Ball spirals down but settles at the bottom instead of falling through.
+prompts:
+  init_frame_edit_prompt: Edit the image to show a flat acrylic cap securely sealing the hole at the bottom
+    of the funnel.
+  video_WM: The steel ball is given a rapid horizontal nudge along the inner circumference of the funnel's
+    rim. The bottom hole of the funnel is sealed with a flat cap. The camera rapidly moves backward (dollies
+    out) away from the funnel until the object becomes a tiny, indistinguishable speck in the distance.
+    The camera then moves forward to return to the original viewpoint. No cut, no scene change. STOP.
+  camera_WM: The steel ball is given a rapid horizontal nudge along the inner circumference of the funnel's
+    rim. The bottom hole of the funnel is sealed with a flat cap. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A large, transparent plastic gravity well funnel stands in a museum-like setting
+    with large windows and a tiled floor. A shiny steel ball is perched on the upper left rim of the funnel.
+    The funnel curves steeply downwards towards a central hole at the bottom, which appears to be covered
+    or dark. In the background, there are people and other exhibits.
+  init2final_edit_prompt: Edit the given image to show the steel ball located at the bottom center of
+    the clear funnel, resting near the central hole. Remove the steel ball from its original position
+    on the upper left rim. Keep the funnel structure, background, and lighting identical to the original
+    view.
+  rationale: The ball is nudged along the rim of a gravity well, causing it to spiral downwards due to
+    gravity and friction. The camera performs a significant dolly-out and dolly-in maneuver, which introduces
+    a passage of time. During this interval, the ball's trajectory will carry it down the slope of the
+    funnel. Upon the camera's return to the original viewpoint, the ball will be located significantly
+    lower and closer to the center, likely resting near the bottom cap.
+  questions:
+  - id: ball_moved_from_rim
+    question: Is the steel ball absent from its original position on the upper left rim?
+    answer_type: yes_no
+    notes_for_judge: The ball should no longer be perched on the top edge.
+  - id: ball_lower_height
+    question: Is the steel ball located lower in the funnel than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The ball should be further down the slope of the funnel.
+  - id: ball_closer_center
+    question: Is the steel ball closer to the central hole of the funnel than it was initially?
+    answer_type: yes_no
+    notes_for_judge: The trajectory in a funnel is a spiral inward.
+  - id: ball_visible_inside
+    question: Is the steel ball visible inside the bowl of the funnel?
+    answer_type: yes_no
+    notes_for_judge: It should be inside the concave area, not outside or on the rim.
+  - id: funnel_structure_preserved
+    question: Does the transparent funnel appear to be in the same location and orientation?
+    answer_type: yes_no
+    notes_for_judge: The camera returns to the original viewpoint, so the static object should not move.
+  - id: background_consistency
+    question: Are the windows and radiator in the background still visible?
+    answer_type: yes_no
+    notes_for_judge: Background elements should remain consistent.

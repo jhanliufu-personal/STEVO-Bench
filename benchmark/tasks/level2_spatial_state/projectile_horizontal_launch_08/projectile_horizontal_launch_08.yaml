@@ -1,0 +1,74 @@
+id: projectile_horizontal_launch_08
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: projectile_horizontal_launch
+variation_type: combined
+variation_description: Combines the high-angle launch condition with smoke occlusion.
+changes:
+  occlusion_method: Thick smoke fills the room then clears
+  dynamic_conditions: Cannon angled 45 degrees upwards
+  expected_outcome_change: Ball travels in high arc while obscured by smoke
+prompts:
+  init_frame_edit_prompt: Edit the image to rotate the cannon barrel upwards to a 45-degree angle pointing
+    towards the ceiling.
+  video_WM: The red ball is traveling upward and forward after being launched at a 45-degree angle. Thick
+    white smoke from the cannon blast suddenly billows out, completely filling the frame and obscuring
+    the entire room. The smoke slowly dissipates until the visibility is clear again. No zoom, no cut,
+    no scene change. STOP.
+  camera_WM: The red ball is traveling upward and forward after being launched at a 45-degree angle. Thick
+    white smoke from the cannon blast suddenly billows out, completely filling the frame and obscuring
+    the entire room. The smoke slowly dissipates until the visibility is clear again. No zoom, no cut,
+    no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A brass cannon mounted on a wooden carriage sits on a rustic wooden workbench.
+    A red ball is suspended in mid-air just in front of the cannon's muzzle, traveling upwards and to
+    the right. A puff of white smoke trails the ball from the muzzle. The workbench is cluttered with
+    wood shavings, chisels, and a blueprint with a pencil. In the background, a window is visible on the
+    left, and an open doorway on the right leads to a garage workshop containing tools and cabinets.
+  init2final_edit_prompt: Edit the given image to show the scene after the event has concluded and the
+    air has cleared. Remove the red ball from the air in front of the cannon. Remove the white smoke puff
+    from the muzzle and ensure the air is completely clear of any smoke or haze. The background garage
+    and doorway should be fully visible and unobstructed. Keep the cannon, wooden carriage, workbench,
+    blueprints, and tools unchanged.
+  rationale: The video prompt describes a cannon launch followed by a period where smoke fills the room
+    and then dissipates. Physically, the red ball has initial velocity and momentum; during the significant
+    duration required for smoke to billow and then clear, the ball will have continued along its trajectory,
+    exiting the frame or landing in the distance. It cannot remain hovering near the muzzle. The final
+    state requires the smoke to be gone and the ball to be absent from its starting position due to its
+    kinematic motion over time.
+  questions:
+  - id: ball_displacement_1
+    question: Is the red ball absent from its initial position immediately in front of the cannon muzzle?
+    answer_type: yes_no
+    notes_for_judge: The ball should have moved away due to its initial velocity.
+  - id: ball_displacement_2
+    question: Has the red ball moved away from the area near the cannon?
+    answer_type: yes_no
+    notes_for_judge: The ball must not be hovering in the same spot.
+  - id: smoke_dissipation_1
+    question: Is the white smoke from the initial frame dissipated?
+    answer_type: yes_no
+    notes_for_judge: The prompt states visibility is clear again.
+  - id: smoke_dissipation_2
+    question: Is the view of the background garage through the doorway clear of smoke?
+    answer_type: yes_no
+    notes_for_judge: Visibility should be restored.
+  - id: ball_trajectory
+    question: Is the space directly in front of the cannon muzzle empty?
+    answer_type: yes_no
+    notes_for_judge: The projectile has traveled forward.
+  - id: consistency_cannon
+    question: Is the cannon still present on the workbench?
+    answer_type: yes_no
+    notes_for_judge: The cannon itself should not disappear.
+  - id: consistency_blueprints
+    question: Are the blueprints and pencil still visible on the table?
+    answer_type: yes_no
+    notes_for_judge: Static objects should remain.
+  - id: consistency_shavings
+    question: Are the wood shavings still present on the workbench?
+    answer_type: yes_no
+    notes_for_judge: Static objects should remain.

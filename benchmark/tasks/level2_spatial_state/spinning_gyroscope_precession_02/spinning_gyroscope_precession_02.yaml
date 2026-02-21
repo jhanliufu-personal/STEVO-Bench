@@ -1,0 +1,66 @@
+id: spinning_gyroscope_precession_02
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: spinning_gyroscope_precession
+variation_type: occlusion_method
+variation_description: Replaces camera rotation with a large metal sheet blocking the view.
+changes:
+  occlusion_method: Object blocking (metal sheet)
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics (gyroscope continues precessing)
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The gyroscope is spinning rapidly while its axis slowly circles around the vertical pedestal
+    in a precessional motion. A large, opaque metal sheet slides into the foreground from the right, completely
+    blocking the view of the gyroscope. The sheet then slides back to the right, revealing the pedestal
+    again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The gyroscope is spinning rapidly while its axis slowly circles around the vertical pedestal
+    in a precessional motion. A large, opaque metal sheet slides into the foreground from the right, completely
+    blocking the view of the gyroscope. The sheet then slides back to the right, revealing the pedestal
+    again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A large metal gyroscope with a thick brass rotor and a steel gimbal frame is
+    spinning in a workshop setting. The gyroscope is resting on a pointed pivot on a metal table and is
+    tilted significantly to the left. A hanging metal chain is visible in the left foreground. The background
+    features a white brick wall, shelves, and various workshop tools.
+  init2final_edit_prompt: Edit the image to show the gyroscope tilted in a different direction to simulate
+    precession. Specifically, change the orientation of the gyroscope so that the top of its axis is leaning
+    towards the right side of the image, rather than the left. Keep the bottom pivot point fixed in the
+    exact same location on the table. Ensure the large metal sheet mentioned in the context is not visible.
+    Maintain the original background, the hanging chain on the left, and the lighting conditions.
+  rationale: The gyroscope is undergoing precession, meaning its axis of rotation traces a cone around
+    the vertical direction due to torque from gravity. During the occlusion by the metal sheet, the gyroscope
+    continues to precess. When the sheet is removed, the gyroscope should be visible again but oriented
+    at a different azimuthal angle (e.g., leaning in a different direction) while maintaining its spin
+    and stability on the pivot. The pivot point itself does not move.
+  questions:
+  - id: gyro_orientation_change
+    question: Is the top of the gyroscope pointing in a different direction than it was in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: The gyroscope should have precessed, changing the direction of its tilt (e.g., from
+      left to right, or towards the camera).
+  - id: gyro_top_position_shift
+    question: Has the upper part of the gyroscope moved to a new position relative to the background?
+    answer_type: yes_no
+    notes_for_judge: Due to precession, the top of the axis moves in a circle while the bottom stays fixed.
+  - id: sheet_absence
+    question: Is the view of the gyroscope unobstructed by the metal sheet?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the sheet slides back, revealing the gyroscope.
+  - id: pivot_stability
+    question: Is the bottom pivot of the gyroscope still located at the same point on the table?
+    answer_type: yes_no
+    notes_for_judge: Precession rotates the axis around the pivot; the pivot itself should not slide across
+      the table.
+  - id: gyro_upright_stability
+    question: Is the gyroscope still standing on its pivot (not fallen over)?
+    answer_type: yes_no
+    notes_for_judge: A spinning gyroscope maintains stability; it should not be lying flat on the table.
+  - id: chain_persistence
+    question: Is the hanging chain on the left still visible?
+    answer_type: yes_no
+    notes_for_judge: The chain is a static background element and should remain.

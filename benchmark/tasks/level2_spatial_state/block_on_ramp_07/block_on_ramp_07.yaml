@@ -1,0 +1,67 @@
+id: block_on_ramp_07
+level: 2
+category: kinematics
+tags: []
+variant_of: block_on_ramp
+variation_type: combined
+variation_description: High friction surface combined with lights-off occlusion.
+changes:
+  occlusion_method: Room lights turn off completely.
+  dynamic_conditions: Ramp surface is rough sandpaper (high friction).
+  expected_outcome_change: Block stays stationary due to friction.
+prompts:
+  init_frame_edit_prompt: Edit the image to change the surface texture of the metal ramp to look like
+    rough, coarse sandpaper.
+  video_WM: Single continuous take, no cuts or zoom. The block is resting on an inclined ramp covered
+    in rough, coarse sandpaper which provides high friction. The block is not glued. Suddenly, all lights
+    in the room turn off, plunging the scene into pitch-black darkness. While the scene is invisible,
+    the physical interaction between the block and the rough surface continues naturally. After several
+    seconds, the lights turn back on, illuminating the scene again.
+  camera_WM: Single continuous take, no cuts or zoom. The block is resting on an inclined ramp covered
+    in rough, coarse sandpaper which provides high friction. The block is not glued. Suddenly, all lights
+    in the room turn off, plunging the scene into pitch-black darkness. While the scene is invisible,
+    the physical interaction between the block and the rough surface continues naturally. After several
+    seconds, the lights turn back on, illuminating the scene again.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A rectangular wooden block rests on an inclined metal ramp covered with a sheet
+    of coarse, brown sandpaper. A metal screw or stop mechanism is visible at the very top of the ramp,
+    slightly above the block. The ramp is placed on a light-colored wooden table. In the background, a
+    window and laboratory shelving with glass doors are visible.
+  init2final_edit_prompt: Edit the given image to show the wooden block in the exact same position on
+    the ramp. The block must not slide down the slope. Maintain the original lighting, shadows, and background
+    details, ensuring the block remains stationary relative to the sandpaper texture and the top screw.
+  rationale: The prompt describes the block as 'resting' on a ramp covered in 'rough, coarse sandpaper
+    which provides high friction'. Physically, 'resting' implies the initial velocity is zero. Since the
+    surface is explicitly described as high-friction, the static friction force is sufficient to counteract
+    the component of gravity pulling the block down the incline. Without any external force applied to
+    overcome this static friction, the block will remain in static equilibrium. Therefore, after the lights
+    turn back on, the block should be in the exact same position.
+  questions:
+  - id: pos_static_01
+    question: Is the wooden block in the same position on the ramp as it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The block should not have moved.
+  - id: pos_gap_02
+    question: Is the distance between the top of the wooden block and the metal screw at the top of the
+      ramp unchanged?
+    answer_type: yes_no
+    notes_for_judge: Check the gap between the block and the stop mechanism.
+  - id: pos_height_03
+    question: Has the block remained at the same height on the incline without sliding down?
+    answer_type: yes_no
+    notes_for_judge: The block should not be lower on the ramp.
+  - id: pos_texture_04
+    question: Is the block covering the same patch of sandpaper texture as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Use the sandpaper grain patterns as reference points.
+  - id: orientation_05
+    question: Is the orientation of the block still parallel to the sides of the ramp?
+    answer_type: yes_no
+    notes_for_judge: It should not have rotated.
+  - id: lighting_06
+    question: Is the scene illuminated similarly to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the lights turn back on.

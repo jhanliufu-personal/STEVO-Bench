@@ -1,0 +1,76 @@
+id: marble_helix_descent_04
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: marble_helix_descent
+variation_type: dynamic_condition
+variation_description: Track surface changed from smooth acrylic to rough/sticky texture.
+changes:
+  occlusion_method: null
+  dynamic_conditions: The track is coated with a rough, sticky residue, significantly increasing friction.
+  expected_outcome_change: Marble moves much slower or stops partway down.
+prompts:
+  init_frame_edit_prompt: Edit the image to make the transparent track surface appear frosted and rough,
+    with a visible sticky texture, instead of smooth and clear.
+  video_WM: The marble is released from the top entrance of the helical track. The marble is free to move
+    along the grooved helical path. The track provides lateral constraint but allows motion along the
+    spiral. Gravity acts on the marble. The helical path is coated with a rough, sticky residue that creates
+    high friction against the marble. The track descends vertically through multiple spiral turns from
+    top to bottom. The camera rotates right at constant speed until the helical track completely exits
+    the view to the right. The camera continues rotating right for several seconds while the marble remains
+    off-screen in the track. Then the camera rotates left smoothly at the same rate back to the original
+    viewpoint, bringing the helical track back into view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The marble is released from the top entrance of the helical track. The marble is free to
+    move along the grooved helical path. The track provides lateral constraint but allows motion along
+    the spiral. Gravity acts on the marble. The helical path is coated with a rough, sticky residue that
+    creates high friction against the marble. The track descends vertically through multiple spiral turns
+    from top to bottom during the occlusion period. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A close-up shot of a translucent, 3D-printed or ice-like helical marble run
+    track standing on a wooden workbench. A blue and green swirl marble sits at the very top entrance
+    cup of the spiral. The track has roughly four spiral turns descending vertically. The background shows
+    a blurred workshop environment with tools hanging on a pegboard and a window.
+  init2final_edit_prompt: Edit the given image to show the marble located on one of the middle or lower
+    turns of the helical track. Remove the marble from the top entrance cup where it was initially sitting.
+    Ensure the marble appears to be resting on or rolling down the grooved path of the spiral at a lower
+    height than the start. Keep the track, table, and background exactly as they are.
+  rationale: The video prompt describes a sequence where the marble is released and gravity acts upon
+    it, causing it to descend the track. Although the track has high friction, the duration of the camera
+    movement (rotating away for several seconds and then returning) provides ample time for the marble
+    to travel downwards. The high friction implies the marble likely remains on the track rather than
+    flying off or reaching the bottom instantly, but it will certainly have moved from the starting position.
+    Therefore, in the final frame, the marble must be visible at a lower point on the helix, and the top
+    position must be empty.
+  questions:
+  - id: marble_descended
+    question: Is the marble located at a lower vertical position than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the marble's height relative to the track structure. It should be lower than
+      the top cup.
+  - id: top_empty
+    question: Is the top entrance cup of the helical track empty?
+    answer_type: yes_no
+    notes_for_judge: The marble starts at the very top; it should no longer be there.
+  - id: marble_on_track
+    question: Is the marble visible somewhere on the spiral path below the starting point?
+    answer_type: yes_no
+    notes_for_judge: The marble should be on the middle or lower turns of the helix.
+  - id: closer_to_table
+    question: Is the marble closer to the wooden table surface than it was initially?
+    answer_type: yes_no
+    notes_for_judge: Vertical displacement check.
+  - id: motion_consistency
+    question: Has the marble moved along the trajectory of the spiral track?
+    answer_type: yes_no
+    notes_for_judge: The new position should be consistent with following the spiral path downwards.
+  - id: track_stationary
+    question: Is the helical track standing in the same position on the table?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: background_consistency
+    question: Are the tools in the background still in the same arrangement?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

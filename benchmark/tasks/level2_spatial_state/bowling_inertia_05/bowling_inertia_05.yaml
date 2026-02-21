@@ -1,0 +1,61 @@
+id: bowling_inertia_05
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: bowling_inertia
+variation_type: dynamic_condition
+variation_description: The lane is tilted upwards, creating a steep incline.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Lane is inclined upwards (gravity opposes motion)
+  expected_outcome_change: Ball slows down rapidly, stops, and potentially rolls backward.
+prompts:
+  init_frame_edit_prompt: Edit the image so the bowling lane is tilted upwards at a steep angle, creating
+    an uphill ramp.
+  video_WM: The bowling ball is rolling up a steep, polished wooden ramp. Gravity is acting against the
+    ball's upward momentum. The camera rotates right until the ball completely exits the view, then rotates
+    toward the left smoothly at the same rate until the ramp is back in the center of view. No zoom, no
+    cut, no scene change. STOP.
+  camera_WM: The bowling ball is rolling up a steep, polished wooden ramp. Gravity is acting against the
+    ball's upward momentum. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up, low-angle view of a black, marbled bowling ball centered in the
+    immediate foreground on a polished wooden bowling lane. The lane extends into the distance towards
+    a set of white bowling pins. Gutters are visible on either side of the lane.
+  init2final_edit_prompt: Edit the given image to move the black bowling ball further down the lane, closer
+    to the pins in the background. Reduce the size of the ball significantly to account for perspective
+    as it moves away from the viewer. Show the empty polished wooden lane texture in the foreground where
+    the ball was originally positioned.
+  rationale: The prompt establishes that the ball is rolling 'up' the ramp (away from the camera) with
+    initial momentum. Although gravity acts against it, the ball is in motion away from the viewpoint.
+    During the time the camera rotates right and then returns left to the center, the ball continues its
+    trajectory along the lane. Therefore, in the final frame, the ball must be positioned further away
+    from the camera (closer to the pins) and appear smaller due to perspective.
+  questions:
+  - id: pos_depth_01
+    question: Is the bowling ball positioned further down the lane than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The ball should be closer to the pins/vanishing point.
+  - id: pos_size_02
+    question: Is the apparent size of the bowling ball smaller than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Perspective dictates the ball shrinks as it moves away.
+  - id: pos_foreground_03
+    question: Is the immediate foreground (bottom center) empty of the bowling ball?
+    answer_type: yes_no
+    notes_for_judge: The ball started at the very bottom edge; it should have moved forward, leaving this
+      space empty.
+  - id: pos_height_04
+    question: Is the bowling ball located higher in the image frame (closer to the horizon) than initially?
+    answer_type: yes_no
+    notes_for_judge: As objects move away on a ground plane, they move 'up' in the 2D image coordinates.
+  - id: obj_permanence_05
+    question: Is the bowling ball still visible on the lane?
+    answer_type: yes_no
+    notes_for_judge: The ball should not have disappeared completely, just moved.
+  - id: bg_consistency_06
+    question: Are the bowling pins in the background still visible?
+    answer_type: yes_no
+    notes_for_judge: The background environment should remain consistent.

@@ -1,0 +1,68 @@
+id: bowling_inertia_03
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: bowling_inertia
+variation_type: occlusion_method
+variation_description: Thick theatrical fog obscures the lane.
+changes:
+  occlusion_method: Fog/smoke
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The bowling ball is in motion on the polished lane. The surface is treated with oil and offers
+    minimal rolling resistance. Thick theatrical smoke suddenly blasts across the lane, completely obscuring
+    the ball and the track in a dense white cloud. The smoke slowly dissipates until the lane is visible
+    again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The bowling ball is in motion on the polished lane. The surface is treated with oil and offers
+    minimal rolling resistance. Thick theatrical smoke suddenly blasts across the lane, completely obscuring
+    the ball and the track in a dense white cloud. The smoke slowly dissipates until the lane is visible
+    again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up, low-angle view of a black, marbled bowling ball positioned in the
+    center of a polished wooden bowling lane. The lane extends into the distance with gutters on either
+    side, leading to a set of white bowling pins in the background. Reflections of overhead lights are
+    visible on the oily lane surface.
+  init2final_edit_prompt: Edit the given image to show the bowling ball positioned significantly further
+    down the lane, much closer to the pins in the background. The ball should appear smaller due to perspective
+    distance. The immediate foreground area where the ball was originally located should now be empty,
+    showing only the polished wooden lane surface. Maintain the original lighting, reflections, and the
+    arrangement of the pins in the background.
+  rationale: The video prompt establishes that the bowling ball is in motion on a low-friction surface.
+    Although thick smoke temporarily obscures the view, the laws of physics (inertia and momentum) dictate
+    that the ball continues to roll forward during the occlusion. When the smoke dissipates, the ball
+    must be located further down the lane (closer to the pins) and appear smaller due to perspective,
+    rather than remaining in its initial foreground position.
+  questions:
+  - id: bowling_pos_01
+    question: Is the bowling ball further down the lane than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the ball's position relative to the gutters and pins. It should be deeper
+      in the scene.
+  - id: bowling_pos_02
+    question: Is the bowling ball closer to the pins than its starting position?
+    answer_type: yes_no
+    notes_for_judge: The distance between the ball and the pins should have decreased.
+  - id: bowling_size_03
+    question: Does the bowling ball appear smaller than in the initial frame due to perspective?
+    answer_type: yes_no
+    notes_for_judge: As the object moves away from the camera, its apparent size should decrease.
+  - id: bowling_empty_04
+    question: Is the immediate foreground, where the ball was initially located, now empty?
+    answer_type: yes_no
+    notes_for_judge: The spot occupied by the ball in the first frame should now show the lane surface.
+  - id: bowling_motion_05
+    question: Has the bowling ball moved away from the camera?
+    answer_type: yes_no
+    notes_for_judge: Check for movement along the Z-axis (depth).
+  - id: bowling_lane_06
+    question: Is the lane surface visible again without being obscured by smoke?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the smoke dissipates; the view should be clear.
+  - id: bowling_pins_07
+    question: Are the bowling pins still visible in the background?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

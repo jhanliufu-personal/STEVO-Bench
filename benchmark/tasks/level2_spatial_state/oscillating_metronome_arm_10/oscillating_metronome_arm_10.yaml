@@ -1,0 +1,66 @@
+id: oscillating_metronome_arm_10
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: oscillating_metronome_arm
+variation_type: combined
+variation_description: Combined fog occlusion with slow tempo condition (weight at top).
+changes:
+  occlusion_method: Thick fog fills the space
+  dynamic_conditions: Weight at top of rod implies slow tempo
+  expected_outcome_change: Oscillation is slower than original
+prompts:
+  init_frame_edit_prompt: Edit the image to move the sliding metal weight on the metronome's pendulum
+    arm to the very top position of the rod.
+  video_WM: The metronome arm is released. With the sliding weight positioned at the very top of the rod,
+    the arm begins a slow, sweeping oscillation. Dense steam fills the air, creating a whiteout that completely
+    hides the metronome. The steam slowly dissipates until the view is clear again. No zoom, no cut, no
+    scene change. STOP.
+  camera_WM: The metronome arm is released. With the sliding weight positioned at the very top of the
+    rod, the arm begins a slow, sweeping oscillation. Dense steam fills the air, creating a whiteout that
+    completely hides the metronome. The steam slowly dissipates until the view is clear again. No zoom,
+    no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up shot of a wooden box containing a brass clockwork mechanism. A vertical
+    metal pendulum rod hangs from the mechanism, featuring a rectangular sliding weight near the top and
+    a cylindrical brass bob at the bottom. The box has an open wooden door on the right side. The setup
+    sits on a wooden workbench cluttered with tools like screwdrivers and files. A window providing natural
+    light is visible in the background.
+  init2final_edit_prompt: Edit the given image to show the pendulum arm in a tilted position, angled significantly
+    to the right. Ensure the sliding rectangular weight is positioned at the very top of the metal rod,
+    just below the suspension point. The scene must be completely clear, sharp, and free of any steam
+    or fog. Keep the wooden box, tools, and background exactly as they are.
+  rationale: The video prompt describes a sequence where the pendulum arm is released and oscillates.
+    Although steam temporarily obscures the view, the prompt specifies that it dissipates, leaving the
+    view clear again by the end. Therefore, the final state must show the scene without steam. Since the
+    arm is oscillating, the final frame should capture it in a displaced position (angled away from the
+    vertical center) to represent the motion. The sliding weight is specified to be at the top of the
+    rod.
+  questions:
+  - id: arm_angle_change
+    question: Is the pendulum arm angled away from the vertical center?
+    answer_type: yes_no
+    notes_for_judge: The arm should be tilted to the left or right, not hanging straight down.
+  - id: bob_displacement
+    question: Is the brass bob at the bottom of the rod horizontally displaced from its initial central
+      position?
+    answer_type: yes_no
+    notes_for_judge: Check if the bottom weight has moved to the side.
+  - id: steam_cleared
+    question: Is the image clear of any steam or fog?
+    answer_type: yes_no
+    notes_for_judge: The view should be sharp, indicating the steam mentioned in the prompt has dissipated.
+  - id: weight_position
+    question: Is the sliding rectangular weight positioned near the top of the pendulum rod?
+    answer_type: yes_no
+    notes_for_judge: The weight should be on the upper portion of the rod, near the mechanism.
+  - id: door_consistency
+    question: Is the wooden door on the right side of the box still open?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: tools_consistency
+    question: Are the tools on the workbench in the same position as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

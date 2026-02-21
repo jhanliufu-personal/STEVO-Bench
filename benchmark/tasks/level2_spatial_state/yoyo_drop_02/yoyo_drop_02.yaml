@@ -1,0 +1,68 @@
+id: yoyo_drop_02
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: yoyo_drop
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to lights turning off.
+changes:
+  occlusion_method: Lights turn off completely.
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The yo-yo is released from the hand. The end of the string remains fixed in the air. The yo-yo
+    is free to move toward the floor. The lights in the room turn off completely, plunging the scene into
+    total darkness. After a duration, the lights turn back on. No zoom, no cut, no scene change. STOP.
+  camera_WM: The yo-yo is released from the hand. The end of the string remains fixed in the air. The
+    yo-yo is free to move toward the floor. The lights in the room turn off completely, plunging the scene
+    into total darkness. After a duration, the lights turn back on. No zoom, no cut, no scene change.
+    STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up shot of a large, silver metallic yo-yo suspended in the air by a
+    white string. The string is thickly wound around the yo-yo's axle. The top of the string is held by
+    a hand, partially visible at the very top edge. The background is a blurred industrial workshop with
+    a concrete floor, metal walls, and a bright window in the distance.
+  init2final_edit_prompt: Edit the given image to show the silver yo-yo positioned significantly lower
+    in the frame, closer to the floor. Extend the white string vertically from the top edge down to the
+    new, lower position of the yo-yo, making the visible segment of the string longer. Keep the industrial
+    workshop background and the lighting identical to the original image.
+  rationale: The video prompt describes the yo-yo being released and allowed to fall under gravity while
+    the string remains fixed at the top. Although the lights turn off and then back on, the final state
+    requires the lights to be on, revealing the result of the physical motion. During the elapsed time
+    (including the period of darkness), the yo-yo will have unwound and descended vertically. Therefore,
+    in the final frame, the yo-yo must be lower than its initial position, and the supporting string must
+    appear longer.
+  questions:
+  - id: yoyo_position_lower
+    question: Is the yo-yo positioned lower in the frame than it was in the initial image?
+    answer_type: yes_no
+    notes_for_judge: Compare the vertical position of the yo-yo center relative to the background landmarks
+      or frame edges.
+  - id: string_length_increase
+    question: Is the visible length of the string extending from the top of the frame longer than in the
+      initial image?
+    answer_type: yes_no
+    notes_for_judge: The string should extend further down to reach the lowered yo-yo.
+  - id: vertical_displacement
+    question: Has the yo-yo moved downwards towards the concrete floor?
+    answer_type: yes_no
+    notes_for_judge: Check for downward displacement.
+  - id: gap_top_increase
+    question: Is the distance between the top edge of the image and the yo-yo greater than initially?
+    answer_type: yes_no
+    notes_for_judge: Spatial check for increased gap at the top.
+  - id: lighting_restored
+    question: Is the scene illuminated, allowing the background details to be seen clearly?
+    answer_type: yes_no
+    notes_for_judge: The prompt states lights turn back on; the image should not be pitch black.
+  - id: object_identity
+    question: Is the metallic yo-yo still present and recognizable?
+    answer_type: yes_no
+    notes_for_judge: Ensure the object hasn't vanished or morphed into something else.
+  - id: background_consistency
+    question: Are the background elements (windows, walls, floor) consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The camera did not move, so the background should be static.

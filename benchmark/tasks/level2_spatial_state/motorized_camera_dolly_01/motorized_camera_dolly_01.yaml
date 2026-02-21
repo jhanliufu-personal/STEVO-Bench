@@ -1,0 +1,71 @@
+id: motorized_camera_dolly_01
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: motorized_camera_dolly
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to a studio flag blocking the lens
+changes:
+  occlusion_method: A large black studio flag (opaque board) moves in front of the lens
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The camera dolly is moving steadily along the straight metal tracks. The motorized drive ensures
+    a constant, unwavering velocity. A crew member moves a large black studio flag close to the camera
+    lens, completely blocking the view of the scene. The flag remains in place for a duration, then is
+    moved away to reveal the scene again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The camera dolly is moving steadily along the straight metal tracks. The motorized drive
+    ensures a constant, unwavering velocity. A crew member moves a large black studio flag close to the
+    camera lens, completely blocking the view of the scene. The flag remains in place for a duration,
+    then is moved away to reveal the scene again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A film studio set featuring a large camera dolly mounted on straight metal tracks
+    running diagonally from the bottom right to the middle left. The dolly carries a professional film
+    camera on a jib arm. A crew member is seated on the dolly operating the camera, and another crew member
+    stands directly behind the dolly. The background consists of a large green screen, black curtains
+    on the left, and a lighting grid on the ceiling with various studio lights suspended above the concrete
+    floor.
+  init2final_edit_prompt: Edit the given image to move the camera dolly, the seated operator, and the
+    standing crew member further down the metal tracks towards the left and background. The dolly should
+    be displaced significantly from its starting position, appearing smaller due to perspective. Reveal
+    the empty metal tracks in the bottom right foreground where the dolly was originally positioned. Keep
+    the studio background, green screen, lighting grid, and floor texture identical to the original.
+  rationale: The prompt states the dolly is moving steadily along the tracks. The occlusion event (black
+    flag) covers the lens for a duration, during which the dolly continues its motion. Physically, the
+    tracks extend into the distance (left/back) but end abruptly in the foreground (right). Therefore,
+    the only valid trajectory for steady motion is away from the camera along the rails. The final frame
+    must show the dolly displaced along this vector.
+  questions:
+  - id: dolly_moved
+    question: Has the camera dolly moved from its initial position?
+    answer_type: yes_no
+    notes_for_judge: Compare the position of the dolly wheels and chassis relative to the tracks and floor
+      marks.
+  - id: dolly_direction
+    question: Is the camera dolly positioned further along the tracks towards the left or background?
+    answer_type: yes_no
+    notes_for_judge: The dolly should have receded into the scene along the rail line.
+  - id: tracks_revealed
+    question: Are the metal tracks in the bottom-right foreground now empty?
+    answer_type: yes_no
+    notes_for_judge: In the initial frame, the dolly covers the start of the tracks. In the final frame,
+      these tracks should be visible and empty.
+  - id: dolly_closer_to_screen
+    question: Is the dolly closer to the green screen background than it was initially?
+    answer_type: yes_no
+    notes_for_judge: Spatial depth check.
+  - id: crew_consistency
+    question: Are the crew members still positioned with the dolly?
+    answer_type: yes_no
+    notes_for_judge: The crew should move with the vehicle.
+  - id: background_static
+    question: Are the overhead studio lights and green screen in the same position as the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The camera viewpoint is static; background elements should not move.
+  - id: not_same_spot
+    question: Is the dolly in the exact same location as the initial frame?
+    answer_type: yes_no
+    notes_for_judge: This should be NO. The prompt implies motion.

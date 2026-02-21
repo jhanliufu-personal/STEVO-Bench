@@ -29,7 +29,7 @@ class VeoRunner(WorldModelRunner):
             raise EnvironmentError(
                 f"[{name}] Missing required environment variable: {api_key_env}"
             )
-        self.model_id: str = config.get("model_id", "veo-3-0-generate-001")
+        self.model_id: str = config.get("model_id", "veo-3.1-fast-generate-preview")
         self.poll_interval: int = int(config.get("poll_interval", 10))
         self.timeout: int = int(config.get("timeout", 600))
 
@@ -50,14 +50,24 @@ class VeoRunner(WorldModelRunner):
             # Build optional conditioning image
             image = None
             if init_frame and init_frame.exists():
-                image = types.Image.from_file(str(init_frame))
+                mime_type = (
+                    "image/png" if init_frame.suffix.lower() == ".png" else "image/jpeg"
+                )
+                image = types.Image(
+                    image_bytes=init_frame.read_bytes(),
+                    mime_type=mime_type,
+                )
 
             # Submit async generation job
             operation = client.models.generate_videos(
                 model=self.model_id,
                 prompt=prompt,
                 image=image,
-                config=types.GenerateVideoConfig(number_of_videos=1),
+                config=types.GenerateVideosConfig(
+                    number_of_videos=1,
+                    aspect_ratio="9:16",
+                    resolution="720p"
+                ),
             )
 
             # Poll until done or timeout
@@ -72,15 +82,24 @@ class VeoRunner(WorldModelRunner):
                     )
                     return False
 
-            videos = operation.response.generated_videos
-            if not videos:
+            # videos = operation.response.generated_videos
+            # if not videos:
+            #     print(f"[{self.name}] No videos returned for task {task_id}")
+            #     return False
+
+            # output_path.parent.mkdir(parents=True, exist_ok=True)
+            # client.files.download(
+            #     file=videos[0].video # , download_path=str(output_path)
+            # )
+
+            generated_video = operation.response.generated_videos[0]
+            if not generated_video:
                 print(f"[{self.name}] No videos returned for task {task_id}")
                 return False
 
-            output_path.parent.mkdir(parents=True, exist_ok=True)
-            client.files.download(
-                file=videos[0].video, download_path=str(output_path)
-            )
+            client.files.download(file=generated_video.video)
+            generated_video.video.save(str(output_path))
+
             return True
 
         except Exception as e:

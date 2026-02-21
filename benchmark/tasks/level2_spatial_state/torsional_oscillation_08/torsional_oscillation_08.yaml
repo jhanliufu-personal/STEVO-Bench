@@ -1,0 +1,66 @@
+id: torsional_oscillation_08
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: torsional_oscillation
+variation_type: combined
+variation_description: Thicker wire (faster oscillation) combined with lights-out occlusion.
+changes:
+  occlusion_method: Lights turn off.
+  dynamic_conditions: Thicker, stiffer wire.
+  expected_outcome_change: Oscillation frequency increases.
+prompts:
+  init_frame_edit_prompt: Edit the image to make the suspension wire significantly thicker and more robust,
+    while keeping the twisted appearance.
+  video_WM: The disk is released from its twisted position, suspended by a thick, heavy-duty steel cable.
+    The stiffness of the cable creates a strong restorative torque. The lights in the workshop suddenly
+    turn off, leaving the screen pitch black. After a few seconds, the lights turn back on. No zoom, no
+    cut, no scene change. STOP.
+  camera_WM: The disk is released from its twisted position, suspended by a thick, heavy-duty steel cable.
+    The stiffness of the cable creates a strong restorative torque. The lights in the workshop suddenly
+    turn off, leaving the screen pitch black. After a few seconds, the lights turn back on. No zoom, no
+    cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A heavy, circular brass disk suspended by a thick steel cable in a workshop
+    setting. The cable above the disk is significantly twisted, showing a distinct helical structure where
+    one strand is wrapped loosely and widely around the central axis, indicating stored torsional energy.
+    The background features a window with natural light and wooden walls with tools.
+  init2final_edit_prompt: Edit the given image to show the steel cable untwisted. The helical loops of
+    the wire strand wrapped around the central cable should be straightened out, appearing as a standard
+    straight vertical cable supporting the disk. Keep the disk at the same height and the background unchanged.
+  rationale: 'The video prompt describes a torsional pendulum system where a twisted cable releases its
+    stored energy, causing the disk to spin and the cable to untwist. The blackout period covers the duration
+    of the motion. When the lights return, the physical state of the system will have evolved: the restorative
+    torque will have caused the cable to unwind, removing the distinct helical loops seen in the initial
+    frame. The disk remains suspended at the same height, but the cable''s geometry changes from twisted
+    to straight (or significantly less twisted).'
+  questions:
+  - id: cable_unwound
+    question: Has the helical twisting of the cable been reduced or removed?
+    answer_type: yes_no
+    notes_for_judge: Compare the cable structure above the disk. In the initial frame, it has large, loose
+      loops. In the final frame, these should be unwound or straighter.
+  - id: cable_straightness
+    question: Does the cable appear straighter than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The initial cable is bent into a spiral/helix. The final cable should be more vertical
+      and linear.
+  - id: loops_gone
+    question: Are the distinct large loops in the cable wire absent or significantly smaller?
+    answer_type: yes_no
+    notes_for_judge: Focus on the specific geometry of the wire strands.
+  - id: disk_height_invariant
+    question: Is the disk suspended at approximately the same height as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The disk should not have fallen or moved up significantly; torsional motion is primarily
+      rotational.
+  - id: lighting_restored
+    question: Is the room illuminated, similar to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the lights turn back on. The image should not be pitch black.
+  - id: disk_presence
+    question: Is the circular disk still visible in the center of the frame?
+    answer_type: yes_no
+    notes_for_judge: Ensures the object hasn't vanished.

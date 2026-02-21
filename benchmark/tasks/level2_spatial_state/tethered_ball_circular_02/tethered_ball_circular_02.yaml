@@ -1,0 +1,67 @@
+id: tethered_ball_circular_02
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: tethered_ball_circular
+variation_type: occlusion_method
+variation_description: A thick cloud of dust obscures the scene instead of camera rotation.
+changes:
+  occlusion_method: Thick dust cloud fills the scene.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The tethered ball is spinning in a horizontal circle at a constant angular velocity. The tension
+    in the string maintains its orbital path. A sudden gust of wind kicks up a thick, opaque cloud of
+    brown dust that completely obscures the pole and ball. The dust lingers for a moment before settling
+    and clearing the view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The tethered ball is spinning in a horizontal circle at a constant angular velocity. The
+    tension in the string maintains its orbital path. A sudden gust of wind kicks up a thick, opaque cloud
+    of brown dust that completely obscures the pole and ball. The dust lingers for a moment before settling
+    and clearing the view. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A vertical wooden pole is planted in a dirt field. A red ball is attached to
+    the pole by a taut horizontal string. The ball is suspended in the air to the left of the pole and
+    appears to be in motion, indicated by slight motion blur. The background is a blurred field with dry
+    ground.
+  init2final_edit_prompt: Edit the given image to show the red ball at a new position on the right side
+    of the wooden pole, simulating that it has continued its circular path. Ensure the string remains
+    taut and connected between the pole and the ball. The scene must be sharp and clear, with no dust
+    or obstruction obscuring the view.
+  rationale: The prompt describes a ball spinning at constant angular velocity. A dust cloud temporarily
+    obscures the view but then clears. During the time the view was obscured, the ball continued to spin.
+    Therefore, in the final frame, the ball must be visible again (dust cleared) but at a different position
+    along its circular orbit (due to elapsed time). The physical constraints (taut string, attachment
+    to pole) must remain intact.
+  questions:
+  - id: ball_visible
+    question: Is the red ball visible in the frame?
+    answer_type: yes_no
+    notes_for_judge: The dust should have cleared, revealing the ball.
+  - id: ball_moved
+    question: Is the red ball at a different position relative to the pole than it was in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: The ball should have moved along its circular path.
+  - id: string_angle_change
+    question: Is the string pointing in a different direction than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: As the ball orbits, the angle of the tether must change.
+  - id: dust_cleared
+    question: Is the view clear of the thick brown dust mentioned in the prompt?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the dust settles and clears.
+  - id: string_taut
+    question: Is the string connecting the ball to the pole still taut?
+    answer_type: yes_no
+    notes_for_judge: Centripetal force keeps the string taut during circular motion.
+  - id: ball_suspended
+    question: Is the ball suspended in the air rather than resting on the ground?
+    answer_type: yes_no
+    notes_for_judge: The horizontal circular motion implies the ball stays aloft.
+  - id: pole_invariant
+    question: Is the wooden pole still standing vertically?
+    answer_type: yes_no
+    notes_for_judge: The pole is a stationary anchor.

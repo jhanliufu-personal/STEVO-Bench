@@ -1,0 +1,64 @@
+id: torsional_oscillation_06
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: torsional_oscillation
+variation_type: dynamic_condition
+variation_description: The disk material is changed to wood, implying lower mass/inertia.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Lighter wooden disk (lower moment of inertia).
+  expected_outcome_change: Oscillation frequency increases significantly (much faster rotation).
+prompts:
+  init_frame_edit_prompt: Edit the image to change the material of the disk from brass to light-colored
+    pine wood.
+  video_WM: A lightweight wooden disk is released from the twisted position. Its low mass moment of inertia
+    offers little resistance to the torque. The camera rotates right until the disk completely exits the
+    view, then rotates toward the left smoothly at the same rate until the top of the wire is back in
+    the center of view. No zoom, no cut, no scene change. STOP.
+  camera_WM: A lightweight wooden disk is released from the twisted position. Its low mass moment of inertia
+    offers little resistance to the torque. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A thick, light-colored wooden disk suspended horizontally by a vertical metal
+    wire in a workshop setting. The wire above the disk is twisted into a distinct, tight spiral or helical
+    shape, indicating stored torsional energy. On the front vertical edge of the disk, slightly to the
+    left of the center, there is a visible dark knot in the wood grain. A bright window with a grid frame
+    is visible in the background on the left side.
+  init2final_edit_prompt: Edit the given image to show the wooden disk rotated around its vertical axis,
+    placing the dark knot on the rim in a different position or hiding it from view. Modify the twisted
+    wire suspension to appear unwound, looser, or straightened, reducing the tightness of the spiral pattern.
+  rationale: 'The video depicts a torsional pendulum being released. The initial twisted state of the
+    wire exerts a torque on the disk, causing it to spin and the wire to untwist as time passes. The camera
+    pans right (moving the object out of view to the left) and then pans left back to the original orientation.
+    Therefore, in the final frame, the object should be back in the center of the view (due to the camera
+    return), but its physical state will have changed: the disk will have rotated (shifting the texture/knot
+    position) and the wire will have untwisted (appearing straighter or less spiraled).'
+  questions:
+  - id: disk_visible
+    question: Is the wooden disk visible in the frame?
+    answer_type: yes_no
+    notes_for_judge: The camera rotates back to the center, so the object should be visible again.
+  - id: wire_centered
+    question: Is the top of the wire positioned near the horizontal center of the frame?
+    answer_type: yes_no
+    notes_for_judge: The prompt specifies the camera rotates until the top of the wire is back in the
+      center.
+  - id: knot_moved
+    question: Has the dark knot on the front edge of the disk moved from its initial position?
+    answer_type: yes_no
+    notes_for_judge: The disk spins as the wire untwists, so the surface features must rotate.
+  - id: wire_untwisted
+    question: Does the wire suspension appear less tightly twisted or straightened compared to the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: The physical action is releasing a twisted wire, which will untwist.
+  - id: window_consistency
+    question: Is the window on the left side still visible?
+    answer_type: yes_no
+    notes_for_judge: The camera returns to the initial view, so the background context should remain.
+  - id: spiral_change
+    question: Is the spiral pattern of the wire different than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The wire changes shape as it unwinds.

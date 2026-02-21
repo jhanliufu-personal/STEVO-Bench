@@ -1,0 +1,70 @@
+id: bicycle_wheel_freespin_06
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: bicycle_wheel_freespin
+variation_type: dynamic_condition
+variation_description: High air drag due to flaps in spokes.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Cards in spokes create high air resistance.
+  expected_outcome_change: Wheel decelerates rapidly due to drag.
+prompts:
+  init_frame_edit_prompt: Edit the image to show playing cards attached to the metal stand with clothespins,
+    positioned so they flap against the spokes.
+  video_WM: The wheel spins with playing cards clipped to the frame striking the spokes as they turn,
+    creating high air resistance and mechanical drag. The axle bearing has standard friction. No external
+    torque is applied. The camera rotates right at constant speed until the wheel completely exits the
+    view to the right. The camera continues rotating right for several seconds while the wheel remains
+    off-screen. Then the camera rotates left smoothly at the same rate back to the original viewpoint.
+    No zoom, no cut, no scene change. STOP.
+  camera_WM: The wheel spins with playing cards clipped to the frame striking the spokes as they turn,
+    creating high air resistance and mechanical drag. The axle bearing has standard friction. No external
+    torque is applied. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A horizontal bicycle wheel mounted on a metal stand in a workshop. The wheel
+    is spinning, evidenced by significant radial motion blur on the spokes. Two playing cards (Ace of
+    Spades and Queen of Hearts) are clipped to a stationary metal arm above the wheel with wooden clothespins,
+    positioned to strike the spokes. A third playing card is lying flat on the spinning spokes, appearing
+    blurred due to the rotation.
+  init2final_edit_prompt: Edit the given image to show the bicycle wheel spinning significantly slower
+    or stopped. Reduce or remove the radial motion blur on the spokes so that individual spokes are clearly
+    visible and distinct. Make the playing card lying flat on the spokes appear sharp and detailed, removing
+    the motion blur to reflect the loss of speed. Ensure the two clipped cards and the background remain
+    unchanged.
+  rationale: The wheel is initially spinning but is subjected to high mechanical drag from the playing
+    cards striking the spokes, as well as standard axle friction. Since no external torque is applied
+    to maintain rotation, the wheel's angular velocity must decrease significantly over time. The camera
+    pans away and then returns to the original view after a duration. Therefore, in the final frame, the
+    wheel should be spinning much slower or be completely stopped, visually represented by a reduction
+    or absence of motion blur on the spokes and the card resting on them.
+  questions:
+  - id: blur_reduction
+    question: Is the motion blur on the wheel spokes reduced compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The wheel should slow down, resulting in less blur.
+  - id: spoke_visibility
+    question: Are the individual spokes more distinct and visible than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Slower speed means individual spokes are easier to resolve.
+  - id: card_on_spokes_sharpness
+    question: Does the playing card lying flat on the spokes appear sharper or less blurred than in the
+      initial frame?
+    answer_type: yes_no
+    notes_for_judge: The card on the spokes rotates with the wheel; if the wheel slows, the card's motion
+      blur decreases.
+  - id: apparent_speed
+    question: Does the wheel appear to be spinning slower (or stopped) compared to the initial state?
+    answer_type: yes_no
+    notes_for_judge: General assessment of kinematic state change.
+  - id: clipped_cards_presence
+    question: Are the two playing cards clipped to the metal arm still present?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: background_consistency
+    question: Is the workshop background consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

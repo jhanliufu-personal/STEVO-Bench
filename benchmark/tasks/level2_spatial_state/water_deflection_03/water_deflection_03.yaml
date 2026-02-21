@@ -1,0 +1,69 @@
+id: water_deflection_03
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: water_deflection
+variation_type: occlusion_method
+variation_description: Occlusion changed to thick steam filling the room.
+changes:
+  occlusion_method: Thick steam fills the space, obscuring visibility.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The electric fan is switched to its maximum setting. The horizontal airflow makes direct contact
+    with the falling vertical stream of water. Thick white steam begins to rise rapidly from the bottom
+    of the frame, filling the room until the sink and fan are completely obscured. The steam then dissipates,
+    clearing the view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The electric fan is switched to its maximum setting. The horizontal airflow makes direct
+    contact with the falling vertical stream of water. Thick white steam begins to rise rapidly from the
+    bottom of the frame, filling the room until the sink and fan are completely obscured. The steam then
+    dissipates, clearing the view. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a utility sink area. On the left, a metal faucet
+    is running, producing a vertical stream of water. On the right, a person's hands are holding a black
+    cylindrical industrial fan, pointing it horizontally towards the water stream. The airflow from the
+    fan is hitting the water, causing it to spray and deflect. The background consists of a white tiled
+    wall.
+  init2final_edit_prompt: Edit the given image to show the scene after a period of time has passed. The
+    view should be completely clear, with no steam, fog, or mist obscuring the objects. The water stream
+    from the faucet must still be flowing and should be violently deflected to the left into a spray by
+    the airflow from the fan. The sink basin should appear wetter, with a higher water level accumulated
+    at the bottom compared to the original image.
+  rationale: The video prompt describes a sequence where steam temporarily obscures the view and then
+    dissipates. The final state corresponds to the moment after the steam has cleared. Physically, the
+    water has been running continuously throughout the event, so the water level in the sink should be
+    higher (accumulation). The fan remains at its maximum setting, so the kinematic interaction—the horizontal
+    deflection of the vertical water stream—must be preserved and clearly visible in the final frame.
+    The occlusion is temporary, so the final frame must be clear.
+  questions:
+  - id: water_deflection_check
+    question: Is the vertical water stream being deflected horizontally by the fan?
+    answer_type: yes_no
+    notes_for_judge: Check if the water path bends or breaks into spray due to the fan's airflow.
+  - id: spray_direction
+    question: Is the water spraying towards the left side of the frame?
+    answer_type: yes_no
+    notes_for_judge: The fan is on the right blowing left; the water should move left.
+  - id: visibility_clear
+    question: Is the view clear of the thick steam described in the prompt?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the steam dissipates. The final image should not be foggy or obscured.
+  - id: water_accumulation
+    question: Is the water level in the sink higher than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Since water runs continuously, there should be accumulation or wetter surfaces.
+  - id: fan_presence
+    question: Is the black fan still visible on the right side?
+    answer_type: yes_no
+    notes_for_judge: Object permanence check.
+  - id: faucet_visibility
+    question: Is the metal faucet visible?
+    answer_type: yes_no
+    notes_for_judge: The steam should have cleared, revealing the faucet again.
+  - id: hands_holding_fan
+    question: Are the hands still holding the fan?
+    answer_type: yes_no
+    notes_for_judge: The agent holding the fan should remain consistent.

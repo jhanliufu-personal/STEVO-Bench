@@ -1,0 +1,60 @@
+id: sliding_block_frictionless_00
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: sliding_block_frictionless
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The metal block is sliding rapidly across the polished ice to the right. The surface is nearly
+    frictionless. Camera remains stationary throughout. No zoom, no cut, no scene change. STOP.
+  camera_WM: The metal block is sliding rapidly across the polished ice to the right. The surface is nearly
+    frictionless. Camera remains stationary throughout. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A black robotic arm extends from the left side of the frame, positioning a large,
+    reflective silver cube on a sheet of polished ice. Ice particles and spray are visible at the base
+    of the cube, suggesting motion or impact. The background shows a flat, frozen horizon under a bright
+    sky with sun glare reflecting off the ice.
+  init2final_edit_prompt: Edit the given image to show the silver cube positioned significantly further
+    to the right side of the frame. Create a large area of empty ice between the robotic arm and the cube
+    to indicate separation. Ensure the reflection of the cube on the ice shifts to match its new position
+    on the right. Keep the robotic arm stationary on the left side and maintain the background horizon
+    and lighting.
+  rationale: The prompt specifies that the block is sliding rapidly to the right on a nearly frictionless
+    surface with a stationary camera. Physically, this implies the block will conserve its momentum and
+    translate horizontally across the image plane away from the robotic arm. The final frame must depict
+    the block at a new location to the right, having separated from the arm, while the background and
+    stationary elements remain unchanged.
+  questions:
+  - id: block_moved_right
+    question: Is the silver cube positioned further to the right than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the horizontal position of the cube relative to the background or frame edges.
+  - id: separation_from_arm
+    question: Is there a distinct gap of empty space between the robotic arm and the silver cube?
+    answer_type: yes_no
+    notes_for_judge: In the initial frame, they are touching or nearly touching. In the final frame, there
+      should be separation.
+  - id: distance_increase
+    question: Is the distance between the robotic arm and the cube greater than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The cube should have moved away from the arm.
+  - id: arm_stationary
+    question: Is the robotic arm still positioned on the left side of the frame?
+    answer_type: yes_no
+    notes_for_judge: The camera is stationary, so the arm's base position should not change significantly.
+  - id: reflection_consistency
+    question: Is the reflection of the cube still visible on the ice directly beneath the cube?
+    answer_type: yes_no
+    notes_for_judge: Check for physical consistency of the reflection.
+  - id: block_visible
+    question: Is the silver cube still visible within the frame?
+    answer_type: yes_no
+    notes_for_judge: The block should slide to the right but remain in view for verification.

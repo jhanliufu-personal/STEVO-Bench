@@ -1,0 +1,64 @@
+id: bowling_inertia_01
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: bowling_inertia
+variation_type: occlusion_method
+variation_description: Replaces camera rotation with a 'cosmic bowling' style blackout.
+changes:
+  occlusion_method: Lighting change (lights turn off completely then back on)
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The bowling ball is in motion on the polished lane. The surface is treated with oil and offers
+    minimal rolling resistance. Suddenly, the overhead lights turn off completely, plunging the alley
+    into total darkness for several seconds. Then, the lights turn back on, revealing the lane again.
+    No zoom, no cut, no scene change. STOP.
+  camera_WM: The bowling ball is in motion on the polished lane. The surface is treated with oil and offers
+    minimal rolling resistance. Suddenly, the overhead lights turn off completely, plunging the alley
+    into total darkness for several seconds. Then, the lights turn back on, revealing the lane again.
+    No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up, low-angle perspective of a bowling lane. A large, black, marbled
+    bowling ball is positioned in the immediate foreground, centered on the wooden lane. The lane is highly
+    polished and reflective, with gutters on either side. In the distance, a set of white bowling pins
+    is standing. The lighting creates vertical reflections on the oiled lane surface.
+  init2final_edit_prompt: Edit the given image to move the bowling ball significantly further down the
+    lane towards the pins. The ball should appear smaller due to perspective, positioned closer to the
+    pins than in the original view. The wooden floor in the immediate foreground, where the ball was originally
+    located, should now be empty and show the polished lane surface.
+  rationale: The bowling ball is established as being in motion on a low-friction surface. According to
+    Newton's First Law (inertia), the ball will continue its forward trajectory while the lights are out.
+    Since the occlusion lasts for several seconds, the ball must travel a significant distance away from
+    the camera. When the lights return, the ball should be located further down the lane (appearing smaller
+    due to perspective) or potentially impacting the pins, rather than remaining in the foreground.
+  questions:
+  - id: ball_moved_forward
+    question: Is the bowling ball positioned further down the lane (closer to the pins) than it was in
+      the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The ball should have moved away from the camera.
+  - id: ball_smaller_perspective
+    question: Does the bowling ball appear smaller in the final frame compared to the initial frame, consistent
+      with moving away from the camera?
+    answer_type: yes_no
+    notes_for_judge: Perspective dictates the object shrinks as it recedes.
+  - id: initial_spot_empty
+    question: Is the specific area of the lane where the ball was initially located now empty?
+    answer_type: yes_no
+    notes_for_judge: The foreground should be clear of the ball.
+  - id: ball_closer_to_pins
+    question: Is the distance between the bowling ball and the pins smaller than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The ball travels towards the pins.
+  - id: lane_consistency
+    question: Is the bowling ball still located on the same lane (between the same gutters)?
+    answer_type: yes_no
+    notes_for_judge: It should not have jumped to a neighbor lane.
+  - id: pins_visibility
+    question: Are the bowling pins (or the aftermath of a strike) visible at the end of the lane?
+    answer_type: yes_no
+    notes_for_judge: Verifies the environment is preserved.

@@ -1,0 +1,67 @@
+id: spring_oscillation_06
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: spring_oscillation
+variation_type: dynamic_condition
+variation_description: The spring is rusty and stiff, implying high friction/damping.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Spring is rusty with high internal friction.
+  expected_outcome_change: Rapid decay of oscillation or sluggish movement
+prompts:
+  init_frame_edit_prompt: Edit the image to make the metal spring look heavily rusted, orange, and corroded.
+  video_WM: The weight is released from the pulled-down position. The spring is old, heavily rusted, and
+    has significant internal friction. The camera rotates right until the weight completely exits the
+    view, then rotates toward the left smoothly at the same rate until the ceiling mount is back in the
+    center of view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The weight is released from the pulled-down position. The spring is old, heavily rusted,
+    and has significant internal friction. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A 20kg cylindrical metal weight hangs from a vertical, rusty coil spring. This
+    vertical spring is connected to a horizontal rusty spring assembly near the ceiling. To the right
+    of the weight, a wooden post with a measuring tape attached is visible. A gloved hand is partially
+    visible on the right edge of the frame, near the measuring tape. The background shows the interior
+    of a workshop with windows and tools.
+  init2final_edit_prompt: Edit the given image to show the 20kg weight positioned significantly higher
+    in the frame, closer to the ceiling mount. The vertical spring should appear shorter with its coils
+    compressed closer together, reflecting a retracted state. Remove the gloved hand from the right side
+    of the image.
+  rationale: The video prompt states the weight is released from a pulled-down position. Physically, the
+    restoring force of the spring will pull the weight upward upon release. The prompt also specifies
+    the spring is rusted with significant internal friction, which introduces heavy damping. This means
+    the system will lose energy rapidly and the weight will not return to the initial extreme extension
+    (the pulled-down point) during its oscillation cycles. By the time the camera pans away and returns
+    (a duration of several seconds), the weight will be at a position higher than the initial pulled-down
+    state, likely oscillating with smaller amplitude or settling near its equilibrium point. The camera
+    movement restores the original framing, allowing for a direct spatial comparison.
+  questions:
+  - id: weight_height_check
+    question: Is the 20kg weight positioned higher in the frame than it was in the initial image?
+    answer_type: yes_no
+    notes_for_judge: The weight started at maximum extension (pulled down). In the final frame, it must
+      be higher due to spring retraction.
+  - id: spring_length_check
+    question: Is the vertical spring shorter than it was in the initial image?
+    answer_type: yes_no
+    notes_for_judge: As the weight moves up, the spring must contract/shorten.
+  - id: weight_clearance_check
+    question: Is the distance between the bottom of the weight and the bottom edge of the image larger
+      than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Checks upward displacement relative to the frame boundaries.
+  - id: hand_removal_check
+    question: Is the gloved hand absent from the image?
+    answer_type: yes_no
+    notes_for_judge: The hand released the weight and the camera panned away; the hand should not be interacting
+      in the final state.
+  - id: spring_compression_check
+    question: Do the coils of the vertical spring appear closer together than in the initial view?
+    answer_type: yes_no
+    notes_for_judge: Visual check for spring compression.
+  - id: mount_visibility_check
+    question: Is the ceiling mount visible in the center of the frame?
+    answer_type: yes_no
+    notes_for_judge: Verifies the camera successfully returned to the starting orientation as requested.

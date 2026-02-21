@@ -1,0 +1,67 @@
+id: ball_rolls_off_cliff_04
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: ball_rolls_off_cliff
+variation_type: dynamic_condition
+variation_description: The ball is stationary instead of moving.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Initial velocity set to zero (stationary ball).
+  expected_outcome_change: The ball remains on the table instead of falling off.
+prompts:
+  init_frame_edit_prompt: Edit the image to make the red ball appear completely stationary on the table
+    surface, removing any motion blur if present.
+  video_WM: The ball sits stationary on the table surface near the edge. It has zero velocity and is not
+    moving. The table edge is a sharp drop-off. Gravity acts on the ball, but the table supports it. The
+    camera rotates right at constant speed until the table completely exits the view to the right. The
+    camera continues rotating right for several seconds. Then the camera rotates left smoothly at the
+    same rate back to the original viewpoint. No zoom, no cut, no scene change. STOP.
+  camera_WM: The ball sits stationary on the table surface near the edge. It has zero velocity and is
+    not moving. The table edge is a sharp drop-off. Gravity acts on the ball, but the table supports it.
+    STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A red, textured spherical ball resting on the corner of a worn, light-brown
+    wooden table. To the left, a white window frame is visible. Below the table, a wooden floor and a
+    patterned rug with red and beige tones are visible.
+  init2final_edit_prompt: Edit the given image to show the red ball in the exact same position on the
+    wooden table. The ball should not have moved, rolled, or fallen. The scene should appear identical
+    to the original image.
+  rationale: 'The prompt explicitly states the ball has zero velocity and is stationary. Although gravity
+    acts on it, the table provides support, and there are no unbalanced forces described that would cause
+    motion. Therefore, Newton''s first law applies: the object at rest stays at rest. Despite the camera
+    panning away to occlude the scene and then returning, the physical state of the ball must remain unchanged.
+    The ball should be found in the exact same location upon the camera''s return.'
+  questions:
+  - id: ball_present
+    question: Is the red ball still visible on the table surface?
+    answer_type: yes_no
+    notes_for_judge: Test for object permanence after occlusion.
+  - id: ball_position_static
+    question: Is the red ball in the same position on the table as it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Test for stationarity; the ball should not have moved.
+  - id: ball_not_fallen
+    question: Has the ball remained on the table without falling off the edge?
+    answer_type: yes_no
+    notes_for_judge: Test for correct physics (no phantom forces causing it to roll).
+  - id: ball_corner_proximity
+    question: Is the ball still positioned near the corner of the table?
+    answer_type: yes_no
+    notes_for_judge: Spatial consistency check.
+  - id: ball_edge_distance
+    question: Is the distance between the ball and the table edge approximately the same as in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: Detailed spatial check for movement.
+  - id: rug_visible
+    question: Is the patterned rug still visible on the floor?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: window_visible
+    question: Is the window frame still visible on the left side?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

@@ -1,0 +1,62 @@
+id: rolling_sphere_inclined_plane_07
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: rolling_sphere_inclined_plane
+variation_type: combined
+variation_description: Flat surface (no movement) combined with fog occlusion.
+changes:
+  occlusion_method: Thick fog fills the scene.
+  dynamic_conditions: Surface is horizontal (0 degree incline).
+  expected_outcome_change: The marble remains stationary due to lack of incline.
+prompts:
+  init_frame_edit_prompt: Edit the image so the wooden plank is perfectly horizontal and flat, resting
+    on the grass, rather than inclined.
+  video_WM: The steel marble sits on a flat, horizontal wooden plank. There is no incline to induce movement.
+    Thick white fog rolls in, completely obscuring the plank and marble from view. After a moment, the
+    fog clears to reveal the scene again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The steel marble sits on a flat, horizontal wooden plank. There is no incline to induce movement.
+    Thick white fog rolls in, completely obscuring the plank and marble from view. After a moment, the
+    fog clears to reveal the scene again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A shiny, reflective steel sphere resting on a thick, weathered wooden plank.
+    The plank is positioned horizontally above a grassy field. In the background, out of focus, there
+    is a rural landscape with a barn and trees. The sphere is positioned slightly to the left of the center
+    of the plank's length.
+  init2final_edit_prompt: Edit the given image to show the scene after a duration of time. The steel marble
+    must remain in the exact same position on the wooden plank, as the surface is flat and horizontal.
+    Ensure the marble has not moved left or right. The background, lighting, and wooden texture should
+    remain identical to the original view.
+  rationale: The prompt explicitly states that the plank is flat and horizontal with no incline to induce
+    movement. According to physical laws (Newton's First Law), a heavy steel marble at rest on a flat
+    surface will remain at rest unless acted upon by a significant external force. The fog described in
+    the prompt acts as a visual occluder but does not exert sufficient physical force to move the steel
+    sphere. Therefore, after the fog clears, the spatial state of the system (the position of the marble)
+    must be identical to the initial state.
+  questions:
+  - id: pos_static_01
+    question: Is the steel marble located in the same position on the plank as it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The marble should not have moved left or right along the plank.
+  - id: pos_static_02
+    question: Is the steel marble still positioned slightly to the left of the plank's center?
+    answer_type: yes_no
+    notes_for_judge: Check relative position on the wood.
+  - id: pos_exist_01
+    question: Is the steel marble still visible on the plank?
+    answer_type: yes_no
+    notes_for_judge: It should not have rolled off.
+  - id: pos_relative_01
+    question: Is the distance between the steel marble and the left edge of the plank unchanged?
+    answer_type: yes_no
+    notes_for_judge: Compare the gap between the ball and the near end of the board.
+  - id: pos_texture_01
+    question: Does the steel marble sit on the same area of wood grain as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Use the cracks/knots in the wood as reference points.
+  - id: scene_consistency_01
+    question: Is the background barn still visible in the same location relative to the plank?
+    answer_type: yes_no
+    notes_for_judge: Ensures camera did not move.

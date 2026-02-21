@@ -1,0 +1,64 @@
+id: spring_oscillation_04
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: spring_oscillation
+variation_type: dynamic_condition
+variation_description: Increases the mass of the weight significantly, implying a slower period of oscillation.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Mass increased from 20KG to 100KG.
+  expected_outcome_change: Slower oscillation period (lower frequency)
+prompts:
+  init_frame_edit_prompt: Edit the image to change the text engraved on the weight to read '100 KG' instead
+    of '20 KG'.
+  video_WM: The heavy 100kg weight is released from the pulled-down position. The spring is unchanged,
+    but the increased mass affects the system's inertia. The camera rotates right until the weight completely
+    exits the view, then rotates toward the left smoothly at the same rate until the ceiling mount is
+    back in the center of view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The heavy 100kg weight is released from the pulled-down position. The spring is unchanged,
+    but the increased mass affects the system's inertia. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A heavy cylindrical metal weight labeled '100 KG' hangs from a thick vertical
+    coil spring. The vertical spring is attached to a horizontal spring system near the ceiling. To the
+    right of the weight is a wooden post with a vertical ruler or measuring tape attached, showing a marked
+    line labeled '20cm'. The weight is positioned low in the frame, stretching the vertical spring significantly.
+    The background shows the interior of a workshop with a window on the left and various tools.
+  init2final_edit_prompt: Edit the given image to position the 100kg weight higher in the frame, reducing
+    the distance between the weight and the top ceiling mount. Compress the coils of the vertical spring
+    to make it appear shorter and less extended. Ensure the weight is lifted relative to the markings
+    on the wooden post to the right. Maintain the original background, lighting, and camera perspective.
+  rationale: The prompt states the weight is released from a 'pulled-down' position. Physically, this
+    means the initial frame represents the maximum downward displacement (maximum potential energy). Upon
+    release, the restoring force of the spring will accelerate the weight upward toward its equilibrium
+    position. Even with the camera panning away and returning, the weight will be found at a higher position
+    than the initial extreme low point due to the oscillation cycle and natural damping (energy loss)
+    which prevents it from returning to the full initial extension. Therefore, the final state must show
+    the weight higher and the spring less extended.
+  questions:
+  - id: weight_height_change
+    question: Is the 100kg weight positioned higher in the frame than it was initially?
+    answer_type: yes_no
+    notes_for_judge: The weight starts pulled down; it must move up after release.
+  - id: spring_compression
+    question: Is the vertical coil spring shorter or more compressed than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: As the weight moves up, the spring extension decreases.
+  - id: weight_vs_ceiling
+    question: Is the distance between the top of the weight and the ceiling mount smaller?
+    answer_type: yes_no
+    notes_for_judge: Upward movement reduces this gap.
+  - id: weight_vs_ruler
+    question: Is the top of the weight higher relative to the wooden post on the right?
+    answer_type: yes_no
+    notes_for_judge: Compare the weight's position against the static background post.
+  - id: label_visibility
+    question: Is the '100 KG' label still visible on the weight?
+    answer_type: yes_no
+    notes_for_judge: Consistency check.
+  - id: window_visibility
+    question: Is the window on the left side of the image still visible?
+    answer_type: yes_no
+    notes_for_judge: Consistency check; the camera returns to the center view.

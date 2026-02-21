@@ -1,0 +1,71 @@
+id: block_on_ramp_02
+level: 2
+category: kinematics
+tags: []
+variant_of: block_on_ramp
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera panning to lights turning off.
+changes:
+  occlusion_method: Room lights turn off completely, creating total darkness.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: Single continuous take, no cuts or zoom. The block is resting on a smooth inclined ramp with
+    very low friction. The block is not glued or fixed in place. Suddenly, all lights in the room turn
+    off, plunging the scene into pitch-black darkness. While the scene is invisible, the physical interaction
+    between the block and ramp continues naturally according to gravity and the low-friction surface.
+    After several seconds, the lights turn back on, illuminating the scene again.
+  camera_WM: Single continuous take, no cuts or zoom. The block is resting on a smooth inclined ramp with
+    very low friction. The block is not glued or fixed in place. Suddenly, all lights in the room turn
+    off, plunging the scene into pitch-black darkness. While the scene is invisible, the physical interaction
+    between the block and ramp continues naturally according to gravity and the low-friction surface.
+    After several seconds, the lights turn back on, illuminating the scene again.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A rectangular wooden block rests at the top-left end of a shiny, stainless steel
+    inclined ramp. The ramp is positioned on a light wooden table, sloping downwards from left to right.
+    In the background, there is a laboratory setting with windows and cabinets.
+  init2final_edit_prompt: Edit the given image to move the wooden block from the top-left of the ramp
+    to the bottom-right end of the ramp. The block should be positioned near the lower edge of the incline,
+    appearing to have slid down. Ensure the background, table, and metal ramp structure remain unchanged.
+  rationale: The block is placed on a smooth, low-friction inclined plane and is not fixed in place. Under
+    the influence of gravity, the component of force parallel to the ramp will cause the block to accelerate
+    downwards. During the 'several seconds' of darkness, the block will slide from its initial position
+    at the top (left) towards the bottom (right). Therefore, in the final frame, the block must be located
+    significantly further down the ramp, likely at the bottom edge or having just slid off.
+  questions:
+  - id: position_change
+    question: Is the wooden block in a different position than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The block must have moved from the starting point.
+  - id: direction_down_slope
+    question: Has the wooden block moved downwards along the slope of the ramp?
+    answer_type: yes_no
+    notes_for_judge: The motion must be consistent with gravity pulling it down the incline.
+  - id: direction_right
+    question: Is the wooden block located further to the right than its initial position?
+    answer_type: yes_no
+    notes_for_judge: Since the ramp slopes down to the right, the block must move right.
+  - id: displacement_magnitude
+    question: Is the wooden block closer to the bottom edge of the ramp than the top edge?
+    answer_type: yes_no
+    notes_for_judge: After several seconds, it should have traversed most or all of the ramp.
+  - id: initial_spot_empty
+    question: Is the area at the top of the ramp, where the block started, now empty?
+    answer_type: yes_no
+    notes_for_judge: The block should no longer be at the starting position.
+  - id: vertical_height
+    question: Is the wooden block lower in vertical height relative to the table than it was initially?
+    answer_type: yes_no
+    notes_for_judge: It must move down the incline.
+  - id: ramp_consistency
+    question: Is the metal ramp structure unchanged?
+    answer_type: yes_no
+    notes_for_judge: The environment should be static.
+  - id: background_consistency
+    question: Are the windows and cabinets in the background unchanged?
+    answer_type: yes_no
+    notes_for_judge: The background should be static.

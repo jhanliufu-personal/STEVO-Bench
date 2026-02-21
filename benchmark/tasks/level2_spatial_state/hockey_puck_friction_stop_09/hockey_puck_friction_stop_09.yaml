@@ -1,0 +1,65 @@
+id: hockey_puck_friction_stop_09
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: hockey_puck_friction_stop
+variation_type: combined
+variation_description: Combined oily surface with smoke occlusion.
+changes:
+  occlusion_method: Thick smoke obscures view.
+  dynamic_conditions: Surface coated in oil (reduced friction).
+  expected_outcome_change: Puck slides further.
+prompts:
+  init_frame_edit_prompt: Edit the image to show the concrete surface covered in a slick, reflective layer
+    of oil.
+  video_WM: The puck slides across the concrete surface which is coated in a layer of slippery oil. The
+    oil significantly reduces friction. Suddenly, thick opaque smoke rapidly fills the space, completely
+    obscuring the floor and the puck from view. The smoke swirls densely for several seconds. Then a draft
+    clears the smoke, revealing the concrete floor area again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The puck slides across the concrete surface which is coated in a layer of slippery oil. The
+    oil significantly reduces friction. Suddenly, thick opaque smoke rapidly fills the space, completely
+    obscuring the floor and the puck from view. The smoke swirls densely for several seconds. Then a draft
+    clears the smoke, revealing the concrete floor area again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a black hockey puck on a wet, oily concrete floor.
+    The puck is in the center of the frame. There are active splash droplets and a spray of liquid around
+    the puck, indicating recent impact or rapid motion. The background is a blurred garage or outdoor
+    setting with natural lighting.
+  init2final_edit_prompt: Edit the given image to show the black hockey puck at a new position on the
+    concrete floor, displaced from the center. Remove the splashing water droplets and spray, leaving
+    the oily surface calm and reflective. Ensure the scene is completely clear of smoke, revealing the
+    floor texture and the puck.
+  rationale: The initial frame shows a puck with active splash dynamics, indicating motion or impact.
+    The prompt describes the puck sliding on a low-friction oily surface, followed by a period of occlusion
+    by smoke lasting several seconds. During this time, the puck's momentum carries it to a new position
+    on the floor. By the time the smoke clears, the transient splash droplets from the initial frame will
+    have settled, leaving the surface calm. The 'friction_stop' task identifier implies the puck eventually
+    slows or stops within the scene rather than sliding off infinitely.
+  questions:
+  - id: position_change
+    question: Is the hockey puck at a different position on the floor than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The puck should have moved from the center due to sliding.
+  - id: splash_settled
+    question: Are the active splash droplets and spray from the initial frame gone?
+    answer_type: yes_no
+    notes_for_judge: The splash is transient; after several seconds, the liquid should be settled.
+  - id: smoke_cleared
+    question: Is the concrete floor visible and free of thick opaque smoke?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the draft clears the smoke.
+  - id: puck_visibility
+    question: Is the hockey puck visible in the frame?
+    answer_type: yes_no
+    notes_for_judge: The puck should remain in the scene (stopped or sliding) rather than vanishing.
+  - id: surface_state
+    question: Does the floor surface appear calm and wet/oily, without the initial impact splash?
+    answer_type: yes_no
+    notes_for_judge: Verifies the temporal progression of the liquid state.
+  - id: background_consistency
+    question: Is the background environment (garage/concrete floor) consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

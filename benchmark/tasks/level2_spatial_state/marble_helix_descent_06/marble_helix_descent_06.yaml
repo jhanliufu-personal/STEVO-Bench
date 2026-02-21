@@ -1,0 +1,67 @@
+id: marble_helix_descent_06
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: marble_helix_descent
+variation_type: dynamic_condition
+variation_description: The marble is glued to the starting position.
+changes:
+  occlusion_method: null
+  dynamic_conditions: The marble is secured with glue, preventing any movement.
+  expected_outcome_change: Marble remains at the top; no motion occurs.
+prompts:
+  init_frame_edit_prompt: Edit the image to show a visible glob of clear epoxy glue surrounding the base
+    of the marble at the top entrance, securing it to the track.
+  video_WM: The marble sits at the top entrance of the helical track. A visible amount of epoxy glue secures
+    the marble firmly to the plastic, preventing it from rolling. The track provides lateral constraint.
+    Gravity acts on the marble, but the adhesive bond holds it in place. The helical path has low friction
+    typical of acrylic plastic. The track descends vertically through multiple spiral turns from top to
+    bottom. The camera rotates right at constant speed until the helical track completely exits the view
+    to the right. The camera continues rotating right for several seconds while the marble remains off-screen.
+    Then the camera rotates left smoothly at the same rate back to the original viewpoint, bringing the
+    helical track back into view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The marble sits at the top entrance of the helical track. A visible amount of epoxy glue
+    secures the marble firmly to the plastic, preventing it from rolling. The track provides lateral constraint.
+    Gravity acts on the marble, but the adhesive bond holds it in place. The helical path has low friction
+    typical of acrylic plastic. The track descends vertically through multiple spiral turns from top to
+    bottom during the occlusion period. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A clear acrylic helical marble run stands on a wooden workbench. A glass marble
+    with blue and green swirls sits at the very top entrance of the spiral track. The background shows
+    a blurred workshop setting with tools on a pegboard.
+  init2final_edit_prompt: Edit the given image to show the marble remaining exactly at the top entrance
+    of the helical track. Do not move the marble down the spiral. Ensure the marble is in the exact same
+    position and orientation as the original image, as if it is stuck in place.
+  rationale: The prompt explicitly states that the marble is secured with epoxy glue, which prevents it
+    from rolling down the track despite gravity. Although the camera rotates away and returns, the physical
+    state of the marble must remain unchanged due to the adhesive constraint. A correct simulation must
+    prioritize the text constraint (glued) over the visual prior (marbles roll down tracks), resulting
+    in zero displacement.
+  questions:
+  - id: marble_location_top
+    question: Is the marble still located at the very top entrance of the helical track?
+    answer_type: yes_no
+    notes_for_judge: The marble should not have moved.
+  - id: marble_displacement_check
+    question: Is the marble in the same position as it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare with the initial frame; the marble should be identical in placement.
+  - id: track_empty_below
+    question: Is the spiral track empty below the top entrance?
+    answer_type: yes_no
+    notes_for_judge: If the marble rolled down, the track below would be occupied. It should be empty.
+  - id: marble_height_check
+    question: Is the marble at the highest point of the acrylic structure?
+    answer_type: yes_no
+    notes_for_judge: It should not be lower than the start.
+  - id: marble_stationary
+    question: Does the marble appear to have remained stationary throughout the duration?
+    answer_type: yes_no
+    notes_for_judge: Based on the final frame showing no displacement.
+  - id: marble_visibility
+    question: Is the marble visible at the top of the spiral?
+    answer_type: yes_no
+    notes_for_judge: It should not have disappeared or moved off-screen.

@@ -1,0 +1,64 @@
+id: air_puck_collision_10
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: air_puck_collision
+variation_type: combined
+variation_description: High friction surface combined with camera zoom occlusion.
+changes:
+  occlusion_method: Camera zoom out
+  dynamic_conditions: Air cushion deactivated (high friction)
+  expected_outcome_change: Puck stops
+prompts:
+  init_frame_edit_prompt: Edit the image to make the table surface look matte and unlit, removing the
+    glowing reflection from the air holes to imply the air jets are deactivated.
+  video_WM: The puck slides across the rough surface of the deactivated air hockey table. Without the
+    air cushion, friction is significant. The camera zooms out rapidly until the table is a tiny speck
+    in the distance, indistinguishable from the background. Then the camera zooms back in to the exact
+    original framing. No cut, no scene change. STOP.
+  camera_WM: The puck slides across the rough surface of the deactivated air hockey table. Without the
+    air cushion, friction is significant. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+evaluation:
+  init_frame_description: A close-up, eye-level perspective of an air hockey table surface with glowing
+    neon grid lines in pink, blue, and yellow. A white circular puck with a blue center is positioned
+    in the middle-left foreground. To the right, a blurred hand holds an orange mallet. In the background,
+    other arcade machines and a person's torso are visible. The surface is reflective.
+  init2final_edit_prompt: Edit the given image to show the white puck in a different position on the table
+    surface, displaced from its original location, as if it has slid across the surface and come to a
+    stop. Maintain the exact original camera framing, lighting, neon grid pattern, and background details.
+    The only significant change should be the new location of the puck.
+  rationale: The video prompt describes a continuous shot where the camera zooms out to a distance and
+    then returns to the exact original framing. During this time, the puck slides across the table. Because
+    the table is 'deactivated' (no air cushion), friction is significant, meaning the puck will slide
+    for a duration and then decelerate or stop rather than gliding indefinitely or bouncing rapidly. The
+    final frame must show the camera returned to the original position (static background/table) but with
+    the puck displaced to a new location due to the motion that occurred during the zoom-out interval.
+  questions:
+  - id: puck_moved
+    question: Is the white puck in a different position on the table compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the puck's location relative to the neon grid lines. It should have changed
+      coordinates.
+  - id: puck_displacement
+    question: Has the white puck moved from its starting location?
+    answer_type: yes_no
+    notes_for_judge: The puck should not be in the exact same spot.
+  - id: puck_visible
+    question: Is the white puck still visible on the table surface?
+    answer_type: yes_no
+    notes_for_judge: It should not have vanished; it just moved.
+  - id: camera_framing
+    question: Is the camera framing identical to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The prompt specifies zooming back to the 'exact original framing'. The grid lines
+      and background objects should align with the init frame.
+  - id: grid_consistency
+    question: Are the neon grid lines on the table in the same position as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Verifies the camera returned to the correct static view.
+  - id: lighting_consistency
+    question: Is the lighting and color of the neon lines consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The environment should not have changed style or lighting.

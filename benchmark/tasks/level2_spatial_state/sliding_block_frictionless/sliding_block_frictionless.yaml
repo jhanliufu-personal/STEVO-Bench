@@ -13,3 +13,48 @@ prompts:
     motion continues. STOP.
 camera_control:
   HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A large, cubic metal block with a reflective surface sits on a vast sheet of
+    blue ice. To the left, a black mechanical arm with hydraulic cylinders is visible, positioned as if
+    it has just pushed the block. The sun is low on the horizon in the background, creating a bright glare
+    and casting reflections on the ice. There are small particles of ice or water spray in the air near
+    the block.
+  init2final_edit_prompt: Edit the given image to remove the metal block completely from the scene. Fill
+    in the area where the block was with the underlying ice surface and the background horizon, matching
+    the surrounding texture and lighting. Keep the mechanical arm on the left side exactly as it is. Preserve
+    the sunlight glare and the distant background.
+  rationale: The block is moving rapidly to the right with constant velocity. The camera rotates right
+    to follow the motion until the block leaves the view, then rotates back to the left to return to the
+    original starting angle. Since the block continues to travel right while the camera returns to the
+    starting position, the block will have moved significantly further away and will no longer be in the
+    frame when the camera returns to the initial view. The final state should show the empty starting
+    location.
+  questions:
+  - id: block_absence
+    question: Is the metal block absent from the final frame?
+    answer_type: yes_no
+    notes_for_judge: The block should have moved out of frame to the right.
+  - id: center_empty
+    question: Is the center of the image, where the block was initially, now empty?
+    answer_type: yes_no
+    notes_for_judge: The space should show only ice and background.
+  - id: arm_presence
+    question: Is the mechanical arm still visible on the left side?
+    answer_type: yes_no
+    notes_for_judge: The camera returns to the start, so the static arm should be visible.
+  - id: ice_visibility
+    question: Is the ice surface visible in the area previously occupied by the block?
+    answer_type: yes_no
+    notes_for_judge: The occlusion caused by the block should be removed.
+  - id: block_moved_right
+    question: Has the metal block vacated its initial position?
+    answer_type: yes_no
+    notes_for_judge: It moved right and the camera returned, so it should be gone.
+  - id: reflection_absence
+    question: Are the reflections of the metal block on the ice absent?
+    answer_type: yes_no
+    notes_for_judge: If the block is gone, its reflection must also be gone.
+  - id: horizon_consistency
+    question: Is the background horizon line consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The camera returns to the initial angle.

@@ -12,3 +12,55 @@ prompts:
     are the only drivers of the system. STOP.
 camera_control:
   HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A rustic workshop scene featuring a pulley system with two hanging weights.
+    On the left, a large, rusty, block-shaped weight labeled '50 KG' hangs from a thick rope. On the right,
+    a smaller, block-shaped weight labeled '5 KG' hangs from a similar rope. Between them is a gear mechanism
+    with a handle. The ropes go up to pulleys mounted on a wooden beam near the top. The background consists
+    of a stone wall. The 50kg weight is suspended at a mid-height, roughly level with the gear mechanism.
+  init2final_edit_prompt: 'Edit the given image to show the large 50kg weight positioned significantly
+    lower than its original height, closer to the bottom of the frame. Position the small 5kg weight significantly
+    higher than its original height, closer to the top pulley. Adjust the lengths of the vertical ropes
+    accordingly: the rope supporting the 50kg weight should appear longer, and the rope supporting the
+    5kg weight should appear shorter. Keep the background, the gear mechanism, and the lateral positions
+    of the ropes unchanged.'
+  rationale: The scene depicts an unbalanced system where a 50kg weight is much heavier than a 5kg weight.
+    When the brake is released, gravity will cause the heavier 50kg weight to accelerate downwards, pulling
+    the lighter 5kg weight upwards via the connecting rope. The camera rotation creates a period of occlusion,
+    during which this motion continues. Upon returning to the original view, the 50kg weight must be lower
+    and the 5kg weight must be higher than in the initial state.
+  questions:
+  - id: q1_50kg_pos
+    question: Is the 50kg weight positioned lower in the frame than it was in the initial image?
+    answer_type: yes_no
+    notes_for_judge: Compare the vertical position of the bottom of the 50kg weight relative to the background
+      or floor.
+  - id: q2_5kg_pos
+    question: Is the 5kg weight positioned higher in the frame than it was in the initial image?
+    answer_type: yes_no
+    notes_for_judge: Compare the vertical position of the 5kg weight relative to the pulley or background.
+  - id: q3_rope_50kg
+    question: Is the visible segment of rope supporting the 50kg weight longer than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The weight moving down requires more rope to be visible above it.
+  - id: q4_rope_5kg
+    question: Is the visible segment of rope supporting the 5kg weight shorter than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The weight moving up reduces the length of rope visible between it and the pulley.
+  - id: q5_relative_height
+    question: Is the 50kg weight now clearly lower than the gear mechanism's center?
+    answer_type: yes_no
+    notes_for_judge: In the initial frame, the top of the 50kg weight is roughly level with the gear center.
+      It should drop below this level.
+  - id: q6_displacement_direction
+    question: Has the 50kg weight moved downwards relative to its starting position?
+    answer_type: yes_no
+    notes_for_judge: Check for downward displacement.
+  - id: q7_displacement_direction_small
+    question: Has the 5kg weight moved upwards relative to its starting position?
+    answer_type: yes_no
+    notes_for_judge: Check for upward displacement.
+  - id: q8_consistency_bg
+    question: Is the stone wall background structurally consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

@@ -1,0 +1,66 @@
+id: torsional_oscillation_01
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: torsional_oscillation
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to an opaque object blocking the view.
+changes:
+  occlusion_method: A large opaque sheet slides in front of the lens.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The disk is released from its twisted position. The wire provides a restorative torque proportional
+    to the twist. A large opaque sheet slides from the right to completely cover the lens, blocking the
+    view. It pauses, then slides back to the right to reveal the scene again. No zoom, no cut, no scene
+    change. STOP.
+  camera_WM: The disk is released from its twisted position. The wire provides a restorative torque proportional
+    to the twist. A large opaque sheet slides from the right to completely cover the lens, blocking the
+    view. It pauses, then slides back to the right to reveal the scene again. No zoom, no cut, no scene
+    change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A circular metal disk, likely brass or bronze, suspended horizontally by a vertical
+    central cable in a rustic workshop. A loose, spiral-shaped wire is wrapped around the lower portion
+    of the suspension cable just above the disk. The disk's surface has a mottled texture with visible
+    patina, oxidation spots, and light reflections. To the left is a window with multiple panes, and the
+    background features wooden walls, tools, and a workbench.
+  init2final_edit_prompt: Edit the given image to show the circular metal disk rotated around its vertical
+    central axis. Shift the surface texture, discoloration spots, and patina patterns on the disk to new
+    positions to reflect this rotation. Adjust the spiral wire wrapped around the suspension cable to
+    show it rotated along with the disk. Keep the background, lighting, and vertical position of the disk
+    unchanged.
+  rationale: The system is a torsional pendulum. The initial state is a twisted position with stored potential
+    energy. Upon release, the restorative torque from the wire causes the disk to rotate around the vertical
+    axis. The occlusion event (sliding sheet) hides the duration of the motion, but when the view is revealed,
+    the disk will have rotated to a different angular position. The primary visual evidence of this state
+    change is the displacement of the unique surface textures (patina/spots) on the disk and the rotation
+    of the spiral wire structure.
+  questions:
+  - id: rotation_check_01
+    question: Has the metal disk rotated around the vertical wire relative to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the angular position of surface features.
+  - id: texture_displacement_01
+    question: Are the discoloration spots on the disk surface in a different position than in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: Look for specific marks or patina patterns that have shifted.
+  - id: spiral_wire_orientation
+    question: Is the orientation of the spiral wire around the cable different from the initial view?
+    answer_type: yes_no
+    notes_for_judge: The spiral structure should appear rotated.
+  - id: vertical_position_check
+    question: Is the vertical height of the disk approximately the same as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Torsional motion should not cause significant vertical displacement.
+  - id: background_consistency
+    question: Is the window on the left still visible?
+    answer_type: yes_no
+    notes_for_judge: The occlusion sheet should be gone.
+  - id: object_permanence
+    question: Is the disk still suspended by the central wire?
+    answer_type: yes_no
+    notes_for_judge: The structural setup should remain intact.

@@ -1,0 +1,62 @@
+id: falling_anvil_air_06
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: falling_anvil_air
+variation_type: dynamic_condition
+variation_description: Object changed to helium balloons (negative buoyancy).
+changes:
+  occlusion_method: null
+  dynamic_conditions: Object is a bunch of helium balloons.
+  expected_outcome_change: Object moves UP instead of down.
+prompts:
+  init_frame_edit_prompt: Edit the image to replace the anvil with a bunch of colorful helium balloons.
+  video_WM: The cluster of helium balloons rises steadily upward into the sky, moving against gravity
+    due to buoyancy. The camera rotates right until the balloons completely exit the view, then rotates
+    toward the left smoothly at the same rate until the crane hook is back in the center of view. No zoom,
+    no cut, no scene change. STOP.
+  camera_WM: The cluster of helium balloons rises steadily upward into the sky, moving against gravity
+    due to buoyancy. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A low-angle shot of a yellow construction crane hook and jib arm against a clear
+    blue sky. A large, colorful cluster of helium balloons (blue, red, yellow, purple, green) is attached
+    to the crane hook. Below the crane, a cityscape with buildings and streets is visible in the distance.
+  init2final_edit_prompt: Edit the given image to remove the cluster of colorful balloons and their strings
+    completely. The final image should show the yellow crane hook and arm alone against the clear blue
+    sky, as if the balloons have floated away out of the frame.
+  rationale: The prompt specifies that the balloons rise steadily upward due to buoyancy. The camera rotates
+    away (right) and then returns (left) to the original centered view of the crane hook. During this
+    occlusion, the balloons continue to ascend. By the time the camera returns, the balloons will have
+    risen significantly, likely floating out of the frame entirely or appearing much higher up. The most
+    distinct state change is the absence of the balloons near the hook.
+  questions:
+  - id: balloons_moved_up
+    question: Has the cluster of balloons moved upward from its initial position?
+    answer_type: yes_no
+    notes_for_judge: If the balloons are completely gone, the answer is Yes (they moved up and out).
+  - id: balloons_higher_or_gone
+    question: Are the balloons either positioned higher in the sky or completely out of the frame?
+    answer_type: yes_no
+    notes_for_judge: Checks for upward displacement or disappearance.
+  - id: hook_clear
+    question: Is the space immediately attached to the crane hook now free of balloons?
+    answer_type: yes_no
+    notes_for_judge: The balloons should no longer be right at the hook tip.
+  - id: separation_distance
+    question: Has the distance between the crane hook and the balloons increased?
+    answer_type: yes_no
+    notes_for_judge: If balloons are gone, the distance is effectively infinite/increased.
+  - id: crane_visible
+    question: Is the yellow crane hook still visible in the frame?
+    answer_type: yes_no
+    notes_for_judge: The camera returns to the hook.
+  - id: background_city
+    question: Is the cityscape background still visible?
+    answer_type: yes_no
+    notes_for_judge: The camera angle returns to the initial view.
+  - id: no_downward_motion
+    question: Are the balloons positioned lower than the crane hook?
+    answer_type: yes_no
+    notes_for_judge: This should be NO. The balloons rise, they do not fall.

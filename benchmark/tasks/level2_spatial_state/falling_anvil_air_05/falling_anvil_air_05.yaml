@@ -1,0 +1,60 @@
+id: falling_anvil_air_05
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: falling_anvil_air
+variation_type: dynamic_condition
+variation_description: Object changed to a feather (low mass, high drag).
+changes:
+  occlusion_method: null
+  dynamic_conditions: Object is a feather instead of an anvil.
+  expected_outcome_change: Object drifts slowly and may sway; falls much slower than anvil.
+prompts:
+  init_frame_edit_prompt: Edit the image to replace the anvil with a single white feather floating in
+    the air.
+  video_WM: The white feather drifts gently through the air, swaying side to side as it falls very slowly
+    due to its low mass and high air resistance. The camera rotates right until the feather completely
+    exits the view, then rotates toward the left smoothly at the same rate until the crane hook is back
+    in the center of view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The white feather drifts gently through the air, swaying side to side as it falls very slowly
+    due to its low mass and high air resistance. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A yellow construction crane is visible on the left side of the frame, with its
+    jib extending horizontally towards the right and a hook hanging from it. A large white feather floats
+    in the clear blue sky to the right of the crane, positioned higher than the crane's jib. A city skyline
+    is visible in the far distance at the bottom.
+  init2final_edit_prompt: Edit the given image to place the crane hook in the horizontal center of the
+    frame. Position the white feather lower in the sky than its initial location, showing that it has
+    fallen downward while maintaining its white appearance.
+  rationale: The feather is a lightweight object subject to gravity and air resistance, causing it to
+    fall very slowly. The camera performs a pan to the right (occluding the feather) and then a pan back
+    to the left to center the crane hook. During the time the feather is out of view, it continues to
+    fall. When the camera returns to the crane, the feather should be visible again (object permanence)
+    but at a lower vertical position than in the initial frame due to the elapsed time.
+  questions:
+  - id: feather_visible
+    question: Is the white feather visible in the final frame?
+    answer_type: yes_no
+    notes_for_judge: Test for object permanence after the camera pans away and returns.
+  - id: feather_lower
+    question: Is the white feather positioned lower in the sky than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Test for gravitational fall.
+  - id: feather_closer_to_skyline
+    question: Is the white feather vertically closer to the city skyline than it was initially?
+    answer_type: yes_no
+    notes_for_judge: Alternative phrasing for downward motion.
+  - id: hook_centered
+    question: Is the crane hook positioned near the horizontal center of the frame?
+    answer_type: yes_no
+    notes_for_judge: Test for the specific camera end-state instruction.
+  - id: crane_visible
+    question: Is the yellow crane structure still visible?
+    answer_type: yes_no
+    notes_for_judge: Consistency check.
+  - id: sky_clear
+    question: Is the sky clear and blue?
+    answer_type: yes_no
+    notes_for_judge: Consistency check.

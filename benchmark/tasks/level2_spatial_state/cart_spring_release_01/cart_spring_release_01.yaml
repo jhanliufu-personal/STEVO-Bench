@@ -1,0 +1,70 @@
+id: cart_spring_release_01
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: cart_spring_release
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to a large object blocking the view.
+changes:
+  occlusion_method: A large sheet of plywood slides in to block the view.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The release mechanism disengages and the compressed spring is freed to expand. The cart is
+    free to move along the smooth track with low friction wheels. The track extends several feet forward
+    from the starting position. The spring has a strong spring constant typical of steel coils. A large
+    sheet of plywood slides in from the left, completely blocking the view of the cart and spring mechanism.
+    It remains in place for several seconds. Then the plywood slides back to the left, revealing the scene
+    again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The release mechanism disengages and the compressed spring is freed to expand. The cart is
+    free to move along the smooth track with low friction wheels. The track extends several feet forward
+    from the starting position. The spring has a strong spring constant typical of steel coils. A large
+    sheet of plywood slides in from the left, completely blocking the view of the cart and spring mechanism.
+    It remains in place for several seconds. Then the plywood slides back to the left, revealing the scene
+    again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A red metal utility cart with black rubber wheels sits on a wooden track on
+    a workbench. A large, compressed metal coil spring is positioned between the rear of the cart and
+    a concrete block on the right side. A person's hand is visible on the right, holding a metal release
+    lever or latch mechanism connected to the cart's hitch. The background shows a workshop setting with
+    tools and a window.
+  init2final_edit_prompt: Edit the given image to move the red cart significantly to the left along the
+    wooden tracks. Show the metal coil spring fully expanded and elongated, stretching from the concrete
+    block to the new position of the cart. Ensure the cart's wheels remain aligned on the wooden rails.
+    Remove the tension from the release mechanism.
+  rationale: The prompt describes a physics setup where a compressed spring is released. The potential
+    energy in the spring will convert to kinetic energy, pushing the cart along the low-friction track
+    away from the concrete block (to the left). During the occlusion, the cart travels a significant distance.
+    In the final frame, the cart should be displaced to the left, and the spring should be visibly extended
+    or relaxed compared to its initial compressed state.
+  questions:
+  - id: cart_moved_left
+    question: Is the red cart positioned further to the left than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the cart's position relative to the window or the left edge of the frame.
+  - id: spring_expanded
+    question: Is the metal spring more extended or longer than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The coils should be less tightly packed or the overall length of the spring should
+      be greater.
+  - id: gap_increased
+    question: Is the distance between the red cart and the concrete block larger than initially?
+    answer_type: yes_no
+    notes_for_judge: The gap occupied by the spring should have increased.
+  - id: wheels_on_track
+    question: Are the cart's wheels still positioned on the wooden rails?
+    answer_type: yes_no
+    notes_for_judge: Check for physical consistency; the cart should not be floating or derailed.
+  - id: cart_orientation
+    question: Is the red cart still upright?
+    answer_type: yes_no
+    notes_for_judge: The cart should not have tipped over.
+  - id: spring_connected
+    question: Is the spring still positioned between the concrete block and the cart?
+    answer_type: yes_no
+    notes_for_judge: The spring should generally follow the path of the cart, even if detached at one
+      end, it should be in that area.

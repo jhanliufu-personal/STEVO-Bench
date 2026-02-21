@@ -1,0 +1,63 @@
+id: bouncing_ball_rebound_10
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: bouncing_ball_rebound
+variation_type: combined
+variation_description: Combined clay ball (no bounce) with camera retreat occlusion.
+changes:
+  occlusion_method: Camera moves backward.
+  dynamic_conditions: Ball is wet clay.
+  expected_outcome_change: Ball hits and sticks without bouncing; occlusion is via camera movement.
+prompts:
+  init_frame_edit_prompt: Edit the image to change the tennis ball into a gray lump of wet modeling clay.
+  video_WM: The lump of wet clay is released from the hand and becomes free to move. The floor is solid
+    hardwood. The object is soft clay prone to plastic deformation upon impact. Gravity acts on the object.
+    The camera moves backward rapidly, pulling away from the scene until the object and hand become tiny
+    specks indistinguishable in the distance. The camera holds this distant position for several seconds.
+    Then the camera moves forward smoothly back to the original viewpoint. No cut, no scene change. STOP.
+  camera_WM: The lump of wet clay is released from the hand and becomes free to move. The floor is solid
+    hardwood. The object is soft clay prone to plastic deformation upon impact. Gravity acts on the object.
+    STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A high-angle close-up showing a lump of grey wet clay resting on a brown hardwood
+    floor. A human hand is hovering directly above the clay with fingers spread open, casting a shadow
+    on the clay and floor.
+  init2final_edit_prompt: Edit the given image to show the lump of clay flattened and squashed against
+    the floor, significantly reducing its height and increasing its width to simulate impact deformation.
+    Remove the hand from the image. Keep the hardwood floor texture, lighting, and camera angle exactly
+    the same.
+  rationale: The video prompt describes a sequence where a lump of wet clay is released, subjected to
+    gravity, and undergoes plastic deformation upon impact. Although the clay appears grounded in the
+    initial frame, the physics description implies a drop or settling event that results in the clay flattening
+    (squashing) rather than bouncing. The camera moves away for several seconds and then returns; during
+    this time, the hand that released the object would logically have moved away or exited the frame.
+    The final state should therefore depict the deformed clay in isolation.
+  questions:
+  - id: clay_flattened
+    question: Is the clay lump flatter than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The clay should look squashed or compressed vertically due to plastic deformation.
+  - id: clay_spread
+    question: Is the clay wider or more spread out on the floor than initially?
+    answer_type: yes_no
+    notes_for_judge: Impact should cause the wet clay to expand horizontally.
+  - id: hand_removed
+    question: Is the hand no longer hovering directly over the clay?
+    answer_type: yes_no
+    notes_for_judge: The hand should be absent or moved to a different position after the elapsed time.
+  - id: clay_position_consistency
+    question: Is the clay still located on the hardwood floor?
+    answer_type: yes_no
+    notes_for_judge: The object should not have vanished or moved to a different background.
+  - id: deformation_visible
+    question: Does the clay appear to have lost its initial tall, rough shape?
+    answer_type: yes_no
+    notes_for_judge: Check for loss of the initial specific lump shape due to deformation.
+  - id: floor_consistency
+    question: Is the floor texture consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check for the environment.

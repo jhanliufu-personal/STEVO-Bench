@@ -4,9 +4,71 @@ category: spatial_kinematics
 kinematic_variable: Angular velocity with rotational friction
 tags: []
 prompts:
-  image_gen_prompt: A bicycle wheel is suspended horizontally by its axle from a stand. The wheel is spinning rapidly at high speed with the spokes appearing as a blur. The tire and rim are clearly visible as they rotate.
-  video_WM: The wheel continues spinning freely on its axle bearing. The axle bearing has moderate friction typical of standard ball bearings without lubrication. Air resistance acts on the rotating spokes and rim as they move through the air. No external torque is applied to the wheel. The wheel has standard mass distribution for a bicycle wheel. The camera rotates right at constant speed until the wheel completely exits the view to the right. The camera continues rotating right for several seconds while the wheel remains off-screen. Then the camera rotates left smoothly at the same rate back to the original viewpoint, bringing the suspended wheel back into view. No zoom, no cut, no scene change. STOP.
-  camera_WM: The wheel continues spinning freely on its axle bearing. The axle bearing has moderate friction typical of standard ball bearings without lubrication. Air resistance acts on the rotating spokes and rim as they move through the air. No external torque is applied to the wheel. The wheel has standard mass distribution for a bicycle wheel during the occlusion period. STOP.
+  image_gen_prompt: A bicycle wheel is suspended horizontally by its axle from a stand. The wheel is spinning
+    rapidly at high speed with the spokes appearing as a blur. The tire and rim are clearly visible as
+    they rotate.
+  video_WM: The wheel continues spinning freely on its axle bearing. The axle bearing has moderate friction
+    typical of standard ball bearings without lubrication. Air resistance acts on the rotating spokes
+    and rim as they move through the air. No external torque is applied to the wheel. The wheel has standard
+    mass distribution for a bicycle wheel. The camera rotates right at constant speed until the wheel
+    completely exits the view to the right. The camera continues rotating right for several seconds while
+    the wheel remains off-screen. Then the camera rotates left smoothly at the same rate back to the original
+    viewpoint, bringing the suspended wheel back into view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The wheel continues spinning freely on its axle bearing. The axle bearing has moderate friction
+    typical of standard ball bearings without lubrication. Air resistance acts on the rotating spokes
+    and rim as they move through the air. No external torque is applied to the wheel. The wheel has standard
+    mass distribution for a bicycle wheel during the occlusion period. STOP.
 camera_control:
   HY-WorldPlay: s-3, right-30, left-30
   Genie: null
+evaluation:
+  init_frame_description: A bicycle wheel with a black tire and silver rim is mounted horizontally on
+    a vertical metal stand made of square tubing. The wheel is spinning, indicated by significant motion
+    blur on the silver spokes. The central hub is silver and attached to the stand's arm. The background
+    shows a workshop environment with a workbench, a blue vise, white walls, and overhead fluorescent
+    lights.
+  init2final_edit_prompt: Edit the given image to show the bicycle wheel still mounted on the metal stand
+    in the exact same position and horizontal orientation. The wheel should still exhibit motion blur
+    on the spokes, indicating it is spinning, though the blur may be slightly less intense than in the
+    original view. Ensure the background workbench, tools, and lighting remain unchanged.
+  rationale: The camera pans away from the wheel and then returns to the original viewpoint. Physically,
+    the wheel is mounted on a fixed axle, so its position and orientation relative to the room must remain
+    invariant (object permanence and spatial consistency). Kinematically, the wheel is spinning freely
+    subject to friction and air resistance. While these forces cause angular deceleration, a standard
+    bicycle wheel has high rotational inertia and would not stop completely in the span of 'several seconds'.
+    Therefore, the final state should show the wheel in the same location, still spinning (visible motion
+    blur), but potentially with slightly reduced angular velocity compared to the start.
+  questions:
+  - id: wheel_presence
+    question: Is the bicycle wheel visible in the frame?
+    answer_type: yes_no
+    notes_for_judge: Tests object permanence after occlusion.
+  - id: wheel_mounted
+    question: Is the bicycle wheel still attached to the metal stand?
+    answer_type: yes_no
+    notes_for_judge: Tests spatial consistency; the wheel should not have fallen or detached.
+  - id: wheel_position_height
+    question: Is the height of the wheel relative to the background workbench consistent with the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: Tests spatial invariance.
+  - id: wheel_orientation
+    question: Is the wheel still oriented horizontally?
+    answer_type: yes_no
+    notes_for_judge: Tests that the wheel hasn't tilted or changed axis.
+  - id: spinning_motion
+    question: Does the wheel show evidence of spinning (e.g., motion blur on the spokes)?
+    answer_type: yes_no
+    notes_for_judge: Tests kinematic consistency; the wheel should not stop instantly.
+  - id: stand_position
+    question: Is the metal stand in the same position relative to the background as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Tests background/environment stability.
+  - id: tire_rim_integrity
+    question: Is the black tire still seated properly on the silver rim?
+    answer_type: yes_no
+    notes_for_judge: Tests object integrity.
+  - id: background_consistency
+    question: Is the blue vise visible in the background in its original location?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

@@ -1,0 +1,70 @@
+id: ball_rolls_off_cliff_05
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: ball_rolls_off_cliff
+variation_type: dynamic_condition
+variation_description: A wooden block is placed at the edge to stop the ball.
+changes:
+  occlusion_method: null
+  dynamic_conditions: A solid physical barrier (wooden block) is added to the table edge.
+  expected_outcome_change: The ball hits the block and stays on the table (or bounces back) instead of
+    falling.
+prompts:
+  init_frame_edit_prompt: Edit the image to place a solid wooden block fixed to the table surface directly
+    between the ball and the table edge.
+  video_WM: The ball rolls across the table surface toward the edge. However, a solid wooden block is
+    fixed to the table edge, directly in the ball's path. The ball has velocity toward the block. The
+    block is immobile and taller than the ball. The camera rotates right at constant speed until the table
+    completely exits the view to the right. The camera continues rotating right for several seconds. Then
+    the camera rotates left smoothly at the same rate back to the original viewpoint. No zoom, no cut,
+    no scene change. STOP.
+  camera_WM: The ball rolls across the table surface toward the edge. However, a solid wooden block is
+    fixed to the table edge, directly in the ball's path. The ball has velocity toward the block. The
+    block is immobile and taller than the ball. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A wooden table surface with a red textured ball on the left side and a rectangular
+    wooden block fixed in the center. To the right of the block, there is a blurred red shape resembling
+    a motion trail or a second object.
+  init2final_edit_prompt: Edit the given image to show the solid red ball resting on the wooden table
+    surface to the left of the central wooden block. The area to the right of the wooden block should
+    be completely empty, showing only the wood grain of the table surface, with no red shapes or objects
+    visible there.
+  rationale: The red ball starts on the left with velocity toward the right. The wooden block is fixed
+    and solid, so the ball will collide with it and cannot pass through. Upon collision, the ball will
+    bounce back or stop on the left side of the block. The blurred red shape on the right, if interpreted
+    as a second object moving right, would continue its trajectory and fall off the table edge while the
+    camera is panned away. Therefore, in the final frame, the red ball must be on the left side of the
+    block, and the right side of the table must be empty.
+  questions:
+  - id: ball_visible
+    question: Is the solid red ball visible on the table?
+    answer_type: yes_no
+    notes_for_judge: The ball should not disappear.
+  - id: ball_position_left
+    question: Is the red ball positioned to the left of the wooden block?
+    answer_type: yes_no
+    notes_for_judge: The ball should remain on the input side due to the collision.
+  - id: ball_not_right
+    question: Is the area to the right of the wooden block free of the solid red ball?
+    answer_type: yes_no
+    notes_for_judge: The ball cannot pass through the solid block.
+  - id: ghost_removed
+    question: Is the area to the right of the wooden block empty of any red shapes?
+    answer_type: yes_no
+    notes_for_judge: The blurred artifact/object should have fallen off or been cleared.
+  - id: block_invariant
+    question: Is the wooden block still present and upright in the center?
+    answer_type: yes_no
+    notes_for_judge: The block is fixed and immobile.
+  - id: ball_on_table
+    question: Is the red ball resting on the table surface?
+    answer_type: yes_no
+    notes_for_judge: The ball should not be floating or missing.
+  - id: containment_check
+    question: Did the red ball stay on the left side of the block rather than passing through it?
+    answer_type: yes_no
+    notes_for_judge: Physics check for collision.

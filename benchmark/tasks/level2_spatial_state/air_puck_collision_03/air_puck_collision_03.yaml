@@ -1,0 +1,62 @@
+id: air_puck_collision_03
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: air_puck_collision
+variation_type: occlusion_method
+variation_description: Replaces camera rotation with thick smoke filling the scene.
+changes:
+  occlusion_method: Thick smoke from a smoke machine obscures the view
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The puck slides across the frictionless air-cushioned surface at a constant velocity. The
+    path is a straight line across the table. Thick white smoke from an arcade smoke machine rapidly fills
+    the space between the camera and the table, completely obscuring the view. The smoke slowly dissipates
+    until the table is visible again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The puck slides across the frictionless air-cushioned surface at a constant velocity. The
+    path is a straight line across the table. Thick white smoke from an arcade smoke machine rapidly fills
+    the space between the camera and the table, completely obscuring the view. The smoke slowly dissipates
+    until the table is visible again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up, angled view of an air hockey table with a dark surface and glowing
+    neon grid lines in pink, blue, and green. A white, glowing air hockey puck is positioned near the
+    left metal rail. A bright spark effect and motion blur trail indicate the puck has just impacted the
+    left rail and is moving rapidly towards the right.
+  init2final_edit_prompt: Edit the given image to move the white glowing puck to the right side of the
+    table. Remove the puck and the impact spark from their original position near the left rail. The puck
+    should be positioned significantly further to the right, appearing to have slid across the surface.
+    Maintain the neon grid lines, reflections, and the overall lighting of the arcade setting.
+  rationale: The initial frame captures the puck immediately after impacting the left rail, moving rightward.
+    The video prompt describes a sequence where smoke obscures the view and then dissipates, indicating
+    a significant passage of time. Given the frictionless surface and constant velocity, the puck must
+    continue its trajectory across the table. Therefore, the final frame should show the puck displaced
+    significantly to the right, and the transient impact spark should have vanished.
+  questions:
+  - id: position_change
+    question: Is the air hockey puck in a different position than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The puck must have moved from its starting spot near the left rail.
+  - id: direction_right
+    question: Has the puck moved to the right relative to its starting position?
+    answer_type: yes_no
+    notes_for_judge: Check if the puck's horizontal position is further right in the image.
+  - id: distance_from_rail
+    question: Is the distance between the puck and the left metal rail greater than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The puck should be further away from the left wall.
+  - id: spark_disappearance
+    question: Is the impact spark on the left rail gone or significantly faded?
+    answer_type: yes_no
+    notes_for_judge: Transient effects like sparks should dissipate over time.
+  - id: motion_away
+    question: Has the puck moved away from the left edge of the table?
+    answer_type: yes_no
+    notes_for_judge: The puck should no longer be adjacent to the left edge.
+  - id: table_consistency
+    question: Are the neon grid lines on the table still visible and consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check for the background.

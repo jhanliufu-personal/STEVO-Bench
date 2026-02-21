@@ -1,0 +1,63 @@
+id: falling_anvil_air_01
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: falling_anvil_air
+variation_type: occlusion_method
+variation_description: Occlusion by a passing cloud instead of camera rotation.
+changes:
+  occlusion_method: A dense cloud passes between the camera and the scene.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The anvil continues its rapid descent toward the ground. Due to its high mass, air resistance
+    has negligible effect on its acceleration. A dense, opaque white cloud drifts rapidly across the foreground,
+    completely obscuring the anvil and the background scenery. As the cloud passes, the original view
+    is revealed. No zoom, no cut, no scene change. STOP.
+  camera_WM: The anvil continues its rapid descent toward the ground. Due to its high mass, air resistance
+    has negligible effect on its acceleration. A dense, opaque white cloud drifts rapidly across the foreground,
+    completely obscuring the anvil and the background scenery. As the cloud passes, the original view
+    is revealed. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A large, rusty metal anvil is positioned high in the air against a blue sky,
+    angled slightly downward with a trail of dust and debris behind it. Below the anvil, a yellow construction
+    crane is visible on the left side. In the background, far below, is a cityscape with various buildings
+    and a horizon line.
+  init2final_edit_prompt: Edit the given image to show the rusty anvil positioned significantly lower
+    in the frame, closer to the city skyline, to simulate it having fallen downwards. Ensure the yellow
+    crane and the city background remain in their original positions and appearance.
+  rationale: The prompt describes the anvil continuing a rapid descent under gravity. An obscuring cloud
+    passes through the scene, implying a duration of time has elapsed during which the anvil would have
+    fallen further. Since the camera does not zoom or cut, the background (city and crane) must remain
+    static. Therefore, in the final frame, the anvil must be vertically lower than in the initial frame
+    due to the gravitational acceleration acting on it during the occluded period.
+  questions:
+  - id: falling_anvil_air_01_q1
+    question: Is the anvil positioned lower in the frame than it was in the initial image?
+    answer_type: yes_no
+    notes_for_judge: Compare the vertical position of the anvil in both images. It should be closer to
+      the bottom in the second image.
+  - id: falling_anvil_air_01_q2
+    question: Has the anvil moved downwards towards the city skyline?
+    answer_type: yes_no
+    notes_for_judge: The trajectory should be downward.
+  - id: falling_anvil_air_01_q3
+    question: Is the vertical distance between the anvil and the top of the image greater than in the
+      initial frame?
+    answer_type: yes_no
+    notes_for_judge: The anvil should have moved away from the top edge.
+  - id: falling_anvil_air_01_q4
+    question: Is the yellow construction crane still visible in the same location?
+    answer_type: yes_no
+    notes_for_judge: The camera is static, so the crane should not move.
+  - id: falling_anvil_air_01_q5
+    question: Is the city skyline in the background unchanged?
+    answer_type: yes_no
+    notes_for_judge: Background elements should remain stable.
+  - id: falling_anvil_air_01_q6
+    question: Is the anvil closer to the construction crane than it was initially?
+    answer_type: yes_no
+    notes_for_judge: Since the anvil is falling and the crane is below, the gap should decrease.

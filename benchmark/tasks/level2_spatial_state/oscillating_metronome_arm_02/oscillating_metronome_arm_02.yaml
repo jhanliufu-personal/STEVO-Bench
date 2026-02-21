@@ -1,0 +1,74 @@
+id: oscillating_metronome_arm_02
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: oscillating_metronome_arm
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to thick fog filling the room.
+changes:
+  occlusion_method: Thick fog fills the space obscuring the view, then clears
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The metronome arm is released and begins its rhythmic, high-frequency oscillation back and
+    forth. The internal spring mechanism is fully active. Thick, opaque white fog rapidly fills the space,
+    completely obscuring the metronome from view. The fog then gradually clears until the scene is visible
+    again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The metronome arm is released and begins its rhythmic, high-frequency oscillation back and
+    forth. The internal spring mechanism is fully active. Thick, opaque white fog rapidly fills the space,
+    completely obscuring the metronome from view. The fog then gradually clears until the scene is visible
+    again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up shot of a wooden box containing a brass clockwork mechanism. A long
+    metal arm with a cylindrical weight at the end extends diagonally downwards and to the right from
+    the mechanism. A brass winding key is inserted into the left side of the box. The box sits on a wooden
+    workbench cluttered with various tools like files, pliers, and metal scraps. A window is visible in
+    the blurred background.
+  init2final_edit_prompt: Edit the given image to change the position of the long metal arm. Rotate the
+    arm so that it is angled downwards and to the left, mirroring its original position but on the opposite
+    side of the central vertical axis. Ensure the arm looks like it has swung to this new position. Keep
+    the wooden box, the winding key, the internal gears, and the surrounding tools and workbench exactly
+    unchanged.
+  rationale: The video prompt describes the release of a spring-loaded mechanism, causing the arm to oscillate.
+    The fog acts as a temporal occlusion, covering the transition. When the fog clears, the arm will be
+    in a different phase of its swing compared to the initial static held position. Since the oscillation
+    is high-frequency, the arm is statistically almost certain to be in a different position (orientation)
+    than the start. The edit prompt enforces a specific displacement (to the left) to represent a clear
+    state change, while the questions focus on verifying that motion has occurred away from the initial
+    static point.
+  questions:
+  - id: arm_moved_01
+    question: Is the long metal arm in a different position than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the angle and location of the protruding metal rod.
+  - id: arm_angle_change_01
+    question: Has the angle of the metal arm changed relative to the wooden box?
+    answer_type: yes_no
+    notes_for_judge: It should no longer be fixed at the exact initial 4 o'clock angle.
+  - id: weight_displacement_01
+    question: Is the cylindrical weight at the end of the arm in a new location?
+    answer_type: yes_no
+    notes_for_judge: Check if the tip of the arm has moved.
+  - id: arm_not_static_01
+    question: Is the metal arm no longer in its initial static resting position?
+    answer_type: yes_no
+    notes_for_judge: The arm should have moved along its swing arc.
+  - id: arm_orientation_01
+    question: Is the orientation of the metal arm different from the starting frame?
+    answer_type: yes_no
+    notes_for_judge: Any significant change in tilt or direction counts as yes.
+  - id: box_invariant_01
+    question: Is the wooden box still in the same position?
+    answer_type: yes_no
+    notes_for_judge: The box itself should not move, only the arm.
+  - id: key_invariant_01
+    question: Is the winding key still present on the left side of the box?
+    answer_type: yes_no
+    notes_for_judge: The key should remain visible.
+  - id: tools_invariant_01
+    question: Are the tools on the workbench in the same arrangement as the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Background objects should not move.

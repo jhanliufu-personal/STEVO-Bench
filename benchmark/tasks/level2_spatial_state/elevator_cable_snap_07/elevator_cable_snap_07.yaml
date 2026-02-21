@@ -1,0 +1,66 @@
+id: elevator_cable_snap_07
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: elevator_cable_snap
+variation_type: combined
+variation_description: Emergency brakes engaged (static) + Smoke occlusion.
+changes:
+  occlusion_method: Fog/smoke
+  dynamic_conditions: Emergency brakes engaged
+  expected_outcome_change: Elevator remains stationary.
+prompts:
+  init_frame_edit_prompt: Edit the image to show heavy mechanical emergency brake calipers clamped tightly
+    onto the vertical guide rails on both sides of the elevator car.
+  video_WM: The elevator cable has snapped, but the emergency safety brakes have automatically deployed
+    and are clamping the guide rails with maximum force. Immediately, thick smoke from the friction fills
+    the shaft, completely obscuring the view. The smoke slowly clears to reveal the shaft again. No zoom,
+    no cut, no scene change. STOP.
+  camera_WM: The elevator cable has snapped, but the emergency safety brakes have automatically deployed
+    and are clamping the guide rails with maximum force. Immediately, thick smoke from the friction fills
+    the shaft, completely obscuring the view. The smoke slowly clears to reveal the shaft again. No zoom,
+    no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A high-angle shot looking down into an elevator shaft atrium. A central elevator
+    car with glass walls and a metal frame is suspended by a thick black cable extending upwards. The
+    car is positioned midway down the visible shaft, guided by vertical metal rails on either side. Below
+    the elevator, a tiled floor is visible with several people walking or standing. The shaft is surrounded
+    by a building interior featuring large arched windows and structural beams.
+  init2final_edit_prompt: Edit the given image to show the main suspension cable above the elevator car
+    severed and broken, appearing slack or disconnected. Position the elevator car slightly lower in the
+    shaft than its original height to indicate a short drop, but keep it suspended on the vertical guide
+    rails. Ensure the view is clear of smoke and the architectural details remain visible.
+  rationale: The video prompt describes a sequence where the cable snaps, the car drops, brakes engage,
+    smoke fills the shaft, and then the smoke clears. The final frame represents the state after the smoke
+    has cleared. Physically, the snapping of the cable removes upward tension, causing the cable to appear
+    broken or slack. The car would have accelerated downwards due to gravity before the emergency brakes
+    fully arrested the motion, resulting in a lower final position. The car remains suspended on the rails
+    rather than falling to the bottom because the brakes were effective.
+  questions:
+  - id: cable_severed
+    question: Is the main suspension cable above the elevator car broken, disconnected, or slack?
+    answer_type: yes_no
+    notes_for_judge: The cable extending upwards from the car should no longer be taut and continuous.
+  - id: car_lower
+    question: Is the elevator car positioned lower in the shaft compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The car should have dropped slightly due to the cable snap before brakes engaged.
+  - id: car_suspended
+    question: Is the elevator car still suspended on the guide rails (i.e., not crashed at the bottom)?
+    answer_type: yes_no
+    notes_for_judge: The prompt states brakes deployed, so the car should not be at the bottom floor.
+  - id: cable_tension_loss
+    question: Does the cable above the elevator appear to have lost its tension compared to the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: It should look loose, wavy, or absent, rather than a straight taut line.
+  - id: visibility_clear
+    question: Is the elevator car clearly visible (not obscured by smoke)?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the smoke clears to reveal the shaft again.
+  - id: rails_intact
+    question: Are the vertical guide rails still visible alongside the elevator car?
+    answer_type: yes_no
+    notes_for_judge: The rails are necessary for the brakes to work; they should not vanish.

@@ -1,0 +1,74 @@
+id: unbalanced_atwood_03
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: unbalanced_atwood
+variation_type: occlusion_method
+variation_description: Thick smoke fills the room, obscuring the view.
+changes:
+  occlusion_method: Fog/smoke
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The mechanical brake is released, allowing the weights to move freely. The central pulley
+    is well-oiled and has negligible friction. Thick white industrial smoke rapidly fills the room, completely
+    obscuring the machinery from view. The smoke then clears away, making the scene visible again. No
+    zoom, no cut, no scene change. STOP.
+  camera_WM: The mechanical brake is released, allowing the weights to move freely. The central pulley
+    is well-oiled and has negligible friction. Thick white industrial smoke rapidly fills the room, completely
+    obscuring the machinery from view. The smoke then clears away, making the scene visible again. No
+    zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A rustic workshop interior featuring a pulley system with two hanging weights.
+    On the left, a large, heavy, rusty iron block labeled '50 KG' is suspended by a thick rope. On the
+    right, a smaller rusty iron weight labeled '5 KG' hangs from the same rope system. A gear and winch
+    mechanism is situated between them. The background consists of stone walls, hanging chains on the
+    left, and a bright window on the right. An anvil sits directly beneath the 50 KG weight.
+  init2final_edit_prompt: 'Edit the given image to change the positions of the suspended weights. Move
+    the large ''50 KG'' weight on the left downwards so it is positioned significantly lower, closer to
+    the anvil. Move the small ''5 KG'' weight on the right upwards so it is positioned significantly higher,
+    closer to the overhead pulley. Adjust the lengths of the ropes to correspond to these new positions:
+    lengthen the rope segment above the 50 KG weight and shorten the rope segment above the 5 KG weight.
+    Ensure the scene is clear and free of any smoke or obstruction.'
+  rationale: 'The scenario describes an unbalanced Atwood machine where the mass on the left (50 kg) is
+    ten times heavier than the mass on the right (5 kg). Upon releasing the brake, the significantly heavier
+    50 kg weight will accelerate downwards due to gravity, while the lighter 5 kg weight will be pulled
+    upwards. The smoke occlusion masks the duration of the movement, but the final state must show the
+    result of this kinematic evolution: the heavy weight displaced downward and the light weight displaced
+    upward.'
+  questions:
+  - id: q1_50kg_pos
+    question: Is the 50 KG weight lower than its position in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The 50kg weight must move down due to being heavier.
+  - id: q2_5kg_pos
+    question: Is the 5 KG weight higher than its position in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The 5kg weight must move up as the heavier weight drops.
+  - id: q3_rope_50kg
+    question: Is the visible length of rope supporting the 50 KG weight longer than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: As the weight drops, more rope is paid out on that side.
+  - id: q4_rope_5kg
+    question: Is the visible length of rope supporting the 5 KG weight shorter than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: As the weight rises, the rope segment shortens.
+  - id: q5_relative_motion
+    question: Has the 50 KG weight moved closer to the anvil/floor?
+    answer_type: yes_no
+    notes_for_judge: Checks downward trajectory.
+  - id: q6_relative_motion_up
+    question: Has the 5 KG weight moved closer to the pulley mechanism?
+    answer_type: yes_no
+    notes_for_judge: Checks upward trajectory.
+  - id: q7_scene_consistency
+    question: Is the window on the right still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: q8_scene_consistency_chains
+    question: Are the hanging chains on the far left still present?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

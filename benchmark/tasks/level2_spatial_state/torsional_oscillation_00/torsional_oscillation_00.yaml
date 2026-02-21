@@ -1,0 +1,62 @@
+id: torsional_oscillation_00
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: torsional_oscillation
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The disk is released from its twisted position. The wire provides a restorative torque proportional
+    to the twist. Camera remains stationary throughout. No zoom, no cut, no scene change. STOP.
+  camera_WM: The disk is released from its twisted position. The wire provides a restorative torque proportional
+    to the twist. Camera remains stationary throughout. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a circular brass disk suspended horizontally by
+    a vertical metal wire. A secondary, thinner wire is coiled in a helix shape around the main suspension
+    wire above the disk. The disk has visible surface imperfections, tarnish, and patina marks on its
+    rim and top surface. The background is a blurred workshop interior with a window on the left and wooden
+    structures on the right.
+  init2final_edit_prompt: Edit the given image to show the brass disk rotated around its central vertical
+    axis. Shift the visible surface textures, tarnish spots, and imperfections on the rim and top of the
+    disk to a new angular position to simulate rotation. Keep the disk at the same vertical height and
+    horizontal position. Ensure the background and lighting remain identical to the original.
+  rationale: The prompt describes a torsional pendulum being released from a twisted position. The physical
+    action is a rotation of the disk around the vertical wire axis due to the restorative torque. Consequently,
+    the primary visual change in the final frame is the change in angular orientation of the disk. The
+    surface details (scratches, tarnish) will appear at different positions along the circumference. The
+    vertical and horizontal position of the disk's center of mass remains constant.
+  questions:
+  - id: disk_rotation_texture
+    question: Are the surface markings and tarnish spots on the disk at a different angular position than
+      in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the specific location of scratches or dark spots on the rim/face. They should
+      be shifted sideways due to rotation.
+  - id: disk_orientation_change
+    question: Has the brass disk rotated around the vertical wire axis?
+    answer_type: yes_no
+    notes_for_judge: The disk should show a change in orientation relative to the camera.
+  - id: disk_features_shifted
+    question: Is the pattern of imperfections on the front edge of the disk different from the initial
+      view?
+    answer_type: yes_no
+    notes_for_judge: The texture should be rotated.
+  - id: vertical_position_static
+    question: Is the disk at approximately the same vertical height as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Torsional motion does not involve significant vertical displacement.
+  - id: horizontal_position_static
+    question: Is the disk centered in the same horizontal position as the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The motion is rotational, not translational.
+  - id: background_consistency
+    question: Are the window and wooden background elements unchanged?
+    answer_type: yes_no
+    notes_for_judge: The camera is stationary and the background is static.

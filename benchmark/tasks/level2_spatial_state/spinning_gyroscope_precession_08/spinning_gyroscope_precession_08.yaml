@@ -1,0 +1,67 @@
+id: spinning_gyroscope_precession_08
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: spinning_gyroscope_precession
+variation_type: combined
+variation_description: Combines vertical orientation (no precession) with fog occlusion.
+changes:
+  occlusion_method: Fog/Smoke
+  dynamic_conditions: Axis is perfectly vertical
+  expected_outcome_change: Gyroscope spins in place
+prompts:
+  init_frame_edit_prompt: Edit the image so the gyroscope is oriented perfectly vertically (straight up
+    and down), aligned with the pedestal shaft, rather than tilted to the side.
+  video_WM: The gyroscope is spinning rapidly, balanced perfectly vertically on its axis. Thick white
+    industrial steam suddenly fills the room, completely obscuring the gyroscope and pedestal. The steam
+    then dissipates rapidly, clearing the view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The gyroscope is spinning rapidly, balanced perfectly vertically on its axis. Thick white
+    industrial steam suddenly fills the room, completely obscuring the gyroscope and pedestal. The steam
+    then dissipates rapidly, clearing the view. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a large, heavy brass gyroscope balanced on its
+    pointed tip on a scratched metal workbench. The gyroscope features a central vertical spindle, a thick
+    horizontal flywheel disc, and a circular outer ring frame. A metal chain hangs vertically in the foreground
+    on the left. The background shows a cluttered industrial workshop with white cinder block walls, pipes,
+    and machinery.
+  init2final_edit_prompt: Edit the given image to show the gyroscope standing upright in its original
+    location. The scene should be clear of any steam or fog. The gyroscope must remain balanced on its
+    tip with its central axis vertical and the flywheel disc horizontal, appearing exactly as it was before
+    being obscured.
+  rationale: The prompt establishes that the gyroscope is spinning rapidly and balanced perfectly vertically.
+    Physically, a rapidly spinning gyroscope with a vertical axis acts as a 'sleeping top' and is stable
+    against gravity; it does not precess or fall unless it loses significant speed or is disturbed. The
+    steam occlusion is a temporary visual effect that does not exert force on the heavy metal object.
+    Therefore, after the steam dissipates, the gyroscope should remain in its original upright position
+    and orientation due to the conservation of angular momentum.
+  questions:
+  - id: gyro_visible
+    question: Is the gyroscope visible in the final frame?
+    answer_type: yes_no
+    notes_for_judge: Tests object permanence after occlusion.
+  - id: gyro_upright
+    question: Is the gyroscope still standing upright on its tip?
+    answer_type: yes_no
+    notes_for_judge: Tests physical stability; the spinning gyroscope should not fall.
+  - id: gyro_vertical_axis
+    question: Is the central shaft of the gyroscope oriented vertically?
+    answer_type: yes_no
+    notes_for_judge: Tests orientation stability.
+  - id: gyro_position
+    question: Is the gyroscope located at the same position on the workbench as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Tests position constancy.
+  - id: flywheel_horizontal
+    question: Is the thick flywheel disc of the gyroscope oriented horizontally?
+    answer_type: yes_no
+    notes_for_judge: Tests orientation relative to the vertical axis.
+  - id: steam_cleared
+    question: Is the view clear of the thick white steam described in the prompt?
+    answer_type: yes_no
+    notes_for_judge: Tests the completion of the 'dissipates rapidly' instruction.
+  - id: chain_present
+    question: Is the hanging chain on the left still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

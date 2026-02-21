@@ -1,0 +1,60 @@
+id: motorized_camera_dolly_04
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: motorized_camera_dolly
+variation_type: dynamic_condition
+variation_description: Dolly is now stationary with wheel chocks applied
+changes:
+  occlusion_method: null
+  dynamic_conditions: Wheel chocks prevent movement; dolly is stationary
+  expected_outcome_change: Dolly remains in the exact same position (no movement)
+prompts:
+  init_frame_edit_prompt: Edit the image to add yellow wheel chocks wedged tightly under the dolly's wheels
+    to prevent any movement.
+  video_WM: The camera dolly is sitting on the tracks with heavy wheel chocks wedged under the tires,
+    preventing any motion. The camera rotates right until the dolly completely exits the view, then rotates
+    toward the left smoothly at the same rate until the start of the tracks is back in the center of view.
+    No zoom, no cut, no scene change. STOP.
+  camera_WM: The camera dolly is sitting on the tracks with heavy wheel chocks wedged under the tires,
+    preventing any motion. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A film studio setting featuring a large camera dolly on metal tracks with a
+    green screen background. The dolly supports a long jib arm with a professional cinema camera in the
+    foreground. Two operators are seated on the dolly. Yellow wheel chocks are wedged under the dolly's
+    black tires on the tracks. Studio lighting grids are visible overhead.
+  init2final_edit_prompt: Edit the given image to show the camera dolly, operators, and equipment in the
+    exact same position on the tracks. Ensure the yellow wheel chocks remain wedged under the tires. The
+    framing, perspective, and background elements should remain identical to the initial image.
+  rationale: The video prompt specifies that the dolly is secured by wheel chocks, preventing any motion.
+    The camera pans away until the dolly is out of view and then pans back to the original position (centering
+    the start of the tracks). Since the object is stationary and the camera returns to its starting viewpoint,
+    the final frame must show the dolly in the exact same position and configuration as the initial frame,
+    testing object permanence after occlusion.
+  questions:
+  - id: dolly_position_static
+    question: Is the camera dolly in the same position on the tracks as it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The dolly should not have moved along the tracks.
+  - id: dolly_remained_stationary
+    question: Has the dolly remained at its starting point on the tracks?
+    answer_type: yes_no
+    notes_for_judge: It should not have moved.
+  - id: chocks_visible
+    question: Are the yellow wheel chocks still visible under the dolly's tires?
+    answer_type: yes_no
+    notes_for_judge: Chocks should remain in place.
+  - id: dolly_visible
+    question: Is the camera dolly visible in the frame?
+    answer_type: yes_no
+    notes_for_judge: The camera pans back to reveal the dolly.
+  - id: operators_present
+    question: Are the two operators still seated on the dolly?
+    answer_type: yes_no
+    notes_for_judge: Operators should not disappear.
+  - id: background_consistency
+    question: Is the green screen background still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

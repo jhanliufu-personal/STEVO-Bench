@@ -1,0 +1,72 @@
+id: bicycle_wheel_freespin_08
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: bicycle_wheel_freespin
+variation_type: combined
+variation_description: Motor drive combined with blocking screen occlusion.
+changes:
+  occlusion_method: Opaque screen blocks view.
+  dynamic_conditions: Motor applies constant torque.
+  expected_outcome_change: Wheel maintains speed while blocked.
+prompts:
+  init_frame_edit_prompt: Edit the image to add a small electric motor mechanism attached to the metal
+    arm, with a rubber roller pressing firmly against the top of the tire tread.
+  video_WM: A motorized friction roller is pressed against the tire tread, applying constant driving torque
+    to the wheel. The axle bearing allows rotation. A large, opaque workshop divider slides in from the
+    left, completely blocking the view of the wheel. The divider remains in place for several seconds.
+    Then the divider slides back to the left, revealing the original viewpoint. No zoom, no cut, no scene
+    change. STOP.
+  camera_WM: A motorized friction roller is pressed against the tire tread, applying constant driving
+    torque to the wheel. The axle bearing allows rotation. A large, opaque workshop divider slides in
+    from the left, completely blocking the view of the wheel. The divider remains in place for several
+    seconds. Then the divider slides back to the left, revealing the original viewpoint. No zoom, no cut,
+    no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A horizontal bicycle wheel mounted on a metal stand in a workshop. The wheel
+    is spinning rapidly, causing significant motion blur on the spokes. A silver electric motor is attached
+    to a metal arm above the wheel, with a black friction roller pressing against the tire to drive it.
+    Wires are connected to the motor. In the background, there is a workbench with a blue vise and various
+    tools, illuminated by overhead fluorescent lights.
+  init2final_edit_prompt: Edit the given image to show the bicycle wheel still spinning on the stand in
+    its original position. Ensure the spokes exhibit motion blur to indicate rotation. The black friction
+    roller must remain pressed against the tire, and the motor assembly should be in the same location.
+    The view must be completely unobstructed, with no divider or barrier visible.
+  rationale: The video prompt describes a scenario where a spinning wheel is temporarily occluded by a
+    divider that enters and then leaves the frame. Since the motor applies constant torque and the wheel
+    is mounted on a fixed axle, the physical state (position and rotational velocity) remains stable throughout
+    the occlusion. Therefore, the final frame should visually match the initial frame, depicting the wheel
+    still spinning in the same location after the occluder has retracted.
+  questions:
+  - id: wheel_visibility
+    question: Is the bicycle wheel clearly visible in the frame?
+    answer_type: yes_no
+    notes_for_judge: The wheel should be visible after the divider retracts.
+  - id: wheel_position_maintenance
+    question: Is the bicycle wheel located in the same position on the stand as it was in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: The wheel is fixed to a stand and should not have moved spatially.
+  - id: motion_blur_presence
+    question: Do the spokes of the wheel exhibit motion blur?
+    answer_type: yes_no
+    notes_for_judge: The wheel should still be spinning, so spokes should not be sharp/distinct.
+  - id: motor_contact
+    question: Is the friction roller still in contact with the tire?
+    answer_type: yes_no
+    notes_for_judge: The drive mechanism should remain engaged.
+  - id: occluder_absence
+    question: Is the view free of any large opaque dividers or barriers?
+    answer_type: yes_no
+    notes_for_judge: The divider slides back, revealing the original view.
+  - id: background_visibility
+    question: Are the background workbench and vise visible again?
+    answer_type: yes_no
+    notes_for_judge: The background should be revealed after the occlusion ends.
+  - id: orientation_consistency
+    question: Is the wheel still oriented horizontally?
+    answer_type: yes_no
+    notes_for_judge: The mounting orientation should not change.

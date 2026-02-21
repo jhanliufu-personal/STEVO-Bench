@@ -1,0 +1,73 @@
+id: bicycle_wheel_freespin_02
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: bicycle_wheel_freespin
+variation_type: occlusion_method
+variation_description: Occlusion via a sliding workshop screen instead of camera rotation.
+changes:
+  occlusion_method: A large opaque screen slides in to block the view.
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics (wheel slows down gradually due to friction).
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The wheel continues spinning freely on its axle bearing. The axle bearing has moderate friction
+    typical of standard ball bearings without lubrication. Air resistance acts on the rotating spokes
+    and rim as they move through the air. No external torque is applied to the wheel. The wheel has standard
+    mass distribution for a bicycle wheel. A large, opaque workshop divider slides in from the left, completely
+    blocking the view of the wheel. The divider remains in place for several seconds. Then the divider
+    slides back to the left, revealing the original viewpoint. No zoom, no cut, no scene change. STOP.
+  camera_WM: The wheel continues spinning freely on its axle bearing. The axle bearing has moderate friction
+    typical of standard ball bearings without lubrication. Air resistance acts on the rotating spokes
+    and rim as they move through the air. No external torque is applied to the wheel. The wheel has standard
+    mass distribution for a bicycle wheel. A large, opaque workshop divider slides in from the left, completely
+    blocking the view of the wheel. The divider remains in place for several seconds. Then the divider
+    slides back to the left, revealing the original viewpoint. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A bicycle wheel mounted on a metal truing stand in a workshop environment. The
+    wheel is spinning rapidly, indicated by significant motion blur on the silver spokes, making them
+    appear as a semi-transparent blur rather than distinct lines. The black tire and silver rim are visible.
+    The background includes a workbench with tools and a white wall, slightly out of focus.
+  init2final_edit_prompt: Edit the given image to show the bicycle wheel spinning at a slower speed. The
+    spokes should appear significantly sharper and more distinct, with less motion blur than in the original
+    image. Ensure the wheel remains mounted on the stand in the exact same position and the background
+    remains unchanged.
+  rationale: The wheel is spinning freely but is subject to friction from the unlubricated bearing and
+    air resistance. Over the course of 'several seconds' of occlusion, these dissipative forces will continuously
+    reduce the wheel's angular velocity (deceleration). Therefore, when the view returns, the wheel must
+    be spinning slower than it was initially. Visually, this reduction in speed is represented by a decrease
+    in motion blur, making the spokes appear sharper and more distinct. Since the wheel is mechanically
+    fixed to the stand, its spatial position must remain constant.
+  questions:
+  - id: spoke_sharpness
+    question: Do the spokes appear sharper and more distinct than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the motion blur. The final frame should show less blur (sharper spokes) due
+      to friction slowing the wheel down.
+  - id: motion_blur_reduction
+    question: Is there less motion blur on the spokes compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The wheel should have decelerated, resulting in reduced visual smearing of the spokes.
+  - id: position_retention
+    question: Is the wheel still mounted on the truing stand in the same position?
+    answer_type: yes_no
+    notes_for_judge: The wheel is fixed to the axle and should not have moved spatially.
+  - id: vertical_alignment
+    question: Is the height of the wheel hub consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The wheel should not have fallen or shifted vertically.
+  - id: divider_absence
+    question: Is the view of the wheel unobstructed by the workshop divider?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the divider slides back, revealing the view.
+  - id: wheel_integrity
+    question: Is the tire still attached to the rim in the same configuration?
+    answer_type: yes_no
+    notes_for_judge: Basic consistency check.
+  - id: apparent_speed
+    question: Does the wheel appear to be spinning slower (or stopped) compared to the initial rapid spin?
+    answer_type: yes_no
+    notes_for_judge: Judge based on the visual cue of blur intensity.

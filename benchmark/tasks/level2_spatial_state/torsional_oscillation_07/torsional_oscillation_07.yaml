@@ -1,0 +1,62 @@
+id: torsional_oscillation_07
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: torsional_oscillation
+variation_type: combined
+variation_description: Untwisted wire (no motion) combined with object blocking occlusion.
+changes:
+  occlusion_method: Object blocking.
+  dynamic_conditions: Wire is untwisted (equilibrium).
+  expected_outcome_change: The disk remains stationary (no oscillation).
+prompts:
+  init_frame_edit_prompt: Edit the image to straighten the wire so it looks vertical and untwisted, removing
+    the spiral pattern.
+  video_WM: The disk hangs motionless, suspended by a straight, vertical wire with no twist. A large opaque
+    sheet slides from the right to completely cover the lens, blocking the view. It pauses, then slides
+    back to the right to reveal the scene again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The disk hangs motionless, suspended by a straight, vertical wire with no twist. A large
+    opaque sheet slides from the right to completely cover the lens, blocking the view. It pauses, then
+    slides back to the right to reveal the scene again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A thick, circular brass disk hangs horizontally in the center of the frame,
+    suspended by a single thin vertical wire attached to its center. The disk has a metallic texture with
+    visible thickness. The background is a workshop interior with a bright window on the left and dark
+    wooden walls and shelving on the right. The wire is taut and straight, and the disk appears stationary.
+  init2final_edit_prompt: Edit the given image to show the scene exactly as it was initially, with the
+    brass disk suspended in its original position and orientation. Ensure the view is completely unobstructed
+    and the opaque sheet mentioned in the context is not blocking the disk or the background. The disk
+    should appear motionless, and the lighting and workshop background should match the initial state.
+  rationale: 'The video prompt explicitly states that the disk hangs motionless with no twist and describes
+    no physical interaction or force applied to the object. The only action described is an opaque sheet
+    sliding in to cover the lens and then sliding back out to reveal the scene. According to the laws
+    of physics (inertia), a motionless object with no external forces applied will remain motionless.
+    Therefore, the final state must be identical to the initial state: the disk is in the same position
+    and orientation, and the view is clear of the occluder.'
+  questions:
+  - id: disk_visibility
+    question: Is the brass disk fully visible again?
+    answer_type: yes_no
+    notes_for_judge: The opaque sheet should have moved away to reveal the object.
+  - id: disk_position_static
+    question: Is the disk in the same position as it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The disk should not have swung or translated.
+  - id: disk_height_static
+    question: Is the disk at the same height as it was initially?
+    answer_type: yes_no
+    notes_for_judge: Vertical position should be unchanged.
+  - id: wire_straightness
+    question: Is the suspension wire still vertical and straight?
+    answer_type: yes_no
+    notes_for_judge: The wire should not be bent or slack.
+  - id: disk_orientation_static
+    question: Is the orientation of the disk unchanged compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The disk should not have rotated or twisted.
+  - id: occluder_removed
+    question: Has the opaque sheet moved away to reveal the central object?
+    answer_type: yes_no
+    notes_for_judge: The view should be unobstructed.

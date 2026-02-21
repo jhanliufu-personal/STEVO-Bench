@@ -1,0 +1,62 @@
+id: falling_anvil_air_03
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: falling_anvil_air
+variation_type: occlusion_method
+variation_description: Camera tilts up towards the sky instead of rotating sideways.
+changes:
+  occlusion_method: Camera tilts upward away from the falling object.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The anvil continues its rapid descent toward the ground. The camera tilts upward toward the
+    blue sky until the anvil and crane completely exit the bottom of the view. The camera then tilts back
+    down smoothly at the same rate until the crane hook is back in the center of view. No zoom, no cut,
+    no scene change. STOP.
+  camera_WM: The iron anvil falls through the air, accelerating constantly under the force of gravity.
+    STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A large, rusty metal anvil is positioned in the upper right quadrant of the
+    sky, angled downwards with a trail of brown dust and debris trailing behind it, indicating rapid motion.
+    Below the anvil, in the lower left, is a yellow construction crane with a vertical mast and a horizontal
+    jib holding a hanging hook. The background features a sprawling cityscape with various buildings under
+    a clear blue sky.
+  init2final_edit_prompt: Edit the given image to remove the large rusty anvil and its dust trail from
+    the sky, leaving the blue sky clear in that area. Keep the yellow construction crane, the hanging
+    hook, and the cityscape background unchanged.
+  rationale: The video prompt describes a camera movement that tilts up away from the scene and then tilts
+    back down to the original view (centering the crane hook). This sequence takes a non-trivial amount
+    of time (likely several seconds). During this interval, the anvil, which was already in 'rapid descent',
+    is subject to gravity and will have fallen significantly. By the time the camera returns to the initial
+    framing, the anvil will have fallen past the crane and out of the frame (or at least far below its
+    starting position). Therefore, the final state should show the static background and crane, but the
+    falling anvil should be absent from its original position.
+  questions:
+  - id: anvil_gone_or_lower
+    question: Is the large rusty anvil absent from its original position in the upper sky?
+    answer_type: yes_no
+    notes_for_judge: The anvil should have fallen out of frame or significantly downwards.
+  - id: sky_clear
+    question: Is the blue sky clear of the large anvil and dust trail that were present initially?
+    answer_type: yes_no
+    notes_for_judge: The object has fallen, leaving the space empty.
+  - id: crane_visible
+    question: Is the yellow construction crane still visible?
+    answer_type: yes_no
+    notes_for_judge: The camera returns to the crane, so it should be visible.
+  - id: hook_visible
+    question: Is the crane's hook visible in the frame?
+    answer_type: yes_no
+    notes_for_judge: The prompt explicitly states the hook is back in view.
+  - id: city_background
+    question: Is the cityscape background still visible?
+    answer_type: yes_no
+    notes_for_judge: The camera returns to the original angle.
+  - id: anvil_displacement
+    question: Has the anvil moved downwards (or exited the frame) compared to the first image?
+    answer_type: yes_no
+    notes_for_judge: It must not be floating in the same spot.

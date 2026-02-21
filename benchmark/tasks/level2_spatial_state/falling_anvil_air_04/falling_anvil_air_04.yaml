@@ -1,0 +1,61 @@
+id: falling_anvil_air_04
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: falling_anvil_air
+variation_type: dynamic_condition
+variation_description: Anvil has a parachute, drastically increasing air resistance.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Anvil is attached to a parachute (high drag).
+  expected_outcome_change: The anvil falls much slower; final position is higher than original.
+prompts:
+  init_frame_edit_prompt: Edit the image to show a large, deployed parachute attached to the top of the
+    anvil.
+  video_WM: The anvil, suspended by a large open parachute, descends slowly through the air due to high
+    air resistance counteracting gravity. The camera rotates right until the anvil completely exits the
+    view, then rotates toward the left smoothly at the same rate until the crane hook is back in the center
+    of view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The anvil, suspended by a large open parachute, descends slowly through the air due to high
+    air resistance counteracting gravity. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A large rusty anvil is suspended in the air by a fully inflated white and orange
+    parachute. To the left, a yellow construction crane jib extends horizontally with a hook hanging from
+    it. The background features a clear blue sky and a cityscape below. There is some debris or dust near
+    the anvil.
+  init2final_edit_prompt: Edit the given image to position the yellow crane hook in the horizontal center
+    of the frame. Place the anvil and parachute significantly lower in the frame to reflect downward motion.
+    Shift the anvil and parachute horizontally closer to the right edge of the image.
+  rationale: The camera performs a panning sequence (right then left) that consumes time, allowing the
+    anvil to descend under gravity. The parachute creates air resistance, causing a slow but steady descent.
+    The final camera movement centers the crane hook (originally on the left), which shifts the framing
+    to the left relative to the initial view, causing the anvil (positioned to the right of the hook)
+    to appear further to the right in the final frame.
+  questions:
+  - id: hook_centered
+    question: Is the yellow crane hook positioned in the horizontal center of the image?
+    answer_type: yes_no
+    notes_for_judge: The camera has panned to center the hook.
+  - id: anvil_lower
+    question: Is the anvil positioned lower in the frame than it was in the initial image?
+    answer_type: yes_no
+    notes_for_judge: Gravity causes the anvil to descend over time.
+  - id: anvil_right_shift
+    question: Is the anvil positioned closer to the right edge of the frame than in the initial image?
+    answer_type: yes_no
+    notes_for_judge: Centering the hook (which was on the left) shifts the view left, pushing right-side
+      objects further right.
+  - id: parachute_open
+    question: Is the parachute still fully inflated above the anvil?
+    answer_type: yes_no
+    notes_for_judge: The parachute should remain deployed during descent.
+  - id: anvil_below_hook
+    question: Is the main body of the anvil positioned vertically lower than the crane hook?
+    answer_type: yes_no
+    notes_for_judge: Initially they are roughly level; the anvil should have fallen below the hook's level.
+  - id: crane_visible
+    question: Is the yellow crane arm still visible in the image?
+    answer_type: yes_no
+    notes_for_judge: The crane should remain in view as the camera centers on its hook.

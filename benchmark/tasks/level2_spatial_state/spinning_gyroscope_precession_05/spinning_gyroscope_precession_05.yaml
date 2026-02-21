@@ -1,0 +1,61 @@
+id: spinning_gyroscope_precession_05
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: spinning_gyroscope_precession
+variation_type: dynamic_condition
+variation_description: The gyroscope is spinning but oriented perfectly vertically. With no tilt, there
+  is no torque to cause precession.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Axis is perfectly vertical (90 degrees)
+  expected_outcome_change: Gyroscope spins in place without precessing/circling
+prompts:
+  init_frame_edit_prompt: Edit the image so the gyroscope is oriented perfectly vertically (straight up
+    and down), aligned with the pedestal shaft, rather than tilted to the side.
+  video_WM: The gyroscope is spinning rapidly, balanced perfectly vertically on its axis. There is no
+    tilt relative to gravity. The camera rotates right until the gyroscope completely exits the view,
+    then rotates toward the left smoothly at the same rate until the pedestal base is back in the center
+    of view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The gyroscope is spinning rapidly, balanced perfectly vertically on its axis. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A large brass gyroscope with a central vertical axis and a thick outer rotor
+    is spinning on a pointed tip. It is balanced vertically on a metal plate on a workbench. A metal chain
+    hangs vertically on the left side of the frame. The background shows a cluttered workshop environment
+    with shelves and machinery.
+  init2final_edit_prompt: Edit the image to show the brass gyroscope positioned in the center of the frame,
+    maintaining its upright, vertical orientation. Ensure the gyroscope is resting on its tip on the metal
+    plate. Keep the hanging chain on the left side and the workshop background unchanged.
+  rationale: The video describes a camera movement that pans away and then returns to the original viewing
+    angle. Physically, a rapidly spinning gyroscope that is perfectly balanced vertically experiences
+    no gravitational torque and therefore does not precess or tilt; it remains in a stable 'sleeping'
+    state. Consequently, when the camera returns to the initial position, the gyroscope should still be
+    spinning in the same vertical orientation and location as in the initial frame. The test focuses on
+    object permanence and the physical stability of the spinning object during the occlusion.
+  questions:
+  - id: gyro_visible
+    question: Is the brass gyroscope visible in the frame?
+    answer_type: yes_no
+    notes_for_judge: The camera returns to the center, so the object must be visible.
+  - id: gyro_vertical
+    question: Is the gyroscope oriented vertically?
+    answer_type: yes_no
+    notes_for_judge: It should remain upright due to gyroscopic stability.
+  - id: gyro_upright
+    question: Is the gyroscope standing on its tip rather than lying on its side?
+    answer_type: yes_no
+    notes_for_judge: It should not have fallen over.
+  - id: gyro_center
+    question: Is the base of the gyroscope located near the horizontal center of the image?
+    answer_type: yes_no
+    notes_for_judge: The prompt specifies the camera returns until the base is back in the center.
+  - id: chain_visible
+    question: Is the hanging chain visible on the left side of the image?
+    answer_type: yes_no
+    notes_for_judge: The camera returns to the initial view, so the chain should be visible again.
+  - id: plate_contact
+    question: Is the bottom tip of the gyroscope touching the metal plate?
+    answer_type: yes_no
+    notes_for_judge: It should still be resting on the surface.

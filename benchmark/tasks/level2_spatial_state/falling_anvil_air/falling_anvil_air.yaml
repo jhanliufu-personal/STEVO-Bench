@@ -13,3 +13,41 @@ prompts:
     STOP.
 camera_control:
   HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A large, rusty metal anvil is positioned in the center of the sky, falling downwards
+    with a trail of brown dust and debris behind it. Below the anvil, a yellow construction crane with
+    a hanging hook is visible on the left side, set against a distant city skyline and a clear blue sky.
+  init2final_edit_prompt: Edit the given image to remove the large falling anvil and its associated dust
+    trail from the sky. The final image should show the clear blue sky, the yellow construction crane,
+    and the city skyline exactly as they appear in the background of the original image, implying the
+    anvil has fallen completely out of the frame.
+  rationale: The anvil is in rapid descent. The camera performs a panning maneuver (right, then back left)
+    that takes time. During this interval, gravity continues to accelerate the anvil downwards. Since
+    the camera returns to its exact initial orientation (centering the crane hook), the anvil will have
+    fallen past the original field of view or be significantly lower, leaving the upper sky empty.
+  questions:
+  - id: anvil_moved_down_or_gone
+    question: Is the large rusty anvil either significantly lower in the frame or completely absent?
+    answer_type: yes_no
+    notes_for_judge: The anvil should have fallen due to gravity. It should not be in the original center
+      position.
+  - id: anvil_not_at_start_pos
+    question: Is the upper center of the sky clear of the anvil?
+    answer_type: yes_no
+    notes_for_judge: The anvil started high in the center; it should have fallen down.
+  - id: crane_visible
+    question: Is the yellow construction crane still visible?
+    answer_type: yes_no
+    notes_for_judge: The camera returns to the initial view, so the static background objects must remain.
+  - id: city_visible
+    question: Is the city skyline still visible at the bottom?
+    answer_type: yes_no
+    notes_for_judge: Background consistency check.
+  - id: sky_clear
+    question: Is the blue sky visible where the anvil used to be?
+    answer_type: yes_no
+    notes_for_judge: Checks if the object has vacated its starting space.
+  - id: crane_hook_framing
+    question: Is the crane hook positioned roughly in the center of the view?
+    answer_type: yes_no
+    notes_for_judge: The prompt specifies the camera rotates back until the hook is in the center.

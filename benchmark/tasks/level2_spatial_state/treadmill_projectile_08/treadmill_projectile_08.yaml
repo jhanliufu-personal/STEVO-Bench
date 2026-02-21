@@ -1,0 +1,64 @@
+id: treadmill_projectile_08
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: treadmill_projectile
+variation_type: combined
+variation_description: Combines an opaque screen blocker with a steep treadmill incline.
+changes:
+  occlusion_method: An opaque screen moves in front of the camera.
+  dynamic_conditions: Treadmill is inclined 15 degrees uphill.
+  expected_outcome_change: The ball's trajectory is affected by the angled reference frame; gravity acts
+    at an angle relative to the belt surface.
+prompts:
+  init_frame_edit_prompt: Edit the image to tilt the entire treadmill frame upward to a 15-degree incline.
+  video_WM: The robotic launcher fires a tennis ball vertically relative to the belt surface, while the
+    treadmill belt moves leftward up a steep 15-degree incline. A large opaque black screen slides horizontally
+    into the frame, completely blocking the view of the treadmill. The screen slides away to reveal the
+    scene again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The robotic launcher fires a tennis ball vertically relative to the belt surface, while the
+    treadmill belt moves leftward up a steep 15-degree incline. A large opaque black screen slides horizontally
+    into the frame, completely blocking the view of the treadmill. The screen slides away to reveal the
+    scene again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: s-3, left-30, right-30
+evaluation:
+  init_frame_description: A close-up shot of a robotic mechanism mounted on a treadmill belt. The robot
+    has a silver aluminum frame, a vertical metal tube extending upwards, and exposed multi-colored wiring.
+    The treadmill belt beneath it is dark and textured, showing horizontal motion blur streaks. The background
+    features a concrete wall and industrial framing. No tennis ball is visible in the scene.
+  init2final_edit_prompt: Edit the given image to show a yellow tennis ball resting on the treadmill belt,
+    positioned to the left of the robotic mechanism. The robotic mechanism should remain in its original
+    position. The tennis ball should appear to be on the surface of the moving belt.
+  rationale: The robotic launcher is stationary relative to the camera (sharp in the initial frame while
+    the belt is blurred), likely tethered or driving to maintain position. The treadmill belt is moving
+    leftward. When the launcher fires the tennis ball vertically relative to the belt, the ball goes up
+    and lands back on the belt. Once it lands, the leftward motion of the belt (and friction) carries
+    the ball to the left. Therefore, in the final frame, the tennis ball should be visible on the belt
+    to the left of the launcher.
+  questions:
+  - id: ball_visible
+    question: Is a tennis ball visible in the final frame?
+    answer_type: yes_no
+    notes_for_judge: The ball should have been fired and landed on the belt.
+  - id: ball_position_left
+    question: Is the tennis ball positioned to the left of the robotic launcher's vertical tube?
+    answer_type: yes_no
+    notes_for_judge: The belt moves leftward, carrying the ball to the left of the stationary launcher.
+  - id: ball_on_belt
+    question: Is the tennis ball resting on or near the surface of the treadmill belt?
+    answer_type: yes_no
+    notes_for_judge: The ball should have landed on the belt.
+  - id: launcher_present
+    question: Is the robotic launcher still visible in the frame?
+    answer_type: yes_no
+    notes_for_judge: The launcher should not disappear.
+  - id: launcher_stationary
+    question: Is the robotic launcher in approximately the same position as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The launcher is a test rig (sharp in init frame) and should remain stationary while
+      the belt moves.
+  - id: ball_lower_than_top
+    question: Is the tennis ball positioned lower than the top of the launcher's vertical tube?
+    answer_type: yes_no
+    notes_for_judge: The ball should be on the belt, not floating high in the air.

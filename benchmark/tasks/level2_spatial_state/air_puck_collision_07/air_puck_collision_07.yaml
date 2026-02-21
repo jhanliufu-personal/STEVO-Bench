@@ -1,0 +1,64 @@
+id: air_puck_collision_07
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: air_puck_collision
+variation_type: combined
+variation_description: High friction surface combined with lights turning off.
+changes:
+  occlusion_method: Arcade lights turn off
+  dynamic_conditions: Air cushion deactivated (high friction)
+  expected_outcome_change: Puck stops during darkness
+prompts:
+  init_frame_edit_prompt: Edit the image to make the table surface look matte and unlit, removing the
+    glowing reflection from the air holes to imply the air jets are deactivated.
+  video_WM: The puck slides across the rough surface of the deactivated air hockey table. Without the
+    air cushion, friction is significant. Suddenly, the arcade lights turn off completely, plunging the
+    scene into total darkness. After a few seconds, the lights turn back on, revealing the scene again.
+    No zoom, no cut, no scene change. STOP.
+  camera_WM: The puck slides across the rough surface of the deactivated air hockey table. Without the
+    air cushion, friction is significant. Suddenly, the arcade lights turn off completely, plunging the
+    scene into total darkness. After a few seconds, the lights turn back on, revealing the scene again.
+    No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up view of an air hockey table surface with neon grid lines in pink,
+    blue, and yellow. A white air hockey puck with a blue center sits in the foreground on the left side,
+    near a metal side rail. In the background, out of focus, are other arcade machines and hands holding
+    orange mallets.
+  init2final_edit_prompt: Edit the given image to move the white air hockey puck from the bottom left
+    foreground to a position further up the table and closer to the center, as if it has slid away from
+    the camera. Remove the puck from its original location. Keep the neon grid lines, the metal rail,
+    the background hands, and the arcade lighting exactly as they are.
+  rationale: The prompt describes a puck sliding on a deactivated table, meaning high friction will cause
+    it to decelerate and stop after a short distance. The blackout period covers the duration of this
+    movement. When the lights return, the only significant change in the state of the world is the position
+    of the puck, which should have displaced from the foreground along the table surface. The background
+    and table structure remain static.
+  questions:
+  - id: puck_moved_position
+    question: Is the white puck in a different position than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The puck should not be in the exact same spot in the bottom left corner.
+  - id: puck_moved_away
+    question: Has the white puck moved further away from the camera compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The puck should be higher up in the image frame, indicating movement down the table.
+  - id: puck_moved_right
+    question: Is the white puck positioned further to the right than its starting point near the left
+      rail?
+    answer_type: yes_no
+    notes_for_judge: It should have moved towards the center of the table.
+  - id: puck_not_at_start
+    question: Is the area where the puck was originally located (bottom left corner) now empty?
+    answer_type: yes_no
+    notes_for_judge: The original spot should show the table surface/grid lines without the puck.
+  - id: rail_consistency
+    question: Is the metal rail on the left side of the table still visible and unchanged?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: grid_consistency
+    question: Are the neon grid lines on the table surface still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

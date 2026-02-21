@@ -13,3 +13,45 @@ prompts:
     STOP.
 camera_control:
   HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a large mechanical gyroscope spinning on a metal
+    workbench. The gyroscope features a thick, blurred brass rotor within a dark metal gimbal frame. It
+    is balanced on a sharp steel pivot point resting on a scratched metal plate. The axis of the gyroscope
+    is tilted to the left. In the background, a workshop setting is visible with a white brick wall, a
+    hanging metal chain on the left, and various tools and cabinets on the right.
+  init2final_edit_prompt: Edit the given image to show the gyroscope centered in the frame, still balanced
+    on its bottom pivot point. The gyroscope should remain upright and tilted, with the brass rotor appearing
+    blurred to indicate rapid spinning. The background, including the chain on the left and the workshop
+    tools, should remain consistent with the initial view.
+  rationale: The video describes a camera panning operation that moves the gyroscope out of view and then
+    returns to the original position. Physically, the gyroscope possesses high angular momentum, which
+    creates gyroscopic stability. This means that during the short duration of the camera pan, the gyroscope
+    will not fall over; it will continue to spin and maintain its upright, tilted orientation (subject
+    to slow precession). Therefore, the final frame should show the gyroscope visible, centered (as the
+    camera returns), and still balanced on its pivot, demonstrating object permanence and physical stability.
+  questions:
+  - id: gyro_visible
+    question: Is the gyroscope visible in the frame?
+    answer_type: yes_no
+    notes_for_judge: Tests object permanence after occlusion.
+  - id: gyro_centered
+    question: Is the base of the gyroscope positioned near the center of the image?
+    answer_type: yes_no
+    notes_for_judge: Verifies the camera returned to the starting angle.
+  - id: gyro_upright
+    question: Is the gyroscope standing on its pivot point rather than lying on its side?
+    answer_type: yes_no
+    notes_for_judge: Tests physical stability/angular momentum; the gyro should not have fallen.
+  - id: gyro_vertical_orientation
+    question: Is the top of the gyroscope axis positioned higher than the bottom pivot?
+    answer_type: yes_no
+    notes_for_judge: Confirms the object is upright.
+  - id: rotor_blur
+    question: Does the brass rotor appear to be spinning (e.g., motion blur) or at least maintained in
+      the frame?
+    answer_type: yes_no
+    notes_for_judge: Checks for state consistency.
+  - id: chain_visible
+    question: Is the hanging chain visible on the left side of the frame?
+    answer_type: yes_no
+    notes_for_judge: Checks for scene consistency and correct camera return.

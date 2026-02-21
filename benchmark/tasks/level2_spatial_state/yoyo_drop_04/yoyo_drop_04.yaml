@@ -1,0 +1,62 @@
+id: yoyo_drop_04
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: yoyo_drop
+variation_type: dynamic_condition
+variation_description: A knot in the string prevents the yo-yo from unwinding properly.
+changes:
+  occlusion_method: null
+  dynamic_conditions: String has a large knot just below the hand.
+  expected_outcome_change: Yo-yo stops descending almost immediately due to the knot.
+prompts:
+  init_frame_edit_prompt: Edit the image to show a large, messy knot in the white string about two inches
+    below the hand.
+  video_WM: The yo-yo is released from the hand. A large knot in the string sits just below the hand,
+    obstructing the path through the axle. The camera rotates right until the yo-yo completely exits the
+    view, then rotates toward the left smoothly at the same rate until the hand holding the string is
+    back in the center of view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The yo-yo is released from the hand. A large knot in the string sits just below the hand,
+    obstructing the path through the axle. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up shot of a silver metal yo-yo suspended in mid-air. A hand at the
+    top of the frame holds a white string. There is a large, messy knot in the string positioned just
+    below the hand and above the yo-yo. The string is wound around the yo-yo's axle. The background is
+    a blurred industrial interior with a concrete floor and large windows.
+  init2final_edit_prompt: Edit the given image to show the silver yo-yo positioned significantly lower
+    in the frame, hanging at the end of a longer, taut segment of white string. Keep the hand and the
+    large knot at the top of the frame in their original positions. The background and lighting should
+    remain unchanged.
+  rationale: The prompt states the yo-yo is released from the hand, which initiates a fall due to gravity.
+    As the yo-yo falls, it unwinds the string, increasing the distance between the yo-yo and the hand.
+    The camera pans away and then returns to the original framing (centered on the hand). Therefore, in
+    the final frame, the hand and knot should be in their initial positions, but the yo-yo should be much
+    lower in the frame (or further down the string) due to the time elapsed during the camera movement.
+  questions:
+  - id: yoyo_lower
+    question: Is the yo-yo positioned lower in the frame than it was in the initial image?
+    answer_type: yes_no
+    notes_for_judge: The yo-yo should have fallen due to gravity.
+  - id: string_longer
+    question: Is the visible length of string between the knot and the yo-yo longer than in the initial
+      image?
+    answer_type: yes_no
+    notes_for_judge: As the yo-yo falls, the string unwinds and extends.
+  - id: distance_increased
+    question: Has the distance between the hand and the yo-yo increased?
+    answer_type: yes_no
+    notes_for_judge: Gravity pulls the yo-yo away from the holding hand.
+  - id: hand_visible
+    question: Is the hand holding the string still visible at the top of the frame?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the camera returns until the hand is back in the center.
+  - id: knot_position
+    question: Is the large knot still visible near the hand?
+    answer_type: yes_no
+    notes_for_judge: The knot is part of the string near the hand and should remain there.
+  - id: yoyo_below_knot
+    question: Is the yo-yo still positioned below the knot?
+    answer_type: yes_no
+    notes_for_judge: The yo-yo falls downwards; it should not be above the knot.

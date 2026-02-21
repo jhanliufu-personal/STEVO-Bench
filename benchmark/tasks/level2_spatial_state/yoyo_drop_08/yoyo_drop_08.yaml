@@ -1,0 +1,65 @@
+id: yoyo_drop_08
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: yoyo_drop
+variation_type: combined
+variation_description: Cut string (free fall) + Sliding door occlusion.
+changes:
+  occlusion_method: Sliding door.
+  dynamic_conditions: String is cut.
+  expected_outcome_change: Yo-yo falls freely.
+prompts:
+  init_frame_edit_prompt: Edit the image to include a pair of scissors positioned with blades open around
+    the string near the hand.
+  video_WM: The scissors cut the string immediately as the yo-yo is released. The yo-yo disconnects from
+    the hand. A sliding door moves from left to right, completely blocking the view. The door remains
+    closed for a moment, then slides back to the left. No zoom, no cut, no scene change. STOP.
+  camera_WM: The scissors cut the string immediately as the yo-yo is released. The yo-yo disconnects from
+    the hand. A sliding door moves from left to right, completely blocking the view. The door remains
+    closed for a moment, then slides back to the left. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A large metallic yo-yo is suspended in the air by a white twisted string. A
+    pair of black-handled scissors is positioned horizontally, with the blades open around the string,
+    ready to cut it. A hand holds the string at the very top. The background is an industrial workshop
+    with a concrete floor and metal walls.
+  init2final_edit_prompt: Edit the given image to show the white string severed. Place the metallic yo-yo
+    resting on the concrete floor directly below its original suspended position. Show the upper portion
+    of the string hanging loosely from the top, no longer supporting the weight of the yo-yo.
+  rationale: The video prompt specifies that the string is cut immediately, releasing the yo-yo. Gravity
+    will cause the yo-yo to fall to the floor. The sliding door occlusion provides a passage of time during
+    which the fall occurs and settles. When the view returns (door opens), the yo-yo must be located on
+    the ground, significantly lower than its initial position, and the string must be visibly disconnected.
+  questions:
+  - id: pos_lower
+    question: Is the yo-yo positioned lower in the frame than it was in the initial image?
+    answer_type: yes_no
+    notes_for_judge: The yo-yo should have fallen due to gravity.
+  - id: on_floor
+    question: Is the yo-yo resting on the concrete floor?
+    answer_type: yes_no
+    notes_for_judge: Given the time elapsed during the door occlusion, the yo-yo should have reached the
+      ground.
+  - id: string_cut
+    question: Is the string connecting the yo-yo to the top severed?
+    answer_type: yes_no
+    notes_for_judge: The prompt explicitly states the scissors cut the string.
+  - id: disconnected
+    question: Is the yo-yo physically disconnected from the hand or top anchor point?
+    answer_type: yes_no
+    notes_for_judge: The cut string means the yo-yo is no longer suspended.
+  - id: vertical_alignment
+    question: Is the yo-yo located generally below its starting horizontal position?
+    answer_type: yes_no
+    notes_for_judge: It should fall straight down, perhaps with minor bouncing/rolling, but generally
+      below the drop point.
+  - id: scissors_visible
+    question: Are the scissors still visible in the frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check; the camera did not move away from the scene.
+  - id: background_consistency
+    question: Is the industrial workshop background (floor and walls) consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

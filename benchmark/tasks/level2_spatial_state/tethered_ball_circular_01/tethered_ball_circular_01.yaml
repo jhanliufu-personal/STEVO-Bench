@@ -1,0 +1,66 @@
+id: tethered_ball_circular_01
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: tethered_ball_circular
+variation_type: occlusion_method
+variation_description: A large vehicle passes in front of the camera to occlude the scene instead of camera
+  rotation.
+changes:
+  occlusion_method: A large delivery truck drives across the foreground, blocking the view.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The tethered ball is spinning in a horizontal circle at a constant angular velocity. The tension
+    in the string maintains its orbital path. A large delivery truck drives slowly across the foreground
+    from left to right, completely blocking the view of the apparatus for several seconds, then exits
+    the frame to reveal the scene again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The tethered ball is spinning in a horizontal circle at a constant angular velocity. The
+    tension in the string maintains its orbital path. A large delivery truck drives slowly across the
+    foreground from left to right, completely blocking the view of the apparatus for several seconds,
+    then exits the frame to reveal the scene again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A vertical wooden pole stands in the center of a dirt field. A red ball is attached
+    to the pole by a thin, taut string and is positioned to the left of the pole, appearing to be in motion.
+    The background is a blurred outdoor environment with dirt and dry grass.
+  init2final_edit_prompt: Edit the given image to reposition the red ball to a different location along
+    its circular orbital path around the central wooden pole. Ensure the string remains straight, taut,
+    and connected between the ball and the pole. The background and lighting should remain unchanged.
+  rationale: The video depicts a continuous physical process (a tethered ball spinning) that is temporarily
+    interrupted by an occlusion event (a truck passing). The rollout must simulate the passage of time
+    during the occlusion. In the final state, the truck must be completely gone (having exited the frame),
+    and the ball must be visible again but at a different position along its circular trajectory, maintaining
+    the physical constraints of the tether (taut string, constant height).
+  questions:
+  - id: ball_visible
+    question: Is the red ball visible in the frame?
+    answer_type: yes_no
+    notes_for_judge: The ball must be visible again after the truck exits.
+  - id: ball_moved
+    question: Is the red ball at a different position than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The ball should have moved along its circular path during the elapsed time.
+  - id: string_connected
+    question: Is a string visible connecting the red ball to the wooden pole?
+    answer_type: yes_no
+    notes_for_judge: The physical connection must be preserved.
+  - id: string_taut
+    question: Is the string straight and taut?
+    answer_type: yes_no
+    notes_for_judge: Centripetal force keeps the string taut during circular motion.
+  - id: no_truck
+    question: Is the view free of any large trucks or vehicles?
+    answer_type: yes_no
+    notes_for_judge: The truck should have completely exited the frame.
+  - id: height_consistency
+    question: Is the ball at approximately the same vertical height above the ground as in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: The motion is a horizontal circle; height should remain constant.
+  - id: pole_persistence
+    question: Is the wooden pole still visible in the center of the frame?
+    answer_type: yes_no
+    notes_for_judge: The static environment should remain unchanged.

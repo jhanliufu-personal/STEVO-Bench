@@ -1,0 +1,64 @@
+id: magnetic_sled_07
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: magnetic_sled
+variation_type: combined
+variation_description: Plastic sled (no movement) combined with lights-off occlusion.
+changes:
+  occlusion_method: Lighting change (darkness)
+  dynamic_conditions: Sled material changed to non-magnetic plastic
+  expected_outcome_change: The sled will not move.
+prompts:
+  init_frame_edit_prompt: Edit the image to change the material of the sled to a matte blue plastic texture
+    instead of aluminum.
+  video_WM: The mechanical pin is retracted, allowing the sled to move freely along the rail. The sled
+    is made of lightweight blue plastic. Suddenly, the laboratory lights turn off completely, plunging
+    the scene into pitch black darkness. After a moment, the lights turn back on, illuminating the lab
+    bench. No zoom, no cut, no scene change. STOP.
+  camera_WM: The mechanical pin is retracted, allowing the sled to move freely along the rail. The sled
+    is made of lightweight blue plastic. Suddenly, the laboratory lights turn off completely, plunging
+    the scene into pitch black darkness. After a moment, the lights turn back on, illuminating the lab
+    bench. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: 'A blue 3D-printed plastic sled rests on two parallel metal rails inside a clear
+    acrylic track. A mechanical pin with a red handle is inserted through the side of the acrylic wall,
+    acting as a stop for the sled. To the right of the track is a large metal square housing a magnet,
+    marked with a yellow ''CAUTION: HIGH MAGNETIC FIELD'' sticker. In the background, a laboratory bench
+    contains electronic test equipment like an oscilloscope.'
+  init2final_edit_prompt: Edit the given image to show the red-handled pin retracted outwards from the
+    clear acrylic track. Move the blue plastic sled to the right along the metal rails, positioning it
+    significantly closer to the large metal magnet housing. Maintain the original laboratory lighting
+    and background details.
+  rationale: The scene depicts a physics experiment setup where a sled is held in place against a magnetic
+    force. The 'High Magnetic Field' sign and the pin's function as a stop imply that the magnet on the
+    right is attracting the sled. When the pin is retracted, the constraint is removed, and the magnetic
+    force accelerates the sled to the right along the rails. The lights-out occlusion masks the motion,
+    so the final frame reveals the sled in a new position closer to the magnet.
+  questions:
+  - id: sled_moved_right
+    question: Has the blue sled moved to the right of its starting position?
+    answer_type: yes_no
+    notes_for_judge: The sled should be displaced towards the right side of the image.
+  - id: sled_closer_magnet
+    question: Is the blue sled closer to the large metal magnet structure than it was initially?
+    answer_type: yes_no
+    notes_for_judge: Compare the gap between the blue object and the metal box on the right.
+  - id: pin_retracted
+    question: Is the red-handled pin retracted or pulled further out from the track?
+    answer_type: yes_no
+    notes_for_judge: The pin should no longer be fully inserted blocking the path.
+  - id: sled_position_change
+    question: Is the blue sled at a different location on the rails compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Any significant change in position along the rails counts as yes.
+  - id: magnet_consistency
+    question: 'Is the ''CAUTION: HIGH MAGNETIC FIELD'' sign still visible?'
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: background_consistency
+    question: Is the oscilloscope in the background still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

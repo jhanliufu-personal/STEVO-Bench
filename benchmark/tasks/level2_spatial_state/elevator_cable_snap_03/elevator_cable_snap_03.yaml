@@ -1,0 +1,66 @@
+id: elevator_cable_snap_03
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: elevator_cable_snap
+variation_type: occlusion_method
+variation_description: Occlusion changed to a large maintenance shutter sliding in front of the camera.
+changes:
+  occlusion_method: 'Object blocking: maintenance shutter slides into view'
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The elevator car is no longer supported by the cable. The vertical shaft is clear of obstructions.
+    A large, opaque metal maintenance shutter slides horizontally across the field of view, completely
+    blocking the sight of the shaft and elevator. The shutter remains closed for a moment, then slides
+    back open to reveal the shaft. No zoom, no cut, no scene change. STOP.
+  camera_WM: The elevator car is no longer supported by the cable. The vertical shaft is clear of obstructions.
+    A large, opaque metal maintenance shutter slides horizontally across the field of view, completely
+    blocking the sight of the shaft and elevator. The shutter remains closed for a moment, then slides
+    back open to reveal the shaft. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A high-angle, wide shot looking down into a multi-story atrium with a central
+    glass elevator shaft. A glass elevator car is suspended in the middle of the frame by cables. The
+    shaft is framed by vertical metal beams and large arched windows. On the left and right sides, there
+    are tiled walkways with metal railings. Several people are standing on the walkways, looking towards
+    the center or talking. The lighting is natural, coming from the large windows.
+  init2final_edit_prompt: Edit the given image to show the elevator car has fallen downwards. Remove the
+    elevator car from its original central position and place it significantly lower in the shaft, near
+    the bottom edge of the frame, or remove it entirely to imply it has fallen out of view. Ensure the
+    background windows and structural beams are visible in the space where the elevator car was originally
+    located. Keep the surrounding walkways, railings, and people unchanged.
+  rationale: The prompt describes a sequence where the elevator loses support and falls under gravity.
+    A shutter temporarily blocks the view, covering the motion. When the shutter opens, the elevator must
+    have displaced downwards due to the fall. Therefore, in the final frame, the elevator should be significantly
+    lower in the shaft or completely out of the frame (having fallen past the view), leaving its original
+    position empty. The camera is static, so the background and observers should remain consistent.
+  questions:
+  - id: elevator_position_change
+    question: Is the elevator car at a lower vertical position in the shaft compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The elevator should have fallen downwards.
+  - id: elevator_vacated_origin
+    question: Is the space where the elevator was originally suspended now empty?
+    answer_type: yes_no
+    notes_for_judge: The original central position should show the background shaft structure instead
+      of the car.
+  - id: elevator_downward_motion
+    question: Has the elevator car moved downwards from its starting location?
+    answer_type: yes_no
+    notes_for_judge: Check for downward displacement.
+  - id: shaft_visibility
+    question: Are the background windows or beams visible in the center of the shaft where the elevator
+      used to be?
+    answer_type: yes_no
+    notes_for_judge: Since the elevator fell, the background behind its old position should be revealed.
+  - id: people_consistency
+    question: Are the people on the walkways still present in the scene?
+    answer_type: yes_no
+    notes_for_judge: The observers should not disappear.
+  - id: structure_consistency
+    question: Are the metal railings and arched windows still in the same position?
+    answer_type: yes_no
+    notes_for_judge: Static background elements should remain unchanged.

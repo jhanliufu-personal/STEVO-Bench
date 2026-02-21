@@ -1,0 +1,66 @@
+id: treadmill_projectile_07
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: treadmill_projectile
+variation_type: combined
+variation_description: Combines fog occlusion with the treadmill moving in the opposite direction (rightward).
+changes:
+  occlusion_method: Thick fog fills the room, obscuring vision.
+  dynamic_conditions: Treadmill moves rightward instead of leftward.
+  expected_outcome_change: The ball moves rightward with the belt.
+prompts:
+  init_frame_edit_prompt: Edit the image to change the direction arrows on the treadmill belt to point
+    to the Right.
+  video_WM: The robotic launcher fires a tennis ball vertically into the air while the treadmill belt
+    moves at a constant velocity to the right. Suddenly, thick white fog pumps into the room, completely
+    obscuring the treadmill and launcher from view. The fog slowly clears until the scene is visible again.
+    No cut, no scene change. STOP.
+  camera_WM: The robotic launcher fires a tennis ball vertically into the air while the treadmill belt
+    moves at a constant velocity to the right. Suddenly, thick white fog pumps into the room, completely
+    obscuring the treadmill and launcher from view. The fog slowly clears until the scene is visible again.
+    No cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A robotic apparatus featuring an aluminum extrusion frame, motors, and a vertical
+    guide tube sits on a wide industrial conveyor belt. The belt has a dark, textured surface with large
+    white arrows pointing towards the right. The robot is positioned near the center of the frame. The
+    background depicts an industrial setting with concrete walls, metal pipes, and a safety cage.
+  init2final_edit_prompt: Edit the given image to show the robotic launcher positioned significantly further
+    to the right along the treadmill belt, near the right edge of the frame. The white arrows on the belt
+    should appear shifted to the right. The area where the robot was originally standing should now show
+    the empty treadmill belt surface. The scene should be clear of any fog or smoke. The tennis ball should
+    not be visible in the air. Keep the background and lighting consistent with the initial frame.
+  rationale: The treadmill belt is moving to the right, as indicated by the white arrows and the prompt
+    description. Since the robotic launcher is resting on the belt, it travels to the right along with
+    the belt. The fog occlusion serves as a time transition, allowing the launcher to move a significant
+    distance from its starting position. The tennis ball, having been fired vertically from the moving
+    launcher, shares the launcher's horizontal velocity and would have landed back near the launcher or
+    completed its trajectory during the occlusion; it should not be hovering in the air. The final state
+    must show the launcher displaced to the right.
+  questions:
+  - id: position_displacement
+    question: Is the robotic launcher positioned further to the right than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the horizontal position of the robot's base relative to the background features.
+  - id: motion_direction
+    question: Has the robotic launcher moved in the direction indicated by the white arrows on the belt?
+    answer_type: yes_no
+    notes_for_judge: The arrows point right; the robot should have moved right.
+  - id: relative_location
+    question: Is the robotic launcher closer to the right edge of the frame than the left edge?
+    answer_type: yes_no
+    notes_for_judge: In the final frame, the robot should be in the right half of the image.
+  - id: vacated_space
+    question: Is the section of the belt where the robot was initially standing now exposed?
+    answer_type: yes_no
+    notes_for_judge: The initial center/left-center spot should now be empty belt.
+  - id: ball_state
+    question: Is the tennis ball no longer visible in the air?
+    answer_type: yes_no
+    notes_for_judge: The projectile event should be finished.
+  - id: fog_cleared
+    question: Is the scene clearly visible without significant fog obstruction?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the fog clears.

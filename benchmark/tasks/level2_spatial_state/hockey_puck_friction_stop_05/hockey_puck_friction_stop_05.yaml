@@ -1,0 +1,66 @@
+id: hockey_puck_friction_stop_05
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: hockey_puck_friction_stop
+variation_type: dynamic_condition
+variation_description: Surface changed to a steep uphill concrete ramp.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Puck slides uphill against gravity.
+  expected_outcome_change: Puck stops significantly sooner or slides backward.
+prompts:
+  init_frame_edit_prompt: Edit the image to make the concrete surface slant steeply upwards in the direction
+    the puck is sliding.
+  video_WM: The puck slides up a steep rough concrete ramp. Gravity acts against the direction of motion,
+    adding to the friction force to decelerate the puck. The puck is standard rubber. No external forces
+    are applied after the initial slide. The camera rotates right at constant speed until the puck completely
+    exits the view to the right. The camera continues rotating right for several seconds. Then the camera
+    rotates left smoothly at the same rate back to the original viewpoint. No zoom, no cut, no scene change.
+    STOP.
+  camera_WM: The puck slides up a steep rough concrete ramp. Gravity acts against the direction of motion,
+    adding to the friction force to decelerate the puck. The puck is standard rubber. No external forces
+    are applied after the initial slide. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, low-angle shot of a black hockey puck sliding on a rough, light-grey
+    concrete surface. The puck is positioned centrally in the frame and exhibits motion blur, indicating
+    movement. The concrete surface has a gritty texture with small stones, cracks, and debris. The lighting
+    is natural and diffuse, casting soft shadows.
+  init2final_edit_prompt: Edit the given image to move the hockey puck to a new position significantly
+    to the right and slightly upwards from its original central location. The puck should appear stationary
+    with sharp edges, having no motion blur. The original central position where the puck was located
+    should now show only the empty rough concrete texture. Keep the background, lighting, and perspective
+    exactly the same as the original.
+  rationale: The puck is sliding up a steep ramp (interpreted as moving to the right based on the 'exits
+    to the right' cue). Gravity and friction act to decelerate the puck until it stops. Although the camera
+    rotates away and then returns, the final view is identical to the initial viewpoint. In this timeframe,
+    the puck has traveled further up the ramp (to the right) and come to a halt. Therefore, in the final
+    frame, the puck should be visible but displaced to the right of its starting position and stationary.
+  questions:
+  - id: puck_moved_position
+    question: Is the hockey puck in a different position than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The puck should not be in the center of the frame anymore.
+  - id: puck_displaced_right
+    question: Is the hockey puck located to the right of its starting position?
+    answer_type: yes_no
+    notes_for_judge: The puck should have moved in the direction of travel (up/right).
+  - id: start_pos_empty
+    question: Is the center of the image, where the puck started, now empty?
+    answer_type: yes_no
+    notes_for_judge: The original spot should show bare concrete.
+  - id: puck_stationary
+    question: Does the hockey puck appear stationary (sharp edges, no motion blur)?
+    answer_type: yes_no
+    notes_for_judge: The puck should have stopped moving due to friction and gravity.
+  - id: puck_visible
+    question: Is the hockey puck still visible in the frame?
+    answer_type: yes_no
+    notes_for_judge: It should be visible, just displaced.
+  - id: puck_higher
+    question: Is the puck positioned visually higher in the frame than in the initial shot?
+    answer_type: yes_no
+    notes_for_judge: Assuming 'up the ramp' corresponds to moving up/right in the image.

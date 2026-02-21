@@ -1,0 +1,65 @@
+id: rolling_sphere_inclined_plane_03
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: rolling_sphere_inclined_plane
+variation_type: occlusion_method
+variation_description: Occlusion changed to a hand covering the lens (blackout).
+changes:
+  occlusion_method: A hand covers the camera lens, creating a blackout.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The steel marble is rolling down the smooth inclined ramp. Gravity is accelerating the marble's
+    descent, and there is no visible obstruction. A hand moves close to the lens and covers it completely,
+    turning the screen black. The hand remains for a moment before moving away to reveal the scene again.
+    No zoom, no cut, no scene change. STOP.
+  camera_WM: The steel marble is rolling down the smooth inclined ramp. Gravity is accelerating the marble's
+    descent, and there is no visible obstruction. A hand moves close to the lens and covers it completely,
+    turning the screen black. The hand remains for a moment before moving away to reveal the scene again.
+    No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A polished steel sphere rests on a weathered wooden plank that extends diagonally
+    from the bottom-left to the top-right of the frame. The plank appears to be an inclined ramp or seesaw.
+    The background features a grassy field, trees, and a red barn in the distance, with soft daylight
+    casting shadows.
+  init2final_edit_prompt: Edit the given image to show the steel marble having rolled further down the
+    wooden ramp towards the bottom-left. The marble should be positioned significantly closer to the bottom-left
+    corner of the frame and appear slightly larger due to being closer to the camera. The wooden surface
+    where the marble was originally positioned should now be empty, showing the wood grain texture.
+  rationale: The initial frame shows a sphere on a ramp that ascends into the distance (the far end is
+    clearly elevated above the ground compared to the near end). The prompt specifies the marble is rolling
+    'down' the ramp under gravity. Therefore, the marble must roll towards the lowest point, which is
+    towards the camera (the bottom-left of the frame). The occlusion event allows time for this motion
+    to occur, so the final frame must show the marble displaced significantly in that direction.
+  questions:
+  - id: position_change_01
+    question: Is the steel marble in a different position on the wooden plank than it was in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: The marble should have moved from its starting spot.
+  - id: direction_check_01
+    question: Has the steel marble moved towards the bottom-left of the image?
+    answer_type: yes_no
+    notes_for_judge: The ramp slopes down towards the camera, so the ball should roll towards the bottom-left.
+  - id: direction_check_02
+    question: Is the steel marble closer to the camera (appearing larger) than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Movement down the ramp (towards the viewer) implies the object gets closer.
+  - id: state_cleared_01
+    question: Is the original location of the marble on the wood now empty?
+    answer_type: yes_no
+    notes_for_judge: The spot where the ball started should now show bare wood.
+  - id: trajectory_consistency_01
+    question: Is the marble still positioned on the surface of the wooden plank?
+    answer_type: yes_no
+    notes_for_judge: The ball should not be floating in the air or on the grass; it must remain on the
+      ramp.
+  - id: relative_position_01
+    question: Is the marble lower in the frame than its starting position?
+    answer_type: yes_no
+    notes_for_judge: Since the ramp goes from bottom-left (low) to top-right (high) in screen space, rolling
+      'down' means moving lower in the frame.

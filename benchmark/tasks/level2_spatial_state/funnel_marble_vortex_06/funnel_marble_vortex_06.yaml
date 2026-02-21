@@ -1,0 +1,63 @@
+id: funnel_marble_vortex_06
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: funnel_marble_vortex
+variation_type: dynamic_condition
+variation_description: Steel ball replaced with a steel cube.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Object shape is cubic (sliding friction vs rolling friction).
+  expected_outcome_change: Object slides and likely tumbles or stops due to friction, rather than rolling
+    smoothly.
+prompts:
+  init_frame_edit_prompt: Edit the image to replace the spherical steel ball with a steel cube of similar
+    size and mass resting on the rim.
+  video_WM: The steel cube is given a rapid horizontal nudge along the inner circumference of the funnel's
+    rim. The acrylic surface is smooth. The camera rotates right until the funnel completely exits the
+    view, then rotates toward the left smoothly at the same rate until the wide upper rim is back in the
+    center of view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The steel cube is given a rapid horizontal nudge along the inner circumference of the funnel's
+    rim. The acrylic surface is smooth. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A large, clear acrylic gravity well funnel stands in a museum-like setting with
+    large windows in the background. A shiny steel cube rests on the upper-left rim of the funnel. The
+    funnel has a curved surface spiraling down to a central hole, and the floor is visible through the
+    transparent material.
+  init2final_edit_prompt: Edit the given image to move the steel cube from its starting position on the
+    upper-left rim to a new position lower down on the curved inner surface of the funnel, closer to the
+    central hole. Ensure the cube looks like it is sliding or resting on the slope, and leave the original
+    position on the rim empty.
+  rationale: The video prompt describes a rapid horizontal nudge given to the cube, followed by a camera
+    pan away and back. Physically, a nudge along the rim of a gravity well causes the object to enter
+    an orbit that decays due to friction and gravity, spiraling downwards toward the center. Since the
+    camera movement implies a passage of time (panning away and returning), the cube will have moved from
+    its unstable starting point on the rim and traveled down the slope of the funnel. It should now be
+    located somewhere along the inner spiral path, lower than the rim.
+  questions:
+  - id: cube_moved_from_start
+    question: Is the steel cube at a different position than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The cube should no longer be at the top-left starting point.
+  - id: cube_not_on_rim
+    question: Is the upper-left rim of the funnel, where the cube started, now empty?
+    answer_type: yes_no
+    notes_for_judge: Check if the specific starting location is vacant.
+  - id: cube_lower_height
+    question: Is the steel cube positioned lower in the funnel than its initial position?
+    answer_type: yes_no
+    notes_for_judge: It should be down the slope or closer to the center hole.
+  - id: cube_closer_center
+    question: Has the steel cube moved closer to the central hole of the funnel?
+    answer_type: yes_no
+    notes_for_judge: Radial distance to the center should decrease.
+  - id: funnel_integrity
+    question: Is the large clear acrylic funnel still the main object in the scene?
+    answer_type: yes_no
+    notes_for_judge: The funnel structure should remain unchanged.
+  - id: background_consistency
+    question: Are the windows in the background still visible?
+    answer_type: yes_no
+    notes_for_judge: The environment should remain consistent.

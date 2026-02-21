@@ -1,0 +1,67 @@
+id: bouncing_ball_rebound_04
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: bouncing_ball_rebound
+variation_type: dynamic_condition
+variation_description: Floor material changed from hardwood to soft foam (high damping).
+changes:
+  occlusion_method: null
+  dynamic_conditions: Floor is soft foam with high energy absorption (damping).
+  expected_outcome_change: The ball will bounce significantly less or stop bouncing much sooner due to
+    energy absorption.
+prompts:
+  init_frame_edit_prompt: Edit the image to change the hardwood floor to a thick, soft, gray foam exercise
+    mat surface.
+  video_WM: The ball is released from the hand and becomes free to move. The floor is a thick layer of
+    soft foam with high shock-absorbing properties. The ball is a standard tennis ball. Gravity acts on
+    the ball. The camera rotates right at constant speed until the ball and hand completely exit the view
+    to the right. The camera continues rotating right for several seconds while the ball remains off-screen.
+    Then the camera rotates left smoothly at the same rate back to the original viewpoint. No zoom, no
+    cut, no scene change. STOP.
+  camera_WM: The ball is released from the hand and becomes free to move. The floor is a thick layer of
+    soft foam with high shock-absorbing properties. The ball is a standard tennis ball. Gravity acts on
+    the ball. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A photo showing a person's arm and hand extended over a gray interlocking foam
+    floor mat. The hand is open with fingers spread, palm facing down. A yellow-green tennis ball is suspended
+    in mid-air just below the fingertips, appearing to have just been released. In the background, there
+    is a window with white trim and a dark wooden chair leg.
+  init2final_edit_prompt: Edit the given image to show the tennis ball resting on the gray foam floor
+    mat directly below the hand. Remove the floating ball from the air near the hand. Ensure the ball
+    is positioned on the ground surface. Keep the hand, arm, and background environment identical to the
+    original view.
+  rationale: The ball is released and subjected to gravity. The camera pans away for several seconds,
+    which is sufficient time for the ball to fall approximately one meter to the floor. The floor is described
+    as having high shock-absorbing properties, which dampens the bounce significantly. By the time the
+    camera returns to the original viewpoint, the ball will have lost its kinetic energy and settled on
+    the floor mat, rather than bouncing or floating in the air.
+  questions:
+  - id: ball_height_lower
+    question: Is the tennis ball positioned lower in the frame than it was initially?
+    answer_type: yes_no
+    notes_for_judge: The ball should have fallen to the floor.
+  - id: ball_on_floor
+    question: Is the tennis ball resting on or touching the gray foam floor?
+    answer_type: yes_no
+    notes_for_judge: Due to shock-absorbing foam and elapsed time, the ball should be settled on the ground.
+  - id: ball_not_floating
+    question: Is the space directly below the fingers, where the ball was initially, now empty?
+    answer_type: yes_no
+    notes_for_judge: The ball should no longer be floating near the hand.
+  - id: ball_downward_motion
+    question: Has the tennis ball moved downwards relative to the hand?
+    answer_type: yes_no
+    notes_for_judge: Gravity pulls the ball down.
+  - id: ball_below_hand
+    question: Is the tennis ball located vertically below the hand?
+    answer_type: yes_no
+    notes_for_judge: It should have dropped straight down or rolled slightly, but generally remain below
+      the release point.
+  - id: background_consistency
+    question: Are the window and wall in the background consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The camera returns to the original viewpoint.

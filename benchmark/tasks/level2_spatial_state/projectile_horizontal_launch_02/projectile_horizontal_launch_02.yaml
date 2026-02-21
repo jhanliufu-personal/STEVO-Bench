@@ -1,0 +1,63 @@
+id: projectile_horizontal_launch_02
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: projectile_horizontal_launch
+variation_type: occlusion_method
+variation_description: Replaces camera rotation with the workshop lights turning off and back on.
+changes:
+  occlusion_method: Lights turn off completely then turn on
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The red ball is traveling through the air after its horizontal launch. It is moving forward
+    and downward under the influence of its initial momentum and gravity. Suddenly, the overhead lights
+    in the workshop turn off, plunging the room into complete darkness. After a moment, the lights flicker
+    and turn back on, fully illuminating the scene. No zoom, no cut, no scene change. STOP.
+  camera_WM: The red ball is traveling through the air after its horizontal launch. It is moving forward
+    and downward under the influence of its initial momentum and gravity. Suddenly, the overhead lights
+    in the workshop turn off, plunging the room into complete darkness. After a moment, the lights flicker
+    and turn back on, fully illuminating the scene. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A workshop scene featuring a brass and wood model cannon on a wooden workbench.
+    A red ball has just been launched from the cannon and is suspended in mid-air to the right of the
+    barrel, trailing a puff of white smoke. The background includes a window on the left and an open doorway
+    on the right leading to a garage area. Blueprints and tools are visible on the workbench.
+  init2final_edit_prompt: Edit the given image to show the red ball significantly further to the right
+    and lower in the frame, consistent with a projectile trajectory arcing towards the open doorway. Make
+    the smoke cloud appear more dissipated, thinner, and spread out. Ensure the lighting is fully bright
+    and the room is well-illuminated, identical to the initial lighting conditions.
+  rationale: 'The video prompt describes a sequence where the ball is launched, lights go out, and then
+    lights come back on. The final frame corresponds to the moment after the lights have returned. During
+    the intervening time (including the darkness), the ball continues its physical trajectory: moving
+    horizontally to the right while accelerating downwards due to gravity. Therefore, in the final frame,
+    the ball must be displaced both rightward and downward compared to the initial frame. The smoke should
+    also show signs of dissipation over time. The static environment remains unchanged.'
+  questions:
+  - id: ball_horizontal_motion
+    question: Is the red ball positioned further to the right than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The ball should have traveled horizontally towards the door.
+  - id: ball_vertical_drop
+    question: Is the red ball positioned lower vertically than its initial height?
+    answer_type: yes_no
+    notes_for_judge: Gravity causes the projectile to drop as it travels.
+  - id: ball_trajectory_consistency
+    question: Is the red ball closer to the open doorway than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Checks progress along the intended path.
+  - id: lighting_restored
+    question: Is the scene fully illuminated?
+    answer_type: yes_no
+    notes_for_judge: The prompt specifies the lights turn back on.
+  - id: smoke_dissipation
+    question: Is the smoke cloud more dissipated or spread out compared to the initial concentrated burst?
+    answer_type: yes_no
+    notes_for_judge: Smoke expands and fades over time.
+  - id: cannon_stationary
+    question: Is the model cannon in the same position on the workbench?
+    answer_type: yes_no
+    notes_for_judge: The cannon itself should not move.

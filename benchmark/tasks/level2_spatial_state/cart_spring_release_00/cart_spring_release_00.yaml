@@ -1,0 +1,67 @@
+id: cart_spring_release_00
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: cart_spring_release
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The release mechanism disengages and the compressed spring is freed to expand. The cart is
+    free to move along the smooth track with low friction wheels. The track extends several feet forward
+    from the starting position. The spring has a strong spring constant typical of steel coils. Camera
+    remains stationary throughout. No zoom, no cut, no scene change. STOP.
+  camera_WM: The release mechanism disengages and the compressed spring is freed to expand. The cart is
+    free to move along the smooth track with low friction wheels. The track extends several feet forward
+    from the starting position. The spring has a strong spring constant typical of steel coils. Camera
+    remains stationary throughout. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A red metal wagon or cart sits on wooden tracks in a workshop. A large, compressed
+    metal coil spring is wedged between the back of the cart and a vertical concrete block on the right.
+    A person's hand is visible on the right, holding a metal lever or release mechanism attached to the
+    front of the cart, preventing it from moving. Various tools and a workbench are in the background.
+  init2final_edit_prompt: Edit the given image to show the red cart positioned significantly further to
+    the left along the wooden tracks. The metal spring should be elongated and expanded, stretching from
+    the concrete block to the back of the cart, with the coils spaced further apart. The hand on the right
+    should remain near the concrete block but no longer be in contact with the cart or its handle, as
+    the cart has rolled away.
+  rationale: The initial state shows a compressed spring storing potential energy, held in check by a
+    release mechanism. Upon disengagement, the spring force accelerates the cart to the left (the only
+    free direction of motion along the tracks). In the final state, the cart will have displaced to the
+    left, and the spring will have expanded to a longer length, releasing its compression.
+  questions:
+  - id: cart_position_left
+    question: Is the red cart positioned further to the left than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Check if the main body of the cart has shifted leftwards relative to the background.
+  - id: spring_extension
+    question: Is the metal spring longer and more extended than it was initially?
+    answer_type: yes_no
+    notes_for_judge: The spring should look stretched or relaxed, not tightly compressed.
+  - id: spring_coil_spacing
+    question: Are the coils of the spring spaced further apart compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Expansion implies the gap between individual coils increases.
+  - id: cart_wall_distance
+    question: Is the distance between the back of the cart and the concrete block greater than before?
+    answer_type: yes_no
+    notes_for_judge: The gap occupied by the spring should be wider.
+  - id: hand_separation
+    question: Is the cart's handle or hitch separated from the hand that was holding it?
+    answer_type: yes_no
+    notes_for_judge: The cart moves left, the hand stays right/stationary, creating separation.
+  - id: track_alignment
+    question: Is the cart still positioned on or aligned with the wooden tracks?
+    answer_type: yes_no
+    notes_for_judge: 'Secondary consistency check: the cart should follow the rails.'
+  - id: background_stability
+    question: Are the tools and workbench in the background in the same position as the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

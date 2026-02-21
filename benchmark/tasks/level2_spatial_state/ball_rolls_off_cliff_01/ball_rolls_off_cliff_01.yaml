@@ -1,0 +1,68 @@
+id: ball_rolls_off_cliff_01
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: ball_rolls_off_cliff
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to room lights turning off (pitch black).
+changes:
+  occlusion_method: Room lights turn off completely, creating total darkness, then turn back on.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The ball continues rolling across the table surface toward the edge. The table edge is a sharp
+    drop-off with no barrier. The ball has sufficient velocity to reach the edge. Once past the table
+    edge, the ball is no longer supported by the surface. Gravity acts on the ball continuously. Air resistance
+    is negligible. Suddenly, the room lights turn off completely, plunging the scene into pitch black
+    darkness. The darkness lasts for several seconds while the physics continue unseen. Then the lights
+    turn back on, restoring visibility to the original viewpoint. No zoom, no cut, no scene change. STOP.
+  camera_WM: The ball continues rolling across the table surface toward the edge. The table edge is a
+    sharp drop-off with no barrier. The ball has sufficient velocity to reach the edge. Once past the
+    table edge, the ball is no longer supported by the surface. Gravity acts on the ball continuously.
+    Air resistance is negligible. Suddenly, the room lights turn off completely, plunging the scene into
+    pitch black darkness. The darkness lasts for several seconds while the physics continue unseen. Then
+    the lights turn back on, restoring visibility to the original viewpoint. No zoom, no cut, no scene
+    change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A red, textured sphere (ball) is positioned on a wooden table surface, exhibiting
+    motion blur indicating movement towards the right. The table has a rustic wooden grain. In the background,
+    a window is visible on the left, and a patterned rug lies on the wooden floor beneath the table.
+  init2final_edit_prompt: Edit the given image to remove the red ball from the wooden table surface. The
+    final image should display the empty wooden table top with its original grain texture visible where
+    the ball was. Ensure the background elements, including the window, wall, floor, and rug, remain unchanged
+    and the lighting matches the initial frame.
+  rationale: The ball possesses initial velocity directed toward the table edge. The prompt specifies
+    that the ball rolls off the edge and that physics continues for several seconds in the dark. Given
+    the acceleration due to gravity and the duration of several seconds, the ball will have had ample
+    time to fall from the table height to the floor and settle or roll out of frame. Therefore, the primary
+    state change is that the ball is no longer supported by the table surface. Upon the lights turning
+    back on, the table surface should be empty.
+  questions:
+  - id: ball_removed_from_table
+    question: Is the red ball absent from the top surface of the table?
+    answer_type: yes_no
+    notes_for_judge: The ball should have rolled off the edge and fallen, so it should not be on the table.
+  - id: table_surface_empty
+    question: Is the wooden table surface empty where the ball was originally located?
+    answer_type: yes_no
+    notes_for_judge: Check if the specific area occupied by the ball is now clear.
+  - id: ball_vacated_start
+    question: Has the red ball vacated its starting position?
+    answer_type: yes_no
+    notes_for_judge: The object must have moved due to its initial velocity.
+  - id: ball_not_floating
+    question: Is the space immediately above the table surface clear of the red ball?
+    answer_type: yes_no
+    notes_for_judge: The ball should not be floating or hovering above the table.
+  - id: rug_consistency
+    question: Is the patterned rug on the floor still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check for the background.
+  - id: window_consistency
+    question: Is the window on the left side of the image still present?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check for the background.

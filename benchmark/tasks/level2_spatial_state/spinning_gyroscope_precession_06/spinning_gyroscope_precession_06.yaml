@@ -1,0 +1,66 @@
+id: spinning_gyroscope_precession_06
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: spinning_gyroscope_precession
+variation_type: dynamic_condition
+variation_description: The gyroscope is spinning slowly and wobbling, implying insufficient angular momentum
+  to maintain stable precession.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Low RPM, unstable wobble
+  expected_outcome_change: Gyroscope spirals downwards/falls
+prompts:
+  init_frame_edit_prompt: Edit the image to make the gyroscope appear to be wobbling heavily, tilted further
+    down than before, with less motion blur to suggest it is slowing down.
+  video_WM: The gyroscope is spinning slowly and wobbling unstably on its pivot. It lacks the momentum
+    to maintain a steady height. The camera rotates right until the gyroscope completely exits the view,
+    then rotates toward the left smoothly at the same rate until the pedestal base is back in the center
+    of view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The gyroscope is spinning slowly and wobbling unstably on its pivot. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up shot of a large, brass or bronze gyroscope spinning on a pointed
+    pivot atop a scratched metal plate in a workshop. The gyroscope consists of a heavy outer ring and
+    an inner central shaft. It is currently tilted at an angle but generally upright. To the left, a metal
+    chain hangs vertically. The background is a cluttered workshop with white brick walls, shelves, and
+    various tools and machinery.
+  init2final_edit_prompt: Edit the given image to show the gyroscope tilted significantly lower or lying
+    on its side on the metal plate. Keep the pivot point in the same location on the plate, but angle
+    the main body of the gyroscope downwards much closer to the surface, as if it has lost momentum and
+    fallen or drooped heavily. Ensure the background, the hanging chain, and the metal plate texture remain
+    unchanged.
+  rationale: The prompt describes the gyroscope as spinning slowly, wobbling unstably, and lacking the
+    momentum to maintain height. During the time the camera pans away and returns, the loss of angular
+    momentum and the instability will cause the gyroscope to succumb to gravity. Therefore, in the final
+    frame, the gyroscope must have tilted significantly further downwards (precession/nutation decay)
+    or fallen completely onto the plate. The camera returns to the original framing, so the background
+    and static objects like the chain remain consistent.
+  questions:
+  - id: gyro_tilt_increase
+    question: Is the gyroscope tilted closer to the metal plate or lying down compared to the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: The gyroscope should be less upright, either at a steeper angle or fallen.
+  - id: gyro_height_decrease
+    question: Is the highest point of the gyroscope lower than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Due to falling/tilting, the vertical extent of the object should decrease.
+  - id: gyro_rim_proximity
+    question: Is the outer rim of the gyroscope closer to the table surface than initially?
+    answer_type: yes_no
+    notes_for_judge: The edge of the wheel should be approaching or touching the plate.
+  - id: pivot_consistency
+    question: Is the pivot point of the gyroscope still located at roughly the same spot on the metal
+      plate?
+    answer_type: yes_no
+    notes_for_judge: The base of the pivot should not slide significantly, just the angle changes.
+  - id: chain_presence
+    question: Is the hanging chain on the left still visible?
+    answer_type: yes_no
+    notes_for_judge: Static object consistency.
+  - id: background_consistency
+    question: Are the workshop background elements (walls, shelves) consistent with the initial view?
+    answer_type: yes_no
+    notes_for_judge: The camera returns to the same view.

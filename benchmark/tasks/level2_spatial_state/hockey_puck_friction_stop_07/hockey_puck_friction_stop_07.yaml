@@ -1,0 +1,66 @@
+id: hockey_puck_friction_stop_07
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: hockey_puck_friction_stop
+variation_type: combined
+variation_description: Combined low friction (ice) with lighting occlusion.
+changes:
+  occlusion_method: Lights turn off completely.
+  dynamic_conditions: Surface is smooth ice (low friction).
+  expected_outcome_change: Puck slides further (ice) and scene goes dark.
+prompts:
+  init_frame_edit_prompt: Edit the image to change the ground surface to a sheet of smooth, reflective
+    ice.
+  video_WM: The puck slides across a smooth sheet of ice. The ice has a very low coefficient of friction.
+    The puck is standard rubber. No external forces are applied. Suddenly, the lights in the room turn
+    off, plunging the scene into pitch black darkness for several seconds. The lights turn back on to
+    reveal the ice surface again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The puck slides across a smooth sheet of ice. The ice has a very low coefficient of friction.
+    The puck is standard rubber. No external forces are applied. Suddenly, the lights in the room turn
+    off, plunging the scene into pitch black darkness for several seconds. The lights turn back on to
+    reveal the ice surface again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, low-angle shot of a black rubber hockey puck on a scratched, reflective
+    ice surface. To the left of the puck, there is a spray of white ice shavings and debris, indicating
+    motion or a recent skid.
+  init2final_edit_prompt: Edit the given image to move the hockey puck to the far right side of the frame.
+    Remove the cloud of ice spray and shavings from the original position on the left, revealing the scratched
+    ice surface underneath. Ensure the puck is positioned significantly to the right of its starting location,
+    and the area where it started is now empty ice.
+  rationale: The presence of ice spray to the left of the puck indicates a velocity vector towards the
+    right. The prompt specifies low friction and no external forces, meaning the puck will maintain its
+    momentum and slide to the right during the period of darkness. After several seconds, the puck will
+    have displaced significantly in the direction of motion (to the right). The transient ice spray seen
+    in the initial frame would have settled or dissipated during the elapsed time.
+  questions:
+  - id: position_displacement
+    question: Has the hockey puck moved to the right of its initial position?
+    answer_type: yes_no
+    notes_for_judge: Compare the puck's center of mass in the final frame to the initial frame. It should
+      be further right.
+  - id: original_spot_empty
+    question: Is the area where the puck was originally located now empty?
+    answer_type: yes_no
+    notes_for_judge: The spot in the center-left where the puck started should now show only the ice surface.
+  - id: spray_dissipation
+    question: Has the cloud of ice spray from the initial frame disappeared?
+    answer_type: yes_no
+    notes_for_judge: The specific pattern of airborne ice shavings in the first frame should be gone or
+      settled.
+  - id: relative_position
+    question: Is the puck closer to the right edge of the frame than the left edge?
+    answer_type: yes_no
+    notes_for_judge: The puck should be in the right half of the image.
+  - id: surface_consistency
+    question: Is the surface texture still scratched ice?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: object_persistence
+    question: Is the hockey puck still visible in the frame?
+    answer_type: yes_no
+    notes_for_judge: While it moves, it should not vanish completely unless it exited the frame (which
+      is a valid physical outcome, but for this edit we assume it stays in view).

@@ -1,0 +1,68 @@
+id: spinning_coin_wobble_02
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: spinning_coin_wobble
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to lights turning off.
+changes:
+  occlusion_method: Room lights turn off, creating total darkness.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The coin continues spinning on the table surface. The coin edge maintains contact with the
+    table. Friction exists between the coin edge and the wooden surface. Air resistance acts on the rotating
+    coin. The coin is a standard metal quarter with typical mass distribution. The room lights turn off
+    completely, plunging the scene into total darkness. The darkness persists for several seconds. Then
+    the lights turn back on, illuminating the table surface again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The coin continues spinning on the table surface. The coin edge maintains contact with the
+    table. Friction exists between the coin edge and the wooden surface. Air resistance acts on the rotating
+    coin. The coin is a standard metal quarter with typical mass distribution. The room lights turn off
+    completely, plunging the scene into total darkness. The darkness persists for several seconds. Then
+    the lights turn back on, illuminating the table surface again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a silver US quarter spinning on its edge on a
+    scratched, brown wooden table. The coin is positioned in the center, standing vertically upright.
+    It is slightly blurred due to the rotational motion. The background is a blurred domestic interior
+    with a window.
+  init2final_edit_prompt: Edit the given image to show the coin tilted significantly to one side, leaning
+    towards the table surface. The coin should appear to be wobbling or precessing, no longer standing
+    perfectly vertical. Keep the lighting bright and the wooden table texture unchanged.
+  rationale: The prompt establishes that friction and air resistance are acting on the spinning coin.
+    Over the course of 'several seconds' of darkness, these forces will dissipate the coin's kinetic energy
+    and angular momentum. Physically, as a spinning coin slows down, it loses gyroscopic stability and
+    begins to lean, wobble, or precess (the angle of inclination decreases). Therefore, when the lights
+    turn back on, the coin should no longer be perfectly upright; it must be tilted, wobbling, or have
+    fallen closer to the table surface. The final state must also show the lights back on, not the intermediate
+    darkness.
+  questions:
+  - id: coin_tilt_check
+    question: Is the coin tilted or leaning relative to the vertical axis?
+    answer_type: yes_no
+    notes_for_judge: The coin should not be standing perfectly straight up as in the initial frame; it
+      should be leaning due to loss of speed.
+  - id: coin_not_upright
+    question: Is the coin no longer standing perfectly vertically on its edge?
+    answer_type: yes_no
+    notes_for_judge: If the coin is leaning, wobbling, or flat, the answer is Yes. If it is still perfectly
+      vertical, the answer is No.
+  - id: lighting_restored
+    question: Is the scene illuminated, showing the table and coin clearly?
+    answer_type: yes_no
+    notes_for_judge: The prompt specifies the lights turn back on. The image should not be dark.
+  - id: lower_center_of_mass
+    question: Is the top edge of the coin lower than it was in the initial upright position?
+    answer_type: yes_no
+    notes_for_judge: As the coin tilts or falls, its highest point decreases.
+  - id: table_texture_consistency
+    question: Is the scratched wooden table surface still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: coin_presence
+    question: Is the coin still present on the table?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

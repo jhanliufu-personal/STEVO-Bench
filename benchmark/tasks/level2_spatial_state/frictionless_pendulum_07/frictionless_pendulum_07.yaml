@@ -1,0 +1,64 @@
+id: frictionless_pendulum_07
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: frictionless_pendulum
+variation_type: combined
+variation_description: Water-filled chamber (damping) combined with lights-off occlusion.
+changes:
+  occlusion_method: Room lights turn off completely.
+  dynamic_conditions: Chamber filled with water.
+  expected_outcome_change: Damped motion occurring in the dark.
+prompts:
+  init_frame_edit_prompt: Edit the image to show the glass chamber filled with water, adding a slight
+    blue tint and refractive distortion to the scene.
+  video_WM: The chamber is filled with water, creating significant fluid resistance. The lead bob is released
+    from its initial 45-degree position. Suddenly, the room lights turn off completely, plunging the scene
+    into pitch blackness. After a duration sufficient for movement, the lights turn back on. No zoom,
+    no cut, no scene change. STOP.
+  camera_WM: The chamber is filled with water, creating significant fluid resistance. The lead bob is
+    released from its initial 45-degree position. Suddenly, the room lights turn off completely, plunging
+    the scene into pitch blackness. After a duration sufficient for movement, the lights turn back on.
+    No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A large cylindrical glass tank filled with blue-tinted water in a laboratory
+    setting. Inside, a large, reflective metallic sphere is suspended by a mechanical arm linkage. The
+    sphere is currently displaced to the left side of the tank, held at an elevated position approximately
+    45 degrees from the vertical axis. The background features laboratory benches, equipment, and windows.
+  init2final_edit_prompt: Edit the given image to show the metallic sphere hanging at the bottom center
+    of the tank in a vertical equilibrium position. Reorient the mechanical suspension arm so it extends
+    straight down towards the sphere, rather than being angled to the left. Ensure the sphere is positioned
+    lower in the tank than in the original image. Maintain the blue water tint, the glass tank structure,
+    and the laboratory background exactly as they are.
+  rationale: The pendulum bob is released from a raised position in a fluid-filled tank. Gravity accelerates
+    the bob downward, while the water exerts significant drag force, damping the motion. During the blackout
+    period, the bob swings down towards the lowest point of its trajectory (equilibrium). Due to the fluid
+    resistance and the passage of time, the bob will have lost potential energy and settled near or at
+    the vertical position at the bottom of the swing when the lights return.
+  questions:
+  - id: position_height_check
+    question: Is the metallic sphere at a lower vertical position than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The sphere should have swung down due to gravity.
+  - id: position_center_check
+    question: Is the metallic sphere closer to the horizontal center of the tank than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The sphere swings towards the central equilibrium point.
+  - id: arm_orientation_check
+    question: Is the suspension arm oriented more vertically than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The mechanism follows the sphere to a vertical or near-vertical position.
+  - id: displacement_check
+    question: Has the metallic sphere moved away from its initial raised position on the left?
+    answer_type: yes_no
+    notes_for_judge: The object must not remain static.
+  - id: background_consistency
+    question: Are the laboratory windows and background equipment visible and unchanged?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: tank_integrity
+    question: Is the cylindrical glass tank structure intact and unchanged?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

@@ -1,0 +1,66 @@
+id: cart_spring_release_07
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: cart_spring_release
+variation_type: combined
+variation_description: Heavy load in cart combined with fog occlusion.
+changes:
+  occlusion_method: Thick fog obscures the scene.
+  dynamic_conditions: Cart filled with heavy rocks.
+  expected_outcome_change: Cart accelerates much slower.
+prompts:
+  init_frame_edit_prompt: Edit the image to fill the red wagon with a pile of heavy grey rocks.
+  video_WM: The release mechanism disengages and the compressed spring is freed to expand against the
+    heavy load. The cart carries significant mass on the track. Thick white fog rolls in swiftly, completely
+    obscuring the view of the cart and track. The fog remains dense for several seconds. Then the fog
+    clears, revealing the scene again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The release mechanism disengages and the compressed spring is freed to expand against the
+    heavy load. The cart carries significant mass on the track. Thick white fog rolls in swiftly, completely
+    obscuring the view of the cart and track. The fog remains dense for several seconds. Then the fog
+    clears, revealing the scene again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A red metal wagon filled with large grey rocks sits on wooden rails on a workbench.
+    A large, compressed metal coil spring is positioned between the back of the wagon and a vertical concrete
+    block on the right. A hand is visible on the right, holding a release mechanism near the spring. Various
+    tools are scattered on the wooden workbench in the foreground.
+  init2final_edit_prompt: Edit the given image to show the red wagon positioned further to the left along
+    the wooden rails. Render the large metal coil spring in an expanded, uncompressed state, stretching
+    out from the concrete block towards the new position of the wagon. Increase the distance between the
+    back of the wagon and the concrete block significantly. Keep the rocks inside the wagon and the background
+    tools unchanged.
+  rationale: The video prompt describes the release of a compressed spring against a movable cart. Physically,
+    the potential energy stored in the compressed spring converts to kinetic energy, exerting a force
+    that pushes the cart away from the fixed concrete block. Since the block is immovable, the cart must
+    move to the left along the tracks. The fog serves as an occlusion mask for the duration of the movement.
+    When the fog clears, the cart should be displaced to the left, and the spring should be visible in
+    its natural, uncompressed (expanded) length.
+  questions:
+  - id: cart_position_left
+    question: Is the red wagon positioned further to the left than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The cart must have moved away from the wall (to the left) due to the spring force.
+  - id: spring_expansion
+    question: Is the metal coil spring more expanded (longer) than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The spring was compressed initially; it should now be uncoiled/extended.
+  - id: gap_increase
+    question: Is the distance between the concrete block and the back of the wagon larger than in the
+      initial frame?
+    answer_type: yes_no
+    notes_for_judge: As the cart moves left, the gap between it and the wall must increase.
+  - id: cart_on_rails
+    question: Is the wagon still positioned on the wooden rails?
+    answer_type: yes_no
+    notes_for_judge: The cart should follow the track (rails) and not derail immediately.
+  - id: rocks_containment
+    question: Are the rocks still contained within the red wagon?
+    answer_type: yes_no
+    notes_for_judge: The load should remain in the cart.
+  - id: spring_state_visual
+    question: Does the spring appear less compressed than in the starting image?
+    answer_type: yes_no
+    notes_for_judge: Verifying the release of tension.

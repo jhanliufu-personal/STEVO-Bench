@@ -1,0 +1,60 @@
+id: marble_track_loop_07
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: marble_track_loop
+variation_type: combined
+variation_description: Stationary ball (no momentum) combined with fog occlusion.
+changes:
+  occlusion_method: Thick white fog fills the room, obscuring the view.
+  dynamic_conditions: Ball is stationary at the bottom.
+  expected_outcome_change: The ball remains at the bottom.
+prompts:
+  init_frame_edit_prompt: Edit the image so the steel ball is resting stationary at the very bottom of
+    the loop track.
+  video_WM: A steel ball rests stationary at the bottom of the vertical loop. Thick white fog begins to
+    roll in, quickly becoming so dense that the workbench and track are completely hidden. The fog then
+    slowly dissipates, revealing the scene again. No zoom, no cut, no scene change. STOP.
+  camera_WM: A steel ball rests stationary at the bottom of the vertical loop. Thick white fog begins
+    to roll in, quickly becoming so dense that the workbench and track are completely hidden. The fog
+    then slowly dissipates, revealing the scene again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up view of a wooden marble run structure featuring a vertical loop made
+    of clear flexible plastic tracks. A shiny steel ball rests stationary at the lowest point (the bottom)
+    of the loop. The structure is built from light-colored plywood. The background shows a workshop environment
+    with a workbench, various tools like hammers and clamps, and a window providing natural light.
+  init2final_edit_prompt: Edit the given image to show the scene clearly. The steel ball must remain in
+    the exact same position at the bottom of the clear plastic loop track. The background workbench, window,
+    and tools should be fully visible and unchanged, matching the initial scene.
+  rationale: The prompt explicitly states that the ball is stationary at the bottom of the loop and that
+    the only event is fog rolling in and dissipating. There are no external forces (like a push or gravity
+    acting on a raised object) to induce motion. Therefore, physically, the ball must remain in its equilibrium
+    position at the bottom of the loop. The challenge for the model is to maintain object permanence and
+    spatial stability (zero displacement) throughout the occlusion event.
+  questions:
+  - id: ball_location
+    question: Is the steel ball still located at the bottom of the loop?
+    answer_type: yes_no
+    notes_for_judge: The ball should not have moved.
+  - id: ball_stability
+    question: Is the steel ball in the same position as it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare with the initial image; displacement should be zero.
+  - id: ball_resting
+    question: Is the ball resting at the lowest point of the track?
+    answer_type: yes_no
+    notes_for_judge: It should not be up the sides of the loop.
+  - id: visibility_ball
+    question: Is the steel ball visible?
+    answer_type: yes_no
+    notes_for_judge: The fog has dissipated, so the ball should be seen.
+  - id: visibility_background
+    question: Is the background workbench visible again?
+    answer_type: yes_no
+    notes_for_judge: The fog should be gone.
+  - id: track_integrity
+    question: Is the clear plastic loop track visible and intact?
+    answer_type: yes_no
+    notes_for_judge: The structure should persist.

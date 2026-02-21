@@ -1,0 +1,67 @@
+id: spinning_gyroscope_precession_01
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: spinning_gyroscope_precession
+variation_type: occlusion_method
+variation_description: Replaces camera rotation with lights turning off and on.
+changes:
+  occlusion_method: Lighting change (pitch black)
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics (gyroscope continues precessing)
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The gyroscope is spinning rapidly while its axis slowly circles around the vertical pedestal
+    in a precessional motion. Suddenly, the workshop lights turn off completely, plunging the scene into
+    total darkness. After a few seconds, the lights turn back on to reveal the scene. No zoom, no cut,
+    no scene change. STOP.
+  camera_WM: The gyroscope is spinning rapidly while its axis slowly circles around the vertical pedestal
+    in a precessional motion. Suddenly, the workshop lights turn off completely, plunging the scene into
+    total darkness. After a few seconds, the lights turn back on to reveal the scene. No zoom, no cut,
+    no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up shot of a large mechanical gyroscope on a metal workbench. The gyroscope
+    features a heavy brass rotor inside a steel gimbal frame. It is balanced on a sharp bottom pivot point
+    resting on a scratched metal plate. The gyroscope is tilted, leaning towards the left side of the
+    frame. A metal chain hangs vertically in the foreground on the left. The background is a cluttered
+    workshop with shelves, tools, and fluorescent lights.
+  init2final_edit_prompt: Edit the given image to show the gyroscope rotated around its vertical pivot
+    axis. The bottom pivot point must remain in the exact same spot on the metal plate, but the upper
+    part of the gyroscope frame and axis should be pointing in a different direction (azimuthal angle)
+    to simulate precessional motion. Keep the gyroscope upright and tilted at a similar angle, just oriented
+    differently relative to the camera.
+  rationale: The gyroscope is described as spinning rapidly, which creates angular momentum that resists
+    gravity, preventing it from falling over immediately. Instead, the torque from gravity causes precession,
+    meaning the axis of rotation will slowly trace a circle around the vertical pivot. During the blackout,
+    this motion continues. In the final frame, the gyroscope should still be upright (not fallen) and
+    anchored at the pivot, but the top of the axis should have rotated to a new position along its precessional
+    path.
+  questions:
+  - id: gyro_orientation_change
+    question: Is the upper part of the gyroscope pointing in a different direction than it was in the
+      initial frame?
+    answer_type: yes_no
+    notes_for_judge: The gyroscope should have precessed, meaning its tilt direction (azimuth) has changed.
+  - id: gyro_pivot_fixed
+    question: Is the bottom pivot point of the gyroscope still located at the same spot on the metal plate?
+    answer_type: yes_no
+    notes_for_judge: The pivot is the anchor point and should not slide across the table.
+  - id: gyro_upright
+    question: Is the gyroscope still balanced on its pivot point rather than lying flat on the table?
+    answer_type: yes_no
+    notes_for_judge: Conservation of angular momentum keeps it upright; it should not have toppled over.
+  - id: axis_rotation
+    question: Has the gyroscope's axis rotated around the vertical while maintaining a similar tilt angle?
+    answer_type: yes_no
+    notes_for_judge: 'Check for precession: the tilt angle should be roughly preserved, but the direction
+      of the lean should change.'
+  - id: chain_consistency
+    question: Is the hanging chain on the left still in the same position?
+    answer_type: yes_no
+    notes_for_judge: Static background elements should remain unchanged.
+  - id: lighting_check
+    question: Is the scene fully illuminated, similar to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the lights turn back on.

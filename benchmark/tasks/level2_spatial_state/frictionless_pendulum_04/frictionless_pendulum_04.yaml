@@ -1,0 +1,69 @@
+id: frictionless_pendulum_04
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: frictionless_pendulum
+variation_type: dynamic_condition
+variation_description: Chamber is filled with water instead of vacuum, adding significant drag.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Chamber filled with water (high viscosity/drag) instead of vacuum.
+  expected_outcome_change: Pendulum motion is heavily damped; swings slower and loses amplitude significantly.
+prompts:
+  init_frame_edit_prompt: Edit the image to show the glass chamber filled with water, adding a slight
+    blue tint and refractive distortion to the scene.
+  video_WM: The chamber is filled with water, creating significant fluid resistance. The lead bob is released
+    from its initial 45-degree position. The camera rotates right until the pendulum completely exits
+    the view, then rotates toward the left smoothly at the same rate until the pivot point is back in
+    the center of view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The chamber is filled with water, creating significant fluid resistance. The lead bob is
+    released from its initial 45-degree position. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A large cylindrical glass tank filled with water in a laboratory setting. Inside
+    the tank, a large chrome sphere (pendulum bob) hangs from a vertical wire in the center. A mechanical
+    arm structure is visible on the left side of the tank, angled downwards. The background shows laboratory
+    windows and equipment.
+  init2final_edit_prompt: Edit the image to show the scene from the original central camera angle. The
+    chrome sphere should be visible hanging in the center of the water-filled tank, suspended by the vertical
+    wire. The mechanical arm on the left and the laboratory background should appear exactly as they did
+    in the initial view. Ensure the water level and lighting remain consistent.
+  rationale: 'The video prompt describes a camera panning sequence that rotates away from the pendulum
+    and then returns to the initial central view. Physically, the pendulum is released in water, which
+    provides significant fluid resistance. Regardless of whether the motion starts from a 45-degree angle
+    (as stated in the text) or the equilibrium position (as shown in the image), the drag from the water
+    will rapidly dampen any oscillations. By the time the camera completes its rotation out and back,
+    the pendulum will have lost most of its kinetic energy and settled near its equilibrium position in
+    the center of the tank. Therefore, the final frame should visually match the initial frame: the camera
+    is re-centered on the pivot, and the bob is visible in the center.'
+  questions:
+  - id: q1
+    question: Is the chrome sphere visible in the final frame?
+    answer_type: yes_no
+    notes_for_judge: 'Tests object permanence: the sphere must be visible after the camera returns.'
+  - id: q2
+    question: Is the pivot point of the pendulum aligned with the center of the view?
+    answer_type: yes_no
+    notes_for_judge: 'Tests camera trajectory: the camera must return to the initial central angle.'
+  - id: q3
+    question: Is the sphere positioned in the central region of the tank?
+    answer_type: yes_no
+    notes_for_judge: 'Tests physics/kinematics: due to water resistance, the bob should be near equilibrium
+      (center) rather than at a high amplitude.'
+  - id: q4
+    question: Is the sphere located to the right of the mechanical arm?
+    answer_type: yes_no
+    notes_for_judge: 'Tests spatial configuration: the arm is on the left, the bob is central.'
+  - id: q5
+    question: Is the sphere completely submerged in the water?
+    answer_type: yes_no
+    notes_for_judge: 'Tests physical constraints: the bob should remain in the fluid.'
+  - id: q6
+    question: Is the sphere free from contact with the glass walls of the tank?
+    answer_type: yes_no
+    notes_for_judge: 'Tests spatial bounds: the bob should not be colliding with the container walls.'
+  - id: q7
+    question: Is the mechanical arm on the left side still visible?
+    answer_type: yes_no
+    notes_for_judge: Consistency check for the static environment.

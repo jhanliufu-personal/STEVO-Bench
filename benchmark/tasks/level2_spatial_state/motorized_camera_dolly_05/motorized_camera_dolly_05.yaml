@@ -1,0 +1,65 @@
+id: motorized_camera_dolly_05
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: motorized_camera_dolly
+variation_type: dynamic_condition
+variation_description: A heavy sandbag is placed on the tracks in the dolly's path
+changes:
+  occlusion_method: null
+  dynamic_conditions: Obstacle on track implies collision/stop
+  expected_outcome_change: Dolly collides with sandbag and stops (instead of continuing)
+prompts:
+  init_frame_edit_prompt: Edit the image to place a large, heavy orange sandbag on the metal tracks directly
+    in the path of the dolly.
+  video_WM: The camera dolly is moving steadily along the tracks toward a heavy sandbag obstructing the
+    path. The camera rotates right until the dolly completely exits the view, then rotates toward the
+    left smoothly at the same rate until the start of the tracks is back in the center of view. No zoom,
+    no cut, no scene change. STOP.
+  camera_WM: The camera dolly is moving steadily along the tracks toward a heavy sandbag obstructing the
+    path. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A behind-the-scenes shot in a film studio showing a large camera dolly rig on
+    metal tracks. The dolly includes a seated operator, a boom arm, and a professional cinema camera.
+    The tracks run diagonally from the bottom center foreground toward the middle right. A large, cylindrical
+    orange sandbag lies across the tracks in the immediate foreground. The background features a green
+    screen cyclorama and a ceiling grid with studio lights.
+  init2final_edit_prompt: Edit the given image to show the camera dolly positioned further down the tracks,
+    significantly closer to the orange sandbag in the foreground. The dolly assembly should appear larger
+    and nearer to the bottom edge of the frame, reducing the gap between the dolly's wheels and the sandbag.
+    Maintain the position of the sandbag and the background studio environment exactly as they are.
+  rationale: The prompt describes the dolly moving steadily toward the sandbag, which is located in the
+    foreground of the initial view. The camera pans away (rotates right) and then returns to the original
+    orientation (rotates left to center the start of the tracks). During the occlusion caused by the camera
+    pan, the dolly continues its forward motion. Consequently, in the final frame, the dolly must be positioned
+    closer to the sandbag (the obstruction) than it was initially, reflecting the distance traveled along
+    the tracks.
+  questions:
+  - id: dolly_position_relative
+    question: Is the camera dolly closer to the orange sandbag than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The dolly should have moved along the tracks towards the foreground obstruction.
+  - id: dolly_track_progress
+    question: Has the dolly moved forward along the tracks towards the bottom of the image?
+    answer_type: yes_no
+    notes_for_judge: Check for displacement along the rail trajectory.
+  - id: gap_reduction
+    question: Is the distance between the dolly wheels and the orange sandbag smaller than in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: The gap should be reduced due to forward motion.
+  - id: operator_proximity
+    question: Does the operator seated on the dolly appear closer to the viewer?
+    answer_type: yes_no
+    notes_for_judge: Perspective change due to the dolly moving closer to the camera position.
+  - id: sandbag_static
+    question: Is the orange sandbag still in the same position on the floor?
+    answer_type: yes_no
+    notes_for_judge: The sandbag is an obstruction and should remain stationary unless pushed (which is
+      not explicitly confirmed, but position relative to tracks should be stable).
+  - id: background_consistency
+    question: Is the green screen background still visible in the same location?
+    answer_type: yes_no
+    notes_for_judge: The camera returns to the initial angle, so the background should match.

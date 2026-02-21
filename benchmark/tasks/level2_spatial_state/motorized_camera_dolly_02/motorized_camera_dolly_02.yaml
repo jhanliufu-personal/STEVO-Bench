@@ -1,0 +1,73 @@
+id: motorized_camera_dolly_02
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: motorized_camera_dolly
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to studio lights turning off
+changes:
+  occlusion_method: All studio lights turn off, creating pitch blackness
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The camera dolly is moving steadily along the straight metal tracks. The motorized drive ensures
+    a constant, unwavering velocity. Suddenly, all studio lights are cut, plunging the entire scene into
+    total pitch-black darkness where nothing is visible. After a pause, the lights turn back on abruptly.
+    No zoom, no cut, no scene change. STOP.
+  camera_WM: The camera dolly is moving steadily along the straight metal tracks. The motorized drive
+    ensures a constant, unwavering velocity. Suddenly, all studio lights are cut, plunging the entire
+    scene into total pitch-black darkness where nothing is visible. After a pause, the lights turn back
+    on abruptly. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A film studio set featuring a large camera dolly mounted on straight metal tracks
+    on a concrete floor. The dolly supports a professional cinema camera on a jib arm. Two men are operating
+    the equipment; one is seated on the dolly platform controlling the camera, and the other stands near
+    the back of the dolly. The background features a large green screen, black curtains on the left, and
+    a lighting grid on the ceiling with various studio lights. The tracks run diagonally from the bottom
+    right towards the center left.
+  init2final_edit_prompt: Edit the given image to show the camera dolly and the two operators positioned
+    significantly further along the metal tracks towards the left and background of the studio. The dolly
+    should appear to have traveled down the rails away from the foreground. Ensure the background elements
+    (green screen, walls) that were previously occluded by the dolly are now visible, and the dolly now
+    occludes new parts of the background. The studio lighting must be fully on and bright, matching the
+    initial lighting conditions.
+  rationale: The prompt establishes that the dolly is moving with a constant, motorized velocity along
+    the tracks. The sequence involves a period of darkness (lights cut) followed by the lights returning.
+    During the blackout, the dolly continues its steady motion due to the motorized drive. Therefore,
+    in the final frame, the dolly must be displaced along the tracks from its initial position. The lighting
+    in the final frame must be restored to the initial brightness, as the prompt states the lights turn
+    back on.
+  questions:
+  - id: dolly_displacement
+    question: Is the camera dolly located at a different position along the tracks compared to the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: The dolly should have moved along the rails.
+  - id: dolly_motion_direction
+    question: Has the seated operator moved further away from the bottom-right foreground?
+    answer_type: yes_no
+    notes_for_judge: Checks if the motion followed the track direction into the scene.
+  - id: background_disocclusion
+    question: Are parts of the background (floor or wall) that were hidden by the dolly in the first frame
+      now visible?
+    answer_type: yes_no
+    notes_for_judge: Standard check for object movement revealing background.
+  - id: lighting_status
+    question: Are the studio lights turned on, illuminating the scene?
+    answer_type: yes_no
+    notes_for_judge: The prompt specifies lights turn back on after the blackout.
+  - id: operator_position
+    question: Is the standing operator in a different location relative to the green screen than before?
+    answer_type: yes_no
+    notes_for_judge: The operator moves with the dolly.
+  - id: track_alignment
+    question: Is the dolly still positioned on the metal tracks?
+    answer_type: yes_no
+    notes_for_judge: 'Kinematic constraint: the dolly must stay on the rails.'
+  - id: camera_rig_integrity
+    question: Is the cinema camera still mounted on the dolly arm?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

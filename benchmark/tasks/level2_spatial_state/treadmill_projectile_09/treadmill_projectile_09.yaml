@@ -1,0 +1,62 @@
+id: treadmill_projectile_09
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: treadmill_projectile
+variation_type: combined
+variation_description: Combines camera zoom occlusion with a velcro surface belt.
+changes:
+  occlusion_method: Camera zooms out and in.
+  dynamic_conditions: Belt surface is covered in velcro hooks; ball is fuzzy.
+  expected_outcome_change: The ball will stick to the belt upon landing instead of bouncing or rolling.
+prompts:
+  init_frame_edit_prompt: Edit the image to give the treadmill belt a fuzzy, velcro-like texture.
+  video_WM: The robotic launcher fires a fuzzy tennis ball vertically into the air. The treadmill belt,
+    which is covered in sticky velcro hooks, continues its constant leftward motion. The camera rapidly
+    zooms out until the scene is too distant to resolve, then zooms back in to the original framing. No
+    cut, no scene change. STOP.
+  camera_WM: The ball is launched vertically relative to a moving treadmill belt. The belt surface is
+    covered in velcro hooks designed to catch the fuzzy ball. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+evaluation:
+  init_frame_description: A robotic launcher device constructed from aluminum extrusions sitting on a
+    wide, black, fuzzy-textured treadmill belt. The robot features a vertical metal tube (barrel) and
+    visible wiring. To the right of the robot, a yellow vertical safety post is visible. The background
+    consists of a concrete wall and blurred industrial machinery.
+  init2final_edit_prompt: Edit the given image to shift the entire robotic launcher assembly significantly
+    to the left side of the frame. The area of the black treadmill belt where the robot was originally
+    standing should now be empty, revealing the continuous fuzzy texture of the belt. The background,
+    including the concrete wall and the yellow safety post on the right, must remain stationary and unchanged.
+  rationale: The robotic launcher is resting on a treadmill belt that is moving to the left. Since there
+    are no visible restraints holding the robot in place, friction will cause the robot to move leftward
+    along with the belt. The camera zooms out and then returns to the original framing, meaning the background
+    remains static relative to the frame, but the robot will have displaced to the left. The ball, fired
+    vertically from the moving robot, shares the robot's horizontal velocity and will land back on or
+    near the robot, moving with it.
+  questions:
+  - id: robot_moved_left
+    question: Is the robotic launcher positioned further to the left than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The robot should have moved left with the belt.
+  - id: center_empty
+    question: Is the central area of the treadmill belt, where the robot originally stood, now empty?
+    answer_type: yes_no
+    notes_for_judge: The robot should have vacated its starting spot.
+  - id: motion_direction
+    question: Has the robot moved in the direction of the treadmill belt's motion (leftwards)?
+    answer_type: yes_no
+    notes_for_judge: Check for leftward displacement.
+  - id: robot_visible
+    question: Is the robotic launcher still visible in the frame (even if shifted)?
+    answer_type: yes_no
+    notes_for_judge: Assuming it hasn't moved completely off-screen, it should be visible.
+  - id: background_static
+    question: Is the yellow safety post on the right still in its original position?
+    answer_type: yes_no
+    notes_for_judge: The camera framing returns to the original view, so static background objects should
+      not move.
+  - id: wall_consistency
+    question: Is the concrete wall in the background unchanged?
+    answer_type: yes_no
+    notes_for_judge: Background consistency check.

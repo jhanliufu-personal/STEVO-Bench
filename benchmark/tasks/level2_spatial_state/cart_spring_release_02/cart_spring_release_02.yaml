@@ -1,0 +1,73 @@
+id: cart_spring_release_02
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: cart_spring_release
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to lights turning off.
+changes:
+  occlusion_method: Workshop lights turn off completely (pitch black).
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The release mechanism disengages and the compressed spring is freed to expand. The cart is
+    free to move along the smooth track with low friction wheels. The track extends several feet forward
+    from the starting position. The spring has a strong spring constant typical of steel coils. The workshop
+    lights turn off completely, plunging the scene into total darkness. The darkness lasts for several
+    seconds. Then the lights turn back on, illuminating the scene again. No zoom, no cut, no scene change.
+    STOP.
+  camera_WM: The release mechanism disengages and the compressed spring is freed to expand. The cart is
+    free to move along the smooth track with low friction wheels. The track extends several feet forward
+    from the starting position. The spring has a strong spring constant typical of steel coils. The workshop
+    lights turn off completely, plunging the scene into total darkness. The darkness lasts for several
+    seconds. Then the lights turn back on, illuminating the scene again. No zoom, no cut, no scene change.
+    STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A red metal toy wagon sits on wooden rails on a workbench. A large, compressed
+    steel spring is wedged between the back of the wagon and a vertical concrete block on the right. A
+    person's hand holds a release lever mechanism near the concrete block. Tools, sawdust, and a window
+    are visible in the background.
+  init2final_edit_prompt: Edit the given image to remove the red wagon completely, revealing the wooden
+    rails and workbench surface that were previously underneath it. Modify the large metal spring so that
+    it appears fully expanded and relaxed, extending from the concrete block towards the left with significantly
+    wider spacing between the coils. Keep the concrete block and background tools unchanged.
+  rationale: 'The prompt describes the release of a compressed spring which propels the cart along a low-friction
+    track. The ''several seconds'' of darkness function as a time-skip, allowing the cart to travel a
+    significant distance. Given the strong spring and low friction, the cart will move ''several feet''
+    to the left, likely exiting the camera''s field of view entirely. The final state should show the
+    aftermath: the cart is gone (or far to the left), and the spring has released its potential energy
+    and expanded to its natural length.'
+  questions:
+  - id: cart_moved_left
+    question: Has the red wagon moved to the left from its starting location?
+    answer_type: yes_no
+    notes_for_judge: The wagon should be significantly displaced to the left or completely out of the
+      frame.
+  - id: cart_absent_or_displaced
+    question: Is the area where the wagon was originally sitting now empty?
+    answer_type: yes_no
+    notes_for_judge: The wooden rails should be visible where the cart used to be.
+  - id: spring_expanded
+    question: Is the metal spring in an expanded state with wider gaps between the coils?
+    answer_type: yes_no
+    notes_for_judge: The spring should no longer be tightly compressed.
+  - id: spring_length
+    question: Does the spring extend further to the left from the concrete block than it did initially?
+    answer_type: yes_no
+    notes_for_judge: The spring should be longer due to expansion.
+  - id: rails_visible
+    question: Are the wooden rails visible in the space previously occupied by the wagon?
+    answer_type: yes_no
+    notes_for_judge: Since the wagon moved, the track underneath should be revealed.
+  - id: separation
+    question: Is the red wagon no longer compressing the spring against the concrete block?
+    answer_type: yes_no
+    notes_for_judge: The physical contact maintaining compression should be broken.
+  - id: block_stationary
+    question: Is the concrete block on the right still in the same position?
+    answer_type: yes_no
+    notes_for_judge: 'Secondary consistency check: The wall/block should not move.'

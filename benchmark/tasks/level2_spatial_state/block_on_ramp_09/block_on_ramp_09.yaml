@@ -1,0 +1,65 @@
+id: block_on_ramp_09
+level: 2
+category: kinematics
+tags: []
+variant_of: block_on_ramp
+variation_type: combined
+variation_description: Ice cube combined with camera move-away occlusion.
+changes:
+  occlusion_method: Camera moves backward until scene is unresolved.
+  dynamic_conditions: Object is an ice cube.
+  expected_outcome_change: Ice slides fast.
+prompts:
+  init_frame_edit_prompt: Edit the image to replace the wooden block with a clear ice cube of the same
+    size.
+  video_WM: Single continuous take, no cuts. A clear ice cube is resting on a smooth metal inclined ramp.
+    The surface is extremely slippery. The camera smoothly moves backward, retreating away from the table
+    until the ramp and ice become distant specks too small to resolve details. While the scene is distant,
+    the physical interaction continues naturally. The camera then moves forward at the same speed, returning
+    to the original viewpoint.
+  camera_WM: A clear ice cube rests on a smooth metal inclined ramp. The surface is extremely slippery.
+    Lighting and objects remain consistent and realistic. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A rectangular clear ice cube rests near the top of a smooth, stainless steel
+    inclined ramp. The ramp is wedge-shaped and sits on a light wooden table. There are water droplets
+    and meltwater trails on the metal surface around and below the ice cube. In the background, there
+    is a window and laboratory cabinets.
+  init2final_edit_prompt: Edit the given image to show the ice cube positioned at the very bottom end
+    of the metal ramp, leaving the original position at the top of the ramp empty.
+  rationale: The ice cube is placed on a slippery, inclined surface. Under the influence of gravity, and
+    given the low friction described, the ice cube will slide down the ramp. The camera maneuver (moving
+    away until the scene is distant and then returning) implies a significant passage of time, sufficient
+    for the ice cube to slide from the top to the bottom of the ramp (or potentially off it). The final
+    state should show the ice cube significantly displaced down the incline.
+  questions:
+  - id: pos_change_01
+    question: Is the ice cube at a different position than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The object must have moved from its starting coordinates.
+  - id: pos_down_01
+    question: Has the ice cube moved down the incline towards the table?
+    answer_type: yes_no
+    notes_for_judge: Check for displacement along the vector of the ramp's slope.
+  - id: pos_empty_01
+    question: Is the top section of the ramp, where the ice cube started, now empty?
+    answer_type: yes_no
+    notes_for_judge: The starting location should no longer contain the object.
+  - id: pos_lower_01
+    question: Is the ice cube physically lower in height relative to the table than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Vertical position check.
+  - id: pos_bottom_01
+    question: Is the ice cube located closer to the bottom edge of the ramp than the top edge?
+    answer_type: yes_no
+    notes_for_judge: It should have traversed the majority of the ramp length.
+  - id: invariant_ramp
+    question: Is the metal ramp still in the same position on the table?
+    answer_type: yes_no
+    notes_for_judge: The static environment should not move.
+  - id: invariant_bg
+    question: Are the background window and cabinets unchanged?
+    answer_type: yes_no
+    notes_for_judge: Background consistency check.

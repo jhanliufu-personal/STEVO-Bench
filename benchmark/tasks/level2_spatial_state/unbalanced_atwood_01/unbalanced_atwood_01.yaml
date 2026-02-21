@@ -1,0 +1,75 @@
+id: unbalanced_atwood_01
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: unbalanced_atwood
+variation_type: occlusion_method
+variation_description: A wooden board slides in front to occlude the view instead of camera rotation.
+changes:
+  occlusion_method: Object blocking (wooden board)
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The mechanical brake is released, allowing the weights to move freely. The central pulley
+    is well-oiled and has negligible friction. A large wooden board slides into the frame from the right,
+    completely blocking the view of the pulley system. The board pauses, then slides back out to the right,
+    revealing the scene again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The mechanical brake is released, allowing the weights to move freely. The central pulley
+    is well-oiled and has negligible friction. A large wooden board slides into the frame from the right,
+    completely blocking the view of the pulley system. The board pauses, then slides back out to the right,
+    revealing the scene again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A rustic workshop interior with stone walls. A pulley system is rigged with
+    two weights suspended by ropes. On the left, a large, heavy, rusty metal weight labeled '50 KG' hangs
+    in mid-air above an anvil. On the right, a smaller metal weight labeled '5 KG' hangs at roughly the
+    same height. Between them is a gear mechanism with a handle. Several chains hang vertically on the
+    far left side.
+  init2final_edit_prompt: Edit the given image to change the vertical positions of the weights. Move the
+    large '50 KG' weight on the left significantly downwards so it is positioned near the bottom of the
+    frame, just above or resting on the anvil. Move the small '5 KG' weight on the right significantly
+    upwards, positioning it near the top pulley. Adjust the ropes to be taut and connected to the new
+    positions of the weights. Keep the background, stone walls, chains, and tools unchanged.
+  rationale: 'The prompt describes an unbalanced Atwood machine scenario where a 50kg weight is connected
+    to a 5kg weight. Once the brake is released, the significantly heavier 50kg weight will accelerate
+    downwards due to gravity, pulling the lighter 5kg weight upwards. The occlusion by the wooden board
+    hides the motion, but the final state must show the result of this physical interaction: the heavy
+    weight displaced downwards and the light weight displaced upwards.'
+  questions:
+  - id: primary_motion_heavy_down
+    question: Is the large 50kg weight positioned lower than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the vertical position of the large weight on the left to the initial image.
+      It should be lower.
+  - id: primary_motion_light_up
+    question: Is the small 5kg weight positioned higher than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the vertical position of the small weight on the right to the initial image.
+      It should be higher.
+  - id: relative_position_anvil
+    question: Is the large weight closer to the anvil than it was initially?
+    answer_type: yes_no
+    notes_for_judge: The anvil is the object directly below the 50kg weight. The weight should have moved
+      towards it.
+  - id: relative_position_pulley
+    question: Is the small weight closer to the top pulley than it was initially?
+    answer_type: yes_no
+    notes_for_judge: The small weight should have moved up towards the suspension point.
+  - id: directional_check_heavy
+    question: Has the heavy weight on the left moved downwards?
+    answer_type: yes_no
+    notes_for_judge: Check for downward displacement.
+  - id: directional_check_light
+    question: Has the light weight on the right moved upwards?
+    answer_type: yes_no
+    notes_for_judge: Check for upward displacement.
+  - id: consistency_chains
+    question: Are the chains hanging on the far left still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check for background elements.
+  - id: consistency_walls
+    question: Is the stone wall texture in the background preserved?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

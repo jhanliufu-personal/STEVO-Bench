@@ -1,0 +1,64 @@
+id: air_puck_collision_05
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: air_puck_collision
+variation_type: dynamic_condition
+variation_description: A stationary mallet acts as an obstacle in the puck's path.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Stationary obstacle in path
+  expected_outcome_change: Puck collides and bounces off
+prompts:
+  init_frame_edit_prompt: Edit the image to place a solid red air hockey mallet fixed to the table surface
+    directly in the puck's forward path.
+  video_WM: The puck slides across the frictionless air-cushioned surface toward a heavy, stationary mallet
+    fixed in its path. The camera rotates right until the puck completely exits the view, then rotates
+    toward the left smoothly at the same rate until the left wall is back in the center of view. No zoom,
+    no cut, no scene change. STOP.
+  camera_WM: The puck slides across the frictionless air-cushioned surface toward a heavy, stationary
+    mallet fixed in its path. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up, eye-level view of an air hockey table with a dark, reflective surface
+    marked by neon pink and blue grid lines. A red mallet (striker) is positioned on the right side of
+    the frame. A white, glowing puck is located to the left of the mallet, showing motion blur that indicates
+    it is sliding towards the right (towards the mallet). A metal rail is visible along the left edge
+    of the table.
+  init2final_edit_prompt: Edit the given image to show the white puck moving towards the left side of
+    the frame, away from the red mallet. The puck should appear to have bounced off the mallet and reversed
+    its direction, with motion blur or trails indicating leftward movement. The red mallet must remain
+    stationary in its original position. Keep the camera angle, lighting, and background identical to
+    the initial frame.
+  rationale: The video prompt describes a sequence where the camera pans away and then returns to the
+    left side of the table. During the occlusion or time elapsed, the puck (initially moving right) collides
+    with the stationary, heavy mallet. Due to the physics of an elastic collision with a fixed object,
+    the puck's velocity vector must invert. When the camera returns to the view of the left wall, the
+    puck should be observed moving to the left, away from the mallet. The mallet remains fixed in place.
+  questions:
+  - id: q1
+    question: Is the white puck moving towards the left side of the image?
+    answer_type: yes_no
+    notes_for_judge: The puck should have bounced and be traveling in the opposite direction of the initial
+      frame.
+  - id: q2
+    question: Is the white puck moving away from the red mallet?
+    answer_type: yes_no
+    notes_for_judge: In the initial frame it was moving towards it; now it should be moving away.
+  - id: q3
+    question: Has the puck's direction of motion reversed compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: 'Initial: Right. Final: Left.'
+  - id: q4
+    question: Is the white puck traveling towards the metal rail on the left?
+    answer_type: yes_no
+    notes_for_judge: Kinematic check for leftward velocity.
+  - id: q5
+    question: Is the white puck positioned to the left of the red mallet?
+    answer_type: yes_no
+    notes_for_judge: It should not have passed through the mallet.
+  - id: q6
+    question: Is the red mallet in the same position as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The mallet is described as heavy and stationary.

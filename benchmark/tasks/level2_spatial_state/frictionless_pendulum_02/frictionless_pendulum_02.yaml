@@ -1,0 +1,63 @@
+id: frictionless_pendulum_02
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: frictionless_pendulum
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to a safety shutter blocking the view.
+changes:
+  occlusion_method: A large opaque safety shutter descends to block the view, then rises.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The lead bob is released from its initial 45-degree position. The chamber is a vacuum, and
+    the pivot point at the top is a low-friction bearing. A large opaque metal safety shutter descends
+    from the top of the frame, completely blocking the view of the chamber. The shutter then rises smoothly
+    until the chamber is fully visible again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The lead bob is released from its initial 45-degree position. The chamber is a vacuum, and
+    the pivot point at the top is a low-friction bearing. A large opaque metal safety shutter descends
+    from the top of the frame, completely blocking the view of the chamber. The shutter then rises smoothly
+    until the chamber is fully visible again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A large, spherical metal pendulum bob suspended by a thin vertical wire inside
+    a cylindrical glass vacuum chamber. A mechanical arm with a jointed structure is positioned on the
+    left, with its tip touching or holding the bottom of the sphere. The chamber sits on a metal base
+    in a laboratory room with windows in the background.
+  init2final_edit_prompt: Edit the given image to show the mechanical arm retracted to the left, no longer
+    touching the sphere. The sphere must remain in the exact center of the chamber with the wire vertical.
+    Ensure the glass chamber is fully visible and unobstructed.
+  rationale: The initial frame visually depicts the pendulum at its equilibrium position (vertical wire),
+    despite the text prompt mentioning a '45-degree position' (which likely refers to the angle of the
+    release arm or is a counterfactual instruction). In a physics-consistent rollout, releasing an object
+    from equilibrium results in no motion (zero potential energy). Therefore, the pendulum bob will remain
+    stationary in the center. The only kinematic change is the movement of the mechanical arm, which releases
+    the bob and retracts. The shutter temporarily blocks the view but the final state returns to the visible
+    chamber.
+  questions:
+  - id: arm_detached
+    question: Is the mechanical arm no longer touching the sphere?
+    answer_type: yes_no
+    notes_for_judge: The arm should have retracted or moved away after releasing the bob.
+  - id: sphere_centered
+    question: Is the sphere still located in the center of the chamber?
+    answer_type: yes_no
+    notes_for_judge: Since the bob started at equilibrium (vertical wire), it should not swing.
+  - id: wire_vertical
+    question: Is the wire suspending the sphere still vertical?
+    answer_type: yes_no
+    notes_for_judge: The wire should remain vertical as the bob stays at equilibrium.
+  - id: arm_moved
+    question: Has the mechanical arm moved from its initial holding position?
+    answer_type: yes_no
+    notes_for_judge: The arm must move to release the bob.
+  - id: shutter_gone
+    question: Is the view of the chamber unobstructed by the shutter?
+    answer_type: yes_no
+    notes_for_judge: The shutter should have risen, revealing the chamber.
+  - id: sphere_height
+    question: Is the sphere at the same height as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The sphere should not drop or rise.

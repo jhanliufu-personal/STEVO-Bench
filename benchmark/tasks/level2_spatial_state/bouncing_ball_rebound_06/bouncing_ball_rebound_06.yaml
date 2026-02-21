@@ -1,0 +1,69 @@
+id: bouncing_ball_rebound_06
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: bouncing_ball_rebound
+variation_type: dynamic_condition
+variation_description: Object changed from tennis ball to a lump of wet clay (plastic deformation).
+changes:
+  occlusion_method: null
+  dynamic_conditions: Ball is wet clay (plastic deformation, no elasticity).
+  expected_outcome_change: The ball will not bounce at all; it will hit the floor and stick/deform.
+prompts:
+  init_frame_edit_prompt: Edit the image to change the tennis ball into a gray lump of wet modeling clay.
+  video_WM: The lump of wet clay is released from the hand and becomes free to move. The floor is solid
+    hardwood. The object is soft clay prone to plastic deformation upon impact. Gravity acts on the object.
+    The camera rotates right at constant speed until the object and hand completely exit the view to the
+    right. The camera continues rotating right for several seconds while the object remains off-screen.
+    Then the camera rotates left smoothly at the same rate back to the original viewpoint. No zoom, no
+    cut, no scene change. STOP.
+  camera_WM: The lump of wet clay is released from the hand and becomes free to move. The floor is solid
+    hardwood. The object is soft clay prone to plastic deformation upon impact. Gravity acts on the object.
+    STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, slightly high-angle shot showing a person's arm and hand extending
+    from the right side of the frame. The hand is open with fingers spread, palm facing down. A rough,
+    grey lump of wet clay is suspended in mid-air just a few inches below the fingertips, hovering above
+    a polished hardwood floor. The background includes the wooden floorboards and a blurred section of
+    a wall and window.
+  init2final_edit_prompt: Edit the given image to show the lump of clay resting on the hardwood floor
+    directly vertically below the hand. The clay should appear flattened and deformed into a 'splat' shape,
+    consistent with soft material impacting a hard surface. The space in the air where the clay was originally
+    floating must be empty. Keep the hand, arm, and background in their original positions and appearance.
+  rationale: 'The prompt specifies that the clay is released and gravity acts upon it. Since the clay
+    is soft and prone to plastic deformation, it will fall, hit the floor, and deform (flatten) without
+    bouncing (inelastic collision). The camera rotates away and then returns to the exact original viewpoint.
+    Therefore, the final frame must show the aftermath of the fall: the clay resting on the floor in a
+    flattened state, vertically below the release point, while the hand remains empty.'
+  questions:
+  - id: clay_on_floor
+    question: Is the lump of clay resting on the wooden floor?
+    answer_type: yes_no
+    notes_for_judge: The clay should be in contact with the floorboards, not floating.
+  - id: clay_lower
+    question: Is the lump of clay at a lower vertical position than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Check for downward displacement.
+  - id: hand_empty
+    question: Is the space immediately below the hand empty?
+    answer_type: yes_no
+    notes_for_judge: The clay should no longer be hovering just under the fingers.
+  - id: clay_deformed
+    question: Does the clay appear flattened or deformed compared to its initial shape?
+    answer_type: yes_no
+    notes_for_judge: The prompt specifies plastic deformation upon impact.
+  - id: vertical_alignment
+    question: Is the clay positioned vertically below the hand?
+    answer_type: yes_no
+    notes_for_judge: It should have fallen straight down.
+  - id: downward_motion
+    question: Has the clay moved downwards from its starting location?
+    answer_type: yes_no
+    notes_for_judge: Verifying the direction of gravity.
+  - id: floor_contact
+    question: Is the clay in contact with the floor surface?
+    answer_type: yes_no
+    notes_for_judge: It should have landed.

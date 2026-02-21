@@ -1,0 +1,69 @@
+id: magnetic_sled_10
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: magnetic_sled
+variation_type: combined
+variation_description: Heavy weight on sled (slower acceleration) combined with fog occlusion.
+changes:
+  occlusion_method: Fog/smoke
+  dynamic_conditions: Increased mass (slower acceleration)
+  expected_outcome_change: The sled will accelerate much slower.
+prompts:
+  init_frame_edit_prompt: Edit the image to add a large, dark metal weight sitting on top of the aluminum
+    sled.
+  video_WM: The mechanical pin is retracted, allowing the sled to move freely along the rail. A heavy
+    lead weight sits on the ferromagnetic sled, significantly increasing its mass. Thick white smoke from
+    a reaction nearby fills the view, completely obscuring the apparatus. After a few seconds, the smoke
+    dissipates, revealing the lab bench clearly again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The mechanical pin is retracted, allowing the sled to move freely along the rail. A heavy
+    lead weight sits on the ferromagnetic sled, significantly increasing its mass. Thick white smoke from
+    a reaction nearby fills the view, completely obscuring the apparatus. After a few seconds, the smoke
+    dissipates, revealing the lab bench clearly again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: 'A laboratory setup featuring a clear plastic linear rail track on a black benchtop.
+    On the track sits a silver metal sled carrying a large, dark, rusty rectangular weight. To the right
+    of the track is a large square magnetic assembly with a yellow label reading ''CAUTION: HIGH MAGNETIC
+    FIELD''. A red-handled locking pin is inserted through the side of the track near the sled, holding
+    it in place. In the background, there is electronic equipment, including an oscilloscope, and white
+    cabinets.'
+  init2final_edit_prompt: Edit the given image to show the red-handled pin pulled out and retracted from
+    the side of the clear track. Move the metal sled and the large rusty weight sitting on top of it to
+    the far right end of the track, positioning them directly against the face of the large square magnet.
+  rationale: The initial state shows a ferromagnetic sled held in place by a pin against a strong magnetic
+    field (indicated by the warning sign). When the pin is retracted, the magnetic force will overcome
+    the static friction and inertia of the heavy weight, accelerating the sled towards the magnet. During
+    the occlusion by smoke, the sled travels along the rail. In the final state, the sled and weight will
+    have moved to the right and come to rest against the face of the magnet.
+  questions:
+  - id: sled_moved_right
+    question: Is the metal sled positioned further to the right than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The sled should have moved towards the magnet.
+  - id: sled_at_magnet
+    question: Is the sled now resting against or very close to the large square magnet?
+    answer_type: yes_no
+    notes_for_judge: The magnetic force pulls the sled to the magnet face.
+  - id: weight_moved
+    question: Has the rusty weight moved to the right along with the sled?
+    answer_type: yes_no
+    notes_for_judge: The weight sits on the sled and travels with it.
+  - id: pin_retracted
+    question: Is the red-handled pin retracted or removed from its locking position in the rail?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the pin is retracted.
+  - id: gap_reduced
+    question: Is the empty space between the sled and the magnet significantly smaller than in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: The sled moves to close the gap.
+  - id: weight_on_sled
+    question: Is the rusty weight still supported by the sled or the track area near the magnet?
+    answer_type: yes_no
+    notes_for_judge: Checks that the weight didn't vanish, though it may have shifted due to impact.
+  - id: magnet_stationary
+    question: Is the large square magnet structure in the same position as the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The magnet is a heavy fixture and should not move.

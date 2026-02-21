@@ -1,0 +1,66 @@
+id: bouncing_ball_rebound_00
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: bouncing_ball_rebound
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The ball is released from the hand and becomes free to move. The floor is solid hardwood with
+    elastic properties. The ball is a standard tennis ball with typical bounce characteristics. Gravity
+    acts on the ball. Camera remains stationary throughout. No zoom, no cut, no scene change. STOP.
+  camera_WM: The ball is released from the hand and becomes free to move. The floor is solid hardwood
+    with elastic properties. The ball is a standard tennis ball with typical bounce characteristics. Gravity
+    acts on the ball. Camera remains stationary throughout. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A close-up shot showing a person's right arm and hand extending from the upper
+    right. The hand is open with fingers splayed, palm facing downwards. A yellow-green tennis ball is
+    suspended in mid-air immediately below the fingertips, appearing to have just been released. The background
+    consists of a polished hardwood floor and a white baseboard.
+  init2final_edit_prompt: Edit the given image to show the tennis ball positioned significantly lower
+    in the frame, closer to the hardwood floor, indicating it has fallen under gravity. The hand should
+    remain in the upper right quadrant but must be clearly separated from the ball with no contact. The
+    ball should maintain its approximate horizontal alignment with the hand but be vertically displaced
+    downwards.
+  rationale: The prompt specifies that the ball is released and acted upon by gravity. Whether the video
+    captures the initial fall or a subsequent rebound, the physical law of conservation of energy and
+    inelastic collision (coefficient of restitution < 1) dictates that the ball will never return to or
+    exceed its initial release height. Therefore, in any valid future state after release, the ball must
+    be vertically lower than its starting position. The hand is no longer holding the ball, so the distance
+    between them must increase.
+  questions:
+  - id: ball_lower
+    question: Is the tennis ball positioned lower in the frame than it was in the initial image?
+    answer_type: yes_no
+    notes_for_judge: Compare the vertical center of the ball in both images. It must be lower in the final
+      frame.
+  - id: separation_increased
+    question: Is the vertical distance between the hand and the tennis ball greater than in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: The ball should have moved away from the hand downwards.
+  - id: ball_detached
+    question: Is the tennis ball completely separated from the hand?
+    answer_type: yes_no
+    notes_for_judge: There should be clear space between the fingers and the ball.
+  - id: horizontal_alignment
+    question: Is the tennis ball roughly vertically aligned with the hand (not moved significantly left
+      or right)?
+    answer_type: yes_no
+    notes_for_judge: Gravity acts vertically; significant lateral movement without external force is incorrect.
+  - id: hand_empty
+    question: Is the hand empty (not holding any object)?
+    answer_type: yes_no
+    notes_for_judge: The hand should have released the ball.
+  - id: floor_visible
+    question: Is the hardwood floor still visible at the bottom of the frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

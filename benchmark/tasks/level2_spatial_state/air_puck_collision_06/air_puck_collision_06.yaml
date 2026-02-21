@@ -1,0 +1,59 @@
+id: air_puck_collision_06
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: air_puck_collision
+variation_type: dynamic_condition
+variation_description: The table is tilted upward, forcing the puck to move against gravity.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Table tilted upward (gravity opposes motion)
+  expected_outcome_change: Puck decelerates and slides back down
+prompts:
+  init_frame_edit_prompt: Edit the image to show the table legs on the right side propped up on blocks,
+    creating a steep upward incline for the puck's path.
+  video_WM: The puck slides up the inclined air-cushioned surface, moving against gravity. The camera
+    rotates right until the puck completely exits the view, then rotates toward the left smoothly at the
+    same rate until the left wall is back in the center of view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The puck slides up the inclined air-cushioned surface, moving against gravity. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up, low-angle shot of an inclined air hockey table with a neon grid
+    surface. A metal rail runs along the left side. A white and blue puck is in motion near the left rail
+    in the foreground, generating sparks and motion blur. Wooden blocks support the table legs on the
+    right side.
+  init2final_edit_prompt: Edit the given image to show the puck significantly further up the inclined
+    track in the distance, or remove it if it has exited the view. Remove the sparks and motion blur from
+    the foreground impact point. Adjust the framing to center the metal rail in the view.
+  rationale: The puck is moving up an inclined surface against gravity with significant momentum. The
+    camera rotates away and then returns to the rail. During the time the camera is looking away, the
+    puck continues its trajectory up the slope. Therefore, in the final frame, the puck must be further
+    away (higher up the track) or have exited the frame entirely. The camera framing also shifts to center
+    the left wall.
+  questions:
+  - id: puck_position_up
+    question: Is the puck positioned further up the inclined track than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The puck should be further away/higher up the slope, or completely gone.
+  - id: puck_foreground_clear
+    question: Has the puck moved away from the immediate foreground area where it started?
+    answer_type: yes_no
+    notes_for_judge: The bottom-left area where sparks were visible should now be clear of the puck.
+  - id: puck_distance
+    question: Is the puck further from the camera (appearing smaller or more distant) than initially?
+    answer_type: yes_no
+    notes_for_judge: If the puck is visible, it must be smaller due to perspective. If absent, answer
+      Yes.
+  - id: sparks_removed
+    question: Are the sparks from the initial collision gone?
+    answer_type: yes_no
+    notes_for_judge: The initial impact event is over.
+  - id: rail_visibility
+    question: Is the metal rail visible in the frame?
+    answer_type: yes_no
+    notes_for_judge: The prompt explicitly states the camera returns to the left wall.
+  - id: grid_consistency
+    question: Are the neon grid lines still visible on the surface?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

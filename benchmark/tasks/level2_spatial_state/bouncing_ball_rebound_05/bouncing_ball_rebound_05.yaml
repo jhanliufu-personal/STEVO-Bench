@@ -1,0 +1,69 @@
+id: bouncing_ball_rebound_05
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: bouncing_ball_rebound
+variation_type: dynamic_condition
+variation_description: Object changed from tennis ball to heavy steel ball (low restitution on wood).
+changes:
+  occlusion_method: null
+  dynamic_conditions: Ball is heavy steel; floor is hardwood.
+  expected_outcome_change: The ball will have a very low bounce compared to a tennis ball due to mass
+    and material properties.
+prompts:
+  init_frame_edit_prompt: Edit the image to change the tennis ball into a shiny, heavy, chrome steel sphere.
+  video_WM: The heavy steel sphere is released from the hand and becomes free to move. The floor is solid
+    hardwood. The ball is dense metal with low coefficient of restitution on wood. Gravity acts on the
+    ball. The camera rotates right at constant speed until the ball and hand completely exit the view
+    to the right. The camera continues rotating right for several seconds while the ball remains off-screen.
+    Then the camera rotates left smoothly at the same rate back to the original viewpoint. No zoom, no
+    cut, no scene change. STOP.
+  camera_WM: The heavy steel sphere is released from the hand and becomes free to move. The floor is solid
+    hardwood. The ball is dense metal with low coefficient of restitution on wood. Gravity acts on the
+    ball. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, slightly high-angle shot of a person's arm and hand holding a large,
+    reflective steel sphere. The sphere reflects the room, including the photographer. The background
+    features a polished hardwood floor and the corner of a room with a window and white baseboards. The
+    ball is held suspended in the air.
+  init2final_edit_prompt: Edit the given image to show the steel sphere resting on the hardwood floor
+    directly below the hand's previous position. The hand should be empty and open, no longer holding
+    the object. The sphere must be positioned on the ground surface, significantly lower in the frame
+    than its starting height.
+  rationale: The prompt specifies that the heavy sphere is released and gravity acts upon it. The camera
+    rotates away for several seconds, which is sufficient time for the ball to fall to the floor. The
+    description notes a 'low coefficient of restitution,' meaning the ball will not bounce significantly
+    and will be found on the floor (either rolling or stationary) rather than in the air when the camera
+    returns to the original viewpoint.
+  questions:
+  - id: ball_vertical_pos
+    question: Is the steel sphere positioned lower in the frame than it was in the initial image?
+    answer_type: yes_no
+    notes_for_judge: The ball should have fallen from the hand to the floor.
+  - id: ball_on_floor
+    question: Is the steel sphere resting on or very close to the hardwood floor?
+    answer_type: yes_no
+    notes_for_judge: Due to gravity and time elapsed, the ball should be on the ground.
+  - id: hand_empty
+    question: Is the hand empty, no longer gripping the sphere?
+    answer_type: yes_no
+    notes_for_judge: The ball was released.
+  - id: ball_separation
+    question: Is there vertical separation between the hand and the sphere?
+    answer_type: yes_no
+    notes_for_judge: The ball should have dropped away from the hand.
+  - id: ball_displacement
+    question: Has the sphere moved downwards from its starting location?
+    answer_type: yes_no
+    notes_for_judge: Kinematic check for gravity's effect.
+  - id: background_consistency
+    question: Is the hardwood floor pattern consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: window_visibility
+    question: Is the window or wall trim still visible in the background?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check ensuring camera returned to original view.

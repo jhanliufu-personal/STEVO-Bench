@@ -1,0 +1,75 @@
+id: block_on_ramp_03
+level: 2
+category: kinematics
+tags: []
+variant_of: block_on_ramp
+variation_type: occlusion_method
+variation_description: Occlusion changed from panning to moving the camera backward until details are
+  lost.
+changes:
+  occlusion_method: Camera moves physically backward (dolly out) until the scene is too small to resolve.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: Single continuous take, no cuts. The block is resting on a smooth inclined ramp with very
+    low friction. The block is not glued or fixed in place. The camera smoothly moves backward, retreating
+    away from the table until the ramp and block become distant specks too small to resolve details. While
+    the scene is distant and unresolved, the physical interaction between the block and ramp continues
+    naturally according to gravity and the low-friction surface. The camera then moves forward at the
+    same speed, returning to the original viewpoint.
+  camera_WM: A block rests on a smooth inclined ramp with very low friction. The block is not glued or
+    fixed in place. Lighting and objects remain consistent and realistic. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A rectangular wooden block rests near the top of a smooth, inclined stainless
+    steel ramp. The ramp is constructed from folded sheet metal and sits on a light-colored wooden table.
+    Behind the block at the top of the ramp, there is a small metal clamp or stop mechanism, but the block
+    is positioned in front of it, free to move down the slope. The background shows a laboratory setting
+    with a window and a fume hood cabinet. The lighting is bright, casting a shadow of the ramp onto the
+    table.
+  init2final_edit_prompt: Edit the given image to position the wooden block at the bottom end of the metal
+    ramp, reflecting that it has slid down the incline. Ensure the block is oriented consistently with
+    the slope of the ramp. Keep the camera viewpoint, lighting, table, and background elements exactly
+    identical to the original image.
+  rationale: The prompt establishes a physical scenario with a block on a low-friction inclined plane.
+    The camera maneuver (moving backward until details are unresolved and then returning) implies a significant
+    passage of time while physics continues to run. Due to the incline and the explicit 'very low friction'
+    condition, gravity will cause the block to accelerate and slide down the ramp. When the camera returns
+    to the original viewpoint, the block should have moved significantly down the slope, likely reaching
+    the bottom or falling off, rather than remaining stationary at the top.
+  questions:
+  - id: block_moved
+    question: Is the wooden block in a different position than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The block should not be at the starting position near the top clamp.
+  - id: block_direction_down
+    question: Has the wooden block moved down the incline?
+    answer_type: yes_no
+    notes_for_judge: The displacement must be in the direction of the slope (downwards/forward along the
+      ramp).
+  - id: block_distance_from_top
+    question: Is the distance between the wooden block and the top of the ramp greater than in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: The gap between the block and the top mechanism should have increased.
+  - id: block_lower_height
+    question: Is the wooden block positioned lower in vertical height compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Since it slides down a ramp, its vertical position relative to the table/floor must
+      decrease.
+  - id: block_closer_to_bottom
+    question: Is the wooden block closer to the bottom edge of the ramp than it is to the top edge?
+    answer_type: yes_no
+    notes_for_judge: Given the time elapsed and low friction, the block should have traversed most of
+      the ramp.
+  - id: ramp_stationary
+    question: Is the metal ramp in the same position and orientation as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The ramp itself should not move; only the block moves.
+  - id: background_consistency
+    question: Are the background elements (window, cabinets) unchanged?
+    answer_type: yes_no
+    notes_for_judge: The camera returns to the original viewpoint, so the static environment must match.

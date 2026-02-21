@@ -1,0 +1,72 @@
+id: unbalanced_atwood_05
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: unbalanced_atwood
+variation_type: dynamic_condition
+variation_description: The pulley is heavily rusted and seized, preventing movement despite the mass difference.
+changes:
+  occlusion_method: null
+  dynamic_conditions: High friction (rusted/seized pulley)
+  expected_outcome_change: No movement (friction overcomes gravity)
+prompts:
+  init_frame_edit_prompt: Edit the image to make the metal pulley wheels look heavily corroded, orange
+    with rust, and old.
+  video_WM: The mechanical brake is released, but the central pulley is heavily rusted and seized solid.
+    The camera rotates right until the pulley completely exits the view, then rotates toward the left
+    smoothly at the same rate until the original height position is back in the center of view. No zoom,
+    no cut, no scene change. STOP.
+  camera_WM: The mechanical brake is released, but the central pulley is heavily rusted and seized solid.
+    STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A rustic workshop interior featuring a mechanical lifting system. On the left,
+    a large, rusty, blocky weight labeled '50 KG' hangs suspended by a rope. On the right, a smaller weight
+    labeled '5 KG' hangs similarly. In the lower center, a rusty manual winch mechanism with a large gear
+    and handle is mounted on a vertical post. Ropes connect the weights via pulleys attached to a wooden
+    beam at the top. To the left, heavy rusty chains hang vertically. The background consists of rough
+    stone walls and workshop tools. Lighting enters from a window on the right.
+  init2final_edit_prompt: Edit the given image to show the scene exactly as it appeared initially, ensuring
+    the 50 KG weight, the 5 KG weight, and the winch handle remain in their precise original positions
+    and orientations, reflecting that no movement has occurred.
+  rationale: 'The prompt describes a scenario where a mechanical brake is released, which would typically
+    induce motion in an unbalanced system (the 50kg weight dropping). However, the prompt explicitly introduces
+    a critical constraint: the central pulley is ''heavily rusted and seized solid.'' In the context of
+    physics reasoning, this seizure introduces immense resistance or a complete mechanical lock, preventing
+    the rope from traversing the pulley. Therefore, despite the brake release, the friction prevents the
+    weights from moving. The camera pans away and returns to the original view, so the final state should
+    be spatially identical to the initial state.'
+  questions:
+  - id: q1_50kg_pos
+    question: Is the 50 KG weight at the same vertical height as it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The weight should not have moved due to the seized pulley.
+  - id: q2_5kg_pos
+    question: Is the 5 KG weight at the same vertical height as it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The weight should not have moved.
+  - id: q3_winch_orientation
+    question: Is the handle of the winch mechanism in the same orientation as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The mechanism should not have rotated.
+  - id: q4_50kg_static
+    question: Has the 50 KG weight remained stationary relative to the background?
+    answer_type: yes_no
+    notes_for_judge: Check for any downward displacement.
+  - id: q5_5kg_static
+    question: Has the 5 KG weight remained stationary relative to the background?
+    answer_type: yes_no
+    notes_for_judge: Check for any upward displacement.
+  - id: q6_rope_tension
+    question: Does the rope configuration appear identical to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Ropes should not have slackened or shifted.
+  - id: q7_chains_secondary
+    question: Are the hanging chains on the left in the same position as initially?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: q8_overall_stability
+    question: Does the entire mechanical system appear frozen in its original state?
+    answer_type: yes_no
+    notes_for_judge: Global check for lack of motion.

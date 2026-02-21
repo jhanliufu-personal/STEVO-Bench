@@ -1,0 +1,59 @@
+id: funnel_marble_vortex_03
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: funnel_marble_vortex
+variation_type: occlusion_method
+variation_description: Camera physically moves backward until detail is lost.
+changes:
+  occlusion_method: Camera dollies backward to a distance where the scene is indistinguishable.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The steel ball is given a rapid horizontal nudge along the inner circumference of the funnel's
+    rim. The acrylic surface is polished and smooth. The camera rapidly moves backward (dollies out) away
+    from the funnel until the object becomes a tiny, indistinguishable speck in the distance. The camera
+    then moves forward to return to the original viewpoint. No cut, no scene change. STOP.
+  camera_WM: The steel ball is given a rapid horizontal nudge along the inner circumference of the funnel's
+    rim. The acrylic surface is polished and smooth. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A large, clear acrylic gravity well funnel (vortex exhibit) in a museum setting.
+    A polished steel ball is perched on the upper left rim of the funnel. The background shows large windows,
+    a polished concrete floor, and museum visitors.
+  init2final_edit_prompt: Edit the given image to move the steel ball from the upper left rim to a position
+    lower down on the inner slope of the funnel, closer to the central hole. Ensure the original position
+    on the rim is now empty. Keep the camera viewpoint, lighting, and background details exactly the same
+    as the original image.
+  rationale: The ball is given a horizontal nudge, causing it to enter a spiraling orbit around the funnel.
+    The camera performs a dolly-out and dolly-in maneuver which takes time. During this elapsed time,
+    friction and gravity act on the ball, causing its orbit to decay. Therefore, when the camera returns
+    to the initial viewpoint, the ball should be located lower in the funnel, spiraling towards the center,
+    rather than resting on the rim.
+  questions:
+  - id: ball_moved_from_start
+    question: Is the steel ball absent from its initial position on the upper left rim?
+    answer_type: yes_no
+    notes_for_judge: The ball should have moved due to the nudge.
+  - id: ball_lower_position
+    question: Is the steel ball positioned lower in the funnel than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Due to gravity and time passing, the ball should be further down the slope.
+  - id: ball_closer_to_center
+    question: Is the steel ball closer to the central hole than it was initially?
+    answer_type: yes_no
+    notes_for_judge: The trajectory in a funnel spirals inward.
+  - id: rim_empty
+    question: Is the upper left section of the rim empty?
+    answer_type: yes_no
+    notes_for_judge: Verify the ball is not duplicated and has left the start point.
+  - id: background_consistency
+    question: Are the windows and background elements consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The camera returns to the original viewpoint.
+  - id: camera_viewpoint_static
+    question: Is the camera framing identical to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The prompt specifies returning to the original viewpoint.

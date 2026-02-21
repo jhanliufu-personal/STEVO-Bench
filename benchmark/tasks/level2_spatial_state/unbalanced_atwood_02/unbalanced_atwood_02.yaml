@@ -1,0 +1,74 @@
+id: unbalanced_atwood_02
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: unbalanced_atwood
+variation_type: occlusion_method
+variation_description: The lights turn off completely to obscure the scene.
+changes:
+  occlusion_method: Lighting change (pitch black)
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The mechanical brake is released, allowing the weights to move freely. The central pulley
+    is well-oiled and has negligible friction. Suddenly, all lights in the workshop turn off, plunging
+    the scene into total darkness. After a duration, the lights turn back on, illuminating the scene again.
+    No zoom, no cut, no scene change. STOP.
+  camera_WM: The mechanical brake is released, allowing the weights to move freely. The central pulley
+    is well-oiled and has negligible friction. Suddenly, all lights in the workshop turn off, plunging
+    the scene into total darkness. After a duration, the lights turn back on, illuminating the scene again.
+    No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A rustic workshop scene featuring a pulley system with two hanging weights.
+    On the left, a large, rusty, block-shaped iron weight is labeled '50 KG'. On the right, a smaller,
+    block-shaped weight is labeled '5 KG'. Both are suspended by thick ropes. In the center, there is
+    a gear and winch mechanism with a handle. The background consists of a stone wall, hanging chains,
+    and various blacksmithing tools. An anvil sits below the 50kg weight.
+  init2final_edit_prompt: 'Edit the given image to show the result of the weights moving due to gravity.
+    Position the large ''50 KG'' weight significantly lower than its starting height, closer to the anvil
+    or floor. Position the small ''5 KG'' weight significantly higher than its starting height, closer
+    to the upper pulley block. Adjust the lengths of the vertical ropes accordingly: the rope holding
+    the 50kg weight should appear longer, and the rope holding the 5kg weight should appear shorter. Maintain
+    the original lighting, background, and camera angle.'
+  rationale: The scenario describes an unbalanced system (Atwood machine) where a 50kg mass is connected
+    to a 5kg mass. Since 50kg is much heavier than 5kg, releasing the brake causes the 50kg weight to
+    accelerate downwards due to gravity, while the 5kg weight accelerates upwards. During the period of
+    darkness (occlusion), this motion continues. When the lights return, the 50kg weight must be lower
+    and the 5kg weight must be higher than in the initial frame.
+  questions:
+  - id: q1_50kg_pos
+    question: Is the 50kg weight lower vertically than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the bottom edge of the 50kg weight relative to the anvil or floor.
+  - id: q2_5kg_pos
+    question: Is the 5kg weight higher vertically than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the top of the 5kg weight relative to the pulley block above it.
+  - id: q3_rope_50kg
+    question: Is the visible length of rope above the 50kg weight longer than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Since the weight moved down, the rope segment supporting it must have extended.
+  - id: q4_rope_5kg
+    question: Is the visible length of rope above the 5kg weight shorter than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Since the weight moved up, the rope segment supporting it must have retracted.
+  - id: q5_relative_height
+    question: Has the vertical distance between the 50kg weight and the 5kg weight increased?
+    answer_type: yes_no
+    notes_for_judge: Initially they are somewhat close in height; as one goes up and the other down, their
+      vertical separation increases.
+  - id: q6_anvil_clearance
+    question: Is the gap between the 50kg weight and the anvil smaller than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The weight falls towards the anvil.
+  - id: q7_background_consistency
+    question: Are the chains hanging on the far left wall still in the same position?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check; background objects should not move.
+  - id: q8_lighting_consistency
+    question: Is the scene illuminated (not dark)?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the lights turn back on.

@@ -1,0 +1,63 @@
+id: projectile_horizontal_launch_01
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: projectile_horizontal_launch
+variation_type: occlusion_method
+variation_description: Replaces camera rotation with thick smoke from the cannon blast obscuring the view.
+changes:
+  occlusion_method: Thick smoke fills the room then clears
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The red ball is traveling through the air after its horizontal launch. It is moving forward
+    and downward under the influence of its initial momentum and gravity. Thick white smoke from the cannon
+    blast suddenly billows out, completely filling the frame and obscuring the entire room. The smoke
+    slowly dissipates until the visibility is clear again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The red ball is traveling through the air after its horizontal launch. It is moving forward
+    and downward under the influence of its initial momentum and gravity. Thick white smoke from the cannon
+    blast suddenly billows out, completely filling the frame and obscuring the entire room. The smoke
+    slowly dissipates until the visibility is clear again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A wooden cannon with a brass barrel sits on a wooden workbench in a workshop.
+    A red ball is suspended in mid-air to the right of the barrel, exhibiting motion blur indicating rightward
+    movement. A puff of white smoke is emerging from the barrel behind the ball. In the foreground, there
+    are blueprints and a pencil. In the background, an open door leads to an outdoor area.
+  init2final_edit_prompt: Edit the given image to remove the red ball from mid-air, as it has traveled
+    out of the frame. Remove the white smoke puff from the cannon barrel and ensure the air is completely
+    clear and transparent. Make sure the background workshop and open doorway are fully visible and unobstructed
+    by smoke. Keep the wooden cannon, workbench, blueprints, and tools unchanged.
+  rationale: The prompt describes a sequence where the ball is launched, followed by a period where smoke
+    fills the room and then slowly dissipates. This process implies a significant passage of time (likely
+    seconds or minutes). Given the initial high velocity of the ball and the time elapsed, the ball will
+    have completed its trajectory and exited the frame or landed far in the background. Therefore, the
+    final frame should show the scene with the smoke cleared and the ball no longer in its initial flight
+    position.
+  questions:
+  - id: ball_moved_position
+    question: Is the red ball no longer in its initial mid-air position in front of the cannon?
+    answer_type: yes_no
+    notes_for_judge: The ball should have moved away or exited the frame.
+  - id: ball_not_hovering
+    question: Is the space immediately to the right of the cannon barrel empty of the red ball?
+    answer_type: yes_no
+    notes_for_judge: The ball should not be floating near the barrel anymore.
+  - id: smoke_cleared
+    question: Has the white smoke from the cannon blast dissipated?
+    answer_type: yes_no
+    notes_for_judge: The air should be clear, not filled with smoke.
+  - id: visibility_restored
+    question: Is the background doorway clearly visible without smoke obstruction?
+    answer_type: yes_no
+    notes_for_judge: The prompt states visibility is clear again.
+  - id: cannon_present
+    question: Is the wooden cannon still present on the workbench?
+    answer_type: yes_no
+    notes_for_judge: The cannon itself should remain.
+  - id: blueprints_present
+    question: Are the blueprints and pencil still visible on the table?
+    answer_type: yes_no
+    notes_for_judge: Static objects should remain.

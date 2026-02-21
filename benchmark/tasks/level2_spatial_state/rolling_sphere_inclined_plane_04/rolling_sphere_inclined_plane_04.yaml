@@ -1,0 +1,68 @@
+id: rolling_sphere_inclined_plane_04
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: rolling_sphere_inclined_plane
+variation_type: dynamic_condition
+variation_description: A brick is placed in front of the marble, preventing movement.
+changes:
+  occlusion_method: null
+  dynamic_conditions: A standard red brick blocks the marble's path.
+  expected_outcome_change: The marble remains stationary instead of rolling down.
+prompts:
+  init_frame_edit_prompt: Edit the image to place a standard red brick directly in front of the steel
+    marble on the ramp, physically blocking its downward path.
+  video_WM: The steel marble is positioned on the inclined ramp, resting against a red brick that completely
+    blocks its path. Gravity pulls the marble, but the brick provides a static obstruction preventing
+    movement. The camera rotates right until the ramp completely exits the view, then rotates toward the
+    left smoothly at the same rate until the top of the ramp is back in the center of view. No zoom, no
+    cut, no scene change. STOP.
+  camera_WM: The steel marble is positioned on the inclined ramp, resting against a red brick that completely
+    blocks its path. Gravity pulls the marble, but the brick provides a static obstruction preventing
+    movement. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up outdoor shot of a weathered wooden plank serving as an inclined ramp.
+    A shiny steel sphere (marble) sits on the plank. Immediately to the right of the sphere, and appearing
+    to touch it, is a red clay brick. The ramp is angled upwards from left to right. The background features
+    a grassy field and a blurred barn structure in the distance.
+  init2final_edit_prompt: Edit the given image to show the scene exactly as it was initially. The steel
+    marble should be in the same position, resting against the left side of the red brick on the wooden
+    ramp. The brick should remain in its original location. The background, lighting, and framing should
+    be identical to the original image.
+  rationale: The prompt describes a physical setup where the marble is pulled by gravity but is mechanically
+    blocked by the static red brick. This creates a state of static equilibrium where no motion occurs.
+    Although the camera rotates away (occluding the scene) and then returns, the physical state of the
+    objects remains unchanged. Therefore, the final frame should be visually identical to the initial
+    frame, with the marble and brick in their original positions.
+  questions:
+  - id: q1_contact
+    question: Is the steel marble still touching the red brick?
+    answer_type: yes_no
+    notes_for_judge: The marble should not have moved away from the brick.
+  - id: q2_position_marble
+    question: Is the steel marble in the same position on the ramp as it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Check if the marble has rolled down or moved relative to the plank.
+  - id: q3_position_brick
+    question: Is the red brick in the same position on the ramp as it was initially?
+    answer_type: yes_no
+    notes_for_judge: The brick is a static obstruction and should not move.
+  - id: q4_relative_pos
+    question: Is the steel marble still positioned to the left of the red brick?
+    answer_type: yes_no
+    notes_for_judge: The relative order of objects should be preserved.
+  - id: q5_static_state
+    question: Did the marble remain stationary instead of rolling away?
+    answer_type: yes_no
+    notes_for_judge: The prompt specifies the brick prevents movement, so the answer to 'did it remain
+      stationary' is Yes.
+  - id: q6_framing
+    question: Is the wooden ramp visible in the center of the view?
+    answer_type: yes_no
+    notes_for_judge: The camera rotates back to the center view.
+  - id: q7_background
+    question: Is the barn in the background still visible in the same relative location?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check for camera return.

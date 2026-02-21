@@ -1,0 +1,59 @@
+id: rolling_sphere_inclined_plane_05
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: rolling_sphere_inclined_plane
+variation_type: dynamic_condition
+variation_description: The ramp is changed to a flat, horizontal surface.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Surface is horizontal (0 degree incline).
+  expected_outcome_change: The marble remains stationary or moves very slowly due to lack of incline.
+prompts:
+  init_frame_edit_prompt: Edit the image so the wooden plank is perfectly horizontal and flat, resting
+    on the grass, rather than inclined.
+  video_WM: The steel marble sits on a flat, horizontal wooden plank. There is no incline to induce movement,
+    and the marble rests in equilibrium. The camera rotates right until the plank completely exits the
+    view, then rotates toward the left smoothly at the same rate until the starting position is back in
+    the center of view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The steel marble sits on a flat, horizontal wooden plank. There is no incline to induce movement,
+    and the marble rests in equilibrium. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A shiny steel sphere resting on the left side of a thick, rectangular wooden
+    plank. The plank appears to be floating or supported above a green grassy field. In the background,
+    slightly out of focus, is a rural scene with a weathered barn and trees. The lighting is natural daylight.
+  init2final_edit_prompt: Edit the given image to show the steel marble resting on the wooden plank in
+    the exact same position near the left edge. The plank, grass, and background barn should remain in
+    the same configuration, preserving the original scene exactly.
+  rationale: The prompt explicitly states that the plank is horizontal and the marble is in equilibrium,
+    meaning there are no forces to cause the marble to roll. The camera rotates away and then returns
+    to the exact starting position. Since the object is stationary and the camera view is restored, the
+    final frame should be identical to the initial frame.
+  questions:
+  - id: pos_static
+    question: Is the steel marble in the same position on the plank as it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the marble's position relative to the wood grain and edges. It should not
+      have moved.
+  - id: pos_left_edge
+    question: Is the marble still located near the left end of the plank?
+    answer_type: yes_no
+    notes_for_judge: The marble should not have rolled to the right or off the left edge.
+  - id: on_plank
+    question: Is the marble still resting on the top surface of the plank?
+    answer_type: yes_no
+    notes_for_judge: The marble should not have fallen off.
+  - id: cam_return
+    question: Is the wooden plank in the same position relative to the background barn and grass?
+    answer_type: yes_no
+    notes_for_judge: The camera should have returned to the original viewpoint.
+  - id: scene_identity
+    question: Does the final image appear essentially identical to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Since no movement occurred and the camera returned, the state should be unchanged.
+  - id: no_roll
+    question: Has the marble remained stationary relative to the wood grain marks?
+    answer_type: yes_no
+    notes_for_judge: Check specific knots or cracks in the wood near the ball.

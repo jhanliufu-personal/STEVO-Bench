@@ -1,0 +1,63 @@
+id: unbalanced_atwood_07
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: unbalanced_atwood
+variation_type: combined
+variation_description: Equal masses (balanced) with lights turning off for occlusion.
+changes:
+  occlusion_method: Lighting change
+  dynamic_conditions: Equal masses
+  expected_outcome_change: No movement
+prompts:
+  init_frame_edit_prompt: Edit the image so the weight on the right is identical in size and shape to
+    the large weight on the left, and change its text label to '50 KG'.
+  video_WM: The mechanical brake is released. The system is balanced with two equal 50kg masses. The lights
+    in the room suddenly turn off, leaving the scene in pitch blackness. After a short duration, the lights
+    turn back on. No zoom, no cut, no scene change. STOP.
+  camera_WM: The mechanical brake is released. The system is balanced with two equal 50kg masses. The
+    lights in the room suddenly turn off, leaving the scene in pitch blackness. After a short duration,
+    the lights turn back on. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A rustic workshop scene featuring a pulley system (Atwood machine) mounted on
+    a wooden beam. Two large, rusty, cubic iron weights, both clearly embossed with '50 KG', hang from
+    thick ropes. The left weight is positioned against a stone wall with hanging chains to its left. The
+    right weight hangs in front of a bright window. A central gear mechanism with a lever arm is situated
+    between the pulleys. The weights appear to be at approximately the same height.
+  init2final_edit_prompt: Edit the given image to show the scene exactly as it was initially, with the
+    two 50kg weights remaining in their original stationary positions. Ensure the left weight and the
+    right weight are at the exact same vertical height and horizontal location as in the source image.
+    Maintain the original lighting and background details.
+  rationale: The system is an Atwood machine with two equal masses (50kg each). When the mechanical brake
+    is released, the net force on the system is zero because the gravitational forces on the two equal
+    masses cancel each other out ($m_1g - m_2g = 0$). Since the system starts from rest and has zero acceleration,
+    it remains in static equilibrium. The blackout (lights off/on) represents a passage of time, but because
+    the system is balanced and stationary, no motion occurs. Therefore, the final frame should be spatially
+    identical to the initial frame.
+  questions:
+  - id: left_weight_height
+    question: Is the left 50kg weight at the same vertical height as it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The weight should not have moved up or down.
+  - id: right_weight_height
+    question: Is the right 50kg weight at the same vertical height as it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The weight should not have moved up or down.
+  - id: left_weight_pos
+    question: Is the left weight in the same horizontal position relative to the stone wall as initially?
+    answer_type: yes_no
+    notes_for_judge: Check for lateral movement.
+  - id: right_weight_pos
+    question: Is the right weight in the same position relative to the window frame as initially?
+    answer_type: yes_no
+    notes_for_judge: Check for lateral movement.
+  - id: rope_length
+    question: Does the length of the rope visible above the left weight appear unchanged?
+    answer_type: yes_no
+    notes_for_judge: Since the weight didn't move, the rope length should be constant.
+  - id: overall_static
+    question: Do the positions of the weights indicate that the system remained stationary?
+    answer_type: yes_no
+    notes_for_judge: The scene should look identical in terms of object placement.

@@ -1,0 +1,63 @@
+id: oscillating_metronome_arm_04
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: oscillating_metronome_arm
+variation_type: dynamic_condition
+variation_description: Sliding weight moved to the top of the rod, implying a slower oscillation frequency.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Weight at top of rod implies slow tempo (low frequency)
+  expected_outcome_change: Oscillation is much slower than original
+prompts:
+  init_frame_edit_prompt: Edit the image to move the sliding metal weight on the metronome's pendulum
+    arm to the very top position of the rod.
+  video_WM: The metronome arm is released. With the sliding weight positioned at the very top of the rod,
+    the arm begins a slow, sweeping oscillation. The internal spring mechanism is fully active. The camera
+    rotates right until the metronome completely exits the view, then rotates toward the left smoothly
+    at the same rate until the metronome's wooden casing is back in the center of view. No zoom, no cut,
+    no scene change. STOP.
+  camera_WM: The metronome arm is released. With the sliding weight positioned at the very top of the
+    rod, the arm begins a slow, sweeping oscillation. The internal spring mechanism is fully active. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up shot of a wooden metronome on a workbench with its front door open,
+    revealing the internal brass gears and a vertical metal pendulum rod. A trapezoidal sliding weight
+    is positioned near the top of the pendulum rod. A brass winding key is attached to the left side of
+    the wooden casing. The background shows a workbench with various tools like screwdrivers and pliers,
+    and a window providing natural light.
+  init2final_edit_prompt: Edit the given image to show the metronome's pendulum arm tilted to the right
+    side, indicating it is in the middle of a swing. Keep the sliding weight positioned near the top of
+    the rod. Ensure the wooden casing and the surrounding tools on the workbench remain in their original
+    positions and appearance.
+  rationale: 'The video involves a camera panning action that moves the subject out of frame and then
+    returns to the original view. Therefore, the final frame should restore the initial composition with
+    the metronome centered. The key state change is the motion of the pendulum arm: initially static and
+    vertical, it is now oscillating. Given the ''slow, sweeping'' nature of the motion described, the
+    arm in the final frame should be captured in a displaced position (tilted) rather than perfectly vertical.'
+  questions:
+  - id: pendulum_displacement
+    question: Is the pendulum arm tilted or displaced from the central vertical position?
+    answer_type: yes_no
+    notes_for_judge: The arm should not be perfectly vertical; it should be at an angle indicating motion.
+  - id: metronome_centered
+    question: Is the wooden metronome casing positioned in the center of the frame?
+    answer_type: yes_no
+    notes_for_judge: Checks if the camera successfully returned to the initial view.
+  - id: weight_position
+    question: Is the sliding weight still positioned on the upper half of the pendulum rod?
+    answer_type: yes_no
+    notes_for_judge: The weight should not have slid down; it was set at the top.
+  - id: background_consistency
+    question: Are the tools on the workbench in the same arrangement as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The camera returns to the original spot, so static objects should match.
+  - id: winding_key_presence
+    question: Is the winding key visible on the left side of the metronome?
+    answer_type: yes_no
+    notes_for_judge: Checks for object permanence and correct orientation.
+  - id: pendulum_integrity
+    question: Is the pendulum rod visible as a continuous straight line (tilted or vertical)?
+    answer_type: yes_no
+    notes_for_judge: Checks that the rod hasn't distorted or broken during generation.

@@ -1,0 +1,66 @@
+id: bowling_inertia_00
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: bowling_inertia
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The bowling ball is in motion on the polished lane. The surface is treated with oil and offers
+    minimal rolling resistance. Camera remains stationary throughout. No zoom, no cut, no scene change.
+    STOP.
+  camera_WM: The bowling ball is in motion on the polished lane. The surface is treated with oil and offers
+    minimal rolling resistance. Camera remains stationary throughout. No zoom, no cut, no scene change.
+    STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A black, marbled bowling ball is positioned in the center foreground of a polished
+    wooden bowling lane. The lane features vertical wood planks leading towards a set of white bowling
+    pins in the background. Gutters are visible on either side of the lane. The lighting creates strong
+    reflections on the oiled lane surface.
+  init2final_edit_prompt: Edit the given image to move the bowling ball further down the lane, significantly
+    closer to the pins in the background. Scale the bowling ball down to appear smaller, consistent with
+    perspective as it recedes from the viewer. Shift the ball's position higher in the frame and further
+    from the bottom edge. Ensure the reflection of the ball on the lane surface moves along with the ball
+    to its new location.
+  rationale: The bowling ball has initial forward velocity and is rolling on a low-friction surface. Due
+    to inertia and the lack of significant opposing forces, the ball will continue to travel down the
+    lane away from the camera. Visually, this results in the ball moving towards the vanishing point (the
+    pins), appearing smaller due to perspective, and occupying a position higher in the image frame.
+  questions:
+  - id: ball_distance_pins
+    question: Is the bowling ball closer to the pins than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The ball should have moved down the lane, reducing the distance to the background
+      pins.
+  - id: ball_size_perspective
+    question: Does the bowling ball appear smaller than it did in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: As the ball moves away from the camera, perspective dictates it should appear smaller.
+  - id: ball_vertical_position
+    question: Is the bowling ball positioned higher in the image frame than its initial position?
+    answer_type: yes_no
+    notes_for_judge: Movement away from the camera on a flat plane corresponds to moving 'up' in the 2D
+      image.
+  - id: ball_bottom_edge
+    question: Has the bowling ball moved away from the bottom edge of the image?
+    answer_type: yes_no
+    notes_for_judge: The gap between the bottom of the image and the ball should increase.
+  - id: ball_lane_position
+    question: Is the bowling ball further down the lane compared to the starting visual state?
+    answer_type: yes_no
+    notes_for_judge: Check for longitudinal displacement along the lane.
+  - id: lane_consistency
+    question: Are the gutters on the sides of the lane still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check for the environment.
+  - id: pins_presence
+    question: Are the bowling pins still visible in the background?
+    answer_type: yes_no
+    notes_for_judge: The pins should remain as the target destination.

@@ -1,0 +1,64 @@
+id: magnetic_sled_01
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: magnetic_sled
+variation_type: occlusion_method
+variation_description: A large opaque screen descends to block the view instead of camera rotation.
+changes:
+  occlusion_method: Object blocking (opaque screen)
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The mechanical pin is retracted, allowing the sled to move freely along the rail. The sled
+    is made of a highly ferromagnetic material. A large opaque projector screen descends from above, completely
+    blocking the view of the experiment. After a few seconds, the screen ascends smoothly until the apparatus
+    is fully visible again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The mechanical pin is retracted, allowing the sled to move freely along the rail. The sled
+    is made of a highly ferromagnetic material. A large opaque projector screen descends from above, completely
+    blocking the view of the experiment. After a few seconds, the screen ascends smoothly until the apparatus
+    is fully visible again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: 'A laboratory setup featuring a long clear plastic track with two metal rails.
+    A U-shaped aluminum-colored metal sled sits on the left side of the track. A red-handled locking pin
+    mechanism is positioned near the sled, seemingly holding it in place. To the far right is a large
+    square magnet housing labeled ''CAUTION: HIGH MAGNETIC FIELD''. Background includes lab benches, white
+    cabinets, and electronic test equipment like oscilloscopes.'
+  init2final_edit_prompt: Edit the given image to show the U-shaped metal sled positioned at the far right
+    end of the clear track, resting directly against the face of the large square magnet. The red-handled
+    pin mechanism should appear retracted or pulled away from the track center. The space on the left
+    where the sled was originally sitting should now be empty.
+  rationale: The prompt specifies that the sled is highly ferromagnetic and the pin holding it is retracted.
+    Once the restraint is removed, the strong magnetic field from the large magnet on the right will attract
+    the sled. During the few seconds of occlusion provided by the screen, the sled will accelerate along
+    the rails towards the magnet. By the time the view is restored, the sled will have traveled the length
+    of the track and collided with/stuck to the magnet face.
+  questions:
+  - id: sled_moved_right
+    question: Is the metal sled positioned further to the right than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The sled should move towards the magnet.
+  - id: sled_at_magnet
+    question: Is the metal sled now located at the far end of the track near the large square magnet?
+    answer_type: yes_no
+    notes_for_judge: It should be resting against or very close to the magnet.
+  - id: sled_vacated_start
+    question: Is the initial position of the sled (near the red handle) now empty?
+    answer_type: yes_no
+    notes_for_judge: The sled must have left its starting spot.
+  - id: sled_closer_to_sign
+    question: 'Is the metal sled closer to the ''CAUTION: HIGH MAGNETIC FIELD'' sign than it was initially?'
+    answer_type: yes_no
+    notes_for_judge: Spatial check relative to the sign on the magnet housing.
+  - id: pin_retracted_state
+    question: Does the red-handled pin appear retracted or disengaged compared to the initial state?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the pin is retracted; visually this usually means pulled out or
+      shifted.
+  - id: background_consistency
+    question: Are the electronic instruments in the background still in the same position?
+    answer_type: yes_no
+    notes_for_judge: Check for hallucinated changes in the static background.

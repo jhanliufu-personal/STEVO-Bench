@@ -1,0 +1,62 @@
+id: bowling_inertia_09
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: bowling_inertia
+variation_type: combined
+variation_description: A concrete barrier blocks the path, occluded by fog.
+changes:
+  occlusion_method: Fog/smoke
+  dynamic_conditions: Immovable obstacle in path
+  expected_outcome_change: Ball hits barrier and stops or bounces back.
+prompts:
+  init_frame_edit_prompt: Edit the image to place a heavy concrete block barrier directly in the path
+    of the bowling ball, a few feet ahead of it.
+  video_WM: The bowling ball is in motion on the polished lane, heading directly toward a heavy concrete
+    barrier placed across the track. Thick fog suddenly fills the room, completely obscuring the lane,
+    the ball, and the barrier. The fog slowly clears until the scene is visible again. No zoom, no cut,
+    no scene change. STOP.
+  camera_WM: The bowling ball is in motion on the polished lane, heading directly toward a heavy concrete
+    barrier placed across the track. Thick fog suddenly fills the room, completely obscuring the lane,
+    the ball, and the barrier. The fog slowly clears until the scene is visible again. No zoom, no cut,
+    no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A low-angle shot of a wooden bowling lane. In the immediate foreground, a shiny
+    black bowling ball is centered. Behind the ball, a large, rough, grey concrete barrier spans the width
+    of the lane, blocking the path to the pins. The barrier appears heavy and has visible cracks. In the
+    background, out of focus, are the bowling pins and the rest of the alley.
+  init2final_edit_prompt: Edit the given image to show the bowling ball positioned directly against the
+    front face of the concrete barrier. The ball should be located further down the lane, resting in contact
+    with the concrete block, with no gap remaining between the ball and the barrier.
+  rationale: The prompt establishes that the ball is in motion heading toward the barrier. During the
+    fog occlusion, the ball continues its trajectory due to inertia. Since the barrier is described as
+    heavy concrete, the ball will collide with it and stop rather than breaking through. Therefore, in
+    the final frame, the ball must be positioned further away from the camera, directly touching or resting
+    against the barrier.
+  questions:
+  - id: ball_position_relative_barrier
+    question: Is the bowling ball closer to the concrete barrier than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The ball should have moved forward to meet the barrier.
+  - id: ball_contact
+    question: Is the bowling ball touching or immediately adjacent to the concrete barrier?
+    answer_type: yes_no
+    notes_for_judge: The gap visible in the first frame should be closed.
+  - id: ball_depth_change
+    question: Has the bowling ball moved further away from the camera?
+    answer_type: yes_no
+    notes_for_judge: The ball moves down the lane (away from view) to hit the barrier.
+  - id: gap_elimination
+    question: Is the empty floor space between the ball and the barrier significantly reduced or eliminated?
+    answer_type: yes_no
+    notes_for_judge: Check for the disappearance of the lane section between ball and block.
+  - id: barrier_persistence
+    question: Is the concrete barrier still present across the lane?
+    answer_type: yes_no
+    notes_for_judge: The barrier should not vanish.
+  - id: pins_visibility
+    question: Are the bowling pins still visible in the background?
+    answer_type: yes_no
+    notes_for_judge: Background consistency check.

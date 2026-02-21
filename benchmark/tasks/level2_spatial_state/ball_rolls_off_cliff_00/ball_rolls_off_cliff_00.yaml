@@ -1,0 +1,61 @@
+id: ball_rolls_off_cliff_00
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: ball_rolls_off_cliff
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The ball continues rolling across the table surface toward the edge. The table edge is a sharp
+    drop-off with no barrier. The ball has sufficient velocity to reach the edge. Gravity acts on the
+    ball continuously. Air resistance is negligible. Camera remains stationary throughout, positioned
+    to keep the table, the edge, and the surrounding space fully in view. No zoom, no cut, no scene change.
+    STOP.
+  camera_WM: The ball continues rolling across the table surface toward the edge. The table edge is a
+    sharp drop-off with no barrier. The ball has sufficient velocity to reach the edge. Gravity acts on
+    the ball continuously. Air resistance is negligible. Camera remains stationary throughout, positioned
+    to keep the table, the edge, and the surrounding space fully in view. No zoom, no cut, no scene change.
+    STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A red ball with motion blur rolling on a wooden table surface towards the right.
+    The right edge of the table is visible, with a sharp drop-off. Below the table, a patterned rug lies
+    on the wooden floor.
+  init2final_edit_prompt: Edit the given image to move the red ball to the right of the table edge and
+    position it lower than the table surface, depicting it falling through the air above the rug.
+  rationale: The ball has initial velocity towards the right and is close to the edge. The prompt specifies
+    it reaches the edge and is acted upon by gravity. Conservation of momentum dictates it continues moving
+    right, while gravity causes it to accelerate downward immediately upon leaving the table surface.
+    The final state must show the ball in free fall, to the right of the edge and below the table level.
+  questions:
+  - id: position_change_right
+    question: Has the red ball moved further to the right compared to its position in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Check for horizontal displacement in the direction of initial velocity.
+  - id: past_edge
+    question: Is the red ball positioned to the right of the table's vertical edge?
+    answer_type: yes_no
+    notes_for_judge: The ball should have cleared the edge of the table.
+  - id: vertical_drop
+    question: Is the red ball positioned lower vertically than the table top surface?
+    answer_type: yes_no
+    notes_for_judge: The ball should have dropped due to gravity after leaving the surface.
+  - id: surface_contact
+    question: Is the red ball no longer resting on the top surface of the table?
+    answer_type: yes_no
+    notes_for_judge: The ball should be in the air or on the floor, not on the table.
+  - id: table_consistency
+    question: Is the wooden table in the same position as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The environment should be static.
+  - id: rug_visibility
+    question: Is the patterned rug still visible on the floor?
+    answer_type: yes_no
+    notes_for_judge: Background elements should persist.

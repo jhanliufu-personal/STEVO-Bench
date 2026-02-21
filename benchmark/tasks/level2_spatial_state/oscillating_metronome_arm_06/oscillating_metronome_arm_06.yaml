@@ -1,0 +1,63 @@
+id: oscillating_metronome_arm_06
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: oscillating_metronome_arm
+variation_type: dynamic_condition
+variation_description: Sliding weight moved to the bottom of the rod, implying a very fast oscillation
+  frequency.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Weight at bottom of rod implies fast tempo (high frequency)
+  expected_outcome_change: Oscillation is faster than original
+prompts:
+  init_frame_edit_prompt: Edit the image to move the sliding metal weight on the metronome's pendulum
+    arm to the very bottom position near the pivot.
+  video_WM: The metronome arm is released. With the sliding weight positioned at the very bottom of the
+    rod near the pivot, the arm begins a rapid, high-tempo oscillation. The internal spring mechanism
+    is fully active. The camera rotates right until the metronome completely exits the view, then rotates
+    toward the left smoothly at the same rate until the metronome's wooden casing is back in the center
+    of view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The metronome arm is released. With the sliding weight positioned at the very bottom of the
+    rod near the pivot, the arm begins a rapid, high-tempo oscillation. The internal spring mechanism
+    is fully active. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A wooden metronome sits on a workbench with its front door open, revealing the
+    internal brass mechanism and a vertical pendulum rod. A sliding weight is positioned near the bottom
+    of the rod. A metal winding key protrudes from the left side of the wooden casing. The background
+    shows a workshop setting with tools.
+  init2final_edit_prompt: Edit the given image to show the metronome's pendulum rod tilted to the left
+    or right side, capturing it in the middle of a swing. Ensure the sliding weight remains positioned
+    at the bottom of the rod. Keep the wooden casing centered and the background unchanged.
+  rationale: The prompt initiates the metronome's action, causing the pendulum arm to oscillate rapidly.
+    Although the camera pans away, it returns to the initial framing by the end of the video. In the final
+    frame, the metronome is still in an active state of oscillation. Therefore, the pendulum arm should
+    be visible at an angle (mid-swing) rather than resting vertically at the center equilibrium point.
+    The sliding weight remains at the bottom as specified.
+  questions:
+  - id: arm_tilted
+    question: Is the pendulum arm tilted to either the left or the right side?
+    answer_type: yes_no
+    notes_for_judge: The arm should not be perfectly vertical; it should be captured mid-swing.
+  - id: arm_displacement
+    question: Is the top of the pendulum rod horizontally displaced from the center of the mechanism?
+    answer_type: yes_no
+    notes_for_judge: Check if the tip of the rod has moved from the central resting position.
+  - id: arm_non_vertical
+    question: Is the pendulum arm in a non-vertical orientation?
+    answer_type: yes_no
+    notes_for_judge: The arm should be diagonal or blurred in an arc, not a straight vertical line.
+  - id: motion_state
+    question: Does the pendulum arm appear to be in a different position than its initial resting state?
+    answer_type: yes_no
+    notes_for_judge: Compare with the initial frame where the arm is centered and static.
+  - id: casing_centered
+    question: Is the wooden metronome casing centered in the frame?
+    answer_type: yes_no
+    notes_for_judge: The camera should have returned to the original view.
+  - id: key_presence
+    question: Is the winding key still visible on the left side of the metronome?
+    answer_type: yes_no
+    notes_for_judge: Object consistency check.

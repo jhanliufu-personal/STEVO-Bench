@@ -1,0 +1,63 @@
+id: yoyo_drop_01
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: yoyo_drop
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to a sliding door blocking the view.
+changes:
+  occlusion_method: A sliding door moves in front of the camera.
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The yo-yo is released from the hand. The end of the string remains fixed in the air. The yo-yo
+    is free to move toward the floor. A large sliding door moves from left to right, completely blocking
+    the view of the yo-yo and hand. The door remains closed for a moment, then slides back to the left.
+    No zoom, no cut, no scene change. STOP.
+  camera_WM: The yo-yo is released from the hand. The end of the string remains fixed in the air. The
+    yo-yo is free to move toward the floor. A large sliding door moves from left to right, completely
+    blocking the view of the yo-yo and hand. The door remains closed for a moment, then slides back to
+    the left. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up shot of a silver metal yo-yo suspended in mid-air by a white string.
+    The string extends vertically upwards out of the frame, held by a hand visible at the very top edge.
+    The yo-yo is wound with white string in its center gap. The background is a blurred industrial workshop
+    with a concrete floor, metal walls, and various equipment.
+  init2final_edit_prompt: Edit the given image to position the silver yo-yo significantly lower in the
+    frame, closer to the concrete floor. Extend the white string vertically downwards from the top edge
+    to connect with the lowered yo-yo. Maintain the same industrial background and lighting.
+  rationale: The video prompt describes a physical sequence where a yo-yo is released and falls under
+    gravity while the string unwinds. Although a sliding door temporarily occludes the scene, it opens
+    again before the video ends. Therefore, the final frame should reveal the scene with the yo-yo at
+    a lower vertical position than the initial frame, reflecting the displacement caused by gravity during
+    the elapsed time.
+  questions:
+  - id: yoyo_vertical_pos
+    question: Is the yo-yo positioned lower in the frame than it was in the initial image?
+    answer_type: yes_no
+    notes_for_judge: Compare the vertical coordinate of the yo-yo's center. It should be closer to the
+      bottom edge.
+  - id: string_length
+    question: Is the visible length of the vertical string longer than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Since the yo-yo has dropped, the string connecting it to the top must appear longer.
+  - id: floor_proximity
+    question: Is the yo-yo closer to the concrete floor than it was initially?
+    answer_type: yes_no
+    notes_for_judge: The gap between the yo-yo and the floor should be reduced.
+  - id: vertical_alignment
+    question: Is the yo-yo positioned vertically below the point where the string enters the frame?
+    answer_type: yes_no
+    notes_for_judge: Gravity pulls straight down; the yo-yo should not have drifted significantly left
+      or right.
+  - id: visibility_check
+    question: Is the yo-yo visible in the final frame?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the door slides back, revealing the object.
+  - id: background_consistency
+    question: Is the industrial workshop background consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The environment should not change, only the yo-yo's position.

@@ -1,0 +1,67 @@
+id: hockey_puck_friction_stop_08
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: hockey_puck_friction_stop
+variation_type: combined
+variation_description: Combined uphill slope with garage door occlusion.
+changes:
+  occlusion_method: Rolling garage door blocks view.
+  dynamic_conditions: Puck slides uphill (gravity opposes motion).
+  expected_outcome_change: Puck stops sooner/slides back.
+prompts:
+  init_frame_edit_prompt: Edit the image to make the concrete surface slant steeply upwards in the direction
+    the puck is sliding.
+  video_WM: The puck slides up a steep rough concrete ramp. Gravity acts against the direction of motion.
+    The puck is standard rubber. A heavy rolling garage door descends in the foreground, completely blocking
+    the view of the ramp and puck. The door remains closed for several seconds. Then the door rises smoothly,
+    revealing the ramp area again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The puck slides up a steep rough concrete ramp. Gravity acts against the direction of motion.
+    The puck is standard rubber. A heavy rolling garage door descends in the foreground, completely blocking
+    the view of the ramp and puck. The door remains closed for several seconds. Then the door rises smoothly,
+    revealing the ramp area again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, ground-level shot of a black hockey puck sliding across a rough,
+    cracked concrete surface. The puck is positioned centrally but appears to be moving away and slightly
+    to the right. There is visible motion blur on the puck and a cloud of dust and small debris kicking
+    up behind it, indicating speed and friction.
+  init2final_edit_prompt: Edit the given image to show the hockey puck located further up the concrete
+    surface, specifically higher in the frame and slightly further away. Remove all motion blur, dust
+    clouds, and flying debris to depict the puck as completely stationary and resting on the rough concrete.
+    Keep the lighting, perspective, and concrete texture identical to the original.
+  rationale: The puck is initially moving up a steep, rough ramp against the forces of gravity and friction.
+    The video prompt describes a 'heavy rolling garage door' that occludes the scene for 'several seconds'.
+    During this occlusion, the opposing forces (gravity and surface friction) will deplete the puck's
+    momentum, causing it to decelerate and eventually stop. Given the 'rough' texture, the puck is likely
+    to hold its position rather than slide back immediately. Therefore, in the final frame (after the
+    door re-opens), the puck should be displaced further up the ramp (higher in the frame) and be stationary
+    (no dust or blur).
+  questions:
+  - id: position_change
+    question: Is the hockey puck in a different position than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The puck should have moved from its starting coordinates.
+  - id: position_direction
+    question: Is the hockey puck located higher in the frame (further up the ramp) than its starting position?
+    answer_type: yes_no
+    notes_for_judge: The trajectory was up the ramp, so the final resting spot should be higher/further
+      away.
+  - id: motion_stop_dust
+    question: Are the dust clouds and flying debris from the initial frame absent?
+    answer_type: yes_no
+    notes_for_judge: The puck has stopped, so no new dust should be kicking up.
+  - id: motion_stop_blur
+    question: Does the hockey puck appear stationary, without motion blur?
+    answer_type: yes_no
+    notes_for_judge: The puck should be resting after the delay.
+  - id: occlusion_clear
+    question: Is the view of the concrete ramp unobstructed by the garage door?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the door rises, revealing the area again.
+  - id: texture_consistency
+    question: Is the surface texture of the concrete consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The background environment should not change.

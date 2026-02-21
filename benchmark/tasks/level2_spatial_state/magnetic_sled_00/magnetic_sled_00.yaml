@@ -1,0 +1,65 @@
+id: magnetic_sled_00
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: magnetic_sled
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The mechanical pin holding the sled is retracted. The sled is made of a highly ferromagnetic
+    material and sits on the rail. A magnet is positioned along the rail. Camera remains stationary throughout,
+    keeping the sled, rail, and magnet fully visible. No zoom, no cut, no scene change. STOP.
+  camera_WM: The mechanical pin holding the sled is retracted. The sled is made of a highly ferromagnetic
+    material and sits on the rail. A magnet is positioned along the rail. Camera remains stationary throughout,
+    keeping the sled, rail, and magnet fully visible. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: 'A laboratory setup featuring a long clear plastic rail system on a black countertop.
+    A U-shaped silver metal sled rests on two metal rods within the rail. A red-handled locking pin protrudes
+    from the side of the clear rail, positioned to hold the sled in place. To the right, at the end of
+    the rail, is a large square metal housing with a yellow label reading ''CAUTION: HIGH MAGNETIC FIELD''.
+    Background shelves contain electronic test equipment like oscilloscopes.'
+  init2final_edit_prompt: Edit the given image to show the silver U-shaped sled moved to the far right
+    end of the clear rail, positioned directly against the face of the large square magnet housing. Show
+    the red-handled pin on the side of the rail pulled outward in a retracted position. Keep the clear
+    rail, the magnet housing, and the background laboratory equipment unchanged.
+  rationale: The prompt specifies that the mechanical pin holding the sled is retracted, removing the
+    restraint. It also defines the sled as 'highly ferromagnetic' and notes the presence of a high magnetic
+    field at the end of the rail. Consequently, the magnetic force will attract the sled, causing it to
+    accelerate along the rails from its initial position towards the magnet. The final state should show
+    the sled resting at the end of the track near the magnet.
+  questions:
+  - id: sled_moved_right
+    question: Is the silver sled positioned further to the right than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The sled should have moved towards the magnet on the right.
+  - id: sled_near_magnet
+    question: Is the silver sled now located near the large square metal housing at the end of the track?
+    answer_type: yes_no
+    notes_for_judge: The sled should be adjacent to the magnet housing.
+  - id: sled_displacement
+    question: Has the silver sled moved away from its initial position near the red-handled pin?
+    answer_type: yes_no
+    notes_for_judge: The sled should no longer be at the starting point.
+  - id: pin_retracted
+    question: Is the red-handled pin depicted in a retracted or pulled-out position?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the pin is retracted.
+  - id: magnet_stationary
+    question: Is the large square magnet housing still in the same position on the table?
+    answer_type: yes_no
+    notes_for_judge: Only the sled and pin should move.
+  - id: background_consistency
+    question: Are the oscilloscopes and shelves in the background unchanged?
+    answer_type: yes_no
+    notes_for_judge: Background should remain static.
+  - id: rail_visibility
+    question: Is the clear plastic rail still visible and intact?
+    answer_type: yes_no
+    notes_for_judge: The rail structure should persist.

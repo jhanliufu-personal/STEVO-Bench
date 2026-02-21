@@ -1,0 +1,69 @@
+id: magnetic_sled_08
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: magnetic_sled
+variation_type: combined
+variation_description: Rusty rails (high friction) combined with object blocking occlusion.
+changes:
+  occlusion_method: Object blocking (opaque screen)
+  dynamic_conditions: High friction surface
+  expected_outcome_change: The sled will move much slower or get stuck.
+prompts:
+  init_frame_edit_prompt: Edit the image to make the silver rails look dark, rusty, and rough.
+  video_WM: The mechanical pin is retracted. The sled is ferromagnetic, but the rails are covered in heavy
+    rust and grime, creating significant friction. A large opaque projector screen descends from above,
+    completely blocking the view of the experiment. After a few seconds, the screen ascends smoothly until
+    the apparatus is fully visible again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The mechanical pin is retracted. The sled is ferromagnetic, but the rails are covered in
+    heavy rust and grime, creating significant friction. A large opaque projector screen descends from
+    above, completely blocking the view of the experiment. After a few seconds, the screen ascends smoothly
+    until the apparatus is fully visible again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: 'A physics experiment setup on a black lab bench. A clear rectangular plastic
+    track contains two rusty metal rebar rails. An aluminum U-shaped sled sits on the rails on the left
+    side. A red-handled mechanical pin is inserted through the side of the track, positioned immediately
+    to the right of the sled, acting as a stop. To the right, at the end of the track, is a large square
+    magnet housed in a metal frame with a yellow label reading ''CAUTION: HIGH MAGNETIC FIELD''. Background
+    shows lab equipment and cabinets.'
+  init2final_edit_prompt: Edit the given image to show the final state of the experiment. Remove the red-handled
+    pin from the side of the clear plastic track. Move the silver aluminum sled to the right along the
+    rusty rails so that it is positioned directly against the face of the large square magnet at the far
+    end of the track. Ensure the sled remains on the rails and maintains its orientation.
+  rationale: The initial state shows a ferromagnetic sled held back from a strong magnet by a mechanical
+    pin. The prompt states the pin is retracted. Despite the mention of friction from the rusty rails,
+    the magnetic force from the large 'High Magnetic Field' source is likely sufficient to overcome static
+    friction once the stop is removed. Since magnetic force increases as distance decreases, the sled
+    will accelerate towards the magnet and come to rest against it. The occlusion hides the motion, but
+    the final state will show the sled at the magnet and the pin removed.
+  questions:
+  - id: pin_removed
+    question: Is the red-handled pin removed from its blocking position in the track?
+    answer_type: yes_no
+    notes_for_judge: The pin should be retracted or gone.
+  - id: sled_moved
+    question: Has the silver sled moved from its initial position?
+    answer_type: yes_no
+    notes_for_judge: The sled should no longer be at the starting point on the left.
+  - id: sled_direction
+    question: Is the silver sled positioned to the right of its starting location?
+    answer_type: yes_no
+    notes_for_judge: Motion should be towards the magnet.
+  - id: sled_proximity
+    question: Is the silver sled closer to the large square magnet than it was initially?
+    answer_type: yes_no
+    notes_for_judge: It should have traveled down the track.
+  - id: sled_contact
+    question: Is the silver sled touching or very close to the face of the large magnet?
+    answer_type: yes_no
+    notes_for_judge: Given the physics, it should snap to the magnet.
+  - id: magnet_stationary
+    question: Is the large square magnet still in the same position?
+    answer_type: yes_no
+    notes_for_judge: The magnet housing should not move.
+  - id: track_integrity
+    question: Is the clear plastic track still present and intact?
+    answer_type: yes_no
+    notes_for_judge: The environment should remain stable.

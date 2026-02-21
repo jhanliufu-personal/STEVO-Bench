@@ -1,0 +1,64 @@
+id: tethered_ball_circular_07
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: tethered_ball_circular
+variation_type: combined
+variation_description: Frayed string condition combined with vehicle blocking occlusion.
+changes:
+  occlusion_method: Vehicle blocking view.
+  dynamic_conditions: String is frayed and holding by a thread.
+  expected_outcome_change: String breaks during occlusion; ball flies off tangentially.
+prompts:
+  init_frame_edit_prompt: Edit the image to show the string looks extremely frayed, thin, and damaged
+    near the attachment point to the ball.
+  video_WM: The tethered ball is spinning in a horizontal circle. The string is visibly frayed near the
+    ball, holding on by only a few thin threads under the tension. A large delivery truck drives slowly
+    across the foreground from left to right, completely blocking the view of the apparatus for several
+    seconds, then exits the frame to reveal the scene again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The tethered ball is spinning in a horizontal circle. The string is visibly frayed near the
+    ball, holding on by only a few thin threads under the tension. A large delivery truck drives slowly
+    across the foreground from left to right, completely blocking the view of the apparatus for several
+    seconds, then exits the frame to reveal the scene again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A red ball is suspended in the air, attached to a taut horizontal string connected
+    to a vertical wooden pole on the right. The ball appears blurred, indicating it is spinning. The string
+    is visibly frayed and thinning near its connection to the ball. The background consists of dry, dusty
+    ground.
+  init2final_edit_prompt: Edit the given image to show the string broken and hanging slack. The string
+    should droop downwards from the wooden pole towards the ground instead of extending horizontally.
+    Remove the red ball from the scene, leaving the frayed end of the string hanging loose.
+  rationale: 'The initial state shows a spinning object held by a tether that is explicitly described
+    as ''holding on by only a few thin threads'' under tension. The video prompt introduces a long occlusion
+    (''several seconds'') by a truck. Physically, the high tension on the compromised string makes a structural
+    failure inevitable during this duration. Therefore, the world state evolves from a high-tension dynamic
+    system to a broken static one: the string snaps, gravity takes over causing it to hang slack, and
+    the ball flies off tangentially due to the loss of centripetal force.'
+  questions:
+  - id: string_slack
+    question: Is the string hanging slack or drooping downwards?
+    answer_type: yes_no
+    notes_for_judge: The string should no longer be taut and horizontal; it should be affected by gravity.
+  - id: ball_not_suspended
+    question: Is the red ball no longer suspended in the air at the end of the string?
+    answer_type: yes_no
+    notes_for_judge: The ball should either be missing from the frame or lying on the ground, not floating
+      in the air.
+  - id: string_not_horizontal
+    question: Is the string no longer extending horizontally from the pole?
+    answer_type: yes_no
+    notes_for_judge: It should be falling/hanging down.
+  - id: ball_detached
+    question: Is the connection between the string and the ball broken?
+    answer_type: yes_no
+    notes_for_judge: The ball should not be attached to the string.
+  - id: pole_invariant
+    question: Is the vertical wooden pole still standing in the same position?
+    answer_type: yes_no
+    notes_for_judge: The pole is a static object and should not move.
+  - id: ground_invariant
+    question: Is the ground texture consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The background environment should remain unchanged.

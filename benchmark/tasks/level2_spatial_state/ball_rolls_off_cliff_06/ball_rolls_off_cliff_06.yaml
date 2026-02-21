@@ -1,0 +1,67 @@
+id: ball_rolls_off_cliff_06
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: ball_rolls_off_cliff
+variation_type: dynamic_condition
+variation_description: The ball rolls away from the edge instead of towards it.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Velocity vector reversed (rolling left, away from the edge).
+  expected_outcome_change: The ball ends up further from the edge on the left side, rather than falling
+    off the right.
+prompts:
+  init_frame_edit_prompt: Edit the image to add motion blur trails indicating the ball is rolling to the
+    left, away from the table edge.
+  video_WM: The ball rolls across the table surface to the left, moving away from the sharp edge. The
+    table surface is flat. The ball has sufficient velocity in the direction away from the drop-off. The
+    camera rotates right at constant speed until the table completely exits the view to the right. The
+    camera continues rotating right for several seconds. Then the camera rotates left smoothly at the
+    same rate back to the original viewpoint. No zoom, no cut, no scene change. STOP.
+  camera_WM: The ball rolls across the table surface to the left, moving away from the sharp edge. The
+    table surface is flat. The ball has sufficient velocity in the direction away from the drop-off. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, slightly high-angle shot of a rustic wooden table corner. A red
+    ball is positioned on the left side of the table surface, exhibiting motion blur that indicates velocity
+    towards the left. The left edge of the table is clearly visible, with a drop-off revealing a window
+    area and a patterned rug on the floor below. The table surface extends to the right.
+  init2final_edit_prompt: Edit the given image to remove the red ball from the wooden table surface. The
+    final image should show the continuous wood grain texture of the empty table top where the ball was
+    previously located. Maintain the original camera angle, lighting, and all background details including
+    the window, wall, and rug exactly as they appear.
+  rationale: The initial frame shows a ball with momentum moving to the left, directly towards the visible
+    table edge. Although the text prompt contains contradictory descriptions (stating 'moving away from
+    the sharp edge' while also saying 'rolls to the left' towards the visible edge), the visual evidence
+    of momentum and the Task ID 'ball_rolls_off_cliff' indicate the ball is intended to roll off the table.
+    The camera motion described ('table exits view to the right') implies a pan to the left (following
+    the ball/looking at the drop-off) before returning to the original view. After several seconds of
+    elapsed time, the ball will have fallen off the table and likely exited the frame or landed on the
+    floor, leaving the table surface empty.
+  questions:
+  - id: ball_absence_table
+    question: Is the red ball absent from the wooden table surface?
+    answer_type: yes_no
+    notes_for_judge: The ball should have rolled off the edge, leaving the table empty.
+  - id: table_empty
+    question: Is the area of the table where the ball started now empty?
+    answer_type: yes_no
+    notes_for_judge: Check for the wood grain where the ball was.
+  - id: ball_fell
+    question: Has the ball moved off the top surface of the table?
+    answer_type: yes_no
+    notes_for_judge: The ball should not be on the table top.
+  - id: surface_clear
+    question: Is the wooden surface clear of any red objects?
+    answer_type: yes_no
+    notes_for_judge: The red ball should be gone.
+  - id: window_visibility
+    question: Is the window on the left side still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: rug_consistency
+    question: Is the patterned rug on the floor still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

@@ -1,0 +1,65 @@
+id: cart_spring_release_09
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: cart_spring_release
+variation_type: combined
+variation_description: Steep upward incline combined with blocking object occlusion.
+changes:
+  occlusion_method: Large cardboard sheet blocks view.
+  dynamic_conditions: Track inclined steeply upwards (gravity opposes motion).
+  expected_outcome_change: Cart moves briefly but stops/slows rapidly due to gravity.
+prompts:
+  init_frame_edit_prompt: Edit the image so the wooden track is tilted steeply upwards, creating a ramp
+    for the cart to climb.
+  video_WM: The release mechanism disengages and the compressed spring is freed to expand. The cart is
+    facing a steep upward incline. Gravity opposes forward motion. A large cardboard sheet falls in front
+    of the camera, blocking the view completely. It stays for several seconds, then falls flat, revealing
+    the scene again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The release mechanism disengages and the compressed spring is freed to expand. The cart is
+    facing a steep upward incline. Gravity opposes forward motion. A large cardboard sheet falls in front
+    of the camera, blocking the view completely. It stays for several seconds, then falls flat, revealing
+    the scene again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A red metal wagon is positioned on two wooden rails that form a ramp inclined
+    upwards from left to right. A large, thick, compressed metal coil spring is positioned between the
+    front handle of the wagon and a concrete block on the right. A hand is visible holding a metal latch
+    or release mechanism connected to the spring.
+  init2final_edit_prompt: Edit the given image to show the aftermath of the spring expanding. The metal
+    coil spring should be significantly longer and extended to the left. The red wagon should be positioned
+    further to the left and lower down along the wooden rails, increasing the distance between the wagon
+    and the concrete block. The hand and release tool should be removed.
+  rationale: The spring is compressed between the stationary concrete block (right) and the wagon (left).
+    When the release mechanism disengages, the spring expands, exerting a force that pushes the wagon
+    away from the wall, which corresponds to moving to the left and down the incline. Gravity assists
+    this downward motion. The prompt's mention that 'Gravity opposes forward motion' refers to the potential
+    uphill direction the cart is facing, contrasting with the actual backward (downhill) motion caused
+    by the spring force. The occlusion event allows time for this motion to occur.
+  questions:
+  - id: cart_position_left
+    question: Is the red wagon positioned further to the left than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The cart should have been pushed away from the wall (leftwards).
+  - id: cart_position_lower
+    question: Is the red wagon lower in the frame than it was initially?
+    answer_type: yes_no
+    notes_for_judge: Moving left along the ramp means moving downhill.
+  - id: spring_state
+    question: Is the metal spring longer and more expanded than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The spring should have released its stored energy and extended.
+  - id: cart_wall_distance
+    question: Is the distance between the red wagon and the concrete block on the right larger than before?
+    answer_type: yes_no
+    notes_for_judge: The expansion pushes the cart away from the block.
+  - id: hand_removed
+    question: Is the hand holding the release mechanism gone or disengaged?
+    answer_type: yes_no
+    notes_for_judge: The prompt implies the release has happened.
+  - id: cart_orientation
+    question: Is the red wagon still facing towards the right?
+    answer_type: yes_no
+    notes_for_judge: The cart rolls backward but likely maintains its orientation facing the wall.

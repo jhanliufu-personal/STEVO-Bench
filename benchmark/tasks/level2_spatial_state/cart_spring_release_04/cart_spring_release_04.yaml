@@ -1,0 +1,70 @@
+id: cart_spring_release_04
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: cart_spring_release
+variation_type: dynamic_condition
+variation_description: Cart is filled with heavy rocks, increasing mass.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Cart filled with heavy rocks (high mass).
+  expected_outcome_change: Cart accelerates much slower and travels a shorter distance.
+prompts:
+  init_frame_edit_prompt: Edit the image to fill the red wagon with a pile of heavy grey rocks and bricks.
+  video_WM: The release mechanism disengages and the compressed spring is freed to expand against the
+    heavy load. The cart is free to move along the track but carries significant mass. The track extends
+    several feet forward. The spring has a strong spring constant. The camera rotates right at constant
+    speed until the cart and track completely exit the view to the right. The camera continues rotating
+    right for several seconds while the cart remains off-screen. Then the camera rotates left smoothly
+    at the same rate back to the original viewpoint. No zoom, no cut, no scene change. STOP.
+  camera_WM: The release mechanism disengages and the compressed spring is freed to expand against the
+    heavy load. The cart is free to move along the track but carries significant mass. The track extends
+    several feet forward. The spring has a strong spring constant during the occlusion period. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a red metal wagon filled with grey rocks and concrete
+    chunks, sitting on wooden rails on a workbench. A large, compressed metal coil spring is positioned
+    horizontally between the back of the wagon and a vertical concrete block on the right. A hand is visible
+    on the right side, holding a release lever mechanism near the compressed spring.
+  init2final_edit_prompt: Edit the given image to remove the red wagon and the pile of rocks, revealing
+    the empty wooden rails underneath. Show the metal coil spring fully expanded and uncoiled, extending
+    horizontally to the left from the concrete block into the space where the wagon was. Remove the hand
+    and the release lever mechanism.
+  rationale: The initial state shows a compressed spring storing potential energy against a movable cart.
+    When the release mechanism is triggered, the spring expands rapidly, exerting a strong force to the
+    left on the cart. The cart, despite its mass, accelerates to the left along the tracks. The camera
+    rotates away and returns after several seconds; given the duration and the force involved, the cart
+    will have traveled significantly to the left, likely exiting the frame entirely. The final state should
+    show the empty tracks and the relaxed, expanded spring.
+  questions:
+  - id: cart_displacement
+    question: Has the red wagon moved to the left from its starting position?
+    answer_type: yes_no
+    notes_for_judge: The wagon should be significantly displaced to the left or completely absent from
+      the frame.
+  - id: cart_absence
+    question: Is the area where the wagon was initially sitting now empty?
+    answer_type: yes_no
+    notes_for_judge: The central area of the tracks should be empty as the cart rolled away.
+  - id: spring_expansion
+    question: Is the metal spring expanded compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The spring should be uncoiled and in a relaxed state.
+  - id: spring_length
+    question: Does the spring extend further to the left than it did initially?
+    answer_type: yes_no
+    notes_for_judge: The spring should extend into the space previously occupied by the cart.
+  - id: tracks_visibility
+    question: Are the wooden rails visible in the center of the frame?
+    answer_type: yes_no
+    notes_for_judge: The tracks underneath the cart should be revealed.
+  - id: rocks_location
+    question: Have the rocks moved along with the wagon?
+    answer_type: yes_no
+    notes_for_judge: The rocks are inside the wagon and should not be left floating or on the tracks.
+  - id: block_consistency
+    question: Is the concrete block on the right still in the same position?
+    answer_type: yes_no
+    notes_for_judge: The block is a static anchor point and should not move.

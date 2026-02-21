@@ -1,0 +1,66 @@
+id: air_puck_collision_09
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: air_puck_collision
+variation_type: combined
+variation_description: Tilted table combined with smoke occlusion.
+changes:
+  occlusion_method: Smoke machine
+  dynamic_conditions: Table tilted upward (gravity)
+  expected_outcome_change: Puck slides back down while hidden by smoke
+prompts:
+  init_frame_edit_prompt: Edit the image to show the table legs on the right side propped up on blocks,
+    creating a steep upward incline for the puck's path.
+  video_WM: The puck slides up the inclined air-cushioned surface, moving against gravity. Thick white
+    smoke from an arcade smoke machine rapidly fills the space between the camera and the table, completely
+    obscuring the view. The smoke slowly dissipates until the table is visible again. No zoom, no cut,
+    no scene change. STOP.
+  camera_WM: The puck slides up the inclined air-cushioned surface, moving against gravity. Thick white
+    smoke from an arcade smoke machine rapidly fills the space between the camera and the table, completely
+    obscuring the view. The smoke slowly dissipates until the table is visible again. No zoom, no cut,
+    no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up, low-angle shot of an air hockey table with a reflective surface
+    featuring neon grid lines. A glowing circular puck is impacting the metal rail on the left side, creating
+    a burst of sparks and a bright flash. The puck has a motion blur trail indicating rapid movement.
+    The table surface appears inclined, receding into the background with wooden supports visible in the
+    foreground.
+  init2final_edit_prompt: Edit the given image to show the glowing air hockey puck at a new position further
+    up the inclined surface and to the right, significantly distant from the left rail. Remove the sparks,
+    flash, and explosion effects from the left rail to show the aftermath of the impact. Ensure the puck
+    is positioned deeper into the scene along the neon grid lines. The scene should be clear of any thick
+    smoke, showing the table surface clearly.
+  rationale: The puck is initially impacting the rail and moving up the incline (away from the camera
+    and to the right). During the period of smoke occlusion, the puck's momentum carries it further up
+    the table and to the right, away from the initial impact point. The sparks are a transient effect
+    of the collision and must dissipate immediately. Gravity acts against the upward motion, but the puck
+    is expected to have displaced significantly up the slope before potentially slowing down or stopping.
+  questions:
+  - id: puck_moved_up
+    question: Is the air hockey puck located further up the inclined surface (deeper into the image) than
+      it was initially?
+    answer_type: yes_no
+    notes_for_judge: The puck should have moved away from the camera/up the grid.
+  - id: puck_moved_right
+    question: Is the air hockey puck positioned to the right of its starting location near the left rail?
+    answer_type: yes_no
+    notes_for_judge: The trajectory from the rail bounce is towards the right.
+  - id: sparks_gone
+    question: Are the sparks and impact flash on the left rail absent?
+    answer_type: yes_no
+    notes_for_judge: The impact event is over; transient effects should vanish.
+  - id: puck_displacement
+    question: Is the puck at a clearly different position than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Checks for any movement.
+  - id: smoke_cleared
+    question: Is the table surface visible and free of thick, obscuring smoke?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the smoke dissipates.
+  - id: puck_visible
+    question: Is the air hockey puck visible on the playing surface?
+    answer_type: yes_no
+    notes_for_judge: The puck should not have vanished.

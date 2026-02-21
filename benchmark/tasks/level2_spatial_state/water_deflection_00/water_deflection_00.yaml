@@ -1,0 +1,67 @@
+id: water_deflection_00
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: water_deflection
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The electric fan is switched to its maximum setting. The horizontal airflow makes direct contact
+    with the falling vertical stream of water. Camera remains stationary throughout. No zoom, no cut,
+    no scene change. STOP.
+  camera_WM: The electric fan is switched to its maximum setting. The horizontal airflow makes direct
+    contact with the falling vertical stream of water. Camera remains stationary throughout. No zoom,
+    no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up side view of a utility sink area. On the left, a metal faucet extends
+    from the wall, emitting a stream of water. On the right, a person's hands are holding a black, wire-caged
+    electric fan, positioning it to face the water stream. The water stream is currently being hit by
+    the airflow, causing it to spray chaotically towards the left rather than falling straight down. The
+    background consists of white tiled walls.
+  init2final_edit_prompt: Edit the given image to show the water stream continuing to flow and being blown
+    forcefully to the left by the fan. The water should appear as a chaotic spray or mist directed away
+    from the fan, with a new and distinct pattern of droplets compared to the original, consistent with
+    ongoing fluid dynamics. The fan blades should appear blurred to indicate high-speed rotation. The
+    hands holding the fan and the faucet should remain in their original positions.
+  rationale: The initial frame shows a state where the fan is already interacting with the water, or just
+    beginning to. The prompt 'switched to its maximum setting' ensures the fan is active and powerful.
+    The rollout will depict the continuous physical interaction where the horizontal airflow transfers
+    momentum to the vertical water stream, deflecting it to the left. The primary state change is the
+    temporal evolution of the fluid (new droplet positions) and the maintenance of the deflected trajectory
+    against gravity. The fan blades will exhibit motion blur.
+  questions:
+  - id: deflection_direction
+    question: Is the water stream deflected towards the left side of the image?
+    answer_type: yes_no
+    notes_for_judge: The fan is on the right blowing left; the water should bend to the left.
+  - id: not_vertical
+    question: Is the water falling straight down vertically to the bottom of the sink?
+    answer_type: yes_no
+    notes_for_judge: The answer should be NO. If the water falls straight down, the fan's effect is missing.
+  - id: spray_formation
+    question: Does the water stream break up into a spray or mist?
+    answer_type: yes_no
+    notes_for_judge: The high-speed air should atomize or disrupt the coherent stream.
+  - id: droplet_change
+    question: Is the specific pattern of water droplets different from the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Tests for temporal evolution of the fluid; the exact frozen shape should change.
+  - id: fan_blur
+    question: Do the fan blades appear blurred?
+    answer_type: yes_no
+    notes_for_judge: Indicates motion/rotation.
+  - id: faucet_position
+    question: Is the faucet still in its original position on the left?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: hands_visible
+    question: Are the hands holding the fan still visible on the right?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

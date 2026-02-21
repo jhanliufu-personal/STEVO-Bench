@@ -1,0 +1,66 @@
+id: bowling_inertia_07
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: bowling_inertia
+variation_type: combined
+variation_description: A stationary ball with lights-out occlusion.
+changes:
+  occlusion_method: Lighting change
+  dynamic_conditions: Initial velocity is zero
+  expected_outcome_change: Ball remains in the exact same spot.
+prompts:
+  init_frame_edit_prompt: Edit the image to remove any suggestion of motion, making the bowling ball appear
+    completely static and resting heavily on the lane.
+  video_WM: The heavy bowling ball is sitting completely stationary on the polished lane. Suddenly, the
+    overhead lights turn off completely, plunging the alley into total darkness for several seconds. Then,
+    the lights turn back on, revealing the lane again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The heavy bowling ball is sitting completely stationary on the polished lane. Suddenly, the
+    overhead lights turn off completely, plunging the alley into total darkness for several seconds. Then,
+    the lights turn back on, revealing the lane again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A low-angle, close-up view of a black, marbled bowling ball resting on a polished
+    wooden bowling lane. The ball is centered in the foreground. In the distance, out of focus, a set
+    of white bowling pins is arranged at the end of the lane. Gutters run along the left and right sides
+    of the lane.
+  init2final_edit_prompt: Edit the given image to keep the bowling ball in the exact same position on
+    the lane. Do not move the ball forward or change its location relative to the camera or the pins.
+    Ensure the background pins and lane perspective remain identical to the original image.
+  rationale: The prompt explicitly states the ball is 'sitting completely stationary' and no external
+    force is applied to it. The only event is a temporary loss of lighting (occlusion). According to the
+    physics of inertia (Newton's First Law), an object at rest stays at rest unless acted upon by a force.
+    Therefore, when the lights return, the ball must be in the exact same position. The evaluation tests
+    if the model can maintain a static state through occlusion without hallucinating motion due to the
+    context of a bowling alley.
+  questions:
+  - id: pos_static_01
+    question: Is the bowling ball located in the same position on the lane as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the ball's position relative to the wood grain or lane markings.
+  - id: pos_depth_02
+    question: Is the bowling ball still in the foreground?
+    answer_type: yes_no
+    notes_for_judge: The ball should not have moved down the lane towards the pins.
+  - id: pos_distance_03
+    question: Is the distance between the bowling ball and the background pins unchanged?
+    answer_type: yes_no
+    notes_for_judge: Since the ball is stationary, the gap to the pins must remain constant.
+  - id: pos_size_04
+    question: Is the apparent size of the bowling ball consistent with it not having moved away from the
+      camera?
+    answer_type: yes_no
+    notes_for_judge: If the ball rolled away, it would appear smaller due to perspective.
+  - id: pos_location_05
+    question: Has the bowling ball remained at its starting location?
+    answer_type: yes_no
+    notes_for_judge: Check for any displacement.
+  - id: env_pins_06
+    question: Are the bowling pins in the background still standing?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check; the ball did not hit them.
+  - id: env_light_07
+    question: Is the lane visible again?
+    answer_type: yes_no
+    notes_for_judge: Verifies the lights turned back on as described.

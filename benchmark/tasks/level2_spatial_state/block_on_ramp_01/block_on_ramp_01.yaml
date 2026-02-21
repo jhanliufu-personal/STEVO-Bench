@@ -1,0 +1,70 @@
+id: block_on_ramp_01
+level: 2
+category: kinematics
+tags: []
+variant_of: block_on_ramp
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera panning to a large object blocking the view.
+changes:
+  occlusion_method: A large opaque board moves into the foreground to block the view.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: Single continuous take, no cuts or zoom. The block is resting on a smooth inclined ramp with
+    very low friction. The block is not glued or fixed in place. Suddenly, a large opaque black board
+    slides into the foreground from the right, completely obstructing the view of the ramp and block.
+    While the view is blocked, the physical interaction between the block and ramp continues naturally
+    according to gravity and the low-friction surface. After several seconds, the board slides away to
+    the left, revealing the scene again.
+  camera_WM: Single continuous take, no cuts or zoom. The block is resting on a smooth inclined ramp with
+    very low friction. The block is not glued or fixed in place. Suddenly, a large opaque black board
+    slides into the foreground from the right, completely obstructing the view of the ramp and block.
+    While the view is blocked, the physical interaction between the block and ramp continues naturally
+    according to gravity and the low-friction surface. After several seconds, the board slides away to
+    the left, revealing the scene again.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A rectangular wooden block rests near the top (left side) of a smooth, stainless
+    steel inclined ramp. A small metal clamp or stop is visible behind the block at the top. The ramp
+    is placed on a light wooden table. In the background, there is a window and laboratory cabinets.
+  init2final_edit_prompt: Edit the given image to show the wooden block positioned at the very bottom
+    edge of the inclined metal ramp. The block should appear to have slid down the ramp, maintaining its
+    orientation but located at the lower right end. The area at the top left where the block was originally
+    sitting must be empty, showing the shiny metal surface. Maintain the original camera angle, lighting,
+    and background.
+  rationale: The prompt describes a low-friction inclined plane scenario where gravity acts on an unfixed
+    block. During the occlusion period, the component of gravity parallel to the ramp causes the block
+    to accelerate and slide down the incline. By the time the view is restored, the block should have
+    displaced significantly downwards, reaching the bottom of the ramp.
+  questions:
+  - id: block_moved
+    question: Is the wooden block at a different position than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The block should have moved from the top left.
+  - id: block_lower
+    question: Is the wooden block located lower down the ramp than its starting position?
+    answer_type: yes_no
+    notes_for_judge: It should be closer to the bottom right.
+  - id: start_empty
+    question: Is the initial position of the block (at the top of the ramp) now empty?
+    answer_type: yes_no
+    notes_for_judge: The top left of the ramp should show bare metal.
+  - id: direction_down_slope
+    question: Has the block moved in the direction of the slope (towards the bottom right)?
+    answer_type: yes_no
+    notes_for_judge: Check the vector of displacement.
+  - id: near_bottom
+    question: Is the block closer to the bottom edge of the ramp than the top edge?
+    answer_type: yes_no
+    notes_for_judge: It should be near the end of the track.
+  - id: ramp_invariant
+    question: Is the metal ramp still in the same position on the table?
+    answer_type: yes_no
+    notes_for_judge: The ramp structure itself should not move.
+  - id: background_invariant
+    question: Are the background window and cabinets unchanged?
+    answer_type: yes_no
+    notes_for_judge: Only the block should move.

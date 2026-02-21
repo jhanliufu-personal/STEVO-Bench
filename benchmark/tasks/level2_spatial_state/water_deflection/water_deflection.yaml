@@ -12,3 +12,47 @@ prompts:
     the tap remains constant. STOP.
 camera_control:
   HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up shot of a utility sink area. On the left, a metal faucet extends
+    from a white tiled wall, releasing a vertical stream of water. On the right, a black industrial-style
+    electric fan with a wire guard is held by a person's hands (arms visible). The fan is positioned facing
+    the water stream. The airflow from the fan is interacting with the water, causing the stream to break
+    up into a chaotic spray and deflect significantly towards the left. The sink basin is concrete and
+    wet.
+  init2final_edit_prompt: Edit the image to show the water stream being powerfully blown to the left by
+    the fan. The water should not fall straight down but should curve sideways, breaking into a mist or
+    spray directed away from the fan. The fan should remain visible on the right side. The sink surface
+    should appear wet. Maintain the general composition of the scene.
+  rationale: 'The video depicts a scenario where a fan exerts a continuous physical force (airflow) on
+    a water stream. The camera pans to the right (causing the fan to exit the view on the left side of
+    the frame as the camera looks away) and then pans back to the left until the drain/faucet is centered.
+    During this occlusion and camera movement, the fan remains at its maximum setting. Therefore, when
+    the camera returns to the initial subject, the physical state must be preserved: the water stream
+    must still be deflected to the left by the airflow, rather than falling straight down as if the fan
+    were off. The fan should also be visible again as the camera must pan past it to center the drain.'
+  questions:
+  - id: water_deflection_direction
+    question: Is the water stream deflected to the left?
+    answer_type: yes_no
+    notes_for_judge: The water should curve away from the fan (which is on the right).
+  - id: water_vertical_fall
+    question: Does the water stream fall straight down in a vertical line?
+    answer_type: yes_no
+    notes_for_judge: It should be NO. The wind should blow it sideways.
+  - id: water_mist_spray
+    question: Is the water stream breaking up into mist or spray?
+    answer_type: yes_no
+    notes_for_judge: The high-speed air should atomize the water.
+  - id: fan_visibility
+    question: Is the electric fan visible in the frame?
+    answer_type: yes_no
+    notes_for_judge: The camera returns to the view of the sink/drain, which necessitates panning back
+      past the fan.
+  - id: water_landing_point
+    question: Is the water hitting the sink directly vertically below the faucet?
+    answer_type: yes_no
+    notes_for_judge: It should be NO. The water is blown to the side.
+  - id: fan_facing_water
+    question: Is the fan facing towards the water stream?
+    answer_type: yes_no
+    notes_for_judge: The fan should still be pointed at the water.

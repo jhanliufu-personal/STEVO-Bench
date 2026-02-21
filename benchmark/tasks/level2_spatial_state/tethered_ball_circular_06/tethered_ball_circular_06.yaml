@@ -1,0 +1,60 @@
+id: tethered_ball_circular_06
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: tethered_ball_circular
+variation_type: dynamic_condition
+variation_description: A large obstacle is placed in the path of the ball.
+changes:
+  occlusion_method: null
+  dynamic_conditions: A large concrete block sits in the circular path.
+  expected_outcome_change: The ball collides with the block and bounces/stops instead of completing the
+    orbit.
+prompts:
+  init_frame_edit_prompt: Edit the image to place a large cinder block on the ground directly in the projected
+    path of the ball.
+  video_WM: The tethered ball is spinning in a horizontal circle at a constant angular velocity. A large
+    cinder block sits on the ground directly in the ball's orbital path. The camera rotates right until
+    the entire apparatus completely exits the view, then rotates toward the left smoothly at the same
+    rate until the central pole is back in the center of view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The tethered ball is spinning in a horizontal circle at a constant angular velocity. A large
+    cinder block sits on the ground directly in the ball's orbital path. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A red tethered ball is suspended in mid-air on the left side of the frame, attached
+    by a taut string to a vertical wooden pole located on the right side. A grey cinder block sits on
+    the dirt ground directly beneath the path of the string.
+  init2final_edit_prompt: Edit the given image to center the wooden pole in the frame. Show the red ball
+    resting on the ground near the cinder block with a slack string, indicating it has collided with the
+    block and lost momentum. Ensure the cinder block remains in its original position.
+  rationale: The prompt states the cinder block is directly in the ball's orbital path. During the time
+    the camera pans away and returns, the ball will collide with the block. This collision will dissipate
+    the ball's kinetic energy, causing it to stop orbiting and fall to the ground or hang vertically.
+    The camera instruction explicitly specifies returning until the pole is in the center, which implies
+    a slight shift in framing compared to the initial view where the pole is to the right.
+  questions:
+  - id: ball_height_lower
+    question: Is the red ball lower in height than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The ball should have fallen due to gravity after hitting the block.
+  - id: string_slack
+    question: Is the string connecting the ball to the pole slack, curved, or hanging down?
+    answer_type: yes_no
+    notes_for_judge: The string should no longer be taut and horizontal.
+  - id: orbit_stopped
+    question: Has the ball stopped its taut horizontal circular motion?
+    answer_type: yes_no
+    notes_for_judge: The ball should not be flying in a smooth circle anymore.
+  - id: ball_ground_contact
+    question: Is the ball resting on the ground or hanging very close to it?
+    answer_type: yes_no
+    notes_for_judge: After losing momentum, the ball should drop.
+  - id: pole_centered
+    question: Is the wooden pole positioned approximately in the center of the frame?
+    answer_type: yes_no
+    notes_for_judge: The prompt explicitly asks to return until the pole is in the center.
+  - id: block_stationary
+    question: Is the cinder block still in its original position on the ground?
+    answer_type: yes_no
+    notes_for_judge: The block is heavy and should not move significantly.

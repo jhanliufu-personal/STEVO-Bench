@@ -1,0 +1,62 @@
+id: marble_track_loop_05
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: marble_track_loop
+variation_type: dynamic_condition
+variation_description: A wooden block is placed inside the loop, obstructing the path.
+changes:
+  occlusion_method: null
+  dynamic_conditions: A wooden block obstructs the loop track.
+  expected_outcome_change: The ball collides with the block and fails to complete the loop, likely bouncing
+    back.
+prompts:
+  init_frame_edit_prompt: Edit the image to place a small, solid wooden block firmly wedged inside the
+    plastic loop track, halfway up the ascending side.
+  video_WM: The steel ball rolls into the vertical loop. A wooden block is wedged tightly inside the track,
+    blocking the path halfway up. The camera rotates right until the loop completely exits the view, then
+    rotates toward the left smoothly at the same rate until the loop entrance is back in the center of
+    view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The steel ball rolls into the vertical loop, heading toward a wooden block wedged inside
+    the track. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A wooden marble run structure featuring a double vertical loop made of clear
+    flexible plastic tracks. A silver steel ball is positioned at the bottom right, entering the loop
+    track. A rectangular wooden block is wedged tightly inside the ascending side of the loop track, physically
+    blocking the path about one-third of the way up. The background shows a workshop with a workbench,
+    tools, and a window.
+  init2final_edit_prompt: Edit the given image to show the steel ball located at the bottom of the track,
+    to the right of the loop structure, instead of entering the loop. The ball should appear to have rolled
+    back down from the loop. Keep the wooden block wedged in its original position inside the track.
+  rationale: The steel ball enters the loop with momentum but encounters the wedged wooden block. Since
+    the block is wedged tightly, the ball collides with it and cannot pass. Gravity and the collision
+    force cause the ball to lose upward momentum and roll backward down the track. By the time the camera
+    pans away and returns, the ball will have returned to the bottom of the track or rolled back towards
+    the right, rather than completing the loop.
+  questions:
+  - id: ball_moved
+    question: Is the steel ball in a different position than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The ball should no longer be in the exact spot entering the loop.
+  - id: ball_below_block
+    question: Is the steel ball positioned lower than the wooden block?
+    answer_type: yes_no
+    notes_for_judge: The ball cannot pass the block, so it must be below it.
+  - id: ball_direction_returned
+    question: Is the steel ball at the bottom of the track or to the right of the loop entrance?
+    answer_type: yes_no
+    notes_for_judge: The ball should have rolled back down, ending up at the bottom or rolling rightwards.
+  - id: block_stationary
+    question: Is the wooden block still wedged in the same position in the track?
+    answer_type: yes_no
+    notes_for_judge: The block is wedged tightly and should not move.
+  - id: ball_not_past_block
+    question: Is the section of track beyond (above/left of) the wooden block empty of the steel ball?
+    answer_type: yes_no
+    notes_for_judge: The ball should not have passed the obstruction.
+  - id: ball_not_at_top
+    question: Is the top of the loop free of the steel ball?
+    answer_type: yes_no
+    notes_for_judge: The ball could not reach the top due to the block.

@@ -1,0 +1,67 @@
+id: ball_rolls_off_cliff_09
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: ball_rolls_off_cliff
+variation_type: combined
+variation_description: Ball rolling away AND blocking screen used.
+changes:
+  occlusion_method: Opaque screen slides in front.
+  dynamic_conditions: Ball rolls away from edge.
+  expected_outcome_change: Ball moves further left on table.
+prompts:
+  init_frame_edit_prompt: Edit the image to add motion blur trails indicating the ball is rolling to the
+    left, away from the table edge.
+  video_WM: The ball rolls to the left, moving away from the table edge. A large opaque screen slides
+    into the frame, completely blocking the view. The screen remains for several seconds. Then the screen
+    slides away, revealing the scene again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The ball rolls to the left, moving away from the table edge. A large opaque screen slides
+    into the frame, completely blocking the view. The screen remains for several seconds. Then the screen
+    slides away, revealing the scene again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A close-up view of a red ball rolling on a rustic wooden table. The ball exhibits
+    significant horizontal motion blur, with the solid part of the ball on the left and a faint trail
+    on the right, indicating movement towards the left. The left edge of the table is visible nearby,
+    and a window is seen in the background on the left.
+  init2final_edit_prompt: Edit the given image to completely remove the red ball and its motion blur.
+    Fill the area where the ball was with the existing wooden table texture, ensuring the grain and lighting
+    match the surrounding surface. The final image should show an empty table surface. Do not alter the
+    window or the background.
+  rationale: The initial image shows the ball with motion blur indicating velocity to the left (towards
+    the visible table edge). Given the ball's proximity to the edge and the instruction that it continues
+    rolling for several seconds, the physical outcome is that the ball rolls off the table and falls out
+    of the camera's view. The prompt's mention of 'moving away from the table edge' is interpreted in
+    the context of the 'rolls to the left' instruction and visual momentum, implying it moves off the
+    edge (away from the table surface). Therefore, the final state is the empty table.
+  questions:
+  - id: ball_gone
+    question: Is the red ball no longer visible on the table?
+    answer_type: yes_no
+    notes_for_judge: The ball should have rolled off the edge.
+  - id: table_empty
+    question: Is the table surface empty where the ball was initially?
+    answer_type: yes_no
+    notes_for_judge: The area previously occupied by the ball should now show wood texture.
+  - id: ball_off_frame
+    question: Has the ball moved out of the frame?
+    answer_type: yes_no
+    notes_for_judge: Since it rolled off the table, it should be gone.
+  - id: wood_texture_visible
+    question: Is the wooden texture visible in the spot where the ball started?
+    answer_type: yes_no
+    notes_for_judge: Check for inpainting of the background.
+  - id: no_red_object
+    question: Is the scene free of any red rolling objects?
+    answer_type: yes_no
+    notes_for_judge: The ball was the only red object.
+  - id: window_consistency
+    question: Is the window on the left still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: lighting_consistency
+    question: Is the lighting on the table consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

@@ -1,0 +1,66 @@
+id: elevator_cable_snap_02
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: elevator_cable_snap
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to thick smoke filling the shaft.
+changes:
+  occlusion_method: 'Fog/smoke: thick smoke fills the shaft'
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The elevator car is no longer supported by the cable. The vertical shaft is clear of obstructions.
+    Immediately following the failure, thick, opaque white smoke from the mechanical breakage rapidly
+    fills the shaft, completely obscuring the elevator car and surroundings from view. The smoke then
+    slowly dissipates until the shaft is clear again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The elevator car is no longer supported by the cable. The vertical shaft is clear of obstructions.
+    Immediately following the failure, thick, opaque white smoke from the mechanical breakage rapidly
+    fills the shaft, completely obscuring the elevator car and surroundings from view. The smoke then
+    slowly dissipates until the shaft is clear again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A high-angle shot looking down into a multi-story atrium featuring a central
+    glass elevator shaft. A glass elevator car is suspended in the middle of the shaft, held by cables.
+    Balconies with metal railings line the sides of the atrium, and large arched windows are visible in
+    the background. People are walking on the tiled floor at the bottom level.
+  init2final_edit_prompt: Edit the given image to show the elevator car resting at the bottom of the shaft,
+    near the ground floor, instead of suspended in the middle. The section of the shaft where the elevator
+    was originally located should be empty. The scene should be clear of smoke and the elevator should
+    appear to have fallen to the lowest visible point.
+  rationale: The prompt describes a scenario where the elevator cable fails, causing the car to fall freely
+    under gravity. While smoke initially obscures the shaft, the prompt explicitly states that the smoke
+    dissipates until the shaft is clear again. Therefore, the final frame must show the elevator car at
+    the bottom of the shaft (the result of the fall) with no smoke remaining, while the camera angle and
+    background architecture remain unchanged.
+  questions:
+  - id: q1
+    question: Is the elevator car positioned lower in the shaft than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The car must have fallen due to gravity.
+  - id: q2
+    question: Is the space where the elevator was originally suspended now empty?
+    answer_type: yes_no
+    notes_for_judge: The starting position should be vacated.
+  - id: q3
+    question: Is the elevator car resting at the bottom of the visible shaft?
+    answer_type: yes_no
+    notes_for_judge: It should be at the lowest point near the floor.
+  - id: q4
+    question: Is the elevator car closer to the tiled ground floor than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Spatial relationship check relative to the floor.
+  - id: q5
+    question: Has the elevator car moved downwards past the arched structures that originally framed it?
+    answer_type: yes_no
+    notes_for_judge: It should be below the middle level architecture.
+  - id: q6
+    question: Is the view of the elevator shaft clear of opaque smoke?
+    answer_type: yes_no
+    notes_for_judge: The prompt specifies the smoke dissipates by the end.
+  - id: q7
+    question: Are the arched windows in the background still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check for the background.

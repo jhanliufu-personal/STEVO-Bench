@@ -14,3 +14,53 @@ prompts:
     and tension are the only forces. STOP.
 camera_control:
   HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A heavy metal ball is suspended by a thick rope from a ceiling hook in front
+    of a concrete wall. A vertical line is drawn on the wall directly below the hook, and an angled line
+    marked '30°' indicates the displacement. A horizontal rope is attached to the ball and extends to
+    the left. A person's hands are visible on the right, holding the ball and pulling it to the side,
+    keeping the main rope taut at the 30-degree angle.
+  init2final_edit_prompt: Edit the given image to center the vertical pencil line on the concrete wall
+    within the frame. Remove the person's hands and arms completely. Show the metal ball hanging freely
+    from the main rope, maintaining approximately the same vertical height as the initial state but potentially
+    at a different horizontal position. The horizontal rope should be shown as slack, detached, or removed.
+  rationale: The prompt describes a conical pendulum setup where the ball is released with an initial
+    sideways velocity, causing it to orbit the vertical axis in a circle while maintaining a roughly constant
+    height (unlike a simple pendulum which would drop). The camera pans right until the ball is out of
+    view, then pans left to center the vertical reference line. The final frame should show the vertical
+    line centered, the hands removed (release), and the ball in free motion at the same vertical level.
+  questions:
+  - id: camera_centering
+    question: Is the vertical reference line on the wall centered in the frame?
+    answer_type: yes_no
+    notes_for_judge: The camera motion description explicitly states the view returns until the vertical
+      axis is in the center.
+  - id: hands_removed
+    question: Are the person's hands and arms completely absent from the image?
+    answer_type: yes_no
+    notes_for_judge: The ball has been released and the camera has moved; the hands should no longer be
+      in the frame.
+  - id: ball_free
+    question: Is the metal ball hanging freely without being held?
+    answer_type: yes_no
+    notes_for_judge: The ball should not be supported by any external object other than the rope.
+  - id: ball_height_conservation
+    question: Is the ball at approximately the same vertical height as it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: For a conical pendulum (implied by 'initial sideways velocity' and task ID), the
+      height remains constant during the orbit. It should not have dropped significantly like a simple
+      pendulum.
+  - id: rope_taut
+    question: Is the main suspension rope taut?
+    answer_type: yes_no
+    notes_for_judge: The rope must support the weight of the ball during motion.
+  - id: horizontal_rope_state
+    question: Is the horizontal rope slack, detached, or absent?
+    answer_type: yes_no
+    notes_for_judge: Upon release for conical motion, the horizontal restraint must be released or go
+      slack.
+  - id: ball_visibility
+    question: Is the metal ball visible in the frame?
+    answer_type: yes_no
+    notes_for_judge: The camera centers on the axis of rotation; the ball orbits this axis and should
+      be visible.

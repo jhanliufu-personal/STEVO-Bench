@@ -1,0 +1,66 @@
+id: cart_spring_release_06
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: cart_spring_release
+variation_type: dynamic_condition
+variation_description: Wheels are blocked by chocks, preventing motion.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Wooden chocks wedge the wheels (immovable).
+  expected_outcome_change: Cart does not move despite spring force.
+prompts:
+  init_frame_edit_prompt: Edit the image to show wooden wedge chocks placed tightly under the cart's front
+    and back wheels.
+  video_WM: The release mechanism disengages and the compressed spring is freed to exert force. The cart's
+    wheels are blocked by wooden chocks wedged firmly underneath. The track extends several feet forward.
+    The spring has a strong spring constant. The camera rotates right at constant speed until the cart
+    and track completely exit the view to the right. The camera continues rotating right for several seconds
+    while the cart remains off-screen. Then the camera rotates left smoothly at the same rate back to
+    the original viewpoint. No zoom, no cut, no scene change. STOP.
+  camera_WM: The release mechanism disengages and the compressed spring is freed to exert force. The cart's
+    wheels are blocked by wooden chocks wedged firmly underneath. The track extends several feet forward.
+    The spring has a strong spring constant during the occlusion period. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A red metal wagon (cart) sits on a wooden track with black rubber wheels. A
+    large, compressed metal coil spring is positioned between the back of the cart and a concrete wall
+    on the right. Triangular wooden chocks are wedged firmly under the front of the cart's wheels, blocking
+    movement to the left. A person's hand is visible on the right, holding a metal release lever or latch
+    connected to the spring mechanism.
+  init2final_edit_prompt: Edit the given image to remove the hand and arm from the scene. Show the metal
+    release latch unhooked, loose, or in a disengaged state. Crucially, maintain the red wagon, the black
+    wheels, the wooden chocks, and the compressed spring in their exact original positions and orientations.
+    The cart must not appear to have moved forward along the track.
+  rationale: The prompt establishes a conflict between a driving force (the compressed spring) and a physical
+    constraint (the wheels are blocked by firmly wedged chocks). Since the chocks are explicitly described
+    as blocking the wheels and wedged firmly, the cart should remain stationary despite the release of
+    the mechanism. The camera rotation away and back implies time has passed, so the hand holding the
+    release lever should be removed, leaving the latch disengaged but the system in static equilibrium.
+  questions:
+  - id: cart_position_static
+    question: Is the red wagon in the same position on the track as it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The cart should not have moved forward (left) along the track.
+  - id: chocks_presence
+    question: Are the wooden chocks still wedged under the wheels?
+    answer_type: yes_no
+    notes_for_judge: The chocks should remain in place, blocking the wheels.
+  - id: spring_compression
+    question: Is the metal spring still compressed between the wall and the cart?
+    answer_type: yes_no
+    notes_for_judge: Since the cart has not moved, the spring must remain compressed.
+  - id: hand_removal
+    question: Has the hand holding the lever been removed from the scene?
+    answer_type: yes_no
+    notes_for_judge: The camera motion implies the operator has left the frame.
+  - id: latch_state
+    question: Is the release lever or latch mechanism visible in a disengaged or loose state?
+    answer_type: yes_no
+    notes_for_judge: The mechanism should no longer be held taut by the hand.
+  - id: distance_check
+    question: Is the distance between the cart and the concrete wall unchanged?
+    answer_type: yes_no
+    notes_for_judge: Verifies that the cart did not move away from the wall.

@@ -1,0 +1,70 @@
+id: bicycle_wheel_freespin_10
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: bicycle_wheel_freespin
+variation_type: combined
+variation_description: High air drag combined with zoom-out occlusion.
+changes:
+  occlusion_method: Camera zooms out.
+  dynamic_conditions: Cards in spokes (high drag).
+  expected_outcome_change: Wheel decelerates rapidly.
+prompts:
+  init_frame_edit_prompt: Edit the image to show playing cards attached to the metal stand with clothespins,
+    positioned so they flap against the spokes.
+  video_WM: The wheel spins with playing cards clipped to the frame striking the spokes as they turn,
+    creating high air resistance and mechanical drag. No external torque is applied. The camera zooms
+    out rapidly until the wheel becomes a tiny, indistinguishable dot in the distance. The camera holds
+    this distant view for several seconds. Then the camera zooms back in smoothly to the original framing.
+    No cut, no scene change. STOP.
+  camera_WM: The wheel spins with playing cards clipped to the frame striking the spokes as they turn,
+    creating high air resistance and mechanical drag. No external torque is applied. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+  Genie: null
+evaluation:
+  init_frame_description: 'A bicycle wheel is mounted horizontally on a metal stand in a workshop environment.
+    The wheel is spinning, evidenced by significant rotational motion blur on the spokes and on several
+    playing cards attached to the spokes. Three stationary playing cards are clipped to the metal stand
+    with clothespins: an Ace of Diamonds and a King of Diamonds on the top horizontal arm, and a King
+    of Spades on the vertical post to the right. The background shows a workbench with tools and a fluorescent
+    light fixture.'
+  init2final_edit_prompt: Edit the given image to show the bicycle wheel spinning much slower or completely
+    stopped. Significantly reduce or remove the motion blur on the wheel spokes and the playing cards
+    attached to the spokes, making them appear sharp, distinct, and readable. Ensure the stationary playing
+    cards clipped to the metal stand (Ace of Diamonds, King of Diamonds, King of Spades) remain unchanged
+    in position and appearance. Maintain the original lighting and background details.
+  rationale: The prompt describes a spinning wheel subject to high mechanical drag (cards striking spokes)
+    and air resistance, with no external torque applied to keep it spinning. The camera action involves
+    zooming out, holding for several seconds, and zooming back in. During this elapsed time, the friction
+    and drag forces will cause the wheel to lose momentum and decelerate significantly. Therefore, when
+    the camera returns to the initial view, the wheel should be spinning much slower or have come to a
+    stop, resulting in a visible reduction of motion blur.
+  questions:
+  - id: blur_reduction_spokes
+    question: Is the motion blur on the wheel spokes significantly reduced compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The initial frame has high blur; the final frame should show sharp or less blurry
+      spokes due to deceleration.
+  - id: card_sharpness
+    question: Do the playing cards attached to the wheel spokes appear sharper and more distinct than
+      in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The cards on the wheel were blurred streaks initially; they should be clearer now.
+  - id: velocity_change
+    question: Does the wheel appear to be spinning slower or stopped compared to the initial state?
+    answer_type: yes_no
+    notes_for_judge: Judge based on the visual cue of motion blur.
+  - id: card_legibility
+    question: Are the details or patterns on the cards attached to the spokes more legible than in the
+      initial blurred state?
+    answer_type: yes_no
+    notes_for_judge: Reduced speed allows for better visibility of the card faces.
+  - id: stationary_ace_consistency
+    question: Is the Ace of Diamonds still visible clipped to the upper metal arm?
+    answer_type: yes_no
+    notes_for_judge: This is a stationary object that should remain unchanged.
+  - id: stationary_king_consistency
+    question: Is the King of Spades still visible clipped to the vertical post on the right?
+    answer_type: yes_no
+    notes_for_judge: This is a stationary object that should remain unchanged.

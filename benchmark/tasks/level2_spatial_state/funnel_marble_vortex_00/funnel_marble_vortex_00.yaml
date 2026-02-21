@@ -1,0 +1,61 @@
+id: funnel_marble_vortex_00
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: funnel_marble_vortex
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The steel ball is given a rapid horizontal nudge along the inner circumference of the funnel's
+    rim. The acrylic surface is polished and smooth. The wide upper rim is positioned in the center of
+    view. Camera remains stationary throughout. No zoom, no cut, no scene change. STOP.
+  camera_WM: The steel ball is given a rapid horizontal nudge along the inner circumference of the funnel's
+    rim. The acrylic surface is polished and smooth. The wide upper rim is positioned in the center of
+    view. Camera remains stationary throughout. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A large, clear acrylic gravity well funnel (vortex coin bank style) is in the
+    foreground. A polished steel ball is resting on a metal launch ramp attached to the upper-left section
+    of the funnel's rim. The background features a museum interior with large windows, a polished floor,
+    and visitors standing near other exhibits.
+  init2final_edit_prompt: Edit the given image to remove the steel ball from the metal launch ramp on
+    the upper-left rim. Place the steel ball on the curved, transparent acrylic surface inside the funnel,
+    positioned to the right of the launch ramp and slightly lower than the rim, to show it has entered
+    the spiral.
+  rationale: The prompt describes giving the ball a horizontal nudge, which acts as the initial velocity
+    for a gravity well orbit. Physically, the ball will leave the stationary metal launcher and begin
+    traveling along the smooth acrylic surface of the funnel. Due to the conservation of angular momentum
+    and gravity, the ball will spiral around the center, moving away from the launch point and descending
+    slightly into the well. The final frame must show the ball on the acrylic slope rather than the starting
+    ramp.
+  questions:
+  - id: position_change_launcher
+    question: Has the steel ball moved away from its initial position on the metal launch ramp?
+    answer_type: yes_no
+    notes_for_judge: The ball should no longer be resting on the metal track at the top left.
+  - id: position_surface
+    question: Is the steel ball now located on the clear acrylic surface of the funnel?
+    answer_type: yes_no
+    notes_for_judge: The ball should be on the transparent slope, not the rim or the floor.
+  - id: height_change
+    question: Is the steel ball positioned lower than the top rim of the funnel?
+    answer_type: yes_no
+    notes_for_judge: As it enters the funnel, it must be below the top edge.
+  - id: launcher_empty
+    question: Is the metal launch ramp on the upper left now empty?
+    answer_type: yes_no
+    notes_for_judge: Check if the starting spot is vacant.
+  - id: motion_direction
+    question: Has the ball moved inward or downward relative to the outer rim?
+    answer_type: yes_no
+    notes_for_judge: The trajectory in a funnel is a spiral inwards/downwards.
+  - id: background_consistency
+    question: Are the windows and museum visitors in the background unchanged?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

@@ -1,0 +1,65 @@
+id: spinning_coin_wobble_07
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: spinning_coin_wobble
+variation_type: combined
+variation_description: Glass surface (low friction) + Lights off occlusion.
+changes:
+  occlusion_method: Room lights turn off.
+  dynamic_conditions: Surface is smooth glass with extremely low friction.
+  expected_outcome_change: Coin spins longer (glass) and persists through darkness.
+prompts:
+  init_frame_edit_prompt: Edit the image to change the wooden table surface to a smooth, polished glass
+    surface.
+  video_WM: The coin continues spinning on the smooth glass surface. The friction coefficient between
+    the metal edge and the polished glass is extremely low. Air resistance acts on the rotating coin.
+    The coin is a standard metal quarter. The room lights turn off completely, plunging the scene into
+    total darkness. The darkness persists for several seconds. Then the lights turn back on, illuminating
+    the table surface again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The coin continues spinning on the smooth glass surface. The friction coefficient between
+    the metal edge and the polished glass is extremely low. Air resistance acts on the rotating coin.
+    The coin is a standard metal quarter. The room lights turn off completely, plunging the scene into
+    total darkness. The darkness persists for several seconds. Then the lights turn back on, illuminating
+    the table surface again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a silver US Quarter standing vertically on its
+    edge on a reflective black glass table. The eagle side is facing the camera. The coin is sharp and
+    upright. A distinct reflection of the coin is visible on the glossy surface. The background is blurred,
+    showing a bright window and a metal chair leg.
+  init2final_edit_prompt: Edit the given image to show the quarter lying flat on the glass table surface.
+    The coin should be resting horizontally on the table.
+  rationale: The video prompt describes a spinning coin followed by a period of darkness lasting several
+    seconds. Physically, a spinning coin on a table is an unstable system that constantly loses energy
+    due to friction and air resistance. Over a duration of several seconds, the coin's angular momentum
+    will decrease, causing it to destabilize, wobble, and eventually fall flat. Therefore, when the lights
+    turn back on, the coin should no longer be standing vertically on its edge but should be lying flat
+    or significantly tilted due to the decay of its spin.
+  questions:
+  - id: coin_orientation_change
+    question: Is the coin no longer standing vertically on its edge?
+    answer_type: yes_no
+    notes_for_judge: The coin should have fallen or tilted significantly; it should not be perfectly upright.
+  - id: coin_lying_flat
+    question: Is the coin lying flat or tilted significantly towards the table surface?
+    answer_type: yes_no
+    notes_for_judge: Accept either lying flat or a low-angle wobble.
+  - id: coin_height_reduction
+    question: Is the highest point of the coin significantly lower than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Since the coin falls from vertical to horizontal, its maximum height decreases.
+  - id: coin_presence
+    question: Is the coin still visible on the table?
+    answer_type: yes_no
+    notes_for_judge: The coin should not disappear.
+  - id: lighting_restored
+    question: Is the scene illuminated (lights on)?
+    answer_type: yes_no
+    notes_for_judge: The prompt states lights turn back on.
+  - id: background_consistency
+    question: Is the blurred window in the background still visible?
+    answer_type: yes_no
+    notes_for_judge: Background elements should remain unchanged.

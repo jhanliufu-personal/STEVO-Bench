@@ -1,0 +1,65 @@
+id: torsional_oscillation_03
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: torsional_oscillation
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to camera zooming out.
+changes:
+  occlusion_method: Camera zooms out until details are lost.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The disk is released from its twisted position. The wire provides a restorative torque proportional
+    to the twist. The camera zooms out quickly until the apparatus is a tiny dot in the distance, then
+    zooms back in to the original framing. No cut, no scene change. STOP.
+  camera_WM: The disk is released from its twisted position. The wire provides a restorative torque proportional
+    to the twist. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a thick, circular brass disk suspended horizontally
+    by a vertical steel cable. A thinner, twisted wire spirals loosely around the main suspension cable.
+    The disk has visible surface imperfections, tarnish spots, and a metallic sheen. The background is
+    a workshop interior with a window on the left providing natural light and blurred wooden structures
+    and tools in the background.
+  init2final_edit_prompt: Edit the given image to show the brass disk rotated to a different angle around
+    its vertical axis, shifting the position of the surface tarnish spots and texture. Modify the shape
+    and orientation of the spiral wire wrapping around the central cable to reflect this rotation. Maintain
+    the exact original camera framing, zoom level, background, and lighting conditions.
+  rationale: The prompt describes a torsional pendulum being released, which causes the disk to rotate
+    (oscillate) around the vertical wire. The camera zooms out and then back in to the original framing.
+    Therefore, the final frame must show the scene returned to its initial composition and scale, but
+    with the disk and the twisted wire configuration changed due to the rotation that occurred during
+    the camera movement.
+  questions:
+  - id: framing_return
+    question: Does the image show the apparatus in a close-up view similar to the initial frame, rather
+      than a distant zoomed-out view?
+    answer_type: yes_no
+    notes_for_judge: The prompt requires the camera to zoom back in to the original framing. If the object
+      is a tiny dot, the answer is No.
+  - id: disk_rotation_texture
+    question: Are the surface tarnish spots or texture patterns on the disk in a different rotational
+      position than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the specific location of marks on the brass surface. They should be shifted
+      around the center axis.
+  - id: wire_spiral_change
+    question: Is the configuration or orientation of the spiral wire wrapping different from the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: The spiral wire moves with the torsion; its shape or angle should change.
+  - id: disk_orientation
+    question: Has the disk rotated around the vertical axis compared to its starting position?
+    answer_type: yes_no
+    notes_for_judge: General check for rotational displacement.
+  - id: background_consistency
+    question: Is the background (window and wooden structures) aligned identically to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The camera returns to the original framing, so the background should match.
+  - id: object_integrity
+    question: Is the disk still suspended horizontally by the vertical wire?
+    answer_type: yes_no
+    notes_for_judge: Verifies the object hasn't fallen or disappeared.

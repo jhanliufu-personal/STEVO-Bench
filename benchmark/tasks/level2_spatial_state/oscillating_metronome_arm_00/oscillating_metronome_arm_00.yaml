@@ -1,0 +1,67 @@
+id: oscillating_metronome_arm_00
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: oscillating_metronome_arm
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The metronome arm is released and begins its rhythmic, high-frequency oscillation back and
+    forth. The internal spring mechanism is fully active. Camera remains stationary throughout. No zoom,
+    no cut, no scene change. STOP.
+  camera_WM: The metronome arm is released and begins its rhythmic, high-frequency oscillation back and
+    forth. The internal spring mechanism is fully active. Camera remains stationary throughout. No zoom,
+    no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up shot of a wooden clock mechanism on a workbench. The mechanism is
+    housed in a wooden case with an open door on the right. Inside, brass gears are visible. A long metal
+    pendulum arm extends from the mechanism, pointing diagonally downwards to the left. The arm has a
+    sliding weight on its shaft and a bob at the end. A brass winding key is inserted into the left side
+    of the wooden case. The background includes a window and various tools on the workbench.
+  init2final_edit_prompt: Edit the given image to show the long metal pendulum arm swung to the opposite
+    side. The arm should now be pointing diagonally downwards to the right, mirroring its original angle
+    but on the right side of the vertical axis. Maintain the connection to the mechanism and the appearance
+    of the weights on the arm.
+  rationale: The prompt describes the release of the metronome arm, initiating an oscillation. Physically,
+    the arm will swing from its initial held position (extreme left) downwards and towards the right due
+    to gravity and the spring mechanism. While the motion is periodic, a subsequent frame capturing the
+    action will show the arm displaced from its starting static point, likely swinging through the vertical
+    position or reaching the right side of its arc. The edit prompt targets a state where the arm has
+    swung to the right to clearly demonstrate the motion.
+  questions:
+  - id: arm_moved_position
+    question: Is the metal pendulum arm in a different position than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Check if the arm is no longer fixed at the specific initial angle.
+  - id: arm_swung_right
+    question: Has the pendulum arm moved to the right relative to its starting position?
+    answer_type: yes_no
+    notes_for_judge: The arm starts pointing down-left. Any movement towards vertical or right counts
+      as 'to the right'.
+  - id: arm_not_left
+    question: Is the pendulum arm no longer pointing towards the bottom-left corner?
+    answer_type: yes_no
+    notes_for_judge: The initial state is distinctively down-left. The final state should be different.
+  - id: weight_displacement
+    question: Is the weight at the end of the arm located in a different position?
+    answer_type: yes_no
+    notes_for_judge: Focus on the bob at the end of the rod.
+  - id: vertical_or_right
+    question: Is the pendulum arm oriented more vertically or to the right compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: It should have swung down from the initial high left angle.
+  - id: clock_stationary
+    question: Is the wooden clock case in the same position?
+    answer_type: yes_no
+    notes_for_judge: The main object should not move, only the arm.
+  - id: door_open
+    question: Is the wooden door of the case still open?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

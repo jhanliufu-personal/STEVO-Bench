@@ -1,0 +1,65 @@
+id: sliding_block_frictionless_09
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: sliding_block_frictionless
+variation_type: combined
+variation_description: Block is replaced by a massive static object, combined with zoom occlusion.
+changes:
+  occlusion_method: Camera zoom out/in
+  dynamic_conditions: Object is massive and stationary (not sliding)
+  expected_outcome_change: Object remains exactly where it was.
+prompts:
+  init_frame_edit_prompt: Edit the image to replace the sliding block with a massive, heavy lead cube
+    that is sitting completely still.
+  video_WM: A massive lead cube sits stationary on the ice. It is heavy and not moving. The camera zooms
+    out rapidly until the cube is just a tiny speck in the distance, effectively losing detail. The camera
+    then zooms back in to the original framing. No cut, no scene change. STOP.
+  camera_WM: A massive lead cube sits stationary on the ice. It is heavy and not moving. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+evaluation:
+  init_frame_description: A large, dark, metallic lead cube sits on a frozen ice surface. To the left,
+    a black mechanical robotic arm with hydraulic cylinders extends horizontally into the frame, its gripper
+    positioned close to the side of the cube but not touching it. The background features a flat, icy
+    horizon under a pale, twilight sky. Reflections of the cube and the arm are visible on the slick ice
+    surface.
+  init2final_edit_prompt: Edit the given image to show the lead cube and the mechanical arm in their exact
+    original locations and orientations. The cube should be resting on the ice in the center, and the
+    mechanical arm should be extending from the left side, maintaining the precise spatial gap between
+    the gripper and the cube face. The framing and perspective should match the initial view.
+  rationale: The prompt explicitly states that the cube is stationary, heavy, and not moving. The only
+    action described is a camera movement that zooms out and then back in to the original framing. Therefore,
+    the physical state of the world (position of the cube and arm) remains unchanged. The final frame
+    should be visually identical to the initial frame, testing the model's ability to maintain spatial
+    consistency and object permanence after the details are temporarily lost during the zoom-out.
+  questions:
+  - id: position_cube_static
+    question: Is the lead cube in the same position on the ice as it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The cube should not have slid or rotated.
+  - id: position_arm_static
+    question: Is the mechanical arm still positioned on the left side of the frame in its original configuration?
+    answer_type: yes_no
+    notes_for_judge: The arm should not have moved or retracted.
+  - id: relative_gap_maintained
+    question: Is the distance between the mechanical arm's gripper and the cube the same as in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: Since neither object moved, the gap must be preserved.
+  - id: camera_return_framing
+    question: Does the cube appear to be the same size as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Checks if the camera zoomed back in to the original framing.
+  - id: orientation_cube
+    question: Is the orientation of the cube unchanged?
+    answer_type: yes_no
+    notes_for_judge: The cube faces should be aligned exactly as they were initially.
+  - id: horizon_alignment
+    question: Is the horizon line at the same vertical level as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Verifies the camera angle returned to the start.
+  - id: object_permanence_arm
+    question: Is the mechanical arm visible in the final frame?
+    answer_type: yes_no
+    notes_for_judge: The arm should not disappear during the zoom sequence.

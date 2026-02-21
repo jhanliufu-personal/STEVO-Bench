@@ -4,9 +4,61 @@ category: spatial_kinematics
 kinematic_variable: Angular velocity and orientation stability
 tags: []
 prompts:
-  image_gen_prompt: A quarter coin is spinning upright on a smooth wooden table surface. The coin is rotating rapidly around its vertical axis in a stable upright position.
-  video_WM: The coin continues spinning on the table surface. The coin edge maintains contact with the table. Friction exists between the coin edge and the wooden surface. Air resistance acts on the rotating coin. The coin is a standard metal quarter with typical mass distribution. The camera rotates right at constant speed until the coin completely exits the view to the right. The camera continues rotating right for several seconds while the coin remains off-screen. Then the camera rotates left smoothly at the same rate back to the original viewpoint, bringing the table surface back into view. No zoom, no cut, no scene change. STOP.
-  camera_WM: The coin continues spinning on the table surface. The coin edge maintains contact with the table. Friction exists between the coin edge and the wooden surface. Air resistance acts on the rotating coin. The coin is a standard metal quarter with typical mass distribution during the occlusion period. STOP.
+  image_gen_prompt: A quarter coin is spinning upright on a smooth wooden table surface. The coin is rotating
+    rapidly around its vertical axis in a stable upright position.
+  video_WM: The coin continues spinning on the table surface. The coin edge maintains contact with the
+    table. Friction exists between the coin edge and the wooden surface. Air resistance acts on the rotating
+    coin. The coin is a standard metal quarter with typical mass distribution. The camera rotates right
+    at constant speed until the coin completely exits the view to the right. The camera continues rotating
+    right for several seconds while the coin remains off-screen. Then the camera rotates left smoothly
+    at the same rate back to the original viewpoint, bringing the table surface back into view. No zoom,
+    no cut, no scene change. STOP.
+  camera_WM: The coin continues spinning on the table surface. The coin edge maintains contact with the
+    table. Friction exists between the coin edge and the wooden surface. Air resistance acts on the rotating
+    coin. The coin is a standard metal quarter with typical mass distribution during the occlusion period.
+    STOP.
 camera_control:
   HY-WorldPlay: s-3, right-30, left-30
   Genie: null
+evaluation:
+  init_frame_description: A close-up shot of a silver US quarter standing vertically on its edge on a
+    scratched wooden table. The coin is centered and oriented with the eagle side visible. The background
+    is blurred, showing a window frame and a wall.
+  init2final_edit_prompt: Edit the given image to show the quarter lying flat on the wooden table surface.
+    The coin should be resting horizontally on its face in the center of the frame, rather than standing
+    vertically on its edge. Ensure the coin appears to have fallen over due to gravity. Keep the wooden
+    table texture, lighting, and background identical to the original.
+  rationale: The video prompt specifies that the camera looks away for 'several seconds' while the coin
+    spins subject to friction and air resistance. In a physical simulation, these forces dissipate the
+    coin's angular momentum. Given the duration of the occlusion, the coin will lose stability and fall
+    flat onto the table by the time the camera returns. The final state reflects this transition from
+    a high-energy vertical state to a low-energy horizontal resting state.
+  questions:
+  - id: coin_flat
+    question: Is the coin lying flat on the table surface?
+    answer_type: yes_no
+    notes_for_judge: The coin should be horizontal, not vertical.
+  - id: orientation_horizontal
+    question: Is the coin oriented horizontally rather than vertically?
+    answer_type: yes_no
+    notes_for_judge: ''
+  - id: height_reduction
+    question: Is the highest point of the coin significantly lower than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Since the coin fell flat, its top edge should be much lower.
+  - id: resting_on_face
+    question: Is the coin resting on one of its faces instead of its rim?
+    answer_type: yes_no
+    notes_for_judge: ''
+  - id: state_change_fallen
+    question: Has the coin transitioned from a standing position to a lying position?
+    answer_type: yes_no
+    notes_for_judge: ''
+  - id: coin_presence
+    question: Is the coin still visible on the table?
+    answer_type: yes_no
+    notes_for_judge: ''
+  - id: background_consistency
+    question: Are the window and wall in the background still visible?
+    answer_type: yes_no
+    notes_for_judge: ''

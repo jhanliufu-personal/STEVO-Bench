@@ -1,0 +1,69 @@
+id: frictionless_pendulum_08
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: frictionless_pendulum
+variation_type: combined
+variation_description: Vertical static start combined with shutter blocking occlusion.
+changes:
+  occlusion_method: Safety shutter blocks view.
+  dynamic_conditions: Initial state is vertical (equilibrium).
+  expected_outcome_change: No motion remains no motion.
+prompts:
+  init_frame_edit_prompt: Edit the image to show the pendulum hanging vertically straight down in the
+    center of the chamber, motionless.
+  video_WM: The lead bob hangs motionless in the vertical center of the vacuum chamber. A large opaque
+    metal safety shutter descends from the top of the frame, completely blocking the view of the chamber.
+    The shutter then rises smoothly until the chamber is fully visible again. No zoom, no cut, no scene
+    change. STOP.
+  camera_WM: The lead bob hangs motionless in the vertical center of the vacuum chamber. A large opaque
+    metal safety shutter descends from the top of the frame, completely blocking the view of the chamber.
+    The shutter then rises smoothly until the chamber is fully visible again. No zoom, no cut, no scene
+    change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A large, textured metal sphere (lead bob) hangs suspended by a thin vertical
+    wire in the center of a cylindrical glass vacuum chamber. The chamber sits on a wooden base, and a
+    distinct circular shadow is cast directly beneath the bob on the floor of the chamber. The background
+    shows a laboratory setting with windows, tables, and equipment visible through the glass walls of
+    the chamber.
+  init2final_edit_prompt: Edit the given image to show the vacuum chamber fully visible again, with the
+    lead bob hanging motionless in the exact same central position as before. Ensure the metal safety
+    shutter is completely raised and not visible in the frame. The scene should look identical to the
+    initial state, with the bob suspended vertically and its shadow directly beneath it.
+  rationale: The lead bob begins in a state of equilibrium (motionless). The video prompt describes a
+    safety shutter that occludes the view and then retracts, but describes no physical interaction between
+    the shutter and the bob, nor any other external forces applied to the bob. According to Newton's first
+    law, an object at rest remains at rest unless acted upon by an external force. Therefore, after the
+    occlusion ends, the bob must remain in the exact same position, hanging vertically with zero displacement.
+  questions:
+  - id: pos_stability_xy
+    question: Is the lead bob in the same horizontal position as it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The bob should not have swung left or right.
+  - id: pos_stability_z
+    question: Is the lead bob at the same vertical height as it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The bob should not have dropped or risen.
+  - id: wire_vertical
+    question: Is the wire suspending the bob still straight and vertical?
+    answer_type: yes_no
+    notes_for_judge: If the bob moved, the wire would be angled. It should remain vertical.
+  - id: shadow_alignment
+    question: Is the circular shadow on the floor still located directly beneath the bob?
+    answer_type: yes_no
+    notes_for_judge: Checks for consistency in lighting and position; the shadow should not be displaced
+      relative to the object.
+  - id: shutter_removal
+    question: Is the view of the vacuum chamber unobstructed by the metal shutter?
+    answer_type: yes_no
+    notes_for_judge: The shutter must have fully risen out of the frame.
+  - id: background_visibility
+    question: Is the laboratory background visible through the glass chamber?
+    answer_type: yes_no
+    notes_for_judge: Ensures the shutter is gone and transparency is preserved.
+  - id: bob_stillness
+    question: Does the bob appear to be in the exact center of the chamber, consistent with being motionless?
+    answer_type: yes_no
+    notes_for_judge: It should not be near the glass walls.

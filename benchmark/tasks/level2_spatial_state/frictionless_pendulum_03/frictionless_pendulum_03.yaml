@@ -1,0 +1,68 @@
+id: frictionless_pendulum_03
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: frictionless_pendulum
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to thick fog filling the room.
+changes:
+  occlusion_method: Thick white fog fills the space outside the chamber, obscuring the view.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The lead bob is released from its initial 45-degree position. The chamber is a vacuum, and
+    the pivot point at the top is a low-friction bearing. Thick white fog rapidly fills the room surrounding
+    the chamber, obscuring the view completely. The fog then dissipates until the chamber is clearly visible
+    again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The lead bob is released from its initial 45-degree position. The chamber is a vacuum, and
+    the pivot point at the top is a low-friction bearing. Thick white fog rapidly fills the room surrounding
+    the chamber, obscuring the view completely. The fog then dissipates until the chamber is clearly visible
+    again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A large, spherical metal pendulum bob suspended by a thin vertical wire inside
+    a cylindrical glass vacuum chamber. The sphere is displaced to the left side of the chamber, held
+    in a raised position by a mechanical arm structure. The background shows a laboratory environment
+    with windows and equipment visible through the glass.
+  init2final_edit_prompt: Edit the given image so that the metal sphere is hanging vertically in the center
+    of the glass chamber, at the lowest point of its swing. The mechanical arm on the left should be separated
+    from the sphere, no longer holding it. Ensure the sphere is positioned lower in the frame than in
+    the original image, and the chamber is clear of any fog.
+  rationale: The prompt describes the release of a pendulum bob followed by an occlusion event (fog) that
+    subsequently clears. Physically, once released, the bob will swing downwards under gravity and oscillate
+    back and forth. Since the duration of the fog is undefined, the exact position of the bob is variable,
+    but it will certainly have moved from its initial static, held position. The most representative state
+    of a released pendulum is its passage through the equilibrium point (bottom center) or a position
+    along the arc lower than the release height. The mechanical arm must no longer be in contact with
+    the sphere.
+  questions:
+  - id: displacement_check
+    question: Is the metal sphere in a different position than its initial held location?
+    answer_type: yes_no
+    notes_for_judge: The sphere should have moved from the specific point where the arm was holding it.
+  - id: arm_separation
+    question: Is the mechanical arm separated from the metal sphere?
+    answer_type: yes_no
+    notes_for_judge: The arm should no longer be touching or supporting the sphere.
+  - id: vertical_drop
+    question: Is the sphere positioned lower in height than its initial starting position?
+    answer_type: yes_no
+    notes_for_judge: As it swings, the sphere moves downwards towards the center.
+  - id: fog_cleared
+    question: Is the interior of the glass chamber visible and free of thick fog?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the fog dissipates.
+  - id: sphere_visibility
+    question: Is the metal sphere clearly visible?
+    answer_type: yes_no
+    notes_for_judge: The object should not be obscured.
+  - id: motion_direction
+    question: Has the sphere moved towards the center or right side of the chamber?
+    answer_type: yes_no
+    notes_for_judge: It started on the left; motion should be inward/rightward.
+  - id: wire_consistency
+    question: Is the suspension wire still connected to the top of the sphere?
+    answer_type: yes_no
+    notes_for_judge: Basic physical integrity check.

@@ -1,0 +1,60 @@
+id: tethered_ball_circular_00
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: tethered_ball_circular
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The tethered ball is spinning in a horizontal circle at a constant angular velocity. The tension
+    in the string maintains its orbital path. Camera remains stationary throughout. No zoom, no cut, no
+    scene change. STOP.
+  camera_WM: The tethered ball is spinning in a horizontal circle at a constant angular velocity. The
+    tension in the string maintains its orbital path. Camera remains stationary throughout. No zoom, no
+    cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A red ball attached to a vertical wooden pole by a thin, taut string. The ball
+    is positioned to the left of the pole, hovering above a sandy ground. The string is horizontal, indicating
+    tension. The background is a blurred outdoor field.
+  init2final_edit_prompt: Edit the given image to show the red ball has moved to the right side of the
+    wooden pole. The string should now extend from the pole to the right, connecting to the ball, while
+    maintaining the same height above the ground. Keep the wooden pole and background stationary.
+  rationale: The ball is undergoing circular motion around the pole due to the tension in the string.
+    Over time, the ball's position along the circular path will change (e.g., moving from the left side
+    to the right side or foreground/background). The distance from the pole (radius) and height above
+    the ground should remain approximately constant, and the string must remain taut and connected to
+    the center.
+  questions:
+  - id: position_change
+    question: Is the red ball in a different position than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The ball should have moved along its circular orbit. It should not be in the exact
+      same spot on the left.
+  - id: string_connection
+    question: Is the string still visibly connecting the ball to the wooden pole?
+    answer_type: yes_no
+    notes_for_judge: The tether must remain intact.
+  - id: height_conservation
+    question: Is the ball at approximately the same height above the ground as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The motion is a horizontal circle, so vertical displacement should be minimal.
+  - id: radius_conservation
+    question: Does the distance between the ball and the pole appear roughly consistent with the initial
+      string length?
+    answer_type: yes_no
+    notes_for_judge: The ball should not have flown off into the distance or collapsed into the pole.
+  - id: pole_static
+    question: Is the vertical wooden pole in the same position as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The pole is a static anchor.
+  - id: motion_direction
+    question: Has the ball moved away from its specific starting coordinates on the left side of the image?
+    answer_type: yes_no
+    notes_for_judge: Checks for displacement from the initial state.

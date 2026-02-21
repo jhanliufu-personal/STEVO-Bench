@@ -1,0 +1,68 @@
+id: yoyo_drop_06
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: yoyo_drop
+variation_type: dynamic_condition
+variation_description: The string is covered in glue, creating high friction.
+changes:
+  occlusion_method: null
+  dynamic_conditions: String is sticky/glued (high friction).
+  expected_outcome_change: Yo-yo descends very slowly or hangs in place.
+prompts:
+  init_frame_edit_prompt: Edit the image to show the string looks thick and sticky, covered in a layer
+    of glue.
+  video_WM: The yo-yo is released. The string is covered in sticky glue, creating high friction against
+    the axle. The camera rotates right until the yo-yo completely exits the view, then rotates toward
+    the left smoothly at the same rate until the hand holding the string is back in the center of view.
+    No zoom, no cut, no scene change. STOP.
+  camera_WM: The yo-yo is released. The string is covered in sticky glue, creating high friction against
+    the axle. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up shot of a silver metal yo-yo suspended in mid-air. The yo-yo is hanging
+    from a string that is heavily coated in a thick, translucent, yellowish sticky glue or grease. The
+    string extends vertically to the top edge of the frame where a hand/finger is partially visible holding
+    it. The background is a blurred industrial workshop with a concrete floor and metal walls.
+  init2final_edit_prompt: Edit the given image to move the silver yo-yo significantly lower in the frame,
+    closer to the floor. Extend the vertical string connecting the yo-yo to the top of the frame, ensuring
+    the longer string retains the same thick, sticky glue texture as the original. Keep the background,
+    lighting, and camera angle exactly the same, only changing the vertical position of the yo-yo and
+    the length of the string.
+  rationale: The prompt describes a physical action where the yo-yo is released. Although the sticky glue
+    creates high friction, gravity will still act on the yo-yo over the duration of the camera movement
+    (panning away and returning). Therefore, when the camera returns to the initial viewpoint (centered
+    on the hand holding the string), the yo-yo must be positioned lower than it was initially, having
+    descended down the string. The high friction implies the descent might be slower than freefall, but
+    displacement is expected.
+  questions:
+  - id: q1
+    question: Is the yo-yo positioned lower in the frame than it was in the initial image?
+    answer_type: yes_no
+    notes_for_judge: Compare the vertical position of the yo-yo relative to the background or the top
+      edge.
+  - id: q2
+    question: Is the visible segment of the string above the yo-yo longer than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The string should have unwound or extended as the yo-yo dropped.
+  - id: q3
+    question: Is the yo-yo closer to the bottom edge of the image than it was initially?
+    answer_type: yes_no
+    notes_for_judge: Check the gap between the yo-yo and the floor/bottom frame edge.
+  - id: q4
+    question: Has the yo-yo moved downwards from its starting location?
+    answer_type: yes_no
+    notes_for_judge: Directional check for downward motion.
+  - id: q5
+    question: Is the yo-yo still attached to the string?
+    answer_type: yes_no
+    notes_for_judge: It should not be in freefall detached from the string.
+  - id: q6
+    question: Does the string still appear to be covered in a sticky substance?
+    answer_type: yes_no
+    notes_for_judge: Consistency check for the glue attribute mentioned in the prompt.
+  - id: q7
+    question: Is the background consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The camera returns to the same view, so the background should match.

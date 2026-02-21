@@ -1,0 +1,63 @@
+id: bowling_inertia_08
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: bowling_inertia
+variation_type: combined
+variation_description: Ball rolling into deep sand (high friction) with camera zoom occlusion.
+changes:
+  occlusion_method: Camera zoom out
+  dynamic_conditions: Surface changed to deep sand
+  expected_outcome_change: Ball stops almost immediately due to sand.
+prompts:
+  init_frame_edit_prompt: Edit the image to change the lane surface from wood to deep, soft sand.
+  video_WM: The bowling ball is in motion, rolling into a lane filled with deep, soft sand. The sand deforms
+    under the weight of the ball. The camera zooms out rapidly until the lane is a tiny speck in the distance,
+    then zooms back in to the original framing. No cut, no scene change. STOP.
+  camera_WM: The bowling ball is in motion, rolling into a lane filled with deep, soft sand. The sand
+    deforms under the weight of the ball. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+evaluation:
+  init_frame_description: A low-angle, eye-level perspective of a bowling lane filled with textured sand
+    instead of a wooden surface. A large black bowling ball sits in the immediate foreground, centered
+    in the lane. In the distance, a set of white bowling pins is arranged at the end of the lane. The
+    lighting is somewhat dim, typical of a bowling alley.
+  init2final_edit_prompt: Edit the given image to position the black bowling ball further down the sandy
+    lane, significantly closer to the pins than in the original view. Create a visible furrow or track
+    in the sand extending from the foreground to the ball's new position, indicating the path it rolled.
+    Reduce the apparent size of the ball to account for the perspective of it being further away. Keep
+    the background pins and lane boundaries unchanged.
+  rationale: The prompt establishes that the ball is in motion rolling forward. Although the camera performs
+    a zoom-out and zoom-in maneuver, the final framing returns to the original view. During the elapsed
+    time of the camera movement, the ball's momentum carries it forward along the lane. Due to the high
+    friction of the deep sand, the ball will roll some distance away from the camera and leave a trail
+    behind it, rather than sliding frictionless or staying still.
+  questions:
+  - id: bowling_inertia_08_q1
+    question: Is the bowling ball positioned further down the lane than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the ball's position relative to the gutters and the pins. It should be further
+      away from the camera.
+  - id: bowling_inertia_08_q2
+    question: Is the bowling ball closer to the background pins than it was initially?
+    answer_type: yes_no
+    notes_for_judge: The ball should have moved longitudinally towards the pins.
+  - id: bowling_inertia_08_q3
+    question: Is there a visible track, furrow, or disturbance in the sand behind the bowling ball?
+    answer_type: yes_no
+    notes_for_judge: Since the ball rolled through soft sand, a path should be visible connecting the
+      start point to the end point.
+  - id: bowling_inertia_08_q4
+    question: Is the bowling ball smaller in the frame than it was in the initial image?
+    answer_type: yes_no
+    notes_for_judge: Due to perspective, moving away from the camera should make the object appear smaller.
+  - id: bowling_inertia_08_q5
+    question: Has the bowling ball moved away from its initial foreground position?
+    answer_type: yes_no
+    notes_for_judge: The immediate foreground where the ball started should now be empty or show the start
+      of the track.
+  - id: bowling_inertia_08_q6
+    question: Are the bowling pins in the background still visible?
+    answer_type: yes_no
+    notes_for_judge: 'Consistency check: The background environment should remain stable.'

@@ -1,0 +1,67 @@
+id: cart_spring_release_05
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: cart_spring_release
+variation_type: dynamic_condition
+variation_description: Spring is uncompressed/loose, removing the energy source.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Spring is loose and uncompressed (no potential energy).
+  expected_outcome_change: Cart does not move.
+prompts:
+  init_frame_edit_prompt: Edit the image so the large spring between the wall and the cart appears loose,
+    extended, and not compressed.
+  video_WM: The release mechanism is toggled. The spring is loose and not under compression. The cart
+    sits on the track with low friction wheels. The track extends several feet forward. The camera rotates
+    right at constant speed until the cart and track completely exit the view to the right. The camera
+    continues rotating right for several seconds while the cart remains off-screen. Then the camera rotates
+    left smoothly at the same rate back to the original viewpoint. No zoom, no cut, no scene change. STOP.
+  camera_WM: The release mechanism is toggled. The spring is loose and not under compression. The cart
+    sits on the track with low friction wheels. The track extends several feet forward during the occlusion
+    period. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A red metal utility cart sits on wooden tracks in a workshop setting. A large,
+    heavy-duty metal coil spring is tightly compressed between the cart and a vertical concrete block
+    on the right side of the frame. A person's hand is visible on the right, holding a metal lever or
+    latch mechanism that appears to be retaining the compressed spring. The background includes a workbench
+    with tools and a window.
+  init2final_edit_prompt: Edit the given image to show the red cart moved significantly to the left along
+    the wooden tracks, increasing the distance between the cart and the concrete block. The metal spring
+    should appear fully expanded and loose, stretching across the gap between the block and the cart's
+    new position. The lever mechanism should appear released. Ensure the background where the cart was
+    previously located is visible.
+  rationale: The initial state shows a spring compressed between a movable cart and a fixed wall. The
+    prompt states that the release mechanism is toggled and the spring is no longer under compression.
+    Physically, the stored potential energy in the compressed spring will convert into kinetic energy,
+    pushing the cart to the left (away from the wall). During the time the camera is panned away, the
+    cart will travel along the track to the left. When the camera returns to the original viewpoint, the
+    cart should be displaced to the left and the spring should be uncoiled and extended.
+  questions:
+  - id: cart_position_left
+    question: Is the red cart positioned further to the left than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The cart should have moved away from the wall (to the left).
+  - id: spring_expansion
+    question: Is the metal spring expanded or longer compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The spring should no longer be tightly compressed.
+  - id: gap_increase
+    question: Is the distance between the red cart and the concrete block larger than initially?
+    answer_type: yes_no
+    notes_for_judge: The gap must increase as the cart is pushed away.
+  - id: spring_compression_state
+    question: Is the spring loose or uncompressed?
+    answer_type: yes_no
+    notes_for_judge: The prompt explicitly states the spring is loose and not under compression.
+  - id: cart_motion_direction
+    question: Has the cart moved away from the right side of the image?
+    answer_type: yes_no
+    notes_for_judge: Motion should be away from the wall (right) towards the left.
+  - id: lever_state
+    question: Is the lever or latch mechanism in a released or different state?
+    answer_type: yes_no
+    notes_for_judge: Secondary check on the trigger mechanism.

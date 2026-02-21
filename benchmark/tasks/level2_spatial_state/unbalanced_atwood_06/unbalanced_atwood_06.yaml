@@ -1,0 +1,69 @@
+id: unbalanced_atwood_06
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: unbalanced_atwood
+variation_type: dynamic_condition
+variation_description: 'The mass differential is reversed: left is light, right is heavy.'
+changes:
+  occlusion_method: null
+  dynamic_conditions: Reversed mass differential (Left=5kg, Right=50kg)
+  expected_outcome_change: Movement in opposite direction (Left up, Right down)
+prompts:
+  init_frame_edit_prompt: 'Edit the image to swap the weights: show a small 5kg weight on the left side
+    and a large 50kg weight on the right side.'
+  video_WM: The mechanical brake is released on the pulley system. The left weight is light (5kg) and
+    the right weight is heavy (50kg). The central pulley is well-oiled. The camera rotates right until
+    the pulley completely exits the view, then rotates toward the left smoothly at the same rate until
+    the original height position is back in the center of view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The mechanical brake is released on the pulley system. The left weight is light (5kg) and
+    the right weight is heavy (50kg). The central pulley is well-oiled. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A rustic workshop interior featuring a large pulley system. On the left, a rectangular
+    weight labeled '5 KG' hangs from a rope, positioned roughly level with an anvil in the background.
+    On the right, a larger rectangular weight labeled '50 KG' hangs at approximately the same height as
+    the 5kg weight. A central gear and winch mechanism sits between them. The background includes stone
+    walls, a window on the right, and various tools and chains hanging on the walls.
+  init2final_edit_prompt: Edit the given image to show the result of the weights moving vertically. Position
+    the '5 KG' weight significantly higher in the frame than its starting point, moving it towards the
+    upper pulley. Position the '50 KG' weight significantly lower in the frame than its starting point,
+    moving it towards the floor. Ensure the ropes are taut and extend to the new positions of the weights.
+    Keep the background objects, such as the anvil, stone walls, window, and tools, in their original
+    positions and appearance. Maintain the original camera angle and framing.
+  rationale: The video prompt describes an unbalanced pulley system (Atwood machine) where a 50kg weight
+    opposes a 5kg weight. Upon releasing the brake, the significantly heavier 50kg weight will accelerate
+    downwards due to gravity, pulling the lighter 5kg weight upwards. The camera pans away and then returns
+    to the original view, meaning the final frame captures the scene after this motion has occurred. Therefore,
+    the final state must show the 50kg weight displaced downwards and the 5kg weight displaced upwards
+    relative to their initial positions.
+  questions:
+  - id: q1_pos_5kg
+    question: Is the weight labeled '5 KG' positioned higher in the frame than it was in the initial image?
+    answer_type: yes_no
+    notes_for_judge: The 5kg weight is lighter and should be pulled up by the heavier weight.
+  - id: q2_pos_50kg
+    question: Is the weight labeled '50 KG' positioned lower in the frame than it was in the initial image?
+    answer_type: yes_no
+    notes_for_judge: The 50kg weight is heavier and should drop.
+  - id: q3_relative_height
+    question: Is the '5 KG' weight positioned vertically higher than the '50 KG' weight?
+    answer_type: yes_no
+    notes_for_judge: Initially they are at similar heights; after movement, the 5kg goes up and 50kg goes
+      down, creating a vertical gap.
+  - id: q4_anvil_relation
+    question: Is the '5 KG' weight positioned higher than the main body of the anvil in the background?
+    answer_type: yes_no
+    notes_for_judge: Initially, the weight overlaps the anvil body. As it rises, it should clear the main
+      body.
+  - id: q5_floor_relation
+    question: Is the '50 KG' weight closer to the bottom edge of the image than it was initially?
+    answer_type: yes_no
+    notes_for_judge: It should have moved downwards.
+  - id: q6_background_consistency
+    question: Are the stone walls and the window in the background in the same position as in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: The camera returns to the original view, so static background elements should be
+      unchanged.

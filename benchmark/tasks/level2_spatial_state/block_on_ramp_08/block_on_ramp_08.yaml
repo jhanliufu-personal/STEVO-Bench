@@ -1,0 +1,66 @@
+id: block_on_ramp_08
+level: 2
+category: kinematics
+tags: []
+variant_of: block_on_ramp
+variation_type: combined
+variation_description: Physical stopper combined with object blocking occlusion.
+changes:
+  occlusion_method: A large opaque board moves to block the view.
+  dynamic_conditions: A metal stopper prevents the block from sliding.
+  expected_outcome_change: Block stays stationary.
+prompts:
+  init_frame_edit_prompt: Edit the image to place a small silver metal stopper fixed to the ramp surface
+    immediately in front of the wooden block (on the downhill side).
+  video_WM: Single continuous take, no cuts or zoom. The block is resting on a smooth inclined ramp. A
+    small metal stopper is fixed securely to the ramp directly in front of the block. Suddenly, a large
+    opaque black board slides into the foreground from the right, completely obstructing the view. While
+    the view is blocked, the physical interaction continues naturally. After several seconds, the board
+    slides away to the left, revealing the scene again.
+  camera_WM: Single continuous take, no cuts or zoom. The block is resting on a smooth inclined ramp.
+    A small metal stopper is fixed securely to the ramp directly in front of the block. Suddenly, a large
+    opaque black board slides into the foreground from the right, completely obstructing the view. While
+    the view is blocked, the physical interaction continues naturally. After several seconds, the board
+    slides away to the left, revealing the scene again.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A rectangular wooden block rests on a smooth, stainless steel inclined ramp.
+    A metal stopper with a vertical handle is fixed to the ramp surface directly downslope from the block,
+    preventing it from sliding. Another metal component is visible upslope. The ramp is positioned on
+    a light wooden table.
+  init2final_edit_prompt: Edit the given image to show the wooden block remaining in the exact same position
+    on the inclined ramp, still resting against the metal stopper. The scene should appear unchanged with
+    the block stationary.
+  rationale: The wooden block is on an incline and gravity exerts a force pulling it downwards. However,
+    the prompt specifies that a metal stopper is fixed securely directly in front of the block. This stopper
+    provides a normal force that counteracts the component of gravity along the ramp, creating a static
+    equilibrium. Since the stopper is fixed and no other external forces act to lift or move the block,
+    the block must remain stationary during the occlusion. The final state is kinematically identical
+    to the initial state.
+  questions:
+  - id: '1'
+    question: Is the wooden block still located on the inclined ramp?
+    answer_type: yes_no
+    notes_for_judge: The block should not fall off or disappear.
+  - id: '2'
+    question: Is the wooden block still resting against the metal stopper?
+    answer_type: yes_no
+    notes_for_judge: The block should not move through the stopper.
+  - id: '3'
+    question: Has the block remained at the same position on the ramp as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The block should be stationary.
+  - id: '4'
+    question: Is the metal stopper still visible in front of the block?
+    answer_type: yes_no
+    notes_for_judge: The stopper must remain to justify the lack of motion.
+  - id: '5'
+    question: Is the block positioned higher on the ramp than the bottom edge?
+    answer_type: yes_no
+    notes_for_judge: It should not have slid to the bottom.
+  - id: '6'
+    question: Has the block remained stationary despite the incline?
+    answer_type: yes_no
+    notes_for_judge: Tests understanding of the physical constraint.

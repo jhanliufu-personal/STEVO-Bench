@@ -1,0 +1,69 @@
+id: spinning_coin_wobble_00
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: spinning_coin_wobble
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The coin continues spinning on the table surface. The coin edge maintains contact with the
+    table. Friction exists between the coin edge and the wooden surface. Air resistance acts on the rotating
+    coin. The coin is a standard metal quarter with typical mass distribution. Camera remains stationary
+    throughout. No zoom, no cut, no scene change. STOP.
+  camera_WM: The coin continues spinning on the table surface. The coin edge maintains contact with the
+    table. Friction exists between the coin edge and the wooden surface. Air resistance acts on the rotating
+    coin. The coin is a standard metal quarter with typical mass distribution. Camera remains stationary
+    throughout. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A close-up shot of a silver US quarter coin standing vertically on its edge
+    on a scratched wooden table. The face of the coin exhibits radial motion blur, indicating it is spinning
+    rapidly. The background is out of focus, showing a white window sill and a wall. Natural light illuminates
+    the scene from the left.
+  init2final_edit_prompt: Edit the given image to show the coin still standing vertically or slightly
+    tilted on its edge on the wooden table. The coin must remain upright, maintaining its spinning appearance,
+    and must not be lying flat on the surface. Ensure the coin stays in contact with the table and the
+    background details remain unchanged.
+  rationale: The initial frame shows a coin with significant rotational velocity (spin), which provides
+    angular momentum that stabilizes it against gravity. The prompt explicitly states the coin 'continues
+    spinning'. Physically, this means the coin will maintain its upright orientation on its edge for the
+    duration of the rollout, resisting the urge to fall flat. While friction and air resistance are present,
+    they act gradually; in a short video segment, the primary state is the preservation of the spinning,
+    upright posture. The coin should not fall flat, fly away, or stop spinning immediately.
+  questions:
+  - id: coin_upright
+    question: Is the coin still standing on its edge?
+    answer_type: yes_no
+    notes_for_judge: The coin should be vertical or slightly tilted, not lying flat.
+  - id: coin_not_flat
+    question: Has the coin fallen flat onto the table surface?
+    answer_type: yes_no
+    notes_for_judge: The answer must be NO. The coin should still be on its edge.
+  - id: coin_contact
+    question: Is the coin still in contact with the wooden table?
+    answer_type: yes_no
+    notes_for_judge: The coin should not be floating or flying.
+  - id: coin_gravity
+    question: Is the coin floating in the air above the table?
+    answer_type: yes_no
+    notes_for_judge: The answer must be NO. Gravity keeps it on the table.
+  - id: coin_orientation
+    question: Is the coin oriented vertically or near-vertically?
+    answer_type: yes_no
+    notes_for_judge: It should be upright, not horizontal.
+  - id: coin_position
+    question: Is the coin located in roughly the same area of the table as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Spinning coins may drift slightly but should not teleport or move drastically without
+      external force.
+  - id: background_consistency
+    question: Is the window in the background still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

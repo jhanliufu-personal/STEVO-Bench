@@ -1,0 +1,64 @@
+id: frictionless_pendulum_09
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: frictionless_pendulum
+variation_type: combined
+variation_description: Rusted pivot (high friction) combined with fog occlusion.
+changes:
+  occlusion_method: Thick fog obscures view.
+  dynamic_conditions: Pivot is rusted/seized.
+  expected_outcome_change: Stalled motion hidden by fog.
+prompts:
+  init_frame_edit_prompt: Edit the image to show the mechanical pivot point at the top is heavily rusted,
+    corroded, and jammed.
+  video_WM: The pivot point is rusted and seized, creating immense friction. The lead bob is released
+    from its initial 45-degree position. Thick white fog rapidly fills the room surrounding the chamber,
+    obscuring the view completely. The fog then dissipates until the chamber is clearly visible again.
+    No zoom, no cut, no scene change. STOP.
+  camera_WM: The pivot point is rusted and seized, creating immense friction. The lead bob is released
+    from its initial 45-degree position. Thick white fog rapidly fills the room surrounding the chamber,
+    obscuring the view completely. The fog then dissipates until the chamber is clearly visible again.
+    No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A large metal sphere (pendulum bob) suspended by a thin wire inside a cylindrical
+    glass chamber. A rusty, jointed mechanical arm extends from the left side, holding the sphere at an
+    elevated position. The background shows a laboratory setting with windows and equipment.
+  init2final_edit_prompt: Edit the given image to show the metal sphere hanging straight down in the center
+    of the glass chamber, suspended vertically by its wire. The sphere must be at the lowest point of
+    its trajectory (the equilibrium position) and clearly separated from the rusty mechanical arm. The
+    rusty arm should remain in its original position on the left but must be empty, no longer touching
+    the sphere. The view should be clear with no fog.
+  rationale: The prompt describes a pendulum release event where the pivot has 'immense friction'. This
+    implies a heavily damped or overdamped system. Upon release, the bob will move towards the equilibrium
+    position (the bottom center) but will not sustain oscillation due to the energy loss from friction.
+    The 'fog' sequence provides a duration of time for the system to settle. Therefore, in the final frame,
+    the sphere should be at rest at the lowest point (dead center), separated from the release arm.
+  questions:
+  - id: pos_change_lower
+    question: Is the metal sphere at a lower height than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The sphere should have dropped to the bottom of the swing.
+  - id: pos_change_center
+    question: Is the metal sphere hanging in the center of the glass chamber?
+    answer_type: yes_no
+    notes_for_judge: It should be at the equilibrium position.
+  - id: separation_arm
+    question: Is the metal sphere separated from the rusty mechanical arm?
+    answer_type: yes_no
+    notes_for_judge: The arm should no longer be holding the sphere.
+  - id: wire_vertical
+    question: Is the wire suspending the sphere oriented vertically?
+    answer_type: yes_no
+    notes_for_judge: At equilibrium, the wire hangs straight down.
+  - id: arm_empty
+    question: Is the rusty mechanical arm empty (not holding the object)?
+    answer_type: yes_no
+    notes_for_judge: The arm remains but the ball is gone.
+  - id: no_oscillation_high
+    question: Is the sphere positioned below the level of the rusty arm?
+    answer_type: yes_no
+    notes_for_judge: It should not have swung up to the other side due to friction; it should be at the
+      bottom.

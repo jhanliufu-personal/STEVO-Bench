@@ -1,0 +1,67 @@
+id: elevator_cable_snap_01
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: elevator_cable_snap
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to total lighting failure (pitch black).
+changes:
+  occlusion_method: 'Lighting change: lights turn off completely'
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The elevator car is no longer supported by the cable. The vertical shaft is clear of obstructions,
+    and the guide rails are well-lubricated. Suddenly, the lighting system in the building fails, plunging
+    the entire shaft into total darkness, making the scene completely invisible. After a few seconds,
+    the lights turn back on. No zoom, no cut, no scene change. STOP.
+  camera_WM: The elevator car is no longer supported by the cable. The vertical shaft is clear of obstructions,
+    and the guide rails are well-lubricated. Suddenly, the lighting system in the building fails, plunging
+    the entire shaft into total darkness, making the scene completely invisible. After a few seconds,
+    the lights turn back on. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A high-angle view of a multi-story atrium featuring a central glass elevator
+    shaft. Inside the shaft, a glass-walled elevator car is suspended in the middle vertical section by
+    a thick black cable. The shaft is framed by steel columns and horizontal beams. On either side of
+    the shaft, there are walkways with metal railings where several people are standing. The bottom of
+    the image shows a tiled floor. Large arched windows are visible in the background.
+  init2final_edit_prompt: Edit the given image to show the central elevator car at a significantly lower
+    position, resting at the bottom of the visible shaft near the floor level. The space where the elevator
+    was originally suspended should be empty. Show the suspension cable as slack, broken, or trailing
+    downwards. Maintain the original lighting, camera angle, and background details.
+  rationale: The prompt describes a mechanical failure where the elevator cable snaps, removing the upward
+    support force. Gravity immediately acts on the elevator car, causing it to accelerate downwards (free
+    fall). The period of darkness allows time for this displacement to occur without requiring the rendering
+    of motion blur. When the lights return, the elevator car must be located at a lower vertical position
+    than in the initial frame, consistent with falling under gravity.
+  questions:
+  - id: elevator_lower
+    question: Is the elevator car at a lower vertical position than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the vertical position of the elevator car in both frames.
+  - id: elevator_moved_down
+    question: Has the elevator car moved downwards from its starting location?
+    answer_type: yes_no
+    notes_for_judge: The car should have displaced in the downward direction.
+  - id: original_spot_empty
+    question: Is the space where the elevator car was originally suspended now empty?
+    answer_type: yes_no
+    notes_for_judge: The original location in the middle of the shaft should no longer contain the car.
+  - id: closer_to_floor
+    question: Is the elevator car closer to the bottom tiled floor than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Check the distance between the car and the floor.
+  - id: cable_slack
+    question: Does the cable above the elevator appear slack, broken, or disconnected?
+    answer_type: yes_no
+    notes_for_judge: The cable should no longer be tautly supporting the car.
+  - id: not_higher
+    question: Is the elevator car at the same height or higher than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: This should be NO. The car must be lower.
+  - id: visible_at_bottom
+    question: Is the elevator car visible near the bottom of the shaft?
+    answer_type: yes_no
+    notes_for_judge: The car should be resting or positioned near the bottom of the visible area.

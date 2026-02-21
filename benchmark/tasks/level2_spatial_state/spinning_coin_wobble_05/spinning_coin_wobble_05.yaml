@@ -1,0 +1,64 @@
+id: spinning_coin_wobble_05
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: spinning_coin_wobble
+variation_type: dynamic_condition
+variation_description: Surface changed from wood to felt cloth (high friction).
+changes:
+  occlusion_method: null
+  dynamic_conditions: Surface is rough felt cloth with high friction.
+  expected_outcome_change: The coin loses energy rapidly and falls flat much sooner.
+prompts:
+  init_frame_edit_prompt: Edit the image to change the wooden table surface to a green felt gaming cloth
+    surface.
+  video_WM: The coin continues spinning on the rough felt surface. The coin edge maintains contact with
+    the fabric. High friction exists between the coin edge and the textured cloth. Air resistance acts
+    on the rotating coin. The coin is a standard metal quarter. The camera rotates right at constant speed
+    until the coin completely exits the view to the right. The camera continues rotating right for several
+    seconds while the coin remains off-screen. Then the camera rotates left smoothly at the same rate
+    back to the original viewpoint. No zoom, no cut, no scene change. STOP.
+  camera_WM: The coin continues spinning on the rough felt surface. The coin edge maintains contact with
+    the fabric. High friction exists between the coin edge and the textured cloth. Air resistance acts
+    on the rotating coin. The coin is a standard metal quarter during the occlusion period. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A silver US quarter standing upright on its edge in the center of a green textured
+    felt surface. The eagle side (tails) of the coin is visible. The background is blurred, showing a
+    white window sill on the left and a wooden chair leg on the right.
+  init2final_edit_prompt: Edit the given image so that the quarter is lying flat on the green felt surface
+    instead of standing upright on its edge. The coin should be resting on one of its faces. Keep the
+    camera viewpoint, lighting, and background details exactly the same as the original image.
+  rationale: The video prompt describes a spinning coin on a rough felt surface with high friction and
+    air resistance. The camera rotates away for several seconds and then returns to the original viewpoint.
+    Due to the high friction of the felt texture and the passage of time ('several seconds'), the coin
+    will rapidly lose angular momentum and stability. By the time the camera returns, the coin will have
+    toppled over and should be lying flat on the surface, rather than continuing to spin upright.
+  questions:
+  - id: coin_flat
+    question: Is the quarter lying flat on the surface?
+    answer_type: yes_no
+    notes_for_judge: The coin should no longer be standing on its edge; it should be resting on its face.
+  - id: coin_not_upright
+    question: Is the quarter no longer standing vertically on its edge?
+    answer_type: yes_no
+    notes_for_judge: If the coin is still upright or mostly upright, the answer is No.
+  - id: coin_visible
+    question: Is the quarter visible in the frame?
+    answer_type: yes_no
+    notes_for_judge: The camera returned to the original view, so the coin should still be there.
+  - id: coin_position_conserved
+    question: Is the quarter located in roughly the same area of the green felt as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The coin should not have slid off-screen or moved significantly across the table.
+  - id: coin_height_lowered
+    question: Is the highest point of the coin significantly lower than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Since the coin fell flat, its top edge should be much lower than when it was standing
+      upright.
+  - id: background_consistency
+    question: Are the window sill and wooden chair leg visible in the background as they were initially?
+    answer_type: yes_no
+    notes_for_judge: Checks if the camera successfully returned to the original viewpoint.

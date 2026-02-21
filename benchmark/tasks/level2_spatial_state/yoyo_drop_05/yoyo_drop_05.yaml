@@ -1,0 +1,66 @@
+id: yoyo_drop_05
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: yoyo_drop
+variation_type: dynamic_condition
+variation_description: The string is cut upon release, causing free fall instead of unwinding.
+changes:
+  occlusion_method: null
+  dynamic_conditions: String is cut immediately.
+  expected_outcome_change: Yo-yo falls straight down in free fall, tumbling rather than spinning on axis.
+prompts:
+  init_frame_edit_prompt: Edit the image to include a pair of scissors positioned with blades open around
+    the string near the hand.
+  video_WM: The scissors cut the string immediately as the yo-yo is released. The yo-yo is no longer attached
+    to the hand. The camera rotates right until the yo-yo completely exits the view, then rotates toward
+    the left smoothly at the same rate until the hand is back in the center of view. No zoom, no cut,
+    no scene change. STOP.
+  camera_WM: The scissors cut the string immediately as the yo-yo is released. The yo-yo is no longer
+    attached to the hand. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up shot of a silver metal yo-yo suspended in mid-air by a white string.
+    The string is wound around the yo-yo's central axle and extends vertically upwards. To the right,
+    a hand holds a pair of metal scissors with the blades open, positioned around the string just above
+    the yo-yo, ready to cut. The background is a blurred industrial workshop with a concrete floor and
+    windows.
+  init2final_edit_prompt: Edit the given image to remove the silver yo-yo and the wound string entirely
+    from the frame. Show the vertical white string cut short, hanging loosely from the top and ending
+    in mid-air near the scissors. Fill in the background where the yo-yo was with the blurred workshop
+    floor texture. Keep the scissors and hand visible in their original positions.
+  rationale: The scissors cut the string, removing the tension that holds the yo-yo. Gravity immediately
+    accelerates the yo-yo downwards. The camera pans right and then back left; during this time, the yo-yo
+    falls significantly. By the time the camera returns to the hand, the yo-yo has fallen completely out
+    of the frame (below the field of view). The final state shows the hand and scissors with the cut string
+    hanging, but the yo-yo is gone.
+  questions:
+  - id: yoyo_gone
+    question: Is the silver yo-yo no longer visible in the frame?
+    answer_type: yes_no
+    notes_for_judge: The yo-yo should have fallen out of view.
+  - id: string_cut
+    question: Does the string hanging from the top appear to be cut?
+    answer_type: yes_no
+    notes_for_judge: The string should end abruptly in mid-air.
+  - id: empty_space
+    question: Is the space directly below the scissors empty?
+    answer_type: yes_no
+    notes_for_judge: Where the yo-yo was initially.
+  - id: wound_string_gone
+    question: Is the white string that was wound around the yo-yo gone?
+    answer_type: yes_no
+    notes_for_judge: Since the yo-yo fell, the wound string goes with it.
+  - id: scissors_visible
+    question: Are the scissors still visible in the frame?
+    answer_type: yes_no
+    notes_for_judge: The camera returns to show the hand/scissors.
+  - id: hand_visible
+    question: Is the hand holding the scissors still visible?
+    answer_type: yes_no
+    notes_for_judge: The camera returns to show the hand.
+  - id: fallen_out
+    question: Has the yo-yo fallen out of the camera's view?
+    answer_type: yes_no
+    notes_for_judge: Primary kinematic outcome.

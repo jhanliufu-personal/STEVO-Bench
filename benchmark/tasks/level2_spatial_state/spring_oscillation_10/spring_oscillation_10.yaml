@@ -1,0 +1,66 @@
+id: spring_oscillation_10
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: spring_oscillation
+variation_type: combined
+variation_description: Rusty spring (high damping) with zoom-out occlusion.
+changes:
+  occlusion_method: Camera zooms out.
+  dynamic_conditions: Spring is rusty/stiff.
+  expected_outcome_change: Rapid decay/sluggishness
+prompts:
+  init_frame_edit_prompt: Edit the image to make the metal spring look heavily rusted, orange, and corroded.
+  video_WM: The weight is released. The spring is heavily oxidized and stiff, creating significant resistance
+    to motion. The camera moves backward, pulling away from the scene until the setup is just a small
+    detail in the wide workshop view, then moves forward returning to the original close-up position.
+    No cut, no scene change. STOP.
+  camera_WM: The weight is released. The spring is heavily oxidized and stiff, creating significant resistance
+    to motion. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up shot of a rusty mechanical setup in a workshop. A large, cylindrical
+    metal weight labeled '20 KG' hangs from a heavily oxidized, coiled vertical spring. This vertical
+    spring is attached at the top to a wooden beam, where a horizontal spring also connects. To the right,
+    a wooden post has a measuring tape attached, with a handwritten '20cm' mark roughly aligned with the
+    top of the weight. A gloved hand is visible on the right, holding or resting against the wooden post.
+    The background shows a window and workshop tools.
+  init2final_edit_prompt: Edit the given image to show the 20kg weight hanging at a lower position. Elongate
+    the vertical spring significantly, showing the coils stretched apart due to the weight. Position the
+    top of the weight clearly below the handwritten '20cm' mark on the wooden post. Keep the top anchor
+    point of the springs, the horizontal spring, the gloved hand, and the background details unchanged.
+  rationale: The prompt states that the weight is 'released,' which implies the removal of a support or
+    the initiation of physics where gravity acts on the mass. Given the heavy 20kg load, the weight will
+    descend, stretching the vertical spring. The description of the spring as 'stiff' and 'heavily oxidized'
+    implies significant damping and resistance, meaning that after the time elapsed during the camera's
+    backward and forward motion, the weight will have settled at a new, lower equilibrium position rather
+    than oscillating indefinitely. The camera returns to the original position, so the perspective remains
+    identical.
+  questions:
+  - id: weight_lower
+    question: Is the 20kg weight positioned lower than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The weight should have dropped due to gravity.
+  - id: spring_elongated
+    question: Is the vertical spring more elongated than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The coils should appear stretched apart.
+  - id: below_mark
+    question: Is the top of the weight below the '20cm' mark on the wooden post?
+    answer_type: yes_no
+    notes_for_judge: In the init frame, the top of the weight is roughly aligned with the mark. It should
+      now be below it.
+  - id: hand_consistency
+    question: Is the gloved hand still visible on the right side of the frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: post_consistency
+    question: Is the wooden post with the measuring tape still in the same position?
+    answer_type: yes_no
+    notes_for_judge: The camera returns to the original view, so static objects should not move.
+  - id: weight_visible
+    question: Is the '20 KG' label on the weight still visible?
+    answer_type: yes_no
+    notes_for_judge: The weight should not disappear or rotate to hide the text completely unless physically
+      motivated (unlikely).

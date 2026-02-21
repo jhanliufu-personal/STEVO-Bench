@@ -1,0 +1,67 @@
+id: ball_rolls_off_cliff_02
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: ball_rolls_off_cliff
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to a large opaque screen sliding in front.
+changes:
+  occlusion_method: A large opaque screen slides into view, blocking the scene, then slides away.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The ball continues rolling across the table surface toward the edge. The table edge is a sharp
+    drop-off with no barrier. The ball has sufficient velocity to reach the edge. Once past the table
+    edge, the ball is no longer supported by the surface. Gravity acts on the ball continuously. Air resistance
+    is negligible. A large, opaque black screen slides into the frame from the left, covering the entire
+    view. The screen remains in place for several seconds. Then the screen slides back out to the left,
+    revealing the scene again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The ball continues rolling across the table surface toward the edge. The table edge is a
+    sharp drop-off with no barrier. The ball has sufficient velocity to reach the edge. Once past the
+    table edge, the ball is no longer supported by the surface. Gravity acts on the ball continuously.
+    Air resistance is negligible. A large, opaque black screen slides into the frame from the left, covering
+    the entire view. The screen remains in place for several seconds. Then the screen slides back out
+    to the left, revealing the scene again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A close-up view of a red, textured ball rolling across a wooden table surface.
+    The ball exhibits motion blur, indicating movement towards the right. The table has a visible edge
+    on the right side. In the background, a window is visible on the left, and a patterned rug lies on
+    the wooden floor beneath the table.
+  init2final_edit_prompt: Edit the given image to remove the red ball from the wooden table surface. The
+    table surface should appear empty and clear of the object. Maintain the original appearance of the
+    wooden texture, the table legs, the rug on the floor, and the window in the background without any
+    changes.
+  rationale: The ball is initially moving with velocity towards the right edge of the table. The prompt
+    specifies that the ball continues rolling, reaches the edge, and falls off due to gravity. An occlusion
+    covers the scene for several seconds, which is sufficient time for the ball to fall to the floor and
+    likely roll out of the camera's limited field of view or settle on the floor (which is mostly obscured
+    in the drop zone). Consequently, in the final frame, the ball should no longer be present on the tabletop.
+  questions:
+  - id: ball_removed_from_table
+    question: Is the red ball absent from the top surface of the table?
+    answer_type: yes_no
+    notes_for_judge: The ball should have rolled off the edge and fallen, so it should not be on the table.
+  - id: table_surface_empty
+    question: Is the wooden table surface clear of the red object?
+    answer_type: yes_no
+    notes_for_judge: Check if the table top is empty.
+  - id: ball_position_change
+    question: Has the ball moved from its initial position on the wood?
+    answer_type: yes_no
+    notes_for_judge: The ball started on the table; it should now be gone or elsewhere.
+  - id: ball_not_floating
+    question: Is the space above the table surface free of the ball?
+    answer_type: yes_no
+    notes_for_judge: The ball should not be floating in the air above the table.
+  - id: invariant_window
+    question: Is the window on the left still visible?
+    answer_type: yes_no
+    notes_for_judge: Background invariant.
+  - id: invariant_rug
+    question: Is the patterned rug on the floor still visible?
+    answer_type: yes_no
+    notes_for_judge: Background invariant.
