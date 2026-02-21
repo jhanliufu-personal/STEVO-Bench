@@ -1,0 +1,79 @@
+id: lightbulb_and_switch_00
+level: 5
+category: causal_reasoning
+tags: []
+variant_of: lightbulb_and_switch
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: Edit the image to add a realistic toggle light switch on the back wall, positioned
+    to the left of the hanging lightbulb. The switch should look like it belongs in the room, matching
+    the gritty texture and lighting of the wall.
+  video_WM: Single continuous shot with a completely stationary camera. The scene displays a hanging ceiling
+    light and a wall switch mounted on the wall behind it. A human hand enters the frame, reaches for
+    the wall switch, and toggles it to the opposite position. The camera remains fixed on the scene. STOP.
+  camera_WM: Single continuous shot with a completely stationary camera. The scene displays a hanging
+    ceiling light and a wall switch mounted on the wall behind it. A human hand enters the frame, reaches
+    for the wall switch, and toggles it to the opposite position. The camera remains fixed on the scene.
+    STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A dim, textured room with a single unlit lightbulb hanging from the center of
+    the ceiling. On the back wall to the left, there is a dirty, rectangular light switch plate with the
+    toggle currently in the down position.
+  init2final_edit_prompt: Edit the given image to show the hanging lightbulb turned on, glowing brightly
+    and illuminating the surrounding walls. Change the position of the light switch toggle on the wall
+    plate to the up position.
+  rationale: The prompt specifies that a hand toggles the switch to the opposite position. In the initial
+    frame, the switch is down and the light is off. Functionally, moving the switch to the 'up' position
+    closes the circuit, causing the lightbulb to activate. Therefore, the final state must show the switch
+    in the up position and the lightbulb emitting light, illuminating the previously dim room.
+  questions:
+  - id: light_state_01
+    question: Is the hanging lightbulb now illuminated and glowing?
+    answer_type: yes_no
+    notes_for_judge: The lightbulb should be emitting light, appearing bright white or yellow compared
+      to the dark silhouette in the initial frame.
+  - id: room_brightness_02
+    question: Is the room significantly brighter than in the initial frame due to the light source?
+    answer_type: yes_no
+    notes_for_judge: The walls and ceiling should show evidence of illumination from the central bulb.
+  - id: switch_position_03
+    question: Is the toggle on the wall switch now in the 'up' position?
+    answer_type: yes_no
+    notes_for_judge: The switch started down; the action was to toggle it. It should now be pointing up.
+  - id: switch_change_04
+    question: Is the position of the switch toggle different than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: It must have moved from down to up.
+  - id: functional_causality_05
+    question: Does the scene show the functional result of the switch being turned on (light is active)?
+    answer_type: yes_no
+    notes_for_judge: 'Checks for the causal link: switch interaction -> light on.'
+  - id: bulb_appearance_06
+    question: Does the lightbulb appear as a light source rather than a dark object?
+    answer_type: yes_no
+    notes_for_judge: Contrast with the initial dark silhouette.
+  - id: invariant_fixture_07
+    question: Is the light fixture still hanging from the same location on the ceiling?
+    answer_type: yes_no
+    notes_for_judge: The fixture itself should not move, only the bulb's state changes.
+  - id: invariant_switch_plate_08
+    question: Is the switch plate still mounted in the same location on the wall?
+    answer_type: yes_no
+    notes_for_judge: The plate should not move, only the toggle.
+  generation:
+    model_provider: google_gemini
+    llm: gemini-3-pro-preview
+    temperature: 0.2
+    created_utc: '2026-02-21T04:33:35Z'
+  inputs_digest:
+    initial_frame_sha256: f4826253a1446099cf72d41c32d029bb91218734ff428003c48ced80e6c0854a
+    video_prompt_sha256: d0a01ccfc7ece47bcf966795266005b6f1af4b7214aa5c073e13452f32cc4f93
+    task_yaml_sha256_before: 695603f9d5082ccc6550ea9420daf2af241cbda94aeb4236602bb5d571a8640a

@@ -1,0 +1,79 @@
+id: lightbulb_and_switch_07
+level: 5
+category: causal_reasoning
+tags: []
+variant_of: lightbulb_and_switch
+variation_type: repeated_activation
+variation_description: Switch is toggled twice with a pause
+changes:
+  occlusion_method: null
+  dynamic_conditions: Switch goes OFF -> ON -> OFF. Net result is zero change.
+  expected_outcome_change: Final state is unchanged (dark).
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: Single continuous shot, no cuts, no zoom. The scene contains one functioning ceiling light
+    that is controlled only by the wall switch. The bulb is working. Camera starts centered on the ceiling
+    light. The camera smoothly moves left at constant speed until the ceiling light exits the frame to
+    the right. While the light is out of view, a human hand flips the switch to the ON position, waits
+    for a moment, and then flips it back to the OFF position. The camera continues moving left for several
+    seconds. Then the camera moves right at the same constant speed back to the original viewpoint, bringing
+    the ceiling light back into view.
+  camera_WM: The scene contains one functioning ceiling light that is controlled only by the wall switch.
+    The bulb is working. While the light is out of view, a human hand flips the switch to the ON position,
+    waits for a moment, and then flips it back to the OFF position. STOP.
+camera_control:
+  HY-WorldPlay: s-3, left-30, right-30
+  Genie: null
+evaluation:
+  init_frame_description: A low-angle shot of a dim, enclosed room with textured concrete walls. A single
+    unlit lightbulb hangs from a simple circular fixture in the center of the ceiling. The bulb appears
+    as a dark, pear-shaped silhouette against the slightly lighter, but still shadowy, ceiling. The lighting
+    is ambient and low-contrast, typical of a dark room.
+  init2final_edit_prompt: Edit the given image to ensure the lightbulb remains completely unlit and dark.
+    The bulb should appear as a black or dark grey silhouette against the ceiling. The room should remain
+    dimly lit with soft, ambient shadows, ensuring no light is emitting from the fixture. The visual state
+    should be identical to a light that is turned off.
+  rationale: 'The video prompt describes a sequence of events that occurs while the light is out of view:
+    the switch is flipped ON, then back OFF. The camera subsequently returns to the light. Since the final
+    action performed on the control mechanism is turning it OFF, the functional state of the lightbulb
+    in the final frame must be unlit. This task tests the world model''s ability to track sequential state
+    changes (Off -> On -> Off) and correctly resolve the final state, rather than hallucinating the intermediate
+    ''On'' state described in the text.'
+  questions:
+  - id: light_state_off
+    question: Is the lightbulb unlit in the final frame?
+    answer_type: yes_no
+    notes_for_judge: The light should be off (dark), similar to the initial frame.
+  - id: room_darkness
+    question: Is the room dark and shadowy, consistent with the light being turned off?
+    answer_type: yes_no
+    notes_for_judge: The room should not be illuminated by the central bulb.
+  - id: bulb_appearance
+    question: Does the bulb appear as a dark silhouette rather than a glowing light source?
+    answer_type: yes_no
+    notes_for_judge: The glass of the bulb should be dark.
+  - id: no_emission
+    question: Is the ceiling area immediately around the fixture free of bright direct illumination?
+    answer_type: yes_no
+    notes_for_judge: If the light were on, the ceiling would be bright.
+  - id: filament_state
+    question: Is the filament inside the bulb dark (not glowing)?
+    answer_type: yes_no
+    notes_for_judge: Check for any orange or white glow inside the bulb.
+  - id: fixture_position
+    question: Is the light fixture still in the center of the ceiling?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: wall_texture
+    question: Are the walls still textured concrete?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  generation:
+    model_provider: google_gemini
+    llm: gemini-3-pro-preview
+    temperature: 0.2
+    created_utc: '2026-02-21T04:34:29Z'
+  inputs_digest:
+    initial_frame_sha256: c5f7a269dec1288326d99b59bdedf66e53c59c270218e60ef47f2f280ec64a6e
+    video_prompt_sha256: 885ca3d3e4721a7c1a26ff76a6b9ccc4efbf4211d0568e0c2b16b4dbc347a6c6
+    task_yaml_sha256_before: cb9d83504e24e73ce6380e0f7e970130b02a185ec796c028843ec07a0ff365da

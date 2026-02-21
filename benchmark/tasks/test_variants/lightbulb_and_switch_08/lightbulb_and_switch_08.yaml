@@ -1,0 +1,80 @@
+id: lightbulb_and_switch_08
+level: 5
+category: causal_reasoning
+tags: []
+variant_of: lightbulb_and_switch
+variation_type: indirect_causation
+variation_description: Added a pull-chain that must also be on (AND logic)
+changes:
+  occlusion_method: null
+  dynamic_conditions: Light requires BOTH wall switch AND pull-chain. Pull-chain is OFF. Toggling wall
+    switch is insufficient.
+  expected_outcome_change: Final state is unchanged (dark) because the local pull-chain prevents the circuit
+    from completing.
+prompts:
+  init_frame_edit_prompt: Edit the image to add a pull-chain switch hanging down from the light fixture
+    base.
+  video_WM: Single continuous shot, no cuts, no zoom. The scene contains a ceiling light that requires
+    BOTH the wall switch and the attached pull-chain to be active to turn on. The pull-chain is currently
+    in the OFF position. Camera starts centered on the ceiling light. The camera smoothly moves left at
+    constant speed until the ceiling light exits the frame to the right. While the light is out of view,
+    a human hand toggles the wall switch (changing it to the ON position). The camera continues moving
+    left for several seconds. Then the camera moves right at the same constant speed back to the original
+    viewpoint, bringing the ceiling light and pull-chain back into view.
+  camera_WM: The scene contains a ceiling light that requires BOTH the wall switch and the attached pull-chain
+    to be active to turn on. The pull-chain is currently in the OFF position. While the light is out of
+    view, a human hand toggles the wall switch (changing it to the ON position). STOP.
+camera_control:
+  HY-WorldPlay: s-3, left-30, right-30
+  Genie: null
+evaluation:
+  init_frame_description: A low-angle shot of a single, unlit lightbulb hanging from a ceiling fixture
+    in a dimly lit room. A beaded pull chain hangs vertically from the fixture. The ceiling and walls
+    appear textured and grimy, with shadows indicating the light source is not the bulb itself.
+  init2final_edit_prompt: Edit the given image so that the lightbulb remains completely unlit and dark.
+    Keep the room lighting dim and shadowy, identical to the original state. Ensure the pull chain hangs
+    vertically from the fixture.
+  rationale: 'The prompt establishes a logical AND condition for the light to activate: both the wall
+    switch and the pull-chain must be active. The initial state specifies the pull-chain is OFF. The action
+    toggles the wall switch to ON, but since the pull-chain remains OFF and is not interacted with, the
+    condition for the light to turn on is not met. Therefore, the lightbulb must remain unlit in the final
+    frame. The camera returns to the original viewpoint, resulting in a final image visually identical
+    to the initial frame.'
+  questions:
+  - id: light_state_unlit
+    question: Is the lightbulb unlit in the final frame?
+    answer_type: yes_no
+    notes_for_judge: The light should remain off because the pull-chain was not activated.
+  - id: bulb_darkness
+    question: Does the glass of the lightbulb appear dark rather than glowing?
+    answer_type: yes_no
+    notes_for_judge: Check for absence of emission/glow.
+  - id: room_lighting_dim
+    question: Is the room lighting still dim and shadowy?
+    answer_type: yes_no
+    notes_for_judge: If the light turned on, the room would be bright.
+  - id: filament_dark
+    question: Is the filament or interior of the bulb dark?
+    answer_type: yes_no
+    notes_for_judge: Verify no internal light source.
+  - id: state_maintenance
+    question: Does the lightbulb appear in the same off state as the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The state should not change.
+  - id: pull_chain_visible
+    question: Is the pull chain visible hanging from the fixture?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: fixture_position
+    question: Is the ceiling fixture centered in the frame?
+    answer_type: yes_no
+    notes_for_judge: The camera returned to the original viewpoint.
+  generation:
+    model_provider: google_gemini
+    llm: gemini-3-pro-preview
+    temperature: 0.2
+    created_utc: '2026-02-21T04:34:52Z'
+  inputs_digest:
+    initial_frame_sha256: eda1407112618e780a2da55c2dfa91525645441f667de4444b5d984aac577c4b
+    video_prompt_sha256: 225833e522e6f67f31a2303faf564f4a3e18b3840e2b54fd07871283a32ab3b7
+    task_yaml_sha256_before: 782d2c650acec94be5f7a6120d9740d92e2da28cc3ff21f8575734edc41089be

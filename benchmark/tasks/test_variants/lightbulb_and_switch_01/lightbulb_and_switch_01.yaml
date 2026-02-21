@@ -1,0 +1,78 @@
+id: lightbulb_and_switch_01
+level: 5
+category: causal_reasoning
+tags: []
+variant_of: lightbulb_and_switch
+variation_type: initial_state
+variation_description: Light starts in the ON state
+changes:
+  occlusion_method: null
+  dynamic_conditions: Light bulb is initially illuminated. Toggling switch should turn it OFF.
+  expected_outcome_change: Final state is light OFF (dark), opposite of original.
+prompts:
+  init_frame_edit_prompt: Edit the image so the light bulb is glowing brightly, illuminating the ceiling.
+  video_WM: Single continuous shot, no cuts, no zoom. The scene contains one functioning ceiling light
+    that is controlled only by the wall switch (switch up = light ON, switch down = light OFF). The bulb
+    is currently illuminated. Camera starts centered on the ceiling light. The camera smoothly moves left
+    at constant speed until the ceiling light exits the frame to the right. While the light is out of
+    view, a human hand toggles the wall switch (changing it to the opposite position). The camera continues
+    moving left for several seconds. Then the camera moves right at the same constant speed back to the
+    original viewpoint, bringing the ceiling light back into view.
+  camera_WM: The scene contains one functioning ceiling light that is controlled only by the wall switch
+    (switch up = light ON, switch down = light OFF). The bulb is currently illuminated. While the light
+    is out of view, a human hand toggles the wall switch (changing it to the opposite position). STOP.
+camera_control:
+  HY-WorldPlay: s-3, left-30, right-30
+  Genie: null
+evaluation:
+  init_frame_description: A low-angle view of a room corner featuring a single bare light bulb mounted
+    in the center of a textured beige ceiling. The light bulb is currently switched on and glowing brightly,
+    casting a warm light that illuminates the ceiling and the grungy walls. To the left, a dark, rectangular
+    doorway or opening is partially visible.
+  init2final_edit_prompt: Edit the given image to turn the ceiling light off. The light bulb should appear
+    dark, unlit, and gray instead of glowing white. The entire room should be significantly darker and
+    shadowed, removing the bright radial illumination from the ceiling and walls, reflecting a state where
+    the light source has been extinguished.
+  rationale: The initial state shows the light bulb illuminated. The video prompt describes a camera pan
+    that occludes the light, followed by a toggle of the controlling wall switch. Since the light was
+    initially ON, toggling the switch changes the state to OFF. The camera then returns to the original
+    viewpoint. Therefore, the final frame must show the exact same scene composition but with the light
+    bulb unlit and the room consequently much darker.
+  questions:
+  - id: light_state_off
+    question: Is the ceiling light bulb unlit in the final frame?
+    answer_type: yes_no
+    notes_for_judge: The bulb should look dark/gray, not glowing white.
+  - id: room_darkness
+    question: Is the room significantly darker than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Without the main light source, the scene should be dim.
+  - id: glow_absence
+    question: Has the bright glow surrounding the light fixture disappeared?
+    answer_type: yes_no
+    notes_for_judge: Check for the absence of the radial light gradient on the ceiling.
+  - id: illumination_change
+    question: Is the light bulb emitting less light than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Comparative check; the final state should be 'off'.
+  - id: bulb_appearance
+    question: Does the glass of the bulb appear dark or transparent rather than bright white?
+    answer_type: yes_no
+    notes_for_judge: Visual attribute of an unlit bulb.
+  - id: fixture_position
+    question: Is the light fixture located in the same position on the ceiling as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: 'Invariant check: the camera returned to the original view.'
+  - id: doorway_visibility
+    question: Is the dark doorway on the left side of the frame still present?
+    answer_type: yes_no
+    notes_for_judge: 'Invariant check: scene geometry should not change.'
+  generation:
+    model_provider: google_gemini
+    llm: gemini-3-pro-preview
+    temperature: 0.2
+    created_utc: '2026-02-21T04:33:48Z'
+  inputs_digest:
+    initial_frame_sha256: 3b00f792e2dbc25d77d8a8c8dbae9165965cca79c52b6a8f86fdf988e8fffa47
+    video_prompt_sha256: 60f33d368a6460f3c9e2000231ddc3b220d13aa4bd485c5d96993ba07b73ff70
+    task_yaml_sha256_before: 253789e013173a2b2a30f6618f09ca9e041a66e1bd8b1e629d2a2bb92d1913df

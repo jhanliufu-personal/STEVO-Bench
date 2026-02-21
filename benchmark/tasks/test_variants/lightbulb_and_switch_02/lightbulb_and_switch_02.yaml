@@ -1,0 +1,81 @@
+id: lightbulb_and_switch_02
+level: 5
+category: causal_reasoning
+tags: []
+variant_of: lightbulb_and_switch
+variation_type: initial_state
+variation_description: Light starts in the ON state (warm color)
+changes:
+  occlusion_method: null
+  dynamic_conditions: Light bulb is initially illuminated with a warm glow. Toggling switch should turn
+    it OFF.
+  expected_outcome_change: Final state is light OFF (dark), opposite of original.
+prompts:
+  init_frame_edit_prompt: Edit the image so the light bulb is ON, emitting a strong warm yellow glow.
+  video_WM: Single continuous shot, no cuts, no zoom. The scene contains one functioning ceiling light
+    that is controlled only by the wall switch (switch up = light ON, switch down = light OFF). The bulb
+    is currently illuminated with a warm glow. Camera starts centered on the ceiling light. The camera
+    smoothly moves left at constant speed until the ceiling light exits the frame to the right. While
+    the light is out of view, a human hand toggles the wall switch (changing it to the opposite position).
+    The camera continues moving left for several seconds. Then the camera moves right at the same constant
+    speed back to the original viewpoint, bringing the ceiling light back into view.
+  camera_WM: The scene contains one functioning ceiling light that is controlled only by the wall switch
+    (switch up = light ON, switch down = light OFF). The bulb is currently illuminated with a warm glow.
+    While the light is out of view, a human hand toggles the wall switch (changing it to the opposite
+    position). STOP.
+camera_control:
+  HY-WorldPlay: s-3, left-30, right-30
+  Genie: null
+evaluation:
+  init_frame_description: A low-angle shot of a room corner with textured, yellowish-brown walls and ceiling.
+    A single bare light bulb fixture is mounted in the center of the ceiling. The light bulb is currently
+    switched on, glowing brightly and casting a strong warm yellow light on the surrounding ceiling and
+    walls. To the left, a dark door frame or opening is partially visible.
+  init2final_edit_prompt: Edit the given image so that the ceiling light bulb is turned off. The bulb
+    itself should appear dark, grey, or unlit, rather than glowing bright white/yellow. The surrounding
+    ceiling and walls should be significantly darker and more shadowy, removing the bright warm illumination
+    cast by the bulb. Maintain the exact same camera angle and room geometry.
+  rationale: The video prompt describes a sequence where the camera pans away from the light, a switch
+    is toggled, and the camera returns. The initial state shows the light is ON. The action 'toggles the
+    wall switch' changes the state from ON to OFF. Therefore, when the camera returns to the initial viewpoint,
+    the light bulb must be extinguished, and the room's lighting must be much darker to reflect the absence
+    of the primary light source.
+  questions:
+  - id: light_state_off
+    question: Is the light bulb unlit in the final frame?
+    answer_type: yes_no
+    notes_for_judge: The bulb should not be glowing.
+  - id: illumination_change
+    question: Is the room significantly darker than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare overall brightness; the final frame should be dimmer due to the light being
+      off.
+  - id: glow_removal
+    question: Has the bright yellow glow on the ceiling surrounding the fixture disappeared?
+    answer_type: yes_no
+    notes_for_judge: The halo of light on the ceiling should be gone.
+  - id: bulb_appearance
+    question: Does the glass of the bulb appear dark or grey instead of bright white?
+    answer_type: yes_no
+    notes_for_judge: The filament/bulb surface should not be emitting light.
+  - id: state_transition
+    question: Is the lighting state of the room different from the initial frame?
+    answer_type: yes_no
+    notes_for_judge: It should transition from lit to unlit.
+  - id: invariant_structure
+    question: Is the position of the light fixture on the ceiling the same as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The fixture itself should not move, only the camera returned to the start.
+  - id: invariant_walls
+    question: Are the textured walls still visible in the same configuration?
+    answer_type: yes_no
+    notes_for_judge: Geometry should be preserved.
+  generation:
+    model_provider: google_gemini
+    llm: gemini-3-pro-preview
+    temperature: 0.2
+    created_utc: '2026-02-21T04:33:46Z'
+  inputs_digest:
+    initial_frame_sha256: d2602a98f961320255dad52e52a19445cb13c595c7e80d3db1a3578c83e4f727
+    video_prompt_sha256: 28796b00df73c7932049d06e7796d57194e7e194b7701d30ff7cec60b015e477
+    task_yaml_sha256_before: fb36f123206bbb5e0d33e6f3a2a0d40d5dd02f8f44dd51a24602d9d4f5f58b6b

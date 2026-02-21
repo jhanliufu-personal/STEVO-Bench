@@ -1,0 +1,76 @@
+id: lightbulb_and_switch_04
+level: 5
+category: causal_reasoning
+tags: []
+variant_of: lightbulb_and_switch
+variation_type: precondition_failure
+variation_description: The light bulb glass is shattered
+changes:
+  occlusion_method: null
+  dynamic_conditions: The bulb is physically broken. Toggling the switch will not produce light.
+  expected_outcome_change: Final state is unchanged (dark/broken bulb).
+prompts:
+  init_frame_edit_prompt: Edit the image so the light bulb glass is shattered and broken, with jagged
+    edges visible.
+  video_WM: Single continuous shot, no cuts, no zoom. The scene contains a ceiling light with a shattered,
+    broken bulb, controlled by a wall switch. Camera starts centered on the broken light. The camera smoothly
+    moves left at constant speed until the light exits the frame to the right. While the light is out
+    of view, a human hand toggles the wall switch (changing it to the ON position). The camera continues
+    moving left for several seconds. Then the camera moves right at the same constant speed back to the
+    original viewpoint, bringing the broken light back into view.
+  camera_WM: The scene contains a ceiling light with a shattered, broken bulb, controlled by a wall switch.
+    While the light is out of view, a human hand toggles the wall switch (changing it to the ON position).
+    STOP.
+camera_control:
+  HY-WorldPlay: s-3, left-30, right-30
+  Genie: null
+evaluation:
+  init_frame_description: A low-angle shot of a ceiling light fixture in a dim, grungy room. The lightbulb
+    is shattered, with jagged glass edges visible in the socket and the internal filament structure exposed.
+    Sharp shards of glass are scattered and stuck to the surrounding concrete walls. The lighting is low-key
+    and ambient, with the bulb itself being dark and unlit.
+  init2final_edit_prompt: Edit the given image to keep the light bulb dark and unlit. The room must remain
+    dimly lit with no new light sources. The bulb should remain shattered with jagged glass, and the filament
+    must not be glowing. Ensure the scene appears identical to the initial state regarding lighting and
+    object condition.
+  rationale: The camera moves away and returns to the original viewpoint, so the framing is identical.
+    The action performed is toggling the light switch to ON. However, the lightbulb in the fixture is
+    physically shattered. In a realistic physical simulation, a broken incandescent bulb cannot emit light
+    because the vacuum is lost and the filament is likely severed or would burn out instantly. Therefore,
+    despite the switch being ON, the correct functional outcome is that the light remains OFF. The model
+    must prioritize the physical state of the broken component over the generic causal association of
+    'switch on -> light on'.
+  questions:
+  - id: light_state_1
+    question: Is the light bulb unlit?
+    answer_type: yes_no
+    notes_for_judge: The bulb is broken, so it should not turn on even if the switch is toggled.
+  - id: room_lighting_1
+    question: Is the room still dimly lit?
+    answer_type: yes_no
+    notes_for_judge: The room should not be illuminated by the ceiling light.
+  - id: filament_state_1
+    question: Is the filament of the bulb dark?
+    answer_type: yes_no
+    notes_for_judge: The filament should not be glowing.
+  - id: ceiling_brightness_1
+    question: Is the ceiling area around the fixture free of bright illumination?
+    answer_type: yes_no
+    notes_for_judge: There should be no light cast on the ceiling.
+  - id: bulb_integrity_1
+    question: Is the glass of the bulb still shattered?
+    answer_type: yes_no
+    notes_for_judge: The bulb should not be repaired.
+  - id: shards_presence_1
+    question: Are the glass shards on the wall still present?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  generation:
+    model_provider: google_gemini
+    llm: gemini-3-pro-preview
+    temperature: 0.2
+    created_utc: '2026-02-21T04:34:37Z'
+  inputs_digest:
+    initial_frame_sha256: dc8c1aba69d838b9a7ce202f3f640753c980bc63fb98d4907ba40950b7030c3a
+    video_prompt_sha256: 1e68968eedf13aa6d9d49cf72f69576bac271a649dc763ce5651a4c333ea51a4
+    task_yaml_sha256_before: 0e923f0c89b399f21920736d4d352f2cbf118da7774b39d3ce6a3e6aba27d4f9

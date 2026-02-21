@@ -1,0 +1,80 @@
+id: ice_on_burner_06
+level: 1
+category: scalar_state
+tags: []
+variant_of: ice_on_burner
+variation_type: combined
+variation_description: Cold burner (no melting) with lid blocking occlusion.
+changes:
+  occlusion_method: Metal pot lid covers scene.
+  dynamic_conditions: Burner is cold (black coils).
+  expected_outcome_change: Ice remains solid/unmelted.
+prompts:
+  init_frame_edit_prompt: Edit the image so the electric stove coil is dark grey and black, indicating
+    it is turned off and cold. Remove the red glow entirely. Keep the ice cube unchanged.
+  video_WM: A clear ice cube sits on the center of a cold, black electric stove coil. A large metal pot
+    lid slides into the frame from the side, completely covering the burner and the ice cube. The lid
+    remains in place for several seconds, hiding the contents underneath. Then the lid slides back out
+    of the frame, revealing the burner again.
+  camera_WM: A clear ice cube sits on the center of a cold, black electric stove coil. A large metal pot
+    lid slides into the frame from the side, completely covering the burner and the ice cube. The lid
+    remains in place for several seconds, hiding the contents underneath. Then the lid slides back out
+    of the frame, revealing the burner again.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, high-angle shot of a black glass-ceramic stovetop. In the center,
+    a clear, cubic ice cube sits on a graphic of concentric circles marking the burner area. There is
+    a small amount of water and droplets surrounding the base of the ice. To the top left, a portion of
+    a stainless steel pot is visible. To the top right, a portion of a black cast iron skillet is visible.
+    The surface is glossy, showing reflections of the ice and surroundings.
+  init2final_edit_prompt: Edit the given image to show the ice cube in a partially melted state. The ice
+    cube should appear smaller and more rounded, with softened edges compared to the original. The pool
+    of water surrounding the ice on the black stovetop should be noticeably larger and more spread out,
+    reflecting the volume lost from the solid ice. Ensure the surrounding cookware and stovetop background
+    remain unchanged.
+  rationale: The video prompt describes a sequence where the ice cube is covered by a lid for several
+    seconds and then revealed. During this occlusion, the natural physical process of melting progresses
+    due to ambient temperature or residual heat. The key state change is the phase transition from solid
+    ice to liquid water. Therefore, the final frame must depict the ice cube as having reduced in volume
+    (melted) and the surrounding water puddle as having increased in volume, while the lid itself is no
+    longer in the frame.
+  questions:
+  - id: water_volume_increase
+    question: Is the pool of water around the ice larger than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Check if the liquid water area has expanded.
+  - id: ice_volume_decrease
+    question: Is the ice cube smaller than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Check if the solid ice mass has visibly reduced.
+  - id: ice_shape_change
+    question: Does the ice cube appear more rounded or melted compared to the start?
+    answer_type: yes_no
+    notes_for_judge: Melting typically softens sharp cubic edges.
+  - id: solid_mass_reduction
+    question: Is there less solid ice remaining than in the starting image?
+    answer_type: yes_no
+    notes_for_judge: Directional check for mass loss.
+  - id: lid_absence
+    question: Is the metal pot lid absent from the final frame?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the lid slides back out, revealing the burner.
+  - id: pot_consistency
+    question: Is the stainless steel pot in the top left still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: skillet_consistency
+    question: Is the cast iron skillet in the top right still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  generation:
+    model_provider: google_gemini
+    llm: gemini-3-pro-preview
+    temperature: 0.2
+    created_utc: '2026-02-21T04:33:35Z'
+  inputs_digest:
+    initial_frame_sha256: e3c49c885ac0636132e8f0b44224d595237a9a7738ab205f330645e32e042c9b
+    video_prompt_sha256: 1229fd12990f0119fddc37361f47cec88943b5fc36b8b130c3fb2feba2e583ea
+    task_yaml_sha256_before: 156692f40fc92b76966dacab35e86e8db2064e2c81c2584f79e7cd972cee3060

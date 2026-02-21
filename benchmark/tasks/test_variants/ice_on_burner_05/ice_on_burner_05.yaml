@@ -1,0 +1,78 @@
+id: ice_on_burner_05
+level: 1
+category: scalar_state
+tags: []
+variant_of: ice_on_burner
+variation_type: combined
+variation_description: Cold burner (no melting) with fog occlusion.
+changes:
+  occlusion_method: Thick steam/fog.
+  dynamic_conditions: Burner is cold (black coils).
+  expected_outcome_change: Ice remains solid/unmelted.
+prompts:
+  init_frame_edit_prompt: Edit the image so the electric stove coil is dark grey and black, indicating
+    it is turned off and cold. Remove the red glow entirely. Keep the ice cube unchanged.
+  video_WM: A clear ice cube sits on the center of a cold, black electric stove coil. Suddenly, thick
+    white fog rolls into the frame, completely obscuring the stove and ice from view. The fog swirls and
+    blocks the sight line for several seconds. Then, the fog gradually dissipates and clears away, revealing
+    the stove top again.
+  camera_WM: A clear ice cube sits on the center of a cold, black electric stove coil. Suddenly, thick
+    white fog rolls into the frame, completely obscuring the stove and ice from view. The fog swirls and
+    blocks the sight line for several seconds. Then, the fog gradually dissipates and clears away, revealing
+    the stove top again.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A high-angle close-up of a black, glossy stovetop. In the center, a clear cubic
+    ice cube sits on a circular burner pattern, surrounded by a small puddle of melted water. To the left,
+    the base of a stainless steel pot is visible. To the right, a black cast iron skillet is partially
+    visible. The surface is reflective, showing highlights from the lighting.
+  init2final_edit_prompt: Edit the given image to show the ice cube in a more melted state. Reduce the
+    size of the solid ice cube so it appears smaller and more rounded. Expand the surface area of the
+    water puddle on the stovetop to show that more ice has melted. Ensure the scene is completely clear
+    of fog or mist, restoring full visibility of the stovetop and cookware. Keep the stainless steel pot
+    and cast iron skillet in their original positions.
+  rationale: 'The video prompt describes an occlusion event (fog) that lasts for several seconds before
+    clearing. During this elapsed time, the physical process of melting continues. The ice cube, sitting
+    on the stove (even if cold, ambient temperature causes melting), will lose mass, and the surrounding
+    water puddle will expand. The final state must show this progression: less solid ice and more liquid
+    water, with the view restored to clarity.'
+  questions:
+  - id: ice_size_reduction
+    question: Is the solid ice cube smaller than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The ice should have melted partially or fully, resulting in a smaller solid volume.
+  - id: water_puddle_expansion
+    question: Is the puddle of water larger than it was initially?
+    answer_type: yes_no
+    notes_for_judge: The melted ice must increase the volume/area of the water on the stove.
+  - id: ice_mass_decrease
+    question: Is there less solid ice remaining compared to the start?
+    answer_type: yes_no
+    notes_for_judge: Checks for the reduction in the scalar quantity of ice mass.
+  - id: water_spread
+    question: Has the water spread further across the burner surface?
+    answer_type: yes_no
+    notes_for_judge: Directional change in liquid coverage area.
+  - id: fog_cleared
+    question: Is the view of the stovetop clear of fog?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the fog dissipates, revealing the stove top.
+  - id: pot_consistency
+    question: Is the stainless steel pot still visible on the left?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: skillet_consistency
+    question: Is the cast iron skillet still visible on the right?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  generation:
+    model_provider: google_gemini
+    llm: gemini-3-pro-preview
+    temperature: 0.2
+    created_utc: '2026-02-21T04:33:22Z'
+  inputs_digest:
+    initial_frame_sha256: 6a9b8cac0885aa3c4fc4ca429d184626f9bf7bcb1be6f5f4addc35b5f0d29d2f
+    video_prompt_sha256: cda69d4e5a954dd2b4cf73992230c0adab8aeecd55548dc979e3a4d6243dbf24
+    task_yaml_sha256_before: 450a29ad365a4393a2e0cf808dd41f069cbb6ec5159b1f8e897833e2721f9c27

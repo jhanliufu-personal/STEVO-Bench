@@ -1,0 +1,79 @@
+id: lightbulb_and_switch_05
+level: 5
+category: causal_reasoning
+tags: []
+variant_of: lightbulb_and_switch
+variation_type: precondition_failure
+variation_description: Wires leading to the fixture are cut/disconnected
+changes:
+  occlusion_method: null
+  dynamic_conditions: Power supply is severed. Toggling switch has no effect.
+  expected_outcome_change: Final state is unchanged (dark).
+prompts:
+  init_frame_edit_prompt: Edit the image to show the electrical wires leading to the bulb fixture are
+    cut and dangling loose.
+  video_WM: Single continuous shot, no cuts, no zoom. The scene contains a ceiling light where the input
+    wires are visibly cut and disconnected. Camera starts centered on the ceiling light. The camera smoothly
+    moves left at constant speed until the ceiling light exits the frame to the right. While the light
+    is out of view, a human hand toggles the wall switch (changing it to the ON position). The camera
+    continues moving left for several seconds. Then the camera moves right at the same constant speed
+    back to the original viewpoint, bringing the ceiling light back into view.
+  camera_WM: The scene contains a ceiling light where the input wires are visibly cut and disconnected.
+    While the light is out of view, a human hand toggles the wall switch (changing it to the ON position).
+    STOP.
+camera_control:
+  HY-WorldPlay: s-3, left-30, right-30
+  Genie: null
+evaluation:
+  init_frame_description: A low-angle shot of a ceiling light fixture in a dark, grunge-textured room.
+    The fixture is black with a single dark (unlit) bulb hanging from it. Crucially, four wires emerge
+    from the base of the fixture near the ceiling; they are splayed outwards and clearly severed or disconnected,
+    hanging in the air without connecting to a power source. The walls and ceiling have a dirty, mottled
+    concrete appearance.
+  init2final_edit_prompt: Edit the given image to ensure the light bulb remains completely dark and unlit.
+    Maintain the appearance of the cut, disconnected wires splaying from the fixture base. Do not add
+    any glow, illumination, or light emission from the bulb. The scene should appear unchanged from the
+    initial state, preserving the dark, unlit atmosphere and the disconnected state of the wiring.
+  rationale: The prompt explicitly states that the input wires are visibly cut and disconnected. Although
+    the wall switch is toggled to the ON position while the camera is panned away, the physical break
+    in the electrical circuit prevents the light from turning on. Therefore, the correct functional outcome
+    is that the light remains OFF. Since the camera returns to the original viewpoint, the final frame
+    should be visually identical to the initial frame.
+  questions:
+  - id: light_status_dark
+    question: Is the light bulb still dark in the final frame?
+    answer_type: yes_no
+    notes_for_judge: The light should remain off because the wires are cut.
+  - id: light_status_illuminated
+    question: Is the light bulb illuminated?
+    answer_type: yes_no
+    notes_for_judge: The light should NOT be illuminated.
+  - id: wires_disconnected
+    question: Are the wires coming from the fixture still visible and disconnected?
+    answer_type: yes_no
+    notes_for_judge: The wires should remain cut/disconnected.
+  - id: bulb_glow
+    question: Is the filament or glass of the bulb glowing?
+    answer_type: yes_no
+    notes_for_judge: There should be no glow.
+  - id: room_lighting
+    question: Is the room still dimly lit without a central light source?
+    answer_type: yes_no
+    notes_for_judge: The room lighting should not have changed to a bright state.
+  - id: camera_return
+    question: Is the ceiling light fixture centered in the frame?
+    answer_type: yes_no
+    notes_for_judge: The camera returns to the original viewpoint.
+  - id: state_change_check
+    question: Did the light turn on after the switch was toggled?
+    answer_type: yes_no
+    notes_for_judge: The answer must be NO due to the cut wires.
+  generation:
+    model_provider: google_gemini
+    llm: gemini-3-pro-preview
+    temperature: 0.2
+    created_utc: '2026-02-21T04:34:26Z'
+  inputs_digest:
+    initial_frame_sha256: c3caae700280d17baadb15fcb046c34756dacf4c011ff78ac0fcb7acc77debbe
+    video_prompt_sha256: 190846bd9c6f59d545b3622d18ce611c0ae16706567bb4a6e039dea3ade719d1
+    task_yaml_sha256_before: 91f97401218c8c44c780aab740cc56cbd2de2dd54f6464f4dd42787795a29e99

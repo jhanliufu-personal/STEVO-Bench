@@ -9,9 +9,9 @@ from threading import Lock
 
 
 # script_name = "generate_init_frame.py"
-# script_name = "generate_gt_and_questions.py"
+script_name = "generate_gt_and_questions.py"
 # script_name = "generate_gt_final_frame.py"
-script_name = "generate_task_variants.py"
+# script_name = "generate_task_variants.py"
 SCRIPT_PATH = Path(
     rf"G:\My Drive\Gkioxari_Lab\StateWMBench\StateWM\benchmark\runners\{script_name}"
 )

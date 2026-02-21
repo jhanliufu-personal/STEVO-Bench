@@ -107,7 +107,7 @@ def main() -> None:
                 else:
                     print("-> Frame already has correct name, keeping as-is")
 
-                print("✓ Init frame ready (no changes)")
+                print("[OK] Init frame ready (no changes)")
                 return
 
             # Call image editing model
@@ -127,7 +127,7 @@ def main() -> None:
             )
 
             if result:
-                print(f"✓ Generated edited init frame: {output_path.name}")
+                print(f"[OK] Generated edited init frame: {output_path.name}")
                 # Clean up old frame if different
                 if existing_path != output_path:
                     existing_path.unlink()
