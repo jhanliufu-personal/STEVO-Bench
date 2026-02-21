@@ -1,0 +1,70 @@
+id: syrup_fill_02
+level: 1
+category: scalar_state
+tags: []
+variant_of: syrup_fill
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to lights turning off.
+changes:
+  occlusion_method: Scene goes pitch black (lights off).
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics (jar fills in the dark).
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A glass jar is 25% full of syrup. A steady stream pours in, and the level is visibly rising.
+    The lights in the room turn off completely, plunging the scene into total darkness, then turn back
+    on. No zoom, no cut, no scene change. STOP.
+  camera_WM: A glass jar is 25% full of syrup. A steady stream pours in, and the level is visibly rising.
+    The lights in the room turn off completely, plunging the scene into total darkness, then turn back
+    on. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A clear glass jar sits on a wooden countertop, filled approximately 25-30% with
+    amber-colored syrup. A stream of syrup is pouring into the center of the jar from a metal spout located
+    at the top edge of the frame. Bubbles are visible on the surface of the liquid. To the left is a worn
+    wooden cutting board, and in the background, a ceramic jug and a window looking out onto trees are
+    visible.
+  init2final_edit_prompt: Edit the given image to show the glass jar significantly fuller with amber syrup.
+    Raise the liquid level so it occupies more of the jar's volume compared to the start. Maintain the
+    stream of syrup pouring from the spout. Keep the lighting bright and natural, as if the lights have
+    returned. Preserve the wooden table, cutting board, background objects, and window view exactly as
+    they are.
+  rationale: The prompt describes a continuous pouring action that is momentarily obscured by darkness
+    (lights off) before being revealed again (lights on). During the elapsed time of the darkness, the
+    pouring process continues, resulting in an accumulation of liquid. Therefore, the final frame must
+    show the lights back on and the liquid level in the jar significantly higher than in the initial frame
+    due to the constant filling.
+  questions:
+  - id: volume_increase_1
+    question: Is the level of syrup in the jar higher than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the height of the liquid against the jar's threads or the background.
+  - id: volume_increase_2
+    question: Does the jar contain more liquid than it did at the start?
+    answer_type: yes_no
+    notes_for_judge: Assess the total volume of amber liquid visible.
+  - id: volume_increase_3
+    question: Is the empty space at the top of the jar smaller than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The air gap between the liquid surface and the rim should be reduced.
+  - id: volume_increase_4
+    question: Is the surface of the liquid closer to the rim of the jar than before?
+    answer_type: yes_no
+    notes_for_judge: Directional check on the liquid's rising surface.
+  - id: lighting_check
+    question: Is the scene illuminated (lights on) rather than pitch black?
+    answer_type: yes_no
+    notes_for_judge: The prompt specifies the lights turn back on at the end.
+  - id: invariant_cutting_board
+    question: Is the wooden cutting board to the left still visible?
+    answer_type: yes_no
+    notes_for_judge: Invariant object check.
+  - id: invariant_spout
+    question: Is the metal pouring spout still visible at the top?
+    answer_type: yes_no
+    notes_for_judge: Invariant object check.
+  - id: action_continuity
+    question: Is there still a stream of syrup pouring into the jar?
+    answer_type: yes_no
+    notes_for_judge: The prompt implies a steady stream that hasn't explicitly stopped.

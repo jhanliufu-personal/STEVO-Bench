@@ -1,0 +1,61 @@
+id: lava_cool_08
+level: 1
+category: scalar_state
+tags: []
+variant_of: lava_cool
+variation_type: combined
+variation_description: Cold inert rock combined with smoke occlusion.
+changes:
+  occlusion_method: Thick smoke blocks view.
+  dynamic_conditions: Rock is cold/black.
+  expected_outcome_change: Rock remains black.
+prompts:
+  init_frame_edit_prompt: Edit the image to show the volcanic rock as completely black, solidified, and
+    dull, sitting on a cold metal tray with no glow.
+  video_WM: A cold, black volcanic rock sits on a metal tray. Thick grey smoke rolls in from the side,
+    completely obscuring the rock and tray from view, then clears away slowly until the rock is visible
+    again. No zoom, no cut, no scene change. STOP.
+  camera_WM: A cold, black volcanic rock sits on a metal tray. Thick grey smoke rolls in from the side,
+    completely obscuring the rock and tray from view, then clears away slowly until the rock is visible
+    again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A large, dark, textured chunk of black volcanic rock or coal sits centrally
+    on a dirty, rusted metal baking sheet. The rock has a rough, porous surface and is completely black
+    with no glowing areas. The background is a dark, blurry industrial setting.
+  init2final_edit_prompt: Edit the given image to show the black volcanic rock fully visible on the metal
+    tray. Remove any thick grey smoke to restore the clear view of the rock and tray. The rock must remain
+    black and cold, with no glowing red or orange sections. Keep the camera angle, framing, and background
+    identical to the original image.
+  rationale: The video prompt describes a temporary occlusion event where smoke covers a cold rock and
+    then dissipates. Since the rock is explicitly described as 'cold' and 'black' initially, and no heating
+    action is mentioned, it must remain cold and black throughout the sequence. The rollout concludes
+    with the smoke clearing, restoring the visibility of the original rock. Therefore, the final frame
+    should be visually nearly identical to the initial frame, confirming the rock's permanence and the
+    removal of the smoke.
+  questions:
+  - id: rock_visible
+    question: Is the black volcanic rock clearly visible in the center of the frame?
+    answer_type: yes_no
+    notes_for_judge: The rock should be visible again after the smoke clears.
+  - id: smoke_cleared
+    question: Is the image free of thick grey smoke obscuring the rock?
+    answer_type: yes_no
+    notes_for_judge: The smoke should have cleared away.
+  - id: rock_cold
+    question: Is the rock still completely black, without any glowing red or orange areas?
+    answer_type: yes_no
+    notes_for_judge: The rock started cold and should not heat up or glow.
+  - id: tray_visible
+    question: Is the metal tray visible beneath the rock?
+    answer_type: yes_no
+    notes_for_judge: The tray should be visible again.
+  - id: texture_visible
+    question: Is the rough texture of the rock clearly distinguishable?
+    answer_type: yes_no
+    notes_for_judge: Visibility should be high enough to see surface details.
+  - id: shape_consistency
+    question: Does the rock appear to be the same shape as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The rock should not have melted, crumbled, or changed shape.

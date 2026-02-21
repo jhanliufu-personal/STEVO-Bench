@@ -1,0 +1,75 @@
+id: evaporating_alcohol_pool_01
+level: 1
+category: scalar_state
+tags: []
+variant_of: evaporating_alcohol_pool
+variation_type: occlusion_method
+variation_description: Occlusion by a large opaque object blocking the view instead of camera rotation.
+changes:
+  occlusion_method: A lab notebook slides in front of the camera, blocking the view.
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics (alcohol evaporates significantly).
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: Rubbing alcohol sits on the warm metal plate. The plate temperature is elevated above room
+    temperature. Alcohol is volatile with a low boiling point of 180°F and high vapor pressure. The surrounding
+    air is not saturated with alcohol vapor. A large opaque lab notebook slides into the frame from the
+    left, completely blocking the view of the metal plate. The notebook remains in front of the lens for
+    several seconds. Then the notebook slides away to the left, revealing the metal plate again. No zoom,
+    no cut, no scene change. STOP.
+  camera_WM: Rubbing alcohol sits on the warm metal plate. The plate temperature is elevated above room
+    temperature. Alcohol is volatile with a low boiling point of 180°F and high vapor pressure. The surrounding
+    air is not saturated with alcohol vapor. A large opaque lab notebook slides into the frame from the
+    left, completely blocking the view of the metal plate. The notebook remains in front of the lens for
+    several seconds. Then the notebook slides away to the left, revealing the metal plate again. No zoom,
+    no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: 'A close-up, slightly high-angle shot of a scratched metal hot plate. A digital
+    display at the bottom reads ''WARM: 55°C'' in blue pixelated text. In the center of the plate is a
+    circular pool of clear liquid (rubbing alcohol) with visible ripples and steam or vapor rising from
+    it. The background contains blurred lab equipment, including a white box with a knob and black cables.'
+  init2final_edit_prompt: 'Edit the given image to reduce the size of the clear liquid pool on the metal
+    plate, making its diameter significantly smaller to simulate partial evaporation. Ensure the digital
+    display text ''WARM: 55°C'' remains unchanged and legible. Maintain the scratched texture of the metal
+    plate and the background details exactly as they are.'
+  rationale: The hot plate is maintained at 55°C, which is warm enough to significantly accelerate the
+    evaporation of volatile rubbing alcohol, though below its boiling point. During the period where the
+    lab notebook occludes the view, time passes, causing the liquid to evaporate into the air. Consequently,
+    when the view is restored, the pool of alcohol should have shrunk in diameter and volume, exposing
+    more of the metal plate surface.
+  questions:
+  - id: q1_size_reduction
+    question: Is the pool of liquid smaller in diameter than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the width of the puddle. It should be narrower.
+  - id: q2_surface_area
+    question: Is the surface area covered by the liquid less than in the starting image?
+    answer_type: yes_no
+    notes_for_judge: The footprint of the liquid should be reduced.
+  - id: q3_plate_exposure
+    question: Is more of the scratched metal plate visible where the liquid used to be?
+    answer_type: yes_no
+    notes_for_judge: As the liquid recedes, the underlying metal texture should be revealed.
+  - id: q4_volume_decrease
+    question: Does the amount of liquid appear to have decreased compared to the first frame?
+    answer_type: yes_no
+    notes_for_judge: General assessment of quantity/mass.
+  - id: q5_edges_receded
+    question: Have the edges of the liquid pool receded inward compared to the initial state?
+    answer_type: yes_no
+    notes_for_judge: Check the perimeter of the puddle.
+  - id: q6_display_consistency
+    question: 'Is the digital display still reading ''WARM: 55°C''?'
+    answer_type: yes_no
+    notes_for_judge: The temperature setting is a constant.
+  - id: q7_notebook_absence
+    question: Is the view clear of the lab notebook that blocked the camera?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the notebook slides away.
+  - id: q8_background_stability
+    question: Are the background cables and equipment in the same position as the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Only the liquid should change; the environment is static.

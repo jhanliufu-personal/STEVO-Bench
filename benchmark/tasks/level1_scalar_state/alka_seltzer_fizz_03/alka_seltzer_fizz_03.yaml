@@ -1,0 +1,68 @@
+id: alka_seltzer_fizz_03
+level: 1
+category: scalar_state
+tags: []
+variant_of: alka_seltzer_fizz
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to extreme zoom out.
+changes:
+  occlusion_method: Camera zooms out until details are lost.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The effervescent tablet contacts the water at the bottom of the glass. The tablet contains
+    citric acid and sodium bicarbonate which react in water to produce carbon dioxide gas. The reaction
+    is exothermic and vigorous. The camera zooms out rapidly and continuously until the glass is just
+    a tiny, indistinguishable speck in the distance. The camera holds this distant view for several seconds.
+    Then the camera zooms back in smoothly to the original framing. No cut, no scene change. STOP.
+  camera_WM: The effervescent tablet contacts the water at the bottom of the glass. The tablet contains
+    citric acid and sodium bicarbonate which react in water to produce carbon dioxide gas. The reaction
+    is exothermic and vigorous. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+  Genie: null
+evaluation:
+  init_frame_description: A clear glass of water sits on a white table in a kitchen setting with a blurred
+    background. A white, circular effervescent tablet is suspended in mid-air just above the center of
+    the glass, with a droplet of water connecting the bottom of the tablet to the water surface.
+  init2final_edit_prompt: Edit the given image to show the glass of water after the effervescent tablet
+    has fallen in and reacted. The water should be cloudy and filled with numerous small gas bubbles throughout
+    the liquid. The surface of the water should appear agitated with fizz. The solid white tablet should
+    be submerged at the bottom of the glass, significantly reduced in size due to dissolution, or completely
+    dissolved and no longer visible. Maintain the original camera angle, lighting, and background.
+  rationale: The video prompt describes the tablet entering the water and reacting vigorously while the
+    camera zooms out and back in. This camera maneuver implies a passage of time sufficient for the reaction
+    to progress significantly. Therefore, in the final frame, the tablet must have fallen from its initial
+    suspended position into the water. Physically, these tablets sink and dissolve, releasing gas. The
+    final state should show the tablet either partially or fully dissolved at the bottom, and the water
+    should be turbid with carbon dioxide bubbles.
+  questions:
+  - id: tablet_position
+    question: Is the white tablet no longer suspended in the air above the water?
+    answer_type: yes_no
+    notes_for_judge: The tablet should have fallen into the water.
+  - id: water_clarity
+    question: Does the water appear cloudier or fizzier than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The reaction produces bubbles that cloud the water.
+  - id: bubble_presence
+    question: Are there visible gas bubbles in the water that were not present initially?
+    answer_type: yes_no
+    notes_for_judge: Check for effervescence.
+  - id: tablet_mass
+    question: Is the solid tablet mass significantly smaller or completely gone compared to the start?
+    answer_type: yes_no
+    notes_for_judge: The tablet dissolves over time.
+  - id: surface_agitation
+    question: Does the water surface show signs of agitation or bubbles?
+    answer_type: yes_no
+    notes_for_judge: The fizzing reaction agitates the surface.
+  - id: glass_consistency
+    question: Is the glass cup itself unchanged in shape and position?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: background_consistency
+    question: Is the kitchen background consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

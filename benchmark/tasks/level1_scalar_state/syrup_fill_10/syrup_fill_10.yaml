@@ -1,0 +1,63 @@
+id: syrup_fill_10
+level: 1
+category: scalar_state
+tags: []
+variant_of: syrup_fill
+variation_type: combined
+variation_description: No stream pouring combined with camera zoom out occlusion.
+changes:
+  occlusion_method: Camera zooms out until details are lost.
+  dynamic_conditions: No stream pouring.
+  expected_outcome_change: Level remains constant.
+prompts:
+  init_frame_edit_prompt: Edit the image to remove the pouring stream of syrup and the spout completely,
+    leaving the jar sitting 25% full on the counter.
+  video_WM: A glass jar sits 25% full of syrup. No stream is pouring. The camera zooms out rapidly until
+    the jar is too small to see clearly, then zooms back in to the original framing. No cut, no scene
+    change. STOP.
+  camera_WM: A glass jar sits 25% full of syrup. No stream is pouring. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+evaluation:
+  init_frame_description: A clear glass jar sits on a wooden countertop, filled approximately 25% of the
+    way with an amber-colored liquid, likely syrup. To the left of the jar is a worn wooden cutting board.
+    Behind the jar, slightly out of focus, is a beige ceramic jug and a window looking out onto a forest
+    scene with trees. The lighting is natural, coming from the window.
+  init2final_edit_prompt: Edit the given image so that the glass jar remains filled to the same 25% level
+    with amber syrup. The liquid surface should be at the same height as in the original view. The upper
+    portion of the jar should remain empty. The wooden table, cutting board, and background window should
+    look identical to the original.
+  rationale: The video generation prompt explicitly states that 'No stream is pouring' and describes only
+    camera movement (zooming out and then back in). Since no action is described that would add or remove
+    syrup, the physical state of the system (mass/volume of syrup) must remain conserved. The challenge
+    for the model is to maintain the correct liquid level (state preservation) despite the loss of visual
+    detail during the rapid zoom-out and subsequent return to the original framing.
+  questions:
+  - id: q1
+    question: Is the syrup level approximately the same as it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Tests for conservation of volume/mass.
+  - id: q2
+    question: Is the jar still approximately 25% full?
+    answer_type: yes_no
+    notes_for_judge: Verifies the specific level mentioned in the prompt is maintained.
+  - id: q3
+    question: Is the space above the liquid in the jar still empty?
+    answer_type: yes_no
+    notes_for_judge: Checks that the jar has not been filled.
+  - id: q4
+    question: Is the liquid surface at the same vertical height relative to the jar as before?
+    answer_type: yes_no
+    notes_for_judge: Tests for positional consistency of the fluid level.
+  - id: q5
+    question: Does the jar appear to contain the same amount of amber liquid as the start?
+    answer_type: yes_no
+    notes_for_judge: General conservation check.
+  - id: q6
+    question: Is the wooden cutting board still visible to the left of the jar?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check for static objects.
+  - id: q7
+    question: Is the ceramic jug still visible in the background?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check for background objects.

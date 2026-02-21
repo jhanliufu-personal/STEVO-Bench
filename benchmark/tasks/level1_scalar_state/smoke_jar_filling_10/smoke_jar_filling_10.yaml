@@ -1,0 +1,64 @@
+id: smoke_jar_filling_10
+level: 1
+category: scalar_state
+tags: []
+variant_of: smoke_jar_filling
+variation_type: combined
+variation_description: Multiple incense sticks producing more smoke, combined with fog occlusion.
+changes:
+  occlusion_method: Fog/Smoke obscuration
+  dynamic_conditions: Multiple smoke sources (higher rate of filling)
+  expected_outcome_change: Jar fills with smoke much faster and becomes denser
+prompts:
+  init_frame_edit_prompt: Edit the image to show three lit incense sticks bundled together instead of
+    one, producing a significantly larger and denser cloud of smoke.
+  video_WM: Three incense sticks burn simultaneously at the jar opening, producing a large volume of smoke.
+    Smoke has lower density than air and flows into the confined jar volume. Suddenly, thick white fog
+    rolls into the room, obscuring the entire scene until nothing is visible but white mist. The fog persists
+    for several seconds. Then the fog clears, revealing the jar again. No zoom, no cut, no scene change.
+    STOP.
+  camera_WM: Three incense sticks burn simultaneously at the jar opening, producing a large volume of
+    smoke. Smoke has lower density than air and flows into the confined jar volume. Suddenly, thick white
+    fog rolls into the room, obscuring the entire scene until nothing is visible but white mist. The fog
+    persists for several seconds. Then the fog clears, revealing the jar again. No zoom, no cut, no scene
+    change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A clear glass jar sits on a weathered wooden surface in front of a window. Inside
+    the jar, thin incense sticks lean against the rim. Wisps of white smoke are swirling inside the jar
+    and rising from the opening, partially obscuring the interior.
+  init2final_edit_prompt: Edit the given image to show the interior of the glass jar filled with significantly
+    denser and thicker white smoke. The smoke should be much more opaque than in the original image, making
+    it harder to see the incense sticks inside the jar. Ensure the jar itself, the wooden table, and the
+    window background remain unchanged.
+  rationale: The prompt specifies that incense sticks are burning and smoke is flowing into the confined
+    jar volume. During the occlusion by the fog, time passes, allowing the smoke to accumulate within
+    the jar. When the environmental fog clears, the local state of the jar should reflect this accumulation,
+    resulting in a higher density of smoke inside the container compared to the initial frame.
+  questions:
+  - id: smoke_density_increase
+    question: Is the smoke inside the jar denser than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the opacity of the white smoke inside the glass.
+  - id: smoke_opacity_visibility
+    question: Is it harder to see the incense sticks through the glass due to increased smoke?
+    answer_type: yes_no
+    notes_for_judge: The sticks should be more obscured by the white smoke.
+  - id: smoke_volume_accumulation
+    question: Does the jar appear to contain a larger amount of white smoke than initially?
+    answer_type: yes_no
+    notes_for_judge: Look for the jar appearing 'fuller' of white mist.
+  - id: smoke_whiteness
+    question: Is the interior of the jar whiter than in the starting image?
+    answer_type: yes_no
+    notes_for_judge: Increased smoke density increases whiteness/brightness of the volume.
+  - id: jar_presence
+    question: Is the glass jar still visible and upright?
+    answer_type: yes_no
+    notes_for_judge: Invariant check.
+  - id: background_consistency
+    question: Is the window background still visible behind the jar?
+    answer_type: yes_no
+    notes_for_judge: Invariant check.

@@ -1,0 +1,65 @@
+id: heating_rod_04
+level: 1
+category: scalar_state
+tags: []
+variant_of: heating_rod
+variation_type: dynamic_condition
+variation_description: Changed dynamics from heating to cooling (inactive coil, hot rod).
+changes:
+  occlusion_method: null
+  dynamic_conditions: Rod starts bright orange (hot); Coil is inactive.
+  expected_outcome_change: Rod cools down (becomes dimmer/redder) instead of getting brighter.
+prompts:
+  init_frame_edit_prompt: Edit the image to make the steel rod glow bright orange, indicating it is very
+    hot, instead of faint red.
+  video_WM: A bright orange glowing steel rod sits in an inactive induction coil. The camera rotates right
+    until the rod and coil completely exit the view, then rotates toward the left smoothly at the same
+    rate until the rod is back in the center of view. No zoom, no cut, no scene change. STOP.
+  camera_WM: A bright orange glowing steel rod sits in an inactive induction coil. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up industrial shot showing a thick, cylindrical steel rod passing horizontally
+    through a large, copper spiral induction coil. The section of the rod inside the coil is glowing intensely
+    with a bright yellow-orange heat, indicating high temperature. The ends of the rod are dark grey steel.
+    The background features blurred industrial machinery, including a green press and metal structures.
+    The lighting is dominated by the glow of the rod.
+  init2final_edit_prompt: Edit the given image to show the steel rod having cooled down slightly. The
+    glowing section should be less intense, shifting from bright yellow-white to a duller, deeper orange
+    or red color. Keep the rod centered and the copper coil and background machinery unchanged.
+  rationale: The initial image shows a steel rod heated to incandescence inside an induction coil. The
+    prompt specifies that the coil is 'inactive', meaning the heating source is turned off. As the camera
+    rotates away and then returns, time elapses. During this period, the rod radiates heat and cools down
+    naturally. Physically, this results in a reduction of the glow's brightness and a shift in color temperature
+    from bright yellow/white towards a darker orange or red. The camera movement ends with the rod back
+    in the center, restoring the original composition but with a cooler thermal state.
+  questions:
+  - id: q1
+    question: Is the glowing section of the rod dimmer than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The rod should have cooled, reducing brightness.
+  - id: q2
+    question: Has the color of the heated metal shifted towards a darker orange or red compared to the
+      initial yellow?
+    answer_type: yes_no
+    notes_for_judge: Cooling causes a redshift in incandescence.
+  - id: q3
+    question: Is the intensity of the glow lower than it was at the start?
+    answer_type: yes_no
+    notes_for_judge: Check for reduced luminosity.
+  - id: q4
+    question: Is the bright yellow core of the glow reduced or less visible than before?
+    answer_type: yes_no
+    notes_for_judge: The hottest yellow parts should fade first.
+  - id: q5
+    question: Is the rod positioned in the center of the frame?
+    answer_type: yes_no
+    notes_for_judge: Verifies the camera returned to the starting position.
+  - id: q6
+    question: Is the copper induction coil still visible around the rod?
+    answer_type: yes_no
+    notes_for_judge: Object permanence check.
+  - id: q7
+    question: Is the green machinery in the background still visible?
+    answer_type: yes_no
+    notes_for_judge: Background consistency check.

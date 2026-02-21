@@ -1,0 +1,62 @@
+id: extending_piston_06
+level: 1
+category: scalar_state
+tags: []
+variant_of: extending_piston
+variation_type: dynamic_condition
+variation_description: Speed of extension changed from slow to rapid.
+changes:
+  occlusion_method: null
+  dynamic_conditions: High pressure system causing rapid extension.
+  expected_outcome_change: The rod should extend much further or reach maximum limit faster than original.
+prompts:
+  init_frame_edit_prompt: Edit the image to show slight motion blur on the silver rod and dust kicking
+    up around the joints.
+  video_WM: A hydraulic piston is extending rapidly under high pressure. The camera rotates right until
+    the piston assembly completely exits the view, then rotates toward the left smoothly at the same rate
+    until the piston is back in the center of view. No zoom, no cut, no scene change. STOP.
+  camera_WM: A hydraulic piston is extending rapidly under high pressure. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up view of a green excavator arm featuring a hydraulic cylinder with
+    a shiny metal piston rod partially extended. There is dust or steam near the piston joint. In the
+    foreground, a black control lever with a rubber boot is visible on a dirty, weathered surface.
+  init2final_edit_prompt: Edit the given image to show the hydraulic piston extended further. Make the
+    shiny metal rod significantly longer than it is in the original image, pushing the attached joint
+    and arm segment further away from the green cylinder barrel. Maintain the original camera angle and
+    the position of the foreground control lever.
+  rationale: The prompt specifies that the piston is extending rapidly. Although the camera rotates away
+    and then back, the physical action of extension continues during the time the object is out of view.
+    Therefore, when the camera returns to the initial viewpoint, the hydraulic cylinder must be in a more
+    extended state (longer exposed rod) than in the initial frame.
+  questions:
+  - id: rod_length
+    question: Is the shiny metal part of the piston longer than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the length of the exposed silver rod. It should be longer in the final frame.
+  - id: extension_state
+    question: Does the hydraulic cylinder appear more extended compared to the start?
+    answer_type: yes_no
+    notes_for_judge: The overall assembly should look stretched out due to the piston extending.
+  - id: joint_distance
+    question: Is the distance between the green cylinder barrel and the end joint greater than before?
+    answer_type: yes_no
+    notes_for_judge: The gap spanned by the silver rod should be wider.
+  - id: arm_position
+    question: Has the attached arm segment moved further away from the cylinder body?
+    answer_type: yes_no
+    notes_for_judge: As the piston extends, it pushes the attached mechanical parts outward.
+  - id: rod_exposure
+    question: Is more of the chrome piston rod visible now than in the first image?
+    answer_type: yes_no
+    notes_for_judge: Check for an increase in the visible surface area of the shiny metal shaft.
+  - id: lever_presence
+    question: Is the black control lever still visible in the foreground?
+    answer_type: yes_no
+    notes_for_judge: 'Secondary consistency check: The camera returns to the original view, so the foreground
+      should remain.'
+  - id: color_consistency
+    question: Is the machinery still green?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

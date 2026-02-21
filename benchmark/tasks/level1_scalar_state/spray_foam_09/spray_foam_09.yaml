@@ -1,0 +1,59 @@
+id: spray_foam_09
+level: 1
+category: scalar_state
+tags: []
+variant_of: spray_foam
+variation_type: combined
+variation_description: Slow expansion combined with camera zoom occlusion.
+changes:
+  occlusion_method: Camera zooms out and back in.
+  dynamic_conditions: Slow expansion.
+  expected_outcome_change: Very slight volume increase.
+prompts:
+  init_frame_edit_prompt: Edit the image to make the foam look very dense and sluggish, with a darker
+    yellow-orange tint.
+  video_WM: The dense foam mixture is expanding extremely slowly. The camera zooms out smoothly until
+    the wall cavity is small in the frame, then zooms back in to the exact original framing. No cut, no
+    scene change. STOP.
+  camera_WM: The dense foam mixture is expanding extremely slowly. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+evaluation:
+  init_frame_description: A close-up view of a wooden wall cavity with vertical studs and a bottom plate
+    covered in sawdust. A pile of expanding yellow spray foam is accumulating in the corner of the cavity.
+    A spray gun nozzle is visible in the top right corner, directing a stream of liquid foam onto the
+    pile. The foam has a bubbly, textured surface.
+  init2final_edit_prompt: Edit the given image to show the pile of yellow spray foam having grown larger
+    in volume. The foam should appear more expanded, occupying more space within the wooden wall cavity
+    and rising higher than in the original image. Maintain the exact same camera framing, angle, and position
+    of the wooden studs and background.
+  rationale: The video prompt describes a continuous process of the foam expanding, albeit slowly. The
+    camera performs a round-trip zoom (out and then back in to the exact original framing), meaning the
+    final frame should have the identical viewpoint as the initial frame. Physically, spray foam expands
+    chemically and accumulates mass as it is sprayed; therefore, after the duration of the camera move,
+    the foam pile must be visibly larger and occupy more volume in the cavity than it did at the start.
+  questions:
+  - id: foam_volume_increase
+    question: Is the pile of yellow foam larger than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the overall size/volume of the foam mass. It should be larger.
+  - id: foam_height_growth
+    question: Is the top of the foam pile higher up in the cavity compared to the start?
+    answer_type: yes_no
+    notes_for_judge: Check if the foam has grown vertically.
+  - id: foam_coverage_expansion
+    question: Does the foam cover more of the back wall surface than it did initially?
+    answer_type: yes_no
+    notes_for_judge: The surface area covered by foam should increase.
+  - id: foam_accumulation
+    question: Is there a greater amount of yellow foam visible in the cavity now?
+    answer_type: yes_no
+    notes_for_judge: General check for mass accumulation.
+  - id: camera_framing_check
+    question: Are the vertical wooden studs in the same position within the frame as they were initially?
+    answer_type: yes_no
+    notes_for_judge: The camera should have returned to the exact original framing.
+  - id: sawdust_presence
+    question: Is the sawdust on the bottom wooden plate still visible?
+    answer_type: yes_no
+    notes_for_judge: Unless covered by foam, the sawdust should remain as a static background element.

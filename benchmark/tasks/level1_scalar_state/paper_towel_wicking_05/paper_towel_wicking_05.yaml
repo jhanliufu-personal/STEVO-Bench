@@ -1,0 +1,66 @@
+id: paper_towel_wicking_05
+level: 1
+category: scalar_state
+tags: []
+variant_of: paper_towel_wicking
+variation_type: dynamic_condition
+variation_description: 'Geometry change: The paper towel is lifted so it does not touch the water.'
+changes:
+  occlusion_method: null
+  dynamic_conditions: Air gap between paper and water (no contact).
+  expected_outcome_change: No wicking/water rise occurs.
+prompts:
+  init_frame_edit_prompt: Edit the image to raise the vertical paper strip so there is a visible 1cm gap
+    between its bottom edge and the blue liquid surface. The paper should not be touching the water.
+  video_WM: The paper towel is suspended vertically with its bottom edge hovering above the blue water.
+    There is a visible air gap between the paper and the liquid surface. No physical contact exists to
+    initiate capillary transfer. The camera rotates right at constant speed until the setup completely
+    exits the view to the right. The camera continues rotating right for several seconds while off-screen.
+    Then the camera rotates left smoothly at the same rate back to the original viewpoint. No zoom, no
+    cut, no scene change. STOP.
+  camera_WM: The paper towel is suspended vertically with its bottom edge hovering above the blue water.
+    There is a visible air gap between the paper and the liquid surface. No physical contact exists to
+    initiate capillary transfer. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A close-up laboratory shot showing a vertical strip of white paper towel clamped
+    to a metal stand. The paper towel hangs directly above a glass petri dish filled with blue liquid.
+    There is a clearly visible air gap between the bottom edge of the paper towel and the surface of the
+    blue liquid; they are not touching. The paper towel is entirely white, indicating it is dry.
+  init2final_edit_prompt: Edit the given image to maintain the exact current state of the objects. Ensure
+    the paper towel remains completely white and dry, with absolutely no blue liquid absorbed into its
+    fibers. Keep the visible air gap between the bottom edge of the paper strip and the surface of the
+    blue liquid clear and distinct. Do not change the water level or the position of the paper.
+  rationale: The video prompt describes a camera rotation that temporarily occludes the setup but explicitly
+    states that the paper towel is suspended with an air gap and no contact exists to initiate capillary
+    transfer. Since no external force, mechanism, or action is described to close this gap (such as lowering
+    the clamp or adding water), the physical state must remain static. The paper towel cannot wick moisture
+    without contact, so it must remain completely dry and the water level unchanged upon the camera's
+    return.
+  questions:
+  - id: q1
+    question: Is the paper towel still completely white?
+    answer_type: yes_no
+    notes_for_judge: The paper should not have absorbed any blue liquid.
+  - id: q2
+    question: Is the bottom edge of the paper towel free of blue discoloration?
+    answer_type: yes_no
+    notes_for_judge: Check for wicking; there should be none.
+  - id: q3
+    question: Is the gap between the paper towel and the liquid surface still visible?
+    answer_type: yes_no
+    notes_for_judge: The paper should not be touching the water.
+  - id: q4
+    question: Did the paper towel remain dry?
+    answer_type: yes_no
+    notes_for_judge: 'Primary state check: wetness should be zero.'
+  - id: q5
+    question: Is the amount of blue liquid in the dish roughly the same as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: No liquid should have been removed via absorption.
+  - id: q6
+    question: Is the paper towel still suspended above the water without touching it?
+    answer_type: yes_no
+    notes_for_judge: Verifies the physical configuration hasn't changed.

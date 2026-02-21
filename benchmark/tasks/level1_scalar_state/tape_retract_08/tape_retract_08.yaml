@@ -1,0 +1,62 @@
+id: tape_retract_08
+level: 1
+category: scalar_state
+tags: []
+variant_of: tape_retract
+variation_type: combined
+variation_description: Tape is rusty (high friction/slow) and occlusion is by thick fog.
+changes:
+  occlusion_method: Thick fog fills room.
+  dynamic_conditions: Tape is rusty and stiff (slow retraction).
+  expected_outcome_change: Tape retracts very slowly, likely only partially retracted upon return.
+prompts:
+  init_frame_edit_prompt: Edit the image to make the yellow tape blade look dirty, rusty, and old.
+  video_WM: A rusty metal tape measure is extended 5 feet. The retraction button is held down, but the
+    tape moves sluggishly and creaks due to friction. Thick white fog begins to roll in rapidly, completely
+    obscuring the floor and the tape measure within seconds. The fog swirls for a moment, then dissipates
+    clearly to reveal the floor. No zoom, no cut, no scene change. STOP.
+  camera_WM: A rusty metal tape measure is extended 5 feet. The retraction button is held down, but the
+    tape moves sluggishly and creaks due to friction. Thick white fog begins to roll in rapidly, completely
+    obscuring the floor and the tape measure within seconds. The fog swirls for a moment, then dissipates
+    clearly to reveal the floor. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up, high-angle shot showing a hand holding a yellow tape measure on
+    a wooden floor. The tape measure's metal strip is extended to the left, revealing a rusty surface
+    with visible measurement markings and numbers (5, 6, 7, 8). The yellow casing is held firmly by a
+    hand on the right side of the frame.
+  init2final_edit_prompt: Edit the given image to show the metal tape measure retracted. The extended
+    rusty metal strip should be significantly shorter, with the end hook positioned much closer to the
+    yellow plastic casing. The wooden floor should be clearly visible with no fog remaining. Maintain
+    the position of the hand and the yellow casing.
+  rationale: The prompt describes a retraction action where the tape measure is pulled back into its casing.
+    Although the movement is described as sluggish due to friction, the passage of time implied by the
+    fog rolling in, swirling, and dissipating allows for significant retraction to occur. Therefore, the
+    final state should show a noticeably shorter length of exposed tape compared to the initial state.
+    The fog completely dissipates, restoring a clear view of the floor.
+  questions:
+  - id: tape_length_change
+    question: Is the exposed length of the metal tape shorter than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The tape should have retracted into the casing, resulting in a shorter visible strip.
+  - id: hook_position
+    question: Is the end (or hook) of the tape measure closer to the yellow casing than it was initially?
+    answer_type: yes_no
+    notes_for_judge: Retraction brings the hook towards the housing.
+  - id: tape_surface_area
+    question: Is there less rusty metal tape surface visible compared to the start?
+    answer_type: yes_no
+    notes_for_judge: As the tape retracts, less surface area of the strip should be visible.
+  - id: fog_cleared
+    question: Is the wooden floor clearly visible without being obscured by fog?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the fog dissipates clearly.
+  - id: hand_consistency
+    question: Is the hand still holding the yellow tape measure casing?
+    answer_type: yes_no
+    notes_for_judge: The hand should remain in place holding the object.
+  - id: casing_consistency
+    question: Is the yellow tape measure casing still visible and in the same approximate location?
+    answer_type: yes_no
+    notes_for_judge: The static object (casing) should not move significantly.

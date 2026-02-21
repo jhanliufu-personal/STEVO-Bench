@@ -1,0 +1,69 @@
+id: expanding_sponge_water_05
+level: 1
+category: scalar_state
+tags: []
+variant_of: expanding_sponge_water
+variation_type: dynamic_condition
+variation_description: The object is a solid plastic block instead of a sponge.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Material changed from porous sponge to non-porous plastic.
+  expected_outcome_change: Water flows off/pools; object does not expand.
+prompts:
+  init_frame_edit_prompt: Edit the image to make the beige rectangular object look like a solid, smooth
+    beige plastic block instead of a porous sponge.
+  video_WM: Water is poured over a solid beige plastic block. The object is non-porous and hydrophobic,
+    unable to absorb liquid. The camera rotates right at constant speed until the dish and block completely
+    exit the view to the right. The camera continues rotating right for several seconds while off-screen.
+    Then the camera rotates left smoothly at the same rate back to the original viewpoint. No zoom, no
+    cut, no scene change. STOP.
+  camera_WM: Water is poured over a solid beige plastic block. The object is non-porous and hydrophobic,
+    unable to absorb liquid. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot captures a rectangular beige block sitting in a white,
+    shallow, circular dish on a wooden table. A hand holding a clear glass pitcher is visible in the upper
+    right, pouring a stream of clear water onto the top of the block. The block appears solid and dry,
+    with the water just beginning to make contact. A window is softly blurred in the background.
+  init2final_edit_prompt: Edit the given image to show the white dish containing a significant amount
+    of accumulated water pooling around the base of the beige block. The beige block must appear wet with
+    droplets on its surface but must remain exactly the same size and rectangular shape as in the original
+    image, showing no signs of expansion or swelling. The water level in the dish should be visibly higher
+    than in the initial state.
+  rationale: The video generation prompt explicitly defines the object as a 'solid beige plastic block'
+    that is 'non-porous and hydrophobic' and 'unable to absorb liquid'. This physical description overrides
+    the visual similarity to a sponge. Therefore, as water is poured during the camera occlusion, the
+    block will not absorb the water or expand. Instead, the water will run off the block and accumulate
+    in the dish. The final state should show a higher volume of water in the dish (scalar change) while
+    the block maintains its original volume (physical constraint).
+  questions:
+  - id: water_level_higher
+    question: Is the water level in the white dish higher than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Check if water has pooled in the dish.
+  - id: more_water_in_dish
+    question: Is there more water visible in the dish than at the start?
+    answer_type: yes_no
+    notes_for_judge: The volume of water in the container should have increased.
+  - id: dish_fuller
+    question: Is the dish fuller with liquid compared to the initial view?
+    answer_type: yes_no
+    notes_for_judge: Assess the accumulation of liquid.
+  - id: water_accumulation
+    question: Has the amount of water pooling around the block increased?
+    answer_type: yes_no
+    notes_for_judge: Look for a pool of water at the base.
+  - id: block_size_constant
+    question: Is the beige block the same size as it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The block should NOT have expanded.
+  - id: block_no_expansion
+    question: Is the beige block free of any visible expansion or swelling?
+    answer_type: yes_no
+    notes_for_judge: It should look like plastic, not a swollen sponge.
+  - id: block_shape_preserved
+    question: Does the beige block retain its original rectangular shape?
+    answer_type: yes_no
+    notes_for_judge: Edges should remain straight, not puffy.

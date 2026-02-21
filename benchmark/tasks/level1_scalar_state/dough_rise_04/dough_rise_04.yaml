@@ -1,0 +1,65 @@
+id: dough_rise_04
+level: 1
+category: scalar_state
+tags: []
+variant_of: dough_rise
+variation_type: dynamic_condition
+variation_description: Temperature changed to cold (40F), implying retarded fermentation.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Environment is cold (40F) instead of warm (80F).
+  expected_outcome_change: Dough should rise very little or not at all (slower rate).
+prompts:
+  init_frame_edit_prompt: Edit the image to change the thermometer reading in the background to '40 F'
+    and change the red indicator line to blue.
+  video_WM: A bowl of yeast dough sits in a cold room, indicated by the thermometer reading 40F. The cold
+    temperature significantly retards yeast activity. The camera rotates right until the bowl completely
+    exits the view, then rotates toward the left smoothly at the same rate until the bowl is back in the
+    center of view. No zoom, no cut, no scene change. STOP.
+  camera_WM: A bowl of yeast dough sits in a cold room, indicated by the thermometer reading 40F. The
+    cold temperature significantly retards yeast activity. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A clear glass mixing bowl sits on a wooden countertop, containing a smooth,
+    round ball of raw dough dusted with flour. A beige cloth is draped over the back rim of the bowl.
+    To the right, a vertical window thermometer is visible, showing a reading of approximately 80 degrees
+    Fahrenheit (indicated by the blue liquid level near the 'WARM' marker). A window with white framing
+    is in the background.
+  init2final_edit_prompt: Edit the given image to show the dough after a period of time in a cold room.
+    The dough ball must remain the same size and volume as in the original image, showing no signs of
+    rising or expansion. Ensure the dough's height and width within the bowl remain unchanged. Maintain
+    the original camera view, lighting, and the position of the bowl and cloth.
+  rationale: The video prompt explicitly states the room is cold (40F) and that this temperature retards
+    yeast activity. This is a counter-factual instruction relative to the visual thermometer reading (80F)
+    in the initial frame. The physical constraint dictates that the dough should not rise or expand significantly
+    during the sequence. Although the camera pans away and returns, implying a passage of time, the correct
+    final state is one of stationarity where the dough's volume is preserved, distinguishing it from a
+    standard 'rising dough' timelapse.
+  questions:
+  - id: dough_size_static
+    question: Is the dough approximately the same size as it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The dough should not have grown because the prompt specifies a cold room that retards
+      yeast activity.
+  - id: dough_expansion_avoided
+    question: Has the dough avoided significant expansion?
+    answer_type: yes_no
+    notes_for_judge: Answer YES if the dough looks unexpanded. Answer NO if it has puffed up or filled
+      the bowl.
+  - id: dough_height_unchanged
+    question: Is the height of the dough ball in the bowl unchanged?
+    answer_type: yes_no
+    notes_for_judge: Compare the top of the dough relative to the rim or the cloth.
+  - id: dough_volume_conservation
+    question: Does the dough occupy roughly the same volume in the bowl as before?
+    answer_type: yes_no
+    notes_for_judge: The volume should be constant.
+  - id: gap_preservation
+    question: Is the empty space between the dough and the sides of the bowl still visible?
+    answer_type: yes_no
+    notes_for_judge: If the dough rose, it would fill this space. It should remain empty.
+  - id: cloth_position
+    question: Is the cloth still draped over the back of the bowl in the same position?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

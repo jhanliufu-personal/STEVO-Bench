@@ -1,0 +1,72 @@
+id: alka_seltzer_fizz_04
+level: 1
+category: scalar_state
+tags: []
+variant_of: alka_seltzer_fizz
+variation_type: dynamic_condition
+variation_description: Water temperature changed to near freezing, slowing the reaction rate.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Water is ice-cold with floating ice cubes.
+  expected_outcome_change: Reaction is significantly slower; tablet dissolves less; fewer bubbles.
+prompts:
+  init_frame_edit_prompt: Edit the image to show condensation on the outside of the glass and several
+    ice cubes floating in the water.
+  video_WM: The effervescent tablet contacts the ice-cold water at the bottom of the glass. The low temperature
+    significantly reduces the kinetic energy of the molecules. The chemical reaction between the citric
+    acid and sodium bicarbonate is temperature-dependent. The camera rotates right at constant speed until
+    the glass completely exits the view to the right. The camera continues rotating right for several
+    seconds while off-screen. Then the camera rotates left smoothly at the same rate back to the original
+    viewpoint. No zoom, no cut, no scene change. STOP.
+  camera_WM: The effervescent tablet contacts the ice-cold water at the bottom of the glass. The low temperature
+    significantly reduces the kinetic energy of the molecules. The chemical reaction between the citric
+    acid and sodium bicarbonate is temperature-dependent. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a clear glass filled with water and ice cubes
+    sitting on a white table. A white, round effervescent tablet is suspended in mid-air directly above
+    the center of the glass, with a small water droplet connecting it to the surface. The background is
+    a blurred kitchen interior with warm lighting.
+  init2final_edit_prompt: Edit the given image to show the white effervescent tablet submerged at the
+    bottom of the glass or resting among the ice cubes. Remove the tablet from the air above the glass.
+    Add visible gas bubbles and a fizzy texture throughout the water to indicate the tablet is dissolving.
+    Ensure the water looks slightly cloudier than the clear initial state due to the effervescence. Keep
+    the camera angle, lighting, and background identical to the original image.
+  rationale: The video prompt describes the tablet contacting the water and the camera panning away and
+    returning. During the elapsed time while the camera is looking away, gravity will pull the tablet
+    into the glass. Upon contact with the water, the tablet will begin to dissolve and generate carbon
+    dioxide bubbles. Although the prompt specifies cold water (which slows the reaction rate), the reaction
+    will still occur, resulting in visible bubbles and the tablet being submerged by the time the camera
+    returns.
+  questions:
+  - id: tablet_submerged
+    question: Is the white tablet now located inside the water rather than in the air?
+    answer_type: yes_no
+    notes_for_judge: The tablet should have fallen into the glass.
+  - id: tablet_height
+    question: Is the tablet positioned lower than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: It should be at the bottom of the glass or on the ice, not hovering above.
+  - id: bubbles_presence
+    question: Are there visible bubbles or fizz in the water that were not present initially?
+    answer_type: yes_no
+    notes_for_judge: The reaction creates gas bubbles.
+  - id: air_clear
+    question: Is the space directly above the water surface empty of the tablet?
+    answer_type: yes_no
+    notes_for_judge: The tablet must no longer be hovering.
+  - id: water_clarity
+    question: Does the water appear more turbid, cloudy, or bubbly than in the starting image?
+    answer_type: yes_no
+    notes_for_judge: Dissolution changes the visual texture of the water.
+  - id: glass_position
+    question: Is the glass in the same position relative to the table as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The camera returns to the original viewpoint; the glass should not have moved.
+  - id: ice_presence
+    question: Are ice cubes still visible in the glass?
+    answer_type: yes_no
+    notes_for_judge: The prompt mentions ice-cold water; ice should not have fully melted in this short
+      duration.

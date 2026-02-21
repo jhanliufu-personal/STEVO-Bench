@@ -1,0 +1,72 @@
+id: tank_filling_up_00
+level: 1
+category: scalar_state
+tags: []
+variant_of: tank_filling_up
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: Single continuous take, no cuts or zoom. Camera is centered on the pipe and water tank. Camera
+    remains stationary throughout, keeping the pipe and water tank fully visible within the frame at all
+    times. Lighting and objects remain consistent and realistic.
+  camera_WM: Single continuous take, no cuts or zoom. Camera is centered on the pipe and water tank. Camera
+    remains stationary throughout, keeping the pipe and water tank fully visible within the frame at all
+    times. Lighting and objects remain consistent and realistic.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A large, clear cylindrical tank sits on a concrete warehouse floor. The tank
+    has red measurement markings on its front face, with a scale on the left labeled in 'g' (grams) and
+    a scale on the right labeled in 'lt' or 'L' (liters). A metal pipe extends from the top right, pouring
+    a stream of water into the tank. The current water level is approximately at the 140 L mark on the
+    right scale and the 300 g mark on the left scale. The water surface is turbulent where the stream
+    hits it. In the background, there are warehouse shelves, pallets, and industrial equipment.
+  init2final_edit_prompt: Edit the given image to show the water level significantly higher inside the
+    clear tank. The water surface should be well above the 140 L mark, indicating that the tank has been
+    filling up. Maintain the stream of water pouring from the metal pipe and show turbulence on the new,
+    higher water surface. Keep the background warehouse environment, the tank's position, and the pipe's
+    position exactly the same.
+  rationale: The initial image shows water actively pouring into a container. The video prompt specifies
+    a continuous take with a stationary camera. As time passes in a physical world, the continuous inflow
+    of water must cause the volume of water in the tank to increase, resulting in a rise in the water
+    level (scalar state change). The final frame should depict this accumulated volume.
+  questions:
+  - id: q1_level_rise
+    question: Is the water level in the tank higher than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the height of the water surface against the red markings or the tank rim.
+  - id: q2_volume_increase
+    question: Does the tank appear to contain a larger volume of water than in the starting image?
+    answer_type: yes_no
+    notes_for_judge: Assess the total amount of water visible.
+  - id: q3_air_gap
+    question: Is the empty space at the top of the tank smaller than it was initially?
+    answer_type: yes_no
+    notes_for_judge: As water fills the tank, the air gap decreases.
+  - id: q4_markings_check
+    question: Is the water surface clearly above the 140 L mark on the right-hand scale?
+    answer_type: yes_no
+    notes_for_judge: The initial level was approximately at 140 L; a filling event must raise it above
+      this point.
+  - id: q5_flow_continuity
+    question: Is water still pouring from the pipe into the tank?
+    answer_type: yes_no
+    notes_for_judge: The prompt implies a continuous take of the filling process.
+  - id: q6_background_consistency
+    question: Are the warehouse shelves and pallets in the background unchanged?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: q7_pipe_stability
+    question: Is the metal pipe in the same position relative to the tank as in the first frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: q8_scale_visibility
+    question: Are the red measurement markings still visible on the front of the tank?
+    answer_type: yes_no
+    notes_for_judge: The markings should not disappear.

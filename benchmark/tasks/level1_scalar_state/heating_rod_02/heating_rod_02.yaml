@@ -1,0 +1,60 @@
+id: heating_rod_02
+level: 1
+category: scalar_state
+tags: []
+variant_of: heating_rod
+variation_type: occlusion_method
+variation_description: Replaced camera rotation with a zoom out/in maneuver.
+changes:
+  occlusion_method: Camera zooms out until the rod is indistinguishable, then zooms back in.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A steel rod sits in an active induction coil, glowing faint red and getting brighter. The
+    camera zooms out rapidly until the rod and coil are too small to see clearly, then zooms back in to
+    the original framing. No cut, no scene change. STOP.
+  camera_WM: A steel rod sits in an active induction coil. It is currently glowing a faint red, and the
+    brightness is steadily increasing. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+evaluation:
+  init_frame_description: A close-up view of a thick steel rod passing horizontally through a large copper
+    induction coil in an industrial workshop. The section of the rod inside the coil is glowing a dull
+    cherry red due to heat. In the background, there is heavy machinery, including a green press and various
+    pipes.
+  init2final_edit_prompt: Edit the given image to make the glowing section of the steel rod significantly
+    brighter and more intense. Change the color of the glow from dull red to a bright, vivid orange or
+    yellow-white to indicate a higher temperature. Keep the copper coil, the non-glowing ends of the rod,
+    and the industrial background exactly the same as the original image.
+  rationale: The prompt specifies that the rod is 'getting brighter' while the camera performs a zoom-out
+    and zoom-in maneuver. Since the camera returns to the original framing without a scene cut, the physical
+    state of the rod must reflect the accumulated heating that occurred during the camera movement. Therefore,
+    the final frame should show the rod glowing more intensely (hotter) than in the initial frame, while
+    the scene composition remains identical.
+  questions:
+  - id: brightness_increase
+    question: Is the glowing section of the rod brighter than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the luminosity of the heated zone.
+  - id: color_shift_temp
+    question: Has the color of the glow shifted towards orange or yellow compared to the initial dull
+      red?
+    answer_type: yes_no
+    notes_for_judge: Hotter metal shifts from red to orange/yellow.
+  - id: intensity_check
+    question: Does the heated area of the rod appear more visually intense than in the starting image?
+    answer_type: yes_no
+    notes_for_judge: Check for increased incandescence.
+  - id: heat_progression
+    question: Does the rod look hotter than it did at the beginning?
+    answer_type: yes_no
+    notes_for_judge: Subjective assessment of heat based on visual cues.
+  - id: coil_presence
+    question: Is the copper coil still visible around the rod?
+    answer_type: yes_no
+    notes_for_judge: Invariant check.
+  - id: rod_position
+    question: Is the rod still positioned horizontally through the center of the coil?
+    answer_type: yes_no
+    notes_for_judge: Invariant check.

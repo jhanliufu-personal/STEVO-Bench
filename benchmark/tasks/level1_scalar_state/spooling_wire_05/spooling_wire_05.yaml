@@ -1,0 +1,68 @@
+id: spooling_wire_05
+level: 1
+category: scalar_state
+tags: []
+variant_of: spooling_wire
+variation_type: dynamic_condition
+variation_description: The machine is powered off.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Machine is off, spindle is stationary.
+  expected_outcome_change: No change in diameter.
+prompts:
+  init_frame_edit_prompt: Edit the image to remove any motion blur from the spindle and wire, making the
+    machine look completely static and powered down.
+  video_WM: A motorized spindle sits idle with yellow wire wound on it. The machine is powered off and
+    stationary. The camera rotates right until the spindle completely exits the view, then rotates toward
+    the left smoothly at the same rate until the spool is back in the center of view. No zoom, no cut,
+    no scene change. STOP.
+  camera_WM: A motorized spindle sits idle with yellow wire wound on it. The machine is powered off and
+    stationary. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up, eye-level shot of an industrial machine in a factory setting. The
+    central subject is a large spool wound with bright yellow wire. To the immediate left of the spool
+    is a large, dark metal gear with visible teeth. Above the spool is a grey electric motor with cooling
+    fins. To the right, a metal shaft extends horizontally. In the background, slightly out of focus,
+    are other wire spools (black and yellow) and various pieces of machinery. The lighting is bright and
+    artificial, reflecting off the yellow wire.
+  init2final_edit_prompt: Edit the given image to show the exact same scene unchanged. The central spool
+    must retain the identical amount, diameter, and arrangement of yellow wire. The large gear on the
+    left, the motor above, and the shaft on the right must remain in their original static positions.
+    The background elements and lighting should be preserved exactly as they are in the initial view.
+  rationale: The video generation prompt explicitly states that the machine is 'powered off and stationary'
+    and 'sits idle'. The camera action involves panning away to the right until the subject is out of
+    view, and then panning back to the left to return the spool to the center. Since the machine is off,
+    no physical changes (spooling or unspooling) occur. The scalar state (volume of wire) must remain
+    constant. The task tests the model's ability to maintain object permanence and state consistency (conservation
+    of mass/volume) after a period of occlusion.
+  questions:
+  - id: q1
+    question: Is the yellow wire spool visible in the center of the frame?
+    answer_type: yes_no
+    notes_for_judge: Verifies the camera returned to the correct position.
+  - id: q2
+    question: Is the volume of yellow wire on the spool the same as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: 'Primary scalar check: volume conservation.'
+  - id: q3
+    question: Is the diameter of the yellow wire spool unchanged?
+    answer_type: yes_no
+    notes_for_judge: 'Primary scalar check: dimension conservation.'
+  - id: q4
+    question: Is the width of the yellow wire winding the same as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: 'Primary scalar check: dimension conservation.'
+  - id: q5
+    question: Does the yellow wire appear to be wound just as tightly as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Checks for consistency in texture/state.
+  - id: q6
+    question: Is the large gear on the left in the same position/orientation?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: q7
+    question: Are the background wire spools still visible in their original locations?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

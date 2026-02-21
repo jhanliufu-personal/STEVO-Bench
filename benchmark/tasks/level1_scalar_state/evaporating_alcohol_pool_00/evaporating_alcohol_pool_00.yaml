@@ -1,0 +1,66 @@
+id: evaporating_alcohol_pool_00
+level: 1
+category: scalar_state
+tags: []
+variant_of: evaporating_alcohol_pool
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: Rubbing alcohol sits on the warm metal plate. The plate temperature is elevated above room
+    temperature. Alcohol is volatile with a low boiling point of 180°F and high vapor pressure. The surrounding
+    air is not saturated with alcohol vapor. Camera remains stationary throughout. No zoom, no cut, no
+    scene change. STOP.
+  camera_WM: Rubbing alcohol sits on the warm metal plate. The plate temperature is elevated above room
+    temperature. Alcohol is volatile with a low boiling point of 180°F and high vapor pressure. The surrounding
+    air is not saturated with alcohol vapor. Camera remains stationary throughout. No zoom, no cut, no
+    scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: 'A close-up, slightly high-angle shot of a brushed metal hot plate. In the center
+    of the plate is a circular pool of clear liquid (rubbing alcohol). Faint steam or vapor is rising
+    from the liquid. At the bottom of the plate, a digital display reads ''WARM: 55°C'' in blue text.
+    In the background, out of focus, are lab cables and the corner of a white piece of equipment.'
+  init2final_edit_prompt: 'Edit the given image to show the pool of liquid on the metal plate significantly
+    reduced in size, simulating evaporation. The puddle should appear smaller in diameter, receding towards
+    the center, or be nearly gone. Maintain the brushed metal texture of the plate where the liquid has
+    receded. Keep the digital display reading ''WARM: 55°C'' exactly as is. Keep the background cables
+    and equipment unchanged.'
+  rationale: The scene depicts a volatile liquid (rubbing alcohol) on a heated plate (55°C). Although
+    55°C is below the boiling point of isopropanol (~82°C), it is significantly above room temperature,
+    which drastically increases the evaporation rate. Over time, the liquid will transition from liquid
+    to gas phase, resulting in a reduction of the liquid's volume and surface area. The pool must shrink
+    or disappear completely depending on the duration. The camera remains static, so the primary visual
+    change is the receding boundary of the liquid.
+  questions:
+  - id: pool_size_reduction
+    question: Is the pool of liquid smaller in diameter than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the extent of the liquid. It should have shrunk.
+  - id: surface_area_decrease
+    question: Does the liquid cover less surface area on the metal plate compared to the start?
+    answer_type: yes_no
+    notes_for_judge: The footprint of the puddle should be smaller.
+  - id: plate_exposure
+    question: Is more of the dry metal plate visible in the center area than before?
+    answer_type: yes_no
+    notes_for_judge: As the liquid recedes, the dry plate underneath should become visible around the
+      edges of the original pool.
+  - id: volume_decrease
+    question: Is there less liquid remaining on the plate than in the initial image?
+    answer_type: yes_no
+    notes_for_judge: General assessment of quantity.
+  - id: display_consistency
+    question: 'Does the digital display still read ''WARM: 55°C''?'
+    answer_type: yes_no
+    notes_for_judge: The temperature setting should not change visually.
+  - id: background_stability
+    question: Are the background cables and equipment in the same position as the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Camera is stationary; background should be static.

@@ -1,0 +1,64 @@
+id: steam_kettle_spout_00
+level: 1
+category: scalar_state
+tags: []
+variant_of: steam_kettle_spout
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The kettle sits on an active hot burner. The kettle contains water. Water boils at 212°F at
+    standard pressure. The burner provides continuous heat. Steam exits through the spout opening. Camera
+    remains stationary throughout. No zoom, no cut, no scene change. STOP.
+  camera_WM: The kettle sits on an active hot burner. The kettle contains water. Water boils at 212°F
+    at standard pressure. The burner provides continuous heat. Steam exits through the spout opening.
+    Camera remains stationary throughout. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A stainless steel gooseneck kettle sits on a black electric stovetop burner.
+    The burner coil is glowing bright orange-red, indicating it is hot. A wisp of white steam is visible
+    rising from the tip of the kettle's spout. The kettle has a black handle and a lid with a black knob.
+    The background features a speckled countertop and a window letting in daylight.
+  init2final_edit_prompt: Edit the given image to show a distinct, visible plume of white steam continuing
+    to exit the kettle's spout, reflecting active boiling. Ensure the electric burner coil underneath
+    remains glowing bright orange-red. Do not move the kettle or change the background.
+  rationale: The video prompt describes a kettle on an active burner with continuous heat, causing the
+    water to boil. The primary scalar evolution is the phase change of water into steam. Visually, this
+    results in the persistence and potential intensification of the steam plume exiting the spout. The
+    burner must remain glowing to indicate the continuous heat source. The evaluation focuses on the continued
+    presence of steam (indicating the boiling temperature is maintained) and the active state of the burner.
+  questions:
+  - id: steam_visible
+    question: Is steam visible exiting the spout of the kettle?
+    answer_type: yes_no
+    notes_for_judge: Check for a white plume or mist rising from the spout tip.
+  - id: burner_glowing
+    question: Is the burner coil glowing red or orange?
+    answer_type: yes_no
+    notes_for_judge: The coil under the kettle should be glowing to indicate heat.
+  - id: steam_rising
+    question: Does the steam appear to be rising upwards?
+    answer_type: yes_no
+    notes_for_judge: Steam should naturally rise due to heat.
+  - id: boiling_active
+    question: Does the scene depict active boiling?
+    answer_type: yes_no
+    notes_for_judge: Active boiling is inferred from the presence of steam and the hot burner.
+  - id: kettle_on_burner
+    question: Is the kettle still positioned on the glowing burner?
+    answer_type: yes_no
+    notes_for_judge: The kettle should not have moved off the heat source.
+  - id: handle_visible
+    question: Is the black handle of the kettle visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: window_background
+    question: Is the window visible in the background?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

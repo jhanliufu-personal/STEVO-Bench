@@ -1,0 +1,60 @@
+id: heating_rod_05
+level: 1
+category: scalar_state
+tags: []
+variant_of: heating_rod
+variation_type: dynamic_condition
+variation_description: Changed dynamics to static state (cold rod, inactive coil).
+changes:
+  occlusion_method: null
+  dynamic_conditions: Rod is cold (grey); Coil is inactive.
+  expected_outcome_change: No change (rod remains grey/cold).
+prompts:
+  init_frame_edit_prompt: Edit the image so the steel rod is dull grey metal with absolutely no glow,
+    looking cold.
+  video_WM: A cold steel rod sits in an inactive induction coil. The camera rotates right until the rod
+    and coil completely exit the view, then rotates toward the left smoothly at the same rate until the
+    rod is back in the center of view. No zoom, no cut, no scene change. STOP.
+  camera_WM: A cold steel rod sits in an inactive induction coil. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up industrial shot of a thick, dark grey steel rod passing horizontally
+    through a spiraled copper induction coil. The rod appears cold with a metallic, non-glowing surface.
+    The coil consists of multiple turns of copper tubing surrounding the rod. The background shows a cluttered
+    workshop environment with a green machine, overhead beams, and industrial lighting.
+  init2final_edit_prompt: Edit the given image to show the steel rod and copper coil in the same state
+    as the original. The rod should remain dark grey and metallic, indicating it is cold. The copper coil
+    should remain its original copper color. Ensure no glowing, redness, or heat effects are applied to
+    the rod. The scene should look identical to the start, preserving the industrial background and lighting.
+  rationale: The video prompt explicitly states that the induction coil is 'inactive' and the rod is 'cold'.
+    Although the camera rotates away and then returns, no activation event or heating process is described
+    in the prompt. Therefore, the physical state of the rod must remain constant (cold/grey). The correct
+    rollout should demonstrate object permanence without hallucinating a state change (heating) simply
+    because the machinery is present. The final frame should be visually identical to the initial frame
+    regarding the rod's temperature.
+  questions:
+  - id: rod_color_grey
+    question: Is the steel rod still dark grey in color?
+    answer_type: yes_no
+    notes_for_judge: The rod should not be glowing red or orange.
+  - id: rod_temp_cold
+    question: Does the rod appear to be cold, without any glowing heat?
+    answer_type: yes_no
+    notes_for_judge: Check for absence of incandescence.
+  - id: no_glow
+    question: Is the rod free from any red or orange light emission?
+    answer_type: yes_no
+    notes_for_judge: The prompt specifies the coil is inactive, so no heating should occur.
+  - id: coil_integrity
+    question: Is the copper coil still visible and unchanged in appearance?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: rod_texture
+    question: Has the rod maintained its original metallic surface texture?
+    answer_type: yes_no
+    notes_for_judge: It should not look molten or changed.
+  - id: rod_visibility
+    question: Is the rod visible in the center of the view?
+    answer_type: yes_no
+    notes_for_judge: Verifies the camera returned to the starting position.

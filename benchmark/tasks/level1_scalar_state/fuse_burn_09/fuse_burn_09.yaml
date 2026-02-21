@@ -1,0 +1,66 @@
+id: fuse_burn_09
+level: 1
+category: scalar_state
+tags: []
+variant_of: fuse_burn
+variation_type: combined
+variation_description: Severed fuse (stops burning) occluded by camera zoom
+changes:
+  occlusion_method: Camera zoom out/in
+  dynamic_conditions: Gap in the fuse
+  expected_outcome_change: Burn stops at gap
+prompts:
+  init_frame_edit_prompt: Edit the image to show a clean cut in the fuse rope about 6 inches ahead of
+    the current spark location, creating a distinct gap.
+  video_WM: The fuse burns toward a visible gap where the cord has been severed. The spark travels along
+    the remaining segment. The camera rapidly zooms out, pulling back until the floor becomes a distant
+    texture and the fuse is too small to see. The camera then zooms back in to the original framing. No
+    cut, no scene change. STOP.
+  camera_WM: The fuse burns toward a visible gap where the cord has been severed. The spark travels along
+    the remaining segment. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+evaluation:
+  init_frame_description: A close-up, high-angle shot of a thick, textured rope fuse lying on a concrete
+    floor. The fuse is severed, creating a distinct gap between the left segment and the right segment.
+    The left segment is currently burning at its rightmost end, emitting bright orange sparks, flame,
+    and smoke. The rope to the left of the flame is blackened ash, while a short section of unburnt rope
+    remains between the flame and the gap. The right segment of the rope begins after the gap and curves
+    away into the background, completely unburnt.
+  init2final_edit_prompt: Edit the given image to show that the fuse has burned further along the rope
+    towards the gap. The bright burning tip with sparks should be positioned significantly closer to the
+    severed end of the left rope segment, or right at the edge of the gap. The portion of the rope that
+    was previously intact between the initial flame position and the gap should now be blackened and charred.
+    Ensure the rope segment on the right side of the gap remains unburnt and unchanged. Maintain the exact
+    original camera framing and perspective.
+  rationale: The video describes a continuous burning process that occurs while the camera performs a
+    zoom-out and zoom-in maneuver. Although the camera view changes temporarily, it returns to the original
+    framing at the end. During the elapsed time of the camera movement, the fuse continues to burn from
+    left to right. Therefore, in the final frame, the flame must have advanced along the fuse towards
+    the gap, consuming more of the fuel and leaving a longer trail of ash. The scalar change is the reduction
+    in length of the unburnt fuse on the left segment and the advancement of the flame position.
+  questions:
+  - id: flame_position
+    question: Is the burning tip of the fuse closer to the gap than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the distance between the fire and the break in the rope.
+  - id: unburnt_length
+    question: Is the length of the unburnt rope on the left segment shorter than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The intact rope between the ash and the gap should be shorter.
+  - id: ash_amount
+    question: Is there a longer section of blackened ash trailing the flame compared to the start?
+    answer_type: yes_no
+    notes_for_judge: Check if the burnt area has expanded.
+  - id: fire_direction
+    question: Has the fire moved further to the right along the rope's path?
+    answer_type: yes_no
+    notes_for_judge: Directional check of the flame's movement.
+  - id: right_segment_integrity
+    question: Is the rope segment to the right of the gap still unburnt?
+    answer_type: yes_no
+    notes_for_judge: The fire should not jump the gap in this short timeframe/setup.
+  - id: framing_check
+    question: Is the camera framing approximately the same as the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The prompt specifies zooming back to the original framing.

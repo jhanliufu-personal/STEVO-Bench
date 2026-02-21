@@ -1,0 +1,63 @@
+id: clay_drying_05
+level: 1
+category: scalar_state
+tags: []
+variant_of: clay_drying
+variation_type: dynamic_condition
+variation_description: A water mister sprays the pot, counteracting any drying.
+changes:
+  occlusion_method: null
+  dynamic_conditions: A misting nozzle sprays water onto the pot continuously.
+  expected_outcome_change: The pot stays wet or gets wetter (no drying).
+prompts:
+  init_frame_edit_prompt: Edit the image to add a water misting nozzle near the pot, spraying a fine mist
+    of water onto the clay surface.
+  video_WM: A dark terracotta pot sits under a lamp while a fine mist of water is continuously sprayed
+    onto it from a nozzle. The camera rotates right until the pot completely exits the view, then rotates
+    toward the left smoothly at the same rate until the pot is back in the center of view. No zoom, no
+    cut, no scene change. STOP.
+  camera_WM: A dark terracotta pot sits under a lamp while a fine mist of water is continuously sprayed
+    onto it from a nozzle. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A dark, wet terracotta pot is positioned in the center, with a lighter, dry-looking
+    cracked patch on its side. A silver heat lamp with a red bulb is on the right, shining onto the pot.
+    A metal nozzle on the left is spraying a fine mist of water onto the pot. Steam or mist is rising
+    from the top of the pot. The background shows the blurred structure of a greenhouse.
+  init2final_edit_prompt: Edit the given image to show the terracotta pot after being continuously sprayed
+    with water. The lighter, dry cracked patch on the side of the pot should appear darker and wet, blending
+    more with the surrounding dark clay. The surface of the pot should glisten with increased moisture.
+    The water mist should still be visible spraying from the nozzle on the left. Maintain the exact camera
+    angle and framing.
+  rationale: The prompt specifies that water is continuously sprayed onto the pot while the camera rotates
+    away and back. The primary physical change is the wetting of the pot's surface. The lighter, dry patch
+    visible in the initial frame will absorb water and darken due to the continuous spray, reducing the
+    contrast between the dry and wet areas. The heat lamp remains on, but the direct water spray will
+    dominate the surface state, keeping it wet.
+  questions:
+  - id: q1
+    question: Is the lighter, dry-looking patch on the pot darker or smaller than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The continuous spray should wet the dry patch, making it dark like the rest of the
+      pot.
+  - id: q2
+    question: Does the surface of the pot appear wetter or more uniformly dark compared to the start?
+    answer_type: yes_no
+    notes_for_judge: The pot accumulates moisture, reducing dry spots.
+  - id: q3
+    question: Is the water mist still visible spraying from the nozzle?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the mist is continuously sprayed.
+  - id: q4
+    question: Is the heat lamp still illuminated with a red glow?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: q5
+    question: Is the terracotta pot still positioned in the center of the frame?
+    answer_type: yes_no
+    notes_for_judge: The camera returns to the center view.
+  - id: q6
+    question: Is the nozzle on the left still pointing towards the pot?
+    answer_type: yes_no
+    notes_for_judge: Object permanence and consistency.

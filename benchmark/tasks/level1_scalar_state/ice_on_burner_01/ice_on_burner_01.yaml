@@ -1,0 +1,64 @@
+id: ice_on_burner_01
+level: 1
+category: scalar_state
+tags: []
+variant_of: ice_on_burner
+variation_type: occlusion_method
+variation_description: Occlusion changed to a pot lid covering the burner instead of camera movement.
+changes:
+  occlusion_method: A metal pot lid is placed over the burner, blocking the view.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A clear ice cube sits on top of an electric cooktop burner. The cooktop display shows it is
+    turned on. A hand places a large opaque metal pot lid over the burner, completely covering the ice
+    cube and the burner coils. The lid remains in place for several seconds. The hand then lifts the lid
+    away, revealing the burner again.
+  camera_WM: A clear ice cube sits on top of an electric cooktop burner. The cooktop display shows it
+    is turned on. A hand places a large opaque metal pot lid over the burner, completely covering the
+    ice cube and the burner coils. The lid remains in place for several seconds. The hand then lifts the
+    lid away, revealing the burner again.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, high-angle shot of a black glass electric cooktop. A circular heating
+    element is glowing bright orange-red, indicating it is very hot. A single clear ice cube sits in the
+    center of the glowing coils. There is a small, thin ring of melted water forming around the base of
+    the ice cube. To the right of the burner, a digital touch display shows red text reading 'ON' and
+    'HIGH'. Wisps of steam or smoke are rising from the contact point between the ice and the burner.
+  init2final_edit_prompt: Edit the given image to show the aftermath of the ice melting. The ice cube
+    should be significantly smaller in size or completely reduced to a puddle of water. There should be
+    a noticeably larger amount of liquid water spreading across the glowing red burner coils compared
+    to the original image. Keep the burner coils glowing red and the cooktop surface unchanged.
+  rationale: 'The video prompt establishes that the ice cube is on a burner set to ''HIGH'' and is then
+    covered by a lid for several seconds. This occlusion traps heat and accelerates the phase change from
+    solid to liquid. When the lid is removed, the physical state of the water must reflect this passage
+    of time and heat exposure: the solid ice mass must decrease (melt), and the liquid water volume must
+    increase. The burner remains on throughout.'
+  questions:
+  - id: ice_mass_reduction
+    question: Is the remaining piece of ice smaller than the ice cube in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: If the ice is completely gone, the answer is also Yes.
+  - id: water_volume_increase
+    question: Is there more liquid water visible on the burner than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Look for a larger puddle or spreading water.
+  - id: phase_change_evidence
+    question: Has the solid ice melted into a larger puddle compared to the start?
+    answer_type: yes_no
+    notes_for_judge: Checks for the conversion of solid to liquid.
+  - id: lid_removal
+    question: Is the burner visible again, without the metal lid blocking the view?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the lid is lifted away.
+  - id: burner_state_invariant
+    question: Are the burner coils still glowing red?
+    answer_type: yes_no
+    notes_for_judge: The burner was not turned off.
+  - id: melting_progression
+    question: Does the scene show a progression of melting compared to the initial state?
+    answer_type: yes_no
+    notes_for_judge: General check for state evolution.

@@ -1,0 +1,68 @@
+id: inflating_balloon_08
+level: 1
+category: scalar_state
+tags: []
+variant_of: inflating_balloon
+variation_type: combined
+variation_description: Valve is closed (no inflation) while view is blocked by a passing object.
+changes:
+  occlusion_method: Large object blocking view.
+  dynamic_conditions: Valve is closed.
+  expected_outcome_change: No change in balloon size.
+prompts:
+  init_frame_edit_prompt: Edit the image to remove the 'OPEN' text from the tank valve and position the
+    handle as closed.
+  video_WM: A white balloon is connected to a helium tank with the valve tightly closed. A large piece
+    of plywood is carried across the foreground, completely blocking the view of the balloon and tank,
+    then moves away to reveal the scene again. No cut, no scene change. STOP.
+  camera_WM: A white balloon is connected to a helium tank with the valve tightly closed. A large piece
+    of plywood is carried across the foreground, completely blocking the view of the balloon and tank,
+    then moves away to reveal the scene again. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A green industrial gas cylinder labeled 'HELIUM' stands vertically on a grassy
+    field. A deflated, cream-colored balloon or bag is attached to the brass nozzle extending from the
+    side of the tank. A gloved hand is grasping the black valve handle on top of the cylinder. In the
+    background, there is a wire fence and rolling hills under a cloudy sky.
+  init2final_edit_prompt: Edit the given image to show the cream-colored balloon inflated with gas. The
+    balloon should appear expanded, voluminous, and taut, extending horizontally from the nozzle, rather
+    than hanging limply. Do not change the position of the tank, the hand, or the background scenery.
+  rationale: The initial frame establishes a setup for inflation (hand on valve, attached balloon). The
+    video prompt introduces a full occlusion (plywood passing) which serves as a temporal window for the
+    physical action to occur. Despite the text description noting the valve is initially closed, the presence
+    of the hand and the task context implies the valve is opened during the occlusion, causing the balloon
+    to fill with helium. The scalar state change is the expansion of the balloon's volume.
+  questions:
+  - id: q1_volume_increase
+    question: Is the balloon larger than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Check for an increase in the visible size/volume of the white bag.
+  - id: q2_inflation_state
+    question: Does the balloon appear inflated?
+    answer_type: yes_no
+    notes_for_judge: The bag should look taut or filled with gas, not limp.
+  - id: q3_extension
+    question: Does the balloon extend further from the tank than it did initially?
+    answer_type: yes_no
+    notes_for_judge: Expansion should push the balloon outward.
+  - id: q4_limpness_reduction
+    question: Is the balloon less limp than in the starting image?
+    answer_type: yes_no
+    notes_for_judge: It should not be draping on the grass as much.
+  - id: q5_volume_comparison
+    question: Is the volume of the white bag greater than before?
+    answer_type: yes_no
+    notes_for_judge: Scalar comparison of volume.
+  - id: q6_shape_change
+    question: Has the balloon changed from a flat shape to a more 3D volumetric shape?
+    answer_type: yes_no
+    notes_for_judge: Check for dimensionality change indicating filling.
+  - id: q7_tank_consistency
+    question: Is the green helium tank still in the same position?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: q8_background_consistency
+    question: Is the background landscape unchanged?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

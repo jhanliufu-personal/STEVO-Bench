@@ -1,0 +1,69 @@
+id: tape_retract_02
+level: 1
+category: scalar_state
+tags: []
+variant_of: tape_retract
+variation_type: occlusion_method
+variation_description: A large cardboard box slides in front of the camera to block the view.
+changes:
+  occlusion_method: Large object slides in front of lens.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A metal tape measure is extended 5 feet. The retraction button is held down, and the tape
+    is visibly zipping back into the housing. A large cardboard box slides across the foreground from
+    the right, completely blocking the view of the tape measure and floor. The box pauses, then slides
+    back to the right, revealing the floor again. No zoom, no cut, no scene change. STOP.
+  camera_WM: A metal tape measure is extended 5 feet. The retraction button is held down, and the tape
+    is visibly zipping back into the housing. A large cardboard box slides across the foreground from
+    the right, completely blocking the view of the tape measure and floor. The box pauses, then slides
+    back to the right, revealing the floor again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A high-angle close-up shot of a yellow tape measure resting on a wooden floor.
+    A hand holds the tape measure housing on the right side of the frame. The yellow metal tape extends
+    to the left, with inch markings visible; the numbers 4, 5, and 6 are clearly legible on the tape.
+    The background consists of wooden floorboards with visible grain and seams.
+  init2final_edit_prompt: Edit the given image to show the tape measure in a fully retracted state. Remove
+    the extended length of the yellow metal tape from the floor. Position the metal hook of the tape measure
+    directly against or very close to the plastic housing held by the hand. Ensure the wooden floor texture
+    is visible and continuous in the area where the tape was previously extended. Keep the hand, the tape
+    measure housing, and the surrounding floor appearance unchanged.
+  rationale: The video prompt describes a retraction action ('zipping back') that occurs while the view
+    is occluded by a cardboard box. The box enters the frame, blocks the view, and then exits, leaving
+    the scene unoccluded again. The physical result of holding the retraction button on a spring-loaded
+    tape measure is that the tape pulls back into the housing. Therefore, the final frame must show the
+    tape significantly shorter or fully retracted compared to the initial state, with the floor revealed
+    underneath.
+  questions:
+  - id: tape_length_shorter
+    question: Is the length of the exposed yellow tape shorter than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The tape should have retracted into the housing.
+  - id: hook_position
+    question: Is the metal hook at the end of the tape closer to the housing than it was initially?
+    answer_type: yes_no
+    notes_for_judge: Retraction pulls the hook towards the housing.
+  - id: floor_exposed
+    question: Is the section of the floor that was previously covered by the tape now visible?
+    answer_type: yes_no
+    notes_for_judge: As the tape retracts, it reveals the floor beneath it.
+  - id: tape_retracted_state
+    question: Does the tape measure appear to be retracted compared to the start?
+    answer_type: yes_no
+    notes_for_judge: General state check.
+  - id: number_visibility
+    question: Is the number '5' on the tape no longer visible?
+    answer_type: yes_no
+    notes_for_judge: If the tape retracts significantly, the number 5 (which was a few inches out) should
+      be inside the housing.
+  - id: hand_consistency
+    question: Is the hand holding the tape measure still visible?
+    answer_type: yes_no
+    notes_for_judge: The hand should remain in the scene.
+  - id: box_absence
+    question: Is the view free of the large cardboard box mentioned in the prompt?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the box slides back, revealing the floor.

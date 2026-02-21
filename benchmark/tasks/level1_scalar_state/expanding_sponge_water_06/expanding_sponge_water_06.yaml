@@ -1,0 +1,62 @@
+id: expanding_sponge_water_06
+level: 1
+category: scalar_state
+tags: []
+variant_of: expanding_sponge_water
+variation_type: dynamic_condition
+variation_description: The sponge is already fully expanded and wet.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Sponge is already saturated and expanded.
+  expected_outcome_change: No further expansion; water overflows.
+prompts:
+  init_frame_edit_prompt: Edit the image to make the sponge look significantly thicker, taller, and wet,
+    as if already fully expanded.
+  video_WM: Water is poured over a sponge that is already fully saturated and expanded to its maximum
+    size. The material cannot absorb more volume. The camera rotates right at constant speed until the
+    dish and sponge completely exit the view to the right. The camera continues rotating right for several
+    seconds while off-screen. Then the camera rotates left smoothly at the same rate back to the original
+    viewpoint. No zoom, no cut, no scene change. STOP.
+  camera_WM: Water is poured over a sponge that is already fully saturated and expanded to its maximum
+    size. The material cannot absorb more volume. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A rectangular brown sponge sits in a shallow white circular dish with a rim,
+    placed on a wooden surface. A hand holds a clear glass pitcher, pouring water onto the sponge. The
+    sponge appears wet and saturated. There is a small amount of water at the bottom of the dish.
+  init2final_edit_prompt: Edit the given image to show a significantly higher water level inside the white
+    dish, with water accumulated deeper around the base of the sponge. The sponge must remain exactly
+    the same size and shape as in the original image, without expanding. The hand and pitcher should remain
+    in the same position pouring water.
+  rationale: The prompt explicitly states the sponge is already fully saturated and at maximum size, meaning
+    it physically cannot expand further. Therefore, the water being poured must run off the sponge and
+    accumulate in the dish, causing the water level (volume in the dish) to rise. The sponge's dimensions
+    are an invariant scalar state in this specific scenario, while the water level is the changing scalar
+    state.
+  questions:
+  - id: water_level_higher
+    question: Is the water level in the dish higher than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Check if the water depth in the dish has increased.
+  - id: dish_fuller
+    question: Is there more water accumulated in the dish compared to the start?
+    answer_type: yes_no
+    notes_for_judge: The dish should contain a greater volume of water.
+  - id: water_deeper
+    question: Does the water appear deeper around the base of the sponge than before?
+    answer_type: yes_no
+    notes_for_judge: Look for visual cues of rising water level.
+  - id: sponge_size_invariant
+    question: Is the sponge approximately the same size as it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The sponge should not have grown significantly as it was already maxed out.
+  - id: sponge_dimensions_constant
+    question: Did the sponge retain its original dimensions without expanding?
+    answer_type: yes_no
+    notes_for_judge: Verify that the sponge did not get larger.
+  - id: water_accumulation
+    question: Has the amount of water visible in the dish increased?
+    answer_type: yes_no
+    notes_for_judge: Direct check on volume increase in the container.

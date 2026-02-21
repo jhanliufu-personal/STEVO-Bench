@@ -1,0 +1,66 @@
+id: lava_cool_06
+level: 1
+category: scalar_state
+tags: []
+variant_of: lava_cool
+variation_type: dynamic_condition
+variation_description: Rock starts cold but is being heated by a blowtorch.
+changes:
+  occlusion_method: null
+  dynamic_conditions: A blowtorch applies intense heat to a cold rock.
+  expected_outcome_change: Rock starts glowing orange/red (heating up instead of cooling).
+prompts:
+  init_frame_edit_prompt: Edit the image to show a dark, cold volcanic rock. Add a mechanic arm holding
+    a blowtorch nozzle pointing a fierce blue flame directly at the rock's surface.
+  video_WM: A dark volcanic rock sits on the tray. A blowtorch directs an intense blue flame onto the
+    surface of the rock, transferring massive heat. The camera rotates right until the rock and tray completely
+    exit the view, then rotates toward the left smoothly at the same rate until the rock is back in the
+    center of view. No zoom, no cut, no scene change. STOP.
+  camera_WM: A dark volcanic rock sits on the tray. A blowtorch directs an intense blue flame onto the
+    surface of the rock, transferring massive heat. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A dark, textured volcanic rock sits on a dirty metal baking sheet. A mechanical
+    arm equipped with a blowtorch enters from the right, directing a bright blue flame onto the center
+    of the rock. Smoke and steam are rising from the point of contact, which is illuminated by the flame
+    but not yet glowing significantly red or orange.
+  init2final_edit_prompt: Edit the given image to show the volcanic rock glowing intensely red and orange
+    at the center where the flame hits, indicating a significant increase in temperature. The area of
+    incandescence should be larger, brighter, and more widespread than in the original image. Maintain
+    the blue flame coming from the blowtorch and keep the rock centered on the metal tray.
+  rationale: The video describes a continuous heating process where a blowtorch transfers massive heat
+    to the rock. Although the camera pans away and then returns, the heating action is continuous throughout
+    the occlusion. Therefore, when the camera returns to the initial view, the rock's temperature must
+    be significantly higher. Visually, this scalar increase in temperature is represented by a larger,
+    brighter, and more intense area of red-orange incandescence (glowing) on the rock's surface compared
+    to the initial frame.
+  questions:
+  - id: q1
+    question: Is there a visible red or orange glow on the rock surface where the flame hits?
+    answer_type: yes_no
+    notes_for_judge: Checks for the presence of incandescence indicating heat.
+  - id: q2
+    question: Is the glowing or heated area on the rock larger than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Checks for directional change (increase) in the heated surface area.
+  - id: q3
+    question: Is the glowing area on the rock brighter or more intense than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Checks for directional change (increase) in heat intensity.
+  - id: q4
+    question: Does the rock appear to have accumulated more heat compared to the start?
+    answer_type: yes_no
+    notes_for_judge: General assessment of the scalar state change (temperature increase).
+  - id: q5
+    question: Is the blue flame still visible and directed at the rock?
+    answer_type: yes_no
+    notes_for_judge: Verifies the continuation of the action described.
+  - id: q6
+    question: Is the rock still positioned in the center of the frame?
+    answer_type: yes_no
+    notes_for_judge: Verifies the camera has returned to the starting viewpoint.
+  - id: q7
+    question: Is the metal tray still visible underneath the rock?
+    answer_type: yes_no
+    notes_for_judge: Checks for object permanence and scene consistency.

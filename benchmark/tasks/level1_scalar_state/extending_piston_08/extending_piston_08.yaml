@@ -1,0 +1,63 @@
+id: extending_piston_08
+level: 1
+category: scalar_state
+tags: []
+variant_of: extending_piston
+variation_type: combined
+variation_description: Piston stationary + Occlusion by lights turning off.
+changes:
+  occlusion_method: Work lights turn off creating pitch blackness.
+  dynamic_conditions: Piston is locked/stationary.
+  expected_outcome_change: No state change.
+prompts:
+  init_frame_edit_prompt: Edit the image to add a yellow 'LOCKED' safety tag hanging from the hydraulic
+    line near the piston.
+  video_WM: A hydraulic piston is locked in place. The work lights suddenly cut out, plunging the scene
+    into pitch black darkness for several seconds, before flickering back on to reveal the scene. No zoom,
+    no cut, no scene change. STOP.
+  camera_WM: A hydraulic piston is locked in place. The work lights suddenly cut out, plunging the scene
+    into pitch black darkness for several seconds, before flickering back on to reveal the scene. No zoom,
+    no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up view of a green hydraulic excavator arm and piston. A shiny metal
+    piston rod is visible, with a bright yellow tag hanging from it by a wire loop. The tag has the word
+    'LOCKED' printed on it in bold black letters. The background is a cluttered industrial setting with
+    dark, indistinct machinery and debris. The lighting is artificial, casting shadows and highlighting
+    the green paint and yellow tag.
+  init2final_edit_prompt: Edit the image to restore the scene to its exact original state. Ensure the
+    hydraulic piston remains in the same position with the same amount of shiny rod exposed. The yellow
+    'LOCKED' tag must remain hanging in the same location. The lighting should be fully restored to match
+    the initial brightness and direction, revealing the scene unchanged.
+  rationale: 'The video prompt explicitly states that the hydraulic piston is ''locked in place''. Although
+    the lights cut out and flicker back on, no physical action is described that would unlock the piston
+    or cause it to move. Therefore, the correct world-model simulation is for the state to remain invariant:
+    the piston should not extend or retract, and the ''LOCKED'' tag should remain in place. The task tests
+    the model''s ability to adhere to explicit state constraints (''locked'') despite the passage of time
+    and visual interruption.'
+  questions:
+  - id: piston_position_invariant
+    question: Is the hydraulic piston in the same position as it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The piston should not have moved because it is 'locked in place'.
+  - id: rod_length_invariant
+    question: Is the length of the exposed shiny piston rod unchanged?
+    answer_type: yes_no
+    notes_for_judge: Check that the rod has not extended or retracted.
+  - id: tag_presence
+    question: Is the yellow 'LOCKED' tag still hanging from the piston?
+    answer_type: yes_no
+    notes_for_judge: The tag should remain visible and attached.
+  - id: tag_position
+    question: Is the 'LOCKED' tag in the same location relative to the piston?
+    answer_type: yes_no
+    notes_for_judge: The tag should not have moved significantly.
+  - id: lighting_restored
+    question: Is the scene fully illuminated again?
+    answer_type: yes_no
+    notes_for_judge: The lights should have flickered back on.
+  - id: arm_configuration
+    question: Is the green excavator arm in the same configuration as the start?
+    answer_type: yes_no
+    notes_for_judge: The overall geometry of the arm should be static.

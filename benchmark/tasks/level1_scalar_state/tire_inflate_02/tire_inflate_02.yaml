@@ -1,0 +1,63 @@
+id: tire_inflate_02
+level: 1
+category: scalar_state
+tags: []
+variant_of: tire_inflate
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to lights turning off.
+changes:
+  occlusion_method: The garage lights turn off, plunging the scene into total darkness, then turn back
+    on.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The air is pumping into the tire at high pressure, and the tire is visibly and rapidly expanding.
+    The inflation continues steadily. Suddenly, the garage lights flicker and turn off, plunging the entire
+    scene into pitch black darkness where nothing is visible. After a duration, the lights turn back on,
+    illuminating the scene again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The air is pumping into the tire at high pressure, and the tire is visibly and rapidly expanding.
+    The inflation continues steadily. Suddenly, the garage lights flicker and turn off, plunging the entire
+    scene into pitch black darkness where nothing is visible. After a duration, the lights turn back on,
+    illuminating the scene again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up, low-angle shot of a bicycle wheel resting on a concrete garage floor.
+    The tire is currently under-inflated, showing significant compression and flattening where it contacts
+    the ground. A black air hose with a brass fitting is connected to the tire's valve stem. Several wrenches
+    lie on the floor in the foreground. In the background, blurred, is a red air compressor and a window.
+  init2final_edit_prompt: Edit the given image to show the bicycle tire significantly more inflated. The
+    tire should appear round and firm, with the flattened section at the bottom expanded so the tire is
+    no longer compressed against the concrete. The metal rim should be lifted higher off the ground due
+    to the increased air volume in the tire. Keep the air hose connected to the valve and ensure the background
+    tools and compressor remain unchanged.
+  rationale: The video prompt describes a continuous high-pressure inflation process. Although the scene
+    goes dark, the physical process of inflation continues. When the lights return, the accumulated air
+    mass inside the tire will have caused it to expand. Visually, this results in the removal of the 'flat'
+    spot at the bottom and the lifting of the wheel rim as the tire assumes a rounder, fuller shape.
+  questions:
+  - id: tire_roundness
+    question: Is the tire rounder at the bottom compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The initial frame shows a flat tire; the final frame should show a rounder tire.
+  - id: rim_height
+    question: Is the metal rim higher off the ground than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: As the tire inflates, it lifts the rim.
+  - id: compression_reduction
+    question: Is the tire less compressed against the floor than it was initially?
+    answer_type: yes_no
+    notes_for_judge: Check the contact patch with the ground.
+  - id: inflation_status
+    question: Does the tire appear to contain more air than in the starting image?
+    answer_type: yes_no
+    notes_for_judge: General assessment of volume/inflation.
+  - id: hose_connection
+    question: Is the air hose still connected to the valve stem?
+    answer_type: yes_no
+    notes_for_judge: Consistency check.
+  - id: tool_consistency
+    question: Are the wrenches on the floor in the same position as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Consistency check; only the tire should change.

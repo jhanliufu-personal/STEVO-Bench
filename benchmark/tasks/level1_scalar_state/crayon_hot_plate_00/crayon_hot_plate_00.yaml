@@ -1,0 +1,62 @@
+id: crayon_hot_plate_00
+level: 1
+category: scalar_state
+tags: []
+variant_of: crayon_hot_plate
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The crayon is in contact with the hot plate surface. The plate is actively heating. The crayon
+    is made of paraffin wax with a melting point around 130°F. The plate temperature exceeds the wax melting
+    point. Camera remains stationary throughout. No zoom, no cut, no scene change. STOP.
+  camera_WM: The crayon is in contact with the hot plate surface. The plate is actively heating. The crayon
+    is made of paraffin wax with a melting point around 130°F. The plate temperature exceeds the wax melting
+    point. Camera remains stationary throughout. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A blue crayon stands upright in the center of a black circular electric hot
+    plate. The hot plate has a red indicator light illuminated on the front panel next to the text 'HEATING'.
+    The background is dark and out of focus, showing parts of a kitchen counter.
+  init2final_edit_prompt: Edit the given image to show the blue crayon melting. Reduce the height of the
+    standing crayon so it is shorter than in the original image. Create a pool of melted blue liquid wax
+    spreading out on the black hot plate surface around the base of the crayon. Deform the bottom of the
+    remaining solid crayon to look like it is turning into liquid. Keep the red indicator light on and
+    the background unchanged.
+  rationale: The prompt states the hot plate is actively heating and its temperature exceeds the melting
+    point of the wax crayon. Therefore, the physical state of the crayon must evolve from solid to liquid.
+    This process results in a reduction of the crayon's height (scalar change in length/mass of the solid
+    component) and the formation of a liquid pool at the base (scalar change in volume of liquid). The
+    camera remains stationary, so the background and hot plate structure should remain consistent.
+  questions:
+  - id: crayon_height_reduction
+    question: Is the standing blue crayon shorter than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the vertical height of the crayon in both frames. It should be lower in the
+      final frame due to melting.
+  - id: melted_wax_presence
+    question: Is there a pool of melted blue wax visible on the hot plate surface?
+    answer_type: yes_no
+    notes_for_judge: Look for liquid blue substance spreading at the base of the crayon.
+  - id: solid_mass_reduction
+    question: Is the volume of the solid, upright portion of the crayon smaller than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The solid cylinder should have diminished as it turned to liquid.
+  - id: base_deformation
+    question: Has the bottom of the crayon lost its clean cylindrical shape?
+    answer_type: yes_no
+    notes_for_judge: The base should look deformed or merged with the puddle.
+  - id: indicator_light_consistency
+    question: Is the red light labeled 'HEATING' still illuminated?
+    answer_type: yes_no
+    notes_for_judge: Check for consistency of the hot plate's state.
+  - id: plate_color_consistency
+    question: Is the surface of the hot plate still black?
+    answer_type: yes_no
+    notes_for_judge: The material of the plate should not change color, only the wax on top of it.

@@ -1,0 +1,73 @@
+id: spray_foam_02
+level: 1
+category: scalar_state
+tags: []
+variant_of: spray_foam
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to the lights turning off.
+changes:
+  occlusion_method: Scene lights turn off completely, then turn back on.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The insulation foam is expanding rapidly, and the volume of the yellow mound is visibly growing.
+    The scene lights suddenly cut out, leaving the frame in total darkness. After a pause, the lights
+    flicker back on to full brightness. No zoom, no cut, no scene change. STOP.
+  camera_WM: The insulation foam is expanding rapidly, and the volume of the yellow mound is visibly growing.
+    The scene lights suddenly cut out, leaving the frame in total darkness. After a pause, the lights
+    flicker back on to full brightness. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up view of wooden wall studs in a construction environment. A mound
+    of yellow, bubbly spray foam insulation is adhering to the wall cavity between the studs. A spray
+    gun nozzle is visible in the upper right corner, directing a stream of foam onto the mound. The floor
+    is covered with sawdust and wood shavings.
+  init2final_edit_prompt: Edit the given image to show the yellow spray foam mound significantly expanded
+    in volume. Make the foam appear larger, puffier, and more swollen, occupying more space between the
+    wooden studs and protruding further outward than in the original image. Maintain the bubbly, irregular
+    texture of the foam. Keep the wooden studs, the spray gun, and the sawdust on the floor unchanged.
+    Ensure the scene is fully illuminated with the same brightness as the initial view.
+  rationale: The video prompt describes the foam expanding rapidly. Although the scene goes dark temporarily,
+    the physical process of expansion (or the accumulation of sprayed material) continues or is revealed
+    to have progressed once the lights return. Therefore, the final frame must show the foam mound having
+    grown in size (volume and extent) compared to the initial frame. The lighting returns to full brightness,
+    so the final image is fully visible.
+  questions:
+  - id: foam_volume_increase
+    question: Is the volume of the yellow foam larger than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the overall size of the yellow mound.
+  - id: foam_expansion
+    question: Has the foam mound expanded in size compared to the start?
+    answer_type: yes_no
+    notes_for_judge: Look for outward or upward growth of the foam.
+  - id: foam_space_occupation
+    question: Does the foam occupy more space between the studs than before?
+    answer_type: yes_no
+    notes_for_judge: Check if the yellow area covers more of the background.
+  - id: foam_protrusion
+    question: Is the yellow insulation protruding further outward than initially?
+    answer_type: yes_no
+    notes_for_judge: Assess the depth/projection of the mound.
+  - id: foam_mass_growth
+    question: Is the overall mass of the foam greater than in the starting image?
+    answer_type: yes_no
+    notes_for_judge: General assessment of quantity/size.
+  - id: foam_swelling
+    question: Does the foam appear puffier or more swollen compared to the start?
+    answer_type: yes_no
+    notes_for_judge: Focus on the texture and fullness of the mound.
+  - id: foam_dimensions
+    question: Is the yellow mound wider or taller than it was initially?
+    answer_type: yes_no
+    notes_for_judge: Check for dimensional growth in any direction.
+  - id: studs_consistency
+    question: Are the wooden studs in the same position as the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The camera should not have moved.
+  - id: lighting_restored
+    question: Is the scene fully illuminated?
+    answer_type: yes_no
+    notes_for_judge: The final frame should be bright, not dark.

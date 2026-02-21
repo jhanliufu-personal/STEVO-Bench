@@ -1,0 +1,62 @@
+id: heating_rod_01
+level: 1
+category: scalar_state
+tags: []
+variant_of: heating_rod
+variation_type: occlusion_method
+variation_description: Replaced camera rotation with a safety shutter blocking the view.
+changes:
+  occlusion_method: A heavy metal safety shutter descends to block the view, then ascends.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A steel rod sits in an active induction coil, glowing faint red and getting brighter. A heavy
+    metal safety shutter descends from the top of the frame, completely blocking the view of the rod and
+    coil, then ascends back up to reveal the scene. No zoom, no cut, no scene change. STOP.
+  camera_WM: A steel rod sits in an active induction coil, glowing faint red and getting brighter. A heavy
+    metal safety shutter descends from the top of the frame, completely blocking the view of the rod and
+    coil, then ascends back up to reveal the scene. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up industrial shot showing a thick, horizontal steel rod passing through
+    a large copper induction coil. The section of the rod inside the coil is glowing a dull, faint red,
+    indicating it is being heated. The background features heavy industrial machinery, including a large
+    press and various metal components in a workshop setting.
+  init2final_edit_prompt: Edit the given image to make the glowing section of the steel rod inside the
+    copper coil appear significantly brighter and more intense, shifting from a dull red to a bright orange
+    or yellow-hot color to indicate increased temperature. Ensure the copper coil, the unheated ends of
+    the rod, and the background machinery remain unchanged.
+  rationale: The prompt establishes that the rod is in an active induction coil and is 'getting brighter'.
+    The descent and ascent of the safety shutter acts as a temporal occlusion, implying a passage of time
+    during which the heating process continues. Therefore, when the shutter reveals the scene again in
+    the final frame, the rod must be glowing more intensely (hotter) than in the initial frame due to
+    the continuous induction heating.
+  questions:
+  - id: heating_rod_01_q1
+    question: Is the heated section of the rod glowing brighter than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the luminosity of the glowing part of the rod between the first and last
+      frame.
+  - id: heating_rod_01_q2
+    question: Does the glowing part of the rod appear hotter (more orange or yellow) compared to the initial
+      faint red?
+    answer_type: yes_no
+    notes_for_judge: Check for a color shift indicating higher temperature (red -> orange -> yellow).
+  - id: heating_rod_01_q3
+    question: Is the intensity of the glow on the rod higher than in the starting image?
+    answer_type: yes_no
+    notes_for_judge: The glow should be more intense/radiant.
+  - id: heating_rod_01_q4
+    question: Is the rod visible again, unobstructed by the shutter?
+    answer_type: yes_no
+    notes_for_judge: The shutter should have ascended, revealing the rod.
+  - id: heating_rod_01_q5
+    question: Is the copper induction coil still in the same position around the rod?
+    answer_type: yes_no
+    notes_for_judge: The coil structure should be invariant.
+  - id: heating_rod_01_q6
+    question: Is the background machinery consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Background should not change.

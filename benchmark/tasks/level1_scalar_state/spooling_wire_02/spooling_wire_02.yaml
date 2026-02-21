@@ -1,0 +1,61 @@
+id: spooling_wire_02
+level: 1
+category: scalar_state
+tags: []
+variant_of: spooling_wire
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to lights turning off.
+changes:
+  occlusion_method: Factory lights turn off completely.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A motorized spindle winds yellow wire. The spool diameter is visibly growing. The overhead
+    lights turn off completely, plunging the factory scene into pitch black darkness, then turn back on.
+    No zoom, no cut, no scene change. STOP.
+  camera_WM: A motorized spindle winds yellow wire. The spool diameter is visibly growing. The overhead
+    lights turn off completely, plunging the factory scene into pitch black darkness, then turn back on.
+    No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up industrial shot of a wire winding machine. A central horizontal spindle
+    holds a coil of bright yellow wire. Above the spindle is a large grey electric motor with cooling
+    fins. To the left is a large gear mechanism. In the background, there are other spools of wire (black,
+    blue, yellow) and factory infrastructure including overhead lights and a heater.
+  init2final_edit_prompt: Edit the given image to increase the diameter of the central coil of yellow
+    wire, making it significantly thicker to simulate that more wire has been wound onto it. Ensure the
+    scene is fully illuminated with the overhead lights on, matching the brightness and visibility of
+    the original image. Keep the surrounding machinery, the motor on top, and the background objects exactly
+    unchanged.
+  rationale: The video prompt describes a winding process where the spool diameter grows. Although the
+    lights turn off temporarily, they turn back on by the end of the sequence. Therefore, the final state
+    should show the scene fully lit again, but with a physically larger (thicker) coil of yellow wire
+    due to the accumulation of material during the winding process.
+  questions:
+  - id: q1_diameter
+    question: Is the diameter of the central yellow wire coil larger than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the thickness of the yellow wire spool to the initial image. It should be
+      visibly thicker.
+  - id: q2_volume
+    question: Is there a greater amount of yellow wire wound on the spindle compared to the start?
+    answer_type: yes_no
+    notes_for_judge: The volume of the yellow cylinder should have increased.
+  - id: q3_thickness
+    question: Does the yellow wire spool appear thicker than it was initially?
+    answer_type: yes_no
+    notes_for_judge: Focus on the radial thickness of the wire pack.
+  - id: q4_lighting
+    question: Are the overhead lights on and the scene illuminated?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the lights turn back on, so the final frame must not be pitch black.
+  - id: q5_machinery_invariant
+    question: Is the large grey motor on top of the machine still in the same position?
+    answer_type: yes_no
+    notes_for_judge: The machine structure should not move, only the wire winds.
+  - id: q6_background_invariant
+    question: Is the blue wire spool in the bottom left corner still visible?
+    answer_type: yes_no
+    notes_for_judge: Background objects should remain consistent.

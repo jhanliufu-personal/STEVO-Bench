@@ -1,0 +1,61 @@
+id: dry_ice_sublimate_00
+level: 1
+category: scalar_state
+tags: []
+variant_of: dry_ice_sublimate
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A solid block of dry ice sits in a bowl of warm water. Camera remains stationary throughout.
+    No zoom, no cut, no scene change. STOP.
+  camera_WM: A solid block of dry ice sits in a bowl of warm water. Camera remains stationary throughout.
+    No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up, slightly high-angle shot of a beige ceramic bowl resting on a wooden
+    table. Inside the bowl is water and a large, rectangular block of translucent white dry ice. Thick
+    white fog is billowing vigorously from the bowl, spilling over the rim and settling on the table surface.
+    The lighting is warm, creating highlights on the water and fog.
+  init2final_edit_prompt: Edit the given image to show the block of dry ice significantly reduced in size.
+    Make the central ice block smaller and more eroded to simulate sublimation. Maintain the billowing
+    white fog and the water in the bowl. Keep the beige bowl and the wooden table surface exactly as they
+    are in the original view.
+  rationale: The prompt describes dry ice sitting in warm water, a setup that causes rapid sublimation
+    (phase change from solid to gas). Over the duration of the video, the primary physical change is the
+    reduction in mass and volume of the dry ice block as it turns into vapor. The camera is stationary,
+    so the bowl and background remain fixed invariants.
+  questions:
+  - id: dry_ice_size_1
+    question: Is the block of dry ice smaller than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Focus on the central solid block.
+  - id: dry_ice_vol_2
+    question: Has the volume of the solid ice visible in the bowl decreased?
+    answer_type: yes_no
+    notes_for_judge: The block should appear to have lost mass.
+  - id: dry_ice_shrink_3
+    question: Does the ice block appear to have shrunk compared to the starting image?
+    answer_type: yes_no
+    notes_for_judge: ''
+  - id: dry_ice_area_4
+    question: Is the surface area of the ice block visible in the water reduced?
+    answer_type: yes_no
+    notes_for_judge: ''
+  - id: dry_ice_space_5
+    question: Does the ice occupy less space within the bowl than at the start?
+    answer_type: yes_no
+    notes_for_judge: ''
+  - id: invariant_bowl_6
+    question: Is the beige bowl still in the same position?
+    answer_type: yes_no
+    notes_for_judge: ''
+  - id: invariant_fog_7
+    question: Is the white fog still present around the bowl?
+    answer_type: yes_no
+    notes_for_judge: ''

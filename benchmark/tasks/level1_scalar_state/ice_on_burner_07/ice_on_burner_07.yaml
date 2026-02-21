@@ -1,0 +1,65 @@
+id: ice_on_burner_07
+level: 1
+category: scalar_state
+tags: []
+variant_of: ice_on_burner
+variation_type: combined
+variation_description: Burner is off (no melting) and occlusion is done by a kitchen towel covering the
+  scene.
+changes:
+  occlusion_method: A kitchen towel is thrown over the burner.
+  dynamic_conditions: Burner is OFF (cold).
+  expected_outcome_change: Ice remains solid.
+prompts:
+  init_frame_edit_prompt: Edit the image to show the cooktop burner coils as dark black (not glowing red)
+    and the digital display turned off or blank.
+  video_WM: A clear ice cube sits on top of a cold electric cooktop burner. The cooktop is turned off.
+    A thick kitchen towel is thrown over the burner, completely covering the ice and the cooktop surface.
+    The towel remains there for several seconds. A hand then grabs the towel and pulls it away, revealing
+    the burner again.
+  camera_WM: A clear ice cube sits on top of a cold electric cooktop burner. The cooktop is turned off.
+    A thick kitchen towel is thrown over the burner, completely covering the ice and the cooktop surface.
+    The towel remains there for several seconds. A hand then grabs the towel and pulls it away, revealing
+    the burner again.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, high-angle shot of a black electric cooktop featuring a spiral coil
+    burner element. A single, clear, cubic ice cube rests in the center of the dark burner coils. The
+    cooktop surface is glossy black glass, reflecting the ambient light. The burner coils are black, indicating
+    they are cold and turned off.
+  init2final_edit_prompt: Edit the given image to show the ice cube still sitting on the burner coil.
+    The ice cube should appear solid, unmelted, and approximately the same size as in the original image.
+    The burner coils must remain black and unlit. Do not include the towel or the hand in the final image;
+    the view should be clear.
+  rationale: The prompt explicitly states that the cooktop is cold and turned off, and the occlusion by
+    the towel lasts only several seconds. Under these physical conditions, the ice cube should not melt
+    significantly. The primary challenge for the world model is object permanence (remembering the ice
+    is there under the towel) and physical consistency (inhibiting the prediction of melting because the
+    stove is off). The final state should show the ice cube largely unchanged in volume and phase.
+  questions:
+  - id: ice_visible
+    question: Is the ice cube visible on the burner?
+    answer_type: yes_no
+    notes_for_judge: Tests object permanence after occlusion.
+  - id: ice_size_stability
+    question: Is the ice cube approximately the same size as it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Tests scalar stability; the ice should not have shrunk significantly.
+  - id: ice_solid_state
+    question: Does the ice cube appear to be solid?
+    answer_type: yes_no
+    notes_for_judge: Tests phase stability; it should not be a puddle.
+  - id: burner_state
+    question: Are the burner coils dark (not glowing)?
+    answer_type: yes_no
+    notes_for_judge: Verifies the stove remained off as described.
+  - id: towel_removed
+    question: Is the towel completely absent from the view of the burner?
+    answer_type: yes_no
+    notes_for_judge: Verifies the action of removing the occlusion was completed.
+  - id: ice_location
+    question: Is the ice cube still positioned on top of the burner coils?
+    answer_type: yes_no
+    notes_for_judge: Checks that the object was not incorrectly removed or displaced.

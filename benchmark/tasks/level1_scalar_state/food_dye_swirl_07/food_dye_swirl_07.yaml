@@ -1,0 +1,70 @@
+id: food_dye_swirl_07
+level: 1
+category: scalar_state
+tags: []
+variant_of: food_dye_swirl
+variation_type: combined
+variation_description: Combines hot water condition with object blocking occlusion.
+changes:
+  occlusion_method: Object blocking (card).
+  dynamic_conditions: Hot water.
+  expected_outcome_change: Faster diffusion compared to original.
+prompts:
+  init_frame_edit_prompt: Edit the image to show light steam rising from the water surface and condensation
+    droplets on the upper rim of the glass to imply the water is hot.
+  video_WM: A drop of red food coloring contacts the hot water surface. Steam rises gently. The dye is
+    water-soluble. High thermal energy increases molecular motion. A large opaque card moves in front
+    of the lens, completely blocking the view of the glass. The view remains obstructed for several seconds.
+    Then the card slides away, revealing the glass again. No zoom, no cut, no scene change. STOP.
+  camera_WM: A drop of red food coloring contacts the hot water surface. Steam rises gently. The dye is
+    water-soluble. High thermal energy increases molecular motion. A large opaque card moves in front
+    of the lens, completely blocking the view of the glass. The view remains obstructed for several seconds.
+    Then the card slides away, revealing the glass again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A clear glass cup filled with hot water sits against a white background. Condensation
+    and steam are visible on the upper inner walls of the glass. A glass dropper containing red liquid
+    is positioned above the water surface. A stream of red food coloring has just entered the water, forming
+    a concentrated, dark red, swirling plume in the center of the glass, while the surrounding water remains
+    clear.
+  init2final_edit_prompt: Edit the given image to show the red food coloring significantly diffused and
+    spread throughout the water. Transform the concentrated dark red plume into a wider, softer cloud
+    of red and pink hues that occupies a much larger volume of the glass. Make the previously clear areas
+    of the water appear tinted with red or pink, indicating that mixing has progressed. Keep the glass
+    container, the water level, the dropper, and the background identical to the original image.
+  rationale: 'The prompt describes a physical process of diffusion and mixing in hot water, accelerated
+    by thermal energy. The occlusion lasts for several seconds, which is sufficient time for the concentrated
+    dye to disperse significantly. Upon the removal of the card, the visual state must reflect this entropy
+    increase: the dye should no longer be a tight, dark plume but should be spread out, making the water
+    appear more uniformly pink or red and less clear. The water level and container remain constant.'
+  questions:
+  - id: dye_spread_volume
+    question: Does the red color occupy a larger volume of the water than it did in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The red dye should have spread out from the center to fill more of the glass.
+  - id: dye_diffusion_clarity
+    question: Is there less clear, uncolored water visible in the glass compared to the start?
+    answer_type: yes_no
+    notes_for_judge: As the dye mixes, the amount of completely clear water should decrease.
+  - id: plume_dispersal
+    question: Has the concentrated dark red plume become more diffuse and widespread?
+    answer_type: yes_no
+    notes_for_judge: The initial tight structure should be looser and wider.
+  - id: tint_expansion
+    question: Is the red or pink tint visible in areas of the glass that were previously clear?
+    answer_type: yes_no
+    notes_for_judge: Check the edges of the water volume for color that wasn't there before.
+  - id: mixing_progress
+    question: Does the water appear more uniformly colored than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Uniformity increases with mixing.
+  - id: glass_presence
+    question: Is the glass cup still visible and intact?
+    answer_type: yes_no
+    notes_for_judge: Invariant check.
+  - id: dropper_presence
+    question: Is the dropper still visible above the water?
+    answer_type: yes_no
+    notes_for_judge: 'Invariant check: the prompt does not state the dropper is removed.'

@@ -1,0 +1,75 @@
+id: sand_filling_up_jar_09
+level: 1
+category: scalar_state_change
+tags: []
+variant_of: sand_filling_up_jar
+variation_type: combined
+variation_description: Wet sand (stuck condition) combined with fog occlusion.
+changes:
+  occlusion_method: Thick fog/steam.
+  dynamic_conditions: Sand is wet and clumpy.
+  expected_outcome_change: Sand flows very slowly or not at all (stuck).
+prompts:
+  init_frame_edit_prompt: Edit the image to make the sand look dark, wet, and clumpy. Show the wet sand
+    sticking to the sides of the funnel neck rather than flowing freely.
+  video_WM: Single continuous take, no cuts or zoom. Camera is fixed on the funnel and jar. Wet, clumpy
+    sand sits in the glass funnel, sticking to the walls. Suddenly, thick white steam begins to fill the
+    room, quickly becoming dense enough to completely obscure the funnel and jar. The steam swirls for
+    several seconds. Then the steam dissipates and clears, revealing the scene again. Lighting and objects
+    remain consistent and realistic.
+  camera_WM: Single continuous take, no cuts or zoom. Camera is fixed on the funnel and jar. Wet, clumpy
+    sand sits in the glass funnel, sticking to the walls. Suddenly, thick white steam begins to fill the
+    room, quickly becoming dense enough to completely obscure the funnel and jar. The steam swirls for
+    several seconds. Then the steam dissipates and clears, revealing the scene again. Lighting and objects
+    remain consistent and realistic.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A clear glass jar sits on a rustic wooden plank table. A clear glass funnel
+    is placed in the mouth of the jar. The funnel contains a quantity of dark, wet, clumpy sand or mud,
+    which is sticking to the sides of the funnel. A pile of the same wet sand has already accumulated
+    at the bottom of the jar, directly below the funnel's spout.
+  init2final_edit_prompt: Edit the given image to show that the pile of wet sand inside the glass jar
+    has grown significantly larger and taller, occupying more of the jar's volume. Correspondingly, reduce
+    the amount of wet sand remaining in the glass funnel on top, making it appear emptier with less material
+    blocking the view, reflecting that the sand has fallen into the jar.
+  rationale: 'The initial frame shows a physics setup where gravity is acting on the sand in the funnel,
+    causing it to fall into the jar (evidenced by the existing pile). The video prompt introduces a period
+    of time where the view is obscured by steam. During this occlusion, the physical process of the sand
+    falling should continue. Therefore, when the view clears, the state should have evolved: mass should
+    have transferred from the funnel to the jar. The final frame must show a larger pile in the jar and
+    a depleted amount in the funnel.'
+  questions:
+  - id: jar_pile_height
+    question: Is the pile of sand in the jar taller than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the height of the sand pile in the jar between the two frames.
+  - id: jar_volume_increase
+    question: Does the jar contain a larger volume of sand than it did initially?
+    answer_type: yes_no
+    notes_for_judge: Check if the overall amount of sand in the bottom container has increased.
+  - id: funnel_depletion
+    question: Is there less sand remaining in the funnel compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Check if the upper container (funnel) looks emptier.
+  - id: mass_transfer
+    question: Has the sand moved from the funnel into the jar?
+    answer_type: yes_no
+    notes_for_judge: Verify the directional flow of the substance (top to bottom).
+  - id: funnel_emptier
+    question: Does the funnel appear emptier than before?
+    answer_type: yes_no
+    notes_for_judge: Focus on the volume of material in the top glass piece.
+  - id: jar_fuller
+    question: Is the jar fuller than it was at the start?
+    answer_type: yes_no
+    notes_for_judge: Focus on the volume of material in the bottom glass piece.
+  - id: funnel_presence
+    question: Is the glass funnel still resting on top of the jar?
+    answer_type: yes_no
+    notes_for_judge: 'Consistency check: the funnel should not disappear.'
+  - id: table_consistency
+    question: Is the wooden table surface consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: 'Consistency check: the background texture should remain wood.'

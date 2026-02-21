@@ -1,0 +1,60 @@
+id: syrup_fill_01
+level: 1
+category: scalar_state
+tags: []
+variant_of: syrup_fill
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to a foreground object blocking the view.
+changes:
+  occlusion_method: A large wooden cutting board slides in front of the camera.
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics (jar fills while blocked).
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A glass jar is 25% full of syrup. A steady stream pours in, and the level is visibly rising.
+    A large wooden cutting board slides into the foreground, completely blocking the jar from view, then
+    slides away to reveal the scene again. No zoom, no cut, no scene change. STOP.
+  camera_WM: A glass jar is 25% full of syrup. A steady stream pours in, and the level is visibly rising.
+    A large wooden cutting board slides into the foreground, completely blocking the jar from view, then
+    slides away to reveal the scene again. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A clear glass jar sits on a wooden countertop, filled approximately 25% with
+    amber-colored syrup. A steady stream of syrup is pouring into the jar from a metal spout located at
+    the top center of the frame. Bubbles are visible on the surface of the liquid where the stream hits.
+    To the left, a wooden cutting board leans against the wall. Behind the jar, a ceramic jug is visible.
+    Through a window in the background, trees and daylight can be seen.
+  init2final_edit_prompt: Edit the given image to show the glass jar filled with significantly more amber
+    syrup, raising the liquid level well above the initial 25% mark. Maintain the stream of syrup pouring
+    into the jar. Ensure the view of the jar is unobstructed, with no large objects blocking the foreground.
+  rationale: The video prompt describes a continuous pouring action that occurs while the view is temporarily
+    occluded by a sliding cutting board. Since the stream is steady and the level is rising before the
+    occlusion, the physical process of filling continues during the time the board blocks the view. When
+    the board slides away to reveal the scene again, the accumulation of liquid over time must result
+    in a visibly higher level of syrup in the jar compared to the initial frame.
+  questions:
+  - id: syrup_level_increase
+    question: Is the level of syrup in the jar higher than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the liquid height in the jar between the first and last frame.
+  - id: volume_accumulation
+    question: Does the jar contain a larger volume of liquid than at the start?
+    answer_type: yes_no
+    notes_for_judge: The jar should look fuller.
+  - id: empty_space_reduction
+    question: Is the empty space at the top of the jar smaller than in the initial view?
+    answer_type: yes_no
+    notes_for_judge: As liquid fills the jar, the air gap at the top must decrease.
+  - id: occlusion_clearance
+    question: Is the glass jar visible and not blocked by a cutting board in the foreground?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the board slides away to reveal the scene.
+  - id: liquid_color_consistency
+    question: Is the liquid in the jar still an amber/brown color?
+    answer_type: yes_no
+    notes_for_judge: Consistency check for the fluid material.
+  - id: jar_fullness_comparison
+    question: Is the jar more than 25% full?
+    answer_type: yes_no
+    notes_for_judge: The initial state was 25%; the final state must be higher.

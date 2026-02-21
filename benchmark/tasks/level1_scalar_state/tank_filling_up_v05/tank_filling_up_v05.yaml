@@ -1,0 +1,69 @@
+id: tank_filling_up_v05
+level: 1
+category: scalar_state
+tags: []
+variant_of: tank_filling_up
+variation_type: dynamic_condition
+variation_description: The water flow is increased to a violent high-pressure torrent.
+changes:
+  occlusion_method: null
+  dynamic_conditions: High velocity flow rate
+  expected_outcome_change: Water level rises significantly faster than original
+prompts:
+  init_frame_edit_prompt: Edit the image to show a massive, violent torrent of water blasting out of the
+    pipe at high pressure, creating turbulence and white foam where it hits the water surface in the tank.
+  video_WM: Single continuous take, no cuts or zoom. Camera starts centered on the pipe and water tank.
+    A massive, high-pressure torrent of water blasts from the pipe into the tank. Then the camera smoothly
+    moves to the right at constant speed until the pipe and tank leave the frame to the left and become
+    completely invisible. The camera continues moving right across the room for several seconds. Then
+    the camera moves left at the same speed back to the original viewpoint. STOP.
+  camera_WM: A massive, high-pressure torrent of water blasts from a metal pipe into a transparent cylindrical
+    water tank. Lighting and objects remain consistent and realistic. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A large clear cylindrical tank sits in the center of a warehouse with concrete
+    floors. The tank has a vertical red measurement scale marked in grams (left) and liters (right). A
+    metal pipe extends from the top right, pouring a heavy stream of water into the tank. The water is
+    turbulent and splashing, currently filling the bottom portion of the tank. To the left, there are
+    stacks of wooden pallets and shelving units. In the background, there are industrial machines and
+    a white wall with windows.
+  init2final_edit_prompt: Edit the given image so that the water level in the clear cylindrical tank is
+    significantly higher. The volume of water inside the tank should occupy much more vertical space,
+    reaching a higher point on the red measurement scale than before. Maintain the appearance of the water
+    pouring from the pipe with turbulence and splashing, but show the tank in a fuller state.
+  rationale: The video prompt describes a continuous high-pressure torrent of water filling the tank.
+    The camera pans away, occluding the tank for several seconds while the filling action continues. When
+    the camera returns to the original viewpoint, the primary scalar change is the increase in water volume.
+    The tank should contain significantly more water than in the initial frame, resulting in a higher
+    water level.
+  questions:
+  - id: q1_primary_level
+    question: Is the water level in the tank higher than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the height of the water against the red markings or the tank walls.
+  - id: q2_primary_volume
+    question: Does the water occupy a larger volume of the tank compared to the start?
+    answer_type: yes_no
+    notes_for_judge: The overall amount of water visible inside the container should be greater.
+  - id: q3_primary_fullness
+    question: Is the tank fuller than it was initially?
+    answer_type: yes_no
+    notes_for_judge: Fuller implies less empty space at the top.
+  - id: q4_primary_markings
+    question: Does the water reach higher red measurement markings than in the first frame?
+    answer_type: yes_no
+    notes_for_judge: Check if the water line has moved up the scale.
+  - id: q5_primary_empty_space
+    question: Is there less empty space remaining at the top of the tank?
+    answer_type: yes_no
+    notes_for_judge: As water fills the tank, the air gap at the top decreases.
+  - id: q6_secondary_pipe
+    question: Is the metal pipe still visible in the same position?
+    answer_type: yes_no
+    notes_for_judge: The pipe structure should not move.
+  - id: q7_secondary_pallets
+    question: Are the wooden pallets on the left still present?
+    answer_type: yes_no
+    notes_for_judge: Background objects should remain consistent.

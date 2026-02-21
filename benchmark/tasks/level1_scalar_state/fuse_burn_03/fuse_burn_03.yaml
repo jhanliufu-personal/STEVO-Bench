@@ -1,0 +1,66 @@
+id: fuse_burn_03
+level: 1
+category: scalar_state
+tags: []
+variant_of: fuse_burn
+variation_type: occlusion_method
+variation_description: Occlusion by zooming out until details are lost
+changes:
+  occlusion_method: Camera zooms out to a high aerial view where the fuse is indistinguishable, then zooms
+    back in
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The fuse is burning rapidly, and the length of the black cord is visibly shortening as the
+    spark moves along it. The burning continues at a fast, constant rate. The camera rapidly zooms out,
+    pulling back until the floor becomes a distant texture and the fuse is too small to see. The camera
+    then zooms back in to the original framing. No cut, no scene change. STOP.
+  camera_WM: The fuse is burning rapidly, and the length of the black cord is visibly shortening as the
+    spark moves along it. The burning continues at a fast, constant rate. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+evaluation:
+  init_frame_description: A close-up, high-angle shot of a thick, textured rope fuse lying on a concrete
+    floor. The fuse begins at the bottom left and curves towards the right background. The tip of the
+    fuse on the bottom left is ignited, displaying a bright orange flame and sparks with smoke rising.
+    The unburnt portion of the rope has a braided, brownish-grey appearance.
+  init2final_edit_prompt: Edit the given image to show the fuse having burned further along its length.
+    Move the bright orange spark and flame further to the right along the path of the rope. Render the
+    section of the rope to the left of the new spark position as black, charred ash. Ensure the remaining
+    unburnt section of the rope ahead of the spark is shorter than in the original image. Maintain the
+    concrete floor background and the original path of the rope.
+  rationale: The video prompt describes a continuous burning process occurring while the camera zooms
+    out and back in. Since the camera returns to the original framing without a scene cut, the final frame
+    must show the same scene at a later point in time. The fuse burns at a constant rate, so the spark
+    must have traveled along the rope, consuming a portion of it and leaving charred residue behind, thereby
+    reducing the length of the unburnt fuse.
+  questions:
+  - id: spark_position
+    question: Is the burning spark located further along the rope than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The spark should have moved to the right along the rope's path.
+  - id: unburnt_length
+    question: Is the length of the unburnt rope shorter than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The segment of rope ahead of the flame should be reduced in length.
+  - id: charred_area
+    question: Is the section of rope where the flame started now charred or turned to ash?
+    answer_type: yes_no
+    notes_for_judge: The area previously occupied by the flame/start of rope should now be burnt residue.
+  - id: flame_movement
+    question: Has the flame moved away from the bottom-left tip of the rope?
+    answer_type: yes_no
+    notes_for_judge: The flame should no longer be at the very tip but further along the strand.
+  - id: ash_accumulation
+    question: Is there more black charred material visible along the rope's path than before?
+    answer_type: yes_no
+    notes_for_judge: As the fuse burns, it leaves ash/char behind.
+  - id: rope_path_consistency
+    question: Does the rope follow the same path on the floor as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The physical layout of the rope should not change, only its state (burnt vs unburnt).
+  - id: background_consistency
+    question: Is the concrete floor texture consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The background should remain unchanged.

@@ -1,0 +1,70 @@
+id: food_dye_swirl_06
+level: 1
+category: scalar_state
+tags: []
+variant_of: food_dye_swirl
+variation_type: dynamic_condition
+variation_description: Adds a spoon to the glass, implying active stirring.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Water is being stirred (forced convection).
+  expected_outcome_change: Dye mixes rapidly and completely due to turbulence.
+prompts:
+  init_frame_edit_prompt: Edit the image to insert a metal teaspoon into the glass of water.
+  video_WM: A drop of red food coloring contacts the water surface. A spoon is present in the water. The
+    water is agitated vigorously by the spoon, creating forced convection currents. The camera rotates
+    right at constant speed until the glass completely exits the view to the right. The camera continues
+    rotating right for several seconds while off-screen. Then the camera rotates left smoothly at the
+    same rate back to the original viewpoint, bringing the glass back into view. No zoom, no cut, no scene
+    change. STOP.
+  camera_WM: A drop of red food coloring contacts the water surface. A spoon is present in the water.
+    The water is agitated vigorously by the spoon, creating forced convection currents. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A clear glass tumbler filled with water sits on a white surface. A silver spoon
+    is submerged in the water. Dark red food coloring is visible as distinct, concentrated streaks and
+    blobs swirling around the spoon and sinking towards the bottom, while the surrounding water remains
+    largely clear.
+  init2final_edit_prompt: Edit the given image to show the water inside the glass as a uniformly colored
+    pink or light red liquid. Remove the distinct dark red streaks and concentrated blobs of dye to simulate
+    that the dye has been thoroughly mixed into the water. The water should no longer appear clear with
+    separate dye pockets, but rather as a homogeneous colored solution. Keep the glass, spoon, and background
+    identical to the original image.
+  rationale: The prompt describes vigorous agitation of the water by the spoon, which is a mixing process.
+    This physical action forces the red dye to disperse throughout the water, transitioning the state
+    from a heterogeneous mixture (clear water with distinct red streaks) to a homogeneous solution (uniformly
+    pink/red water). The camera rotation creates a period of occlusion during which this mixing occurs.
+    When the view returns to the starting position, the primary visual change is the uniform distribution
+    of the color.
+  questions:
+  - id: mixing_uniformity
+    question: Is the red color distributed more evenly throughout the water than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The final frame should show a homogeneous pink/red liquid rather than distinct streaks.
+  - id: streak_dispersal
+    question: Have the distinct dark red streaks of dye largely dispersed into the surrounding water?
+    answer_type: yes_no
+    notes_for_judge: The sharp contrast between dark dye and clear water should be reduced or eliminated.
+  - id: color_homogeneity
+    question: Does the water appear to be a uniform pink or light red shade?
+    answer_type: yes_no
+    notes_for_judge: Test for the end state of mixing.
+  - id: clear_water_reduction
+    question: Is the volume of clear, uncolored water visible in the glass significantly less than in
+      the initial frame?
+    answer_type: yes_no
+    notes_for_judge: As the dye mixes, clear areas should disappear.
+  - id: spoon_presence
+    question: Is the spoon still visible inside the glass?
+    answer_type: yes_no
+    notes_for_judge: Object permanence check.
+  - id: glass_position
+    question: Is the glass in the same position relative to the background as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The camera returns to the original viewpoint.
+  - id: water_level_conservation
+    question: Is the water level approximately the same height as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Mixing should not significantly change the volume.

@@ -1,0 +1,63 @@
+id: tape_retract_05
+level: 1
+category: scalar_state
+tags: []
+variant_of: tape_retract
+variation_type: dynamic_condition
+variation_description: A heavy book is placed on the tape, preventing it from retracting past that point.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Heavy book placed on tape blade.
+  expected_outcome_change: Tape retracts only until it hits the book, then stops.
+prompts:
+  init_frame_edit_prompt: Edit the image to place a heavy, thick hardcover book on top of the yellow tape
+    measure blade, located about 2 feet away from the housing.
+  video_WM: A metal tape measure is extended 5 feet with a heavy book sitting on the blade. The retraction
+    button is held down, and the tape pulls tight against the weight of the book, trying to zip back.
+    The camera rotates right until the tape and housing completely exit the view, then rotates toward
+    the left smoothly at the same rate until the housing is back in the center of view. No zoom, no cut,
+    no scene change. STOP.
+  camera_WM: A metal tape measure is extended 5 feet with a heavy book sitting on the blade. The retraction
+    button is held down, and the tape pulls tight against the weight of the book, trying to zip back.
+    STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up, high-angle shot of a wooden floor. On the left, a thick, dark, worn
+    book rests on top of a metal tape measure blade. On the right, a hand holds the yellow housing of
+    the tape measure. A segment of the yellow tape blade is visible extending from the housing and disappearing
+    under the book, with measurement numbers visible on the blade.
+  init2final_edit_prompt: Edit the given image to show the book positioned closer to the tape measure
+    housing. Reduce the distance between the book and the hand, so that a shorter segment of the yellow
+    metal tape blade is visible between them. Maintain the taut appearance of the tape and the visual
+    style of the floor and objects.
+  rationale: The video prompt describes a retraction action where the tape measure is pulling against
+    the weight of the book while the camera rotates away and back. During this elapsed time, the constant
+    tension from the retraction mechanism will pull the book closer to the housing (or the tape will slide
+    under the book), resulting in a reduction of the exposed tape length between the housing and the book.
+  questions:
+  - id: dist_shorter
+    question: Is the distance between the book and the tape measure housing shorter than in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the length of the visible tape blade between the book and the yellow housing.
+  - id: less_tape
+    question: Is less of the yellow metal tape blade visible between the book and the housing?
+    answer_type: yes_no
+    notes_for_judge: The segment of tape connecting the two objects should be shorter.
+  - id: book_moved
+    question: Has the book moved closer to the hand holding the tape measure?
+    answer_type: yes_no
+    notes_for_judge: The book should be positioned further to the right relative to the floor or housing.
+  - id: gap_narrower
+    question: Is the gap separating the book and the tape measure housing narrower?
+    answer_type: yes_no
+    notes_for_judge: Refers to the empty space bridged by the tape.
+  - id: housing_yellow
+    question: Is the tape measure housing still yellow?
+    answer_type: yes_no
+    notes_for_judge: Consistency check.
+  - id: hand_present
+    question: Is the hand holding the tape measure still visible?
+    answer_type: yes_no
+    notes_for_judge: Consistency check.

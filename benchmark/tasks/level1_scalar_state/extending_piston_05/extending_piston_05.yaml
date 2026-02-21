@@ -1,0 +1,59 @@
+id: extending_piston_05
+level: 1
+category: scalar_state
+tags: []
+variant_of: extending_piston
+variation_type: dynamic_condition
+variation_description: Piston is mechanically locked and stationary instead of moving.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Piston is locked with a safety tag; zero movement.
+  expected_outcome_change: No change in state; piston remains at exact same position.
+prompts:
+  init_frame_edit_prompt: Edit the image to add a yellow 'LOCKED' safety tag hanging from the hydraulic
+    line near the piston.
+  video_WM: A hydraulic piston is locked in place with a safety tag visible. The camera rotates right
+    until the piston assembly completely exits the view, then rotates toward the left smoothly at the
+    same rate until the piston is back in the center of view. No zoom, no cut, no scene change. STOP.
+  camera_WM: A hydraulic piston is locked in place with a safety tag visible. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up view of a green hydraulic excavator arm and piston assembly. A bright
+    yellow safety tag is attached to the hydraulic cylinder with a wire, displaying the word 'LOCKED'
+    in bold black vertical text. The machinery is weathered with grease and dirt, and the background shows
+    blurred industrial debris and ground.
+  init2final_edit_prompt: Edit the given image to keep the hydraulic piston and green machinery in the
+    exact same configuration as the original. Ensure the yellow 'LOCKED' tag remains visible and attached
+    in the same position. The piston extension length must remain unchanged, and the arm should not move.
+    The final image should appear identical to the initial state.
+  rationale: The video prompt explicitly states that the piston is 'locked in place' and describes a camera
+    panning motion that exits the view and then returns to the center. Since no physical action is described
+    to unlock or move the piston, and the camera returns to the starting viewpoint, the physical state
+    of the piston (its length and position) must remain constant. The task tests the model's ability to
+    maintain object permanence and state stability (not hallucinating extension) during temporary occlusion.
+  questions:
+  - id: q1
+    question: Is the yellow 'LOCKED' tag still visible in the frame?
+    answer_type: yes_no
+    notes_for_judge: The tag should persist as the object returns to view.
+  - id: q2
+    question: Is the hydraulic piston extension length the same as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The piston should not extend or retract; it is locked.
+  - id: q3
+    question: Is the green hydraulic arm in the same position as it was initially?
+    answer_type: yes_no
+    notes_for_judge: The arm should be static.
+  - id: q4
+    question: Is the text 'LOCKED' still legible on the yellow tag?
+    answer_type: yes_no
+    notes_for_judge: Text preservation checks fine-grained state consistency.
+  - id: q5
+    question: Is the amount of exposed metal piston rod identical to the start?
+    answer_type: yes_no
+    notes_for_judge: Checks for subtle extension or retraction.
+  - id: q6
+    question: Is the hydraulic cylinder centered in the view?
+    answer_type: yes_no
+    notes_for_judge: The camera prompt specifies returning to the center.

@@ -1,0 +1,64 @@
+id: spooling_wire_01
+level: 1
+category: scalar_state
+tags: []
+variant_of: spooling_wire
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to a safety screen sliding in front.
+changes:
+  occlusion_method: Large opaque safety screen slides in to block view.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A motorized spindle winds yellow wire. The spool diameter is visibly growing. A large opaque
+    metal safety screen slides in from the side, completely blocking the view of the machine, then slides
+    away to reveal the scene again. No zoom, no cut, no scene change. STOP.
+  camera_WM: A motorized spindle winds yellow wire. The spool diameter is visibly growing. A large opaque
+    metal safety screen slides in from the side, completely blocking the view of the machine, then slides
+    away to reveal the scene again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up industrial scene showing a large machine winding bright yellow wire
+    onto a central spool. To the left is a large, greasy metal gear mechanism. Above the spool is a heavy
+    electric motor with cooling fins. The central spool currently has a layer of yellow wire wound around
+    a black core. In the background, there are other spools of wire (blue on the bottom left, black in
+    the middle, yellow on the right) and the interior of a warehouse with corrugated metal walls and ceiling
+    lights.
+  init2final_edit_prompt: Edit the given image to show the central spool of yellow wire with a significantly
+    larger diameter, as if more wire has been wound onto it. The layer of yellow wire should be thicker
+    and extend further outward from the center than in the original image. Ensure the machine parts, the
+    large gear on the left, the motor on top, and the background environment remain unchanged.
+  rationale: 'The video prompt describes a winding process where the spool diameter grows. A safety screen
+    temporarily occludes the view but then slides away, revealing the machine again. Therefore, the final
+    state should be visually identical to the initial state in terms of camera angle and background, except
+    for the primary scalar change: the amount of yellow wire on the central spool must have increased
+    (grown in diameter/volume) due to the winding action that occurred before and potentially during the
+    occlusion.'
+  questions:
+  - id: wire_diameter_growth
+    question: Is the diameter of the yellow wire coil on the central spindle larger than in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the thickness of the yellow wire layer to the initial frame.
+  - id: wire_volume_increase
+    question: Is there visibly more yellow wire wound on the central machine than in the starting image?
+    answer_type: yes_no
+    notes_for_judge: The volume of wire should have increased.
+  - id: wire_thickness_change
+    question: Is the layer of yellow wire thicker than it was initially?
+    answer_type: yes_no
+    notes_for_judge: Focus on the radial thickness of the wound wire.
+  - id: screen_removal
+    question: Is the machine fully visible again, without the safety screen blocking the view?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the screen slides away to reveal the scene.
+  - id: background_consistency_blue_spool
+    question: Is the blue wire spool in the bottom left corner still visible?
+    answer_type: yes_no
+    notes_for_judge: Check for background consistency.
+  - id: machine_integrity_gear
+    question: Is the large metal gear on the left side of the machine still present?
+    answer_type: yes_no
+    notes_for_judge: Check for object permanence of static machine parts.

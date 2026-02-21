@@ -1,0 +1,65 @@
+id: inflating_balloon_04
+level: 1
+category: scalar_state
+tags: []
+variant_of: inflating_balloon
+variation_type: dynamic_condition
+variation_description: The tank valve is closed, preventing inflation.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Valve is closed instead of open.
+  expected_outcome_change: The balloon size remains constant (no inflation).
+prompts:
+  init_frame_edit_prompt: Edit the image to remove the 'OPEN' text and arrow from the tank valve, and
+    position the valve handle perpendicular to the pipe to indicate it is closed.
+  video_WM: A white balloon is connected to a helium tank, but the valve is tightly closed. The camera
+    rotates right until the balloon and tank completely exit the view, then rotates toward the left smoothly
+    at the same rate until the balloon is back in the center of view. No zoom, no cut, no scene change.
+    STOP.
+  camera_WM: A white weather balloon is attached to a helium tank with the valve closed. The balloon is
+    not receiving any gas. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A green helium tank with the word 'HELIUM' printed on it stands in a grassy
+    field. A deflated, cream-colored balloon hangs limply from the brass nozzle on the side of the tank.
+    A gloved hand rests on the valve handle at the top of the tank. The background features green grass
+    and distant hills under a sky with light clouds.
+  init2final_edit_prompt: Edit the given image to show the exact same scene with the white balloon remaining
+    completely deflated and limp attached to the green helium tank. The balloon must appear empty and
+    flat, identical to its state in the original image. Do not inflate the balloon.
+  rationale: The prompt explicitly states that the valve is 'tightly closed,' which overrides the visual
+    affordance of the setup (a balloon attached to a tank usually implies imminent inflation). Therefore,
+    despite the camera panning away to occlude the objects and then returning, the physical state of the
+    balloon (volume) must remain constant (deflated). The rollout tests the model's ability to adhere
+    to text constraints regarding physical state during temporary occlusion, ensuring it does not hallucinate
+    inflation based on common video training data biases.
+  questions:
+  - id: balloon_deflated
+    question: Is the white balloon still completely deflated?
+    answer_type: yes_no
+    notes_for_judge: The balloon should look flat and limp, not round or filled.
+  - id: balloon_volume_unchanged
+    question: Does the balloon appear to have the same small volume as it did in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The volume should not have increased.
+  - id: balloon_limp
+    question: Is the balloon hanging limply rather than standing taut?
+    answer_type: yes_no
+    notes_for_judge: Inflation would make it taut or float; it should remain limp.
+  - id: balloon_empty
+    question: Does the balloon appear to be empty of gas?
+    answer_type: yes_no
+    notes_for_judge: Check for lack of expansion.
+  - id: tank_visible
+    question: Is the green helium tank visible in the frame?
+    answer_type: yes_no
+    notes_for_judge: The camera should have returned to the initial view.
+  - id: hand_visible
+    question: Is the gloved hand still visible on the valve?
+    answer_type: yes_no
+    notes_for_judge: Consistency check for the agent in the scene.
+  - id: text_legible
+    question: Is the word 'HELIUM' still visible on the tank?
+    answer_type: yes_no
+    notes_for_judge: Consistency check for object details.

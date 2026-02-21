@@ -1,0 +1,68 @@
+id: fuse_burn_10
+level: 1
+category: scalar_state
+tags: []
+variant_of: fuse_burn
+variation_type: combined
+variation_description: Fuse soaked in accelerant (very fast burn) occluded by camera moving away
+changes:
+  occlusion_method: Camera physically moves backward away from the scene
+  dynamic_conditions: Fuse sitting in pool of gasoline (accelerated burn)
+  expected_outcome_change: Burn is extremely rapid and aggressive
+prompts:
+  init_frame_edit_prompt: Edit the image to show the fuse sitting in a shiny, spreading pool of liquid
+    gasoline.
+  video_WM: The fuse, sitting in a pool of accelerant, burns aggressively with a large, intense flame.
+    The fire spreads rapidly. The camera moves backward, retreating from the heat until the fuse is lost
+    in the distance, then moves forward to return to the original position. No zoom, no cut, no scene
+    change. STOP.
+  camera_WM: The fuse, sitting in a pool of accelerant, burns aggressively with a large, intense flame.
+    The fire spreads rapidly. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up, high-angle shot of a thick, twisted rope fuse lying on a concrete
+    floor. The fuse is partially surrounded by a puddle of clear liquid. The left end of the fuse is ignited,
+    emitting a bright orange flame with sparks and smoke. The unburnt portion of the fuse curves away
+    towards the right and background.
+  init2final_edit_prompt: Edit the given image to show that the fuse has burned significantly further
+    along its length. The bright flame and sparks should be located further down the rope, moving towards
+    the right side of the frame. The section of the rope where the flame started (on the left) should
+    now be charred, blackened, and turned to ash. The flame should appear intense and active at its new
+    position. Maintain the original camera angle and background environment.
+  rationale: The video prompt describes a fuse burning aggressively while the camera moves away and then
+    returns to the original position. Since the camera returns to the start, the viewpoint is identical
+    to the initial frame. However, time has passed, so the irreversible physical process of combustion
+    must have progressed. The flame must have traveled along the fuse, consuming the material. This results
+    in a scalar change where the length of the unburnt fuse decreases and the position of the flame front
+    advances along the rope's path.
+  questions:
+  - id: flame_position
+    question: Is the flame located further along the rope than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The fire should have traveled down the fuse.
+  - id: unburnt_length
+    question: Is the length of the unburnt fuse shorter than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: As the fuse burns, the remaining unburnt section must decrease.
+  - id: charred_residue
+    question: Is the section of the fuse that was originally lit now charred, blackened, or turned to
+      ash?
+    answer_type: yes_no
+    notes_for_judge: The path behind the advancing flame should show evidence of burning.
+  - id: ignition_point_moved
+    question: Has the active burning front moved away from the initial starting point?
+    answer_type: yes_no
+    notes_for_judge: The fire should not be static at the tip.
+  - id: flame_presence
+    question: Is there still an active flame visible on the fuse?
+    answer_type: yes_no
+    notes_for_judge: The prompt implies the burning continues.
+  - id: floor_consistency
+    question: Is the concrete floor texture still visible in the background?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: rope_path_consistency
+    question: Does the remaining fuse follow the same path/curve as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The unburnt part should not have moved, only shortened.

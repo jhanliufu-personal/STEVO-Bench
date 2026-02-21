@@ -1,0 +1,63 @@
+id: dough_rise_08
+level: 1
+category: scalar_state
+tags: []
+variant_of: dough_rise
+variation_type: combined
+variation_description: Hot temperature (fast rise) combined with object blocking occlusion.
+changes:
+  occlusion_method: Blocking object (towel).
+  dynamic_conditions: Hot environment (100F).
+  expected_outcome_change: Rapid expansion while blocked.
+prompts:
+  init_frame_edit_prompt: Edit the image to change the thermometer reading in the background to '100 F'
+    and make the red indicator line higher.
+  video_WM: A bowl of yeast dough sits in a hot proofing room (100F), causing rapid expansion. A large
+    kitchen towel falls from above, draping over the camera lens and completely blocking the view. The
+    towel is then pulled away to reveal the scene again. No cut, no scene change. STOP.
+  camera_WM: A bowl of yeast dough sits in a hot proofing room (100F), causing rapid expansion. A large
+    kitchen towel falls from above, draping over the camera lens and completely blocking the view. The
+    towel is then pulled away to reveal the scene again. No cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A clear glass bowl sits on a wooden countertop, illuminated by natural light
+    from a window on the right. Inside the bowl is a ball of dough, dusted with flour, occupying the bottom
+    portion of the bowl. A beige cloth is draped over the back rim of the bowl. To the right of the bowl,
+    a vertical thermometer and a jar are visible in the background.
+  init2final_edit_prompt: Edit the given image so that the dough inside the glass bowl has expanded significantly
+    in volume. The dough ball should appear larger, puffier, and taller, filling a much greater portion
+    of the bowl's interior compared to the original state.
+  rationale: The video prompt establishes a hot environment (100F) which accelerates the yeast fermentation
+    process, causing the dough to rise (expand in volume). The camera occlusion event (towel covering
+    the lens) implies a passage of time during which this expansion occurs. Therefore, in the final frame,
+    the primary state change is the increased volume and height of the dough within the bowl.
+  questions:
+  - id: dough_volume_increase
+    question: Is the dough larger in volume than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the overall size of the dough mass.
+  - id: dough_height_increase
+    question: Is the top surface of the dough higher in the bowl than before?
+    answer_type: yes_no
+    notes_for_judge: Check the vertical level of the dough relative to the rim of the glass bowl.
+  - id: dough_fill_ratio
+    question: Does the dough fill more of the glass bowl than it did initially?
+    answer_type: yes_no
+    notes_for_judge: Assess the ratio of dough to empty space inside the bowl.
+  - id: dough_expansion
+    question: Has the dough expanded compared to the start?
+    answer_type: yes_no
+    notes_for_judge: Look for signs of growth or rising.
+  - id: visibility_restored
+    question: Is the dough visible again after the view is unblocked?
+    answer_type: yes_no
+    notes_for_judge: Ensure the camera occlusion (towel) has been removed.
+  - id: bowl_invariant
+    question: Is the glass bowl still present and intact?
+    answer_type: yes_no
+    notes_for_judge: The container should not change.
+  - id: thermometer_invariant
+    question: Is the thermometer still visible to the right of the bowl?
+    answer_type: yes_no
+    notes_for_judge: Background objects should remain consistent.

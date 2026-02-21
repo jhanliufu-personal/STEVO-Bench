@@ -1,0 +1,70 @@
+id: ice_on_burner_04
+level: 1
+category: scalar_state
+tags: []
+variant_of: ice_on_burner
+variation_type: dynamic_condition
+variation_description: The burner is turned off (cold surface), implying the ice will not melt rapidly.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Burner is OFF and coils are dark (room temperature).
+  expected_outcome_change: Ice remains largely solid (minimal/no melting compared to original).
+prompts:
+  init_frame_edit_prompt: Edit the image to show the cooktop burner coils as dark black (not glowing red)
+    and the digital display turned off or blank.
+  video_WM: A clear ice cube sits on top of a cold electric cooktop burner. The cooktop is turned off
+    and the coils are dark. Single continuous shot, no cuts, no zoom. The camera smoothly moves right
+    at constant speed until the burner and ice cube completely exit the frame to the right. The camera
+    continues moving right for several seconds. Then the camera moves left at the same constant speed
+    back to the original viewpoint.
+  camera_WM: A clear ice cube sits on top of a cold electric cooktop burner. The cooktop is turned off
+    and the coils are dark. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, high-angle shot of a black glass-ceramic electric cooktop. A single
+    clear ice cube sits centrally on the circular burner markings. A small, irregular puddle of water
+    surrounds the base of the ice cube. The burner coils visible beneath the glass surface are dark. There
+    are white, misty reflections or textures on the right side of the glass surface.
+  init2final_edit_prompt: Edit the given image to show the scene exactly as it was, preserving the state
+    of all objects. The clear ice cube should remain sitting on the cooktop, solid and unmelted. The water
+    puddle around the ice should remain visible and approximately the same size. The electric burner coils
+    must remain dark and unlit. The reflections on the glass surface should be preserved. The viewpoint
+    is identical to the original.
+  rationale: 'The video prompt explicitly states that the cooktop is ''cold'' and ''turned off''. Although
+    the camera pans away to occlude the subject for several seconds before returning, the physical state
+    of the system should remain effectively constant because there is no heat source to drive rapid melting.
+    The primary challenge for the world model is object permanence: it must remember the existence and
+    location of the ice cube and the ''off'' state of the burner despite the temporary occlusion. Any
+    hallucination of the ice melting rapidly, the stove turning on, or the ice disappearing would be a
+    failure.'
+  questions:
+  - id: ice_permanence
+    question: Is the ice cube still visible on the cooktop?
+    answer_type: yes_no
+    notes_for_judge: The ice cube must not disappear during the occlusion.
+  - id: burner_state
+    question: Is the electric burner still dark and unlit?
+    answer_type: yes_no
+    notes_for_judge: The coils should not be glowing red; the stove is off.
+  - id: ice_solidity
+    question: Does the ice cube appear solid rather than fully melted?
+    answer_type: yes_no
+    notes_for_judge: Since the burner is cold, the ice should not melt into a puddle.
+  - id: puddle_presence
+    question: Is the water puddle still visible around the ice?
+    answer_type: yes_no
+    notes_for_judge: The water should not evaporate or disappear.
+  - id: ice_size_consistency
+    question: Is the ice cube approximately the same size as it was initially?
+    answer_type: yes_no
+    notes_for_judge: Ambient melting over a few seconds is negligible.
+  - id: no_boiling
+    question: Is the water puddle free of boiling bubbles?
+    answer_type: yes_no
+    notes_for_judge: The surface is cold.
+  - id: location_consistency
+    question: Is the ice cube in the same location on the burner markings?
+    answer_type: yes_no
+    notes_for_judge: It should not have slid away.

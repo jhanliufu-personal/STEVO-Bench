@@ -1,0 +1,66 @@
+id: lava_cool_03
+level: 1
+category: scalar_state
+tags: []
+variant_of: lava_cool
+variation_type: occlusion_method
+variation_description: Replaced camera rotation with a rapid zoom out.
+changes:
+  occlusion_method: Camera zooms out until details are lost.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A piece of volcanic rock is glowing bright orange and is cooling toward black. The cooling
+    continues steadily. The camera zooms out rapidly until the tray becomes a tiny indistinguishable speck
+    in the distance, then zooms back in smoothly until the rock fills the frame again. No cut, no scene
+    change. STOP.
+  camera_WM: A piece of volcanic rock is glowing bright orange and is cooling toward black. The cooling
+    continues steadily. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+evaluation:
+  init_frame_description: A close-up shot of a large, jagged chunk of volcanic rock sitting on a dirty,
+    weathered metal baking sheet. The rock is intensely hot, glowing with bright orange and yellow magma
+    visible through cracks and on the surface. Smoke and heat distortion rise from the rock. The background
+    is a dark, blurred industrial workshop environment.
+  init2final_edit_prompt: Edit the given image to show the volcanic rock in a significantly cooled state.
+    Change the bright glowing orange and yellow areas to dark grey or black solidified rock, leaving only
+    faint, dull red embers visible in the deepest crevices. Reduce the intensity of the rising smoke.
+    Maintain the exact same camera angle, framing, and background details as the original image.
+  rationale: 'The video prompt describes a continuous cooling process while the camera performs a zoom-out
+    and zoom-in maneuver. By the time the camera zooms back in to the original framing, time has elapsed,
+    so the rock must have lost significant heat. Physically, this manifests as a reduction in incandescence:
+    the bright orange/yellow glow should fade to dull red or black, and the rock should appear darker
+    and solidifying.'
+  questions:
+  - id: glow_reduction
+    question: Is the overall brightness of the glowing rock significantly lower than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the intensity of the light emitted by the rock. It should be dimmer.
+  - id: color_change
+    question: Has the bright orange and yellow color of the rock faded to darker tones like dull red,
+      grey, or black?
+    answer_type: yes_no
+    notes_for_judge: The primary color shift should be from bright hot colors to cool dark colors.
+  - id: surface_darkening
+    question: Is a larger percentage of the rock's surface black or dark grey compared to the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: As lava cools, it turns into black rock.
+  - id: cooling_state
+    question: Does the rock appear to be cooler than it was in the starting image?
+    answer_type: yes_no
+    notes_for_judge: General assessment of the thermal state based on visual cues.
+  - id: ember_visibility
+    question: Are the glowing cracks dimmer and less extensive than they were initially?
+    answer_type: yes_no
+    notes_for_judge: The internal heat should be less visible.
+  - id: tray_consistency
+    question: Is the metal tray still visible beneath the rock?
+    answer_type: yes_no
+    notes_for_judge: Consistency check for the supporting object.
+  - id: background_consistency
+    question: Is the background environment still the same dark industrial setting?
+    answer_type: yes_no
+    notes_for_judge: Consistency check for the environment.

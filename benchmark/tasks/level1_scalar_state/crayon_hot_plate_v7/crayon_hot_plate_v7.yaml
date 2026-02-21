@@ -1,0 +1,65 @@
+id: crayon_hot_plate_v7
+level: 1
+category: scalar_state
+tags: []
+variant_of: crayon_hot_plate
+variation_type: combined
+variation_description: Plate is cold (no melting) and occlusion is caused by thick fog.
+changes:
+  occlusion_method: Thick fog/smoke fills the room.
+  dynamic_conditions: Plate is off (room temperature).
+  expected_outcome_change: The crayon remains solid.
+prompts:
+  init_frame_edit_prompt: Edit the image to turn off the red 'HEATING' indicator light on the front of
+    the hot plate.
+  video_WM: The crayon is in contact with the hot plate surface. The plate is turned off and is at room
+    temperature. The crayon is made of paraffin wax. Thick white fog begins to fill the room, becoming
+    denser until the hot plate and crayon are completely obscured from view. The fog swirls for several
+    seconds. Then the fog clears, revealing the scene again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The crayon is in contact with the hot plate surface. The plate is turned off and is at room
+    temperature. The crayon is made of paraffin wax. Thick white fog begins to fill the room, becoming
+    denser until the hot plate and crayon are completely obscured from view. The fog swirls for several
+    seconds. Then the fog clears, revealing the scene again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A blue Crayola crayon stands upright in the center of a black, circular electric
+    hot plate. The hot plate is part of a portable burner unit with a 'HEATING' label and a red indicator
+    light cover that appears dark (off). In the background, behind the burner, there are wisps of smoke
+    or steam rising against a dark background.
+  init2final_edit_prompt: Edit the given image to show the scene clearly. The blue crayon stands upright
+    in the center of the hot plate, appearing exactly as it did initially. The crayon is solid, unmelted,
+    and retains its original height and cylindrical shape. The hot plate remains off. The scene is free
+    of any thick fog or obstruction, matching the clarity of the original view.
+  rationale: The prompt explicitly states that the hot plate is turned off and is at room temperature.
+    Despite the visual presence of a hot plate (and potential background smoke in the source image), the
+    text constraint dictates that no heat is applied to the crayon. Therefore, the paraffin wax does not
+    melt, deform, or change phase. The fog described is an environmental occluder that temporarily blocks
+    the view but does not alter the thermal state of the crayon. Once the fog clears, the crayon must
+    be revealed in its original, unchanged state.
+  questions:
+  - id: crayon_standing
+    question: Is the blue crayon still standing upright?
+    answer_type: yes_no
+    notes_for_judge: The crayon should not have fallen over.
+  - id: crayon_height_conservation
+    question: Is the crayon approximately the same height as it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Since the plate is cold, the crayon should not melt down.
+  - id: crayon_solid_state
+    question: Does the crayon appear to be solid wax rather than melted liquid?
+    answer_type: yes_no
+    notes_for_judge: Check for lack of phase change.
+  - id: no_melt_pool
+    question: Is the base of the crayon free from a spreading pool of melted wax?
+    answer_type: yes_no
+    notes_for_judge: There should be no puddle at the bottom.
+  - id: shape_preservation
+    question: Has the crayon retained its original cylindrical shape and pointed tip?
+    answer_type: yes_no
+    notes_for_judge: The form should be preserved.
+  - id: fog_cleared
+    question: Is the crayon clearly visible, without being obscured by thick fog?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the fog clears at the end.

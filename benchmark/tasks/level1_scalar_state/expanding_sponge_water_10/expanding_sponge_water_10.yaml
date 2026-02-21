@@ -1,0 +1,63 @@
+id: expanding_sponge_water_10
+level: 1
+category: scalar_state
+tags: []
+variant_of: expanding_sponge_water
+variation_type: combined
+variation_description: Very slow drip (slow expansion) combined with camera moving away physically.
+changes:
+  occlusion_method: Camera physically moves backward away from the scene.
+  dynamic_conditions: Water flow reduced to a slow drip.
+  expected_outcome_change: Slower expansion rate.
+prompts:
+  init_frame_edit_prompt: Edit the image to change the heavy water pour into a very slow, single dripping
+    droplet.
+  video_WM: A very slow drip of water falls onto the compressed dry sponge. The rate of liquid addition
+    is minimal. The camera physically moves backward, pulling away from the table until the objects are
+    lost in the distance and the view is obscured. The camera then moves forward, returning to the original
+    close-up position. No cut, no scene change. STOP.
+  camera_WM: A very slow drip of water falls onto the compressed dry sponge. The rate of liquid addition
+    is minimal. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A close-up shot of a dry, beige, compressed rectangular sponge sitting on a
+    small white plate on a wooden table. A hand holds a clear glass pitcher above the sponge, tilting
+    it to pour. A single drop of water is suspended in mid-air, falling from the pitcher's spout towards
+    the center of the sponge. The background features a blurred window and kitchen setting.
+  init2final_edit_prompt: Edit the given image to show the sponge after it has absorbed water. The center
+    of the sponge should appear wet, darker, and slightly swollen or expanded in height compared to the
+    initial flat, dry state. Remove the specific water droplet that was suspended in mid-air in the original
+    image, as it has landed. Maintain the position of the pitcher, plate, and table exactly as they were.
+  rationale: The video prompt describes a camera movement that leaves and returns to the scene, implying
+    a passage of time during which the 'very slow drip' continues or at least the initial drop lands.
+    The physical interaction is water contacting a compressed dry sponge. The scalar state change is the
+    absorption of water, which causes the sponge to darken (wetness) and expand vertically (swelling).
+    Even with a minimal rate, the sponge should show signs of this interaction (wet spot and local expansion)
+    upon the camera's return.
+  questions:
+  - id: sponge_wetness
+    question: Does the sponge appear wet or darker in the center compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Look for a dark spot indicating water absorption.
+  - id: sponge_expansion
+    question: Is the sponge swollen or taller in the area where the water dripped compared to the start?
+    answer_type: yes_no
+    notes_for_judge: Compressed sponges expand vertically when wet.
+  - id: sponge_texture_change
+    question: Is the texture of the sponge in the center different from the dry edges?
+    answer_type: yes_no
+    notes_for_judge: The center should look hydrated/expanded vs the dry compressed edges.
+  - id: drop_landed
+    question: Is the specific water droplet from the initial frame no longer suspended in mid-air?
+    answer_type: yes_no
+    notes_for_judge: The drop must have fallen during the elapsed time.
+  - id: pitcher_presence
+    question: Is the glass pitcher still visible in the frame?
+    answer_type: yes_no
+    notes_for_judge: Consistency check.
+  - id: plate_presence
+    question: Is the white plate still visible beneath the sponge?
+    answer_type: yes_no
+    notes_for_judge: Consistency check.

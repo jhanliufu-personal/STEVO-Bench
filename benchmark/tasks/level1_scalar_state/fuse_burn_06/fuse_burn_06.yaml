@@ -1,0 +1,63 @@
+id: fuse_burn_06
+level: 1
+category: scalar_state
+tags: []
+variant_of: fuse_burn
+variation_type: dynamic_condition
+variation_description: The fuse is cut ahead of the spark, implying the burn will stop
+changes:
+  occlusion_method: null
+  dynamic_conditions: A visible gap/cut in the fuse path
+  expected_outcome_change: Burn stops at the gap; remaining fuse untouched
+prompts:
+  init_frame_edit_prompt: Edit the image to show a clean cut in the fuse rope about 6 inches ahead of
+    the current spark location, creating a distinct gap.
+  video_WM: The fuse burns toward a visible gap where the cord has been severed. The spark travels along
+    the remaining segment. The camera rotates right until the fuse completely exits the view, then rotates
+    toward the left smoothly at the same rate until the fuse is back in the center of view. No zoom, no
+    cut, no scene change. STOP.
+  camera_WM: The fuse burns toward a visible gap where the cord has been severed. The spark travels along
+    the remaining segment. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a concrete floor showing a severed fuse. On the
+    left, a tan, twisted rope segment ends in a bright orange flame and sparks at its rightmost tip. On
+    the right, separated by a small visible gap, lies a black, charred-looking rope segment. Smoke is
+    rising from the burning end of the left segment.
+  init2final_edit_prompt: Edit the given image to show the result of the fuse burning for a short duration.
+    Shorten the tan rope segment on the left, moving the burning tip (flame and sparks) further to the
+    left as the rope is consumed. Increase the width of the gap between the burning end and the black
+    rope segment on the right. Keep the black rope segment and the concrete floor background unchanged.
+  rationale: The video prompt describes a camera movement that pans away and then returns to the original
+    view ('rotates right... then rotates toward the left... at the same rate'). This implies the final
+    frame has the same camera angle and framing as the initial frame. During the elapsed time, the burning
+    fuse (the left segment) continues to burn. Since the flame is located at the severed end (the gap)
+    and the unburnt fuel is to the left, the flame travels to the left, consuming the rope. This results
+    in the left rope segment becoming shorter and the gap between the two segments widening.
+  questions:
+  - id: fuse_length_change
+    question: Is the tan rope segment shorter than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The fuse burns, consuming the rope, so the remaining unburnt segment should be shorter.
+  - id: gap_width_increase
+    question: Is the gap between the burning tip and the black rope wider than initially?
+    answer_type: yes_no
+    notes_for_judge: As the left segment burns away (retracts to the left), the space between it and the
+      stationary right segment increases.
+  - id: flame_position_shift
+    question: Is the flame positioned further to the left compared to the start?
+    answer_type: yes_no
+    notes_for_judge: The flame travels along the rope into the unburnt fuel, which is to the left.
+  - id: mass_reduction
+    question: Is there less unburnt rope visible than in the initial image?
+    answer_type: yes_no
+    notes_for_judge: Burning reduces the mass of the rope.
+  - id: right_segment_static
+    question: Is the black rope segment on the right still in the same position?
+    answer_type: yes_no
+    notes_for_judge: The right segment is inert/burnt and should not move.
+  - id: flame_presence
+    question: Is the flame still visible?
+    answer_type: yes_no
+    notes_for_judge: The fuse should still be burning upon the camera's return.

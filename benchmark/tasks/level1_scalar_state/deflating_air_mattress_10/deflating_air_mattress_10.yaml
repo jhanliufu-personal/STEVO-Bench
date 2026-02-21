@@ -1,0 +1,69 @@
+id: deflating_air_mattress_10
+level: 1
+category: scalar_state
+tags: []
+variant_of: deflating_air_mattress
+variation_type: combined
+variation_description: Tiny pinhole leak (very slow deflation) with fog occlusion.
+changes:
+  occlusion_method: Thick fog fills the room.
+  dynamic_conditions: Valve closed but tiny pinhole leak exists.
+  expected_outcome_change: Very slow deflation (minimal change).
+prompts:
+  init_frame_edit_prompt: Edit the image to show the valve closed, but add a small patch with a visible
+    pinhole leak on the side of the mattress.
+  video_WM: The air mattress valve is closed, but a tiny pinhole leak on the side is hissing quietly.
+    Thick white fog rolls into the room, completely obscuring the mattress from view. The fog slowly clears
+    to reveal the room again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The air mattress valve is closed, but a tiny pinhole leak on the side is hissing quietly.
+    Thick white fog rolls into the room, completely obscuring the mattress from view. The fog slowly clears
+    to reveal the room again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up, slightly high-angle shot of a blue, flocked-top air mattress on
+    a wooden floor. The mattress is fully inflated, appearing taut and smooth with defined ridges on the
+    top surface. A black valve cap is visible on the side panel near the bottom left, along with a small
+    circular patch or detail nearby. The lighting creates highlights on the inflated curves.
+  init2final_edit_prompt: Edit the given image to make the blue air mattress look partially deflated.
+    The surface of the mattress should appear sagging, loose, and wrinkled, losing its initial tautness.
+    The overall height of the mattress should be lower, and the sides should appear less rigid and slightly
+    collapsed due to the loss of air pressure. Keep the wooden floor and background unchanged.
+  rationale: The prompt establishes a leak in the mattress and introduces a period of occlusion (fog)
+    that implies the passage of time. During this interval, the continuous leak causes the air mattress
+    to lose air volume. Therefore, in the final frame, the mattress must exhibit physical signs of deflation
+    such as reduced height, a sagging surface, and increased wrinkling compared to the fully inflated
+    initial state.
+  questions:
+  - id: deflation_check_1
+    question: Does the air mattress appear less inflated than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the tautness and volume. The final frame should show a loss of pressure.
+  - id: deflation_check_2
+    question: Is the surface of the mattress more wrinkled or sagging compared to the start?
+    answer_type: yes_no
+    notes_for_judge: Deflation causes the material to bunch up and wrinkle.
+  - id: volume_check_1
+    question: Has the overall volume of the mattress decreased?
+    answer_type: yes_no
+    notes_for_judge: Look for a reduction in the space occupied by the mattress.
+  - id: height_check_1
+    question: Is the height of the mattress lower than in the initial image?
+    answer_type: yes_no
+    notes_for_judge: As air leaves, the mattress should settle closer to the floor.
+  - id: tautness_check_1
+    question: Is the mattress less taut than it was initially?
+    answer_type: yes_no
+    notes_for_judge: The initial image shows a tight, fully inflated surface. The final should look looser.
+  - id: rigidity_check_1
+    question: Do the sides of the mattress look less rigid or more collapsed?
+    answer_type: yes_no
+    notes_for_judge: Loss of pressure causes the vertical sides to bulge or fold.
+  - id: consistency_floor
+    question: Is the wooden floor still visible and recognizable?
+    answer_type: yes_no
+    notes_for_judge: The environment should not change.
+  - id: consistency_color
+    question: Is the mattress still blue?
+    answer_type: yes_no
+    notes_for_judge: The object identity should remain constant.

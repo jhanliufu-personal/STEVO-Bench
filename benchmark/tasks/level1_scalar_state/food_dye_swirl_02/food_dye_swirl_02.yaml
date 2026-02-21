@@ -1,0 +1,71 @@
+id: food_dye_swirl_02
+level: 1
+category: scalar_state
+tags: []
+variant_of: food_dye_swirl
+variation_type: occlusion_method
+variation_description: Replaces camera rotation with the lights turning off.
+changes:
+  occlusion_method: Scene lights turn off, creating pitch blackness.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A drop of red food coloring contacts the still water surface. The dye is water-soluble. Molecular
+    diffusion occurs driven by concentration gradients. The water is stationary with no forced convection.
+    Suddenly, the lights in the room turn off, plunging the scene into absolute pitch black darkness.
+    The darkness lasts for several seconds. Then the lights turn back on, illuminating the glass again.
+    No zoom, no cut, no scene change. STOP.
+  camera_WM: A drop of red food coloring contacts the still water surface. The dye is water-soluble. Molecular
+    diffusion occurs driven by concentration gradients. The water is stationary with no forced convection.
+    Suddenly, the lights in the room turn off, plunging the scene into absolute pitch black darkness.
+    The darkness lasts for several seconds. Then the lights turn back on, illuminating the glass again.
+    No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A clear glass tumbler filled with water sits against a white background. A glass
+    dropper containing red liquid is positioned above the center of the glass. A drop of red dye has just
+    entered the water, forming a concentrated red mushroom-cloud shape near the surface with tendrils
+    beginning to descend. The water around the dye remains mostly clear.
+  init2final_edit_prompt: Edit the given image to show the red food coloring having diffused significantly
+    further into the water. The red dye should occupy a larger volume of the glass, extending deeper and
+    wider with more complex swirls and a more dispersed pinkish-red appearance, rather than a compact
+    drop near the surface. The dye cloud should look expanded and less dense than in the original state.
+  rationale: The video prompt describes a process of molecular diffusion occurring over a period of several
+    seconds while the scene is occluded by darkness. When the lights return, the physical state of the
+    system must have advanced. In a liquid system, a concentrated dye drop will naturally spread outwards
+    and downwards due to momentum and diffusion, increasing the volume of water it occupies and becoming
+    more dispersed. The final frame must show this advanced state of diffusion compared to the initial
+    concentrated drop.
+  questions:
+  - id: dye_volume_expansion
+    question: Does the red dye occupy a larger total volume of the water than it did in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the spatial extent of the red color. It should cover more 3D space in the
+      glass.
+  - id: dye_depth_increase
+    question: Has the red dye descended deeper into the glass compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The lowest point of the red swirls should be lower than in the starting image.
+  - id: dye_dispersion
+    question: Is the red dye more dispersed and less concentrated in a single spot compared to the start?
+    answer_type: yes_no
+    notes_for_judge: The dye should look more like a cloud or mist and less like a solid drop.
+  - id: dye_width_spread
+    question: Has the red coloration spread horizontally wider than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The width of the red cloud should be greater.
+  - id: water_clarity_reduction
+    question: Is a larger portion of the water tinted red or pink compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: More of the clear water should now show signs of dye.
+  - id: glass_consistency
+    question: Is the glass cup still in the same position and orientation?
+    answer_type: yes_no
+    notes_for_judge: The container itself should not have moved.
+  - id: dropper_presence
+    question: Is the glass dropper still visible above the water?
+    answer_type: yes_no
+    notes_for_judge: The prompt implies no scene change, so the dropper should remain.

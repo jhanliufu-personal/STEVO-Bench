@@ -1,0 +1,61 @@
+id: inflating_balloon_09
+level: 1
+category: scalar_state
+tags: []
+variant_of: inflating_balloon
+variation_type: combined
+variation_description: Balloon floats away while camera zooms out.
+changes:
+  occlusion_method: Camera zoom out.
+  dynamic_conditions: Balloon is detached.
+  expected_outcome_change: Balloon floats away/upwards.
+prompts:
+  init_frame_edit_prompt: Edit the image to show the white balloon floating freely just above the tank
+    nozzle.
+  video_WM: A white balloon filled with helium is untethered and free. The camera zooms out rapidly until
+    the tank becomes a small dot in the landscape, then zooms back in smoothly until the tank is back
+    in the center of view. No cut, no scene change. STOP.
+  camera_WM: A white balloon filled with helium is untethered and free. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+evaluation:
+  init_frame_description: A green gas cylinder labeled 'HELIUM' stands in a grassy field. A white inflated
+    balloon is attached directly to the brass nozzle extending from the tank's valve. The background features
+    rolling hills, a fence, and a cloudy sky.
+  init2final_edit_prompt: Edit the given image to remove the white balloon from the brass nozzle. Show
+    the brass nozzle tip exposed and empty. Keep the green helium tank, the grassy field, and the background
+    landscape exactly as they are.
+  rationale: The prompt states that the helium-filled balloon becomes untethered and free. Physics dictates
+    that an untethered helium balloon will rise and float away from the tank. The camera performs a zoom-out
+    and zoom-in sequence, which implies a duration of time has passed. When the camera returns to the
+    initial framing, the balloon will have floated away and should no longer be attached to the nozzle.
+    The tank remains stationary throughout.
+  questions:
+  - id: balloon_detached
+    question: Is the white balloon no longer attached to the tank's nozzle?
+    answer_type: yes_no
+    notes_for_judge: The balloon should be gone or floating away, not connected to the tank.
+  - id: nozzle_exposed
+    question: Is the brass nozzle tip visible and exposed?
+    answer_type: yes_no
+    notes_for_judge: The part of the nozzle previously covered by the balloon neck should be visible.
+  - id: connection_empty
+    question: Is the connection point on the nozzle free of the balloon?
+    answer_type: yes_no
+    notes_for_judge: Check specifically where the balloon was attached.
+  - id: background_revealed
+    question: Is the background (sky/hills) visible in the area previously occupied by the balloon?
+    answer_type: yes_no
+    notes_for_judge: The balloon blocked a portion of the background; that area should now be clear.
+  - id: balloon_gone_from_fitting
+    question: Is the balloon absent from the brass fitting?
+    answer_type: yes_no
+    notes_for_judge: Primary state change check.
+  - id: tank_presence
+    question: Is the green helium tank still present in the center of the frame?
+    answer_type: yes_no
+    notes_for_judge: Consistency check.
+  - id: landscape_consistency
+    question: Is the grassy field and background landscape consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Consistency check.

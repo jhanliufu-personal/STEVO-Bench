@@ -1,0 +1,64 @@
+id: tire_inflate_06
+level: 1
+category: scalar_state
+tags: []
+variant_of: tire_inflate
+variation_type: dynamic_condition
+variation_description: Condition changed to a slow leak from a puncture.
+changes:
+  occlusion_method: null
+  dynamic_conditions: A nail is embedded in the tire causing a leak.
+  expected_outcome_change: Tire slowly deflates/loses shape.
+prompts:
+  init_frame_edit_prompt: Edit the image to show a large nail embedded in the tire tread and remove the
+    air hose connector.
+  video_WM: A large nail is embedded in the tire tread, and air is slowly hissing out from the puncture
+    site. The tire is gradually losing pressure. The camera rotates right until the tire completely exits
+    the view, then rotates toward the left smoothly at the same rate until the tire is back in the center
+    of view. No zoom, no cut, no scene change. STOP.
+  camera_WM: A large nail is embedded in the tire tread, and air is slowly hissing out from the puncture
+    site. The tire is gradually losing pressure. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up, ground-level view of a bicycle wheel with a deflated tire resting
+    on a concrete floor. A large rusty nail is embedded in the tire tread near the bottom center, angled
+    slightly to the right. A Presta valve stem stands vertically above the nail. The tire is visibly compressed
+    under the weight of the rim. In the background, slightly out of focus, are a red air compressor, a
+    window, a red tool cart, and wrenches scattered on the floor.
+  init2final_edit_prompt: Edit the given image to make the bicycle tire appear significantly more deflated.
+    Lower the metal rim closer to the concrete floor, compressing the rubber tire further until it is
+    nearly or completely flat against the ground. Make the sidewalls of the tire bulge outward or fold
+    more intensely at the contact point to indicate further loss of air pressure. Keep the rusty nail
+    embedded in the same position and the background tools and environment unchanged.
+  rationale: The prompt describes a continuous process of air hissing out of the tire (deflation) while
+    the camera performs a pan-away and return maneuver. During the time the tire is out of view, the pressure
+    continues to drop. Therefore, in the final frame, the tire must appear flatter with the rim sitting
+    lower to the ground compared to the initial state, reflecting the cumulative loss of air.
+  questions:
+  - id: tire_flatness
+    question: Is the tire visibly flatter against the ground than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the compression of the tire at the bottom. The final frame should show more
+      compression/flattening.
+  - id: rim_height
+    question: Is the metal rim closer to the concrete floor than it was initially?
+    answer_type: yes_no
+    notes_for_judge: The distance between the bottom of the metal rim and the floor should decrease.
+  - id: sidewall_bulge
+    question: Do the tire sidewalls appear more collapsed or bulged near the ground compared to the start?
+    answer_type: yes_no
+    notes_for_judge: Loss of pressure typically causes the sidewalls to fold or bulge outward more under
+      the rim's weight.
+  - id: pressure_comparison
+    question: Does the tire appear to have less air pressure than in the initial image?
+    answer_type: yes_no
+    notes_for_judge: General assessment of the tire's inflation state.
+  - id: nail_presence
+    question: Is the rusty nail still visible embedded in the tire?
+    answer_type: yes_no
+    notes_for_judge: 'Consistency check: the nail should not disappear.'
+  - id: background_consistency
+    question: Are the wrenches on the floor in the same position as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: 'Consistency check: static objects should not move.'

@@ -1,0 +1,67 @@
+id: syrup_fill_04
+level: 1
+category: scalar_state
+tags: []
+variant_of: syrup_fill
+variation_type: dynamic_condition
+variation_description: The pouring stream is removed, implying no filling will occur.
+changes:
+  occlusion_method: null
+  dynamic_conditions: No stream pouring; static liquid.
+  expected_outcome_change: Level remains constant (does not rise).
+prompts:
+  init_frame_edit_prompt: Edit the image to remove the pouring stream of syrup and the spout completely,
+    leaving the jar sitting 25% full on the counter with a still surface.
+  video_WM: A glass jar sits 25% full of syrup. No stream is pouring; the liquid surface is still. The
+    camera rotates right until the jar completely exits the view, then rotates toward the left smoothly
+    at the same rate until the jar is back in the center of view. No zoom, no cut, no scene change. STOP.
+  camera_WM: A glass jar sits 25% full of syrup. No stream is pouring; the liquid surface is still. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A clear glass jar sits on a wooden table, filled approximately 25% with amber-colored
+    syrup. The liquid surface is flat and still. To the left of the jar is a wooden cutting board, and
+    behind it is a beige ceramic jug. Through a window in the background, a forest scene is visible.
+  init2final_edit_prompt: Edit the given image to show the glass jar containing the same amount of amber
+    syrup as the original, remaining approximately 25% full. The liquid level should be unchanged and
+    the surface still. Ensure the lighting, background, and surrounding objects like the cutting board
+    and jug are preserved exactly as they were.
+  rationale: The video prompt explicitly describes a static scene where the jar sits 25% full with no
+    stream pouring. The camera rotates away and then back, but no physical action (like pouring or emptying)
+    is described that would alter the contents of the jar. Therefore, the correct world state evolution
+    is for the jar's volume to remain constant (conservation of mass). The final frame should be visually
+    identical to the initial frame regarding the jar's contents, demonstrating object permanence without
+    hallucinating a filling event.
+  questions:
+  - id: conservation_level_same
+    question: Is the syrup level approximately the same as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The prompt describes a static scene; the level should not change.
+  - id: conservation_25_percent
+    question: Is the jar still about 25% full?
+    answer_type: yes_no
+    notes_for_judge: The volume should be conserved.
+  - id: conservation_not_full
+    question: Is the jar significantly less than half full?
+    answer_type: yes_no
+    notes_for_judge: The jar should not have filled up.
+  - id: conservation_mass
+    question: Did the amount of syrup remain constant?
+    answer_type: yes_no
+    notes_for_judge: No pouring occurred.
+  - id: liquid_presence
+    question: Is the amber liquid still visible at the bottom of the jar?
+    answer_type: yes_no
+    notes_for_judge: The liquid should not disappear.
+  - id: no_spontaneous_filling
+    question: Is the jar free of any new liquid filling it to the top?
+    answer_type: yes_no
+    notes_for_judge: Verifies no hallucinated filling.
+  - id: secondary_jug
+    question: Is the ceramic jug still visible behind the jar?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: secondary_cutting_board
+    question: Is the wooden cutting board still visible on the left?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

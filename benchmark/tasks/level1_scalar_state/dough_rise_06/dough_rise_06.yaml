@@ -1,0 +1,62 @@
+id: dough_rise_06
+level: 1
+category: scalar_state
+tags: []
+variant_of: dough_rise
+variation_type: dynamic_condition
+variation_description: Dough condition changed to 'punched down', implying deflation.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Dough has been punctured/punched down.
+  expected_outcome_change: Dough volume should decrease (collapse) instead of increase.
+prompts:
+  init_frame_edit_prompt: Edit the image to show a visible indentation or puncture mark in the center
+    of the dough surface.
+  video_WM: A bowl of dough has just been punched down, breaking the gluten structure. Air is slowly escaping
+    from the indentation. The camera rotates right until the bowl completely exits the view, then rotates
+    toward the left smoothly at the same rate until the bowl is back in the center of view. No zoom, no
+    cut, no scene change. STOP.
+  camera_WM: A bowl of dough has just been punched down, breaking the gluten structure. Air is slowly
+    escaping from the indentation. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A clear glass bowl sits on a wooden countertop, containing a large, puffy ball
+    of light-colored dough. The dough fills the bottom half of the bowl and has a smooth surface with
+    a distinct small indentation in the center. A beige cloth is draped over the back rim of the bowl.
+    To the right, a vertical thermometer stands on the window sill, and a jar is visible in the background
+    near a window.
+  init2final_edit_prompt: Edit the given image to show the dough deflated and reduced in volume inside
+    the bowl. The dough mass should appear flatter and sit lower in the glass container, occupying less
+    space than the original puffy state. Keep the glass bowl, the draped cloth, the thermometer, and the
+    background identical to the original view.
+  rationale: The prompt describes the dough having been 'punched down' with air escaping, which is a physical
+    process that releases trapped gas and reduces the volume of the dough. Although the camera rotates
+    away and returns, the primary physical change during this interval is the deflation of the dough mass.
+    Therefore, in the final frame, the dough must appear smaller and less voluminous than in the initial
+    puffy state.
+  questions:
+  - id: dough_volume_decrease
+    question: Is the volume of the dough smaller than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The dough should have deflated due to the 'punch down' and escaping air.
+  - id: dough_height_lower
+    question: Does the top of the dough sit lower in the bowl compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Deflation causes the height of the dough mass to decrease.
+  - id: dough_less_puffy
+    question: Does the dough appear less puffy and more collapsed than before?
+    answer_type: yes_no
+    notes_for_judge: The visual texture should shift from taut/puffy to relaxed/deflated.
+  - id: dough_space_occupied
+    question: Does the dough occupy less total space within the glass bowl than at the start?
+    answer_type: yes_no
+    notes_for_judge: Check for overall reduction in the area occupied by the dough.
+  - id: bowl_centered
+    question: Is the glass bowl centered in the frame?
+    answer_type: yes_no
+    notes_for_judge: The camera returns to the center view.
+  - id: thermometer_visible
+    question: Is the thermometer still visible on the right side of the frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

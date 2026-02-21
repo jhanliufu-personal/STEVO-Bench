@@ -1,0 +1,64 @@
+id: fuse_burn_07
+level: 1
+category: scalar_state
+tags: []
+variant_of: fuse_burn
+variation_type: combined
+variation_description: Wet fuse (slow burn) occluded by smoke
+changes:
+  occlusion_method: Thick smoke fills the scene
+  dynamic_conditions: Wet fuse/floor (slow burn)
+  expected_outcome_change: Burn progresses much slower
+prompts:
+  init_frame_edit_prompt: Edit the image to show puddles of water on the concrete floor and make the fuse
+    rope look dark, heavy, and soaked with water.
+  video_WM: The wet fuse is sputtering, the spark struggling to consume the damp material. The burning
+    proceeds very slowly. Suddenly, thick steam and smoke billow into the frame, completely obscuring
+    the floor and the fuse. The smoke lingers, then clears away. No zoom, no cut, no scene change. STOP.
+  camera_WM: The wet fuse is sputtering, the spark struggling to consume the damp material. The burning
+    proceeds very slowly. Suddenly, thick steam and smoke billow into the frame, completely obscuring
+    the floor and the fuse. The smoke lingers, then clears away. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A high-angle shot of a thick, twisted rope fuse lying on a dark, wet concrete
+    floor. Puddles on the floor reflect the fuse. The left end of the fuse is ignited, producing a bright
+    orange flame with sparks shooting out and some smoke rising. The unburnt portion of the fuse curves
+    towards the right side of the frame.
+  init2final_edit_prompt: Edit the given image to show the burning tip of the fuse advanced slightly further
+    along the rope's path. Render a section of charred, blackened material where the fuse has burned,
+    trailing behind the current flame position. Keep the flame visible at the new position. Ensure the
+    water puddles on the concrete floor remain visible and unchanged. Remove any heavy smoke or steam
+    to reveal a clear view of the fuse and the floor.
+  rationale: The prompt describes a continuous physical process (burning) that persists despite a temporary
+    occlusion by smoke and steam. Since the fuse is wet and burning 'very slowly', the final state should
+    show that the fire has made some progress along the rope, but has not consumed it entirely. The key
+    state change is the displacement of the burning tip and the conversion of a portion of the fuse into
+    charred material. The final frame occurs after the smoke has cleared, restoring visibility to the
+    scene.
+  questions:
+  - id: burn_progress_location
+    question: Has the burning tip of the fuse moved further along the rope compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Check if the fire is in a different position along the fuse trajectory.
+  - id: burn_material_reduction
+    question: Is the length of the unburnt fuse shorter than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The fire consumes the fuse, so the remaining fresh rope must be shorter.
+  - id: charring_presence
+    question: Is there a charred or blackened section visible where the fuse has burned?
+    answer_type: yes_no
+    notes_for_judge: Burning leaves behind ash or char.
+  - id: visibility_restored
+    question: Is the fuse clearly visible without being obscured by thick smoke or steam?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the smoke clears away.
+  - id: environment_persistence
+    question: Are the water puddles on the floor still visible?
+    answer_type: yes_no
+    notes_for_judge: The environment should remain stable.
+  - id: flame_persistence
+    question: Is there still a flame or glowing ember visible on the fuse?
+    answer_type: yes_no
+    notes_for_judge: The burning proceeds slowly; it should not have completely vanished unless the fuse
+      is gone.

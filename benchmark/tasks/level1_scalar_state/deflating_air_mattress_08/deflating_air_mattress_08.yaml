@@ -1,0 +1,65 @@
+id: deflating_air_mattress_08
+level: 1
+category: scalar_state
+tags: []
+variant_of: deflating_air_mattress
+variation_type: combined
+variation_description: Pump attached (inflation) with occlusion by a blocking object.
+changes:
+  occlusion_method: A large opaque camping bag moves in front of the camera.
+  dynamic_conditions: Electric pump attached and running.
+  expected_outcome_change: Mattress inflates.
+prompts:
+  init_frame_edit_prompt: Edit the image to show an electric air pump attached to the valve, plugged into
+    the wall.
+  video_WM: An electric air pump is attached to the mattress valve and is running loudly. A large opaque
+    camping bag moves into the frame and covers the lens, completely blocking the view. The bag then moves
+    away to reveal the scene again. No zoom, no cut, no scene change. STOP.
+  camera_WM: An electric air pump is attached to the mattress valve and is running loudly. A large opaque
+    camping bag moves into the frame and covers the lens, completely blocking the view. The bag then moves
+    away to reveal the scene again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A blue air mattress placed on a wooden floor, connected to a black electric
+    air pump via a corrugated hose. The pump is plugged into a white wall outlet. The mattress appears
+    mostly inflated with some surface undulations. A window and white baseboards are visible in the background.
+  init2final_edit_prompt: Edit the given image to make the blue air mattress appear significantly deflated.
+    The mattress should look much flatter and less taut, with deep wrinkles, folds, and sagging areas
+    on its surface indicating a loss of air volume. The height of the mattress should be noticeably lower
+    than in the original image. Keep the black pump connected to the valve with the hose, and ensure the
+    background, floor, and wall outlet remain unchanged.
+  rationale: The task ID specifies a deflation scenario. The prompt describes the pump running loudly,
+    which drives the physical process of air removal. The occlusion by the camping bag covers the duration
+    of this process. When the view is restored, the primary scalar change is a reduction in the volume
+    of the mattress. The mattress should appear less inflated (flatter, more wrinkled) than in the initial
+    frame, assuming the pump was extracting air during the occlusion.
+  questions:
+  - id: deflation_check_1
+    question: Is the air mattress less inflated than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the tautness and volume. The final frame should show a flatter, looser mattress.
+  - id: deflation_check_2
+    question: Does the mattress appear flatter with reduced height compared to the start?
+    answer_type: yes_no
+    notes_for_judge: The vertical dimension of the mattress should decrease.
+  - id: deflation_check_3
+    question: Are there more visible wrinkles or loose folds on the mattress surface than before?
+    answer_type: yes_no
+    notes_for_judge: Deflation causes the material to bunch up and wrinkle.
+  - id: deflation_check_4
+    question: Does the mattress occupy less visual volume than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Check for overall shrinkage or collapse.
+  - id: deflation_check_5
+    question: Does the surface of the mattress look less taut than initially?
+    answer_type: yes_no
+    notes_for_judge: The surface should look saggy rather than tight.
+  - id: consistency_pump
+    question: Is the black air pump still visible and connected to the mattress?
+    answer_type: yes_no
+    notes_for_judge: The pump should not disappear or disconnect.
+  - id: consistency_background
+    question: Are the wooden floor and wall outlet still visible?
+    answer_type: yes_no
+    notes_for_judge: Background elements should remain stable.

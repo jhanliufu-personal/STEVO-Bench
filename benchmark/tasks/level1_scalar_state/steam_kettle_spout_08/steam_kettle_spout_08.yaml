@@ -1,0 +1,66 @@
+id: steam_kettle_spout_08
+level: 1
+category: scalar_state
+tags: []
+variant_of: steam_kettle_spout
+variation_type: combined
+variation_description: Burner turning off combined with object blocking occlusion.
+changes:
+  occlusion_method: Large cutting board blocks view
+  dynamic_conditions: Burner turns off at start
+  expected_outcome_change: Steam dissipates while view is blocked.
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The kettle sits on an active hot burner with steam exiting the spout. Immediately, the burner
+    is switched off, cutting the heat source. A large wooden cutting board is lifted into the frame, completely
+    blocking the view of the kettle and stove. The board remains in place for several seconds. Then the
+    board is lowered, revealing the stove again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The kettle sits on an active hot burner with steam exiting the spout. Immediately, the burner
+    is switched off, cutting the heat source. A large wooden cutting board is lifted into the frame, completely
+    blocking the view of the kettle and stove. The board remains in place for several seconds. Then the
+    board is lowered, revealing the stove again. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A stainless steel gooseneck kettle sits on an electric stove. The electric coil
+    burner beneath the kettle is glowing bright orange, indicating it is very hot. A wisp of white steam
+    is rising from the kettle's spout. The background shows a kitchen counter and a window.
+  init2final_edit_prompt: Edit the given image to show the stove burner turned off. Change the electric
+    coil under the kettle from glowing bright orange to a dark, non-glowing grey or black color. Remove
+    the steam rising from the kettle's spout. Maintain the exact position of the kettle and the background
+    details.
+  rationale: The prompt specifies that the burner is switched off immediately and the scene is occluded
+    for several seconds. Physically, when an electric coil is turned off, the visible incandescence (red/orange
+    glow) fades relatively quickly as it cools below the Draper point, returning to a dark color. Additionally,
+    without active heat input, the water will stop boiling vigorously, causing the visible steam exiting
+    the spout to dissipate or cease entirely. The final frame should reflect this cooling process.
+  questions:
+  - id: burner_glow_check
+    question: Is the electric burner coil darker than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The coil should no longer be glowing bright orange.
+  - id: burner_state_off
+    question: Does the stove burner appear to be off (non-glowing)?
+    answer_type: yes_no
+    notes_for_judge: The orange incandescence should be gone or significantly faded.
+  - id: steam_reduction
+    question: Is there less steam coming from the spout compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Steam should be reduced or absent after the heat is cut.
+  - id: steam_absence
+    question: Is the visible steam plume smaller or completely gone?
+    answer_type: yes_no
+    notes_for_judge: Checks for the reduction of the steam scalar.
+  - id: coil_color_change
+    question: Has the color of the burner coil changed from bright orange to a darker tone?
+    answer_type: yes_no
+    notes_for_judge: Direct check on the visual indicator of heat.
+  - id: kettle_position_consistency
+    question: Is the kettle still sitting on the same burner?
+    answer_type: yes_no
+    notes_for_judge: The kettle should not have moved.
+  - id: background_consistency
+    question: Is the window and counter background visible and unchanged?
+    answer_type: yes_no
+    notes_for_judge: The occlusion (cutting board) should be gone in the final frame.

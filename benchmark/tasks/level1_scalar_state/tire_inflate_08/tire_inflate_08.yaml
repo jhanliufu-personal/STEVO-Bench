@@ -1,0 +1,72 @@
+id: tire_inflate_08
+level: 1
+category: scalar_state
+tags: []
+variant_of: tire_inflate
+variation_type: combined
+variation_description: Static condition combined with blocking object occlusion.
+changes:
+  occlusion_method: A large cardboard sheet blocks the view.
+  dynamic_conditions: Hose disconnected (static state).
+  expected_outcome_change: No change.
+prompts:
+  init_frame_edit_prompt: Edit the image to show the brass air hose connector disconnected from the valve
+    stem and lying on the concrete floor next to the tire.
+  video_WM: The air hose lies disconnected on the ground. The tire is stationary. A large piece of cardboard
+    is moved in front of the camera lens, completely blocking the view of the tire. The cardboard is held
+    there for a duration, then removed to reveal the scene again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The air hose lies disconnected on the ground. The tire is stationary. A large piece of cardboard
+    is moved in front of the camera lens, completely blocking the view of the tire. The cardboard is held
+    there for a duration, then removed to reveal the scene again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up, ground-level view of a bicycle wheel with a flat tire. The black
+    rubber tire is significantly deflated, with the bottom section compressed flat against the concrete
+    floor and the sidewalls bulging and wrinkled. The metal rim is sitting very close to the ground. A
+    brass valve stem is visible at the bottom of the wheel. An air hose with a brass coupler lies disconnected
+    on the floor in the foreground. In the background, slightly out of focus, is a red air compressor
+    and workshop equipment.
+  init2final_edit_prompt: Edit the given image to show the bicycle tire fully inflated. The tire should
+    appear round and firm, lifting the metal rim significantly higher off the concrete floor. The sidewall
+    of the tire near the ground should be smooth and taut, removing the wrinkles and bulge associated
+    with the flat tire. The gap between the rim and the ground should be clearly increased due to the
+    air pressure. Keep the air hose lying on the ground and the background tools unchanged.
+  rationale: The task ID and the visual context of a flat tire with an air hose nearby imply that the
+    tire is inflated during the occlusion event. The cardboard blocks the view to allow the state transition
+    (inflation) to occur without requiring the generation of the specific tool manipulation animation.
+    Therefore, the final state should depict the tire with increased air volume, lifting the wheel assembly,
+    while the environment remains otherwise static.
+  questions:
+  - id: q1
+    question: Is the tire inflated compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Check if the tire appears full of air rather than flat.
+  - id: q2
+    question: Is the metal rim higher off the ground than it was initially?
+    answer_type: yes_no
+    notes_for_judge: Inflation should lift the rim away from the floor.
+  - id: q3
+    question: Is the bottom of the tire rounder and less compressed than in the starting image?
+    answer_type: yes_no
+    notes_for_judge: The contact patch should be smaller and the shape rounder.
+  - id: q4
+    question: Are the sidewalls of the tire smoother and less wrinkled than before?
+    answer_type: yes_no
+    notes_for_judge: The wrinkles from the flat tire should disappear with pressure.
+  - id: q5
+    question: Does the tire contain more air volume than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Scalar check for volume increase.
+  - id: q6
+    question: Is the distance between the valve stem and the floor greater than at the start?
+    answer_type: yes_no
+    notes_for_judge: Since the valve is on the rim, it should move up as the tire inflates.
+  - id: q7
+    question: Is the air hose still visible on the ground?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: q8
+    question: Is the red air compressor still visible in the background?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

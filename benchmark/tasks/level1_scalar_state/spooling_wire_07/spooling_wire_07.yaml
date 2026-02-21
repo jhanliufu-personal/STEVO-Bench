@@ -1,0 +1,63 @@
+id: spooling_wire_07
+level: 1
+category: scalar_state
+tags: []
+variant_of: spooling_wire
+variation_type: combined
+variation_description: Machine unwinds wire + Lights turn off occlusion.
+changes:
+  occlusion_method: Factory lights turn off.
+  dynamic_conditions: Spindle unwinds.
+  expected_outcome_change: Spool diameter shrinks.
+prompts:
+  init_frame_edit_prompt: Edit the image to show the yellow wire slightly loose on the spool, implying
+    it is being fed off rather than wound tightly.
+  video_WM: A motorized spindle spins in reverse, unwinding yellow wire. The spool diameter is visibly
+    decreasing. The overhead lights turn off completely, plunging the factory scene into pitch black darkness,
+    then turn back on. No zoom, no cut, no scene change. STOP.
+  camera_WM: A motorized spindle spins in reverse, unwinding yellow wire. The spool diameter is visibly
+    decreasing. The overhead lights turn off completely, plunging the factory scene into pitch black darkness,
+    then turn back on. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up view of an industrial wire-winding machine in a factory setting.
+    The central focus is a horizontal spindle holding a coil of bright yellow wire. Loose loops of the
+    yellow wire hang around the main coil. To the left is a heavy, greasy metal gear housing. Above the
+    spindle is a large electric motor. In the background, there are corrugated metal walls, overhead fluorescent
+    lights which are currently illuminated, and other spools of wire (black and blue) sitting on the floor.
+  init2final_edit_prompt: Edit the given image to show the central spool with a significantly reduced
+    amount of yellow wire, making the overall diameter of the yellow coil smaller than in the original
+    image. Ensure the overhead lights are turned on and the scene is fully illuminated, matching the brightness
+    of the initial frame. Maintain the position of the heavy machinery, the electric motor, and the background
+    objects exactly as they are.
+  rationale: The video prompt describes a process of unwinding wire, which is a scalar reduction in the
+    mass and volume of the wire on the spool. The lighting change (turning off and then back on) serves
+    as a temporal transition; since the lights turn back on at the end, the final frame must be illuminated.
+    The primary state change to evaluate is the decrease in the diameter/volume of the yellow wire on
+    the spindle.
+  questions:
+  - id: wire_volume_decrease
+    question: Is the volume of yellow wire on the central spool less than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the bulk/mass of the yellow wire. It should be reduced.
+  - id: wire_diameter_reduction
+    question: Is the diameter of the wound yellow wire coil smaller than it was initially?
+    answer_type: yes_no
+    notes_for_judge: The coil should appear thinner or smaller in diameter due to unwinding.
+  - id: wire_depletion
+    question: Does the spool appear to have been partially emptied of its wire compared to the start?
+    answer_type: yes_no
+    notes_for_judge: Focus on the depletion of the material.
+  - id: lighting_restored
+    question: Are the overhead lights turned on?
+    answer_type: yes_no
+    notes_for_judge: The prompt states lights turn back on after the blackout.
+  - id: machinery_consistency
+    question: Is the large electric motor above the spindle still visible and unchanged?
+    answer_type: yes_no
+    notes_for_judge: Check for consistency of static objects.
+  - id: background_consistency
+    question: Are the background spools of wire still visible in the same locations?
+    answer_type: yes_no
+    notes_for_judge: The camera does not move, so background should be stable.

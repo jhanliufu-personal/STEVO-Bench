@@ -1,0 +1,63 @@
+id: lava_cool_00
+level: 1
+category: scalar_state
+tags: []
+variant_of: lava_cool
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A piece of volcanic rock is glowing bright orange on a tray. Camera remains stationary throughout.
+    No zoom, no cut, no scene change.
+  camera_WM: A piece of volcanic rock is glowing bright orange on a tray. Camera remains stationary throughout.
+    No zoom, no cut, no scene change.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a jagged, glowing volcanic rock sitting on a dirty,
+    metallic baking sheet. The rock is intensely hot, with bright orange and yellow magma visible through
+    cracks in a dark, hardened crust. Small flames and smoke are rising from the rock. The tray has burnt
+    residue around the base of the rock. The background is a blurred, dark industrial or workshop setting.
+  init2final_edit_prompt: Edit the given image to show the volcanic rock after it has cooled down. Change
+    the glowing bright orange and yellow magma areas to dark grey and black solidified rock. Remove the
+    flames. Reduce the smoke. The rock should appear dark and cold, with a rough, stony texture. Keep
+    the metal tray, the burnt residue, and the blurred background exactly as they are.
+  rationale: The task ID 'lava_cool' and the physical context of a small, isolated heat source on a conductive
+    metal tray imply a trajectory of rapid cooling. Over time, the intense heat (glowing magma) will dissipate,
+    causing the rock to crust over, darken, and lose its incandescence. The flames, driven by the heat,
+    will extinguish. The evaluation focuses on the directional change of temperature, visually represented
+    by the reduction of brightness and the shift from orange/yellow to black/grey.
+  questions:
+  - id: q1_brightness
+    question: Is the rock less bright than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the overall luminosity of the rock object. It should be dimmer.
+  - id: q2_color_change
+    question: Has the amount of visible glowing orange color decreased?
+    answer_type: yes_no
+    notes_for_judge: The orange/yellow magma areas should be replaced by dark rock or be significantly
+      smaller.
+  - id: q3_crust_formation
+    question: Is there more dark surface area on the rock compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The dark crust should have expanded to cover the previously glowing areas.
+  - id: q4_flames
+    question: Are the flames smaller or gone compared to the start?
+    answer_type: yes_no
+    notes_for_judge: Flames should diminish as the fuel/heat source depletes.
+  - id: q5_temperature_proxy
+    question: Does the rock appear cooler than it did in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Subjective assessment of thermal state based on visual cues (glow, fire).
+  - id: q6_consistency_tray
+    question: Is the metal tray still visible underneath the rock?
+    answer_type: yes_no
+    notes_for_judge: Consistency check for the supporting object.
+  - id: q7_consistency_bg
+    question: Is the background still the same blurred industrial setting?
+    answer_type: yes_no
+    notes_for_judge: Consistency check for the environment.

@@ -1,0 +1,70 @@
+id: smoke_jar_filling_03
+level: 1
+category: scalar_state
+tags: []
+variant_of: smoke_jar_filling
+variation_type: occlusion_method
+variation_description: The camera zooms in extremely close to the table texture, excluding the jar from
+  the frame.
+changes:
+  occlusion_method: Camera zoom (extreme close-up on surface)
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The incense stick burns at the jar opening producing smoke. Smoke has lower density than air
+    and flows into the confined jar volume. The jar is open at the top. The camera zooms in extremely
+    close to the wooden surface texture next to the jar until the jar is completely out of the field of
+    view. The camera holds this close-up of the wood grain for several seconds. Then the camera zooms
+    out smoothly back to the original viewpoint. No cut, no scene change. STOP.
+  camera_WM: The incense stick burns at the jar opening producing smoke. Smoke has lower density than
+    air and flows into the confined jar volume. The jar is open at the top during the occlusion period.
+    STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+  Genie: null
+evaluation:
+  init_frame_description: A clear glass jar sits on a dark, weathered wooden surface near a window. An
+    incense stick is positioned with its burning tip at the opening of the jar. Wisps of white smoke are
+    visible swirling inside the upper portion of the jar. The background shows a window frame and natural
+    light.
+  init2final_edit_prompt: Edit the given image to show the glass jar filled with a significantly larger
+    amount of white smoke. The smoke inside the jar should be denser, whiter, and more opaque, obscuring
+    the view through the glass more than in the original image. The incense stick should remain at the
+    rim.
+  rationale: The video prompt describes a continuous process where an incense stick produces smoke that
+    flows into the jar. Although the camera zooms in on the wood texture (occluding the jar) and then
+    zooms back out, the physical process of smoke generation and accumulation continues throughout the
+    duration of the video. Therefore, when the camera returns to the initial viewpoint, the jar must contain
+    a greater volume and density of smoke than it did at the start, as the smoke has had time to accumulate
+    within the confined volume.
+  questions:
+  - id: smoke_volume_increase
+    question: Is there more smoke visible inside the jar than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the volume and density of the white smoke inside the glass container.
+  - id: jar_opacity
+    question: Is the interior of the jar less transparent due to the smoke?
+    answer_type: yes_no
+    notes_for_judge: The smoke should make the glass jar appear foggier or more opaque.
+  - id: background_obscured
+    question: Is the background seen through the jar more obscured by smoke than before?
+    answer_type: yes_no
+    notes_for_judge: Check if the details behind the glass are harder to see due to the increased smoke
+      density.
+  - id: smoke_density
+    question: Has the density of the white smoke within the jar increased?
+    answer_type: yes_no
+    notes_for_judge: Look for a thicker, whiter appearance of the smoke cloud.
+  - id: jar_presence
+    question: Is the glass jar visible again after the camera zooms out?
+    answer_type: yes_no
+    notes_for_judge: The jar should be back in the frame in the final state.
+  - id: surface_consistency
+    question: Is the wooden surface texture still visible beneath the jar?
+    answer_type: yes_no
+    notes_for_judge: The environment (table/surface) should remain consistent.
+  - id: incense_stick_presence
+    question: Is the incense stick still present at the jar opening?
+    answer_type: yes_no
+    notes_for_judge: The object generating the smoke should still be there.

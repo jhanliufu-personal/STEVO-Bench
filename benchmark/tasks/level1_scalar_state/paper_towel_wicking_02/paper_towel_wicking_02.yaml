@@ -1,0 +1,70 @@
+id: paper_towel_wicking_02
+level: 1
+category: scalar_state
+tags: []
+variant_of: paper_towel_wicking
+variation_type: occlusion_method
+variation_description: Occlusion by turning off the room lights completely.
+changes:
+  occlusion_method: Room lights turn off, creating pitch blackness.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The paper towel edge remains in contact with the blue water. Paper towel has porous cellulose
+    fiber structure with capillary channels. Capillary action occurs when surface tension and adhesion
+    forces draw liquid upward against gravity. The water is blue-dyed. Suddenly, the laboratory lights
+    turn off, plunging the scene into complete pitch-black darkness. The darkness lasts for several seconds.
+    Then the lights turn back on, illuminating the scene again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The paper towel edge remains in contact with the blue water. Paper towel has porous cellulose
+    fiber structure with capillary channels. Capillary action occurs when surface tension and adhesion
+    forces draw liquid upward against gravity. The water is blue-dyed. Suddenly, the laboratory lights
+    turn off, plunging the scene into complete pitch-black darkness. The darkness lasts for several seconds.
+    Then the lights turn back on, illuminating the scene again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A laboratory setup showing a vertical strip of white paper towel clamped to
+    a metal stand. The bottom edge of the paper towel is submerged in a glass petri dish filled with blue
+    liquid. In the background, there are glass beakers and a notebook on a white table. The scene is brightly
+    lit.
+  init2final_edit_prompt: Edit the given image to show the blue liquid having wicked higher up the vertical
+    paper towel strip. The blue stain should extend significantly upward from the liquid surface, covering
+    the lower portion of the paper strip. Keep the metal stand, beakers, notebook, and lighting exactly
+    as they are in the original image.
+  rationale: The prompt describes a physical process of capillary action where liquid rises up a porous
+    material. The period of darkness serves as a temporal occlusion during which the physical process
+    continues. Upon the return of the lights, the state of the world must reflect the elapsed time, meaning
+    the blue liquid front should have risen higher up the paper towel strip than it was in the initial
+    frame.
+  questions:
+  - id: q1
+    question: Is the blue liquid level on the paper towel higher than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the height of the blue stain on the paper strip between the two frames.
+  - id: q2
+    question: Has the blue dye wicked further up the vertical strip compared to the start?
+    answer_type: yes_no
+    notes_for_judge: The blue color should occupy more of the vertical length of the paper.
+  - id: q3
+    question: Is the section of the paper towel stained blue larger than it was initially?
+    answer_type: yes_no
+    notes_for_judge: The area of blue coloration on the paper should have increased.
+  - id: q4
+    question: Is the remaining dry white portion of the paper towel shorter than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: As the liquid rises, the dry white section at the top should effectively become shorter.
+  - id: q5
+    question: Is the blue stain visible above the rim of the petri dish on the paper strip?
+    answer_type: yes_no
+    notes_for_judge: The liquid should have climbed up the paper, likely surpassing the height of the
+      dish rim if it hadn't already.
+  - id: q6
+    question: Are the glass beakers in the background in the same position as the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: q7
+    question: Is the scene illuminated similarly to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the lights turn back on, so it should not be dark.

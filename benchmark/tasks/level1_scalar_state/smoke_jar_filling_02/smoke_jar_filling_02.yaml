@@ -1,0 +1,69 @@
+id: smoke_jar_filling_02
+level: 1
+category: scalar_state
+tags: []
+variant_of: smoke_jar_filling
+variation_type: occlusion_method
+variation_description: The room lights turn off completely, plunging the scene into darkness.
+changes:
+  occlusion_method: Lighting change (lights off)
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The incense stick burns at the jar opening producing smoke. Smoke has lower density than air
+    and flows into the confined jar volume. The jar is open at the top. Suddenly, the room lights turn
+    off completely, plunging the scene into pitch blackness where nothing is visible. The darkness lasts
+    for several seconds. Then the lights turn back on, illuminating the jar again. No zoom, no cut, no
+    scene change. STOP.
+  camera_WM: The incense stick burns at the jar opening producing smoke. Smoke has lower density than
+    air and flows into the confined jar volume. The jar is open at the top. Suddenly, the room lights
+    turn off completely, plunging the scene into pitch blackness where nothing is visible. The darkness
+    lasts for several seconds. Then the lights turn back on, illuminating the jar again. No zoom, no cut,
+    no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A clear glass jar sits on a rustic wooden surface. An incense stick enters the
+    frame from the top right, with its burning tip positioned just inside the rim of the jar. Thin wisps
+    of white smoke are curling downwards and swirling inside the jar, which is partially filled with smoke
+    but still largely transparent. A window with a white frame is visible in the background.
+  init2final_edit_prompt: Edit the given image to show the glass jar filled with a significantly higher
+    density of white smoke. The interior of the jar should appear much foggier, whiter, and more opaque
+    than the original image due to the accumulation of smoke. Keep the incense stick in the same position
+    and maintain the original lighting and background details.
+  rationale: The video prompt describes a continuous process of smoke generation from the incense stick
+    flowing into the jar. Although the scene goes pitch black (temporal occlusion), the physical process
+    of burning and smoke accumulation continues during the darkness. When the lights turn back on, the
+    jar must contain more smoke than it did initially, resulting in a denser, whiter, and less transparent
+    appearance inside the glass.
+  questions:
+  - id: smoke_density_increase
+    question: Is the smoke inside the jar denser than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the opacity of the jar's interior. It should be whiter/foggier.
+  - id: jar_transparency_decrease
+    question: Is the interior of the jar less transparent than in the starting image?
+    answer_type: yes_no
+    notes_for_judge: The background seen through the jar should be more obscured by smoke.
+  - id: smoke_volume_growth
+    question: Has the amount of visible white smoke inside the container increased?
+    answer_type: yes_no
+    notes_for_judge: Look for a greater volume of white swirl or fog.
+  - id: smoke_accumulation
+    question: Does the jar appear more filled with smoke compared to the first frame?
+    answer_type: yes_no
+    notes_for_judge: The jar should look 'fuller' of smoke.
+  - id: incense_stick_presence
+    question: Is the incense stick still visible in the frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: jar_position_consistency
+    question: Is the jar standing in the same position on the wooden surface?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: lighting_restoration
+    question: Is the scene illuminated again, similar to the start?
+    answer_type: yes_no
+    notes_for_judge: Checks that the 'lights on' instruction was followed.

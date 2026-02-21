@@ -1,0 +1,62 @@
+id: spooling_wire_04
+level: 1
+category: scalar_state
+tags: []
+variant_of: spooling_wire
+variation_type: dynamic_condition
+variation_description: The machine is set to reverse/unwind instead of wind.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Spindle rotates in reverse to unwind the wire.
+  expected_outcome_change: The spool diameter shrinks instead of grows.
+prompts:
+  init_frame_edit_prompt: Edit the image to show the yellow wire slightly loose on the spool, implying
+    it is being fed off rather than wound tightly.
+  video_WM: A motorized spindle spins in reverse, unwinding yellow wire. The spool diameter is visibly
+    decreasing. The camera rotates right until the spindle completely exits the view, then rotates toward
+    the left smoothly at the same rate until the spool is back in the center of view. No zoom, no cut,
+    no scene change. STOP.
+  camera_WM: A motorized spindle spins in reverse, unwinding yellow wire. The spool diameter is visibly
+    decreasing. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up industrial scene showing a machine with a large motorized spindle
+    holding a coil of yellow wire. The wire is currently wound on the spool with some loose loops visible
+    due to motion. In the background, there is a large electric motor on top of the machine, and other
+    spools of wire (black and yellow) are visible in the distance on the floor. The setting appears to
+    be a warehouse or factory with metal walls and overhead lighting.
+  init2final_edit_prompt: Edit the given image to show the central spool of yellow wire with a significantly
+    smaller diameter, indicating that a substantial amount of wire has been unwound. The layer of yellow
+    wire on the spindle should appear thinner and depleted compared to the original state. Keep the machine,
+    the electric motor, the background spools, and the lighting identical to the original image.
+  rationale: The video prompt describes a continuous unwinding process where the spindle spins in reverse.
+    Although the camera pans away (occlusion) and then returns to the original view, the physical process
+    of unwinding continues throughout. Therefore, in the final frame, the primary state change is a reduction
+    in the volume and diameter of the yellow wire on the spool. The camera movement ensures the final
+    viewpoint matches the initial one, allowing for a direct comparison of the wire amount.
+  questions:
+  - id: q1_wire_volume
+    question: Is the overall volume of yellow wire on the central spool less than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the bulk of the yellow wire. It should be reduced.
+  - id: q2_coil_diameter
+    question: Is the diameter of the wound yellow wire coil smaller than it was initially?
+    answer_type: yes_no
+    notes_for_judge: The thickness of the wire layer on the spindle should be visibly decreased.
+  - id: q3_depletion
+    question: Does the spool appear more depleted of wire compared to the start?
+    answer_type: yes_no
+    notes_for_judge: General impression of depletion/emptying.
+  - id: q4_spindle_visibility
+    question: Is the central spindle still visible in the frame?
+    answer_type: yes_no
+    notes_for_judge: Checks if the camera successfully returned to the subject.
+  - id: q5_background_consistency
+    question: Are the background objects, such as the motor and other wire spools, unchanged?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: q6_wire_state
+    question: Has the amount of yellow wire on the machine decreased?
+    answer_type: yes_no
+    notes_for_judge: Direct test of the scalar variable (mass/amount).

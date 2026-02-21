@@ -1,0 +1,76 @@
+id: dye_diffusion_04
+level: 1
+category: scalar_state
+tags: []
+variant_of: dye_diffusion
+variation_type: dynamic_condition
+variation_description: Liquid in bowl changed to vegetable oil. Water-based dye is immiscible in oil.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Bowl contains vegetable oil instead of water. Dye is water-based.
+  expected_outcome_change: Dye will form distinct spherical droplets and sink to the bottom without mixing
+    or diffusing.
+prompts:
+  init_frame_edit_prompt: Edit the image to make the clear liquid in the bowl appear yellowish and viscous,
+    looking like vegetable oil instead of water.
+  video_WM: Single continuous shot, no cuts, no zoom. The blue liquid in the dropper is a water-based
+    dye. The liquid in the bowl is vegetable oil. Water-based dye is immiscible in oil and denser than
+    the oil. When released, the dye interacts with the oil according to fluid dynamics of immiscible liquids.
+    No stirring or additional drops occur. Camera starts centered on the bowl and hand. The camera smoothly
+    moves right at constant speed until the bowl, hand, and dropper completely exit the frame to the right.
+    While the bowl is out of view, gravity acts on the dye within the oil. The camera continues moving
+    right for several seconds. Then the camera moves left at the same constant speed back to the original
+    viewpoint, bringing the bowl back into view.
+  camera_WM: Single continuous shot, no cuts, no zoom. The blue liquid in the dropper is a water-based
+    dye. The liquid in the bowl is vegetable oil. Water-based dye is immiscible in oil and denser than
+    the oil. When released, the dye interacts with the oil according to fluid dynamics of immiscible liquids.
+    No stirring or additional drops occur. While the bowl is out of view, gravity acts on the dye within
+    the oil. Lighting and scene consistency remain unchanged. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A close-up shot showing a hand holding a dropper filled with dark blue liquid
+    above a clear glass bowl containing yellow vegetable oil. A single drop of blue liquid is in mid-air,
+    falling from the dropper towards the oil surface. Inside the oil, a cloud-like formation of blue dye
+    is suspended near the surface and middle of the bowl, distinct from the yellow oil.
+  init2final_edit_prompt: Edit the given image to show the blue dye settled at the bottom of the bowl.
+    Move the blue dye formation that is currently suspended in the middle of the oil down to rest at the
+    very bottom of the glass bowl. Remove the falling blue drop from the air and the tip of the dropper,
+    as it has fallen and joined the rest of the dye at the bottom. Ensure the blue dye remains a distinct
+    dark blue mass and does not mix with or turn the yellow oil green. Keep the hand, dropper body, and
+    bowl in their original positions.
+  rationale: The video describes a camera panning away and then returning to the original view. During
+    the time the bowl is occluded, physics dictates the behavior of the liquids. Since the water-based
+    dye is denser than the oil and immiscible, gravity will cause the suspended blue dye and the falling
+    drop to sink through the oil and settle at the bottom of the bowl. The dye will not dissolve into
+    the oil, so the oil remains yellow and the dye remains a distinct blue mass at the bottom.
+  questions:
+  - id: dye_depth_1
+    question: Is the blue dye located lower in the bowl than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The dye should have sunk due to higher density.
+  - id: dye_depth_2
+    question: Has the blue dye mass settled towards the bottom of the container?
+    answer_type: yes_no
+    notes_for_judge: 'Primary scalar change: vertical position of the dye.'
+  - id: dye_depth_3
+    question: Is the blue dye deeper in the yellow liquid compared to the start?
+    answer_type: yes_no
+    notes_for_judge: Checks for downward movement.
+  - id: drop_status
+    question: Has the falling drop seen in the initial frame disappeared from the air?
+    answer_type: yes_no
+    notes_for_judge: The drop should have fallen into the bowl.
+  - id: separation
+    question: Is the blue dye still distinct from the yellow oil (not mixed into a uniform color)?
+    answer_type: yes_no
+    notes_for_judge: Checks immiscibility constraint.
+  - id: camera_consistency
+    question: Is the hand holding the dropper still visible in the frame?
+    answer_type: yes_no
+    notes_for_judge: The camera returns to the original viewpoint.
+  - id: dye_concentration
+    question: Is the majority of the blue liquid concentrated at the bottom of the bowl?
+    answer_type: yes_no
+    notes_for_judge: It should no longer be floating near the surface.

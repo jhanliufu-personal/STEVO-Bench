@@ -1,0 +1,67 @@
+id: food_dye_swirl_04
+level: 1
+category: scalar_state
+tags: []
+variant_of: food_dye_swirl
+variation_type: dynamic_condition
+variation_description: Changes the water to hot water (implied by steam), increasing diffusion rate.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Water is hot (high thermal energy).
+  expected_outcome_change: Dye diffuses much faster and more chaotically due to thermal agitation.
+prompts:
+  init_frame_edit_prompt: Edit the image to show light steam rising from the water surface and condensation
+    droplets on the upper rim of the glass to imply the water is hot.
+  video_WM: A drop of red food coloring contacts the hot water surface. Steam rises gently. The dye is
+    water-soluble. High thermal energy increases molecular motion and diffusion rates. The water is stationary
+    with no forced convection. The camera rotates right at constant speed until the glass completely exits
+    the view to the right. The camera continues rotating right for several seconds while off-screen. Then
+    the camera rotates left smoothly at the same rate back to the original viewpoint, bringing the glass
+    back into view. No zoom, no cut, no scene change. STOP.
+  camera_WM: A drop of red food coloring contacts the hot water surface. Steam rises gently. The dye is
+    water-soluble. High thermal energy increases molecular motion and diffusion rates. The water is stationary
+    with no forced convection. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A clear glass filled with hot water sits on a white surface. A glass dropper
+    is positioned above the water, releasing red food coloring. A concentrated, dark red plume of dye
+    hangs in the upper center of the water, exhibiting complex swirling patterns. Steam rises from the
+    water surface, and condensation is visible on the upper rim of the glass.
+  init2final_edit_prompt: Edit the given image to show the red food coloring significantly dispersed throughout
+    the water. The concentrated dark red swirls should be expanded into a larger, more diffuse, and lighter
+    red or pink cloud that occupies a much greater volume of the glass. The sharp boundaries of the initial
+    dye plume should be softened and spread out, making the water appear more uniformly tinted. Keep the
+    glass, water level, steam, and background identical to the original view.
+  rationale: The video prompt describes a sequence where the camera pans away from the glass and then
+    returns to the original viewpoint. During the period of occlusion, the red dye continues to interact
+    with the hot water. Due to the high thermal energy and water solubility mentioned in the prompt, the
+    dye diffuses and spreads outward from the initial point of contact. Upon the camera's return, the
+    dye should occupy a significantly larger volume of the water and appear less concentrated (more diffuse)
+    than in the initial frame, reflecting the passage of time and the physics of mixing.
+  questions:
+  - id: dye_volume_expansion
+    question: Is the red dye occupying a larger volume of the water than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The dye should have spread out, filling more of the glass.
+  - id: dye_diffusion_spread
+    question: Has the red dye spread further into the glass compared to the start?
+    answer_type: yes_no
+    notes_for_judge: Look for the red color extending deeper or wider than the initial tight plume.
+  - id: dye_concentration_reduction
+    question: Is the red color less concentrated and dark than the initial tight plume?
+    answer_type: yes_no
+    notes_for_judge: As dye diffuses, the darkest spots should become lighter/more transparent.
+  - id: dye_boundary_softening
+    question: Are the edges of the red dye cloud softer and more spread out than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Diffusion blurs the sharp lines of the initial swirl.
+  - id: glass_position_invariant
+    question: Is the glass positioned in the same location as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The camera returns to the original viewpoint.
+  - id: water_level_invariant
+    question: Is the water level approximately the same as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The amount of water should not change noticeably.

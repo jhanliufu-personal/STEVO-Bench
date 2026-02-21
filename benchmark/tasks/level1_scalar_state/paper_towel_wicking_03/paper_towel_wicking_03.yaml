@@ -1,0 +1,73 @@
+id: paper_towel_wicking_03
+level: 1
+category: scalar_state
+tags: []
+variant_of: paper_towel_wicking
+variation_type: occlusion_method
+variation_description: Occlusion by dense fog/steam filling the view.
+changes:
+  occlusion_method: Thick white fog fills the area.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The paper towel edge remains in contact with the blue water. Paper towel has porous cellulose
+    fiber structure with capillary channels. Capillary action occurs when surface tension and adhesion
+    forces draw liquid upward against gravity. The water is blue-dyed. Dense white fog begins to roll
+    in, rapidly becoming thick enough to completely obscure the petri dish and paper towel. The fog swirls
+    and hides the setup for several seconds. Then the fog dissipates clearly, revealing the scene again.
+    No zoom, no cut, no scene change. STOP.
+  camera_WM: The paper towel edge remains in contact with the blue water. Paper towel has porous cellulose
+    fiber structure with capillary channels. Capillary action occurs when surface tension and adhesion
+    forces draw liquid upward against gravity. The water is blue-dyed. Dense white fog begins to roll
+    in, rapidly becoming thick enough to completely obscure the petri dish and paper towel. The fog swirls
+    and hides the setup for several seconds. Then the fog dissipates clearly, revealing the scene again.
+    No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A close-up shot of a laboratory setup featuring a vertical strip of white paper
+    towel suspended by a metal clamp on a ring stand. The bottom edge of the paper towel is submerged
+    in a petri dish filled with blue liquid. Several glass beakers are visible in the blurred background
+    on a grey lab bench.
+  init2final_edit_prompt: Edit the given image to show that the blue liquid has climbed significantly
+    higher up the vertical paper towel strip due to absorption. The blue stain should extend upwards from
+    the liquid surface, covering a larger lower portion of the paper towel than before. The upper part
+    of the paper towel should remain white. Ensure the scene is clear and free of any fog or obstruction,
+    keeping the background glassware and metal stand unchanged.
+  rationale: The video prompt describes a process of capillary action (wicking) where blue water rises
+    up a porous paper towel. Although the view is temporarily obscured by fog, the physical process continues
+    during this time. Therefore, in the final frame after the fog dissipates, the blue dye front must
+    have advanced vertically up the paper towel, resulting in a higher water level on the strip compared
+    to the initial state.
+  questions:
+  - id: wicking_height_increase
+    question: Is the blue stain on the paper towel higher than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the vertical extent of the blue dye on the paper strip between the first
+      and last frames.
+  - id: wicking_area_increase
+    question: Is a larger portion of the paper towel colored blue compared to the start?
+    answer_type: yes_no
+    notes_for_judge: The blue area should have expanded upwards.
+  - id: dry_area_decrease
+    question: Is the amount of dry white paper on the strip less than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: As the liquid rises, the remaining dry white area decreases.
+  - id: dye_above_rim
+    question: Does the blue dye extend clearly above the rim of the petri dish on the paper towel?
+    answer_type: yes_no
+    notes_for_judge: The wicking action should pull the liquid up past the container's edge.
+  - id: fog_cleared
+    question: Is the view clear of the dense white fog?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the fog dissipates clearly.
+  - id: stand_consistency
+    question: Is the paper towel still held by the metal clamp?
+    answer_type: yes_no
+    notes_for_judge: The setup should remain mechanically stable.
+  - id: petri_dish_presence
+    question: Is the petri dish with blue liquid still visible at the bottom?
+    answer_type: yes_no
+    notes_for_judge: The container should not disappear.

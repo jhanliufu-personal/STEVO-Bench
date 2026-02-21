@@ -1,0 +1,73 @@
+id: alka_seltzer_fizz_07
+level: 1
+category: scalar_state
+tags: []
+variant_of: alka_seltzer_fizz
+variation_type: combined
+variation_description: Cold water (slow reaction) combined with fog occlusion.
+changes:
+  occlusion_method: Thick fog fills the room.
+  dynamic_conditions: Water is ice-cold.
+  expected_outcome_change: Slower reaction speed.
+prompts:
+  init_frame_edit_prompt: Edit the image to show condensation on the outside of the glass and several
+    ice cubes floating in the water.
+  video_WM: The effervescent tablet contacts the ice-cold water. The low temperature inhibits the reaction
+    rate between the acid and base components. Thick white fog begins to roll into the scene, quickly
+    becoming dense enough to completely obscure the glass and the table. The fog remains thick for several
+    seconds. Then the fog dissipates, revealing the scene again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The effervescent tablet contacts the ice-cold water. The low temperature inhibits the reaction
+    rate between the acid and base components. Thick white fog begins to roll into the scene, quickly
+    becoming dense enough to completely obscure the glass and the table. The fog remains thick for several
+    seconds. Then the fog dissipates, revealing the scene again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A clear glass filled with water and ice cubes sits on a white table. A white,
+    round effervescent tablet is suspended in mid-air directly above the center of the glass. The background
+    features a blurred kitchen interior with cabinets and natural light.
+  init2final_edit_prompt: Edit the given image to place the white circular tablet inside the glass, submerged
+    in the water among the ice cubes. Remove the tablet from its original position in the air. Add small
+    bubbles surrounding the submerged tablet and rising through the water to indicate a fizzing reaction.
+    Ensure the tablet remains visible as a solid object and has not fully dissolved. Keep the glass, ice,
+    and background unchanged.
+  rationale: The tablet falls into the glass due to gravity. The prompt specifies that the low temperature
+    inhibits the reaction rate, meaning the dissolution process is slow. Therefore, after the fog (which
+    acts as a temporal occlusion) dissipates, the tablet should be submerged and actively fizzing but
+    still largely intact as a solid object. It should not be completely dissolved or replaced by a thick
+    foam head. The primary changes are the tablet's position (air to water) and the state of the water
+    (clear to fizzy).
+  questions:
+  - id: tablet_location
+    question: Is the white tablet now located inside the glass?
+    answer_type: yes_no
+    notes_for_judge: The tablet should have fallen into the water.
+  - id: tablet_removed_from_air
+    question: Is the space directly above the glass empty of the tablet?
+    answer_type: yes_no
+    notes_for_judge: The tablet should no longer be floating in the air.
+  - id: bubbles_presence
+    question: Are there bubbles visible in the water?
+    answer_type: yes_no
+    notes_for_judge: The reaction creates bubbles.
+  - id: tablet_vertical_pos
+    question: Is the tablet positioned lower than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: It must have fallen down into the glass.
+  - id: tablet_integrity
+    question: Is the tablet still visible as a solid object within the water?
+    answer_type: yes_no
+    notes_for_judge: Due to the inhibited reaction rate, the tablet should not be fully dissolved.
+  - id: water_state_change
+    question: Does the water appear fizzier or more carbonated than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Comparing the water texture to the clear initial state.
+  - id: glass_invariant
+    question: Is the glass still standing upright on the table?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: background_invariant
+    question: Is the kitchen background visible again?
+    answer_type: yes_no
+    notes_for_judge: The fog must have dissipated.

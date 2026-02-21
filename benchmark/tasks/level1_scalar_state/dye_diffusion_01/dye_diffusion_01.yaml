@@ -1,0 +1,79 @@
+id: dye_diffusion_01
+level: 1
+category: scalar_state
+tags: []
+variant_of: dye_diffusion
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera panning to room lights turning off.
+changes:
+  occlusion_method: Room lights turn off completely (pitch black) then turn back on.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: Single continuous shot, no cuts, no zoom. The blue liquid in the dropper is a water-soluble
+    dye. When released into the bowl, it naturally diffuses and disperses throughout the water over time.
+    The dye does not change color, evaporate, or chemically react; it simply spreads through the water
+    due to natural diffusion and fluid motion. No stirring or additional drops occur after the initial
+    release. Camera starts centered on the bowl and hand. Suddenly, the room lights turn off completely,
+    plunging the scene into pitch blackness. The scene remains in total darkness for several seconds,
+    during which the dye continues to interact with the water naturally. Then the lights turn back on,
+    restoring the original lighting and revealing the bowl again. The camera remains stationary throughout.
+  camera_WM: Single continuous shot, no cuts, no zoom. The blue liquid in the dropper is a water-soluble
+    dye. When released into the bowl, it naturally diffuses and disperses throughout the water over time.
+    The dye does not change color, evaporate, or chemically react; it simply spreads through the water
+    due to natural diffusion and fluid motion. No stirring or additional drops occur after the initial
+    release. Camera starts centered on the bowl and hand. Suddenly, the room lights turn off completely,
+    plunging the scene into pitch blackness. The scene remains in total darkness for several seconds,
+    during which the dye continues to interact with the water naturally. Then the lights turn back on,
+    restoring the original lighting and revealing the bowl again. The camera remains stationary throughout.
+    STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot showing a hand holding a dropper filled with dark
+    blue liquid over a clear glass bowl of water. A drop of blue dye has just hit the water surface, creating
+    a distinct splash, ripples, and a concentrated swirl of blue ink beginning to descend. The background
+    shows a blurred window and laboratory-like setting. The lighting is bright and natural.
+  init2final_edit_prompt: Edit the given image to show the blue dye having diffused significantly into
+    the water. The concentrated blue splash and distinct drop shape should be replaced by a larger, softer,
+    and more spread-out cloud of blue color within the bowl. The water surface should appear calmer with
+    the initial impact ripples settled or gone. Ensure the lighting is fully restored to the original
+    brightness, identical to the initial frame. Keep the hand, dropper, bowl, and background in their
+    original positions.
+  rationale: The video prompt describes a physical process of diffusion that continues while the scene
+    is occluded by darkness. When the lights turn back on, time has passed, so the state of the liquid
+    must have evolved. The primary scalar change is the expansion of the dye cloud (diffusion) and the
+    settling of the mechanical disturbance (ripples). The final frame must show the dye occupying a larger
+    volume of the water and appearing more dispersed, while the lighting returns to its initial state.
+  questions:
+  - id: dye_spread_area
+    question: Does the blue dye cover a larger area of the water than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Check if the blue color has expanded outward from the initial impact point.
+  - id: dye_diffusion_cloud
+    question: Is the blue color more diffuse and cloud-like compared to the sharp splash in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: The dye should look less like a solid drop and more like a mixing cloud.
+  - id: volume_tinted
+    question: Has the volume of water tinted by blue increased compared to the start?
+    answer_type: yes_no
+    notes_for_judge: Scalar check for the spread of the dye.
+  - id: surface_calmness
+    question: Is the water surface calmer with fewer ripples than in the initial splash moment?
+    answer_type: yes_no
+    notes_for_judge: The mechanical energy of the drop should have dissipated.
+  - id: lighting_restored
+    question: Is the scene brightly lit, indicating the lights are back on?
+    answer_type: yes_no
+    notes_for_judge: The image should not be pitch black; the lights must have returned.
+  - id: bowl_position
+    question: Is the glass bowl in the same position as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: dropper_presence
+    question: Is the dropper still visible above the bowl?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

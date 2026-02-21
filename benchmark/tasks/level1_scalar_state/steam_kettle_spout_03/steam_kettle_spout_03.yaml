@@ -1,0 +1,66 @@
+id: steam_kettle_spout_03
+level: 1
+category: scalar_state
+tags: []
+variant_of: steam_kettle_spout
+variation_type: occlusion_method
+variation_description: Occlusion changed to thick smoke filling the room.
+changes:
+  occlusion_method: Thick smoke obscures view
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The kettle sits on an active hot burner. The kettle contains water. Water boils at 212°F at
+    standard pressure. The burner provides continuous heat. Steam exits through the spout opening. Thick,
+    opaque grey smoke begins to fill the room rapidly, completely obscuring the kettle and stove from
+    view. The smoke swirls densely for several seconds. Then a ventilation fan clears the smoke, restoring
+    visibility. No zoom, no cut, no scene change. STOP.
+  camera_WM: The kettle sits on an active hot burner. The kettle contains water. Water boils at 212°F
+    at standard pressure. The burner provides continuous heat. Steam exits through the spout opening.
+    Thick, opaque grey smoke begins to fill the room rapidly, completely obscuring the kettle and stove
+    from view. The smoke swirls densely for several seconds. Then a ventilation fan clears the smoke,
+    restoring visibility. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A stainless steel gooseneck kettle sits on a black electric stovetop. The spiral
+    burner coil underneath the kettle is glowing bright orange-red. A wisp of white steam is visible exiting
+    the tip of the curved spout. The kettle has a black handle and a lid with a black knob. The background
+    shows a blurred kitchen counter and a window with daylight.
+  init2final_edit_prompt: Edit the given image to show the scene after some time has passed. Ensure the
+    electric burner coil is still glowing bright orange-red to indicate continuous heat. Show white steam
+    clearly exiting the spout of the kettle. The air in the room must be clear and transparent, with no
+    thick grey smoke or haze obscuring the view. The kettle and stove should remain in their original
+    positions.
+  rationale: The video prompt describes a continuous boiling process that is temporarily obscured by smoke
+    and then revealed again. The primary physical state—the boiling water and the hot burner—persists
+    throughout the occlusion. The final frame occurs after the ventilation fan has cleared the smoke,
+    restoring visibility. Therefore, the final image should show the kettle still on the active, glowing
+    burner with steam exiting the spout, and the temporary smoke occlusion should be completely gone.
+  questions:
+  - id: burner_glow
+    question: Is the burner coil glowing red?
+    answer_type: yes_no
+    notes_for_judge: The burner provides continuous heat, so the coil must remain glowing.
+  - id: steam_visible
+    question: Is steam visible exiting the kettle's spout?
+    answer_type: yes_no
+    notes_for_judge: The water continues to boil, so steam must be present.
+  - id: smoke_cleared
+    question: Is the view clear of thick grey smoke?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the fan clears the smoke, restoring visibility.
+  - id: kettle_visible
+    question: Is the kettle clearly visible?
+    answer_type: yes_no
+    notes_for_judge: Visibility must be restored after the smoke clears.
+  - id: stove_visible
+    question: Is the stovetop surface visible?
+    answer_type: yes_no
+    notes_for_judge: The occlusion should be gone.
+  - id: handle_visible
+    question: Is the black handle of the kettle visible?
+    answer_type: yes_no
+    notes_for_judge: Checks for object permanence and visibility restoration.

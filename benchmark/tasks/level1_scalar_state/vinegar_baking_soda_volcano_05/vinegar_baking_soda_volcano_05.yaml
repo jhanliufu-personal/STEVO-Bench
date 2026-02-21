@@ -1,0 +1,68 @@
+id: vinegar_baking_soda_volcano_05
+level: 1
+category: scalar_state
+tags: []
+variant_of: vinegar_baking_soda_volcano
+variation_type: dynamic_condition
+variation_description: Powder changed from baking soda to flour. No chemical reaction should occur.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Powder is flour instead of baking soda.
+  expected_outcome_change: No foaming. The liquid creates a clumpy paste with the flour.
+prompts:
+  init_frame_edit_prompt: Edit the image to change the texture of the white powder in the jar to look
+    like flour, and add a 'FLOUR' label to the jar if possible.
+  video_WM: The hand pours vinegar into the container filled with wheat flour. Vinegar is acidic. Flour
+    is a starch-based powder. Mixing acid with starch does not produce gas. The camera rotates right at
+    constant speed until the container completely exits the view to the right. The camera continues rotating
+    right for several seconds while off-screen. Then the camera rotates left smoothly at the same rate
+    back to the original viewpoint. No zoom, no cut, no scene change. STOP.
+  camera_WM: The hand pours vinegar into the container filled with wheat flour. Vinegar is acidic. Flour
+    is a starch-based powder. Mixing acid with starch does not produce gas. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a kitchen counter featuring a glass jar labeled
+    'Flour' filled with white powder sitting on a wooden tray. A hand holds a glass pitcher containing
+    clear liquid, positioned to pour into the jar. A bottle of vinegar is visible in the background to
+    the left. A window provides natural light from the left side.
+  init2final_edit_prompt: Edit the given image to show the aftermath of pouring the liquid into the jar.
+    The glass pitcher held by the hand should contain significantly less liquid or be empty. The white
+    powder inside the jar labeled 'Flour' should appear wet, clumpy, and paste-like. The mixture inside
+    the jar should NOT be foaming, bubbling, or overflowing; the level of the contents should remain roughly
+    the same or slightly lower due to compaction.
+  rationale: The prompt describes pouring vinegar (an acid) into flour (a starch). Unlike the reaction
+    between vinegar and baking soda, this mixture does not produce carbon dioxide gas, so there will be
+    no foaming, bubbling, or volume expansion (no 'volcano' effect). Instead, the flour will simply absorb
+    the liquid, becoming wet and clumpy. The camera rotation creates a time gap, allowing the pouring
+    action to deplete the liquid in the pitcher and saturate the flour by the time the view returns.
+  questions:
+  - id: pitcher_depletion
+    question: Is the amount of liquid in the handheld pitcher less than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The pouring action occurred over time, so the source container should be depleted.
+  - id: flour_wetness
+    question: Does the substance inside the jar appear wet, clumpy, or paste-like?
+    answer_type: yes_no
+    notes_for_judge: Vinegar wets flour; it does not cause an eruption. The texture should change from
+      dry powder to wet paste.
+  - id: no_volume_expansion
+    question: Is the level of the mixture inside the jar roughly the same or lower than the initial level
+      (i.e., not overflowing)?
+    answer_type: yes_no
+    notes_for_judge: Flour and vinegar do not expand. If the jar is overflowing with foam, the physics
+      is wrong.
+  - id: no_foam_reaction
+    question: Is the mixture inside the jar free of expanding foam or bubbles?
+    answer_type: yes_no
+    notes_for_judge: Check for the absence of a chemical reaction (volcano effect). The answer must be
+      YES (it is free of foam).
+  - id: jar_label_consistency
+    question: Is the label 'Flour' still visible on the jar?
+    answer_type: yes_no
+    notes_for_judge: Consistency check for the object identity.
+  - id: viewpoint_return
+    question: Is the camera angle approximately the same as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The camera should have returned to the starting position.

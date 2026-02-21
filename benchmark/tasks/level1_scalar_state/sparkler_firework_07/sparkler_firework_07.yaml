@@ -1,0 +1,73 @@
+id: sparkler_firework_07
+level: 1
+category: scalar_state
+tags: []
+variant_of: sparkler_firework
+variation_type: combined
+variation_description: Unlit sparkler (no change) with blocking occlusion.
+changes:
+  occlusion_method: Object blocking.
+  dynamic_conditions: Sparkler is unlit.
+  expected_outcome_change: No state change.
+prompts:
+  init_frame_edit_prompt: Edit the image to remove the sparks and glowing light completely, showing just
+    the unlit grey metal wire of the sparkler held in the hand.
+  video_WM: An unlit sparkler is held in a hand. The wire is coated with combustible metallic compound
+    but is currently cold. A large piece of opaque black cardboard slides into the frame from the left,
+    completely blocking the view of the sparkler and hand. The cardboard remains in place for several
+    seconds. Then the cardboard slides away to the left, revealing the scene again. No zoom, no cut, no
+    scene change. STOP.
+  camera_WM: An unlit sparkler is held in a hand. The wire is coated with combustible metallic compound
+    but is currently cold. A large piece of opaque black cardboard slides into the frame from the left,
+    completely blocking the view of the sparkler and hand. The cardboard remains in place for several
+    seconds. Then the cardboard slides away to the left, revealing the scene again. No zoom, no cut, no
+    scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A close-up shot against a black background showing a hand holding a long, thin,
+    unlit sparkler. The sparkler is oriented diagonally, extending from the bottom right towards the top
+    left. It consists of a bare wire handle held by fingers and a long section coated in a grey, textured
+    combustible compound. The tip is blunt and grey. The lighting is dim, highlighting the rough texture
+    of the coating. There is no smoke, fire, or glow present.
+  init2final_edit_prompt: Edit the given image to ensure the sparkler remains completely unlit and intact.
+    The grey combustible coating must be preserved along the entire original length of the wire. Do not
+    add any flames, sparks, smoke, or glowing effects. The hand should remain in the same position holding
+    the sparkler. The background should remain black. The final image should look effectively identical
+    to the initial unlit state, confirming no combustion occurred.
+  rationale: The video prompt explicitly states the sparkler is 'unlit' and 'cold' at the start. It describes
+    an occlusion event where a cardboard sheet blocks the view and then retracts. No ignition source (lighter,
+    match, flame) is mentioned, nor is any action described that would trigger combustion. Therefore,
+    the physical state of the sparkler (mass, temperature, length) must remain unchanged. The rollout
+    tests for object permanence and the absence of hallucinated state changes (spontaneous combustion)
+    during occlusion.
+  questions:
+  - id: q1
+    question: Is the sparkler still unlit?
+    answer_type: yes_no
+    notes_for_judge: Checks for absence of fire/ignition.
+  - id: q2
+    question: Is the grey combustible coating still visible along the full length of the sparkler?
+    answer_type: yes_no
+    notes_for_judge: Checks for conservation of mass/material.
+  - id: q3
+    question: Is the scene free of sparks, smoke, or flames?
+    answer_type: yes_no
+    notes_for_judge: Checks that temperature/state did not increase.
+  - id: q4
+    question: Is the sparkler visible again?
+    answer_type: yes_no
+    notes_for_judge: Checks for object permanence after occlusion.
+  - id: q5
+    question: Does the sparkler appear to be the same length as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Checks that the sparkler did not burn down.
+  - id: q6
+    question: Is the tip of the sparkler still grey?
+    answer_type: yes_no
+    notes_for_judge: Checks that the tip has not ignited or turned to ash.
+  - id: q7
+    question: Is the hand still holding the sparkler?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

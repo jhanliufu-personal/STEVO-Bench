@@ -1,0 +1,66 @@
+id: lava_cool_07
+level: 1
+category: scalar_state
+tags: []
+variant_of: lava_cool
+variation_type: combined
+variation_description: Constant heat source (flames) combined with shutter occlusion.
+changes:
+  occlusion_method: Steel shutter blocks view.
+  dynamic_conditions: Gas flames maintain heat.
+  expected_outcome_change: Rock remains glowing bright orange.
+prompts:
+  init_frame_edit_prompt: Edit the image to show blue gas flames licking up around the rock from the metal
+    tray, indicating an active heat source beneath it.
+  video_WM: A piece of volcanic rock is glowing bright orange. Blue gas flames burn steadily around the
+    rock, maintaining its high temperature. A heavy steel shutter slides down from the top until the rock
+    and tray are completely hidden, then slides up smoothly at the same rate until the rock is fully visible
+    again. No zoom, no cut, no scene change. STOP.
+  camera_WM: A piece of volcanic rock is glowing bright orange. Blue gas flames burn steadily around the
+    rock, maintaining its high temperature. A heavy steel shutter slides down from the top until the rock
+    and tray are completely hidden, then slides up smoothly at the same rate until the rock is fully visible
+    again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up shot of a large, rough chunk of volcanic rock sitting on a dirty
+    metal baking sheet. The rock has a dark, hardened crust but is glowing intensely bright orange and
+    yellow from within, indicating extreme heat. Blue gas flames are burning steadily around the base
+    and sides of the rock, licking upwards. Wisps of grey smoke are rising from the rock. The background
+    is a dark, blurred industrial workshop environment.
+  init2final_edit_prompt: Edit the given image to show the volcanic rock continuing to glow with intense
+    bright orange and yellow heat. Blue gas flames should still be burning actively around the rock, similar
+    to the initial state. The smoke patterns may have shifted, but the rock must remain incandescent and
+    the fire visible. Do not cool the rock or extinguish the flames. The metal tray and background should
+    remain unchanged.
+  rationale: The prompt explicitly states that the blue gas flames burn steadily and maintain the rock's
+    high temperature. Therefore, despite the passage of time and the temporary occlusion by the shutter,
+    the physical state of the rock in the final frame must remain highly energetic (glowing hot) and the
+    fire must remain active. The rollout should not depict the rock cooling down (turning black) or the
+    fire going out, as the prompt dictates the maintenance of the high-temperature state.
+  questions:
+  - id: lava_glow_persistence
+    question: Is the volcanic rock still glowing bright orange or yellow?
+    answer_type: yes_no
+    notes_for_judge: The rock should retain its incandescence.
+  - id: flame_presence
+    question: Are blue flames still visible around the rock?
+    answer_type: yes_no
+    notes_for_judge: The fire should not be extinguished.
+  - id: heat_maintenance
+    question: Does the rock appear to be maintaining a high temperature (glowing) rather than cooling
+      to a solid black crust?
+    answer_type: yes_no
+    notes_for_judge: Check for the presence of the glow.
+  - id: smoke_visibility
+    question: Is smoke still visible rising from the rock or flames?
+    answer_type: yes_no
+    notes_for_judge: Smoke generation should continue.
+  - id: tray_visibility
+    question: Is the metal tray still visible beneath the rock?
+    answer_type: yes_no
+    notes_for_judge: The shutter should have retracted, revealing the tray.
+  - id: shutter_absence
+    question: Is the view free of the steel shutter obstruction?
+    answer_type: yes_no
+    notes_for_judge: The shutter must slide up fully.

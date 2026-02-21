@@ -1,0 +1,63 @@
+id: lava_cool_02
+level: 1
+category: scalar_state
+tags: []
+variant_of: lava_cool
+variation_type: occlusion_method
+variation_description: Replaced camera rotation with thick smoke/steam filling the room.
+changes:
+  occlusion_method: Thick white steam fills the view, obscuring the scene.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A piece of volcanic rock is glowing bright orange and is cooling toward black. The cooling
+    continues steadily. Thick white steam erupts from the edges of the frame, swirling and completely
+    obscuring the rock and tray, then dissipates smoothly until the rock is clearly visible again. No
+    zoom, no cut, no scene change. STOP.
+  camera_WM: A piece of volcanic rock is glowing bright orange and is cooling toward black. The cooling
+    continues steadily. Thick white steam erupts from the edges of the frame, swirling and completely
+    obscuring the rock and tray, then dissipates smoothly until the rock is clearly visible again. No
+    zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up shot of a jagged, glowing volcanic rock sitting on a dirty metal
+    baking sheet. The rock is intensely hot, with bright orange and yellow magma visible through cracks
+    in the black crust. Wisps of smoke and heat distortion rise from the rock. The background is a dark,
+    blurred industrial setting.
+  init2final_edit_prompt: Edit the given image to show the volcanic rock in a cooled state. Change the
+    bright glowing orange and yellow magma areas to dark grey and black solidified rock. Reduce the light
+    emission significantly so the rock appears mostly dark with perhaps only faint, dull red embers in
+    the deepest cracks. Ensure the rock is clearly visible and not obscured by steam or smoke. Keep the
+    metal tray and background details consistent with the original view.
+  rationale: The video prompt describes a continuous cooling process where the rock transitions from glowing
+    bright orange to black. Although a thick cloud of steam obscures the view during the middle of the
+    video, the prompt explicitly states that the steam dissipates until the rock is clearly visible again
+    by the end. Therefore, the final frame must show the rock in a significantly cooler state (darker,
+    less glowing) than the initial frame, with the occlusion fully cleared.
+  questions:
+  - id: glow_reduction
+    question: Is the overall brightness of the rock's glow lower than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the intensity of the light emitted by the rock. It should be dimmer.
+  - id: color_change
+    question: Has the primary color of the rock shifted from bright orange/yellow to mostly black/grey?
+    answer_type: yes_no
+    notes_for_judge: The surface should look solidified and dark, rather than molten.
+  - id: magma_area
+    question: Is the visible surface area of glowing magma smaller than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The black crust should have expanded to cover most of the previously glowing areas.
+  - id: cooling_state
+    question: Does the rock appear physically cooler than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Interpret visual cues of temperature (color, glow).
+  - id: visibility_post_steam
+    question: Is the rock clearly visible, without being obscured by thick white steam?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the steam dissipates; the view should be clear.
+  - id: tray_consistency
+    question: Is the metal tray still visible underneath the rock?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

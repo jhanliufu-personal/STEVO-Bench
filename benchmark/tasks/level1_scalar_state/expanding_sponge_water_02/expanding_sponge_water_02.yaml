@@ -1,0 +1,72 @@
+id: expanding_sponge_water_02
+level: 1
+category: scalar_state
+tags: []
+variant_of: expanding_sponge_water
+variation_type: occlusion_method
+variation_description: Occlusion by turning off the room lights completely.
+changes:
+  occlusion_method: Lights turn off (pitch black) then turn back on.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: Water is poured over the compressed dry sponge. The sponge is porous cellulose compressed
+    to remove air. Capillary forces draw liquid into the pore spaces. Suddenly, the room lights turn off
+    completely, plunging the scene into absolute darkness. The sound of pouring water continues. After
+    several seconds of blackness, the lights turn back on, illuminating the table and dish again. No zoom,
+    no cut, no scene change. STOP.
+  camera_WM: Water is poured over the compressed dry sponge. The sponge is porous cellulose compressed
+    to remove air. Capillary forces draw liquid into the pore spaces. Suddenly, the room lights turn off
+    completely, plunging the scene into absolute darkness. The sound of pouring water continues. After
+    several seconds of blackness, the lights turn back on, illuminating the table and dish again. No zoom,
+    no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a wooden countertop. In the center sits a shallow
+    white circular dish containing a thin, dry, beige rectangular sponge. The sponge appears compressed
+    and flat. To the upper right, a hand holds a clear glass pitcher filled with water, tilted as if pouring
+    or about to pour water onto the sponge. In the background, a window with a white frame looks out onto
+    blurred greenery.
+  init2final_edit_prompt: Edit the given image to show the rectangular sponge significantly expanded in
+    height and volume. The sponge should appear swollen, thick, and saturated with water, contrasting
+    with its original thin, compressed state. Add a visible pool of water filling the bottom of the white
+    dish around the base of the sponge. Ensure the texture of the sponge looks wet. Keep the wooden table,
+    the white dish, and the background window unchanged.
+  rationale: 'The video prompt describes water being poured onto a compressed dry sponge. Physically,
+    compressed cellulose sponges absorb water rapidly and expand significantly in volume, particularly
+    in thickness (height). The occlusion (lights out) hides the transition, but the audio cue indicates
+    water continues to be poured. Therefore, when the lights return, the sponge must be in a state of
+    having absorbed water: it should be much taller/thicker and wet, and there should be accumulated water
+    in the dish.'
+  questions:
+  - id: sponge_height_increase
+    question: Is the sponge taller than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the vertical thickness of the sponge. It should be significantly expanded.
+  - id: sponge_volume_expansion
+    question: Does the sponge appear to have expanded in volume compared to the start?
+    answer_type: yes_no
+    notes_for_judge: The sponge should look swollen and larger overall.
+  - id: sponge_thickness_comparison
+    question: Is the sponge thicker than the flat wafer shown in the first image?
+    answer_type: yes_no
+    notes_for_judge: Focus on the z-axis expansion.
+  - id: water_presence_dish
+    question: Is there visible water accumulated in the white dish?
+    answer_type: yes_no
+    notes_for_judge: Look for a puddle or liquid around the sponge.
+  - id: sponge_wetness
+    question: Does the sponge appear wet or saturated?
+    answer_type: yes_no
+    notes_for_judge: It may look darker or glistening compared to the dry matte texture initially.
+  - id: dish_persistence
+    question: Is the white dish still present and in the same location?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: table_consistency
+    question: Is the wooden table surface visible and unchanged?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

@@ -1,0 +1,65 @@
+id: crayon_hot_plate_v9
+level: 1
+category: scalar_state
+tags: []
+variant_of: crayon_hot_plate
+variation_type: combined
+variation_description: Object is chalk (does not melt) and occlusion is caused by lights turning off.
+changes:
+  occlusion_method: Lights turn off.
+  dynamic_conditions: Object material changed to chalk (calcium carbonate).
+  expected_outcome_change: The object remains solid.
+prompts:
+  init_frame_edit_prompt: Edit the image to replace the blue wax crayon with a white piece of chalk of
+    similar size standing vertically.
+  video_WM: A piece of white chalk is in contact with the hot plate surface. The plate is actively heating.
+    Chalk is made of calcium carbonate, which does not melt at these temperatures. Suddenly, the room
+    lights turn off completely, plunging the scene into darkness. The darkness lasts for several seconds.
+    Then the lights turn back on to reveal the scene. No zoom, no cut, no scene change. STOP.
+  camera_WM: A piece of white chalk is in contact with the hot plate surface. The plate is actively heating.
+    Chalk is made of calcium carbonate, which does not melt at these temperatures. Suddenly, the room
+    lights turn off completely, plunging the scene into darkness. The darkness lasts for several seconds.
+    Then the lights turn back on to reveal the scene. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A close-up view of a black electric hot plate with a red indicator light labeled
+    'HEATING' illuminated on the front. A cylindrical stick of white chalk stands vertically in the center
+    of the circular heating element. Wisps of smoke or steam are rising from the base of the chalk where
+    it touches the hot surface.
+  init2final_edit_prompt: Edit the given image to show the white chalk stick standing upright at its full
+    original height and cylindrical shape. The chalk must appear solid and not melted, pooled, or deformed.
+    The red 'HEATING' light on the hot plate must remain illuminated. Smoke or steam should continue to
+    be visible rising from the hot plate surface around the base of the chalk.
+  rationale: The prompt explicitly identifies the object as chalk (calcium carbonate), which has a decomposition
+    temperature far higher than a standard hot plate can reach and does not melt like wax or plastic.
+    Despite the passage of time indicated by the lights turning off and back on, the chalk's physical
+    state (height, volume, shape) must remain invariant. The correct simulation requires the model to
+    apply material science knowledge to resist the visual bias of melting objects on hot surfaces. The
+    final state should look nearly identical to the initial state.
+  questions:
+  - id: chalk_upright
+    question: Is the white chalk stick standing upright?
+    answer_type: yes_no
+    notes_for_judge: The chalk should not have fallen over.
+  - id: chalk_height_maintained
+    question: Is the height of the white chalk stick approximately the same as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The chalk should not shrink or melt down.
+  - id: chalk_shape_cylindrical
+    question: Does the white object retain its cylindrical shape?
+    answer_type: yes_no
+    notes_for_judge: It should not deform into a blob.
+  - id: no_melting_pool
+    question: Is the white object distinct and solid, rather than a melted puddle?
+    answer_type: yes_no
+    notes_for_judge: Chalk does not melt.
+  - id: red_light_on
+    question: Is the red indicator light on the hot plate illuminated?
+    answer_type: yes_no
+    notes_for_judge: The device is still heating.
+  - id: smoke_presence
+    question: Is there smoke or steam visible rising from the plate?
+    answer_type: yes_no
+    notes_for_judge: Heat is still being applied.

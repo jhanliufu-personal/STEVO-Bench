@@ -1,0 +1,62 @@
+id: expanding_sponge_water_09
+level: 1
+category: scalar_state
+tags: []
+variant_of: expanding_sponge_water
+variation_type: combined
+variation_description: Already expanded sponge combined with lights off occlusion.
+changes:
+  occlusion_method: Lights turn off.
+  dynamic_conditions: Sponge is already expanded.
+  expected_outcome_change: No further expansion.
+prompts:
+  init_frame_edit_prompt: Edit the image to make the sponge look thick, wet, and fully expanded.
+  video_WM: Water pours onto a fully expanded, wet sponge. The material is at capacity. The room lights
+    abruptly cut out, leaving the scene in total darkness. The sound of pouring continues. After a duration,
+    the lights turn back on, revealing the scene. No zoom, no cut, no scene change. STOP.
+  camera_WM: Water pours onto a fully expanded, wet sponge. The material is at capacity. The room lights
+    abruptly cut out, leaving the scene in total darkness. The sound of pouring continues. After a duration,
+    the lights turn back on, revealing the scene. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot showing a rectangular, brown, porous sponge sitting
+    in a shallow, circular white dish on a wooden countertop. A hand holds a clear glass pitcher above
+    the sponge, pouring a stream of water onto it. The sponge appears wet and textured. In the background,
+    a window provides natural light, and other indistinct kitchen items are visible on the counter.
+  init2final_edit_prompt: Edit the given image to show a significantly higher water level inside the white
+    dish. The dish should contain a visible pool of water surrounding the base of the sponge, indicating
+    accumulation. The sponge should remain wet and roughly the same size. The stream of water from the
+    pitcher should still be visible, or the water in the dish should look disturbed as if recently poured
+    into.
+  rationale: The prompt establishes that the sponge is already 'fully expanded' and 'at capacity' in the
+    initial frame. Therefore, as water continues to pour during the blackout, the sponge cannot absorb
+    more fluid to increase its volume. Instead, the water must run off the saturated material and accumulate
+    in the shallow dish below. The key state change is the increase in the volume of standing water in
+    the dish (pooling), rather than an increase in the sponge's size.
+  questions:
+  - id: q1_water_level
+    question: Is the water level in the white dish higher than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Check if water has accumulated in the dish.
+  - id: q2_pooling
+    question: Is there more water pooling around the base of the sponge compared to the start?
+    answer_type: yes_no
+    notes_for_judge: Look for standing water in the container.
+  - id: q3_volume_increase
+    question: Has the amount of water contained within the dish increased?
+    answer_type: yes_no
+    notes_for_judge: Scalar check for volume increase in the container.
+  - id: q4_sponge_presence
+    question: Is the brown sponge still visible in the dish?
+    answer_type: yes_no
+    notes_for_judge: Consistency check.
+  - id: q5_pitcher_presence
+    question: Is the glass pitcher still visible above the sponge?
+    answer_type: yes_no
+    notes_for_judge: Consistency check.
+  - id: q6_surface_wetness
+    question: Does the sponge appear wet or saturated?
+    answer_type: yes_no
+    notes_for_judge: It started wet and water was poured, so it must remain wet.

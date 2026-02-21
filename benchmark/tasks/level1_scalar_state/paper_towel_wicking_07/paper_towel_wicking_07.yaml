@@ -1,0 +1,65 @@
+id: paper_towel_wicking_07
+level: 1
+category: scalar_state
+tags: []
+variant_of: paper_towel_wicking
+variation_type: combined
+variation_description: Non-porous plastic strip (no wicking) + Lights off occlusion.
+changes:
+  occlusion_method: Lights turn off.
+  dynamic_conditions: Non-porous plastic strip.
+  expected_outcome_change: No wicking/water rise occurs.
+prompts:
+  init_frame_edit_prompt: Edit the image to replace the white paper towel strip with a smooth, shiny,
+    non-porous white plastic strip of the exact same size and position.
+  video_WM: A vertical strip of smooth, shiny white plastic stands with its edge in contact with the blue
+    water. The plastic is non-porous and hydrophobic. Suddenly, the laboratory lights turn off, plunging
+    the scene into complete pitch-black darkness. The darkness lasts for several seconds. Then the lights
+    turn back on, illuminating the scene again. No zoom, no cut, no scene change. STOP.
+  camera_WM: A vertical strip of smooth, shiny white plastic stands with its edge in contact with the
+    blue water. The plastic is non-porous and hydrophobic. Suddenly, the laboratory lights turn off, plunging
+    the scene into complete pitch-black darkness. The darkness lasts for several seconds. Then the lights
+    turn back on, illuminating the scene again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A close-up laboratory shot showing a vertical strip of smooth, glossy white
+    material clamped to a metal stand. The bottom edge of the strip is dipped into a glass petri dish
+    filled with bright blue liquid. To the left, there are empty glass beakers. The background is a blurred
+    lab bench with a window. The strip is currently clean and white above the liquid line.
+  init2final_edit_prompt: Edit the given image to show the scene after a short period of time. The vertical
+    strip is hydrophobic plastic, so the blue liquid must NOT wick or travel up the strip. Keep the strip
+    completely white and clean above the liquid surface, exactly as it was in the beginning. Ensure the
+    blue liquid level in the petri dish remains at the same height. Maintain the original lighting and
+    background details.
+  rationale: The prompt explicitly defines the strip as non-porous, hydrophobic plastic. Unlike paper
+    or cloth, this material does not support capillary action (wicking). Therefore, even though time passes
+    during the blackout, the blue water will not rise up the strip. The final state should be visually
+    identical to the initial state regarding the fluid distribution, serving as a negative control to
+    test if the model hallucinates wicking based on visual similarity to paper towel experiments.
+  questions:
+  - id: wicking_prevention_1
+    question: Is the vertical strip still completely white above the water line?
+    answer_type: yes_no
+    notes_for_judge: The material is hydrophobic; no blue water should climb the strip.
+  - id: wicking_prevention_2
+    question: Did the blue liquid remain at the bottom without rising up the strip?
+    answer_type: yes_no
+    notes_for_judge: Check for absence of capillary action.
+  - id: state_stability_1
+    question: Is the height of the blue liquid on the strip approximately the same as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: There should be no significant change in level.
+  - id: state_stability_2
+    question: Is the strip free of blue staining or absorption marks above the liquid surface?
+    answer_type: yes_no
+    notes_for_judge: Plastic should not stain or absorb.
+  - id: lighting_check
+    question: Is the scene fully illuminated again?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the lights turn back on.
+  - id: background_consistency
+    question: Are the glass beakers on the left still in their original positions?
+    answer_type: yes_no
+    notes_for_judge: Background objects should not move.

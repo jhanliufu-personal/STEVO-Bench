@@ -1,0 +1,71 @@
+id: sparkler_firework_10
+level: 1
+category: scalar_state
+tags: []
+variant_of: sparkler_firework
+variation_type: combined
+variation_description: Damp sparkler with blocking occlusion.
+changes:
+  occlusion_method: Object blocking.
+  dynamic_conditions: Damp/sputtering.
+  expected_outcome_change: Flame dies out.
+prompts:
+  init_frame_edit_prompt: Edit the image to make the sparks look very weak, dim, and sputtering, with
+    grey smoke rising, as if the sparkler is damp.
+  video_WM: The sparkler is damp and sputtering weakly, barely maintaining a flame. A large piece of opaque
+    black cardboard slides into the frame from the left, completely blocking the view of the sparkler
+    and hand. The cardboard remains in place for several seconds. Then the cardboard slides away to the
+    left, revealing the scene again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The sparkler is damp and sputtering weakly, barely maintaining a flame. A large piece of
+    opaque black cardboard slides into the frame from the left, completely blocking the view of the sparkler
+    and hand. The cardboard remains in place for several seconds. Then the cardboard slides away to the
+    left, revealing the scene again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A close-up shot against a black background showing a hand holding a lit sparkler.
+    The hand, visible on the right with a dark sleeve, holds the wire rod. The sparkler is active, emitting
+    a bright burst of yellow-orange sparks and a plume of white and grey smoke rising upwards and to the
+    left.
+  init2final_edit_prompt: Edit the given image to show the sparkler has almost completely burned out or
+    extinguished. Remove the large, bright burst of sparks, leaving at most a tiny glowing tip or a few
+    faint, dying sparks. Reduce the density of the smoke to make it look wispy and residual, as if the
+    source has stopped. Keep the hand, sleeve, and background identical to the original.
+  rationale: 'The prompt establishes that the sparkler is ''damp'' and ''barely maintaining a flame'',
+    implying a rapid decrease in combustion intensity compared to the vigorous burning in the initial
+    frame. During the ''several seconds'' of occlusion by the cardboard, the struggling flame would likely
+    die down significantly or extinguish completely. Therefore, the final frame must show a state of reduced
+    energy: fewer or no sparks, dimmer light, and dissipating smoke, reflecting the progression of a dying
+    fire over time.'
+  questions:
+  - id: spark_volume_reduction
+    question: Is the amount of visible sparks significantly less than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The sparkler should be dying out or extinguished, so the volume of sparks must be
+      lower.
+  - id: light_intensity_reduction
+    question: Is the overall brightness of the sparkler lower than it was initially?
+    answer_type: yes_no
+    notes_for_judge: A damp, dying sparkler emits less light.
+  - id: combustion_state
+    question: Does the sparkler appear to be closer to burning out (or fully extinguished) compared to
+      the start?
+    answer_type: yes_no
+    notes_for_judge: Tests the progression of the burning process.
+  - id: smoke_dissipation
+    question: Is the smoke plume less dense or turbulent than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: If the reaction stops or slows, smoke production decreases and existing smoke dissipates.
+  - id: spark_area_shrinkage
+    question: Is the spatial area occupied by bright sparks smaller than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Scalar check on the size of the reaction.
+  - id: hand_visibility
+    question: Is the hand holding the sparkler visible?
+    answer_type: yes_no
+    notes_for_judge: The cardboard should have slid away, revealing the hand again.
+  - id: occlusion_clearance
+    question: Is the view free of the large black cardboard mentioned in the prompt?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the cardboard slides away.

@@ -1,0 +1,71 @@
+id: ice_on_burner_02
+level: 1
+category: scalar_state
+tags: []
+variant_of: ice_on_burner
+variation_type: occlusion_method
+variation_description: Occlusion changed to lights turning off completely.
+changes:
+  occlusion_method: Room lights turn off, creating pitch blackness.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A clear ice cube sits on top of an electric cooktop burner. The cooktop display shows it is
+    turned on. Suddenly, the lights in the room turn off, plunging the scene into total darkness where
+    nothing is visible. The darkness lasts for several seconds. The lights turn back on, restoring visibility
+    to the original scene.
+  camera_WM: A clear ice cube sits on top of an electric cooktop burner. The cooktop display shows it
+    is turned on. Suddenly, the lights in the room turn off, plunging the scene into total darkness where
+    nothing is visible. The darkness lasts for several seconds. The lights turn back on, restoring visibility
+    to the original scene.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, high-angle shot of a black glass-ceramic electric cooktop. A circular
+    heating element is glowing bright orange-red, indicating it is hot. In the center of the glowing rings
+    sits a clear, cubic block of ice. A small amount of liquid water has already melted and pooled around
+    the base of the ice on the hot surface. Steam or smoke is rising from the contact point and drifting
+    towards the upper right. To the right of the burner, a digital red LED display reads 'ON' and 'HIGH'.
+    The scene is well-lit.
+  init2final_edit_prompt: Edit the given image to show the ice cube significantly melted. Make the ice
+    cube smaller, shorter, and more rounded than in the original image. Increase the size and spread of
+    the pool of liquid water on the burner surface surrounding the remaining ice. Maintain the glowing
+    red heating coils and the 'ON HIGH' display exactly as they are. Ensure steam is still rising from
+    the melting ice.
+  rationale: 'The initial frame shows an ice cube on a burner set to ''HIGH'' with glowing coils, indicating
+    intense heat transfer. The video prompt specifies that several seconds pass in darkness. During this
+    time, the laws of thermodynamics dictate that the ice will continue to absorb heat and melt rapidly.
+    Therefore, when the lights turn back on, the physical state of the system must reflect this elapsed
+    time: the ice cube must be visibly smaller (mass depletion) and the surrounding water pool must be
+    larger (volume accumulation). The burner state remains constant.'
+  questions:
+  - id: ice_size_reduction
+    question: Is the ice cube smaller than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the overall volume/size of the ice block. It should be noticeably diminished.
+  - id: water_pool_expansion
+    question: Is there more liquid water visible on the burner surface than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Check if the puddle around the ice has grown in area.
+  - id: ice_height_decrease
+    question: Has the height of the ice cube decreased compared to the start?
+    answer_type: yes_no
+    notes_for_judge: The vertical dimension of the ice should be lower due to melting.
+  - id: melting_progression
+    question: Does the ice cube appear more rounded or melted than it did initially?
+    answer_type: yes_no
+    notes_for_judge: Look for smoothing of edges or loss of the sharp cubic shape.
+  - id: water_spread
+    question: Is the puddle of water wider than it was in the starting image?
+    answer_type: yes_no
+    notes_for_judge: The liquid should have spread further across the heating element.
+  - id: burner_state_consistency
+    question: Is the heating element still glowing red?
+    answer_type: yes_no
+    notes_for_judge: The burner should remain on.
+  - id: display_consistency
+    question: Is the 'ON HIGH' text still visible on the cooktop?
+    answer_type: yes_no
+    notes_for_judge: The UI elements should not change.

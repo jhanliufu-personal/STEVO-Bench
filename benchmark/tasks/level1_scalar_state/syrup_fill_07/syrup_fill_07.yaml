@@ -1,0 +1,66 @@
+id: syrup_fill_07
+level: 1
+category: scalar_state
+tags: []
+variant_of: syrup_fill
+variation_type: combined
+variation_description: No stream pouring (static state) combined with object blocking occlusion.
+changes:
+  occlusion_method: Foreground object blocking.
+  dynamic_conditions: No stream pouring.
+  expected_outcome_change: Level remains constant.
+prompts:
+  init_frame_edit_prompt: Edit the image to remove the pouring stream of syrup and the spout completely,
+    leaving the jar sitting 25% full on the counter.
+  video_WM: A glass jar sits 25% full of syrup. No stream is pouring. A person's hand holding a kitchen
+    towel moves into the frame to wipe the counter, completely blocking the jar from view, then moves
+    away. No zoom, no cut, no scene change. STOP.
+  camera_WM: A glass jar sits 25% full of syrup. No stream is pouring. A person's hand holding a kitchen
+    towel moves into the frame to wipe the counter, completely blocking the jar from view, then moves
+    away. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A clear glass jar sits on a wooden countertop, filled approximately 25% with
+    an amber-colored liquid (syrup). To the left of the jar is a large wooden cutting board. Behind the
+    jar is a beige ceramic jug with a handle. Through a window in the background, a forest scene with
+    trees is visible. The lighting is natural and bright.
+  init2final_edit_prompt: Edit the given image to ensure the scene looks identical to the original state.
+    The glass jar should remain visible on the counter containing the exact same amount of amber syrup
+    (approximately 25% full). Ensure no hands, towels, or other objects are blocking the view of the jar.
+    The wooden cutting board and ceramic jug should remain in their original positions.
+  rationale: 'The video prompt describes a temporary occlusion event where a hand with a towel wipes the
+    counter and then moves away. Crucially, the prompt explicitly states ''No stream is pouring'' and
+    does not describe any interaction with the jar''s contents or any mechanism for filling or emptying
+    the jar. Therefore, this is a test of object permanence and state stability: the scalar quantity (volume
+    of syrup) must remain invariant despite the occlusion. The final frame should show the jar revealed
+    again with the liquid level unchanged.'
+  questions:
+  - id: syrup_level_unchanged
+    question: Is the syrup level approximately the same as it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The prompt specifies no pouring occurred, so the level should be stable.
+  - id: jar_volume_conservation
+    question: Does the jar contain the same amount of liquid as before?
+    answer_type: yes_no
+    notes_for_judge: Test for conservation of mass/volume.
+  - id: jar_visibility
+    question: Is the glass jar visible again after the hand moved away?
+    answer_type: yes_no
+    notes_for_judge: The occluder (hand/towel) should have left the frame.
+  - id: jar_fill_state
+    question: Is the jar still approximately one-quarter full?
+    answer_type: yes_no
+    notes_for_judge: Verifies the specific level is maintained.
+  - id: no_spill_or_fill
+    question: Is the syrup level neither significantly higher nor lower than the start?
+    answer_type: yes_no
+    notes_for_judge: Checks for stability in both directions.
+  - id: cutting_board_presence
+    question: Is the wooden cutting board still visible on the left?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: jug_presence
+    question: Is the ceramic jug still visible behind the jar?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

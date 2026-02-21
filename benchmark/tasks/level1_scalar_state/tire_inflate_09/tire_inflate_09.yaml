@@ -1,0 +1,67 @@
+id: tire_inflate_09
+level: 1
+category: scalar_state
+tags: []
+variant_of: tire_inflate
+variation_type: combined
+variation_description: Slow manual inflation combined with zoom occlusion.
+changes:
+  occlusion_method: Camera zoom out.
+  dynamic_conditions: Manual hand pump instead of compressor (slower rate).
+  expected_outcome_change: Tire expands, but much slower than original.
+prompts:
+  init_frame_edit_prompt: Edit the image to replace the pneumatic air hose with a bicycle hand pump nozzle
+    attached to the valve.
+  video_WM: A manual hand pump is attached to the tire, pushing small bursts of air in. The tire is expanding
+    very slowly. The camera zooms out until the tire is too small to see clearly, then zooms back in to
+    the original framing. No cut, no scene change. STOP.
+  camera_WM: A manual hand pump is attached to the tire, pushing small bursts of air in. The tire is expanding
+    very slowly. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+evaluation:
+  init_frame_description: A close-up, low-angle shot of a bicycle wheel resting on a concrete garage floor.
+    The tire is black and appears partially deflated, with the bottom section noticeably flattened against
+    the ground. A black manual hand pump is connected to the valve stem, held by a hand visible on the
+    right. Several wrenches lie on the floor in the foreground. In the background, there is a red air
+    compressor and a window.
+  init2final_edit_prompt: Edit the given image to show the bicycle tire significantly more inflated. The
+    bottom section of the tire where it touches the ground should be rounder and less flattened than before.
+    The rim should sit slightly higher off the ground due to the tire's expansion. The sidewalls near
+    the ground should bulge less. Keep the hand pump connected to the valve, the hand in the same position,
+    and all tools and background objects exactly as they are.
+  rationale: The video prompt describes a continuous action of pumping air into the tire while the camera
+    performs a zoom-out and zoom-in maneuver. Since the camera returns to the original framing ('zoom
+    back in to the original framing'), the final view is identical to the initial view but reflects the
+    accumulated physical change. The primary scalar change is the increase in air volume and pressure
+    within the tire, visually represented by the tire becoming rounder, the contact patch with the ground
+    becoming smaller (less flattened), and the rim lifting slightly.
+  questions:
+  - id: tire_inflation_status
+    question: Is the tire more inflated than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the overall fullness of the tire.
+  - id: contact_patch_flatness
+    question: Is the bottom part of the tire less flattened against the ground compared to the start?
+    answer_type: yes_no
+    notes_for_judge: Look at the area where the tire touches the concrete; it should be less squished.
+  - id: rim_height
+    question: Is the metal rim sitting higher off the ground than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: As the tire inflates, the radius increases, lifting the rim.
+  - id: sidewall_bulge
+    question: Do the sidewalls of the tire bulge less near the ground compared to the initial image?
+    answer_type: yes_no
+    notes_for_judge: Deflated tires bulge out at the bottom; inflated tires have straighter sidewalls.
+  - id: tire_roundness
+    question: Does the tire appear rounder overall compared to the initial state?
+    answer_type: yes_no
+    notes_for_judge: The shape should be closer to a perfect circle.
+  - id: pump_connection
+    question: Is the pump still connected to the tire valve?
+    answer_type: yes_no
+    notes_for_judge: Consistency check.
+  - id: background_tools
+    question: Are the wrenches on the floor in the same position as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Consistency check for static objects.

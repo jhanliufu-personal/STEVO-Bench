@@ -1,0 +1,67 @@
+id: spooling_wire_10
+level: 1
+category: scalar_state
+tags: []
+variant_of: spooling_wire
+variation_type: combined
+variation_description: Empty core start + Steam fog occlusion.
+changes:
+  occlusion_method: Steam/fog.
+  dynamic_conditions: Starting from empty core.
+  expected_outcome_change: Wire accumulates on bare core.
+prompts:
+  init_frame_edit_prompt: Edit the image to remove the yellow wire from the spool, showing only the bare
+    grey metal cylindrical core.
+  video_WM: A motorized spindle begins winding yellow wire onto a bare metal core. Thick white industrial
+    steam rapidly fills the room, completely obscuring the machine from view, then the steam dissipates.
+    No zoom, no cut, no scene change. STOP.
+  camera_WM: A motorized spindle begins winding yellow wire onto a bare metal core. Thick white industrial
+    steam rapidly fills the room, completely obscuring the machine from view, then the steam dissipates.
+    No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up view of a heavy industrial winding machine in a workshop. The machine
+    features a large, horizontal, bare metal cylindrical drum or core in the center, connected to a gear
+    mechanism on the left. A large electric motor with cooling fins is mounted on top of the gear housing.
+    To the right, a tailstock supports the shaft. In the background, there are corrugated metal walls,
+    a spool of black wire on the left, and a spool of yellow wire on the floor to the right.
+  init2final_edit_prompt: Edit the given image to show the large central metal cylinder of the machine
+    wrapped with layers of coiled yellow wire. The wire should appear tightly wound around the main horizontal
+    drum, covering the previously bare metal surface. The diameter of the material on the spool should
+    appear larger due to the added wire. Keep the electric motor, the gear mechanism, and the background
+    environment exactly as they were.
+  rationale: The prompt describes a winding process where wire is added to a core. The steam occlusion
+    serves as a transition period during which the machine continues to operate unseen. When the steam
+    dissipates, the visual state must reflect the accumulation of wire on the spool. The primary scalar
+    change is the increase in the volume of wire on the central drum (filling/accumulation). The background
+    and static machine parts remain unchanged.
+  questions:
+  - id: wire_presence
+    question: Is there yellow wire wrapped around the central horizontal drum of the machine?
+    answer_type: yes_no
+    notes_for_judge: The central drum was bare metal initially; it should now have yellow wire on it.
+  - id: wire_accumulation
+    question: Is the amount of yellow wire on the main machine greater than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the volume of wire on the central spool.
+  - id: surface_coverage
+    question: Is the exposed bare metal surface of the central drum less visible than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The wire should cover the metal surface.
+  - id: spool_diameter
+    question: Does the central spool appear thicker or fuller due to the added wire?
+    answer_type: yes_no
+    notes_for_judge: Scalar increase in radius/volume.
+  - id: visibility_steam
+    question: Is the view clear of the thick white steam?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the steam dissipates.
+  - id: motor_consistency
+    question: Is the large electric motor on top of the machine still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: background_consistency
+    question: Are the background walls and lighting fixtures unchanged?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

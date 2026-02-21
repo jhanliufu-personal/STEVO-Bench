@@ -1,0 +1,69 @@
+id: sand_filling_up_jar_03
+level: 1
+category: scalar_state_change
+tags: []
+variant_of: sand_filling_up_jar
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera panning to thick steam/fog filling the room.
+changes:
+  occlusion_method: Thick white steam fills the frame, obscuring the view, then dissipates.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: Single continuous take, no cuts or zoom. Camera is fixed on the funnel and jar. Sand flows
+    continuously through the glass funnel into the jar. Suddenly, thick white steam begins to fill the
+    room, quickly becoming dense enough to completely obscure the funnel and jar. The steam swirls for
+    several seconds. Then the steam dissipates and clears, revealing the scene again. Lighting and objects
+    remain consistent and realistic.
+  camera_WM: Single continuous take, no cuts or zoom. Camera is fixed on the funnel and jar. Sand flows
+    continuously through the glass funnel into the jar. Suddenly, thick white steam begins to fill the
+    room, quickly becoming dense enough to completely obscure the funnel and jar. The steam swirls for
+    several seconds. Then the steam dissipates and clears, revealing the scene again. Lighting and objects
+    remain consistent and realistic.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A clear glass jar sits on a rustic wooden table with a glass funnel resting
+    in its mouth. Sand is visible inside the funnel and is actively pouring in a thin stream into the
+    jar below. Inside the jar, a conical pile of sand has formed at the bottom. The background consists
+    of blurred wooden planks.
+  init2final_edit_prompt: Edit the given image to show the pile of sand inside the glass jar as significantly
+    larger and taller, filling more of the jar's internal volume. Maintain the position of the jar and
+    funnel on the wooden table.
+  rationale: 'The video prompt describes a continuous process of sand flowing into the jar, interrupted
+    by a temporary visual occlusion (steam). While the view is obscured, the physical process of sand
+    accumulation continues. Therefore, when the scene is revealed again, the state of the world must reflect
+    the passage of time: the pile of sand in the destination jar must have grown in size and height due
+    to the constant flow.'
+  questions:
+  - id: sand_pile_height
+    question: Is the pile of sand inside the jar taller than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the peak of the sand pile in the jar to the initial image. It should be higher.
+  - id: sand_volume_increase
+    question: Does the sand inside the jar occupy more volume than it did initially?
+    answer_type: yes_no
+    notes_for_judge: The overall amount of sand in the bottom container should be visibly greater.
+  - id: sand_level_rise
+    question: Is the level of the sand in the jar higher relative to the jar's walls compared to the start?
+    answer_type: yes_no
+    notes_for_judge: Check the fill line against the glass features.
+  - id: empty_space_reduction
+    question: Is there less empty space remaining in the bottom jar compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: As the sand fills the jar, the empty air volume decreases.
+  - id: pile_width
+    question: Is the base of the sand pile in the jar wider or does it cover more of the jar bottom than
+      before?
+    answer_type: yes_no
+    notes_for_judge: The pile should expand outwards as it grows upwards.
+  - id: jar_position_consistency
+    question: Is the glass jar still standing upright in the same location on the table?
+    answer_type: yes_no
+    notes_for_judge: The jar should not have moved or tipped over.
+  - id: funnel_presence
+    question: Is the glass funnel still resting on top of the jar?
+    answer_type: yes_no
+    notes_for_judge: The setup objects should remain consistent.

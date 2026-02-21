@@ -1,0 +1,66 @@
+id: sand_filling_up_jar_08
+level: 1
+category: scalar_state_change
+tags: []
+variant_of: sand_filling_up_jar
+variation_type: combined
+variation_description: Empty funnel (static condition) combined with blocking board occlusion.
+changes:
+  occlusion_method: Wooden board blocks view.
+  dynamic_conditions: Top funnel is empty.
+  expected_outcome_change: No change in sand levels (static state).
+prompts:
+  init_frame_edit_prompt: Edit the image so the top glass funnel is completely empty of sand. The jar
+    below contains a pile of sand, but no sand is falling.
+  video_WM: Single continuous take, no cuts or zoom. Camera is fixed on the funnel and jar. An empty glass
+    funnel sits atop a glass jar containing a pile of sand. A large wooden board slides smoothly from
+    the right side of the frame until it completely blocks the view of the funnel and jar. The board remains
+    in place for several seconds. Then the board slides back to the right, revealing the scene again.
+    Lighting and objects remain consistent and realistic.
+  camera_WM: Single continuous take, no cuts or zoom. Camera is fixed on the funnel and jar. An empty
+    glass funnel sits atop a glass jar containing a pile of sand. A large wooden board slides smoothly
+    from the right side of the frame until it completely blocks the view of the funnel and jar. The board
+    remains in place for several seconds. Then the board slides back to the right, revealing the scene
+    again. Lighting and objects remain consistent and realistic.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A clear glass jar sits on a rustic wooden table. Inside the jar, there is a
+    conical pile of beige sand filling the bottom third of the container. A clear glass funnel rests in
+    the mouth of the jar. The funnel is currently empty. The background consists of blurred wooden planks.
+  init2final_edit_prompt: Edit the given image to show the glass jar filled with a significantly larger
+    amount of sand. The pile of sand inside the jar should be taller and wider, occupying a greater portion
+    of the jar's volume than in the original image. Maintain the conical shape of the sand pile. Keep
+    the glass funnel resting on top of the jar. Ensure the lighting, wooden texture, and camera angle
+    remain identical to the original view.
+  rationale: 'The task ID ''sand_filling_up_jar'' implies that the primary state change is the accumulation
+    of sand within the container. The video prompt describes a period of occlusion by a wooden board,
+    which provides the temporal window for this action to occur unseen. Therefore, the final frame should
+    depict the result of this process: a noticeable increase in the volume and height of the sand pile
+    inside the jar after the board has retracted.'
+  questions:
+  - id: sand_level_height
+    question: Is the sand level in the jar higher than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the peak and sides of the sand pile to the initial image.
+  - id: sand_volume_increase
+    question: Is there a greater volume of sand in the jar compared to the start?
+    answer_type: yes_no
+    notes_for_judge: The overall amount of sand should be visibly larger.
+  - id: empty_space_decrease
+    question: Has the amount of empty space inside the jar decreased?
+    answer_type: yes_no
+    notes_for_judge: As sand fills the jar, the air gap above it should shrink.
+  - id: pile_size_growth
+    question: Is the pile of sand larger than it was initially?
+    answer_type: yes_no
+    notes_for_judge: The pile should appear grown in size.
+  - id: funnel_presence
+    question: Is the glass funnel still sitting on top of the jar?
+    answer_type: yes_no
+    notes_for_judge: The funnel should remain in place as a consistent object.
+  - id: view_unobstructed
+    question: Is the view of the jar clear of the wooden board?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the board slides back, revealing the scene.

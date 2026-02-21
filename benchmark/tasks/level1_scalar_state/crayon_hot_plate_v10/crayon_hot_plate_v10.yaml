@@ -1,0 +1,62 @@
+id: crayon_hot_plate_v10
+level: 1
+category: scalar_state
+tags: []
+variant_of: crayon_hot_plate
+variation_type: combined
+variation_description: Insulator under crayon (delayed melting) and occlusion via zoom out.
+changes:
+  occlusion_method: Camera zoom out.
+  dynamic_conditions: Wooden coaster insulator added.
+  expected_outcome_change: Melting is significantly delayed or prevented.
+prompts:
+  init_frame_edit_prompt: Edit the image to place a thick wooden coaster underneath the blue crayon.
+  video_WM: The crayon sits on a thick wooden coaster, which rests on the hot plate surface. The plate
+    is actively heating. The wood acts as a thermal barrier between the heat source and the wax. The camera
+    zooms out rapidly until the scene is too small to resolve details. The camera holds this distant view
+    for several seconds. Then the camera zooms back in to the original viewpoint. No cut, no scene change.
+    STOP.
+  camera_WM: The crayon sits on a thick wooden coaster, which rests on the hot plate surface. The plate
+    is actively heating. The wood acts as a thermal barrier between the heat source and the wax. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+  Genie: null
+evaluation:
+  init_frame_description: A blue Crayola crayon stands upright on a thick, circular wooden coaster. The
+    coaster rests on a black electric hot plate. A red indicator light labeled 'HEATING' is illuminated
+    on the front of the hot plate. Wisps of smoke or steam are rising from the area around the coaster
+    and crayon.
+  init2final_edit_prompt: Edit the given image to show the blue crayon remaining standing and unmelted
+    on the wooden coaster. Ensure the crayon retains its original height and pointed tip. Keep the red
+    heating light illuminated. Maintain the appearance of smoke or steam rising from the coaster area.
+  rationale: The prompt explicitly states that the wood acts as a thermal barrier, and the duration of
+    the event is only 'several seconds' (the time taken to zoom out, hold briefly, and zoom back in).
+    Wood is a poor thermal conductor, so heat from the plate would not penetrate the thick coaster to
+    melt the wax crayon within such a short timeframe. Therefore, the correct physical simulation requires
+    the crayon to remain upright and solid, resisting the naive expectation of melting that might apply
+    if it were directly on the plate.
+  questions:
+  - id: crayon_standing
+    question: Is the blue crayon still standing upright?
+    answer_type: yes_no
+    notes_for_judge: The crayon should not have fallen over.
+  - id: crayon_height
+    question: Is the height of the crayon approximately the same as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The crayon should not have melted down significantly.
+  - id: crayon_shape
+    question: Does the crayon retain its original cylindrical shape and pointed tip?
+    answer_type: yes_no
+    notes_for_judge: It should not look deformed or like a puddle.
+  - id: crayon_solid
+    question: Does the crayon appear solid rather than melted?
+    answer_type: yes_no
+    notes_for_judge: Verify the wax has not transitioned to liquid.
+  - id: coaster_visible
+    question: Is the wooden coaster still visible beneath the crayon?
+    answer_type: yes_no
+    notes_for_judge: The coaster should not be obscured by melted wax.
+  - id: light_state
+    question: Is the red heating light still illuminated?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

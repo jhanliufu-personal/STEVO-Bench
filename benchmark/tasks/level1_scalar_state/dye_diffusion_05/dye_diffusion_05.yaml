@@ -1,0 +1,74 @@
+id: dye_diffusion_05
+level: 1
+category: scalar_state
+tags: []
+variant_of: dye_diffusion
+variation_type: dynamic_condition
+variation_description: Liquid in bowl changed to a solid block of ice.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Bowl contains solid ice instead of liquid water.
+  expected_outcome_change: Dye will pool on the surface of the ice or stain it locally, with no volumetric
+    diffusion.
+prompts:
+  init_frame_edit_prompt: Edit the image to change the liquid in the bowl into a solid block of clear
+    ice with a frosted top surface.
+  video_WM: Single continuous shot, no cuts, no zoom. The blue liquid in the dropper is a water-soluble
+    dye. The bowl contains a solid block of frozen ice. When released, the dye lands on the solid ice
+    surface. The ice is solid and does not allow fluid mixing. No stirring or additional drops occur.
+    Camera starts centered on the bowl and hand. The camera smoothly moves right at constant speed until
+    the bowl, hand, and dropper completely exit the frame to the right. While the bowl is out of view,
+    the dye sits on the ice surface. The camera continues moving right for several seconds. Then the camera
+    moves left at the same constant speed back to the original viewpoint, bringing the bowl back into
+    view.
+  camera_WM: Single continuous shot, no cuts, no zoom. The blue liquid in the dropper is a water-soluble
+    dye. The bowl contains a solid block of frozen ice. When released, the dye lands on the solid ice
+    surface. The ice is solid and does not allow fluid mixing. No stirring or additional drops occur.
+    While the bowl is out of view, the dye sits on the ice surface. Lighting and scene consistency remain
+    unchanged. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot showing a clear glass bowl filled with a large, solid
+    block of textured white ice. A hand is visible in the upper left, holding a dropper containing dark
+    blue liquid positioned directly over the center of the ice block. The background is blurred, showing
+    a window and some laboratory or botanical elements.
+  init2final_edit_prompt: Edit the given image to show the aftermath of dropping blue dye onto the ice.
+    Add a distinct, concentrated patch of dark blue liquid sitting on the top surface of the white ice
+    block, directly beneath the dropper tip. Lower the level of the blue liquid inside the glass dropper
+    to indicate that some has been dispensed. Keep the ice solid and textured; do not blend the blue color
+    throughout the entire bowl or turn the ice into liquid water. The blue color should be localized to
+    the surface contact point.
+  rationale: The prompt describes a sequence where dye is released onto a solid block of ice. Because
+    the ice is solid and mixing is explicitly forbidden by the physics description, the dye will not diffuse
+    volumetrically as it would in liquid water. Instead, it will accumulate as a surface stain or small
+    pool on top of the ice block. The camera returns to the original viewpoint, so the final frame should
+    look identical to the start but with the dye transferred from the dropper to the ice surface. The
+    scalar changes are the reduction of liquid in the dropper and the accumulation of liquid on the ice.
+  questions:
+  - id: dye_presence_on_ice
+    question: Is there a visible blue patch or stain on the surface of the ice?
+    answer_type: yes_no
+    notes_for_judge: The dye should be visible on the ice, which was previously clean.
+  - id: dropper_level_decrease
+    question: Is the level of blue liquid inside the dropper lower than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The dropper should have less liquid since it released a drop.
+  - id: dye_localization
+    question: Is the blue dye concentrated in a specific spot rather than mixed uniformly throughout the
+      bowl?
+    answer_type: yes_no
+    notes_for_judge: Since the ice is solid, the dye should not diffuse into the whole volume.
+  - id: ice_solidity
+    question: Does the ice appear to remain solid rather than melted into a pool of water?
+    answer_type: yes_no
+    notes_for_judge: The prompt specifies the ice is solid; it should not look like a bowl of blue water.
+  - id: dye_accumulation
+    question: Is there more blue color on the ice surface than there was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Tests the accumulation of mass on the target surface.
+  - id: uncolored_ice_remains
+    question: Are the outer edges of the ice block still white or clear (uncolored)?
+    answer_type: yes_no
+    notes_for_judge: Verifies that the dye hasn't magically colored the entire object instantly.

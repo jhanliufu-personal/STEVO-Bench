@@ -1,0 +1,63 @@
+id: dry_ice_sublimate_08
+level: 1
+category: scalar_state
+tags: []
+variant_of: dry_ice_sublimate
+variation_type: combined
+variation_description: Dry bowl condition combined with camera zoom occlusion.
+changes:
+  occlusion_method: Camera zooms out until details are lost.
+  dynamic_conditions: No water; dry ice in air.
+  expected_outcome_change: Very slow sublimation rate.
+prompts:
+  init_frame_edit_prompt: Edit the image to remove the water from the bowl, showing the dry ice block
+    sitting directly on the bottom of the dry ceramic bowl.
+  video_WM: The dry ice block sits in a dry bowl at room temperature, sublimating very slowly. The camera
+    zooms out continuously until the bowl is too small to distinguish details, then zooms back in to the
+    initial framing. No cut, no scene change. STOP.
+  camera_WM: The dry ice block sits in a dry bowl at room temperature, sublimating very slowly. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+evaluation:
+  init_frame_description: A close-up, high-angle shot of a white, roughly cubic block of dry ice sitting
+    inside a beige ceramic bowl with a dark rim. The bowl rests on a wooden table. Wisps of white fog
+    or vapor are emanating from the dry ice block, drifting over the edges of the bowl. The lighting is
+    warm and natural, casting soft shadows.
+  init2final_edit_prompt: Edit the given image to show the block of dry ice slightly reduced in size with
+    softer, more rounded edges, indicating a small amount of mass loss due to sublimation. Ensure there
+    is no liquid water in the bowl. Maintain the presence of white vapor mist emanating from the block.
+    Keep the bowl, wooden table, and lighting exactly the same as the original.
+  rationale: The video describes a continuous camera movement that zooms out and then back in to the original
+    framing. During this time, the dry ice continues to sublimate (turn directly from solid to gas). Since
+    the prompt specifies 'very slowly', the block should not disappear or shrink drastically, but it must
+    not grow or melt into liquid. The final frame should show the block slightly smaller or roughly the
+    same size, with persistent fog, and no liquid water.
+  questions:
+  - id: dry_ice_exists
+    question: Is the dry ice block still visible in the bowl?
+    answer_type: yes_no
+    notes_for_judge: The block should not have disappeared completely given the 'very slowly' instruction.
+  - id: dry_ice_size_check
+    question: Is the dry ice block smaller than or equal to its size in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: It should not have grown.
+  - id: dry_ice_not_larger
+    question: Has the dry ice block avoided growing larger?
+    answer_type: yes_no
+    notes_for_judge: Verifies the directional constraint of sublimation.
+  - id: no_liquid_water
+    question: Is the bowl free of accumulated liquid water?
+    answer_type: yes_no
+    notes_for_judge: Dry ice sublimates; it does not melt into liquid.
+  - id: fog_presence
+    question: Is there still white fog or vapor visible around the ice?
+    answer_type: yes_no
+    notes_for_judge: Sublimation produces visible vapor.
+  - id: bowl_position
+    question: Is the bowl centered in the frame similarly to the initial view?
+    answer_type: yes_no
+    notes_for_judge: Checks if the camera successfully zoomed back in to the initial framing.
+  - id: lighting_consistency
+    question: Is the lighting on the table consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

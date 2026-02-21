@@ -1,0 +1,68 @@
+id: spooling_wire_03
+level: 1
+category: scalar_state
+tags: []
+variant_of: spooling_wire
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to thick industrial steam obscuring the
+  view.
+changes:
+  occlusion_method: Thick white steam fills the room.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A motorized spindle winds yellow wire. The spool diameter is visibly growing. Thick white
+    industrial steam rapidly fills the room, completely obscuring the machine from view, then the steam
+    dissipates. No zoom, no cut, no scene change. STOP.
+  camera_WM: A motorized spindle winds yellow wire. The spool diameter is visibly growing. Thick white
+    industrial steam rapidly fills the room, completely obscuring the machine from view, then the steam
+    dissipates. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up industrial shot of a wire winding machine. In the center, a spool
+    is actively winding bright yellow wire; the wire forms a cylindrical pack around a black core. To
+    the left, there is a large, greasy metal gear mechanism and the machine's heavy metal frame. In the
+    background, an industrial workshop is visible with corrugated walls, overhead fluorescent lights,
+    and other spools of wire, including a blue one on the bottom left and a yellow one on the far right.
+  init2final_edit_prompt: Edit the given image to show the central spool of yellow wire with a significantly
+    larger diameter, indicating that more wire has been wound onto it. The pack of yellow wire should
+    appear thicker and fuller than in the original image. Ensure the view is completely clear of any steam
+    or fog, restoring the visibility of the machine and the workshop background exactly as they were,
+    but with the increased amount of wire on the central spool.
+  rationale: The video prompt describes a continuous winding process interrupted by a temporary occlusion
+    (steam). During the time the machine is obscured by steam, the motor continues to run, winding more
+    wire onto the spool. Therefore, when the steam dissipates in the final frame, the primary physical
+    change must be an increase in the amount of yellow wire on the spool (increased diameter/volume).
+    The camera remains static, so the background and machine structure should remain consistent and visible
+    once the steam clears.
+  questions:
+  - id: wire_volume_increase
+    question: Is the diameter of the wound yellow wire larger than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the thickness/diameter of the yellow wire pack on the central spool.
+  - id: wire_accumulation
+    question: Is there more yellow wire on the central spool compared to the start?
+    answer_type: yes_no
+    notes_for_judge: The volume of yellow wire should have visibly increased.
+  - id: wire_thickness
+    question: Is the layer of yellow wire thicker than in the initial image?
+    answer_type: yes_no
+    notes_for_judge: Check if the yellow section has grown outward.
+  - id: steam_dissipation
+    question: Is the machine visible again without being obscured by steam?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the steam dissipates, so the view should be clear.
+  - id: background_clarity
+    question: Is the background workshop visible and clear of fog or steam?
+    answer_type: yes_no
+    notes_for_judge: The final frame should not be foggy.
+  - id: machine_consistency
+    question: Is the large metal gear on the left still present and in the same position?
+    answer_type: yes_no
+    notes_for_judge: Static camera and machine parts should remain unchanged.
+  - id: peripheral_consistency
+    question: Is the yellow wire spool in the background on the far right still visible?
+    answer_type: yes_no
+    notes_for_judge: Background objects should persist.

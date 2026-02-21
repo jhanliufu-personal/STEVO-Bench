@@ -1,0 +1,68 @@
+id: sand_filling_up_jar_10
+level: 1
+category: scalar_state_change
+tags: []
+variant_of: sand_filling_up_jar
+variation_type: combined
+variation_description: Plugged funnel (static condition) combined with camera zoom-out occlusion.
+changes:
+  occlusion_method: Camera zooms out until scene is too small to resolve.
+  dynamic_conditions: Funnel neck is plugged with a cork.
+  expected_outcome_change: No change in sand levels (static state).
+prompts:
+  init_frame_edit_prompt: Edit the image to show a cork stopper firmly plugging the bottom opening of
+    the glass funnel neck. Ensure no sand is falling from the funnel into the jar.
+  video_WM: Single continuous take. Camera starts centered on the funnel and jar. A glass funnel filled
+    with sand sits atop a jar, but the neck is tightly plugged with a cork stopper. The camera zooms out
+    smoothly and continuously until the funnel and jar become tiny dots in the distance, indistinguishable
+    from the background. The camera holds this distant view for several seconds. Then the camera zooms
+    back in smoothly to the original viewpoint. Lighting and objects remain consistent and realistic.
+  camera_WM: A glass funnel filled with sand sits atop a jar, but the neck is tightly plugged with a cork
+    stopper. Lighting and objects remain consistent and realistic. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+  Genie: null
+evaluation:
+  init_frame_description: A clear glass jar sits on a rustic wooden table. A glass funnel filled with
+    beige sand rests on top of the jar. The neck of the funnel, which extends inside the jar, is tightly
+    plugged with a cork stopper. There is a small, static pile of sand at the bottom of the jar, separated
+    from the sand in the funnel by the cork and empty space.
+  init2final_edit_prompt: Edit the given image to maintain the exact same state. Ensure the cork stopper
+    remains visible and tightly plugged in the neck of the funnel. Keep the level of sand in the funnel
+    exactly the same height, without lowering. Keep the pile of sand in the bottom jar exactly the same
+    size, without growing. The scene should look identical to the original, with no sand flow having occurred.
+  rationale: The prompt explicitly states that the funnel is 'tightly plugged with a cork stopper'. Although
+    the camera zooms out and back in, creating a temporal gap, no action is described that would remove
+    the cork or unblock the funnel. Gravity alone cannot move the sand past the stopper. Therefore, the
+    physical state of the system (sand levels) must remain invariant. Any flow of sand would be a hallucination
+    driven by the visual prior of a funnel, contradicting the text constraint of the cork.
+  questions:
+  - id: cork_presence
+    question: Is the cork stopper still visible in the neck of the funnel?
+    answer_type: yes_no
+    notes_for_judge: The cork should not disappear or move.
+  - id: funnel_sand_level_same
+    question: Is the level of sand in the funnel approximately the same as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The sand level should not drop since the funnel is plugged.
+  - id: jar_sand_level_same
+    question: Is the pile of sand in the jar the same size as it was initially?
+    answer_type: yes_no
+    notes_for_judge: The pile should not grow; no sand should flow.
+  - id: no_flow_occurred
+    question: Did the sand remain in the funnel without flowing into the jar?
+    answer_type: yes_no
+    notes_for_judge: Check that the top is still full and the bottom is not filling up.
+  - id: funnel_fullness
+    question: Does the funnel still appear to be full of sand?
+    answer_type: yes_no
+    notes_for_judge: It should not be emptying.
+  - id: jar_empty_space
+    question: Is the empty space between the funnel neck and the bottom sand pile still clear of falling
+      sand?
+    answer_type: yes_no
+    notes_for_judge: There should be no stream of sand.
+  - id: cork_blocking
+    question: Does the cork still appear to be blocking the sand flow?
+    answer_type: yes_no
+    notes_for_judge: The mechanism of the cork must be preserved.

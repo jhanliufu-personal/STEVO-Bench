@@ -1,0 +1,67 @@
+id: dry_ice_sublimate_05
+level: 1
+category: scalar_state
+tags: []
+variant_of: dry_ice_sublimate
+variation_type: dynamic_condition
+variation_description: Water removed; dry ice sits in a dry bowl (air).
+changes:
+  occlusion_method: null
+  dynamic_conditions: No water; dry ice is in air.
+  expected_outcome_change: Sublimation rate is extremely slow compared to water; very little change in
+    size.
+prompts:
+  init_frame_edit_prompt: Edit the image to remove the water from the bowl, showing the dry ice block
+    sitting directly on the bottom of the dry ceramic bowl.
+  video_WM: The dry ice block sits in a dry bowl at room temperature. The sublimation is very slow with
+    minimal visible vapor. The camera rotates right until the bowl completely exits the view, then rotates
+    toward the left smoothly at the same rate until the bowl is back in the center of view. No zoom, no
+    cut, no scene change. STOP.
+  camera_WM: The dry ice block sits in a dry bowl at room temperature. The sublimation is very slow with
+    minimal visible vapor. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up, slightly high-angle shot of a beige ceramic bowl resting on a wooden
+    table. Inside the bowl sits a large, white, cubic block of dry ice. There is a small amount of wispy
+    white vapor emanating from the block, settling near the bottom of the bowl. The lighting is natural
+    and soft.
+  init2final_edit_prompt: Edit the given image to show the dry ice block slightly reduced in volume with
+    softer, more rounded edges to simulate slow sublimation. Ensure the block is still clearly visible
+    and solid white. Do not add any liquid water or puddles in the bowl. Keep the vapor minimal and wispy.
+    Maintain the exact original camera framing, bowl position, and background details.
+  rationale: The camera performs a panning motion that removes the bowl from view and then returns it
+    to the center, implying a passage of time during occlusion. During this time, the dry ice undergoes
+    sublimation (solid to gas). Because the prompt specifies the rate is 'very slow', the block should
+    not disappear or shrink drastically; it should remain visible, potentially slightly smaller or more
+    rounded. Crucially, dry ice does not melt into liquid, so the bowl must remain dry. The camera returns
+    to the initial viewpoint.
+  questions:
+  - id: '1'
+    question: Is the dry ice block still visible in the bowl?
+    answer_type: yes_no
+    notes_for_judge: Tests object permanence after occlusion.
+  - id: '2'
+    question: Is the dry ice block smaller or approximately the same size as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Tests the scalar change direction (non-increasing volume).
+  - id: '3'
+    question: Has the dry ice block avoided growing larger?
+    answer_type: yes_no
+    notes_for_judge: Verifies the scalar variable did not change in the wrong direction.
+  - id: '4'
+    question: Is the bowl free of liquid water or puddles?
+    answer_type: yes_no
+    notes_for_judge: Tests physical state consistency (sublimation vs melting).
+  - id: '5'
+    question: Does the dry ice block appear to be a solid white object?
+    answer_type: yes_no
+    notes_for_judge: Verifies the material state.
+  - id: '6'
+    question: Is the bowl centered in the frame?
+    answer_type: yes_no
+    notes_for_judge: Verifies the camera returned to the starting position.
+  - id: '7'
+    question: Is the wooden table surface visible and consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

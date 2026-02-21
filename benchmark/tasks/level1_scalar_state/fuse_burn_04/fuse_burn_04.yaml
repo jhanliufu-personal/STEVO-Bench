@@ -1,0 +1,66 @@
+id: fuse_burn_04
+level: 1
+category: scalar_state
+tags: []
+variant_of: fuse_burn
+variation_type: dynamic_condition
+variation_description: The fuse and floor are wet, implying a much slower burn rate
+changes:
+  occlusion_method: null
+  dynamic_conditions: The fuse is soaked and the floor is wet (implies slow, sputtering burn)
+  expected_outcome_change: Burn progresses much slower; less length consumed
+prompts:
+  init_frame_edit_prompt: Edit the image to show puddles of water on the concrete floor and make the fuse
+    rope look dark, heavy, and soaked with water.
+  video_WM: The wet fuse is sputtering, the spark struggling to consume the damp material. The burning
+    proceeds very slowly. The camera rotates right until the fuse completely exits the view, then rotates
+    toward the left smoothly at the same rate until the fuse is back in the center of view. No zoom, no
+    cut, no scene change. STOP.
+  camera_WM: The wet fuse is sputtering, the spark struggling to consume the damp material. The burning
+    proceeds very slowly. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a thick, twisted rope fuse lying on a damp concrete
+    floor. The floor has dark, wet patches and puddles that reflect the scene. The fuse extends from the
+    bottom left towards the right side of the frame, curving slightly. The tip of the fuse on the left
+    is lit, emitting a bright burst of orange sparks and white smoke. The texture of the rope is rough
+    and fibrous. The background is dark and out of focus.
+  init2final_edit_prompt: Edit the given image to show the fuse having burned further along its length.
+    Move the bright cluster of sparks and flame slightly to the right along the path of the rope. Replace
+    the section of the rope where the flame was originally located with blackened, charred residue. Shorten
+    the remaining length of the unburnt rope accordingly. Keep the background, concrete floor, and water
+    puddles identical to the original view.
+  rationale: The video prompt describes a camera panning action where the view rotates away and then returns
+    to the original center. This implies a passage of time during which the physical process (burning)
+    continues. Since the prompt specifies the fuse is wet and burning 'very slowly', the flame should
+    have advanced only a short distance along the rope by the time the camera returns. The state change
+    is characterized by the relocation of the spark source along the fuse trajectory and the conversion
+    of the consumed rope section into ash or char, resulting in a shorter unburnt section.
+  questions:
+  - id: burn_progress_location
+    question: Is the burning point (sparks and flame) located further to the right along the rope than
+      in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the position of the fire relative to the floor markings or the rope's curve.
+      It should have advanced along the rope.
+  - id: rope_length_reduction
+    question: Is the length of the remaining unburnt fuse shorter than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The unburnt section ahead of the flame should be reduced in length.
+  - id: char_residue_presence
+    question: Is there visible charring, blackening, or ash where the lit end was originally located?
+    answer_type: yes_no
+    notes_for_judge: The area previously occupied by the flame should now show signs of being burnt.
+  - id: flame_persistence
+    question: Is the fuse still lit with visible sparks or flame?
+    answer_type: yes_no
+    notes_for_judge: The fire should not have extinguished completely.
+  - id: slow_burn_check
+    question: Is a significant portion of the unburnt fuse still remaining?
+    answer_type: yes_no
+    notes_for_judge: Since the prompt says 'very slowly', the fuse should not be completely consumed.
+  - id: background_consistency
+    question: Do the concrete floor texture and puddle shapes remain unchanged?
+    answer_type: yes_no
+    notes_for_judge: The environment should be static.

@@ -1,0 +1,68 @@
+id: steam_kettle_spout_05
+level: 1
+category: scalar_state
+tags: []
+variant_of: steam_kettle_spout
+variation_type: dynamic_condition
+variation_description: The burner is active initially but turns off immediately.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Burner turns off at start
+  expected_outcome_change: Steam should dissipate and stop.
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The kettle sits on an active hot burner with steam exiting the spout. Immediately, the burner
+    dial is turned to 'OFF' and the heat source is cut. The residual heat begins to fade. The camera rotates
+    right at constant speed until the kettle completely exits the view to the right. The camera continues
+    rotating right for several seconds while off-screen. Then the camera rotates left smoothly at the
+    same rate back to the original viewpoint. No zoom, no cut, no scene change. STOP.
+  camera_WM: The kettle sits on an active hot burner with steam exiting the spout. Immediately, the burner
+    dial is turned to 'OFF' and the heat source is cut. The residual heat begins to fade. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A silver gooseneck kettle sits on an electric stovetop. The spiral burner coil
+    beneath the kettle is glowing bright orange-red, indicating it is very hot. A distinct, wispy plume
+    of white steam is rising from the kettle's spout and drifting upwards.
+  init2final_edit_prompt: Edit the given image to make the electric burner coil appear dark grey or black,
+    removing the bright orange-red glow to show it has cooled down. Remove the steam plume rising from
+    the kettle's spout or reduce it to a barely visible wisp.
+  rationale: The prompt specifies that the heat source is cut immediately and the camera pans away for
+    a duration of several seconds before returning. During this occlusion, the electric coil cools down,
+    causing the visible red incandescence to fade to a dark color. Consequently, the boiling slows or
+    stops, leading to a significant reduction or total cessation of the steam exiting the spout. The final
+    frame should reflect this cooled state.
+  questions:
+  - id: glow_intensity
+    question: Is the red glow of the burner coil less intense than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The coil should be dark or significantly dimmer.
+  - id: steam_amount
+    question: Is the amount of steam rising from the spout less than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Steam should be reduced or gone.
+  - id: coil_darkness
+    question: Does the burner coil appear darker than it did initially?
+    answer_type: yes_no
+    notes_for_judge: It should look like dark metal rather than glowing orange.
+  - id: steam_visibility
+    question: Is the steam plume smaller or absent compared to the start?
+    answer_type: yes_no
+    notes_for_judge: Check for reduction in the visible vapor.
+  - id: reflection_reduction
+    question: Is the orange reflection on the base of the kettle reduced or gone?
+    answer_type: yes_no
+    notes_for_judge: With the glow gone, the reflection on the metal should disappear.
+  - id: thermal_state
+    question: Does the stove element look cooler than it did in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Visual interpretation of temperature (glow vs dark).
+  - id: kettle_pos
+    question: Is the kettle still sitting on the same burner?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: background_consistency
+    question: Is the window in the background still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

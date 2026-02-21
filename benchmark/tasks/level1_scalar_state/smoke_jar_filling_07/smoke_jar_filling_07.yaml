@@ -1,0 +1,68 @@
+id: smoke_jar_filling_07
+level: 1
+category: scalar_state
+tags: []
+variant_of: smoke_jar_filling
+variation_type: combined
+variation_description: Unlit incense stick (no smoke) combined with lights-off occlusion.
+changes:
+  occlusion_method: Lighting change (lights off)
+  dynamic_conditions: Incense stick is unlit
+  expected_outcome_change: Jar remains clear (no smoke)
+prompts:
+  init_frame_edit_prompt: Edit the image to remove the smoke plume and the glowing red tip of the incense
+    stick, making it look like a fresh, unlit brown stick.
+  video_WM: An unlit incense stick is held at the jar opening. No smoke is being produced. The jar is
+    open at the top. Suddenly, the room lights turn off completely, plunging the scene into pitch blackness
+    where nothing is visible. The darkness lasts for several seconds. Then the lights turn back on, illuminating
+    the jar again. No zoom, no cut, no scene change. STOP.
+  camera_WM: An unlit incense stick is held at the jar opening. No smoke is being produced. The jar is
+    open at the top. Suddenly, the room lights turn off completely, plunging the scene into pitch blackness
+    where nothing is visible. The darkness lasts for several seconds. Then the lights turn back on, illuminating
+    the jar again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A clear glass jar sits on a rustic wooden surface near a window. An incense
+    stick rests horizontally across the rim of the jar. The left tip of the incense stick is grey and
+    ashy, indicating it is lit, and a faint wisp of smoke is visible rising from it. The interior of the
+    jar is currently clear and empty.
+  init2final_edit_prompt: Edit the given image to show white smoke accumulated inside the glass jar. The
+    interior of the jar should appear cloudy and filled with swirling smoke, partially obscuring the view
+    of the background through the glass. Keep the incense stick on the rim and the lighting conditions
+    identical to the original.
+  rationale: The initial image displays a lit incense stick resting on a jar. During the period of darkness
+    described in the prompt (occlusion), the incense continues to burn. Physically, the smoke produced
+    by the incense tends to drift downwards or accumulate within the container it is resting over. Therefore,
+    when the scene becomes visible again, the key scalar change is the accumulation of smoke volume inside
+    the jar, reducing its transparency.
+  questions:
+  - id: smoke_presence
+    question: Is there more smoke visible inside the jar than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Check for the presence of white/grey smoke or cloudiness inside the glass container.
+  - id: transparency_change
+    question: Is the background seen through the jar less visible due to smoke?
+    answer_type: yes_no
+    notes_for_judge: The glass should be less transparent/clear compared to the start.
+  - id: volume_increase
+    question: Has the volume of smoke contained in the jar increased?
+    answer_type: yes_no
+    notes_for_judge: Compare the emptiness of the jar in the first frame to the cloudy state in the second.
+  - id: smoke_accumulation
+    question: Does the jar appear to be filling with smoke?
+    answer_type: yes_no
+    notes_for_judge: Focus on the interior of the jar.
+  - id: jar_clarity
+    question: Is the interior of the jar cloudier than it was initially?
+    answer_type: yes_no
+    notes_for_judge: Cloudiness indicates smoke accumulation.
+  - id: stick_position
+    question: Is the incense stick still resting on the rim of the jar?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: jar_integrity
+    question: Is the jar still standing upright on the wooden surface?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

@@ -1,0 +1,71 @@
+id: matchstick_burning_01
+level: 1
+category: scalar_state
+tags: []
+variant_of: matchstick_burning
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to a large opaque object blocking the view.
+changes:
+  occlusion_method: A large opaque cardboard sheet slides in front of the camera.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The matchstick flame burns at the tip. The match is wooden with combustible material. Oxygen
+    is available. A large opaque sheet of cardboard slides from the left, completely blocking the view
+    of the hand and match. It stays there for several seconds. Then the cardboard slides back to the left,
+    revealing the scene again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The matchstick flame burns at the tip. The match is wooden with combustible material. Oxygen
+    is available. A large opaque sheet of cardboard slides from the left, completely blocking the view
+    of the hand and match. It stays there for several seconds. Then the cardboard slides back to the left,
+    revealing the scene again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A close-up side view of a dirty hand holding a lit wooden matchstick against
+    a blurred neutral beige background. The matchstick is held horizontally. The tip is burning with a
+    bright orange and yellow flame, emitting a small trail of smoke. The head of the match is blackened
+    and charred, and the charring has just begun to spread slightly down the wooden shaft.
+  init2final_edit_prompt: Edit the given image to show the matchstick after it has burned further down.
+    Replace the upper portion of the wooden stick with blackened char or ash. Move the flame lower down
+    the stick, closer to the fingers holding it. Reduce the length of the visible unburnt light-colored
+    wood. Ensure the hand and background remain identical to the original image.
+  rationale: The video prompt describes a match burning while oxygen is available, implying the combustion
+    process continues. An opaque occlusion covers the scene for several seconds. During this time, the
+    fire consumes the wood, moving from the tip towards the base (the fingers). Therefore, when the view
+    is restored, the matchstick should be physically shorter or significantly more charred, with the flame
+    position advanced down the stick. The scalar change is the reduction of unburnt wood mass and the
+    increase of charred length.
+  questions:
+  - id: q1_unburnt_length
+    question: Is the length of the unburnt, light-colored wood shorter than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the length of the clean wood between the fingers and the char/flame.
+  - id: q2_char_extent
+    question: Is the blackened, charred portion of the matchstick longer or more extensive than in the
+      initial frame?
+    answer_type: yes_no
+    notes_for_judge: The black area should have grown.
+  - id: q3_flame_position
+    question: Is the active burning area (flame or glowing ember) closer to the fingers than in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: The fire travels down the stick.
+  - id: q4_consumption
+    question: Does the matchstick appear more consumed by fire compared to the start?
+    answer_type: yes_no
+    notes_for_judge: General check for state progression.
+  - id: q5_head_degradation
+    question: Is the original tip of the matchstick more degraded, ashy, or missing compared to the initial
+      view?
+    answer_type: yes_no
+    notes_for_judge: The tip burns first and turns to ash.
+  - id: q6_hand_consistency
+    question: Is the hand holding the match still visible and in the same position?
+    answer_type: yes_no
+    notes_for_judge: Consistency check.
+  - id: q7_background_consistency
+    question: Is the background still the same blurred neutral surface?
+    answer_type: yes_no
+    notes_for_judge: Consistency check.

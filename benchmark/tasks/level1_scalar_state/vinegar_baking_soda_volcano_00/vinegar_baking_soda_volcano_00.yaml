@@ -1,0 +1,69 @@
+id: vinegar_baking_soda_volcano_00
+level: 1
+category: scalar_state
+tags: []
+variant_of: vinegar_baking_soda_volcano
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The hand pours vinegar into the container with baking soda. Vinegar contains acetic acid.
+    Baking soda is sodium bicarbonate. Camera remains stationary throughout. No zoom, no cut, no scene
+    change. STOP.
+  camera_WM: The hand pours vinegar into the container with baking soda. Vinegar contains acetic acid.
+    Baking soda is sodium bicarbonate. Camera remains stationary throughout. No zoom, no cut, no scene
+    change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a wooden kitchen counter. In the center, a rustic
+    wooden tray holds a clear glass apothecary jar filled about halfway with white powder (baking soda).
+    A glass stopper sits in the neck of the jar. To the left of the tray is a bottle of vinegar. Above
+    the tray, a hand holds a clear glass pitcher containing liquid, tilted slightly as if preparing to
+    pour.
+  init2final_edit_prompt: Edit the given image to show the chemical reaction between vinegar and baking
+    soda. Remove the glass stopper from the jar. Render a large amount of white, fizzy foam rising rapidly
+    out of the mouth of the jar and overflowing down the sides onto the wooden tray. The foam should be
+    bubbly and voluminous, occupying significantly more space than the initial white powder. The pitcher
+    should be tilted further or appear to have poured liquid into the jar.
+  rationale: The prompt describes pouring vinegar (acetic acid) into baking soda (sodium bicarbonate).
+    This triggers a rapid acid-base reaction that releases carbon dioxide gas, creating a large volume
+    of foam. The physical rollout involves the removal of the stopper (implied by the act of pouring into
+    the container) and the immediate expansion of the mixture. The key scalar change is the massive increase
+    in volume and height of the substance in the jar as it converts from static powder and liquid into
+    expanding foam.
+  questions:
+  - id: volcano_q1
+    question: Is the white substance in the jar higher than the initial level of the powder?
+    answer_type: yes_no
+    notes_for_judge: Checks for volume expansion/height increase.
+  - id: volcano_q2
+    question: Is the substance in the jar overflowing or spilling onto the tray?
+    answer_type: yes_no
+    notes_for_judge: Checks for volume expansion beyond the container's capacity.
+  - id: volcano_q3
+    question: Is the mixture in the jar bubbly or foamy?
+    answer_type: yes_no
+    notes_for_judge: Checks for the correct texture change resulting from the reaction.
+  - id: volcano_q4
+    question: Is the jar fuller than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Comparative volume check.
+  - id: volcano_q5
+    question: Is the glass stopper removed from the mouth of the jar?
+    answer_type: yes_no
+    notes_for_judge: 'Physical consistency check: the stopper must be removed to pour liquid in and for
+      foam to come out.'
+  - id: volcano_q6
+    question: Does the white substance occupy more space than it did initially?
+    answer_type: yes_no
+    notes_for_judge: Checks for volumetric growth.
+  - id: volcano_q7
+    question: Is the vinegar bottle on the left still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check for background objects.

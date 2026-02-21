@@ -1,0 +1,63 @@
+id: spooling_wire_06
+level: 1
+category: scalar_state
+tags: []
+variant_of: spooling_wire
+variation_type: dynamic_condition
+variation_description: The process starts with an empty core rather than a partially full spool.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Starting from an empty core.
+  expected_outcome_change: Wire accumulates on a bare core instead of an existing pile.
+prompts:
+  init_frame_edit_prompt: Edit the image to remove the yellow wire from the spool, showing only the bare
+    grey metal cylindrical core.
+  video_WM: A motorized spindle begins winding yellow wire onto a bare metal core. The wire just begins
+    to accumulate. The camera rotates right until the spindle completely exits the view, then rotates
+    toward the left smoothly at the same rate until the spool is back in the center of view. No zoom,
+    no cut, no scene change. STOP.
+  camera_WM: A motorized spindle begins winding yellow wire onto a bare metal core. The wire just begins
+    to accumulate. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up view of a large industrial winding machine. In the center is a horizontal
+    metal spool or drum, currently bare with a dark metallic surface, flanked by circular flanges. To
+    the left is a large gear mechanism. Above and to the right is a large electric motor with cooling
+    fins. In the background, there are other spools of wire, including a spool of yellow wire on the floor
+    to the right and a spool of black wire to the left. The lighting is industrial overhead lighting.
+  init2final_edit_prompt: Edit the given image to show a layer of yellow wire wound around the central
+    horizontal metal drum. The wire should appear coiled around the core, covering the previously bare
+    metal surface. Keep the machine, motor, and background environment unchanged.
+  rationale: The prompt describes a winding process where yellow wire begins to accumulate on the core.
+    The camera pans away (occluding the machine) and then returns to the original view. During the time
+    the machine is out of view, the winding action continues. Therefore, when the machine comes back into
+    view, the primary state change is the accumulation of yellow wire on the previously bare spool. The
+    final frame must show this increased amount of wire compared to the empty initial state.
+  questions:
+  - id: wire_presence
+    question: Is there yellow wire wrapped around the central metal drum?
+    answer_type: yes_no
+    notes_for_judge: The initial frame shows a bare metal drum. The final frame should show yellow wire
+      on it.
+  - id: wire_accumulation
+    question: Is the amount of yellow wire on the central spool greater than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the volume of wire on the spool. It should increase from zero/near-zero to
+      a visible amount.
+  - id: surface_coverage
+    question: Is the bare metal surface of the central cylinder less visible due to being covered by wire?
+    answer_type: yes_no
+    notes_for_judge: The wire should cover the core.
+  - id: wire_color
+    question: Is the wire accumulated on the machine yellow?
+    answer_type: yes_no
+    notes_for_judge: The prompt specifies yellow wire.
+  - id: motor_consistency
+    question: Is the large electric motor still visible above the spool?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: background_consistency
+    question: Is the spool of yellow wire on the floor in the background still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

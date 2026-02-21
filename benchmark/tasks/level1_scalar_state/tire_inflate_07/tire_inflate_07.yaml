@@ -1,0 +1,63 @@
+id: tire_inflate_07
+level: 1
+category: scalar_state
+tags: []
+variant_of: tire_inflate
+variation_type: combined
+variation_description: Deflation condition combined with fog occlusion.
+changes:
+  occlusion_method: Thick fog fills the garage, obscuring the view.
+  dynamic_conditions: Valve depressed, releasing air (deflation).
+  expected_outcome_change: Tire flattens.
+prompts:
+  init_frame_edit_prompt: Edit the image to remove the brass air hose connector and show a finger pressing
+    down on the pin of the valve stem.
+  video_WM: The valve pin is being depressed, releasing air from the tire with a hiss. The tire is losing
+    volume. Suddenly, thick white fog rolls into the garage, completely obscuring the tire and the floor.
+    After a moment, the fog dissipates, revealing the scene again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The valve pin is being depressed, releasing air from the tire with a hiss. The tire is losing
+    volume. Suddenly, thick white fog rolls into the garage, completely obscuring the tire and the floor.
+    After a moment, the fog dissipates, revealing the scene again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up, low-angle shot of a bicycle wheel resting on a concrete garage floor.
+    A hand is pressing down on the pin of a Presta valve stem at the bottom of the wheel. The tire is
+    currently inflated, holding the metal rim up off the ground. Several tools, including wrenches, are
+    scattered on the floor in the foreground and background. In the background, there is a red air compressor,
+    a red tool chest, and a window.
+  init2final_edit_prompt: Edit the given image to make the bicycle tire appear significantly deflated.
+    The bottom section of the tire should be squashed flat against the concrete floor, reducing the distance
+    between the metal rim and the ground. The sidewalls of the tire near the ground should bulge outward
+    or fold due to the loss of air pressure. Maintain the original camera angle and the position of the
+    background objects and tools.
+  rationale: The video prompt describes the valve pin being depressed to release air, followed by a period
+    of occlusion by fog. During the occlusion, the deflation process continues. Therefore, when the fog
+    dissipates in the final frame, the tire must exhibit signs of significant volume loss (deflation).
+    The primary visual indicator is the tire flattening against the ground and the rim sinking lower.
+  questions:
+  - id: tire_flatness
+    question: Is the tire visibly flatter or more deflated than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the inflation level. The final frame should show a tire with less air.
+  - id: rim_height
+    question: Is the metal rim closer to the concrete floor than it was initially?
+    answer_type: yes_no
+    notes_for_judge: As the tire deflates, the wheel rim sinks towards the ground.
+  - id: sidewall_compression
+    question: Does the bottom part of the tire appear more compressed or squashed against the ground?
+    answer_type: yes_no
+    notes_for_judge: Look for the tire sidewall bulging or the height of the rubber between rim and floor
+      decreasing.
+  - id: volume_reduction
+    question: Does the tire appear to contain less air volume than in the starting image?
+    answer_type: yes_no
+    notes_for_judge: General assessment of volume loss.
+  - id: fog_cleared
+    question: Is the scene visible again without being completely obscured by thick white fog?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the fog dissipates.
+  - id: background_consistency
+    question: Are the wrenches on the floor still in the same position?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

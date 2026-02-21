@@ -1,0 +1,73 @@
+id: vinegar_baking_soda_volcano_07
+level: 1
+category: scalar_state
+tags: []
+variant_of: vinegar_baking_soda_volcano
+variation_type: combined
+variation_description: 'Combined: Water instead of vinegar (no reaction) AND occlusion by a large cutting
+  board blocking the view.'
+changes:
+  occlusion_method: A large wooden cutting board is held up to block the camera view.
+  dynamic_conditions: Liquid is water (neutral) instead of vinegar.
+  expected_outcome_change: No foaming/reaction.
+prompts:
+  init_frame_edit_prompt: Edit the image to change the label on the bottle to read 'WATER'.
+  video_WM: The hand pours water into the container with baking soda. Water is neutral and does not react
+    with sodium bicarbonate to produce gas. Suddenly, a large wooden cutting board is lifted into the
+    frame, completely obscuring the jar and the pouring action. The board remains there for several seconds.
+    Then the board is lowered, revealing the scene again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The hand pours water into the container with baking soda. Water is neutral and does not react
+    with sodium bicarbonate to produce gas. Suddenly, a large wooden cutting board is lifted into the
+    frame, completely obscuring the jar and the pouring action. The board remains there for several seconds.
+    Then the board is lowered, revealing the scene again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a wooden kitchen table. In the center, a clear
+    glass apothecary jar sits on a rustic wooden tray; the jar is filled about one-third of the way with
+    white powder (baking soda). To the left of the jar is a clear glass bottle with a white label reading
+    'WATER' in blue text. In the upper right, a hand holds a glass pitcher and is beginning to pour a
+    clear liquid into the jar. The background shows a kitchen counter with a knife block, a window on
+    the left, and a stove on the right.
+  init2final_edit_prompt: Edit the given image to show the glass jar filled to a significantly higher
+    level with a mixture of water and wet white powder. The contents of the jar should appear saturated,
+    clumpy, or submerged in clear liquid, but strictly without any foam, bubbles, or eruption overflowing
+    the rim. The hand holding the pitcher should remain in the upper right, potentially holding the pitcher
+    at a different angle or with less liquid inside. The bottle labeled 'WATER' and the wooden tray must
+    remain in their original positions.
+  rationale: The prompt explicitly states that water is being poured, not vinegar, and clarifies that
+    water is neutral and does not react with baking soda to produce gas. Therefore, the expected physical
+    outcome is a simple increase in the volume of the jar's contents and a change in the texture of the
+    powder from dry to wet. There should be no chemical reaction, foaming, or 'volcano' effect. The occlusion
+    event hides the duration of the pour, but the final state reveals the accumulated liquid and wet powder
+    without any eruption.
+  questions:
+  - id: level_increase
+    question: Is the level of the contents inside the glass jar higher than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The water poured into the jar should raise the fill level.
+  - id: texture_wetness
+    question: Does the white substance inside the jar appear wet, clumpy, or submerged in liquid?
+    answer_type: yes_no
+    notes_for_judge: The powder should no longer look like dry dust.
+  - id: no_reaction_foam
+    question: Is the jar free of overflowing foam or expanding bubbles?
+    answer_type: yes_no
+    notes_for_judge: 'Crucial check: The prompt specifies water, so there should be NO volcanic eruption.'
+  - id: volume_accumulation
+    question: Is the total volume of material inside the jar greater than it was initially?
+    answer_type: yes_no
+    notes_for_judge: Scalar check for mass/volume addition.
+  - id: occluder_removed
+    question: Is the view clear of the large wooden cutting board mentioned in the prompt?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the board is lowered, revealing the scene.
+  - id: bottle_consistency
+    question: Is the bottle labeled 'WATER' still visible on the left side?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: tray_consistency
+    question: Is the wooden tray still visible underneath the jar?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

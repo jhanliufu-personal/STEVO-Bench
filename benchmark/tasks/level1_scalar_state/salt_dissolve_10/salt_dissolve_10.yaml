@@ -1,0 +1,71 @@
+id: salt_dissolve_10
+level: 1
+category: scalar_state
+tags: []
+variant_of: salt_dissolve
+variation_type: combined
+variation_description: Dry tank (Condition) + Object blocking (Method).
+changes:
+  occlusion_method: Blocking object.
+  dynamic_conditions: Empty tank (no water).
+  expected_outcome_change: No dissolution.
+prompts:
+  init_frame_edit_prompt: Edit the image to remove the water completely. The salt lick is sitting in a
+    dry glass tank.
+  video_WM: A salt lick sits inside a dry glass tank filled only with air. A dark curtain is pulled across
+    the view, hiding the tank completely. The curtain is then pulled back to reveal the tank. No zoom,
+    no cut, no scene change. STOP.
+  camera_WM: A salt lick sits inside a dry glass tank filled only with air. A dark curtain is pulled across
+    the view, hiding the tank completely. The curtain is then pulled back to reveal the tank. No zoom,
+    no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A large, white, cubic salt lick block with a rough, textured surface sits inside
+    a glass aquarium tank. To the right of the main block, a smaller, irregular chunk of salt rests on
+    the tank floor. The tank appears dry and empty, with no water visible. In the background, black aquarium
+    pipes or heaters are visible on the right side, and a blurred building facade can be seen through
+    the glass and the window behind the tank.
+  init2final_edit_prompt: Edit the given image to show the salt block and the smaller salt chunk exactly
+    as they were, with no change in size, shape, or texture. The tank should remain completely dry and
+    empty of water. Ensure the salt block retains its sharp edges and rough surface details, appearing
+    undissolved and solid. The background and lighting should remain consistent.
+  rationale: The video prompt explicitly states that the tank is dry and filled only with air. It describes
+    a curtain occlusion sequence but mentions no agent adding water or any other physical interaction
+    that would trigger dissolution. Salt requires a solvent (water) to dissolve; in a dry environment
+    filled with air, the salt block is chemically and physically stable. Therefore, despite the passage
+    of time implied by the curtain movement, the final state should show the salt block and tank exactly
+    as they were initially, demonstrating object permanence and the absence of hallucinated physical processes.
+  questions:
+  - id: salt_size_stability
+    question: Is the salt block approximately the same size as it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The salt should not shrink or grow.
+  - id: tank_dryness
+    question: Is the tank still completely empty of water?
+    answer_type: yes_no
+    notes_for_judge: No water should be visible.
+  - id: chunk_presence
+    question: Is the smaller chunk of salt still present and unchanged to the right of the main block?
+    answer_type: yes_no
+    notes_for_judge: Tests object permanence for the smaller item.
+  - id: shape_conservation
+    question: Does the salt block retain its original cubic shape with rough edges?
+    answer_type: yes_no
+    notes_for_judge: Dissolution would round the edges; they should remain rough.
+  - id: texture_preservation
+    question: Is the surface texture of the salt block still visible and rough?
+    answer_type: yes_no
+    notes_for_judge: Texture should not become smooth or wet.
+  - id: volume_conservation
+    question: Does the total amount of salt visible appear to be the same as at the start?
+    answer_type: yes_no
+    notes_for_judge: Mass conservation in a dry environment.
+  - id: background_visibility
+    question: Is the view through the tank still clear, without murkiness or water distortion?
+    answer_type: yes_no
+    notes_for_judge: Checks for absence of water/turbidity.
+  - id: no_dissolution_signs
+    question: Does the salt block appear solid and dry?
+    answer_type: yes_no
+    notes_for_judge: Should not look wet or melting.

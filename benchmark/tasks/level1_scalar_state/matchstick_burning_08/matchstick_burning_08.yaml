@@ -1,0 +1,65 @@
+id: matchstick_burning_08
+level: 1
+category: scalar_state
+tags: []
+variant_of: matchstick_burning
+variation_type: combined
+variation_description: Combined strong wind condition with smoke/fog occlusion.
+changes:
+  occlusion_method: Thick grey smoke fills the frame.
+  dynamic_conditions: Strong wind blowing the flame.
+  expected_outcome_change: Flame blows out or burns unevenly
+prompts:
+  init_frame_edit_prompt: Edit the image so the flame is blown aggressively to the side, indicating a
+    strong wind.
+  video_WM: The matchstick flame burns at the tip, whipping violently in a strong gust of wind. Oxygen
+    is plentiful. Thick grey smoke begins to fill the frame, quickly becoming so dense that the hand and
+    match are completely obscured. The smoke lingers for several seconds. Then the smoke clears rapidly,
+    revealing the scene again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The matchstick flame burns at the tip, whipping violently in a strong gust of wind. Oxygen
+    is plentiful. Thick grey smoke begins to fill the frame, quickly becoming so dense that the hand and
+    match are completely obscured. The smoke lingers for several seconds. Then the smoke clears rapidly,
+    revealing the scene again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A close-up side view of a hand holding a burning matchstick. The match head
+    is blackened and actively burning with a bright orange flame blowing to the right. The wooden shaft
+    is mostly unburnt and light-colored, with only the tip near the head charred. There is some light
+    smoke and sparks. The background is a blurry neutral surface.
+  init2final_edit_prompt: Edit the given image to show the matchstick in a more advanced state of combustion.
+    The blackened, charred section of the matchstick should extend significantly further down the wooden
+    shaft towards the fingers, leaving less unburnt light-colored wood visible. The flame should be present
+    but the wood should appear more consumed. Remove any thick smoke to ensure the hand and the charred
+    matchstick are clearly visible again.
+  rationale: 'The prompt describes a matchstick burning violently with plentiful oxygen for several seconds
+    while obscured by smoke. During this time, the fire consumes the wooden fuel. Therefore, when the
+    smoke clears, the physical state of the matchstick must show progression: the charred (black) portion
+    must be longer, and the unburnt (light wood) portion must be shorter. The edit reflects this scalar
+    change in the amount of consumed fuel.'
+  questions:
+  - id: match_char_length
+    question: Is the blackened, charred portion of the matchstick longer than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the length of the black section. It should have grown down the stick.
+  - id: match_wood_remaining
+    question: Is there less unburnt, light-colored wood visible on the matchstick compared to the start?
+    answer_type: yes_no
+    notes_for_judge: The pristine wood section should be shorter as the fire consumes it.
+  - id: char_progression
+    question: Does the burnt section extend closer to the fingers than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: 'Directional check: the fire moves towards the hand.'
+  - id: consumption_state
+    question: Does the matchstick appear more consumed by fire than it did initially?
+    answer_type: yes_no
+    notes_for_judge: General state assessment of the object.
+  - id: visibility_smoke
+    question: Is the matchstick visible again, rather than being completely obscured by thick smoke?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the smoke clears rapidly.
+  - id: hand_consistency
+    question: Is the hand holding the matchstick still visible and in approximately the same position?
+    answer_type: yes_no
+    notes_for_judge: Consistency check for the static element (the hand).

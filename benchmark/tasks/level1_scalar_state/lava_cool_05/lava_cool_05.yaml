@@ -1,0 +1,67 @@
+id: lava_cool_05
+level: 1
+category: scalar_state
+tags: []
+variant_of: lava_cool
+variation_type: dynamic_condition
+variation_description: Rock starts cold and black with no heat source (no change expected).
+changes:
+  occlusion_method: null
+  dynamic_conditions: Rock is already cold (black) and there is no heat source.
+  expected_outcome_change: Rock remains black (no change).
+prompts:
+  init_frame_edit_prompt: Edit the image to show the volcanic rock as completely black, solidified, and
+    dull, sitting on a cold metal tray with no glow.
+  video_WM: A cold, black volcanic rock sits on a metal tray. There is no heat source and the rock is
+    at room temperature. The camera rotates right until the rock and tray completely exit the view, then
+    rotates toward the left smoothly at the same rate until the rock is back in the center of view. No
+    zoom, no cut, no scene change. STOP.
+  camera_WM: A cold, black volcanic rock sits on a metal tray. There is no heat source and the rock is
+    at room temperature. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A large, irregular chunk of black volcanic rock sits in the center of a weathered
+    metal baking sheet. The rock has a rough, porous texture with many small holes, typical of scoria
+    or basalt. The metal tray is stained with rust and dark burnt residues. The background is a dimly
+    lit, cluttered industrial workshop with blurred metal structures and shelves.
+  init2final_edit_prompt: Edit the given image to show the exact same scene as the original. The black
+    volcanic rock should sit on the metal tray in the center, appearing completely black, solid, and cold.
+    Ensure there is absolutely no red glow, orange heat, fire, or smoke emanating from the rock. The texture
+    of the rock and the details of the dirty metal tray should remain identical to the start.
+  rationale: The video prompt describes a camera movement that pans the view away from the rock and then
+    returns to the original position. Crucially, the prompt specifies that the rock is cold, at room temperature,
+    and there is no heat source. Therefore, despite the 'volcanic' nature of the object, no physical state
+    change (such as heating, glowing, or melting) should occur. The rock must remain black and inert throughout
+    the occlusion. The final frame should be visually identical to the initial frame, testing the model's
+    ability to maintain object permanence and state stability without hallucinating heat or fire.
+  questions:
+  - id: visible_center
+    question: Is the black volcanic rock visible in the center of the frame?
+    answer_type: yes_no
+    notes_for_judge: Tests object permanence after occlusion.
+  - id: color_black
+    question: Is the rock completely black, without any glowing red or orange areas?
+    answer_type: yes_no
+    notes_for_judge: Tests that the model respected the 'cold' and 'room temperature' constraints by not
+      adding glow.
+  - id: no_smoke
+    question: Is the rock free of smoke, steam, or fire?
+    answer_type: yes_no
+    notes_for_judge: Tests for absence of hallucinated phase change or combustion.
+  - id: texture_porous
+    question: Does the rock retain its rough, porous, bubbly texture?
+    answer_type: yes_no
+    notes_for_judge: Tests consistency of the object's material properties.
+  - id: tray_visible
+    question: Is the metal tray still visible beneath the rock?
+    answer_type: yes_no
+    notes_for_judge: Tests context consistency.
+  - id: solid_state
+    question: Does the rock appear solid rather than molten or liquid?
+    answer_type: yes_no
+    notes_for_judge: Verifies the rock has not melted.
+  - id: size_consistency
+    question: Is the rock approximately the same size as it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Tests geometric consistency.

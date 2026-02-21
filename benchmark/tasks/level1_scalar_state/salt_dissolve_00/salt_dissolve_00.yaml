@@ -1,0 +1,63 @@
+id: salt_dissolve_00
+level: 1
+category: scalar_state
+tags: []
+variant_of: salt_dissolve
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A salt lick is submerged in a turbulent water tank and is dissolving. The dissolution process
+    continues at a constant rate. Camera remains stationary throughout. No zoom, no cut, no scene change.
+    STOP.
+  camera_WM: A salt lick is submerged in a turbulent water tank and is dissolving. The dissolution process
+    continues at a constant rate. Camera remains stationary throughout. No zoom, no cut, no scene change.
+    STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A clear glass tank filled with turbulent water. Inside, a large, rough, white
+    cubic block (a salt lick) is submerged in the center. Bubbles and agitation are visible in the water
+    around the block. To the right of the block, a black vertical heater or sensor rod hangs into the
+    water. In the background, outside the tank, there is a window and some industrial piping.
+  init2final_edit_prompt: Edit the given image to show the white block significantly reduced in size and
+    volume. The block should appear eroded with rounded edges and a smaller overall footprint, simulating
+    partial dissolution. Keep the water turbulent and the background environment, including the pipes
+    and window, unchanged.
+  rationale: The video prompt describes a salt lick dissolving in turbulent water. Physically, this results
+    in a continuous reduction of the block's mass and volume. The scalar change is the depletion of the
+    solid material. The final state should show the block as smaller and more eroded than the initial
+    state, while the environment remains stable.
+  questions:
+  - id: salt_dissolve_00_q1
+    question: Is the white block smaller than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the overall size/volume of the block.
+  - id: salt_dissolve_00_q2
+    question: Has the volume of the solid white material decreased?
+    answer_type: yes_no
+    notes_for_judge: Check for mass depletion.
+  - id: salt_dissolve_00_q3
+    question: Do the edges of the block appear more rounded or eroded than in the start?
+    answer_type: yes_no
+    notes_for_judge: Dissolution typically rounds sharp corners.
+  - id: salt_dissolve_00_q4
+    question: Is the height of the block lower than it was initially?
+    answer_type: yes_no
+    notes_for_judge: Check vertical dimension.
+  - id: salt_dissolve_00_q5
+    question: Is there less solid salt visible in the tank compared to the first frame?
+    answer_type: yes_no
+    notes_for_judge: General quantity check.
+  - id: salt_dissolve_00_q6
+    question: Is the black vertical rod on the right still present?
+    answer_type: yes_no
+    notes_for_judge: Consistency check.
+  - id: salt_dissolve_00_q7
+    question: Is the glass tank in the same position as the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Consistency check.

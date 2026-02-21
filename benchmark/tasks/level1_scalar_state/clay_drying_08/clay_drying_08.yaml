@@ -1,0 +1,64 @@
+id: clay_drying_08
+level: 1
+category: scalar_state
+tags: []
+variant_of: clay_drying
+variation_type: combined
+variation_description: Pot is being misted (stays wet) and occlusion is by fog.
+changes:
+  occlusion_method: Thick fog fills the greenhouse.
+  dynamic_conditions: A misting nozzle sprays water on the pot.
+  expected_outcome_change: The pot remains wet.
+prompts:
+  init_frame_edit_prompt: Edit the image to add a water misting nozzle near the pot, spraying a fine mist
+    of water onto the clay surface.
+  video_WM: A dark terracotta pot sits under a lamp while being sprayed by a water mister. Thick white
+    fog rapidly fills the greenhouse, completely obscuring the pot and lamp from view. The fog then dissipates
+    until the scene is clear again. No zoom, no cut, no scene change. STOP.
+  camera_WM: A dark terracotta pot sits under a lamp while being sprayed by a water mister. Thick white
+    fog rapidly fills the greenhouse, completely obscuring the pot and lamp from view. The fog then dissipates
+    until the scene is clear again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A dark, wet terracotta pot sits on a weathered stone pedestal inside a greenhouse.
+    A silver clamp lamp with a glowing red heat bulb is positioned on the right, shining intense light
+    onto the side of the pot. A distinct, lighter-colored dry patch is visible in the center of the pot
+    where the light is most intense. A black nozzle on the right is spraying a fine mist towards the pot,
+    and steam is rising from the heated surface. The background features the blurred wooden frame and
+    glass of the greenhouse.
+  init2final_edit_prompt: Edit the given image to show the terracotta pot in a significantly drier state.
+    The lighter-colored dry patch in the center of the pot should be much larger, expanding outward to
+    cover a greater portion of the pot's surface. The area of dark, wet clay should be reduced. Ensure
+    the scene is clear of any thick fog or steam obscuring the view, keeping the lamp and pedestal visible.
+  rationale: The task ID and the visual setup (heat lamp focused on a wet pot) indicate a drying process.
+    The initial frame already shows a dry patch forming under the heat. The video prompt introduces a
+    period of occlusion (fog) which represents the passage of time. During this time, the intense heat
+    from the lamp causes the water in the clay to evaporate, expanding the dry (lighter) area of the terracotta.
+    The final state should therefore show a larger dry patch and less wet surface area after the fog dissipates.
+  questions:
+  - id: dry_patch_expansion
+    question: Is the lighter-colored dry patch on the pot larger than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the size of the light orange/dry area in the center of the pot between the
+      two frames.
+  - id: wet_area_reduction
+    question: Is the area of dark, wet clay on the pot smaller than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The dark reddish-brown area should be reduced as the dry patch expands.
+  - id: overall_dryness
+    question: Does the pot appear drier overall compared to the start?
+    answer_type: yes_no
+    notes_for_judge: Drier means more light terracotta color, less dark wet color.
+  - id: fog_dissipation
+    question: Is the pot clearly visible without being obscured by thick white fog?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the fog dissipates; the final view should be clear.
+  - id: lamp_presence
+    question: Is the heat lamp still visible on the right side?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: pedestal_consistency
+    question: Is the stone pedestal beneath the pot still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

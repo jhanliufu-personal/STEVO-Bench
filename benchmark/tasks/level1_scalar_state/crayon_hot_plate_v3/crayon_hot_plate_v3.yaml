@@ -1,0 +1,65 @@
+id: crayon_hot_plate_v3
+level: 1
+category: scalar_state
+tags: []
+variant_of: crayon_hot_plate
+variation_type: occlusion_method
+variation_description: Occlusion changed to extreme camera zoom out.
+changes:
+  occlusion_method: Camera zooms out until details are lost.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The crayon is in contact with the hot plate surface. The plate is actively heating. The crayon
+    is made of paraffin wax with a melting point around 130°F. The plate temperature exceeds the wax melting
+    point. The camera zooms out rapidly until the hot plate is just a tiny speck in the distance and object
+    details are indistinguishable. The camera holds this distant view for several seconds. Then the camera
+    zooms back in smoothly to the original framing. No cut, no scene change. STOP.
+  camera_WM: The crayon is in contact with the hot plate surface. The plate is actively heating. The crayon
+    is made of paraffin wax with a melting point around 130°F. The plate temperature exceeds the wax melting
+    point. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+  Genie: null
+evaluation:
+  init_frame_description: A close-up shot of a black electric hot plate with a circular heating element.
+    A blue crayon is standing upright in the center of the heating element. On the front vertical face
+    of the hot plate, a red indicator light is illuminated next to the word 'HEATING'. The background
+    is dark, showing parts of a kitchen stove.
+  init2final_edit_prompt: Edit the given image to show the blue crayon melted. The crayon should be significantly
+    shorter, collapsed, or completely liquefied into a puddle of blue wax spreading across the black circular
+    heating element. The upright cylindrical shape should be deformed or gone.
+  rationale: The prompt establishes that the hot plate is active and hot enough to melt wax. The camera
+    motion (zoom out, hold, zoom in) introduces a temporal gap during which the physics of melting continues
+    unobserved. Upon returning to the original view, the crayon must have undergone a phase change from
+    solid to liquid, resulting in a loss of height and a spreading of mass (volume) across the surface.
+  questions:
+  - id: crayon_height_reduction
+    question: Is the standing portion of the blue crayon shorter than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The crayon should have melted down, reducing its vertical height.
+  - id: wax_spreading
+    question: Has the blue wax spread out onto the black surface of the heating element?
+    answer_type: yes_no
+    notes_for_judge: Melting causes the wax to flow outward.
+  - id: structural_deformation
+    question: Is the crayon deformed or collapsed compared to its initial perfect cylindrical shape?
+    answer_type: yes_no
+    notes_for_judge: Heat causes loss of structural integrity.
+  - id: puddle_formation
+    question: Is there a visible pool or puddle of blue substance on the hot plate?
+    answer_type: yes_no
+    notes_for_judge: The solid wax turns into liquid wax.
+  - id: state_change_evidence
+    question: Does the blue object look more liquid or melted than in the starting image?
+    answer_type: yes_no
+    notes_for_judge: Qualitative assessment of phase change.
+  - id: invariant_light
+    question: Is the red 'HEATING' indicator light still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: invariant_plate
+    question: Is the black circular heating element still present?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

@@ -1,0 +1,59 @@
+id: tape_retract_03
+level: 1
+category: scalar_state
+tags: []
+variant_of: tape_retract
+variation_type: occlusion_method
+variation_description: Camera zooms out until details are lost, then zooms back in.
+changes:
+  occlusion_method: Camera zooms out to extreme distance.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A metal tape measure is extended 5 feet. The retraction button is held down, and the tape
+    is visibly zipping back into the housing. The camera zooms out rapidly and continuously until the
+    tape measure housing is a barely visible speck on the floor. The camera then zooms back in smoothly
+    to the original framing. No cut, no scene change. STOP.
+  camera_WM: A metal tape measure is extended 5 feet. The retraction button is held down, and the tape
+    is visibly zipping back into the housing. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+evaluation:
+  init_frame_description: A close-up view of a hand holding a yellow tape measure housing on a wooden
+    floor. The yellow metal tape extends horizontally to the left, with inch markings visible (4, 5, 6).
+    A window sill is visible in the background along the top left edge.
+  init2final_edit_prompt: Edit the given image to show the tape measure fully retracted. Remove the long
+    extended strip of yellow tape from the wooden floor. The hand and yellow housing should remain in
+    the same position, but the metal hook of the tape should now be resting against the mouth of the housing.
+  rationale: The prompt describes the tape retracting ('zipping back') while the camera zooms out and
+    then back in. The duration of the camera movement allows time for the spring-loaded tape to retract
+    completely. Since the camera returns to the original framing, the final view should show the same
+    scene but with the tape retracted into the housing.
+  questions:
+  - id: tape_retracted
+    question: Is the extended yellow tape shorter than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The tape should be retracted, meaning the long strip is gone or significantly shortened.
+  - id: floor_visible
+    question: Is the wooden floor visible in the area where the tape was previously extended?
+    answer_type: yes_no
+    notes_for_judge: Since the tape has retracted, the floor underneath the path of the tape should now
+      be exposed.
+  - id: hook_position
+    question: Is the metal hook of the tape closer to the yellow housing than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: In the retracted state, the hook should be at or near the housing.
+  - id: tape_missing
+    question: Is the long yellow strip extending to the left mostly absent?
+    answer_type: yes_no
+    notes_for_judge: Check for the absence of the extended tape.
+  - id: hand_consistency
+    question: Is the hand still holding the yellow tape measure housing?
+    answer_type: yes_no
+    notes_for_judge: The hand and housing should remain as the anchor objects.
+  - id: housing_consistency
+    question: Is the yellow housing still present in the same location?
+    answer_type: yes_no
+    notes_for_judge: The camera returns to the original framing, so the static object (housing) should
+      be in the same place.

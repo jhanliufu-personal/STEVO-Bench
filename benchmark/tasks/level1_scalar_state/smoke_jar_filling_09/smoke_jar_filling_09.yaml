@@ -1,0 +1,64 @@
+id: smoke_jar_filling_09
+level: 1
+category: scalar_state
+tags: []
+variant_of: smoke_jar_filling
+variation_type: combined
+variation_description: Strong cross-wind combined with camera zoom occlusion.
+changes:
+  occlusion_method: Camera zoom (extreme close-up on surface)
+  dynamic_conditions: Strong horizontal wind
+  expected_outcome_change: Jar remains clear due to wind
+prompts:
+  init_frame_edit_prompt: Edit the image to show the smoke plume blowing sharply and horizontally to the
+    left, indicating a strong cross-wind.
+  video_WM: The incense stick burns at the jar opening. A strong fan is blowing horizontally from right
+    to left across the jar opening. The wind force acts on the lightweight smoke. The camera zooms in
+    extremely close to the wooden surface texture next to the jar until the jar is completely out of the
+    field of view. The camera holds this close-up for several seconds. Then the camera zooms out smoothly
+    back to the original viewpoint. No cut, no scene change. STOP.
+  camera_WM: The incense stick burns at the jar opening. A strong fan is blowing horizontally from right
+    to left across the jar opening. The wind force acts on the lightweight smoke during the occlusion
+    period. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+  Genie: null
+evaluation:
+  init_frame_description: A clear glass jar sits on a dark, textured wooden surface. An incense stick
+    is held above the jar opening, angled from the top right. White smoke trails from the stick, curling
+    downwards into the jar and drifting slightly to the left. The inside of the jar contains visible swirls
+    of accumulated smoke.
+  init2final_edit_prompt: Edit the given image to show the smoke stream from the incense stick blowing
+    straight horizontally to the left due to a strong wind. Remove the accumulated smoke from inside the
+    jar, making the glass appear clear and transparent. The smoke should bypass the jar opening entirely.
+  rationale: The prompt specifies a strong fan blowing horizontally from right to left across the jar
+    opening. This cross-wind exerts a force on the lightweight smoke, blowing the stream from the incense
+    stick horizontally to the left and preventing it from entering the jar. Additionally, the airflow
+    across the opening creates a low-pressure zone (Bernoulli effect) and turbulence that draws existing
+    smoke out of the jar. Over the duration of the sequence (several seconds), the jar transitions from
+    containing smoke to being empty and clear.
+  questions:
+  - id: smoke_amount_less
+    question: Is there less smoke inside the jar than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The jar should be emptying due to the wind.
+  - id: jar_clarity
+    question: Is the interior of the jar clearer than it was initially?
+    answer_type: yes_no
+    notes_for_judge: Clearer means less smoke opacity.
+  - id: smoke_direction
+    question: Is the smoke from the stick blowing horizontally to the left?
+    answer_type: yes_no
+    notes_for_judge: The wind forces the smoke sideways.
+  - id: smoke_bypass
+    question: Does the smoke stream bypass the jar opening without curling in?
+    answer_type: yes_no
+    notes_for_judge: The smoke should not enter the jar.
+  - id: jar_empty
+    question: Is the jar mostly empty of smoke?
+    answer_type: yes_no
+    notes_for_judge: The final state should be a cleared jar.
+  - id: jar_position
+    question: Is the jar still standing upright in the same position?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

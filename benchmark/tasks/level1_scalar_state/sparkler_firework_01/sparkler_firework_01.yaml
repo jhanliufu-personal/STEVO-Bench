@@ -1,0 +1,67 @@
+id: sparkler_firework_01
+level: 1
+category: scalar_state
+tags: []
+variant_of: sparkler_firework
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to a physical object blocking the view.
+changes:
+  occlusion_method: A large piece of cardboard moves in front of the lens.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The sparkler has an active ignition point with sparks. The wire is coated with combustible
+    metallic compound. Oxygen is available. A large piece of opaque black cardboard slides into the frame
+    from the left, completely blocking the view of the sparkler and hand. The cardboard remains in place
+    for several seconds. Then the cardboard slides away to the left, revealing the scene again. No zoom,
+    no cut, no scene change. STOP.
+  camera_WM: The sparkler has an active ignition point with sparks. The wire is coated with combustible
+    metallic compound. Oxygen is available. A large piece of opaque black cardboard slides into the frame
+    from the left, completely blocking the view of the sparkler and hand. The cardboard remains in place
+    for several seconds. Then the cardboard slides away to the left, revealing the scene again. No zoom,
+    no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A close-up shot against a black background showing a hand on the right holding
+    a lit sparkler. The sparkler extends to the left. The ignition point is roughly in the middle of the
+    wire, emitting bright white sparks and smoke. To the left of the sparks is a thin segment of burnt
+    wire. To the right of the sparks, between the fire and the hand, is a thicker segment of unburnt grey
+    coating.
+  init2final_edit_prompt: Edit the given image to show the sparkler having burned further along the wire
+    towards the hand. The bright cluster of sparks and the ignition point should be positioned closer
+    to the hand on the right side of the frame. The segment of thick unburnt coating between the sparks
+    and the hand should be visibly shorter. The segment of thin burnt wire extending to the left of the
+    sparks should be longer.
+  rationale: The sparkler is a combustible object that burns continuously once ignited. In the initial
+    frame, the burn is progressing from the tip (left) towards the handle (right). During the period where
+    the black cardboard occludes the scene, the combustion process continues. Therefore, when the scene
+    is revealed, the ignition point must have moved physically closer to the hand, consuming more of the
+    coating and leaving a longer trail of burnt wire.
+  questions:
+  - id: sparkler_pos_01
+    question: Is the burning ignition point closer to the hand than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The fire burns towards the handle, so the sparks should be further right.
+  - id: coating_len_01
+    question: Is the segment of unburnt coating between the sparks and the hand shorter than before?
+    answer_type: yes_no
+    notes_for_judge: As the sparkler burns, the fuel (coating) is consumed.
+  - id: burnt_len_01
+    question: Is the segment of burnt wire to the left of the sparks longer than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The trail of ash/burnt wire grows as the fire advances.
+  - id: fire_move_01
+    question: Has the source of the sparks moved to the right compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Directional check for the movement of the fire.
+  - id: vis_hand_01
+    question: Is the hand holding the sparkler still visible?
+    answer_type: yes_no
+    notes_for_judge: Consistency check; the hand should not disappear.
+  - id: vis_cardboard_01
+    question: Is the view free of the black cardboard obstruction?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the cardboard slides away.

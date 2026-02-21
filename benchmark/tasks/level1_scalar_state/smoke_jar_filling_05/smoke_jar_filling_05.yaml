@@ -1,0 +1,67 @@
+id: smoke_jar_filling_05
+level: 1
+category: scalar_state
+tags: []
+variant_of: smoke_jar_filling
+variation_type: dynamic_condition
+variation_description: The jar has a lid on it, preventing smoke from entering.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Jar is sealed with a lid
+  expected_outcome_change: Smoke hits the lid and flows away; jar interior remains clear
+prompts:
+  init_frame_edit_prompt: Edit the image to add a glass lid sealing the top of the jar.
+  video_WM: The incense stick burns above a sealed jar. The jar opening is completely covered by a glass
+    lid. Smoke flows down towards the lid. The camera rotates right at constant speed until the jar completely
+    exits the view to the right. The camera continues rotating right for several seconds while off-screen.
+    Then the camera rotates left smoothly at the same rate back to the original viewpoint. No zoom, no
+    cut, no scene change. STOP.
+  camera_WM: The incense stick burns above a sealed jar. The jar opening is completely covered by a glass
+    lid. Smoke flows down towards the lid during the occlusion period. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A clear glass jar sits on a dark wooden surface, sealed with a glass lid. Inside
+    the jar, a distinct, white, vortex-like ring of smoke is suspended in the air. Above the jar, an incense
+    stick is held at an angle, with its burning tip positioned over the center of the lid. A thin trail
+    of smoke flows from the stick downwards towards the glass lid. The background shows a window frame
+    with natural light coming through.
+  init2final_edit_prompt: Edit the given image to show the scene after a few minutes have passed. The
+    incense stick should be noticeably shorter due to burning. The distinct smoke ring inside the jar
+    should be diffused into a faint, uniform haze or have settled, losing its sharp vortex structure.
+    The interior of the jar should not be filled with new smoke; it should look similar in density or
+    clearer than before. Smoke from the stick should be visible flowing around the outside of the lid,
+    not entering the jar. The lid remains in place, sealing the jar.
+  rationale: 'The prompt explicitly states the jar is ''sealed'' and ''completely covered'' by the lid.
+    Therefore, despite the smoke flowing ''towards'' the lid, it cannot enter the jar. The physical evolution
+    over time (during the camera rotation and return) involves two main scalar changes: the incense stick
+    burning down (length decreases) and the existing smoke inside the jar diffusing or settling (entropy
+    increases, structure decreases). The smoke inside will lose its distinct ring shape and become a general
+    haze or dissipate, but the total amount of smoke inside will not increase.'
+  questions:
+  - id: stick_length
+    question: Is the incense stick shorter than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The stick burns over time, so it must be shorter.
+  - id: smoke_structure
+    question: Is the smoke inside the jar less structured and defined than the initial smoke ring?
+    answer_type: yes_no
+    notes_for_judge: The initial vortex ring should diffuse into a haze or settle over time.
+  - id: smoke_filling_constraint
+    question: Is the amount of smoke inside the jar roughly the same or less, rather than significantly
+      fuller?
+    answer_type: yes_no
+    notes_for_judge: The jar is sealed; it should not fill up with new smoke from the outside.
+  - id: lid_position
+    question: Is the jar still completely covered by the glass lid?
+    answer_type: yes_no
+    notes_for_judge: The prompt implies the setup remains sealed.
+  - id: smoke_diffusion
+    question: Has the distinct smoke vortex inside the jar dispersed?
+    answer_type: yes_no
+    notes_for_judge: The specific shape of the smoke should be lost due to diffusion.
+  - id: stick_ash
+    question: Does the incense stick show signs of having burned down (e.g., shorter length)?
+    answer_type: yes_no
+    notes_for_judge: Redundant check for the primary scalar change (length).

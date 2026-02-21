@@ -1,0 +1,69 @@
+id: crayon_hot_plate_v8
+level: 1
+category: scalar_state
+tags: []
+variant_of: crayon_hot_plate
+variation_type: combined
+variation_description: Object is steel (no melting) and occlusion is caused by a blocking object.
+changes:
+  occlusion_method: A large opaque screen slides in front of the camera.
+  dynamic_conditions: Object material changed to steel.
+  expected_outcome_change: The object remains solid.
+prompts:
+  init_frame_edit_prompt: Edit the image to replace the blue crayon with a silver steel bolt of similar
+    size standing vertically.
+  video_WM: A steel bolt is in contact with the hot plate surface. The plate is actively heating. The
+    bolt is made of steel with a very high melting point. A large opaque screen slides into the foreground,
+    completely blocking the view of the hot plate and bolt. The screen remains in place for several seconds.
+    Then the screen slides away, revealing the hot plate again. No zoom, no cut, no scene change. STOP.
+  camera_WM: A steel bolt is in contact with the hot plate surface. The plate is actively heating. The
+    bolt is made of steel with a very high melting point. A large opaque screen slides into the foreground,
+    completely blocking the view of the hot plate and bolt. The screen remains in place for several seconds.
+    Then the screen slides away, revealing the hot plate again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a black electric hot plate with a circular heating
+    element. A silver steel bolt stands upright on its hexagonal head in the center of the burner. A red
+    indicator light labeled 'HEATING' is illuminated on the front panel. Wisps of steam or smoke are rising
+    from the hot plate surface around the bolt. The background is dark and out of focus.
+  init2final_edit_prompt: Edit the given image to show the steel bolt remaining upright and solid on the
+    hot plate. Keep the bolt's height, cylindrical shape, and threaded texture unchanged, ensuring it
+    has not melted or deformed. Maintain the illumination of the red 'HEATING' light. Render smoke or
+    steam rising from the hot plate surface around the bolt.
+  rationale: The prompt specifies that the object is a steel bolt with a high melting point. Standard
+    electric hot plates reach temperatures (approx. 300-500°C) far below the melting point of steel (approx.
+    1400-1500°C). Therefore, unlike wax or plastic, the bolt will not melt, deform, or change phase during
+    the heating period. The rollout must depict the bolt remaining physically unchanged in shape and stance,
+    demonstrating the model's understanding of material properties. The screen occlusion allows time to
+    pass, but the final state should show the bolt exactly as it was, perhaps with continued smoke generation.
+  questions:
+  - id: bolt_standing
+    question: Is the steel bolt still standing upright?
+    answer_type: yes_no
+    notes_for_judge: The bolt should not have fallen over or melted.
+  - id: bolt_height_conservation
+    question: Has the bolt maintained its original vertical height?
+    answer_type: yes_no
+    notes_for_judge: Since steel does not melt on a hot plate, the height should not decrease.
+  - id: bolt_shape_integrity
+    question: Is the threaded cylindrical shape of the bolt still intact?
+    answer_type: yes_no
+    notes_for_judge: The threads should be visible and the shaft should not be deformed.
+  - id: no_melting
+    question: Is the bolt free from signs of melting or pooling at the base?
+    answer_type: yes_no
+    notes_for_judge: There should be no liquid puddle; the bolt should be solid.
+  - id: light_state
+    question: Is the red 'HEATING' light still illuminated?
+    answer_type: yes_no
+    notes_for_judge: The prompt implies continuous heating.
+  - id: smoke_visibility
+    question: Is there smoke or steam visible above the hot plate?
+    answer_type: yes_no
+    notes_for_judge: Heating usually produces smoke/steam in this context.
+  - id: visibility_check
+    question: Is the bolt clearly visible and not obscured by the screen?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the screen slides away, revealing the plate.

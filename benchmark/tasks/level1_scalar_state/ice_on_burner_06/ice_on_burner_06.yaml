@@ -1,0 +1,64 @@
+id: ice_on_burner_06
+level: 1
+category: scalar_state
+tags: []
+variant_of: ice_on_burner
+variation_type: dynamic_condition
+variation_description: Object changed to a small stone, which will heat up but not change shape/phase.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Object is a grey stone instead of ice.
+  expected_outcome_change: No shape change (stone does not melt).
+prompts:
+  init_frame_edit_prompt: Edit the image to replace the ice cube with a small, grey river stone of similar
+    size.
+  video_WM: A small grey stone sits on top of an electric cooktop burner. The cooktop display shows it
+    is turned on. Single continuous shot, no cuts, no zoom. The camera smoothly moves right at constant
+    speed until the burner and stone completely exit the frame to the right. The camera continues moving
+    right for several seconds. Then the camera moves left at the same constant speed back to the original
+    viewpoint.
+  camera_WM: A small grey stone sits on top of an electric cooktop burner. The cooktop display shows it
+    is turned on. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, high-angle shot of a black glass electric cooktop. A circular heating
+    element is glowing bright red with heat. In the center of the red coils sits a small, grey, rounded
+    stone. Surrounding the base of the stone is a puddle of clear liquid that is boiling, with visible
+    bubbles and steam rising. To the right, a digital touch display shows the text 'ON' and 'HIGH' in
+    red illuminated letters.
+  init2final_edit_prompt: Edit the given image to show the puddle of water surrounding the stone has shrunk
+    in size due to evaporation. The liquid area should be noticeably smaller than in the original image.
+    The stone remains the same size, shape, and color. The heating element coils continue to glow red.
+  rationale: The initial frame displays a stone sitting in a pool of boiling water on a stove burner set
+    to 'HIGH'. The video prompt describes a camera movement that pans away and then returns, implying
+    a duration of several seconds during which the physics of the scene continues. During this time, the
+    intense heat from the burner will cause the water surrounding the stone to boil and evaporate, reducing
+    the volume of liquid. Since the object is explicitly described as a stone, it will not melt or change
+    shape, unlike ice. Therefore, the primary state change is the reduction of the water puddle volume.
+  questions:
+  - id: water_volume_reduction
+    question: Is the puddle of water surrounding the stone smaller than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The water should have evaporated to some degree, resulting in a smaller puddle.
+  - id: liquid_amount_decrease
+    question: Is there less liquid visible on the cooktop surface compared to the start?
+    answer_type: yes_no
+    notes_for_judge: Check for a reduction in the overall amount of water.
+  - id: water_area_shrinkage
+    question: Has the surface area covered by the boiling water decreased?
+    answer_type: yes_no
+    notes_for_judge: The footprint of the water on the glass should be smaller.
+  - id: evaporation_check
+    question: Does the scene show that some of the water has boiled away?
+    answer_type: yes_no
+    notes_for_judge: Look for signs of evaporation (less water).
+  - id: stone_consistency
+    question: Is the stone approximately the same size as it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The object is a stone and should not melt or shrink.
+  - id: burner_state_consistency
+    question: Is the heating element still glowing red?
+    answer_type: yes_no
+    notes_for_judge: The stove remains on HIGH.

@@ -1,0 +1,65 @@
+id: tank_filling_up_v01
+level: 1
+category: scalar_state
+tags: []
+variant_of: tank_filling_up
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera panning to warehouse lights turning off completely.
+changes:
+  occlusion_method: Lighting change (pitch black)
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: Single continuous take, no cuts or zoom. Camera is static, centered on the pipe and water
+    tank. Water flows continuously. Suddenly, the warehouse lights turn off completely, plunging the scene
+    into pitch black darkness where nothing is visible. The darkness lasts for several seconds. Then,
+    the lights turn back on, revealing the scene again. STOP.
+  camera_WM: Single continuous take, no cuts or zoom. Camera is static, centered on the pipe and water
+    tank. Water flows continuously. Suddenly, the warehouse lights turn off completely, plunging the scene
+    into pitch black darkness where nothing is visible. The darkness lasts for several seconds. Then,
+    the lights turn back on, revealing the scene again. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A large, clear cylindrical tank sits in the center of a warehouse floor. The
+    tank has red measurement markings on its front, with scales labeled in 'g' on the left and 'L'/'lt'
+    on the right. A metal pipe extends from the top right, pouring a stream of water into the tank. The
+    water level is currently aligned roughly with the '140 L' mark on the scale, with turbulence and bubbles
+    visible where the stream hits the surface. The background features warehouse shelving, wooden pallets,
+    and industrial equipment.
+  init2final_edit_prompt: Edit the given image to raise the water level in the clear tank significantly
+    higher than the current level. Show the water surface well above the '140 L' mark, indicating that
+    the tank has continued to fill. Maintain the stream of water pouring from the pipe. Keep the lighting,
+    background, and camera angle exactly identical to the original image.
+  rationale: The prompt establishes that water flows continuously and the camera is static. The 'pitch
+    black' period acts as a temporal occlusion where the visual state is hidden, but the physical process
+    (filling) continues. Therefore, when the lights turn back on, the only change in the scene should
+    be an increase in the volume of water in the tank, resulting in a higher water level compared to the
+    initial frame.
+  questions:
+  - id: q1_level_height
+    question: Is the water level in the tank higher than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the height of the water surface against the red markings.
+  - id: q2_volume_increase
+    question: Is the tank fuller than it was initially?
+    answer_type: yes_no
+    notes_for_judge: The total volume of water should be visibly greater.
+  - id: q3_empty_space
+    question: Is the empty space at the top of the tank smaller than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: As water rises, the air gap at the top decreases.
+  - id: q4_mark_check
+    question: Is the water level clearly above the '140 L' mark visible in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The initial level is at 140 L; the final level must be higher.
+  - id: q5_flow_continuity
+    question: Is water still pouring from the pipe?
+    answer_type: yes_no
+    notes_for_judge: The prompt states water flows continuously.
+  - id: q6_background_consistency
+    question: Are the background shelves and pallets in the same position as the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The camera is static and no background objects were moved.

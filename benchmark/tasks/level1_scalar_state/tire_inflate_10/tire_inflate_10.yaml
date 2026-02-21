@@ -1,0 +1,68 @@
+id: tire_inflate_10
+level: 1
+category: scalar_state
+tags: []
+variant_of: tire_inflate
+variation_type: combined
+variation_description: Extreme over-inflation condition combined with camera moving away.
+changes:
+  occlusion_method: Camera physically moves backward out of the room.
+  dynamic_conditions: Industrial compressor set to max (extreme rate).
+  expected_outcome_change: Tire expands violently/possibly bursts.
+prompts:
+  init_frame_edit_prompt: Edit the image to make the tire look already bulging and over-inflated.
+  video_WM: An industrial compressor is forcing air into the already bulging tire at maximum pressure.
+    The rubber is stretching dangerously fast. The camera moves backward, retreating out of the garage
+    door until the tire is no longer visible, then moves forward back to the original position. No zoom,
+    no cut, no scene change. STOP.
+  camera_WM: An industrial compressor is forcing air into the already bulging tire at maximum pressure.
+    The rubber is stretching dangerously fast. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up, low-angle shot of a bicycle wheel resting on a concrete garage floor.
+    The tire is mounted on a metal rim with spokes and is connected to a black air hose via a brass inflator
+    chuck attached to the valve stem. The tire appears partially inflated, with a noticeable flattened
+    section where it contacts the ground. In the background, slightly out of focus, there is a red air
+    compressor, a window, and a red tool chest. Several tools, including wrenches, are scattered on the
+    concrete floor in the foreground.
+  init2final_edit_prompt: Edit the given image to show the bicycle tire in a state of extreme over-inflation.
+    The tire should appear significantly wider and thicker, with the rubber sidewalls bulging outward
+    aggressively due to high pressure. The flattened section at the bottom where the tire touches the
+    floor should be gone or greatly reduced, making the tire look rounder and lifting the metal rim higher
+    off the concrete. The rubber should look stretched and taut.
+  rationale: 'The video prompt describes a continuous action of forcing air into the tire at maximum pressure
+    while the camera moves away and returns. This implies a significant passage of time during which the
+    volume and pressure of the tire increase drastically. When the camera returns to the initial position,
+    the tire must exhibit physical signs of this added air: it should be much larger in volume, bulging
+    at the sides, and the increased pressure should round out the bottom contact patch, lifting the rim
+    higher. The surrounding static objects (tools, background) should remain unchanged.'
+  questions:
+  - id: tire_inflated
+    question: Is the tire more inflated than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the overall fullness and tautness of the tire.
+  - id: tire_width
+    question: Is the visible section of the tire wider or thicker than before?
+    answer_type: yes_no
+    notes_for_judge: The tire should have expanded laterally.
+  - id: sidewall_bulge
+    question: Do the sidewalls of the tire bulge outward more than in the starting image?
+    answer_type: yes_no
+    notes_for_judge: Look for distension in the rubber sidewalls.
+  - id: rim_height
+    question: Is the metal rim sitting higher off the ground compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: As the tire inflates and rounds out, the rim should lift.
+  - id: contact_patch
+    question: Is the flattened area where the tire touches the floor smaller or rounder than before?
+    answer_type: yes_no
+    notes_for_judge: The tire should look less flat at the bottom due to pressure.
+  - id: hose_connected
+    question: Is the air hose still connected to the tire valve?
+    answer_type: yes_no
+    notes_for_judge: The hose should remain attached to continue inflating.
+  - id: tools_static
+    question: Are the wrenches on the floor in the same position as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Static objects should not move.

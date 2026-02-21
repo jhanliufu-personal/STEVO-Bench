@@ -1,0 +1,66 @@
+id: expanding_sponge_water_01
+level: 1
+category: scalar_state
+tags: []
+variant_of: expanding_sponge_water
+variation_type: occlusion_method
+variation_description: Occlusion by a large wooden board sliding in front of the camera instead of camera
+  rotation.
+changes:
+  occlusion_method: A large wooden board slides in front of the lens, blocking the view.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: Water is poured over the compressed dry sponge. The sponge is made of porous cellulose material
+    compressed to remove air. When dry sponges contact water, capillary forces draw liquid into the pore
+    spaces. A large wooden cutting board slides into the frame from the left, completely blocking the
+    view of the dish and sponge. The board remains in front of the camera for several seconds. Then the
+    board slides back out to the left, revealing the scene again. No zoom, no cut, no scene change. STOP.
+  camera_WM: Water is poured over the compressed dry sponge. The sponge is made of porous cellulose material
+    compressed to remove air. When dry sponges contact water, capillary forces draw liquid into the pore
+    spaces. A large wooden cutting board slides into the frame from the left, completely blocking the
+    view of the dish and sponge. The board remains in front of the camera for several seconds. Then the
+    board slides back out to the left, revealing the scene again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A high-angle shot of a wooden countertop featuring a white shallow circular
+    dish containing a thin, dry, beige rectangular sponge. A hand enters from the top right holding a
+    clear glass pitcher, tilting it to pour water; a droplet is just falling towards the sponge. A window
+    with a white frame is visible in the background.
+  init2final_edit_prompt: Edit the given image to show the rectangular sponge as wet, darker in color,
+    and significantly expanded in thickness and volume. The sponge should look swollen with absorbed water.
+    The water level in the glass pitcher should be lower than in the original image.
+  rationale: The prompt describes pouring water onto a compressed dry sponge. Physically, compressed cellulose
+    sponges absorb water rapidly and expand significantly in volume (especially thickness) while becoming
+    wet and darker. The occlusion event (the board sliding in and out) covers the time duration required
+    for this absorption and expansion to occur. Therefore, in the final frame, the sponge must be visible
+    in its expanded, wet state, and the water source should show depletion.
+  questions:
+  - id: sponge_thickness
+    question: Is the sponge thicker vertically than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the vertical height of the sponge. It should be significantly taller/thicker
+      due to expansion.
+  - id: sponge_volume
+    question: Is the overall volume of the sponge larger than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The sponge should take up more space in the dish.
+  - id: sponge_wetness
+    question: Does the sponge appear wet or darker in color compared to the initial dry state?
+    answer_type: yes_no
+    notes_for_judge: Look for surface texture changes indicating saturation.
+  - id: pitcher_level
+    question: Is the water level in the pitcher lower than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Water has been poured out, so the level must decrease.
+  - id: occlusion_cleared
+    question: Is the wooden board no longer blocking the view of the sponge?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the board slides back out, revealing the scene.
+  - id: dish_consistency
+    question: Is the white dish still visible and in the same location?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

@@ -1,0 +1,64 @@
+id: tire_inflate_04
+level: 1
+category: scalar_state
+tags: []
+variant_of: tire_inflate
+variation_type: dynamic_condition
+variation_description: Condition changed from inflation to deflation via valve depression.
+changes:
+  occlusion_method: null
+  dynamic_conditions: The air chuck is removed and the valve pin is depressed, releasing air.
+  expected_outcome_change: The tire volume decreases/flattens instead of expanding.
+prompts:
+  init_frame_edit_prompt: Edit the image to remove the brass air hose connector and show a finger pressing
+    down on the pin of the valve stem.
+  video_WM: The valve pin is being firmly depressed, and air is hissing out of the tire loudly. The tire
+    is visibly losing volume. The deflation continues steadily. The camera rotates right until the tire
+    completely exits the view, then rotates toward the left smoothly at the same rate until the tire is
+    back in the center of view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The valve pin is being firmly depressed, and air is hissing out of the tire loudly. The tire
+    is visibly losing volume. The deflation continues steadily. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up, low-angle shot of a bicycle wheel positioned vertically on a concrete
+    floor. The tire is dirty and appears partially deflated, with the bottom section compressed against
+    the ground. A Caucasian hand is visible, with a finger pressing down on the pin of the Presta valve
+    stem located at the bottom center of the wheel. In the background, there is a red air compressor,
+    a window, and various tools scattered on the floor, including wrenches.
+  init2final_edit_prompt: Edit the given image to make the bicycle tire appear significantly more deflated.
+    Reduce the vertical distance between the metal wheel rim and the concrete floor, showing the rim sinking
+    lower. Make the rubber sidewalls at the bottom of the tire bulge outward more and appear more compressed
+    against the ground, indicating a loss of air pressure. Keep the hand pressing the valve stem and the
+    surrounding tools and background unchanged.
+  rationale: The prompt describes a continuous deflation process where the valve is depressed and air
+    is hissing out. The camera pans away (occlusion) and then returns to the original view. During this
+    elapsed time, the tire continues to lose air. Therefore, in the final frame, the tire must be physically
+    flatter than in the initial frame, characterized by the rim sitting lower to the ground and increased
+    compression of the tire rubber.
+  questions:
+  - id: tire_flatness_check
+    question: Is the tire flatter against the ground than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the compression of the tire at the bottom. The final frame should show more
+      compression.
+  - id: rim_height_check
+    question: Is the metal rim of the wheel closer to the concrete floor than in the initial image?
+    answer_type: yes_no
+    notes_for_judge: The rim should have sunk lower due to deflation.
+  - id: sidewall_bulge_check
+    question: Do the tire sidewalls near the ground bulge outward more than in the starting image?
+    answer_type: yes_no
+    notes_for_judge: Loss of pressure typically causes the sidewalls to bulge or fold more.
+  - id: volume_loss_check
+    question: Does the tire appear to contain less air volume than it did initially?
+    answer_type: yes_no
+    notes_for_judge: General assessment of deflation state.
+  - id: hand_visibility_check
+    question: Is the hand pressing the valve still visible?
+    answer_type: yes_no
+    notes_for_judge: The hand should remain to facilitate the deflation described.
+  - id: background_consistency_check
+    question: Are the tools on the floor in the same position as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The camera movement returns to the center; static objects should not move.

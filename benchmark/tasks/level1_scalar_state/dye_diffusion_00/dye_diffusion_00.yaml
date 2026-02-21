@@ -1,0 +1,69 @@
+id: dye_diffusion_00
+level: 1
+category: scalar_state
+tags: []
+variant_of: dye_diffusion
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: Single continuous shot, no cuts, no zoom. Camera remains stationary throughout, centered on
+    the bowl and hand. The blue liquid in the dropper is a water-soluble dye. The dye is released into
+    the bowl of water. The dye does not change color, evaporate, or chemically react. No stirring or additional
+    drops occur after the initial release. Lighting and scene consistency remain unchanged.
+  camera_WM: Single continuous shot, no cuts, no zoom. Camera remains stationary throughout, centered
+    on the bowl and hand. The blue liquid in the dropper is a water-soluble dye. The dye is released into
+    the bowl of water. The dye does not change color, evaporate, or chemically react. No stirring or additional
+    drops occur after the initial release. Lighting and scene consistency remain unchanged.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A close-up shot showing a hand holding a dropper filled with dark blue liquid
+    positioned over a clear glass bowl of water. A single drop of blue liquid is suspended in mid-air,
+    falling from the dropper. Inside the bowl, a cloud of blue dye is already visible, swirling and settling
+    near the bottom of the water. The background is blurred, showing a window and some greenery.
+  init2final_edit_prompt: Edit the given image to show the state after the falling drop has entered the
+    water and diffusion has progressed. Remove the single drop that was suspended in mid-air. Make the
+    cloud of blue dye inside the glass bowl significantly larger and more spread out, occupying a greater
+    volume of the water. The blue swirls should appear more expanded within the bowl. Keep the hand, dropper,
+    glass bowl, and background stationary and unchanged.
+  rationale: The video depicts the physical process of a liquid drop falling into water and the subsequent
+    diffusion of the dye. The primary scalar change is the expansion of the dye's volume within the water
+    (diffusion). The initial frame shows a drop in transit; in the final state, this drop must have merged
+    with the bulk liquid, contributing to the total mass of dye in the bowl. The dye cloud will naturally
+    expand and disperse through the water over time, increasing the visible area and volume of the blue
+    tint.
+  questions:
+  - id: dye_volume_expansion
+    question: Is the cloud of blue dye in the bowl larger than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the spatial extent of the blue color in the water.
+  - id: dye_spread
+    question: Has the blue color spread to occupy more of the water's volume compared to the start?
+    answer_type: yes_no
+    notes_for_judge: The blue area should be wider or more dispersed.
+  - id: drop_merged
+    question: Has the drop that was falling in mid-air merged into the water?
+    answer_type: yes_no
+    notes_for_judge: The drop suspended between the dropper and water surface should be gone.
+  - id: water_tint
+    question: Is the water in the bowl more extensively tinted blue than before?
+    answer_type: yes_no
+    notes_for_judge: Check if the blue coloration covers a larger percentage of the bowl's interior.
+  - id: diffusion_direction
+    question: Is the dye distribution more diffuse and less concentrated than the initial distinct swirls?
+    answer_type: yes_no
+    notes_for_judge: Diffusion causes sharp lines to blur and expand.
+  - id: hand_consistency
+    question: Is the hand holding the dropper still in the same position?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: bowl_consistency
+    question: Is the glass bowl still stationary on the surface?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

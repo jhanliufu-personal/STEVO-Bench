@@ -1,0 +1,65 @@
+id: matchstick_burning_10
+level: 1
+category: scalar_state
+tags: []
+variant_of: matchstick_burning
+variation_type: combined
+variation_description: Combined accelerant-soaked match with hand-covering-lens occlusion.
+changes:
+  occlusion_method: A hand covers the camera lens completely.
+  dynamic_conditions: Match is soaked in accelerant.
+  expected_outcome_change: Flame burns very rapidly, consuming the stick much faster than normal
+prompts:
+  init_frame_edit_prompt: Edit the image to make the matchstick wood look soaked in oil, appearing darker
+    and glistening.
+  video_WM: The matchstick is soaked in highly flammable accelerant and burns intensely. A gloved hand
+    comes from behind the camera and covers the lens completely, blocking all light. The hand covers the
+    lens for several seconds. Then the hand is removed, revealing the scene again. No zoom, no cut, no
+    scene change. STOP.
+  camera_WM: The matchstick is soaked in highly flammable accelerant and burns intensely. A gloved hand
+    comes from behind the camera and covers the lens completely, blocking all light. The hand covers the
+    lens for several seconds. Then the hand is removed, revealing the scene again. No zoom, no cut, no
+    scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A close-up side view of a dirty, bare human hand holding a burning matchstick.
+    The match head is completely charred black, and the flame is active near the top of the stick. The
+    upper portion of the wooden shaft is blackened, while the lower portion remains light-colored unburnt
+    wood. The background is a plain, out-of-focus beige or grey surface.
+  init2final_edit_prompt: Edit the given image to show the matchstick after it has burned for several
+    more seconds. The blackened, charred texture should extend significantly further down the wooden shaft
+    towards the fingers holding it. The flame should be positioned lower on the stick, closer to the hand,
+    or the stick should appear more consumed by fire. The section of unburnt, light-colored wood should
+    be noticeably shorter than in the original image.
+  rationale: 'The prompt specifies that the matchstick is soaked in accelerant and burns intensely for
+    several seconds while the camera is occluded. This implies a rapid chemical reaction where the fire
+    travels down the stick. When the view is restored, the physical state of the match must reflect this
+    elapsed time: the charred region must be longer, the unburnt wood shorter, and the flame (if still
+    present) positioned closer to the fingers.'
+  questions:
+  - id: char_length
+    question: Is the blackened, charred section of the matchstick longer than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The fire travels down the stick, so the black part must grow.
+  - id: wood_depletion
+    question: Is the section of unburnt, light-colored wood shorter than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: As the match burns, the unburnt fuel decreases.
+  - id: flame_position
+    question: Is the active burning area (flame or glowing ember) closer to the fingers than initially?
+    answer_type: yes_no
+    notes_for_judge: The fire moves down the stick towards the hand.
+  - id: burn_progress
+    question: Does the matchstick appear more consumed or damaged by fire compared to the start?
+    answer_type: yes_no
+    notes_for_judge: General check for state progression.
+  - id: hand_visibility
+    question: Is the hand holding the matchstick still visible?
+    answer_type: yes_no
+    notes_for_judge: 'Consistency check: the holding hand should not disappear.'
+  - id: background_consistency
+    question: Is the background consistent with the initial blurred surface?
+    answer_type: yes_no
+    notes_for_judge: Consistency check.

@@ -1,0 +1,70 @@
+id: smoke_jar_filling_01
+level: 1
+category: scalar_state
+tags: []
+variant_of: smoke_jar_filling
+variation_type: occlusion_method
+variation_description: The camera remains stationary, but a large book slides in front of the jar to block
+  the view.
+changes:
+  occlusion_method: Object blocking (large book slides in foreground)
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The incense stick burns at the jar opening producing smoke. Smoke has lower density than air
+    and flows into the confined jar volume. The jar is open at the top. A large opaque book slides from
+    the left into the foreground, completely blocking the jar from view. The book remains there for several
+    seconds. Then the book slides back to the left, revealing the jar again. No zoom, no cut, no scene
+    change. STOP.
+  camera_WM: The incense stick burns at the jar opening producing smoke. Smoke has lower density than
+    air and flows into the confined jar volume. The jar is open at the top. A large opaque book slides
+    from the left into the foreground, completely blocking the jar from view. The book remains there for
+    several seconds. Then the book slides back to the left, revealing the jar again. No zoom, no cut,
+    no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A clear glass jar sits on a dark, textured wooden surface. An incense stick
+    enters the frame from the top right, with its burning tip positioned just inside the jar's rim. Wisps
+    of white smoke are swirling inside the jar, but the glass remains largely transparent, allowing the
+    background to be seen through it.
+  init2final_edit_prompt: Edit the given image to make the smoke inside the glass jar significantly denser,
+    whiter, and more opaque. The smoke should fill more of the jar's volume, making it harder to see through
+    the glass compared to the original image. Ensure the jar is fully visible and not blocked by any objects.
+    Keep the incense stick positioned at the rim.
+  rationale: The video prompt describes a continuous process where an incense stick generates smoke that
+    flows into a confined jar. Over time, the amount of smoke within the jar accumulates, increasing the
+    density and opacity of the smoke cloud. Although a book temporarily occludes the view, the physical
+    process of smoke filling the jar continues or the accumulated smoke remains. When the book is removed,
+    the jar must contain more smoke than it did in the initial frame.
+  questions:
+  - id: smoke_density_increase
+    question: Is the smoke inside the jar denser than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the thickness and concentration of the white smoke.
+  - id: smoke_opacity_increase
+    question: Is the smoke more opaque and white compared to the start?
+    answer_type: yes_no
+    notes_for_judge: The smoke should block more of the background view through the jar.
+  - id: smoke_volume_filling
+    question: Does the smoke fill a larger portion of the jar's volume than it did initially?
+    answer_type: yes_no
+    notes_for_judge: Look for smoke occupying more space within the glass container.
+  - id: visibility_reduction
+    question: Is the background seen through the jar more obscured by smoke than before?
+    answer_type: yes_no
+    notes_for_judge: The transparency of the jar interior should be reduced.
+  - id: smoke_accumulation
+    question: Is the total amount of visible smoke greater than in the initial image?
+    answer_type: yes_no
+    notes_for_judge: General assessment of quantity.
+  - id: occlusion_end
+    question: Is the jar fully visible again, without being blocked by a book?
+    answer_type: yes_no
+    notes_for_judge: The book mentioned in the prompt should have slid away.
+  - id: incense_stick_presence
+    question: Is the incense stick still visible at the top of the jar?
+    answer_type: yes_no
+    notes_for_judge: Check for object consistency.

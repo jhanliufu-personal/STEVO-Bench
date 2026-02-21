@@ -1,0 +1,74 @@
+id: dye_diffusion_08
+level: 1
+category: scalar_state
+tags: []
+variant_of: dye_diffusion
+variation_type: combined
+variation_description: Solid ice in bowl + Blocking object occlusion.
+changes:
+  occlusion_method: A large opaque book blocks the view.
+  dynamic_conditions: Bowl contains solid ice.
+  expected_outcome_change: Dye sits on top of ice, no diffusion.
+prompts:
+  init_frame_edit_prompt: Edit the image to change the liquid in the bowl into a solid block of clear
+    ice with a frosted top surface.
+  video_WM: Single continuous shot, no cuts, no zoom. The blue liquid in the dropper is a water-soluble
+    dye. The bowl contains a solid block of frozen ice. When released, the dye lands on the solid ice
+    surface. The ice is solid and does not allow fluid mixing. No stirring or additional drops occur.
+    Camera starts centered on the bowl and hand. A large opaque hardcover book slides into the frame from
+    the left, completely blocking the view of the bowl and hand. The book remains in front of the camera
+    for several seconds. While obscured, the dye remains on the ice surface. Then the book slides back
+    out to the left, revealing the bowl again. The camera remains stationary throughout.
+  camera_WM: Single continuous shot, no cuts, no zoom. The blue liquid in the dropper is a water-soluble
+    dye. The bowl contains a solid block of frozen ice. When released, the dye lands on the solid ice
+    surface. The ice is solid and does not allow fluid mixing. No stirring or additional drops occur.
+    Camera starts centered on the bowl and hand. A large opaque hardcover book slides into the frame from
+    the left, completely blocking the view of the bowl and hand. The book remains in front of the camera
+    for several seconds. While obscured, the dye remains on the ice surface. Then the book slides back
+    out to the left, revealing the bowl again. The camera remains stationary throughout. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a hand holding a glass dropper filled with dark
+    blue liquid. The dropper is positioned directly above a clear glass bowl containing a large, rough-textured
+    block of transparent ice. A small drop of blue liquid is visible at the tip of the dropper, ready
+    to fall. The background is a bright, blurred interior setting with a window and green plants.
+  init2final_edit_prompt: Edit the given image to show that the drop of blue dye has fallen from the dropper
+    onto the ice block. Create a distinct, concentrated dark blue puddle or stain on the top surface of
+    the ice block, directly beneath the dropper. Remove the hanging blue drop from the tip of the dropper
+    to indicate it has been released. Ensure the ice block remains solid and the blue color sits on the
+    surface rather than diffusing through the entire block like it would in liquid water.
+  rationale: The prompt describes a physical interaction where dye is dropped onto solid ice. Unlike liquid
+    water, solid ice prevents volumetric diffusion. Therefore, the key state change is the transfer of
+    the dye drop from the dropper to the surface of the ice, where it will remain as a localized stain
+    or puddle. The occlusion hides the drop falling, but the final state must show the dye resting on
+    top of the solid ice without significant mixing.
+  questions:
+  - id: dye_on_ice
+    question: Is there a blue stain or puddle visible on the surface of the ice block?
+    answer_type: yes_no
+    notes_for_judge: Check for the presence of blue color on the ice itself.
+  - id: dropper_empty
+    question: Is the hanging drop at the tip of the dropper gone or significantly smaller than in the
+      initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the dropper tip in the initial and final frames.
+  - id: surface_concentration
+    question: Is the blue color concentrated on the surface of the ice rather than uniformly mixed throughout
+      the block?
+    answer_type: yes_no
+    notes_for_judge: The dye should not color the whole block uniformly; it should look like a surface
+      stain.
+  - id: ice_solidity
+    question: Is the ice block still recognizable as a solid object?
+    answer_type: yes_no
+    notes_for_judge: The ice should not have melted into a bowl of liquid water.
+  - id: dye_location
+    question: Is the blue dye located directly beneath the dropper position?
+    answer_type: yes_no
+    notes_for_judge: Physics check for gravity.
+  - id: book_absence
+    question: Is the view clear of the large book mentioned in the prompt?
+    answer_type: yes_no
+    notes_for_judge: The book should have slid out of frame.

@@ -1,0 +1,70 @@
+id: clay_drying_09
+level: 1
+category: scalar_state
+tags: []
+variant_of: clay_drying
+variation_type: combined
+variation_description: Pot is already dry (no change) and occlusion is by zooming out.
+changes:
+  occlusion_method: Camera zooms out.
+  dynamic_conditions: The pot is already dry.
+  expected_outcome_change: The pot remains light orange.
+prompts:
+  init_frame_edit_prompt: Edit the image so the terracotta pot is a uniform light, dry orange color.
+  video_WM: A dry, light-orange terracotta pot sits under a heat lamp. The camera zooms out rapidly until
+    the pot becomes a tiny, indistinguishable speck in the wide greenhouse view. The camera then zooms
+    back in to the original framing. No cut, no scene change. STOP.
+  camera_WM: A dry, light-orange terracotta pot sits under a heat lamp. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a light-orange, unglazed terracotta pot resting
+    on a weathered stone pedestal. The pot appears completely dry and features a distinct patch of cracked
+    or flaking texture on the side facing the light. To the right, a silver metal clamp-lamp with a wire
+    guard and a glowing red heat bulb is positioned, casting a strong warm light onto the pot. The background
+    is a soft-focus view of a greenhouse interior with wooden frames and glass panels.
+  init2final_edit_prompt: Edit the given image to restore the exact original framing and appearance of
+    the scene. Ensure the terracotta pot remains light orange and dry, preserving the specific cracked
+    texture on its side. The heat lamp on the right should remain active and in the same position. The
+    stone pedestal and greenhouse background should match the initial frame. The final image should look
+    identical to the starting state, as the camera has returned to its original position.
+  rationale: 'The prompt specifies that the pot is already ''dry'' and ''light-orange'' at the start,
+    and the heat lamp is active. The primary action is a camera movement (zoom out to a wide shot, then
+    zoom back in to the original framing). Since the pot is already dry, the heat lamp maintains this
+    state rather than causing a new phase change. Therefore, the rollout tests state persistence and object
+    permanence: the model must return to the correct zoom level and recall the specific texture and dry
+    state of the pot after the temporal occlusion of the zoom-out. The scalar states (moisture level and
+    camera distance) return to or maintain their initial values.'
+  questions:
+  - id: q1
+    question: Is the terracotta pot light orange in color?
+    answer_type: yes_no
+    notes_for_judge: Checks if the pot maintained its dry color state.
+  - id: q2
+    question: Does the pot appear dry rather than wet?
+    answer_type: yes_no
+    notes_for_judge: Verifies the moisture scalar state remained low.
+  - id: q3
+    question: Is the cracked texture on the side of the pot still visible?
+    answer_type: yes_no
+    notes_for_judge: Checks for preservation of specific surface details.
+  - id: q4
+    question: Is the pot framed as a close-up, occupying a significant portion of the image?
+    answer_type: yes_no
+    notes_for_judge: Verifies the camera distance scalar returned to the initial value.
+  - id: q5
+    question: Is the heat lamp visible on the right side of the frame?
+    answer_type: yes_no
+    notes_for_judge: Checks object permanence.
+  - id: q6
+    question: Is the pot free of dark, damp patches?
+    answer_type: yes_no
+    notes_for_judge: Verifies the direction of moisture change was not positive (did not get wet).
+  - id: q7
+    question: Is the stone pedestal visible beneath the pot?
+    answer_type: yes_no
+    notes_for_judge: Checks spatial consistency.
+  - id: q8
+    question: Is the lighting on the pot warm and directional from the right?
+    answer_type: yes_no
+    notes_for_judge: Checks lighting consistency.

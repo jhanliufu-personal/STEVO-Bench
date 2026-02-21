@@ -1,0 +1,67 @@
+id: tank_filling_up_v08
+level: 1
+category: scalar_state
+tags: []
+variant_of: tank_filling_up
+variation_type: combined
+variation_description: No water flow combined with forklift blocking occlusion.
+changes:
+  occlusion_method: Object blocking (forklift)
+  dynamic_conditions: Pipe valve is closed (no water flowing)
+  expected_outcome_change: Water level remains constant
+prompts:
+  init_frame_edit_prompt: Edit the image to remove the water flowing from the pipe. Show the pipe opening
+    as dry with absolutely no water coming out. Keep the water level in the tank static.
+  video_WM: Single continuous take, no cuts or zoom. Camera is static, centered on the pipe and water
+    tank. No water is flowing from the pipe. A large forklift carrying a crate drives into the frame from
+    the right, stopping directly in front of the camera and completely blocking the view of the tank.
+    The forklift remains there for several seconds, then reverses out of the frame, revealing the tank
+    again. STOP.
+  camera_WM: Single continuous take, no cuts or zoom. Camera is static, centered on the pipe and water
+    tank. No water is flowing from the pipe. A large forklift carrying a crate drives into the frame from
+    the right, stopping directly in front of the camera and completely blocking the view of the tank.
+    The forklift remains there for several seconds, then reverses out of the frame, revealing the tank
+    again. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A large, clear cylindrical tank sits in the center of a warehouse, marked with
+    red measurement scales for grams (left) and liters (right). The tank is partially filled with water,
+    with the level sitting at approximately the 300g / 150L mark. A metal pipe hangs from the ceiling
+    directly above the tank opening, but no water is coming out of it. The background shows warehouse
+    shelving, pallets, and industrial equipment.
+  init2final_edit_prompt: Edit the given image to show the water tank fully visible again. The water level
+    inside the tank must be at the exact same height as in the original image, as no water has been added.
+    The warehouse background should remain identical to the initial view. Ensure there are no forklifts,
+    vehicles, or other obstructions blocking the view of the tank.
+  rationale: The video prompt explicitly states that 'No water is flowing from the pipe' and describes
+    a sequence where a forklift blocks the view of the tank and then reverses away. Since no water flow
+    is initiated and no other interaction with the tank is described, the physical state of the water
+    (volume and level) must remain exactly constant. The rollout tests for object permanence and state
+    stability—ensuring the model does not hallucinate the tank filling up or emptying during the occlusion.
+  questions:
+  - id: q1_stability
+    question: Is the water level at the same height as it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The water level should not have changed.
+  - id: q2_visibility
+    question: Is the tank fully visible again?
+    answer_type: yes_no
+    notes_for_judge: The forklift should have reversed out of frame.
+  - id: q3_volume_conservation
+    question: Does the tank appear to contain the same amount of water as before?
+    answer_type: yes_no
+    notes_for_judge: Test for conservation of mass/volume.
+  - id: q4_forklift_absence
+    question: Is the forklift absent from the final frame?
+    answer_type: yes_no
+    notes_for_judge: The prompt says it reverses out of the frame.
+  - id: q5_pipe_state
+    question: Is the pipe above the tank still inactive (no water flowing)?
+    answer_type: yes_no
+    notes_for_judge: The prompt states no water is flowing.
+  - id: q6_level_alignment
+    question: Is the water level still aligned with the same red markings as in the start?
+    answer_type: yes_no
+    notes_for_judge: Visual check for level consistency.

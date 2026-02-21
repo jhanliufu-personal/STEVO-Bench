@@ -1,0 +1,69 @@
+id: heating_rod_07
+level: 1
+category: scalar_state
+tags: []
+variant_of: heating_rod
+variation_type: combined
+variation_description: Combined cooling dynamics with shutter occlusion.
+changes:
+  occlusion_method: Safety shutter blocks view.
+  dynamic_conditions: Rod starts bright orange; Coil inactive.
+  expected_outcome_change: Rod cools down (dimmer) while blocked by shutter.
+prompts:
+  init_frame_edit_prompt: Edit the image to make the steel rod glow bright orange, indicating it is very
+    hot.
+  video_WM: A bright orange glowing steel rod sits in an inactive induction coil. A heavy metal safety
+    shutter descends from the top of the frame, completely blocking the view of the rod and coil, then
+    ascends back up to reveal the scene. No zoom, no cut, no scene change. STOP.
+  camera_WM: A bright orange glowing steel rod sits in an inactive induction coil. A heavy metal safety
+    shutter descends from the top of the frame, completely blocking the view of the rod and coil, then
+    ascends back up to reveal the scene. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up industrial shot of a thick steel rod positioned horizontally through
+    a copper induction coil. The central section of the rod, located inside the coil, is glowing intensely
+    with a bright orange-yellow color, fading to dull red and dark grey at the ends. The coil consists
+    of multiple turns of copper tubing surrounding the rod. The background shows a workshop environment
+    with heavy machinery, a green metal cabinet, and overhead lighting.
+  init2final_edit_prompt: Edit the given image to show the glowing steel rod having cooled down slightly.
+    Reduce the brightness and intensity of the glow in the central section. Shift the color of the heated
+    metal from bright yellow-orange to a duller, deeper red-orange to indicate heat loss. Ensure the rod
+    and the copper coil remain in the exact same position and configuration. Do not change the background
+    or lighting.
+  rationale: The video prompt explicitly states that the induction coil is inactive. Since the rod begins
+    in a highly heated, glowing state, the laws of thermodynamics dictate that it must cool down over
+    time in the absence of an active heat source. The descent and ascent of the safety shutter introduce
+    a duration of time during which this cooling occurs. Therefore, the final frame should depict the
+    rod with reduced thermal radiation, manifesting as a dimmer glow and a color shift towards red. The
+    rod's position and the background remain unchanged.
+  questions:
+  - id: cooling_brightness
+    question: Is the glowing section of the rod dimmer than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The rod should have cooled down, resulting in less light emission.
+  - id: cooling_color_shift
+    question: Has the color of the heated section shifted towards a darker red compared to the initial
+      bright orange?
+    answer_type: yes_no
+    notes_for_judge: Cooling metal shifts from yellow/orange to red/dull red.
+  - id: cooling_intensity
+    question: Is the intensity of the glow lower than it was in the starting image?
+    answer_type: yes_no
+    notes_for_judge: Check for reduced saturation and brightness of the glow.
+  - id: cooling_yellow_reduction
+    question: Is the yellow component of the glow less prominent than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: As metal cools, the yellow hues disappear first, leaving red.
+  - id: object_permanence_rod
+    question: Is the rod visible again after the shutter has ascended?
+    answer_type: yes_no
+    notes_for_judge: The rod should be revealed after the occlusion.
+  - id: consistency_position
+    question: Is the rod still in the same horizontal position within the coil?
+    answer_type: yes_no
+    notes_for_judge: The rod should not have moved.
+  - id: consistency_coil
+    question: Is the copper coil still visible around the rod?
+    answer_type: yes_no
+    notes_for_judge: The coil should remain unchanged.

@@ -1,0 +1,72 @@
+id: sparkler_firework_06
+level: 1
+category: scalar_state
+tags: []
+variant_of: sparkler_firework
+variation_type: dynamic_condition
+variation_description: The sparkler is damp, causing weak sputtering.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Sparkler is damp/wet.
+  expected_outcome_change: The flame dies out or burns very slowly/inconsistently.
+prompts:
+  init_frame_edit_prompt: Edit the image to make the sparks look very weak, dim, and sputtering, with
+    grey smoke rising, as if the sparkler is damp.
+  video_WM: The sparkler is damp and sputtering weakly. The ignition point struggles to maintain combustion
+    against the moisture in the coating. Oxygen is available. The camera rotates right at constant speed
+    until the sparkler completely exits the view to the right. The camera continues rotating right for
+    several seconds while off-screen. Then the camera rotates left smoothly at the same rate back to the
+    original viewpoint. No zoom, no cut, no scene change. STOP.
+  camera_WM: The sparkler is damp and sputtering weakly. The ignition point struggles to maintain combustion
+    against the moisture in the coating. Oxygen is available. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A close-up side view of a hand holding a lit sparkler against a black background.
+    The hand, wearing a dark long-sleeved garment, enters from the right side holding the bare wire handle.
+    The sparkler stick extends diagonally upwards towards the left. A bright glowing ignition point is
+    active on the coated section of the wire, emitting golden sparks and grey smoke. The fire is positioned
+    partway down the stick, with a section of unburnt grey coating visible between the flame and the hand.
+  init2final_edit_prompt: Edit the given image to show the sparkler having burned further down the stick.
+    Move the glowing ignition point and the cluster of sparks along the wire closer to the hand. Shorten
+    the length of the unburnt grey coating between the flame and the hand. Show the section of the wire
+    extending from the tip to the new flame position as burnt residue or bare wire. Maintain the dark
+    background and the position of the hand.
+  rationale: The video prompt describes a camera rotation that removes the sparkler from view for several
+    seconds before returning. During this occlusion, the sparkler continues to burn, consuming the combustible
+    coating. Physically, the ignition point travels from the tip towards the handle. Therefore, in the
+    final frame, the fire must be positioned closer to the hand, and the remaining unburnt section of
+    the sparkler must be shorter than in the initial frame. The 'damp' condition implies the burn might
+    be slow or sputtering, but the direction of the state change (consuming fuel towards the handle) remains
+    constant.
+  questions:
+  - id: burn_progress_location
+    question: Is the glowing ignition point closer to the hand than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The fire travels down the stick towards the handle over time.
+  - id: unburnt_coating_length
+    question: Is the segment of unburnt coating between the flame and the hand shorter than before?
+    answer_type: yes_no
+    notes_for_judge: As the sparkler burns, the fuel (coating) decreases.
+  - id: burnt_residue_length
+    question: Is the section of the sparkler behind the flame (towards the tip) longer than in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: The burnt portion grows as the fire advances.
+  - id: flame_position_relative
+    question: Has the source of the sparks moved to the right relative to the stick's length?
+    answer_type: yes_no
+    notes_for_judge: The stick is oriented left-to-right; burning towards the hand means moving right.
+  - id: hand_visibility
+    question: Is the hand holding the sparkler still visible in the same location?
+    answer_type: yes_no
+    notes_for_judge: The camera returns to the original viewpoint.
+  - id: sparkler_lit_status
+    question: Is the sparkler still emitting light or sparks?
+    answer_type: yes_no
+    notes_for_judge: The prompt says it struggles but oxygen is available; it should not be fully extinguished.
+  - id: background_consistency
+    question: Is the background still primarily black?
+    answer_type: yes_no
+    notes_for_judge: No scene change occurred.

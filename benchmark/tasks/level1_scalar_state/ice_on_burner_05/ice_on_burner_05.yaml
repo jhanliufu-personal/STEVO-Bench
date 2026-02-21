@@ -1,0 +1,69 @@
+id: ice_on_burner_05
+level: 1
+category: scalar_state
+tags: []
+variant_of: ice_on_burner
+variation_type: dynamic_condition
+variation_description: Object changed to a stick of butter, which melts differently (yellow liquid, different
+  viscosity).
+changes:
+  occlusion_method: null
+  dynamic_conditions: Object is butter instead of ice.
+  expected_outcome_change: Melts into yellow opaque liquid instead of clear water.
+prompts:
+  init_frame_edit_prompt: Edit the image to replace the clear ice cube with a rectangular stick of yellow
+    butter.
+  video_WM: A stick of yellow butter sits on top of an electric cooktop burner. The cooktop display shows
+    it is turned on. Single continuous shot, no cuts, no zoom. The camera smoothly moves right at constant
+    speed until the burner and butter completely exit the frame to the right. The camera continues moving
+    right for several seconds. Then the camera moves left at the same constant speed back to the original
+    viewpoint.
+  camera_WM: A stick of yellow butter sits on top of an electric cooktop burner. The cooktop display shows
+    it is turned on. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, high-angle shot of a black electric glass cooktop. A rectangular
+    stick of yellow butter sits on a glowing red spiral heating element. The butter is actively melting,
+    with a bubbling pool of yellow liquid fat at its base and steam rising. To the right of the burner,
+    a red digital display embedded in the glass reads 'ON' and 'HIGH'.
+  init2final_edit_prompt: Edit the given image to show the stick of butter in a more advanced state of
+    melting. Make the solid rectangular block of butter significantly smaller, shorter, and more deformed,
+    as if it has been heating for some time. Expand the area of the bubbling liquid yellow pool on the
+    burner coils to cover a larger surface area. Ensure the burner coils remain glowing red and the 'ON
+    HIGH' display text remains unchanged.
+  rationale: The video prompt describes a camera panning away from a hot stove and then returning to the
+    original viewpoint. The burner is set to 'HIGH' and the butter is already melting in the initial frame.
+    During the period of occlusion (while the camera is panning away and back), the thermodynamic process
+    continues uninterrupted. Consequently, when the camera returns, the butter must have melted further,
+    resulting in a smaller solid mass and a larger pool of liquid butter.
+  questions:
+  - id: butter_volume_reduction
+    question: Is the solid stick of butter smaller than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Check if the volume of the solid yellow block has decreased.
+  - id: liquid_pool_expansion
+    question: Is the pool of melted liquid butter larger than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Check if the bubbling liquid covers more of the burner.
+  - id: butter_height_reduction
+    question: Is the remaining solid butter shorter in height compared to the start?
+    answer_type: yes_no
+    notes_for_judge: The butter should have slumped or melted down.
+  - id: melting_state
+    question: Does the butter appear more melted than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: General assessment of the phase change progress.
+  - id: solid_mass_depletion
+    question: Is there less solid butter visible than before?
+    answer_type: yes_no
+    notes_for_judge: Scalar reduction in solid mass.
+  - id: burner_consistency
+    question: Are the burner coils still glowing red?
+    answer_type: yes_no
+    notes_for_judge: 'Consistency check: the stove should remain hot.'
+  - id: display_consistency
+    question: Is the 'ON HIGH' text still visible on the display?
+    answer_type: yes_no
+    notes_for_judge: 'Consistency check: the UI should not change.'

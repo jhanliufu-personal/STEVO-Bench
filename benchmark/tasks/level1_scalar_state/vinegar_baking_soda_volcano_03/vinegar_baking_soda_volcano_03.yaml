@@ -1,0 +1,72 @@
+id: vinegar_baking_soda_volcano_03
+level: 1
+category: scalar_state
+tags: []
+variant_of: vinegar_baking_soda_volcano
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to camera zooming out until details are
+  lost.
+changes:
+  occlusion_method: Camera zooms out until the jar is indistinguishable.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The hand pours vinegar into the container with baking soda. Vinegar contains acetic acid.
+    Baking soda is sodium bicarbonate. The acid-base reaction produces carbon dioxide gas. The reaction
+    is exothermic and rapid. The camera zooms out rapidly and continuously until the container becomes
+    a tiny, indistinguishable speck in the distance. The camera holds this distant view for several seconds.
+    Then the camera zooms back in smoothly to the original framing. No cut, no scene change. STOP.
+  camera_WM: The hand pours vinegar into the container with baking soda. Vinegar contains acetic acid.
+    Baking soda is sodium bicarbonate. The acid-base reaction produces carbon dioxide gas. The reaction
+    is exothermic and rapid. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a wooden countertop. A rustic wooden tray holds
+    a clear glass apothecary jar containing white powder (baking soda). To the left of the jar is a bottle
+    of vinegar. A hand enters from the top right, holding a small glass pitcher filled with clear liquid
+    (vinegar), positioned as if about to pour into the jar. A window is visible on the left, providing
+    natural light.
+  init2final_edit_prompt: Edit the given image to show the aftermath of a chemical reaction. Fill the
+    glass jar with rising white foam and bubbles that have expanded significantly in volume, reaching
+    a level much higher than the original powder. Show the white foam overflowing the rim of the jar and
+    spilling onto the wooden tray. Reduce the amount of clear liquid in the glass pitcher held by the
+    hand, making the water level lower than in the original image. Maintain the original camera angle,
+    lighting, and background details.
+  rationale: The prompt describes a baking soda and vinegar reaction, which is exothermic and produces
+    carbon dioxide gas, resulting in rapid foaming and volume expansion. The camera zooms out and then
+    back into the original framing, implying that time passes while the view is distant. When the camera
+    returns to the initial view, the reaction will have progressed, causing the mixture in the jar to
+    expand into foam (increasing volume/height) and potentially overflow. The pitcher will contain less
+    liquid as the vinegar has been poured to trigger the reaction.
+  questions:
+  - id: q1
+    question: Is the level of the white substance in the jar higher than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Checks for directional change in height/volume (expansion).
+  - id: q2
+    question: Is the glass jar filled with white foam or bubbles?
+    answer_type: yes_no
+    notes_for_judge: Checks for the state change from powder to reacting foam.
+  - id: q3
+    question: Is there less clear liquid in the pitcher than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Checks for directional change in mass/volume (depletion of vinegar).
+  - id: q4
+    question: Has the substance in the jar expanded in volume compared to the start?
+    answer_type: yes_no
+    notes_for_judge: Checks for volume expansion.
+  - id: q5
+    question: Is there foam or liquid spilled onto the wooden tray?
+    answer_type: yes_no
+    notes_for_judge: Checks for overflow, a likely result of the volume expansion.
+  - id: q6
+    question: Is the white powder no longer sitting flat at the bottom of the jar?
+    answer_type: yes_no
+    notes_for_judge: Checks that the static initial state has been disturbed.
+  - id: q7
+    question: Is the camera framing identical to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Consistency check for the 'zoom back' instruction.

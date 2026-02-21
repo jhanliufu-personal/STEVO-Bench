@@ -1,0 +1,64 @@
+id: steam_kettle_spout_04
+level: 1
+category: scalar_state
+tags: []
+variant_of: steam_kettle_spout
+variation_type: dynamic_condition
+variation_description: The burner is cold and inactive from the start.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Burner is cold/inactive
+  expected_outcome_change: No steam is generated throughout the video.
+prompts:
+  init_frame_edit_prompt: Edit the image to show the stove burner coils as black and cold, and remove
+    all steam coming from the kettle spout.
+  video_WM: The kettle sits on a cold, inactive burner. The stove is turned off. The water inside is at
+    room temperature. The camera rotates right at constant speed until the kettle completely exits the
+    view to the right. The camera continues rotating right for several seconds while off-screen. Then
+    the camera rotates left smoothly at the same rate back to the original viewpoint. No zoom, no cut,
+    no scene change. STOP.
+  camera_WM: The kettle sits on a cold, inactive burner. The stove is turned off. The water inside is
+    at room temperature. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A silver metal gooseneck kettle sits on a dirty electric coil stovetop. The
+    kettle has a black handle on the left and a glass lid with a black knob. There are water droplets
+    (condensation) visible inside the glass lid. The electric burner coils are black and look used. A
+    window is visible in the background on the right. There is no steam coming from the spout.
+  init2final_edit_prompt: Edit the given image to show the scene unchanged. The electric burner coils
+    must remain black and unlit. The kettle must remain sitting on the burner with no steam coming from
+    the gooseneck spout. The lighting, object positions, and background must remain identical to the original
+    view.
+  rationale: The prompt explicitly states that the stove is turned off and the water is at room temperature.
+    The camera pans away and then returns to the original viewpoint. Since no physical action is taken
+    to turn on the stove or move the kettle, the physical state of the world must remain static. The evaluation
+    focuses on the model's ability to maintain object permanence and attribute stability (i.e., not hallucinating
+    steam, boiling water, or glowing coils) despite the camera motion and temporary occlusion.
+  questions:
+  - id: steam_check_1
+    question: Is the spout of the kettle free of visible steam?
+    answer_type: yes_no
+    notes_for_judge: Check for any white plume or vapor exiting the spout. The correct answer is Yes (no
+      steam).
+  - id: coil_check_1
+    question: Are the electric burner coils beneath the kettle dark and unlit?
+    answer_type: yes_no
+    notes_for_judge: The coils should be black/grey, not glowing red or orange.
+  - id: steam_check_2
+    question: Is the air directly above the kettle clear of white vapor?
+    answer_type: yes_no
+    notes_for_judge: Verifies no steam cloud has formed.
+  - id: state_check_1
+    question: Does the kettle appear to be inactive (not boiling)?
+    answer_type: yes_no
+    notes_for_judge: General impression of the state; should look cold/static.
+  - id: position_check_1
+    question: Is the kettle still sitting on the stovetop burner?
+    answer_type: yes_no
+    notes_for_judge: Verifies the kettle hasn't vanished or moved.
+  - id: consistency_check_1
+    question: Is the black handle of the kettle still visible on the left?
+    answer_type: yes_no
+    notes_for_judge: Verifies orientation and object integrity.

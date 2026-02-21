@@ -1,0 +1,65 @@
+id: evaporating_alcohol_pool_09
+level: 1
+category: scalar_state
+tags: []
+variant_of: evaporating_alcohol_pool
+variation_type: combined
+variation_description: Covered liquid (no evaporation) combined with blocking object occlusion.
+changes:
+  occlusion_method: A cardboard sheet blocks the view.
+  dynamic_conditions: Liquid is covered by a glass lid.
+  expected_outcome_change: No evaporation.
+prompts:
+  init_frame_edit_prompt: Edit the image to place a clear glass petri dish lid covering the pool of liquid.
+  video_WM: Rubbing alcohol sits on the warm metal plate, covered by a clear glass lid. The lid forms
+    a physical barrier trapping all vapor inside the dish. A large piece of cardboard is placed in front
+    of the camera, completely blocking the view of the experiment. The cardboard remains there for several
+    seconds. Then the cardboard is removed, revealing the plate again. No zoom, no cut, no scene change.
+    STOP.
+  camera_WM: Rubbing alcohol sits on the warm metal plate, covered by a clear glass lid. The lid forms
+    a physical barrier trapping all vapor inside the dish. A large piece of cardboard is placed in front
+    of the camera, completely blocking the view of the experiment. The cardboard remains there for several
+    seconds. Then the cardboard is removed, revealing the plate again. No zoom, no cut, no scene change.
+    STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: 'A close-up, high-angle shot of a laboratory hot plate with a scratched metal
+    surface. A digital display at the bottom reads ''WARM: 55°C''. Centered on the plate is a clear glass
+    petri dish containing a pool of transparent liquid (rubbing alcohol). Faint distortion or vapor is
+    visible above the dish.'
+  init2final_edit_prompt: Edit the given image to show the glass lid of the petri dish covered in condensation.
+    The glass surface should appear misty, foggy, or dotted with droplets, significantly reducing its
+    transparency. The liquid pool inside should remain visible but partially obscured by the fog on the
+    lid. Do not empty the dish.
+  rationale: The prompt specifies that the alcohol is on a warm plate (55°C) but is covered by a lid that
+    traps all vapor. Physically, the heat accelerates evaporation, but since the vapor cannot escape the
+    closed system, it saturates the air inside and condenses on the cooler inner surface of the glass
+    lid. Therefore, the primary visual change is the accumulation of condensation (fog/droplets) on the
+    lid, reducing its clarity. The liquid volume is conserved within the dish and does not disappear.
+  questions:
+  - id: condensation_presence
+    question: Are there condensation droplets or fog visible on the glass lid?
+    answer_type: yes_no
+    notes_for_judge: Look for mist, fog, or droplets on the glass surface that were not there initially.
+  - id: transparency_change
+    question: Is the glass lid less transparent than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The lid should become more opaque due to condensation.
+  - id: liquid_obscured
+    question: Is the view of the liquid pool partially obscured by mist or droplets?
+    answer_type: yes_no
+    notes_for_judge: The liquid should be harder to see clearly through the foggy lid.
+  - id: condensation_increase
+    question: Is there more condensation on the lid than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the amount of fog/droplets; it should have increased.
+  - id: liquid_persistence
+    question: Is the liquid pool still visible inside the dish?
+    answer_type: yes_no
+    notes_for_judge: The dish should NOT be empty; the prompt states the vapor is trapped.
+  - id: lid_state
+    question: Does the petri dish appear to be closed or covered?
+    answer_type: yes_no
+    notes_for_judge: The presence of condensation on a surface above the liquid implies a lid.

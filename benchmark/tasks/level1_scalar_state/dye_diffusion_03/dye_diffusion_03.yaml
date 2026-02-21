@@ -1,0 +1,77 @@
+id: dye_diffusion_03
+level: 1
+category: scalar_state
+tags: []
+variant_of: dye_diffusion
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera panning to camera zooming out.
+changes:
+  occlusion_method: Camera zooms out until details are indiscernible, then zooms back in.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: Single continuous shot, no cuts. The blue liquid in the dropper is a water-soluble dye. When
+    released into the bowl, it naturally diffuses and disperses throughout the water over time. The dye
+    does not change color, evaporate, or chemically react; it simply spreads through the water due to
+    natural diffusion and fluid motion. No stirring or additional drops occur after the initial release.
+    Camera starts centered on the bowl and hand. The camera rapidly zooms out until the bowl appears as
+    a tiny, indiscernible dot in the distance. The camera remains zoomed out for several seconds while
+    the dye continues to diffuse. Then the camera zooms back in to the original framing, bringing the
+    details of the bowl back into view.
+  camera_WM: Single continuous shot, no cuts. The blue liquid in the dropper is a water-soluble dye. When
+    released into the bowl, it naturally diffuses and disperses throughout the water over time. The dye
+    does not change color, evaporate, or chemically react; it simply spreads through the water due to
+    natural diffusion and fluid motion. No stirring or additional drops occur after the initial release.
+    Camera starts centered on the bowl and hand. While the view is obscured, the dye continues to diffuse.
+    Lighting and scene consistency remain unchanged. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+  Genie: null
+evaluation:
+  init_frame_description: A close-up shot of a hand holding a dropper filled with dark blue liquid over
+    a clear glass bowl containing water. A single drop of blue dye is in mid-air, falling from the dropper
+    into the bowl. Inside the bowl, previous drops of blue dye have settled at the bottom and are beginning
+    to swirl and diffuse. The background is bright, featuring a window and blurred green plants.
+  init2final_edit_prompt: Edit the given image to show the state of the water after time has passed. The
+    drop that was falling from the dropper must be removed, as it has entered the water. The blue dye
+    inside the bowl must be significantly more spread out and diffused, clouding a larger portion of the
+    water volume. The distinct, concentrated swirls at the bottom should appear expanded and softer, making
+    the water look more uniformly blue or tinted. Keep the hand, dropper, bowl, and background exactly
+    as they are, maintaining the original camera angle.
+  rationale: The video prompt describes a continuous shot where the camera zooms out and then back in.
+    During the time the camera is zoomed out, the physical process of diffusion continues uninterrupted.
+    The drop falling in the initial frame will have entered the water. The concentrated dye will naturally
+    disperse from areas of high concentration to low concentration, increasing the volume of blue-tinted
+    water and making the dye clouds larger and less defined. Upon the camera's return to the original
+    view, the primary change is the increased dispersion of the dye.
+  questions:
+  - id: dye_spread_area
+    question: Is the blue dye spread over a larger area of the bowl than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the extent of the blue coloration. It should cover more of the water's volume.
+  - id: drop_merged
+    question: Has the drop that was falling from the dropper disappeared from mid-air?
+    answer_type: yes_no
+    notes_for_judge: The drop should have fallen into the water.
+  - id: water_clarity_reduced
+    question: Is there less clear, uncolored water visible in the bowl compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: As dye spreads, the amount of purely clear water decreases.
+  - id: dye_diffuseness
+    question: Do the blue shapes in the water appear softer and more diffuse than the sharp swirls in
+      the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Diffusion causes sharp concentration gradients to smooth out.
+  - id: dye_volume_expansion
+    question: Does the blue coloration occupy a greater volume of the water than it did initially?
+    answer_type: yes_no
+    notes_for_judge: The dye should have expanded outwards.
+  - id: hand_consistency
+    question: Is the hand holding the dropper still visible in the frame?
+    answer_type: yes_no
+    notes_for_judge: Consistency check.
+  - id: bowl_consistency
+    question: Is the glass bowl still in the same position?
+    answer_type: yes_no
+    notes_for_judge: Consistency check.

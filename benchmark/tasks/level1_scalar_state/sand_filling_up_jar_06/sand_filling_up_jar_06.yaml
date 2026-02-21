@@ -1,0 +1,64 @@
+id: sand_filling_up_jar_06
+level: 1
+category: scalar_state_change
+tags: []
+variant_of: sand_filling_up_jar
+variation_type: dynamic_condition
+variation_description: Sand is wet and clumpy, sticking to the funnel instead of flowing.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Sand is wet and cohesive, sticking to the glass walls.
+  expected_outcome_change: Sand flows very slowly or not at all (stuck).
+prompts:
+  init_frame_edit_prompt: Edit the image to make the sand look dark, wet, and clumpy. Show the wet sand
+    sticking to the sides of the funnel neck rather than flowing freely.
+  video_WM: Single continuous take, no cuts or zoom. Camera starts centered on the funnel and jar. Wet,
+    clumpy sand sits in the glass funnel. The damp sand sticks together and clings to the glass walls.
+    The camera smoothly moves to the right at constant speed until the funnel and jar leave the frame
+    to the left and become completely invisible. The camera continues moving right across the room for
+    several seconds. Then the camera moves left at the same speed back to the original viewpoint. Lighting
+    and objects remain consistent and realistic.
+  camera_WM: Wet, clumpy sand sits in the glass funnel. The damp sand sticks together and clings to the
+    glass walls. Lighting and objects remain consistent and realistic. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A clear glass jar sits on a rustic wooden table. A clear glass funnel is placed
+    on top of the jar. Inside the funnel is a mass of dark, wet, clumpy sand or mud, with some sticking
+    to the sides. Inside the jar, directly below the funnel's spout, there is already a pile of similar
+    wet sand accumulated at the bottom. The background consists of blurred wooden planks.
+  init2final_edit_prompt: Edit the given image to show the pile of wet sand inside the glass jar as larger
+    and taller than it was originally. Reduce the volume of wet sand remaining in the top funnel, making
+    it appear partially emptied. Ensure the glass funnel remains seated on the jar and the wooden background
+    remains unchanged.
+  rationale: The video prompt describes a continuous take where the camera pans away and then returns
+    to the original view after several seconds. During this time, gravity acts on the wet sand in the
+    funnel, causing it to fall into the jar below. Therefore, the final state should show a conservation
+    of mass where the sand pile in the jar has grown (accumulation) and the amount of sand in the funnel
+    has diminished (depletion). The camera angle returns to the exact starting position.
+  questions:
+  - id: jar_pile_height
+    question: Is the pile of sand inside the jar taller than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the height of the sand pile at the bottom of the jar between the two frames.
+  - id: jar_pile_volume
+    question: Is the volume of sand inside the jar larger than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The pile should look bigger/fuller.
+  - id: funnel_depletion
+    question: Is there less sand remaining in the funnel compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The amount of sand in the top container should have decreased.
+  - id: sand_transfer
+    question: Has the sand level in the jar risen compared to the start?
+    answer_type: yes_no
+    notes_for_judge: Focus on the vertical level of the accumulation.
+  - id: funnel_presence
+    question: Is the glass funnel still sitting on top of the jar?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: background_consistency
+    question: Is the wooden surface texture consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

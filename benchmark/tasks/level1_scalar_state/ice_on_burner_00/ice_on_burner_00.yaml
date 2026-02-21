@@ -1,0 +1,66 @@
+id: ice_on_burner_00
+level: 1
+category: scalar_state
+tags: []
+variant_of: ice_on_burner
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: Single continuous shot, no cuts, no zoom. Camera is centered on the burner and ice cube. Camera
+    remains stationary throughout the entire video, keeping the burner and ice cube fully visible at all
+    times.
+  camera_WM: Single continuous shot, no cuts, no zoom. Camera is centered on the burner and ice cube.
+    Camera remains stationary throughout the entire video, keeping the burner and ice cube fully visible
+    at all times.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, high-angle shot of a black glass-ceramic electric stovetop. A circular
+    heating element is glowing bright orange-red, indicating it is very hot. A single clear ice cube sits
+    in the center of the glowing coil. There is a pool of liquid water forming around the base of the
+    ice, and white steam is rising from the burner. To the right of the burner, a red digital display
+    reads 'ON' and 'HIGH'.
+  init2final_edit_prompt: Edit the given image to show the ice cube significantly reduced in size due
+    to melting. The remaining piece of ice should appear much smaller and more rounded than in the original
+    image. Maintain the glowing red appearance of the heating coil and the 'ON HIGH' text on the display
+    exactly as they are. Ensure steam is still visible rising from the hot surface.
+  rationale: The scene depicts an ice cube on a burner set to 'HIGH'. The physical process governing this
+    scene is rapid heat transfer leading to a phase change (melting). As time progresses, the scalar quantity
+    of the ice's mass and volume must decrease. The ice cube will shrink, lose its sharp edges, and turn
+    into liquid water and steam. The camera is stationary, so the stove interface and background remain
+    invariant.
+  questions:
+  - id: ice_size_reduction
+    question: Is the ice cube smaller than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the visible volume of the solid ice.
+  - id: ice_volume_decrease
+    question: Has the volume of solid ice visibly decreased?
+    answer_type: yes_no
+    notes_for_judge: The ice should take up less space in the frame.
+  - id: ice_shape_melted
+    question: Does the remaining ice appear more melted or rounded compared to the start?
+    answer_type: yes_no
+    notes_for_judge: Melting smooths sharp corners.
+  - id: less_ice_mass
+    question: Is there less solid ice remaining than in the first image?
+    answer_type: yes_no
+    notes_for_judge: Scalar check for mass depletion.
+  - id: coil_glow_consistency
+    question: Is the heating coil still glowing red?
+    answer_type: yes_no
+    notes_for_judge: The burner is on HIGH and should remain hot.
+  - id: display_consistency
+    question: Is the text 'HIGH' still visible on the stovetop display?
+    answer_type: yes_no
+    notes_for_judge: Invariant object check.
+  - id: camera_static
+    question: Is the camera framing identical to the initial view?
+    answer_type: yes_no
+    notes_for_judge: The camera should not move.

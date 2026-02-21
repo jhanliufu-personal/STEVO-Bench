@@ -1,0 +1,68 @@
+id: paper_towel_wicking_08
+level: 1
+category: scalar_state
+tags: []
+variant_of: paper_towel_wicking
+variation_type: combined
+variation_description: No contact between paper and water (no wicking) + Blocking object occlusion.
+changes:
+  occlusion_method: Blocking object (notebook).
+  dynamic_conditions: Air gap between paper and water.
+  expected_outcome_change: No wicking/water rise occurs.
+prompts:
+  init_frame_edit_prompt: Edit the image to raise the vertical paper strip so there is a visible 1cm gap
+    between its bottom edge and the blue liquid surface.
+  video_WM: The paper towel is suspended vertically with its bottom edge hovering above the blue water.
+    There is a visible air gap preventing contact. A large grey laboratory notebook slides from the left
+    into the foreground until it completely blocks the view of the experiment. The notebook remains in
+    place for several seconds. Then the notebook slides back out to the left, revealing the scene again.
+    No zoom, no cut, no scene change. STOP.
+  camera_WM: The paper towel is suspended vertically with its bottom edge hovering above the blue water.
+    There is a visible air gap preventing contact. A large grey laboratory notebook slides from the left
+    into the foreground until it completely blocks the view of the experiment. The notebook remains in
+    place for several seconds. Then the notebook slides back out to the left, revealing the scene again.
+    No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A vertical strip of white paper towel is suspended from a metal clamp stand.
+    The bottom edge of the paper towel is positioned just above a glass petri dish filled with blue liquid,
+    leaving a small but visible air gap between the paper and the liquid surface. The background features
+    blurred laboratory equipment, including beakers.
+  init2final_edit_prompt: Edit the given image to show the scene with the paper towel remaining completely
+    white and dry, with no blue liquid absorbed. Maintain the visible air gap between the bottom edge
+    of the paper strip and the surface of the blue liquid. Ensure the water level in the petri dish remains
+    unchanged. The view should be clear of any foreground obstructions or notebooks.
+  rationale: The video prompt describes a setup where the paper towel is explicitly hovering above the
+    liquid with an air gap preventing contact. The only action described is a notebook occluding the view
+    and then moving away. Since there is no contact between the porous material and the liquid, and no
+    mechanism is described to lower the paper or raise the water level, no capillary action (wicking)
+    can occur. Therefore, the paper towel must remain dry and white, and the liquid level must remain
+    constant. This task tests the model's ability to respect physical constraints (no contact = no wicking)
+    and object permanence without hallucinating interactions.
+  questions:
+  - id: paper_color_check
+    question: Is the paper towel still completely white?
+    answer_type: yes_no
+    notes_for_judge: The paper should not show any blue discoloration since it never touched the water.
+  - id: wicking_absence_check
+    question: Is the paper towel free of any blue liquid?
+    answer_type: yes_no
+    notes_for_judge: Checks for the absence of wicking.
+  - id: gap_visibility_check
+    question: Is the gap between the bottom of the paper towel and the liquid surface still visible?
+    answer_type: yes_no
+    notes_for_judge: The paper should not be touching the water.
+  - id: liquid_containment_check
+    question: Is the blue liquid still entirely confined to the petri dish?
+    answer_type: yes_no
+    notes_for_judge: No liquid should have transferred to the paper.
+  - id: water_level_stability
+    question: Is the water level in the petri dish approximately the same as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The level should not drop as no absorption occurred.
+  - id: occlusion_clearance
+    question: Is the view clear of the grey notebook?
+    answer_type: yes_no
+    notes_for_judge: The notebook should have slid out of frame.

@@ -1,0 +1,67 @@
+id: evaporating_alcohol_pool_06
+level: 1
+category: scalar_state
+tags: []
+variant_of: evaporating_alcohol_pool
+variation_type: dynamic_condition
+variation_description: The liquid is covered by a glass lid, preventing vapor from escaping.
+changes:
+  occlusion_method: null
+  dynamic_conditions: A glass lid covers the liquid, creating a sealed environment.
+  expected_outcome_change: No evaporation/volume loss (vapor is trapped).
+prompts:
+  init_frame_edit_prompt: Edit the image to place a clear glass petri dish lid covering the pool of liquid
+    on the metal plate.
+  video_WM: Rubbing alcohol sits on the warm metal plate, covered by a clear glass lid. The plate temperature
+    is elevated. The lid creates a sealed environment directly above the liquid, preventing interaction
+    with the ambient air. The camera rotates right at constant speed until the metal plate completely
+    exits the view to the right. The camera continues rotating right for several seconds while off-screen.
+    Then the camera rotates left smoothly at the same rate back to the original viewpoint. No zoom, no
+    cut, no scene change. STOP.
+  camera_WM: Rubbing alcohol sits on the warm metal plate, covered by a clear glass lid. The plate temperature
+    is elevated. The lid creates a sealed environment directly above the liquid, preventing interaction
+    with the ambient air. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: 'A close-up, high-angle shot of a glass petri dish sitting on a metal hot plate.
+    The hot plate has a digital display reading ''WARM: 55°C''. Inside the petri dish, there is a pool
+    of clear liquid rubbing alcohol. The dish is covered by a clear glass lid. The liquid is transparent,
+    and the texture of the metal plate is visible through both the liquid and the glass.'
+  init2final_edit_prompt: Edit the given image to show the glass lid heavily fogged with condensation
+    and mist. Add numerous small droplets to the inner surface of the glass lid, making it appear translucent
+    rather than transparent. The view of the liquid pool and the metal plate underneath should be significantly
+    obscured and blurred by the condensation on the glass. Ensure the dish does not look empty; the liquid
+    mass should be preserved inside but redistributed as fog and droplets on the lid.
+  rationale: The hot plate is maintained at 55°C, which causes the volatile rubbing alcohol to evaporate.
+    However, the prompt specifies that the dish is covered by a lid, creating a sealed environment. Therefore,
+    the alcohol vapor cannot escape into the room; instead, it will saturate the air inside the dish and
+    condense on the slightly cooler glass lid. The visual result is a significant increase in opacity
+    due to fog and droplets (condensation) on the glass, obscuring the liquid below, rather than the liquid
+    simply disappearing.
+  questions:
+  - id: condensation_presence
+    question: Is there visible condensation, fog, or mist on the glass lid that was not present initially?
+    answer_type: yes_no
+    notes_for_judge: Look for a whitish or blurry texture on the glass indicating fog or steam.
+  - id: glass_opacity_increase
+    question: Is the glass lid less transparent than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The details of the plate below should be harder to see.
+  - id: droplet_formation
+    question: Are there droplets visible on the inner surface of the glass?
+    answer_type: yes_no
+    notes_for_judge: Check for small circular distortions or beads of liquid on the lid.
+  - id: view_obscured
+    question: Is the view of the liquid pool inside the dish more obscured than at the start?
+    answer_type: yes_no
+    notes_for_judge: The liquid should still be there, but harder to see clearly due to the fog.
+  - id: mass_conservation
+    question: Is there still liquid or condensate visible inside the dish (i.e., the dish is not empty)?
+    answer_type: yes_no
+    notes_for_judge: The dish should not be completely dry/empty; mass is trapped by the lid.
+  - id: fog_amount
+    question: Is the amount of fogging on the glass greater than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the clarity of the glass between the two frames.

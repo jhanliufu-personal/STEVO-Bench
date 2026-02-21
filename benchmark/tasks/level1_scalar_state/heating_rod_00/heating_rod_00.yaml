@@ -1,0 +1,60 @@
+id: heating_rod_00
+level: 1
+category: scalar_state
+tags: []
+variant_of: heating_rod
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A steel rod sits in an active induction coil, glowing faint red. Camera remains stationary
+    throughout. No zoom, no cut, no scene change. STOP.
+  camera_WM: A steel rod sits in an active induction coil, glowing faint red. Camera remains stationary
+    throughout. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A large cylindrical steel rod is positioned horizontally, passing through a
+    multi-turn copper induction coil. The section of the rod inside the coil is glowing a dull cherry
+    red, indicating high temperature. The coil itself is made of thick copper tubing. The background reveals
+    an industrial workshop setting with heavy machinery, including a large press and various metal components.
+    The lighting is somewhat dim, highlighting the glow of the heated metal.
+  init2final_edit_prompt: Edit the given image to make the glowing section of the steel rod appear significantly
+    hotter. Increase the brightness and intensity of the glow, shifting the color from dull red to a bright
+    orange or yellow-orange. Ensure the glow appears more radiant while keeping the copper coil, the unheated
+    ends of the rod, and the industrial background exactly as they are.
+  rationale: 'The prompt specifies that the rod is in an ''active'' induction coil. Physically, this means
+    electromagnetic induction is continuously generating eddy currents within the steel, causing resistive
+    heating. As time progresses, the temperature of the rod will rise. Visually, this scalar increase
+    in temperature manifests as a shift in black-body radiation: the glow will become brighter, more intense,
+    and shift in color from dull red towards orange or yellow. The camera and surrounding objects remain
+    static.'
+  questions:
+  - id: heating_rod_00_q1
+    question: Is the glowing section of the rod brighter than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Check for increased luminosity in the heated zone.
+  - id: heating_rod_00_q2
+    question: Has the color of the heated metal shifted towards orange or yellow compared to the start?
+    answer_type: yes_no
+    notes_for_judge: The initial color is dull red; the final should be closer to orange/yellow.
+  - id: heating_rod_00_q3
+    question: Does the rod appear to be at a higher temperature than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Infer temperature from the visual intensity of the glow.
+  - id: heating_rod_00_q4
+    question: Is the glow intensity in the center of the coil higher than before?
+    answer_type: yes_no
+    notes_for_judge: Direct comparison of pixel intensity in the heated region.
+  - id: heating_rod_00_q5
+    question: Is the copper coil still in the same position relative to the rod?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: heating_rod_00_q6
+    question: Are the background machines unchanged?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

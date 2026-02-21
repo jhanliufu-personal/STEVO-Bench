@@ -1,0 +1,69 @@
+id: dry_ice_sublimate_09
+level: 1
+category: scalar_state
+tags: []
+variant_of: dry_ice_sublimate
+variation_type: combined
+variation_description: Boiling water condition combined with fog occlusion.
+changes:
+  occlusion_method: Dense steam/fog fills the view.
+  dynamic_conditions: Water is boiling hot.
+  expected_outcome_change: Rapid sublimation rate.
+prompts:
+  init_frame_edit_prompt: Edit the image to show the water bubbling vigorously and emitting steam, indicating
+    it is boiling hot.
+  video_WM: The dry ice is in boiling hot water, reacting violently. An extremely dense cloud of steam
+    and fog fills the entire view, turning the screen completely white and hiding the bowl. The fog eventually
+    clears to reveal the scene again. No cut, no scene change. STOP.
+  camera_WM: The dry ice is in boiling hot water, reacting violently. An extremely dense cloud of steam
+    and fog fills the entire view, turning the screen completely white and hiding the bowl. The fog eventually
+    clears to reveal the scene again. No cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a beige ceramic bowl sitting on a wet wooden table.
+    The bowl contains water that is bubbling violently with large, chaotic bubbles. Dense white steam
+    and fog are rising from the water surface, partially obscuring the back rim of the bowl and the background.
+  init2final_edit_prompt: Edit the given image to show the water in the bowl in a much calmer state. Significantly
+    reduce the number and size of the bubbles on the surface to show that the agitation has subsided.
+    Decrease the density and volume of the rising steam and fog so that the air above the bowl is clearer
+    than in the original image.
+  rationale: 'The prompt describes a temporal sequence where a violent dry ice reaction creates a whiteout
+    of fog, which eventually clears to reveal the scene. Physically, the sublimation of dry ice in hot
+    water is a self-limiting process: it consumes the dry ice mass and rapidly cools the water, both of
+    which reduce the rate of reaction. Therefore, when the fog clears and the scene is revealed again,
+    the water must be significantly cooler and the reaction much less violent (fewer bubbles, less steam)
+    than in the initial frame.'
+  questions:
+  - id: turbulence_reduction
+    question: Is the water surface less turbulent than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The final frame should show calmer water as the reaction has subsided.
+  - id: bubble_count
+    question: Are there fewer bubbles visible in the water compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The violent bubbling should have decreased.
+  - id: fog_density
+    question: Is the steam or fog rising from the bowl less dense than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the fog clears, implying less density than the initial active state.
+  - id: fog_volume
+    question: Is the overall volume of the steam cloud smaller than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The cloud should have dissipated or reduced in size.
+  - id: visibility_bowl
+    question: Is the bowl clearly visible, rather than being obscured by a solid white screen?
+    answer_type: yes_no
+    notes_for_judge: Checks if the 'fog clears' instruction was followed.
+  - id: agitation_level
+    question: Does the liquid appear calmer than it was at the start?
+    answer_type: yes_no
+    notes_for_judge: General assessment of liquid state.
+  - id: bowl_conservation
+    question: Is the beige bowl still present and recognizable?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: table_conservation
+    question: Is the wooden surface visible beneath the bowl?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

@@ -1,0 +1,71 @@
+id: tank_filling_up_v06
+level: 1
+category: scalar_state
+tags: []
+variant_of: tank_filling_up
+variation_type: dynamic_condition
+variation_description: The tank has a visible hole at the bottom, leaking water out while it fills.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Tank integrity compromised (leak)
+  expected_outcome_change: Water level rises slower or stays steady (inflow minus outflow)
+prompts:
+  init_frame_edit_prompt: Edit the image to show a visible crack or hole near the bottom of the transparent
+    tank, with a stream of water leaking out onto the concrete floor.
+  video_WM: Single continuous take, no cuts or zoom. Camera starts centered on the pipe and water tank.
+    Water flows into the tank, but there is a hole near the bottom leaking water onto the floor. Then
+    the camera smoothly moves to the right at constant speed until the pipe and tank leave the frame to
+    the left and become completely invisible. The camera continues moving right across the room for several
+    seconds. Then the camera moves left at the same speed back to the original viewpoint. STOP.
+  camera_WM: Water flows continuously from a metal pipe into a transparent cylindrical water tank. The
+    tank has a hole near the bottom and is leaking water onto the floor. Lighting and objects remain consistent
+    and realistic. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A warehouse interior showing a large, clear cylindrical tank with red measurement
+    markings for grams and liters. A metal pipe extends from the top, pouring a heavy stream of water
+    into the tank. The water level is currently near the 150L mark. On the lower right side of the tank,
+    there is a crack leaking a stream of water onto the concrete floor, creating a visible puddle. Background
+    elements include pallets, shelving, and industrial equipment.
+  init2final_edit_prompt: Edit the given image to show the water level inside the transparent tank significantly
+    higher than it is currently, reaching a point further up the red measurement scale. Expand the size
+    of the water puddle on the concrete floor to cover a larger area. Maintain the appearance of water
+    flowing from the overhead pipe and leaking from the side crack.
+  rationale: The video prompt describes a scenario where water flows into the tank from a large pipe while
+    a smaller leak drains it. Visually, the volume of inflow from the main pipe is significantly greater
+    than the outflow from the crack, meaning the net rate of change is positive (filling). Since the camera
+    pans away and returns over a period of several seconds, the water level must rise noticeably during
+    the occlusion, and the puddle on the floor must grow due to the continuous leak.
+  questions:
+  - id: water_level_height
+    question: Is the water level in the tank higher than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the water line against the red markings. It should be higher than the starting
+      level (~150L).
+  - id: tank_fullness
+    question: Is the tank fuller than it was initially?
+    answer_type: yes_no
+    notes_for_judge: The volume of water inside the cylinder should have increased.
+  - id: puddle_size
+    question: Is the puddle on the floor larger than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The leak has continued, so the accumulation on the floor should be greater.
+  - id: water_surface_proximity
+    question: Is the surface of the water closer to the top of the tank than before?
+    answer_type: yes_no
+    notes_for_judge: Alternative phrasing for water level rising.
+  - id: inflow_consistency
+    question: Is the pipe at the top still pouring water into the tank?
+    answer_type: yes_no
+    notes_for_judge: Check for consistency of the action.
+  - id: leak_consistency
+    question: Is water still leaking from the side of the tank?
+    answer_type: yes_no
+    notes_for_judge: Check for consistency of the action.
+  - id: background_consistency
+    question: Are the shelves and pallets in the background in the same position as the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The camera returned to the original viewpoint, so static background objects should
+      be unchanged.

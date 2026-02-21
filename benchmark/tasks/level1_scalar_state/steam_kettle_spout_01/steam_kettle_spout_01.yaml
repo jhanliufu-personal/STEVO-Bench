@@ -1,0 +1,69 @@
+id: steam_kettle_spout_01
+level: 1
+category: scalar_state
+tags: []
+variant_of: steam_kettle_spout
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to lights turning off completely.
+changes:
+  occlusion_method: Lights turn off (pitch black) then back on
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The kettle sits on an active hot burner. The kettle contains water. Water boils at 212°F at
+    standard pressure. The burner provides continuous heat. Steam exits through the spout opening. Suddenly,
+    the lights in the kitchen turn off completely, plunging the scene into absolute darkness. The scene
+    remains pitch black for several seconds. Then the lights turn back on, restoring visibility. No zoom,
+    no cut, no scene change. STOP.
+  camera_WM: The kettle sits on an active hot burner. The kettle contains water. Water boils at 212°F
+    at standard pressure. The burner provides continuous heat. Steam exits through the spout opening.
+    Suddenly, the lights in the kitchen turn off completely, plunging the scene into absolute darkness.
+    The scene remains pitch black for several seconds. Then the lights turn back on, restoring visibility.
+    STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a stainless steel gooseneck kettle sitting on
+    an electric stove burner. The burner's coil is glowing bright orange-red, indicating high heat. Steam
+    is visibly rising from the kettle's spout and lid area, drifting upwards. The background features
+    a kitchen counter with a speckled granite pattern and a window letting in natural daylight. The kettle
+    has a black handle on the left and a black knob on the lid.
+  init2final_edit_prompt: Edit the given image to show the electric burner coil glowing bright orange-red
+    and steam rising vigorously from the kettle's spout. Ensure the scene is fully illuminated with natural
+    daylight, matching the brightness and camera angle of the original image.
+  rationale: The video prompt describes a continuous boiling process that persists through a temporary
+    period of darkness. Although the lights turn off and then back on, the physical process of heating
+    and boiling does not stop. Therefore, in the final frame, the burner must still be glowing red (indicating
+    active heat) and steam must still be exiting the spout (indicating continuous boiling). The camera
+    angle and general lighting conditions return to their initial state after the blackout.
+  questions:
+  - id: burner_glow
+    question: Is the electric burner coil glowing red or orange?
+    answer_type: yes_no
+    notes_for_judge: Checks if the heat source state is maintained as active.
+  - id: steam_visibility
+    question: Is steam or vapor visible rising from the kettle?
+    answer_type: yes_no
+    notes_for_judge: Checks if the phase change (boiling) is still occurring.
+  - id: steam_location
+    question: Is the steam exiting from the spout or lid area?
+    answer_type: yes_no
+    notes_for_judge: Verifies the source of the steam.
+  - id: lighting_restored
+    question: Is the scene fully illuminated?
+    answer_type: yes_no
+    notes_for_judge: Verifies that the lights have turned back on as specified.
+  - id: kettle_position
+    question: Is the kettle sitting on the same burner as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Checks for object permanence and lack of motion.
+  - id: burner_active_visual
+    question: Does the burner appear hot rather than cold?
+    answer_type: yes_no
+    notes_for_judge: Alternative phrasing for burner state.
+  - id: steam_direction
+    question: Is the steam rising upwards?
+    answer_type: yes_no
+    notes_for_judge: Checks basic physics of hot vapor.

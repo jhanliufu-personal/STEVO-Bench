@@ -1,0 +1,67 @@
+id: extending_piston_01
+level: 1
+category: scalar_state
+tags: []
+variant_of: extending_piston
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to a large metal sheet sliding in front
+  of the lens.
+changes:
+  occlusion_method: A large rusty metal sheet slides in front of the camera, blocking the view, then slides
+    away.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A hydraulic piston is extending slowly. A large rusty metal sheet slides from right to left
+    in the foreground, completely blocking the view of the machinery, then slides away to reveal the scene
+    again. No zoom, no cut, no scene change. STOP.
+  camera_WM: A hydraulic piston is extending slowly. A large rusty metal sheet slides from right to left
+    in the foreground, completely blocking the view of the machinery, then slides away to reveal the scene
+    again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up view of a green excavator arm or heavy machinery. A hydraulic cylinder
+    is prominent, with a shiny chrome piston rod partially extended. Hydraulic hoses run along the top
+    of the green metal arm. In the foreground, there is a control lever mechanism with a black handle.
+    The machinery looks weathered with some rust and dirt. The background is a blurry industrial setting.
+  init2final_edit_prompt: Edit the given image to show the shiny metal hydraulic piston rod extended significantly
+    further out of the green cylinder housing. Increase the visible length of the chrome rod. Adjust the
+    position of the attached mechanical joint at the end of the rod to reflect this extension. Keep the
+    control lever in the foreground and the general background details unchanged.
+  rationale: 'The video prompt describes a continuous physical action (piston extending) that persists
+    while the view is temporarily occluded. Although a rusty sheet blocks the view during the video, it
+    slides away by the end. Therefore, the final frame must show the scene revealed again, but with the
+    state of the machinery advanced: the hydraulic piston must be noticeably longer (more extended) than
+    in the initial frame, reflecting the progress made during the occlusion.'
+  questions:
+  - id: piston_length_01
+    question: Is the shiny metal piston rod longer than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the length of the chrome cylinder rod. It should be longer in the final frame.
+  - id: piston_extension_02
+    question: Has the hydraulic cylinder extended further compared to the start?
+    answer_type: yes_no
+    notes_for_judge: The mechanism should look more 'open' or extended.
+  - id: rod_visibility_03
+    question: Is a larger portion of the chrome rod visible now than in the first image?
+    answer_type: yes_no
+    notes_for_judge: More chrome surface area should be exposed due to extension.
+  - id: joint_position_04
+    question: Is the joint at the end of the piston rod further away from the green cylinder body than
+      before?
+    answer_type: yes_no
+    notes_for_judge: Check the distance between the cylinder housing and the attachment point.
+  - id: occlusion_clear_05
+    question: Is the view clear of the large rusty metal sheet mentioned in the prompt?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the sheet slides away, so the final view should be unblocked.
+  - id: machinery_consistency_06
+    question: Is the green machinery arm still the primary subject of the image?
+    answer_type: yes_no
+    notes_for_judge: The object identity should remain consistent.
+  - id: lever_presence_07
+    question: Is the control lever in the foreground still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary object consistency check.

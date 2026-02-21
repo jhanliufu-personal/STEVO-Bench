@@ -1,0 +1,73 @@
+id: clay_drying_01
+level: 1
+category: scalar_state
+tags: []
+variant_of: clay_drying
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to a cardboard sheet blocking the lens.
+changes:
+  occlusion_method: A large piece of cardboard is placed in front of the lens.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A wet, dark terracotta pot is under a hot lamp. A large piece of cardboard is placed directly
+    in front of the camera lens, completely blocking the view of the pot and lamp. After a short duration,
+    the cardboard is removed to reveal the scene again. No zoom, no cut, no scene change. STOP.
+  camera_WM: A wet, dark terracotta pot is under a hot lamp. A large piece of cardboard is placed directly
+    in front of the camera lens, completely blocking the view of the pot and lamp. After a short duration,
+    the cardboard is removed to reveal the scene again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up shot inside a greenhouse showing a dark, wet terracotta pot sitting
+    on a weathered stone pedestal. To the right, a silver clamp lamp with a red heat bulb is turned on
+    and directed at the pot. A circular patch of lighter, dry clay is visible on the side of the pot facing
+    the lamp, surrounded by darker, wet clay. The background shows the wooden frame and glass of the greenhouse
+    structure.
+  init2final_edit_prompt: Edit the given image to make the terracotta pot appear significantly drier.
+    Expand the area of lighter, dry clay on the side of the pot facing the lamp so that it covers a larger
+    portion of the surface. Change the color of the surrounding dark, wet clay to a lighter, chalky orange
+    tone to indicate drying. Remove the wet sheen from the drying areas, making the texture appear matte.
+    Keep the heat lamp, the stone pedestal, and the background details unchanged.
+  rationale: The scene depicts a wet pot being subjected to intense heat from a lamp. The video prompt
+    introduces an occlusion (cardboard) which implies a passage of time while the view is blocked. During
+    this time, the heat lamp continues to evaporate moisture from the porous terracotta surface. Physically,
+    drying terracotta changes color from dark reddish-brown to a lighter, pale orange. Therefore, when
+    the view is restored, the dry patch on the pot must have expanded in size, and the overall wetness
+    of the surface facing the lamp must be reduced.
+  questions:
+  - id: dry_area_expansion
+    question: Is the area of light-colored dry clay on the pot larger than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the size of the light patch on the pot's side. It should be larger in the
+      final frame.
+  - id: color_lightening
+    question: Does the side of the pot facing the lamp appear lighter in color overall compared to the
+      initial frame?
+    answer_type: yes_no
+    notes_for_judge: Drying terracotta turns from dark brown to light orange/pink.
+  - id: wet_area_reduction
+    question: Is the amount of dark, wet surface area on the pot less than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The dark wet regions should recede.
+  - id: surface_matte
+    question: Does the surface of the pot facing the lamp look more matte and less glossy than before?
+    answer_type: yes_no
+    notes_for_judge: Drying removes water sheen.
+  - id: dry_patch_growth
+    question: Has the central dry patch grown outwards?
+    answer_type: yes_no
+    notes_for_judge: The specific patch visible in the start frame should have expanded.
+  - id: lamp_presence
+    question: Is the heat lamp still visible and positioned to the right of the pot?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: pedestal_consistency
+    question: Is the pot still resting on the stone pedestal?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: background_consistency
+    question: Are the greenhouse window frames in the background still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

@@ -1,0 +1,63 @@
+id: matchstick_burning_00
+level: 1
+category: scalar_state
+tags: []
+variant_of: matchstick_burning
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The matchstick flame burns at the tip. The match is wooden with combustible material. Oxygen
+    is available. Camera remains stationary throughout with the hand and matchstick in view. No zoom,
+    no cut, no scene change. STOP.
+  camera_WM: The matchstick flame burns at the tip. The match is wooden with combustible material. Oxygen
+    is available. Camera remains stationary throughout with the hand and matchstick in view. No zoom,
+    no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A close-up side view of a hand holding a lit wooden matchstick against a blurred
+    beige background. The match head is blackened and charred, with a small orange flame burning at the
+    tip and slightly down the shaft. Thin wisps of smoke rise from the flame. The fingers holding the
+    match appear slightly dirty or sooty.
+  init2final_edit_prompt: Edit the given image to show the matchstick after it has burned further down
+    the shaft. The blackened, charred section of the matchstick should be longer, extending closer to
+    the fingers. The remaining unburnt light-colored wooden section should be shorter. The flame should
+    be positioned lower on the stick at the leading edge of the char. Keep the hand position and background
+    identical.
+  rationale: The video prompt describes a matchstick burning. Physically, this is an irreversible process
+    where the flame consumes the wooden fuel, moving down the stick towards the holder's hand. Over time,
+    the scalar quantity of 'charred length' increases, while the 'unburnt wood length' decreases. The
+    flame front travels along this path. The camera and hand remain stationary, serving as a reference
+    frame for the movement of the flame and the expansion of the charred region.
+  questions:
+  - id: char_length_increase
+    question: Is the blackened, charred portion of the matchstick longer than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the length of the black section. It should have grown.
+  - id: wood_length_decrease
+    question: Is the unburnt, light-colored wooden section of the matchstick shorter than in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: The clean wood area should be reduced as the fire consumes it.
+  - id: flame_position
+    question: Is the flame positioned closer to the fingers than it was initially?
+    answer_type: yes_no
+    notes_for_judge: The fire travels down the stick towards the hand.
+  - id: consumption_progress
+    question: Has more of the matchstick been consumed by fire compared to the start?
+    answer_type: yes_no
+    notes_for_judge: General check for the progress of burning.
+  - id: hand_consistency
+    question: Is the hand holding the match still in the same position?
+    answer_type: yes_no
+    notes_for_judge: The hand should not have moved significantly.
+  - id: background_consistency
+    question: Is the background still the same blurred beige surface?
+    answer_type: yes_no
+    notes_for_judge: Background should remain unchanged.

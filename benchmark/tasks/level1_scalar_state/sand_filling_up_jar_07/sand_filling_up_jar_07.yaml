@@ -1,0 +1,68 @@
+id: sand_filling_up_jar_07
+level: 1
+category: scalar_state_change
+tags: []
+variant_of: sand_filling_up_jar
+variation_type: combined
+variation_description: Plugged funnel (static condition) combined with lights off occlusion.
+changes:
+  occlusion_method: Lights turn off completely.
+  dynamic_conditions: Funnel neck is plugged with a cork.
+  expected_outcome_change: No change in sand levels (static state).
+prompts:
+  init_frame_edit_prompt: Edit the image to show a cork stopper firmly plugging the bottom opening of
+    the glass funnel neck. Ensure no sand is falling from the funnel into the jar.
+  video_WM: Single continuous take, no cuts or zoom. Camera is fixed on the funnel and jar. A glass funnel
+    filled with sand sits atop a jar, but the neck is tightly plugged with a cork stopper. Suddenly, the
+    lights turn off completely, plunging the scene into pitch black darkness. The darkness lasts for several
+    seconds. Then the lights turn back on, revealing the scene again. Lighting and objects remain consistent
+    and realistic.
+  camera_WM: Single continuous take, no cuts or zoom. Camera is fixed on the funnel and jar. A glass funnel
+    filled with sand sits atop a jar, but the neck is tightly plugged with a cork stopper. Suddenly, the
+    lights turn off completely, plunging the scene into pitch black darkness. The darkness lasts for several
+    seconds. Then the lights turn back on, revealing the scene again. Lighting and objects remain consistent
+    and realistic.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A glass jar sits on a rustic wooden table. Inside the jar, there is a small,
+    conical pile of beige sand at the bottom. The neck of the jar is tightly plugged with a thick, brown
+    cork stopper. Resting on top of the jar and the stopper is a clear glass funnel filled with a large
+    amount of beige sand. The sand in the funnel is piled high, held back by the stopper in the jar's
+    neck.
+  init2final_edit_prompt: Edit the given image to show the scene unchanged after a period of time. The
+    glass funnel should remain filled with the same high level of sand as before. The small pile of sand
+    at the bottom of the jar should remain exactly the same size and shape. The cork stopper should still
+    be visible, tightly plugging the neck of the jar. The lighting and composition should match the original
+    image exactly.
+  rationale: 'The prompt establishes a physical constraint: the jar''s neck is tightly plugged with a
+    cork stopper. Although gravity acts on the sand in the funnel, the stopper prevents any flow into
+    the jar. The period of darkness (occlusion) passes time, but the prompt describes no agent or action
+    that removes the stopper. Therefore, the physical state must remain static; no sand flows, and the
+    levels in the funnel and jar remain identical to the initial frame.'
+  questions:
+  - id: funnel_level_stability
+    question: Is the amount of sand in the funnel approximately the same as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The sand should not have drained because the neck is plugged.
+  - id: jar_pile_stability
+    question: Is the pile of sand at the bottom of the jar the same size as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The pile should not have grown.
+  - id: stopper_presence
+    question: Is the cork stopper still visible in the neck of the jar?
+    answer_type: yes_no
+    notes_for_judge: The stopper was not removed in the prompt.
+  - id: no_flow_check
+    question: Did the sand remain in the funnel instead of flowing into the jar?
+    answer_type: yes_no
+    notes_for_judge: Check that the funnel is not empty and the jar is not full.
+  - id: jar_empty_space
+    question: Is the space in the jar above the bottom sand pile still empty?
+    answer_type: yes_no
+    notes_for_judge: The jar should not have filled up.
+  - id: funnel_fullness
+    question: Is the funnel still full of sand?
+    answer_type: yes_no
+    notes_for_judge: The funnel should not be empty.

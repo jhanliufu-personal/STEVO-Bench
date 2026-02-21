@@ -1,0 +1,66 @@
+id: tape_retract_06
+level: 1
+category: scalar_state
+tags: []
+variant_of: tape_retract
+variation_type: dynamic_condition
+variation_description: Instead of retracting, a hand is pulling the tape out further.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Tape is being pulled outward (extending) instead of retracting.
+  expected_outcome_change: Tape is extended further (e.g., 6 or 7 feet) or fully extended.
+prompts:
+  init_frame_edit_prompt: Edit the image to show a hand gripping the metal hook at the end of the tape
+    measure, pulling it away from the housing to extend it further.
+  video_WM: A metal tape measure is extended 5 feet. A hand grips the end hook and pulls steadily outward,
+    extending the tape further from the housing. The camera rotates right until the tape and housing completely
+    exit the view, then rotates toward the left smoothly at the same rate until the housing is back in
+    the center of view. No zoom, no cut, no scene change. STOP.
+  camera_WM: A metal tape measure is extended 5 feet. A hand grips the end hook and pulls steadily outward,
+    extending the tape further from the housing. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A high-angle close-up of a wooden floor showing a yellow tape measure. A hand
+    on the right holds the yellow housing, and a hand on the left holds the metal hook end. The tape is
+    extended horizontally, displaying measurement markings around the 1-foot (1F) mark, with inches 10
+    through 14 visible.
+  init2final_edit_prompt: Edit the given image to place the yellow tape measure housing in the center
+    of the frame. Show the metal tape extending significantly further to the left, displaying measurement
+    markings higher than the initial 1 foot (e.g., 20 inches or 2 feet). The tape should appear longer
+    and more extended than in the original view.
+  rationale: The video prompt describes a continuous action of pulling the hook outward, which extends
+    the tape measure. Although the camera rotates away and then back, the extension action persists throughout
+    the sequence. Therefore, when the housing returns to view (centered, as specified), the tape must
+    be extended further than in the initial frame, showing a greater length of exposed tape and higher
+    measurement numbers near the housing.
+  questions:
+  - id: tape_extension_1
+    question: Is the tape measure extended further than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the length of the tape or the measurement values. The tape should be longer/values
+      higher.
+  - id: tape_numbers_2
+    question: Are the measurement numbers visible on the tape near the housing higher than in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: In the initial frame, the numbers are around 1F (12 inches). The final frame should
+      show higher numbers (e.g., 18, 24, etc.) indicating extension.
+  - id: tape_length_3
+    question: Is the visible segment of the metal tape longer than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The physical strip of tape between the housing and the left side should be longer.
+  - id: housing_position_4
+    question: Is the yellow tape measure housing located closer to the center of the image than in the
+      initial frame?
+    answer_type: yes_no
+    notes_for_judge: The prompt specifies the camera rotates until the housing is back in the center of
+      view.
+  - id: tape_direction_5
+    question: Does the tape appear to have been pulled out further from the housing?
+    answer_type: yes_no
+    notes_for_judge: Check for increased extension.
+  - id: tape_markings_6
+    question: Do the markings on the tape indicate a length greater than 1 foot?
+    answer_type: yes_no
+    notes_for_judge: The initial frame shows approx 1 foot. Extension implies > 1 foot.

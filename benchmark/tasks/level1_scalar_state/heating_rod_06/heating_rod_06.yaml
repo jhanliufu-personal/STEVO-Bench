@@ -1,0 +1,62 @@
+id: heating_rod_06
+level: 1
+category: scalar_state
+tags: []
+variant_of: heating_rod
+variation_type: dynamic_condition
+variation_description: Changed initial state to cold rod, just powered on.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Rod is cold (grey); Coil just turned on.
+  expected_outcome_change: Rod starts grey and begins to glow red (original started already red).
+prompts:
+  init_frame_edit_prompt: Edit the image so the steel rod is dull grey metal with no glow.
+  video_WM: A cold steel rod sits in an active induction coil that has just been powered on. The camera
+    rotates right until the rod and coil completely exit the view, then rotates toward the left smoothly
+    at the same rate until the rod is back in the center of view. No zoom, no cut, no scene change. STOP.
+  camera_WM: A cold steel rod sits in an active induction coil that has just been powered on. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up industrial scene showing a thick, cylindrical grey steel rod passing
+    horizontally through a large, multi-turn copper induction coil. The rod appears cold and metallic.
+    Behind the rod and coil, there is heavy industrial machinery, including a large press, hoses, and
+    a workshop environment with overhead lighting.
+  init2final_edit_prompt: Edit the given image so that the section of the steel rod inside the copper
+    coil is glowing bright red and orange. The glowing effect should be concentrated on the metal rod
+    within the loops of the coil, indicating high heat. Keep the ends of the rod outside the coil grey
+    and metallic. Maintain the original appearance of the copper coil, the background machinery, and the
+    lighting.
+  rationale: The prompt establishes that the induction coil is active and that the camera performs a panning
+    motion away from and then back to the subject. This camera movement implies a passage of time during
+    which the active induction coil would heat the stationary steel rod. Induction heating causes metal
+    to glow as its temperature rises. Therefore, in the final frame, the portion of the rod influenced
+    by the magnetic field (inside the coil) must be glowing red or orange, representing a significant
+    increase in temperature compared to the initial cold state.
+  questions:
+  - id: heating_rod_06_q1
+    question: Is the section of the rod inside the coil glowing red or orange?
+    answer_type: yes_no
+    notes_for_judge: The rod should show visual signs of high heat (incandescence) specifically in the
+      area surrounded by the coil.
+  - id: heating_rod_06_q2
+    question: Does the rod appear visually hotter than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the initial cold grey state to the final state; the final state should look
+      hotter (glowing).
+  - id: heating_rod_06_q3
+    question: Is the metal rod emitting light from within the copper loops?
+    answer_type: yes_no
+    notes_for_judge: Checks for the emission of light associated with red-hot or orange-hot metal.
+  - id: heating_rod_06_q4
+    question: Has the color of the rod inside the coil changed from grey to a warm color (red/orange/yellow)?
+    answer_type: yes_no
+    notes_for_judge: Focuses on the color shift indicative of temperature change.
+  - id: heating_rod_06_q5
+    question: Is the background machinery unchanged compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check for the environment.
+  - id: heating_rod_06_q6
+    question: Is the copper coil still positioned around the rod?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check for object placement.

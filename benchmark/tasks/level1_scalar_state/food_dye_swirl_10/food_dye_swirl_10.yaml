@@ -1,0 +1,65 @@
+id: food_dye_swirl_10
+level: 1
+category: scalar_state
+tags: []
+variant_of: food_dye_swirl
+variation_type: combined
+variation_description: Combines solid gelatin condition with camera zoom occlusion.
+changes:
+  occlusion_method: Camera zoom out.
+  dynamic_conditions: Solid gelatin (polymer network).
+  expected_outcome_change: Dye sits on surface or diffuses extremely slowly compared to water.
+prompts:
+  init_frame_edit_prompt: Edit the image to change the water into clear, solid gelatin, giving the surface
+    a slightly firmer, non-liquid texture.
+  video_WM: A drop of red food coloring contacts the surface of clear solid gelatin. The medium is semi-solid.
+    Diffusion is severely restricted by the polymer network. The camera zooms out rapidly until the glass
+    is a tiny, unreadable dot in the distance. The camera holds this distant view for several seconds.
+    Then the camera zooms back in smoothly to the original framing. No cut, no scene change. STOP.
+  camera_WM: A drop of red food coloring contacts the surface of clear solid gelatin. The medium is semi-solid.
+    Diffusion is severely restricted by the polymer network. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+  Genie: null
+evaluation:
+  init_frame_description: A clear glass cup filled with a transparent substance, sitting on a white surface.
+    Inside the glass, a vibrant red dye cloud is suspended in a complex, turbulent swirling pattern. Above
+    the glass, a glass dropper is visible, with a single drop of red liquid falling from it, positioned
+    in mid-air just above the surface of the substance.
+  init2final_edit_prompt: Edit the given image to show that the falling red drop has landed on the surface
+    of the substance. The drop should appear as a small, concentrated red spot or puddle resting on top
+    of the surface. Crucially, the complex swirling red dye cloud inside the glass must remain exactly
+    the same shape and size as in the original image, without any expansion, diffusion, or mixing, reflecting
+    a solid medium. Do not add any new plumes extending downwards from the surface.
+  rationale: The text prompt explicitly defines the medium as 'solid gelatin' where diffusion is 'severely
+    restricted'. Although the initial visual state suggests liquid water with turbulent dye, the world
+    model must prioritize the text constraint for the future evolution. Therefore, during the elapsed
+    time of the camera movement, the existing dye cloud should remain effectively static (frozen). The
+    falling drop will land on the surface and sit there as a spot rather than dispersing or sinking, as
+    it would in liquid.
+  questions:
+  - id: drop_landed
+    question: Is the red drop that was falling now located on the surface of the medium?
+    answer_type: yes_no
+    notes_for_judge: The drop should have fallen and made contact.
+  - id: surface_accumulation
+    question: Is there a new concentration of red dye on the surface compared to the start?
+    answer_type: yes_no
+    notes_for_judge: The drop landing creates a spot on the surface.
+  - id: drop_height
+    question: Is the falling drop lower than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: It should be on the surface, which is lower than mid-air.
+  - id: dye_static_shape
+    question: Is the shape of the submerged red dye cloud largely unchanged compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Due to 'solid gelatin' prompt, diffusion is restricted; the cloud should not swirl
+      or mix further.
+  - id: no_new_plumes
+    question: Is the new surface spot separated from the deep submerged cloud (no new connecting plume)?
+    answer_type: yes_no
+    notes_for_judge: In solid gelatin, the drop sits on top and does not shoot a plume downwards.
+  - id: clarity_preserved
+    question: Is the transparent part of the medium still as clear as it was initially?
+    answer_type: yes_no
+    notes_for_judge: No general muddying should occur due to restricted diffusion.

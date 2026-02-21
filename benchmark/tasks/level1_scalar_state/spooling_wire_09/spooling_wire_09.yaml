@@ -1,0 +1,63 @@
+id: spooling_wire_09
+level: 1
+category: scalar_state
+tags: []
+variant_of: spooling_wire
+variation_type: combined
+variation_description: High speed winding + Zoom out occlusion.
+changes:
+  occlusion_method: Camera zoom out.
+  dynamic_conditions: High speed winding.
+  expected_outcome_change: Diameter grows significantly more than original.
+prompts:
+  init_frame_edit_prompt: Edit the image to add heavy motion blur to the spinning yellow wire spool to
+    indicate high rotational speed.
+  video_WM: A motorized spindle winds yellow wire at very high speed. The spool diameter is growing rapidly.
+    The camera zooms out until the machine is too small to see details, then zooms back in to the original
+    framing. No cut, no scene change. STOP.
+  camera_WM: A motorized spindle winds yellow wire at very high speed. The spool diameter is growing rapidly.
+    STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+evaluation:
+  init_frame_description: A close-up view of an industrial winding machine. A central spindle is rapidly
+    rotating, creating a motion-blurred cylinder of yellow wire being wound. To the left is a large, greasy
+    metal gear housing with visible gears. To the right is a metal shaft supporting the spindle. In the
+    background, there is an electric motor on top, and various spools of wire (black, blue, yellow) are
+    visible on the floor and shelves in a workshop setting.
+  init2final_edit_prompt: Edit the given image to show the central coil of yellow wire significantly larger
+    in diameter. Increase the thickness of the wound yellow wire so it occupies more volume on the spindle,
+    extending further outward from the center. Maintain the motion blur effect on the wire if appropriate
+    for high speed, but ensure the overall mass of the yellow wire is visibly greater than in the original
+    image. Keep the surrounding machine parts, the background equipment, and the camera framing exactly
+    the same.
+  rationale: The prompt describes a continuous high-speed winding process where the spool diameter is
+    explicitly stated to be 'growing rapidly'. The camera performs a zoom-out and zoom-in maneuver, returning
+    to the original framing. During the time elapsed for this camera move, the machine continues to wind
+    wire. Therefore, the final state must show the same scene but with a significantly accumulated amount
+    of yellow wire on the spool (increased diameter).
+  questions:
+  - id: diameter_increase
+    question: Is the diameter of the yellow wire coil larger than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the thickness of the yellow cylinder. It should be wider/thicker.
+  - id: volume_accumulation
+    question: Is there more yellow wire wound on the spindle compared to the start?
+    answer_type: yes_no
+    notes_for_judge: Look for an increase in the total amount/mass of yellow wire visible.
+  - id: visual_area_growth
+    question: Does the yellow wire occupy a larger portion of the image center than before?
+    answer_type: yes_no
+    notes_for_judge: The yellow area should have expanded.
+  - id: coil_thickness
+    question: Is the layer of wound wire thicker than in the initial image?
+    answer_type: yes_no
+    notes_for_judge: Refers to the radial thickness of the coil.
+  - id: machine_structure_consistency
+    question: Is the large metal gear housing on the left still visible?
+    answer_type: yes_no
+    notes_for_judge: Check for the presence of the static machine part on the left.
+  - id: background_consistency
+    question: Are the background wire spools still present?
+    answer_type: yes_no
+    notes_for_judge: Check for the blue/black/yellow spools in the background.

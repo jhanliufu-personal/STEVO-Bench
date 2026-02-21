@@ -1,0 +1,65 @@
+id: smoke_jar_filling_00
+level: 1
+category: scalar_state
+tags: []
+variant_of: smoke_jar_filling
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The incense stick burns at the jar opening producing smoke. Smoke has lower density than air
+    and flows into the confined jar volume. The jar is open at the top. Camera remains stationary throughout.
+    No zoom, no cut, no scene change. STOP.
+  camera_WM: The incense stick burns at the jar opening producing smoke. Smoke has lower density than
+    air and flows into the confined jar volume. The jar is open at the top. Camera remains stationary
+    throughout. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A clear glass jar sits on a dark, weathered wooden surface in front of a window.
+    An incense stick enters the frame from the top right, with its burning tip positioned just inside
+    the rim of the jar's opening. Thin wisps of white smoke are swirling inside the jar, but the interior
+    is largely transparent, allowing the bottom of the jar and the wood grain behind it to be clearly
+    seen.
+  init2final_edit_prompt: Edit the given image to show the glass jar filled with significantly more white
+    smoke. The smoke inside the jar should appear denser, hazier, and more opaque, obscuring the visibility
+    of the jar's bottom and the wooden texture seen through the glass. Maintain the position of the jar,
+    the incense stick, and the background exactly as they are.
+  rationale: The prompt specifies that smoke flows into the confined jar volume. As time passes, the continuous
+    production of smoke from the incense stick will cause smoke to accumulate within the jar. This represents
+    a scalar increase in the mass and density of the smoke. Visually, this results in increased opacity
+    inside the jar, making the interior whiter and harder to see through compared to the initial frame.
+  questions:
+  - id: smoke_density_increase
+    question: Is the smoke inside the jar denser or more opaque than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the whiteness/opacity of the jar's interior between frames.
+  - id: visibility_obscured
+    question: Is the background or wood grain seen through the jar less visible than it was initially?
+    answer_type: yes_no
+    notes_for_judge: The smoke should obscure the view through the glass.
+  - id: volume_filled
+    question: Does the white smoke occupy a larger portion of the jar's volume compared to the start?
+    answer_type: yes_no
+    notes_for_judge: Look for the spread of smoke within the container.
+  - id: smoke_accumulation
+    question: Is there a greater amount of smoke visible inside the container than before?
+    answer_type: yes_no
+    notes_for_judge: General quantity assessment.
+  - id: jar_bottom_visibility
+    question: Is the bottom of the jar harder to distinguish clearly compared to the first frame?
+    answer_type: yes_no
+    notes_for_judge: Specific check on the bottom of the jar being obscured.
+  - id: jar_position_consistency
+    question: Is the glass jar still standing in the same position on the wood?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: incense_stick_presence
+    question: Is the incense stick still visible near the top of the jar?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

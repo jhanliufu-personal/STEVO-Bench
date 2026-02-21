@@ -1,0 +1,61 @@
+id: salt_dissolve_02
+level: 1
+category: scalar_state
+tags: []
+variant_of: salt_dissolve
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to a large opaque board blocking the view.
+changes:
+  occlusion_method: A large opaque board slides in front of the tank, blocking the view, then slides away.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A salt lick is submerged in a turbulent water tank and is dissolving. A large, opaque wooden
+    board slides into the foreground, completely blocking the view of the tank. After a moment, the board
+    slides away, revealing the tank again. No zoom, no cut, no scene change. STOP.
+  camera_WM: A salt lick is submerged in a turbulent water tank and is dissolving. A large, opaque wooden
+    board slides into the foreground, completely blocking the view of the tank. After a moment, the board
+    slides away, revealing the tank again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A clear glass rectangular tank filled with water. Inside the tank, a large,
+    rough-textured white cubic block (a salt lick) sits centrally on the bottom. The water is turbulent,
+    with bubbles and white particulate matter swirling around the block, particularly rising from its
+    top surface. To the right of the tank, black pipes and a red valve handle are visible. In the background,
+    a window and building exterior are visible through the glass and water.
+  init2final_edit_prompt: Edit the given image to show the central white salt lick block significantly
+    reduced in size and volume, appearing eroded and partially dissolved. Maintain the turbulent water
+    and bubbles around the diminished block. Ensure the glass tank, the water level, the black pipes on
+    the right, and the background window remain unchanged in position and appearance.
+  rationale: The video prompt describes a continuous dissolution process that is temporarily occluded
+    by a wooden board. During the occlusion, time passes, and the turbulent water continues to dissolve
+    the salt lick. Therefore, when the board is removed, the primary state change is a reduction in the
+    mass and volume of the salt lick. The final frame must show the block as smaller and more eroded than
+    in the initial frame, while the surrounding environment (tank, pipes) remains static.
+  questions:
+  - id: salt_volume_reduction
+    question: Is the white salt lick block smaller than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the size/volume of the central white block between the two frames.
+  - id: salt_erosion_visible
+    question: Does the salt lick appear more eroded or dissolved compared to the start?
+    answer_type: yes_no
+    notes_for_judge: Look for signs of mass loss or shape degradation.
+  - id: less_solid_mass
+    question: Is there less solid white material remaining in the tank than before?
+    answer_type: yes_no
+    notes_for_judge: Assess the total amount of the solid block visible.
+  - id: occlusion_removed
+    question: Is the view of the tank unobstructed by the wooden board?
+    answer_type: yes_no
+    notes_for_judge: The board mentioned in the prompt should have slid away, revealing the tank.
+  - id: tank_structure_invariant
+    question: Is the glass tank structure still visible and intact?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: pipes_invariant
+    question: Are the black pipes on the right side of the image still present?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

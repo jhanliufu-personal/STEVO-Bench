@@ -1,0 +1,65 @@
+id: clay_drying_04
+level: 1
+category: scalar_state
+tags: []
+variant_of: clay_drying
+variation_type: dynamic_condition
+variation_description: The heat lamp is turned off, preventing the drying process.
+changes:
+  occlusion_method: null
+  dynamic_conditions: The heat lamp is unlit (bulb is dark).
+  expected_outcome_change: The pot remains dark and wet (no drying).
+prompts:
+  init_frame_edit_prompt: Edit the image so the heat lamp bulb is dark and unlit, and remove the bright
+    orange glow on the pot so it looks uniformly dark and wet.
+  video_WM: A wet, dark terracotta pot sits under an unlit, switched-off lamp. The camera rotates right
+    until the pot completely exits the view, then rotates toward the left smoothly at the same rate until
+    the pot is back in the center of view. No zoom, no cut, no scene change. STOP.
+  camera_WM: A wet, dark terracotta pot sits under an unlit, switched-off lamp. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up view of a dark, wet terracotta pot sitting on a weathered stone pedestal.
+    The pot is deep reddish-brown, indicating it is saturated with water, and has a glistening surface.
+    To the right of the pot, a silver metal clamp lamp with a wire cage guard is positioned facing the
+    pot. The lamp's bulb is dark, indicating it is switched off. The background is a blurred greenhouse
+    interior with wooden frames and glass panels.
+  init2final_edit_prompt: Edit the given image to show the terracotta pot remaining completely wet and
+    dark red-brown, with visible moisture and glistening on its surface. Ensure the silver lamp remains
+    unlit with a dark bulb. The scene should look identical to the initial state, with no visible drying
+    of the clay.
+  rationale: The prompt explicitly describes the lamp as 'unlit' and 'switched-off' and does not include
+    instructions for it to turn on. Without the heat from the lamp, the wet terracotta pot will not dry
+    significantly during the short duration of the camera panning motion. Therefore, the correct physical
+    simulation requires the pot to maintain its initial wet, dark state (persistence of moisture) and
+    the lamp to remain off. The camera movement causes occlusion, but upon return, the object states should
+    be unchanged.
+  questions:
+  - id: pot_wetness_persistence
+    question: Is the terracotta pot still wet?
+    answer_type: yes_no
+    notes_for_judge: The pot should look dark and glistening, not dry or chalky.
+  - id: pot_color_dark
+    question: Is the pot a dark reddish-brown color?
+    answer_type: yes_no
+    notes_for_judge: Wet terracotta is dark; dry terracotta is light orange/pink. It should remain dark.
+  - id: lamp_state_off
+    question: Is the lamp unlit?
+    answer_type: yes_no
+    notes_for_judge: The bulb should be dark, not glowing.
+  - id: moisture_sheen
+    question: Is there a visible sheen or glistening of moisture on the pot?
+    answer_type: yes_no
+    notes_for_judge: ''
+  - id: no_drying_occurred
+    question: Does the pot appear to have retained its initial moisture level?
+    answer_type: yes_no
+    notes_for_judge: It should not look drier than the start.
+  - id: object_permanence_pot
+    question: Is the pot visible in the center of the frame?
+    answer_type: yes_no
+    notes_for_judge: The camera returns to the center; the pot should be there.
+  - id: lamp_bulb_dark
+    question: Is the interior of the lamp dark?
+    answer_type: yes_no
+    notes_for_judge: ''

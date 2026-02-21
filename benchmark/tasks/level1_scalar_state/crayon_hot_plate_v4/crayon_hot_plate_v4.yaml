@@ -1,0 +1,62 @@
+id: crayon_hot_plate_v4
+level: 1
+category: scalar_state
+tags: []
+variant_of: crayon_hot_plate
+variation_type: dynamic_condition
+variation_description: The hot plate is turned off (cold), indicated by the absence of the red light.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Plate is at room temperature (off).
+  expected_outcome_change: The crayon remains solid (no melting).
+prompts:
+  init_frame_edit_prompt: Edit the image to turn off the red 'HEATING' indicator light on the front of
+    the hot plate, making it look dark/unlit.
+  video_WM: The crayon is in contact with the hot plate surface. The plate is turned off and is at room
+    temperature (approx 70°F). The crayon is made of paraffin wax. The plate temperature is well below
+    the wax melting point. The camera rotates right at constant speed until the hot plate completely exits
+    the view to the right. The camera continues rotating right for several seconds while off-screen. Then
+    the camera rotates left smoothly at the same rate back to the original viewpoint. No zoom, no cut,
+    no scene change. STOP.
+  camera_WM: The crayon is in contact with the hot plate surface. The plate is turned off and is at room
+    temperature (approx 70°F). The crayon is made of paraffin wax. The plate temperature is well below
+    the wax melting point. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A blue crayon standing upright in the center of a black circular electric hot
+    plate. The hot plate unit is black with a control knob on the right and the text 'HEATING' visible
+    on the front. The red indicator light is off. The background is dark.
+  init2final_edit_prompt: Edit the given image to show the blue crayon standing upright and unchanged.
+    The crayon retains its full original height and solid cylindrical shape. There is no melted wax pooling
+    at the base, and the crayon tip remains intact. The hot plate surface appears clean and dry.
+  rationale: The prompt explicitly states that the hot plate is turned off and at room temperature (70°F),
+    which is significantly below the melting point of paraffin wax. Consequently, despite the passage
+    of time and camera movement, the crayon undergoes no physical changes such as melting or deformation.
+    The final frame should show the crayon in the exact same state as the initial frame.
+  questions:
+  - id: crayon_standing
+    question: Is the blue crayon still standing upright?
+    answer_type: yes_no
+    notes_for_judge: The crayon should not have fallen over.
+  - id: crayon_height_preserved
+    question: Does the crayon appear to be the same height as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: It should not have melted down or shortened.
+  - id: no_melting_deformation
+    question: Is the crayon free from visible melting or deformation?
+    answer_type: yes_no
+    notes_for_judge: The shape should be sharp and cylindrical, not drooping.
+  - id: no_wax_pool
+    question: Is the base of the crayon free from a pool of melted wax?
+    answer_type: yes_no
+    notes_for_judge: No liquid should be visible on the plate.
+  - id: tip_intact
+    question: Is the tip of the crayon still intact?
+    answer_type: yes_no
+    notes_for_judge: The top should not be rounded off or melted.
+  - id: plate_clean
+    question: Is the surface of the hot plate free of blue liquid?
+    answer_type: yes_no
+    notes_for_judge: The plate should remain clean.

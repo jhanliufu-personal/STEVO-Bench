@@ -1,0 +1,63 @@
+id: inflating_balloon_05
+level: 1
+category: scalar_state
+tags: []
+variant_of: inflating_balloon
+variation_type: dynamic_condition
+variation_description: The balloon starts fully inflated but is leaking gas.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Balloon is full but leaking/deflating instead of inflating.
+  expected_outcome_change: The balloon shrinks/deflates.
+prompts:
+  init_frame_edit_prompt: Edit the image so the white balloon appears as a large, fully inflated, taut
+    sphere connected to the tank.
+  video_WM: A large, fully inflated white balloon is connected to a tank, but the connection is loose
+    and gas is hissing out rapidly. The camera rotates right until the balloon and tank completely exit
+    the view, then rotates toward the left smoothly at the same rate until the balloon is back in the
+    center of view. No zoom, no cut, no scene change. STOP.
+  camera_WM: A large, fully inflated white balloon is attached to a tank. The connection is loose and
+    the balloon is visibly leaking gas. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A green gas cylinder labeled 'HELIUM' sits on a grassy field. A large, fully
+    inflated white balloon is attached to the cylinder's nozzle extending to the left. A gloved hand rests
+    on the valve handle at the top of the tank.
+  init2final_edit_prompt: Edit the given image to make the white balloon appear significantly deflated
+    and smaller. The balloon should look flaccid, wrinkled, or shrunken, occupying less volume than in
+    the original image, while the green tank and background remain unchanged.
+  rationale: The prompt specifies that the connection is loose and gas is hissing out rapidly, which is
+    a deflation process. The camera rotates away and then back, creating a passage of time during which
+    the gas escapes. Consequently, the key state change is a reduction in the balloon's volume. Upon the
+    camera's return to the initial viewpoint, the balloon must appear visibly smaller and less inflated
+    than it was at the start.
+  questions:
+  - id: balloon_smaller
+    question: Is the white balloon smaller than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the overall size/volume of the balloon.
+  - id: balloon_deflated
+    question: Does the balloon appear less inflated than before?
+    answer_type: yes_no
+    notes_for_judge: Look for signs of volume loss.
+  - id: volume_reduction
+    question: Is the volume of the white balloon reduced compared to the start?
+    answer_type: yes_no
+    notes_for_judge: Scalar check for volume decrease.
+  - id: balloon_flaccid
+    question: Is the balloon less taut or more wrinkled than in the initial image?
+    answer_type: yes_no
+    notes_for_judge: Deflation usually results in a loss of surface tension.
+  - id: tank_presence
+    question: Is the green helium tank still visible?
+    answer_type: yes_no
+    notes_for_judge: Consistency check.
+  - id: background_consistency
+    question: Is the background still a grassy field?
+    answer_type: yes_no
+    notes_for_judge: Consistency check.
+  - id: text_legibility
+    question: Is the word 'HELIUM' still visible on the tank?
+    answer_type: yes_no
+    notes_for_judge: Consistency check.

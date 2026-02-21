@@ -1,0 +1,64 @@
+id: food_dye_swirl_08
+level: 1
+category: scalar_state
+tags: []
+variant_of: food_dye_swirl
+variation_type: combined
+variation_description: Combines vegetable oil condition with lights-off occlusion.
+changes:
+  occlusion_method: Lights off.
+  dynamic_conditions: Vegetable oil (immiscible).
+  expected_outcome_change: Dye beads up and sinks without mixing.
+prompts:
+  init_frame_edit_prompt: Edit the image to change the liquid in the glass to a slightly yellow, viscous
+    vegetable oil.
+  video_WM: A drop of water-based red food coloring contacts the surface of vegetable oil. The dye is
+    hydrophilic, while the oil is hydrophobic. The liquids are immiscible. Suddenly, the lights turn off,
+    leaving the scene in pitch black darkness. The darkness lasts for several seconds. Then the lights
+    turn back on, illuminating the glass again. No zoom, no cut, no scene change. STOP.
+  camera_WM: A drop of water-based red food coloring contacts the surface of vegetable oil. The dye is
+    hydrophilic, while the oil is hydrophobic. The liquids are immiscible. Suddenly, the lights turn off,
+    leaving the scene in pitch black darkness. The darkness lasts for several seconds. Then the lights
+    turn back on, illuminating the glass again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A clear glass filled with yellow vegetable oil. A glass dropper is positioned
+    above the center, dispensing a large drop of red liquid which is just contacting the surface of the
+    oil. Inside the oil, there are several spherical red droplets of varying sizes suspended at different
+    depths, with some settled at the bottom.
+  init2final_edit_prompt: Edit the given image to show that the large red drop from the dropper has detached
+    and sunk to the bottom of the glass. The tip of the dropper should be empty or have a smaller residue.
+    The red droplets that were previously suspended in the middle of the glass should now be located lower,
+    near or at the bottom of the glass, increasing the accumulation of red liquid at the base.
+  rationale: Water-based food coloring is denser than vegetable oil and immiscible with it. During the
+    period of darkness, gravity acts on the drop at the surface, causing it to detach, break surface tension,
+    and sink through the oil as a distinct sphere (or spheres). The existing suspended droplets also continue
+    to sink due to their higher density. When the lights return, the red dye should be found at a lower
+    vertical position, likely settled at the bottom of the glass.
+  questions:
+  - id: dye_submerged
+    question: Is the red drop that was initially at the surface now submerged within the oil?
+    answer_type: yes_no
+    notes_for_judge: The drop should have detached and entered the liquid.
+  - id: vertical_position
+    question: Is the red dye generally located lower in the glass than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Due to density, the dye sinks over time.
+  - id: dropper_state
+    question: Does the dropper appear to have released the large drop that was attached to it?
+    answer_type: yes_no
+    notes_for_judge: The tip should no longer hold the large drop seen initially.
+  - id: accumulation_bottom
+    question: Is there more red liquid accumulated at the bottom of the glass compared to the start?
+    answer_type: yes_no
+    notes_for_judge: As droplets sink, the mass at the bottom increases.
+  - id: droplet_sinking
+    question: Have the previously suspended red droplets moved closer to the bottom?
+    answer_type: yes_no
+    notes_for_judge: Check the relative height of the existing blobs.
+  - id: glass_integrity
+    question: Is the glass cup still upright and holding the yellow liquid?
+    answer_type: yes_no
+    notes_for_judge: Consistency check.

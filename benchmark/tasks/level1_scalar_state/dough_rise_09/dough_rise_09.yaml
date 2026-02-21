@@ -1,0 +1,66 @@
+id: dough_rise_09
+level: 1
+category: scalar_state
+tags: []
+variant_of: dough_rise
+variation_type: combined
+variation_description: Deflating dough combined with steam occlusion.
+changes:
+  occlusion_method: Steam/fog.
+  dynamic_conditions: Dough is punctured/deflating.
+  expected_outcome_change: Dough collapses while obscured by steam.
+prompts:
+  init_frame_edit_prompt: Edit the image to show a visible indentation or puncture mark in the center
+    of the dough surface.
+  video_WM: A bowl of dough has been punched down and is slowly collapsing as air escapes. Thick steam
+    fills the room, completely obscuring the bowl from view. The steam gradually clears. No cut, no scene
+    change. STOP.
+  camera_WM: A bowl of dough has been punched down and is slowly collapsing as air escapes. Thick steam
+    fills the room, completely obscuring the bowl from view. The steam gradually clears. No cut, no scene
+    change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A side-view close-up of a clear glass mixing bowl sitting on a wooden countertop.
+    Inside the bowl is a large, smooth, risen ball of dough that fills most of the bowl's volume. A beige
+    cloth is draped over the back rim of the bowl. In the background, there is a window, a thermometer,
+    and other kitchen items.
+  init2final_edit_prompt: Edit the given image to show the dough inside the bowl significantly deflated
+    and collapsed. The dough should appear flattened and occupy much less volume, sitting lower in the
+    bottom of the bowl compared to its original risen state. Maintain the position of the glass bowl,
+    the cloth draped over the rim, and all background objects exactly as they are.
+  rationale: 'The video prompt describes the dough being ''punched down'' and collapsing as air escapes.
+    This is a physical process where the gas pockets in risen dough are released, causing a significant
+    reduction in volume and height. Although the transition is obscured by steam, the final state (after
+    the steam clears) must show the result of this process: the dough should be much smaller and sit lower
+    in the bowl than in the initial frame.'
+  questions:
+  - id: dough_height_lower
+    question: Is the top surface of the dough lower in the bowl than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the height of the dough relative to the rim of the bowl. It should be lower.
+  - id: dough_volume_decrease
+    question: Does the dough occupy less total volume inside the bowl compared to the start?
+    answer_type: yes_no
+    notes_for_judge: The dough should look deflated or smaller.
+  - id: empty_space_increase
+    question: Is there more empty space visible inside the upper part of the bowl?
+    answer_type: yes_no
+    notes_for_judge: As the dough collapses, more of the bowl's interior glass should be visible above
+      the dough.
+  - id: dough_flattened
+    question: Does the dough appear flatter rather than a high spherical ball?
+    answer_type: yes_no
+    notes_for_judge: Punched down dough loses its spherical, puffy shape and settles.
+  - id: bowl_consistency
+    question: Is the glass bowl still visible and intact?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: cloth_consistency
+    question: Is the beige cloth still draped over the rim of the bowl?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: steam_cleared
+    question: Is the view of the bowl clear, without being obscured by thick steam?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the steam clears by the end.

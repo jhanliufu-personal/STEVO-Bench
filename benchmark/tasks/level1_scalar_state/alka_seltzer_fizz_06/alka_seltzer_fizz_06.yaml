@@ -1,0 +1,68 @@
+id: alka_seltzer_fizz_06
+level: 1
+category: scalar_state
+tags: []
+variant_of: alka_seltzer_fizz
+variation_type: dynamic_condition
+variation_description: Tablet replaced with an inert plastic button.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Object is an inert plastic button, not a reactive tablet.
+  expected_outcome_change: No reaction; object sits at bottom unchanged.
+prompts:
+  init_frame_edit_prompt: Edit the image to change the white tablet into a glossy white plastic button
+    with four holes.
+  video_WM: The white plastic button contacts the water at the bottom of the glass. The plastic material
+    is insoluble and chemically inert in water. It rests on the glass bottom. The camera rotates right
+    at constant speed until the glass completely exits the view to the right. The camera continues rotating
+    right for several seconds while off-screen. Then the camera rotates left smoothly at the same rate
+    back to the original viewpoint. No zoom, no cut, no scene change. STOP.
+  camera_WM: The white plastic button contacts the water at the bottom of the glass. The plastic material
+    is insoluble and chemically inert in water. It rests on the glass bottom. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A clear glass filled with water sits on a white surface in a kitchen environment.
+    A large, white, four-holed plastic button is suspended in mid-air directly above the glass. A water
+    droplet is falling from the button, just about to hit or having just hit the water surface, creating
+    a small disturbance. The background is blurred, showing kitchen cabinets and light.
+  init2final_edit_prompt: Edit the given image to show the white plastic button resting flat at the bottom
+    of the glass, fully submerged in the water. Remove the button from the air above the glass. Ensure
+    the button appears solid and intact, not dissolved. Keep the water clear and transparent, without
+    bubbles or fizzing.
+  rationale: The video prompt describes a physical action where the button moves from the air to the bottom
+    of the glass. Crucially, the text specifies the material is 'insoluble and chemically inert,' which
+    overrides the visual similarity to an effervescent tablet; therefore, it must sink without fizzing
+    or dissolving. The camera rotation introduces a period of occlusion, allowing time for the button
+    to sink. In the final frame, the button must be located at the bottom of the glass, intact, and the
+    water must remain clear.
+  questions:
+  - id: btn_location_bottom
+    question: Is the white button located at the bottom of the glass?
+    answer_type: yes_no
+    notes_for_judge: The button should be resting on the glass floor.
+  - id: btn_submerged
+    question: Is the white button submerged under the water?
+    answer_type: yes_no
+    notes_for_judge: It should be inside the liquid volume.
+  - id: btn_lower_position
+    question: Is the vertical position of the button significantly lower than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: It moved from air to bottom.
+  - id: air_empty
+    question: Is the space directly above the water surface free of the button?
+    answer_type: yes_no
+    notes_for_judge: The button should no longer be hovering.
+  - id: btn_intact
+    question: Is the button intact and solid, rather than dissolved?
+    answer_type: yes_no
+    notes_for_judge: The prompt specifies it is insoluble and inert.
+  - id: water_clarity
+    question: Is the water clear, without significant fizzing or cloudiness?
+    answer_type: yes_no
+    notes_for_judge: No chemical reaction should occur.
+  - id: glass_upright
+    question: Is the glass still standing upright on the table?
+    answer_type: yes_no
+    notes_for_judge: Invariant check.

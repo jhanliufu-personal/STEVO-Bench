@@ -1,0 +1,61 @@
+id: salt_dissolve_05
+level: 1
+category: scalar_state
+tags: []
+variant_of: salt_dissolve
+variation_type: dynamic_condition
+variation_description: Water condition changed from turbulent to stagnant/still.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Water is completely still (no turbulence).
+  expected_outcome_change: Dissolution occurs much slower than in turbulent water.
+prompts:
+  init_frame_edit_prompt: Edit the image to remove all bubbles and turbulence from the water. The water
+    should look perfectly clear, still, and stagnant.
+  video_WM: A salt lick is submerged in a tank of stagnant, perfectly still water. The camera rotates
+    right until the tank and salt block completely exit the view, then rotates toward the left smoothly
+    at the same rate until the tank is back in the center of view. No zoom, no cut, no scene change. STOP.
+  camera_WM: A salt lick is submerged in a tank of stagnant, perfectly still water. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A rectangular glass aquarium filled with clear water. Inside, a large, white,
+    roughly cubic salt block sits on the bottom center. The block has a rough, textured surface with visible
+    crevices. To the right, a black vertical heater or filter device is attached to the glass wall. In
+    the background, a window with a view of a building is visible through the tank. Pipes are visible
+    on the left and right exterior of the tank.
+  init2final_edit_prompt: Edit the given image to show the white salt block partially dissolved. Reduce
+    the overall volume of the block slightly. Smooth out the rough surface texture and round off the sharp
+    edges and corners to simulate erosion by water. Keep the water level, the black device on the right,
+    and the background window identical to the original.
+  rationale: The salt block is submerged in water, which causes it to dissolve over time. Although the
+    water is stagnant, the physical process of dissolution will lead to a reduction in the block's mass
+    and volume. The rough surface texture will become smoother, and sharp edges will become rounded as
+    the material dissolves. The camera rotation provides a duration of time (and potential occlusion)
+    during which this state change occurs. The final state should reflect this directional change (shrinkage/erosion)
+    while maintaining the permanence of non-soluble objects like the tank and heater.
+  questions:
+  - id: salt_volume_decrease
+    question: Is the white salt block smaller in volume than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the size of the block. It should be smaller.
+  - id: salt_erosion_rounding
+    question: Do the edges of the salt block appear more rounded or eroded compared to the start?
+    answer_type: yes_no
+    notes_for_judge: Dissolution smooths sharp corners.
+  - id: salt_texture_smoothing
+    question: Is the surface texture of the block smoother than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The rough crevices should be less distinct due to dissolving.
+  - id: salt_mass_reduction
+    question: Has the amount of solid salt visibly decreased?
+    answer_type: yes_no
+    notes_for_judge: General check for mass loss.
+  - id: tank_presence
+    question: Is the glass tank still visible and intact?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: heater_presence
+    question: Is the black vertical device still present on the right side of the tank?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

@@ -1,0 +1,68 @@
+id: steam_kettle_spout_06
+level: 1
+category: scalar_state
+tags: []
+variant_of: steam_kettle_spout
+variation_type: dynamic_condition
+variation_description: Burner is at maximum heat causing intense boiling.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Maximum heat, high pressure
+  expected_outcome_change: Steam output increases in intensity/velocity.
+prompts:
+  init_frame_edit_prompt: Edit the image to make the burner coils glow bright red and show a much larger,
+    more intense plume of steam shooting from the spout.
+  video_WM: The kettle sits on a burner set to maximum high heat. The water is boiling violently inside.
+    The pressure is high. The camera rotates right at constant speed until the kettle completely exits
+    the view to the right. The camera continues rotating right for several seconds while off-screen. Then
+    the camera rotates left smoothly at the same rate back to the original viewpoint. No zoom, no cut,
+    no scene change. STOP.
+  camera_WM: The kettle sits on a burner set to maximum high heat. The water is boiling violently inside.
+    The pressure is high. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A stainless steel gooseneck kettle sits on an electric stove burner. The burner's
+    spiral coil is glowing orange-red. Wisps of white steam are rising from the tip of the curved spout
+    and from the lid. The kettle has a black handle and a black lid knob. The background features a speckled
+    countertop, a wooden knife block, and a bright window.
+  init2final_edit_prompt: Edit the given image to show the kettle after boiling violently for a period
+    of time. The electric burner coils should be glowing intensely bright red. A thick, dense, and voluminous
+    plume of white steam should be shooting forcefully out of the gooseneck spout, appearing significantly
+    larger and more opaque than in the original image. The steam should look like it is under high pressure.
+  rationale: The prompt establishes that the kettle is on maximum heat and boiling violently. As time
+    passes during the camera movement (occlusion), the continuous high heat input maintains and intensifies
+    the phase change of water to steam. Consequently, upon returning to the original view, the visible
+    steam output should be heavier, denser, and more voluminous than in the initial frame, reflecting
+    the sustained violent boiling. The burner coils must remain glowing red to indicate the continued
+    heat source.
+  questions:
+  - id: steam_volume_increase
+    question: Is the steam plume exiting the spout larger or denser than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the volume and opacity of the steam. It should be greater in the final frame.
+  - id: steam_opacity
+    question: Is the steam cloud more opaque and white compared to the starting image?
+    answer_type: yes_no
+    notes_for_judge: The steam should look thicker/whiter.
+  - id: steam_vigor
+    question: Does the steam appear to be exiting the spout with more force or volume than initially?
+    answer_type: yes_no
+    notes_for_judge: Look for a jet-like or heavy cloud appearance versus wisps.
+  - id: burner_glow
+    question: Is the electric burner coil glowing red?
+    answer_type: yes_no
+    notes_for_judge: The heat source must remain visible and active.
+  - id: steam_presence
+    question: Is there visible steam coming out of the kettle's spout?
+    answer_type: yes_no
+    notes_for_judge: Basic state check.
+  - id: kettle_position
+    question: Is the kettle still sitting on the burner in the same position?
+    answer_type: yes_no
+    notes_for_judge: Consistency check.
+  - id: background_consistency
+    question: Is the wooden knife block still visible in the background?
+    answer_type: yes_no
+    notes_for_judge: Consistency check.

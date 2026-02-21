@@ -1,0 +1,67 @@
+id: fuse_burn_05
+level: 1
+category: scalar_state
+tags: []
+variant_of: fuse_burn
+variation_type: dynamic_condition
+variation_description: Fuse replaced by loose gunpowder trail, implying near-instant consumption
+changes:
+  occlusion_method: null
+  dynamic_conditions: Loose gunpowder instead of rope (implies extremely fast burn)
+  expected_outcome_change: Burn is nearly instantaneous; entire trail consumed
+prompts:
+  init_frame_edit_prompt: Edit the image to replace the braided rope fuse with a loose, granular trail
+    of black gunpowder.
+  video_WM: The gunpowder trail ignites with a bright flash, the flame racing along the path with extreme
+    speed. The camera rotates right until the trail completely exits the view, then rotates toward the
+    left smoothly at the same rate until the trail is back in the center of view. No zoom, no cut, no
+    scene change. STOP.
+  camera_WM: The gunpowder trail ignites with a bright flash, the flame racing along the path with extreme
+    speed. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A high-angle shot of a grey concrete floor showing a curved trail of black granular
+    gunpowder. The trail begins in the lower left and curves towards the right side of the frame. At the
+    bottom left tip of the trail, ignition has just occurred, producing bright orange sparks, a small
+    flame, and rising smoke. The majority of the black powder trail remains unburnt and intact.
+  init2final_edit_prompt: Edit the given image to show that the fire has traveled along the gunpowder
+    trail. Replace the black granular powder on the left and middle sections of the curve with grey ash,
+    dark scorch marks, and smoke residue on the concrete. Move the active flame and sparks to the far
+    right end of the trail or remove them if the trail is fully consumed. Ensure the area where the fire
+    started is now burnt out.
+  rationale: The video prompt describes the flame moving at 'extreme speed' while the camera pans away
+    and then returns to the original view. This implies that a significant duration has passed, allowing
+    the fast-moving fire to consume most or all of the visible gunpowder. Consequently, the final frame
+    should show the initial black powder replaced by burnt residue (ash and scorch marks), with the active
+    flame front either advanced significantly to the right or the burn completed.
+  questions:
+  - id: burn_progress_1
+    question: Has the fire advanced further along the trail compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The flame should be further to the right, or the trail should be completely burnt.
+  - id: fuel_reduction_1
+    question: Is there less unburnt black powder visible than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The black granular material should be consumed and replaced by ash/scorch marks.
+  - id: state_change_1
+    question: Is the initial ignition point on the left now burnt out?
+    answer_type: yes_no
+    notes_for_judge: The area that was sparking in the first frame should now be ash/residue.
+  - id: residue_presence_1
+    question: Are there scorch marks or ash visible where the black powder was initially?
+    answer_type: yes_no
+    notes_for_judge: The path of the trail should now be marked by burn residue.
+  - id: flame_position_1
+    question: Is the active burning area located further to the right than in the starting frame?
+    answer_type: yes_no
+    notes_for_judge: If the fire is still visible, it must be further along the path. If finished, answer
+      Yes (as the process completed).
+  - id: consistency_1
+    question: Is the concrete floor texture consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Ignore the burnt area; the surrounding floor should look the same.
+  - id: consistency_2
+    question: Does the shape of the burnt path match the shape of the original powder trail?
+    answer_type: yes_no
+    notes_for_judge: The curve of the ash/scorch marks should follow the original line of powder.

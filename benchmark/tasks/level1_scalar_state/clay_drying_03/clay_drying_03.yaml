@@ -1,0 +1,60 @@
+id: clay_drying_03
+level: 1
+category: scalar_state
+tags: []
+variant_of: clay_drying
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to zooming out until details are lost.
+changes:
+  occlusion_method: Camera zooms out until the object is indistinguishable.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A wet, dark terracotta pot is under a hot lamp. The camera zooms out rapidly until the pot
+    becomes a tiny, indistinguishable speck in the wide greenhouse view. The camera then zooms back in
+    to the original framing. No cut, no scene change. STOP.
+  camera_WM: A wet, dark terracotta pot is under a hot lamp. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+evaluation:
+  init_frame_description: A dark, wet terracotta pot sits on a weathered stone pedestal inside a greenhouse.
+    To the right, a silver clamp lamp with a glowing red heat bulb is positioned close to the pot, shining
+    directly onto its side. A circular patch of lighter, dry clay is visible in the center of the illuminated
+    area, surrounded by darker, wet clay. The background shows the blurred structure of the greenhouse
+    with wooden frames and glass.
+  init2final_edit_prompt: Edit the given image to make the terracotta pot appear significantly drier.
+    Expand the lighter-colored dry patch on the side of the pot so that it covers a larger surface area
+    than before. Change the surrounding dark, wet clay to a lighter, paler orange tone to indicate moisture
+    loss. Keep the lamp, pedestal, and background unchanged.
+  rationale: The video prompt describes a camera movement (zoom out and back in) that implies a passage
+    of time. During this interval, the hot lamp continues to shine on the wet pot. The physical process
+    of heating wet terracotta causes water to evaporate, resulting in a visual change where the clay turns
+    from a dark, saturated color to a lighter, paler shade. Therefore, when the camera returns to the
+    initial framing, the dry patch should have grown larger and the overall pot should look lighter and
+    drier.
+  questions:
+  - id: clay_drying_03_q1
+    question: Is the lighter-colored dry patch on the pot larger than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the size of the pale/dry spot in the center of the pot between the two frames.
+  - id: clay_drying_03_q2
+    question: Is there less dark, wet clay visible on the pot compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The dark areas represent wetness; they should recede.
+  - id: clay_drying_03_q3
+    question: Is the overall color of the pot lighter or paler than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Drying clay becomes lighter in value.
+  - id: clay_drying_03_q4
+    question: Does the surface of the pot appear drier than it did initially?
+    answer_type: yes_no
+    notes_for_judge: Look for matte texture vs wet sheen and lighter color.
+  - id: clay_drying_03_q5
+    question: Is the heat lamp still positioned to the right of the pot?
+    answer_type: yes_no
+    notes_for_judge: Check for object consistency.
+  - id: clay_drying_03_q6
+    question: Is the stone pedestal still visible beneath the pot?
+    answer_type: yes_no
+    notes_for_judge: Check for object consistency.

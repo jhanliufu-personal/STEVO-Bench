@@ -1,0 +1,66 @@
+id: evaporating_alcohol_pool_02
+level: 1
+category: scalar_state
+tags: []
+variant_of: evaporating_alcohol_pool
+variation_type: occlusion_method
+variation_description: Occlusion by turning off the room lights.
+changes:
+  occlusion_method: Lights turn off, creating total darkness.
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics (alcohol evaporates significantly).
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: Rubbing alcohol sits on the warm metal plate. The plate temperature is elevated above room
+    temperature. Alcohol is volatile with a low boiling point of 180°F and high vapor pressure. The surrounding
+    air is not saturated with alcohol vapor. Suddenly, the lab lights are switched off, plunging the scene
+    into total darkness where nothing is visible. The darkness lasts for several seconds. Then the lights
+    are switched back on, illuminating the metal plate again. No zoom, no cut, no scene change. STOP.
+  camera_WM: Rubbing alcohol sits on the warm metal plate. The plate temperature is elevated above room
+    temperature. Alcohol is volatile with a low boiling point of 180°F and high vapor pressure. The surrounding
+    air is not saturated with alcohol vapor. Suddenly, the lab lights are switched off, plunging the scene
+    into total darkness where nothing is visible. The darkness lasts for several seconds. Then the lights
+    are switched back on, illuminating the metal plate again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: 'A close-up, high-angle view of a scratched silver metal hot plate. In the center
+    sits a roughly circular pool of clear liquid (rubbing alcohol). Faint wisps of vapor are visible above
+    the liquid. At the bottom of the plate, a digital display screen shows the text ''WARM: 55°C'' in
+    blue characters. The background contains blurred lab equipment and cables.'
+  init2final_edit_prompt: 'Edit the given image to show the pool of liquid significantly reduced in size,
+    with a smaller diameter and surface area. The edges of the liquid should have receded inward towards
+    the center, revealing more of the dry metal surface that was previously covered. Maintain the original
+    lighting, camera angle, background, and the ''WARM: 55°C'' text on the display.'
+  rationale: 'The scene involves a volatile liquid (alcohol) on a heated plate (55°C). The primary physical
+    process occurring is evaporation. The video prompt introduces a period of darkness (''several seconds'')
+    which serves as a time-skip mechanism. During this time, the heat causes a portion of the alcohol
+    to evaporate. When the lights turn back on, the visual state should reflect this loss of mass: the
+    puddle should be smaller in area than it was initially. The camera remains static, and the lighting
+    returns to its initial state.'
+  questions:
+  - id: q1_size_decrease
+    question: Is the pool of liquid smaller in surface area than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the diameter/extent of the puddle. It should be smaller.
+  - id: q2_edges_receded
+    question: Have the edges of the liquid receded inward compared to the starting image?
+    answer_type: yes_no
+    notes_for_judge: Look for dry metal where liquid used to be.
+  - id: q3_more_dry_surface
+    question: Is there more dry metal surface visible around the liquid than before?
+    answer_type: yes_no
+    notes_for_judge: Corollary to the liquid shrinking.
+  - id: q4_volume_reduction
+    question: Does the amount of liquid appear to have decreased?
+    answer_type: yes_no
+    notes_for_judge: General assessment of volume/mass loss.
+  - id: q5_lighting_restored
+    question: Is the scene illuminated (not pitch black)?
+    answer_type: yes_no
+    notes_for_judge: Checks if the lights came back on as described.
+  - id: q6_display_invariant
+    question: Is the digital temperature display still visible at the bottom?
+    answer_type: yes_no
+    notes_for_judge: Invariant check.

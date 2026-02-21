@@ -1,0 +1,63 @@
+id: tape_retract_07
+level: 1
+category: scalar_state
+tags: []
+variant_of: tape_retract
+variation_type: combined
+variation_description: Tape is locked (no movement) and occlusion is by lights turning off.
+changes:
+  occlusion_method: Lights turn off.
+  dynamic_conditions: Lock engaged.
+  expected_outcome_change: Tape remains extended at 5 feet.
+prompts:
+  init_frame_edit_prompt: Edit the image to show the black lock lever on the tape measure housing pushed
+    down into the 'locked' position.
+  video_WM: A metal tape measure is extended 5 feet. The lock lever is firmly engaged, keeping the tape
+    static and extended. Suddenly, the room lights turn off completely, plunging the scene into pitch
+    black darkness. The darkness persists for several seconds. The lights turn back on, revealing the
+    scene again. No zoom, no cut, no scene change. STOP.
+  camera_WM: A metal tape measure is extended 5 feet. The lock lever is firmly engaged, keeping the tape
+    static and extended. Suddenly, the room lights turn off completely, plunging the scene into pitch
+    black darkness. The darkness persists for several seconds. The lights turn back on, revealing the
+    scene again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A high-angle close-up of a yellow tape measure resting on a wooden floor. A
+    hand holds the tape measure case on the right side of the frame. The metal tape extends out to the
+    left. The number '5' is clearly visible on the tape near the case, along with smaller tick marks and
+    numbers.
+  init2final_edit_prompt: Edit the given image to show the yellow tape measure extended to the same length
+    as before. The metal tape should extend to the left with the number 5 clearly visible. The hand should
+    hold the case in the same position on the right. The wooden floor should be visible under bright,
+    normal lighting.
+  rationale: The video prompt explicitly states that the lock lever is firmly engaged and the tape remains
+    static. Although the lights turn off and then back on, no physical action is performed on the tape
+    measure itself. Therefore, the scalar quantity (length of extended tape) remains constant, and the
+    final frame should be visually identical to the initial frame in terms of object configuration and
+    lighting.
+  questions:
+  - id: tape_extended_check
+    question: Is the metal tape still extended out of the yellow case?
+    answer_type: yes_no
+    notes_for_judge: The tape should not have retracted.
+  - id: number_5_visible
+    question: Is the number '5' still visible on the metal tape?
+    answer_type: yes_no
+    notes_for_judge: If the tape retracted, the number 5 would likely be inside the case.
+  - id: length_consistency
+    question: Is the length of the extended tape approximately the same as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The prompt specifies the tape is static.
+  - id: tape_direction
+    question: Does the tape still extend to the left side of the image?
+    answer_type: yes_no
+    notes_for_judge: Checks for spatial consistency.
+  - id: hand_position
+    question: Is the hand still holding the tape measure case in the same position?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: lighting_check
+    question: Is the scene fully illuminated?
+    answer_type: yes_no
+    notes_for_judge: The lights turned back on.

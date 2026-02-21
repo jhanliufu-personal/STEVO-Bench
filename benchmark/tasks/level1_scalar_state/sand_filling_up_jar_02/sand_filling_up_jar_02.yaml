@@ -1,0 +1,66 @@
+id: sand_filling_up_jar_02
+level: 1
+category: scalar_state_change
+tags: []
+variant_of: sand_filling_up_jar
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera panning to a wooden board sliding in front of the
+  camera.
+changes:
+  occlusion_method: A large wooden board slides into view, completely blocking the scene, then slides
+    away.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: Single continuous take, no cuts or zoom. Camera is fixed on the funnel and jar. Sand flows
+    continuously through the glass funnel into the jar. A large wooden board slides smoothly from the
+    right side of the frame until it completely blocks the view of the funnel and jar. The board remains
+    in place for several seconds. Then the board slides back to the right, revealing the scene again.
+    Lighting and objects remain consistent and realistic.
+  camera_WM: Single continuous take, no cuts or zoom. Camera is fixed on the funnel and jar. Sand flows
+    continuously through the glass funnel into the jar. A large wooden board slides smoothly from the
+    right side of the frame until it completely blocks the view of the funnel and jar. The board remains
+    in place for several seconds. Then the board slides back to the right, revealing the scene again.
+    Lighting and objects remain consistent and realistic.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A clear glass jar sits on a rustic wooden table. A clear glass funnel rests
+    in the mouth of the jar. Sand is pouring from the top of the frame into the funnel, and a stream of
+    sand flows from the funnel into the jar, forming a conical pile at the bottom. The jar is partially
+    filled with sand.
+  init2final_edit_prompt: Edit the given image to show the pile of sand inside the glass jar as significantly
+    larger and taller. The sand should fill a greater portion of the jar's volume, with the peak of the
+    pile reaching higher towards the funnel. Preserve the appearance of the jar, funnel, and wooden table.
+  rationale: The video prompt states that sand flows continuously into the jar while the view is occluded
+    by a wooden board for several seconds. Because the flow is continuous and the jar captures the material,
+    the amount of sand inside the jar must increase during the occlusion. Therefore, when the board is
+    removed, the final frame must depict a noticeably larger and taller pile of sand within the jar compared
+    to the initial state.
+  questions:
+  - id: sand_pile_height
+    question: Is the pile of sand inside the jar taller than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the height of the sand cone peak relative to the jar's rim or funnel spout.
+  - id: sand_volume_increase
+    question: Does the sand pile occupy more of the jar's volume than it did initially?
+    answer_type: yes_no
+    notes_for_judge: Look for an increase in the overall mass/bulk of the sand inside the container.
+  - id: sand_peak_level
+    question: Is the peak of the sand pile higher than it was in the starting image?
+    answer_type: yes_no
+    notes_for_judge: The tip of the cone should be closer to the funnel.
+  - id: jar_fullness
+    question: Is the jar fuller with sand compared to the first frame?
+    answer_type: yes_no
+    notes_for_judge: General assessment of the fill level.
+  - id: funnel_presence
+    question: Is the glass funnel still positioned on top of the jar?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: table_consistency
+    question: Is the wooden table texture consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

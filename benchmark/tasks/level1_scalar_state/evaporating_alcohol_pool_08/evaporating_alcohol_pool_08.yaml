@@ -1,0 +1,70 @@
+id: evaporating_alcohol_pool_08
+level: 1
+category: scalar_state
+tags: []
+variant_of: evaporating_alcohol_pool
+variation_type: combined
+variation_description: Hot boiling plate combined with lights-off occlusion.
+changes:
+  occlusion_method: Lights turn off.
+  dynamic_conditions: Plate temperature is 95°C (hot).
+  expected_outcome_change: Rapid boiling/disappearance.
+prompts:
+  init_frame_edit_prompt: 'Edit the image so the blue text on the display reads ''HOT: 95°C'' instead
+    of ''WARM: 55°C''.'
+  video_WM: Rubbing alcohol sits on the hot metal plate. The plate temperature is 95°C, well above the
+    alcohol's boiling point of 82°C. The liquid is receiving constant heat. The lab lights are switched
+    off, plunging the scene into total darkness. The darkness lasts for several seconds. Then the lights
+    are switched back on, illuminating the metal plate again. No zoom, no cut, no scene change. STOP.
+  camera_WM: Rubbing alcohol sits on the hot metal plate. The plate temperature is 95°C, well above the
+    alcohol's boiling point of 82°C. The liquid is receiving constant heat. The lab lights are switched
+    off, plunging the scene into total darkness. The darkness lasts for several seconds. Then the lights
+    are switched back on, illuminating the metal plate again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: 'A close-up, slightly high-angle shot of a brushed metal laboratory hot plate.
+    A circular pool of clear liquid sits in the center of the plate, emitting visible steam or vapor.
+    The metal surface shows concentric circular scratches and heat discoloration. At the bottom center,
+    a digital display reads ''HOT: 95°C'' in blue LED text. The background contains blurred laboratory
+    equipment and cables.'
+  init2final_edit_prompt: 'Edit the given image to make the circular pool of liquid significantly smaller
+    in diameter, revealing the dry metal surface underneath where the liquid has receded. Maintain the
+    ''HOT: 95°C'' reading on the digital display. Keep the lighting, background, and camera angle identical
+    to the original image.'
+  rationale: The hot plate is set to 95°C, which is well above the boiling point of rubbing alcohol (approximately
+    82°C). The initial frame shows the liquid already steaming, indicating active evaporation. During
+    the period of darkness described in the prompt, the heat source continues to transfer energy to the
+    liquid, causing it to boil off and reduce in volume. When the lights return, the pool of liquid must
+    be smaller in surface area than it was initially due to this mass loss. The lighting returns to the
+    initial state, making the reduction in liquid the primary visual change.
+  questions:
+  - id: liquid_size_reduction
+    question: Is the pool of liquid smaller than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the diameter/area of the liquid pool.
+  - id: surface_area_decrease
+    question: Has the surface area covered by the liquid decreased?
+    answer_type: yes_no
+    notes_for_judge: The liquid footprint should be smaller.
+  - id: exposed_metal
+    question: Is more of the metal plate surface visible now compared to the start?
+    answer_type: yes_no
+    notes_for_judge: As liquid recedes, dry metal should appear.
+  - id: liquid_receded
+    question: Has the liquid receded from its original outer boundaries?
+    answer_type: yes_no
+    notes_for_judge: Check the edges of the pool.
+  - id: volume_loss
+    question: Does there appear to be less liquid remaining on the plate?
+    answer_type: yes_no
+    notes_for_judge: General assessment of quantity.
+  - id: lighting_restored
+    question: Is the scene illuminated?
+    answer_type: yes_no
+    notes_for_judge: The prompt states lights are switched back on.
+  - id: display_consistency
+    question: Does the digital display still read approximately 95°C?
+    answer_type: yes_no
+    notes_for_judge: The temperature setting should remain constant.

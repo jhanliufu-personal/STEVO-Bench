@@ -1,0 +1,66 @@
+id: paper_towel_wicking_04
+level: 1
+category: scalar_state
+tags: []
+variant_of: paper_towel_wicking
+variation_type: dynamic_condition
+variation_description: 'Material change: Porous paper replaced with non-porous plastic strip.'
+changes:
+  occlusion_method: null
+  dynamic_conditions: Strip is smooth, non-porous plastic instead of paper.
+  expected_outcome_change: No wicking/water rise occurs.
+prompts:
+  init_frame_edit_prompt: Edit the image to replace the white paper towel strip with a smooth, shiny,
+    non-porous white plastic strip of the exact same size and position.
+  video_WM: A vertical strip of smooth, shiny white plastic stands with its edge in contact with the blue
+    water. The plastic is non-porous and hydrophobic, lacking capillary channels. Surface tension forces
+    keep the water surface flat against the plastic. The camera rotates right at constant speed until
+    the setup completely exits the view to the right. The camera continues rotating right for several
+    seconds while off-screen. Then the camera rotates left smoothly at the same rate back to the original
+    viewpoint. No zoom, no cut, no scene change. STOP.
+  camera_WM: A vertical strip of smooth, shiny white plastic stands with its edge in contact with the
+    blue water. The plastic is non-porous and hydrophobic, lacking capillary channels. Surface tension
+    forces keep the water surface flat against the plastic. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A close-up laboratory shot showing a vertical white strip clamped by a metal
+    stand, hanging into a glass petri dish filled with blue liquid. The strip is smooth and reflective.
+    To the left, empty glass beakers are visible. The background shows a blurred lab bench and window.
+    The blue liquid touches the bottom edge of the strip, but the strip itself is white and dry above
+    the water line.
+  init2final_edit_prompt: Edit the given image to show the scene after time has passed. The vertical white
+    strip must remain completely white and dry above the water line, with absolutely no blue liquid rising
+    or wicking up its surface. The level of the blue liquid in the petri dish should remain unchanged.
+    Keep the background, lighting, and object positions identical to the original view.
+  rationale: 'The prompt explicitly identifies the strip as non-porous, hydrophobic plastic. Unlike paper
+    or fabric, this material does not support capillary action. Therefore, despite the passage of time
+    implied by the camera rotation, the blue liquid will not wick up the strip. The final state should
+    show the strip exactly as it was in the beginning: touching the water but with no liquid rising up
+    its surface. The water level in the dish remains constant as no liquid is absorbed.'
+  questions:
+  - id: wicking_check_1
+    question: Is the vertical white strip still completely white above the water line?
+    answer_type: yes_no
+    notes_for_judge: The material is hydrophobic, so no blue liquid should have risen up the strip.
+  - id: wicking_check_2
+    question: Does the blue liquid appear confined to the petri dish without climbing up the strip?
+    answer_type: yes_no
+    notes_for_judge: Check for absence of capillary action.
+  - id: wicking_height_comparison
+    question: Is the height of the blue liquid on the strip approximately the same as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The liquid level on the strip should not have increased.
+  - id: strip_dryness
+    question: Does the surface of the strip look dry and glossy rather than wet or stained?
+    answer_type: yes_no
+    notes_for_judge: Plastic should remain dry; paper would look wet.
+  - id: dish_level
+    question: Is the water level in the petri dish roughly the same as it was initially?
+    answer_type: yes_no
+    notes_for_judge: Since no water is absorbed, the dish level should not drop significantly.
+  - id: beaker_consistency
+    question: Are the glass beakers on the left still visible and in the same position?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

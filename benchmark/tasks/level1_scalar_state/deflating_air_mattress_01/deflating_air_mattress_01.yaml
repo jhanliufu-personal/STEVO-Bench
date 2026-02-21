@@ -1,0 +1,65 @@
+id: deflating_air_mattress_01
+level: 1
+category: scalar_state
+tags: []
+variant_of: deflating_air_mattress
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to lights turning off.
+changes:
+  occlusion_method: Lights turn off completely (pitch black) then turn back on.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A thick air mattress has its valve open and is visibly deflating. The air continues to escape
+    steadily. Suddenly, the lights in the room turn off completely, plunging the scene into pitch black
+    darkness. After a duration, the lights turn back on. No zoom, no cut, no scene change. STOP.
+  camera_WM: A thick air mattress has its valve open and is visibly deflating. The air continues to escape
+    steadily. Suddenly, the lights in the room turn off completely, plunging the scene into pitch black
+    darkness. After a duration, the lights turn back on. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a blue, inflated air mattress resting on a wooden
+    floor. The mattress surface is textured with indentations and some wrinkles. In the foreground, a
+    black air valve is visible and open, with the cap dangling to the side. Natural light illuminates
+    the scene from a window in the background.
+  init2final_edit_prompt: Edit the given image to show the blue air mattress in a significantly deflated
+    state. The mattress should appear much flatter and closer to the floor than in the original image.
+    The surface should exhibit more sagging, deep wrinkles, and loose folds, indicating a loss of air
+    pressure. The overall volume of the mattress should be visibly reduced. Keep the black valve open
+    and the wooden floor and background environment unchanged.
+  rationale: The prompt describes a continuous physical process of air escaping from the mattress. Although
+    the visual feed is interrupted by a period of total darkness, the physical process of deflation continues
+    during this time. Therefore, when the lights turn back on, the mattress must be in a state of lower
+    inflation (less volume, lower height, more wrinkles) compared to the initial frame. The camera angle
+    remains static.
+  questions:
+  - id: deflation_check_volume
+    question: Is the air mattress less inflated than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the overall volume and tautness. The final frame should show a loss of air.
+  - id: deflation_check_height
+    question: Is the height of the mattress lower than in the starting image?
+    answer_type: yes_no
+    notes_for_judge: The mattress should have collapsed somewhat towards the floor.
+  - id: deflation_check_surface
+    question: Does the surface of the mattress show more wrinkles or sagging folds than the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Deflation causes the vinyl to bunch up and wrinkle as tension is lost.
+  - id: deflation_check_tautness
+    question: Does the mattress appear less taut and firm compared to the beginning?
+    answer_type: yes_no
+    notes_for_judge: The material should look looser.
+  - id: deflation_check_flatness
+    question: Is the mattress flatter against the floor than it was initially?
+    answer_type: yes_no
+    notes_for_judge: Check if the vertical profile has diminished.
+  - id: consistency_valve
+    question: Is the black air valve still visible and open?
+    answer_type: yes_no
+    notes_for_judge: The valve state should not change; it was open and remains open.
+  - id: consistency_floor
+    question: Is the wooden floor texture still visible around the mattress?
+    answer_type: yes_no
+    notes_for_judge: The environment should remain stable.

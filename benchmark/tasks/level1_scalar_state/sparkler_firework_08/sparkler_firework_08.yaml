@@ -1,0 +1,72 @@
+id: sparkler_firework_08
+level: 1
+category: scalar_state
+tags: []
+variant_of: sparkler_firework
+variation_type: combined
+variation_description: Sparkler near end of life with smoke occlusion.
+changes:
+  occlusion_method: Thick smoke.
+  dynamic_conditions: Fuel almost exhausted.
+  expected_outcome_change: Sparkler burns out.
+prompts:
+  init_frame_edit_prompt: Edit the image to move the burning spark point down the wire so it is very close
+    to the hand holding it, leaving a long trail of burnt wire behind it.
+  video_WM: The sparkler is burning with the active ignition point positioned very close to the handle.
+    Only a few millimeters of fuel remain. Thick, heavy smoke suddenly billows into the frame, completely
+    obscuring the sparkler and the hand. The smoke swirls densely for several seconds, hiding everything.
+    Then the smoke clears rapidly, restoring visibility. No zoom, no cut, no scene change. STOP.
+  camera_WM: The sparkler is burning with the active ignition point positioned very close to the handle.
+    Only a few millimeters of fuel remain. Thick, heavy smoke suddenly billows into the frame, completely
+    obscuring the sparkler and the hand. The smoke swirls densely for several seconds, hiding everything.
+    Then the smoke clears rapidly, restoring visibility. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A close-up shot against a black background showing a hand holding a burning
+    sparkler. The hand, wearing a dark long-sleeved garment, enters from the right. The sparkler is held
+    diagonally, pointing up and to the left. The active burning point, emitting bright golden sparks,
+    is located roughly in the middle of the stick. Above the sparks, a long section of thin, burnt black
+    wire is visible. Below the sparks, a section of thicker, unburnt grey fuel coating extends down to
+    the hand.
+  init2final_edit_prompt: Edit the given image to show the sparkler has burned down significantly. Position
+    the bright cluster of sparks and the glowing ignition point much closer to the fingers holding the
+    handle, leaving only a very short segment of unburnt material. Transform the section of the stick
+    that was previously below the flame into a thin, burnt black wire, extending the length of the exposed
+    wire at the top. Ensure the hand and dark background remain unchanged.
+  rationale: The prompt describes a sparkler burning, followed by a period of occlusion by smoke. Sparklers
+    function by consuming a fuel coating, which causes the ignition point to travel downwards along the
+    stick towards the handle over time. Since the prompt specifies that the ignition point becomes 'positioned
+    very close to the handle' and smoke obscures the view for 'several seconds', the final state must
+    show the burning process advanced significantly. The flame should be lower (closer to the hand), the
+    burnt wire section longer, and the unburnt fuel section shorter.
+  questions:
+  - id: sparkler_pos_1
+    question: Is the cluster of sparks closer to the hand than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the distance between the bright light source and the fingers.
+  - id: sparkler_fuel_1
+    question: Is the unburnt section of the sparkler stick shorter than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The unburnt section is the thicker grey part between the flame and the hand.
+  - id: sparkler_burnt_1
+    question: Is the visible length of the burnt wire longer than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The burnt wire is the thin black stick extending above the flame.
+  - id: sparkler_progress_1
+    question: Has the ignition point moved downwards along the stick?
+    answer_type: yes_no
+    notes_for_judge: 'Directional check: the fire should move towards the handle.'
+  - id: sparkler_remains_1
+    question: Is there less fuel coating remaining on the stick compared to the start?
+    answer_type: yes_no
+    notes_for_judge: Fuel is consumed by the fire.
+  - id: consistency_hand
+    question: Is the hand still visible holding the sparkler?
+    answer_type: yes_no
+    notes_for_judge: Consistency check.
+  - id: consistency_bg
+    question: Is the background still dark and solid?
+    answer_type: yes_no
+    notes_for_judge: Consistency check.

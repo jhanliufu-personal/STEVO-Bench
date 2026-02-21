@@ -1,0 +1,66 @@
+id: crayon_hot_plate_v6
+level: 1
+category: scalar_state
+tags: []
+variant_of: crayon_hot_plate
+variation_type: dynamic_condition
+variation_description: A wooden coaster is placed between the crayon and the plate, acting as a thermal
+  insulator.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Thermal insulator (wood) added between heat source and object.
+  expected_outcome_change: Melting is significantly delayed or prevented.
+prompts:
+  init_frame_edit_prompt: Edit the image to place a thick wooden coaster underneath the blue crayon, separating
+    the crayon from the black hot plate surface.
+  video_WM: The crayon sits on a thick wooden coaster, which rests on the hot plate surface. The plate
+    is actively heating. Wood is a poor thermal conductor, insulating the crayon from the direct heat
+    of the plate. The camera rotates right at constant speed until the hot plate completely exits the
+    view to the right. The camera continues rotating right for several seconds while off-screen. Then
+    the camera rotates left smoothly at the same rate back to the original viewpoint. No zoom, no cut,
+    no scene change. STOP.
+  camera_WM: The crayon sits on a thick wooden coaster, which rests on the hot plate surface. The plate
+    is actively heating. Wood is a poor thermal conductor, insulating the crayon from the direct heat
+    of the plate. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A close-up shot of a black electric hot plate with a red indicator light glowing,
+    labeled 'HEATING'. A thick, circular wooden coaster (a slice of a log) rests on the burner. A blue
+    crayon stands vertically in the center of the wooden coaster. The background is a dark kitchen environment.
+  init2final_edit_prompt: Edit the given image to show the scene after a short duration. The blue crayon
+    must remain standing upright and solid on the wooden coaster, retaining its original height and shape
+    without melting. The red indicator light on the hot plate should remain glowing. Ensure the wooden
+    coaster and the hot plate surface appear unchanged. The crayon should not look melted or deformed.
+  rationale: The prompt describes a camera rotation that leaves the scene and returns to the original
+    viewpoint, meaning the final frame should match the initial composition. Physically, the prompt explicitly
+    states that the wood acts as an insulator. Due to the low thermal conductivity of the thick wooden
+    coaster and the short duration of the event ('several seconds'), the heat from the plate will not
+    reach the crayon in sufficient quantity to cause a phase change. Therefore, the correct physical outcome
+    is for the crayon to remain unmelted and standing, demonstrating the insulating property of the wood.
+  questions:
+  - id: crayon_standing
+    question: Is the blue crayon still standing upright?
+    answer_type: yes_no
+    notes_for_judge: The crayon should not have fallen over or melted.
+  - id: crayon_height
+    question: Is the crayon's height approximately the same as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: It should not have melted down significantly.
+  - id: crayon_solid
+    question: Does the crayon appear to be solid rather than melted into a liquid?
+    answer_type: yes_no
+    notes_for_judge: Check for signs of phase change; it should remain solid.
+  - id: coaster_visible
+    question: Is the wooden coaster still visible beneath the crayon?
+    answer_type: yes_no
+    notes_for_judge: Object permanence check.
+  - id: light_on
+    question: Is the red indicator light on the hot plate still illuminated?
+    answer_type: yes_no
+    notes_for_judge: The plate is actively heating.
+  - id: crayon_tip
+    question: Is the tip of the crayon still visible and distinct?
+    answer_type: yes_no
+    notes_for_judge: The tip should not have melted away.

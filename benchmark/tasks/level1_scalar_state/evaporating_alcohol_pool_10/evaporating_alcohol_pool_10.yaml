@@ -1,0 +1,66 @@
+id: evaporating_alcohol_pool_10
+level: 1
+category: scalar_state
+tags: []
+variant_of: evaporating_alcohol_pool
+variation_type: combined
+variation_description: Substance change to non-volatile oil combined with camera physical movement occlusion.
+changes:
+  occlusion_method: Camera physically moves backward away from the scene.
+  dynamic_conditions: Liquid is motor oil (low volatility) instead of alcohol.
+  expected_outcome_change: No evaporation (oil does not evaporate at 55°C).
+prompts:
+  init_frame_edit_prompt: Edit the liquid on the plate to look like thick, golden-brown motor oil instead
+    of clear alcohol.
+  video_WM: A pool of heavy motor oil sits on the warm metal plate. The plate is at 55°C. Motor oil has
+    extremely low volatility and a very high boiling point. The air is still. The camera physically moves
+    backward, retreating from the bench until the scale is lost from view. The camera pauses at a distance
+    for several seconds. Then the camera moves forward, returning to the exact original position. No cut,
+    no scene change. STOP.
+  camera_WM: A pool of heavy motor oil sits on the warm metal plate. The plate is at 55°C. Motor oil has
+    extremely low volatility and a very high boiling point. The air is still. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: 'A close-up, high-angle shot of a silver metal hot plate scale. On the center
+    of the plate sits a pool of viscous, amber-colored liquid with some surface bubbles and irregularities.
+    The scale has a digital display at the bottom reading ''WARM: 55°C''. In the background, out of focus,
+    there is a white piece of equipment with a blue label that reads ''Rubbing Alcohol'' and some black
+    cables.'
+  init2final_edit_prompt: 'Edit the given image to show the pool of amber liquid remaining exactly the
+    same size, shape, and volume. The liquid should cover the same area of the metal plate as the original
+    image. Do not reduce the amount of liquid or show signs of evaporation. Ensure the digital display
+    still reads ''WARM: 55°C''.'
+  rationale: The prompt explicitly identifies the substance as heavy motor oil, which has extremely low
+    volatility and a high boiling point. At 55°C, motor oil will not evaporate, boil, or significantly
+    change in volume over the short duration of the camera movement. Although the background label says
+    'Rubbing Alcohol', the text prompt overrides this visual cue with specific physical properties. Therefore,
+    the correct rollout must show the liquid state remaining constant (conservation of mass/volume) rather
+    than evaporating.
+  questions:
+  - id: existence_check
+    question: Is the pool of amber liquid still present on the metal plate?
+    answer_type: yes_no
+    notes_for_judge: The liquid should not disappear.
+  - id: volume_conservation
+    question: Does the liquid appear to occupy approximately the same surface area as it did in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: Motor oil at 55C should not evaporate; the area should be roughly identical.
+  - id: mass_stability
+    question: Is the volume of the liquid roughly unchanged compared to the start?
+    answer_type: yes_no
+    notes_for_judge: Testing for lack of evaporation.
+  - id: visual_appearance
+    question: Does the liquid still look like a viscous pool rather than a dried residue?
+    answer_type: yes_no
+    notes_for_judge: It should remain a liquid pool.
+  - id: display_consistency
+    question: Is the digital display reading '55°C' still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: background_consistency
+    question: Is the white equipment with the blue label still visible in the background?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

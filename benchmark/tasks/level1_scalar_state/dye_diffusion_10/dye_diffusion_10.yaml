@@ -1,0 +1,70 @@
+id: dye_diffusion_10
+level: 1
+category: scalar_state
+tags: []
+variant_of: dye_diffusion
+variation_type: combined
+variation_description: Empty bowl + Fog occlusion.
+changes:
+  occlusion_method: Thick fog fills the room.
+  dynamic_conditions: Bowl is empty and dry.
+  expected_outcome_change: Dye splatters on glass bottom and pools/dries without diffusing.
+prompts:
+  init_frame_edit_prompt: Edit the image to remove the water from the bowl, showing an empty dry glass
+    bowl.
+  video_WM: Single continuous shot, no cuts, no zoom. The blue liquid in the dropper is a water-soluble
+    dye. The bowl is completely empty and dry. When released, the dye falls towards the hard glass bottom.
+    No stirring or additional drops occur. Camera starts centered on the bowl and hand. Suddenly, thick
+    white fog rolls into the scene, completely obscuring the view of the bowl and hand. The scene remains
+    hidden by the fog for several seconds. While obscured, the dye settles in the empty bowl. Then the
+    fog gradually clears, revealing the bowl again. The camera remains stationary throughout.
+  camera_WM: Single continuous shot, no cuts, no zoom. The blue liquid in the dropper is a water-soluble
+    dye. The bowl is completely empty and dry. When released, the dye falls towards the hard glass bottom.
+    No stirring or additional drops occur. Camera starts centered on the bowl and hand. Suddenly, thick
+    white fog rolls into the scene, completely obscuring the view of the bowl and hand. The scene remains
+    hidden by the fog for several seconds. While obscured, the dye settles in the empty bowl. Then the
+    fog gradually clears, revealing the bowl again. The camera remains stationary throughout. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A close-up view of a hand holding a dropper filled with dark blue liquid over
+    a clear, empty glass bowl. A single drop of blue liquid is suspended in mid-air, falling from the
+    dropper tip towards the bowl. The background shows a blurred window and some greenery.
+  init2final_edit_prompt: Edit the given image to show that the falling blue drop has landed. Remove the
+    blue drop suspended in mid-air. Render a small puddle or droplet of dark blue liquid resting at the
+    very bottom of the clear glass bowl. Ensure the bowl remains otherwise empty and dry, not filled with
+    water. Keep the hand and dropper in the same position.
+  rationale: The video prompt describes a drop of dye falling into a dry, empty bowl. During the fog occlusion,
+    the drop completes its fall under gravity and settles at the bottom of the container. Since the bowl
+    is dry, the dye does not diffuse or mix; it simply forms a small, concentrated puddle or droplet on
+    the glass surface. The final frame reveals this settled state after the fog clears.
+  questions:
+  - id: liquid_location_1
+    question: Is there blue liquid visible at the bottom of the glass bowl?
+    answer_type: yes_no
+    notes_for_judge: The drop should have landed.
+  - id: liquid_location_2
+    question: Is the blue drop that was suspended in mid-air in the initial frame gone?
+    answer_type: yes_no
+    notes_for_judge: The falling drop should no longer be in the air.
+  - id: bowl_content_1
+    question: Does the bowl contain more blue liquid than it did in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Initially empty (or near empty), now contains the drop.
+  - id: bowl_content_2
+    question: Is the bowl still mostly empty (not filled with liquid)?
+    answer_type: yes_no
+    notes_for_judge: Only a drop was released into a dry bowl; it should not be full.
+  - id: liquid_state_1
+    question: Is the blue liquid resting on the interior surface of the bowl?
+    answer_type: yes_no
+    notes_for_judge: It should be at the bottom.
+  - id: visibility_1
+    question: Is the bowl clearly visible (not obscured by fog)?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the fog clears.
+  - id: consistency_1
+    question: Is the hand holding the dropper still present above the bowl?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

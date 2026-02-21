@@ -1,0 +1,69 @@
+id: sparkler_firework_05
+level: 1
+category: scalar_state
+tags: []
+variant_of: sparkler_firework
+variation_type: dynamic_condition
+variation_description: The sparkler is already burned down near the handle.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Fuel is almost exhausted.
+  expected_outcome_change: Sparkler burns out completely and goes dark.
+prompts:
+  init_frame_edit_prompt: Edit the image to move the burning spark point down the wire so it is very close
+    to the hand holding it, leaving a long trail of burnt wire behind it.
+  video_WM: The sparkler is burning with the active ignition point positioned very close to the handle.
+    Most of the fuel has been consumed, and only a tiny segment of coated wire remains before the flame
+    reaches the end. Oxygen is available. The camera rotates right at constant speed until the sparkler
+    completely exits the view to the right. The camera continues rotating right for several seconds while
+    off-screen. Then the camera rotates left smoothly at the same rate back to the original viewpoint.
+    No zoom, no cut, no scene change. STOP.
+  camera_WM: The sparkler is burning with the active ignition point positioned very close to the handle.
+    Most of the fuel has been consumed, and only a tiny segment of coated wire remains before the flame
+    reaches the end. Oxygen is available. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A close-up shot against a black background showing a hand on the right holding
+    a lit sparkler. The sparkler extends to the left and is actively burning, emitting a large, bright
+    starburst of golden-white sparks and smoke. The ignition point is roughly in the middle of the visible
+    wire, with the burnt section extending to the left and the unburnt coated section towards the hand.
+  init2final_edit_prompt: Edit the given image to show that the sparkler has completely finished burning.
+    Remove the bright starburst of sparks, the central flame, and the smoke. Show only the dark, thin,
+    burnt wire remaining in the hand. The lighting on the hand should be significantly dimmer or darker,
+    as the primary light source (the sparks) has been extinguished.
+  rationale: The prompt states that only a 'tiny segment' of fuel remains and the ignition point is very
+    close to the handle. The camera rotates away for 'several seconds' before returning. Since sparklers
+    burn continuously and relatively quickly, the remaining tiny segment of fuel would be fully consumed
+    during the time the camera is looking away. Therefore, when the camera returns to the original view,
+    the sparkler should be extinguished (burned out), with no active sparks or flame remaining.
+  questions:
+  - id: sparks_gone
+    question: Are the bright sparks visible in the initial frame now gone or significantly reduced?
+    answer_type: yes_no
+    notes_for_judge: The sparkler should have burned out, so the large cluster of sparks should be absent.
+  - id: flame_extinguished
+    question: Is the sparkler extinguished?
+    answer_type: yes_no
+    notes_for_judge: Look for the absence of the central bright burning core.
+  - id: less_fire
+    question: Is the amount of active fire less than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The fire should be gone (0 amount), which is less than the start.
+  - id: wire_dark
+    question: Is the wire dark rather than glowing bright white?
+    answer_type: yes_no
+    notes_for_judge: The wire should be burnt ash/metal, not emitting light.
+  - id: lighting_dimmer
+    question: Is the illumination on the hand dimmer than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Without the sparkler, the scene should be darker.
+  - id: hand_visible
+    question: Is the hand still visible holding the wire?
+    answer_type: yes_no
+    notes_for_judge: The hand should not disappear, though it may be darker.
+  - id: smoke_reduced
+    question: Is the amount of smoke generated less than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: If the burning stopped, new smoke generation stops.

@@ -1,0 +1,61 @@
+id: spray_foam_00
+level: 1
+category: scalar_state
+tags: []
+variant_of: spray_foam
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The insulation foam is expanding rapidly, and the volume of the yellow mound is visibly growing.
+    The chemical expansion continues steadily. Camera remains stationary throughout. No zoom, no cut,
+    no scene change. STOP.
+  camera_WM: The insulation foam is expanding rapidly, and the volume of the yellow mound is visibly growing.
+    The chemical expansion continues steadily. Camera remains stationary throughout. No zoom, no cut,
+    no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up view of a wall cavity framed by wooden studs. Inside the cavity,
+    a mound of wet, yellow spray foam insulation is attached to the backing board. A spray gun nozzle
+    held by a gloved hand is visible in the top right corner, pointing at the foam. Sawdust is scattered
+    on the wooden plate at the bottom.
+  init2final_edit_prompt: Edit the given image so that the mound of yellow spray foam is significantly
+    larger and more voluminous. The foam should appear to have expanded outward and upward, occupying
+    a greater portion of the space between the wooden studs. The texture should remain bubbly and irregular
+    but the overall mass should look swollen and puffy, covering more of the back wall surface than in
+    the original image.
+  rationale: The prompt describes a chemical expansion process where the spray foam increases in volume
+    rapidly. The primary change is the growth of the foam mound due to this chemical reaction. The camera
+    is stationary, so the wooden framing and background environment should remain static. The expansion
+    is continuous, so the final state should show a clearly larger mass of foam compared to the initial
+    state.
+  questions:
+  - id: foam_volume_increase
+    question: Is the volume of the yellow foam visibly larger than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the overall size of the yellow mass.
+  - id: foam_area_coverage
+    question: Does the foam mound cover more of the wall cavity background than it did initially?
+    answer_type: yes_no
+    notes_for_judge: Check if less of the back wall board is visible due to the foam growing.
+  - id: foam_expansion_width_height
+    question: Has the yellow foam expanded in width or height compared to the start?
+    answer_type: yes_no
+    notes_for_judge: The foam should grow in at least one dimension.
+  - id: foam_swelling
+    question: Does the foam mass appear more swollen or puffy than in the first image?
+    answer_type: yes_no
+    notes_for_judge: Look for visual evidence of expansion/inflation.
+  - id: stud_consistency
+    question: Are the vertical wooden studs in the same position as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The structure of the wall should not change.
+  - id: sawdust_consistency
+    question: Is the sawdust on the bottom wooden plate still present?
+    answer_type: yes_no
+    notes_for_judge: The debris on the floor should remain undisturbed.

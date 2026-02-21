@@ -1,0 +1,65 @@
+id: tape_retract_04
+level: 1
+category: scalar_state
+tags: []
+variant_of: tape_retract
+variation_type: dynamic_condition
+variation_description: The tape measure lock lever is engaged, preventing retraction.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Lock lever is pushed down (engaged). Button is NOT held.
+  expected_outcome_change: The tape remains extended at 5 feet (no change).
+prompts:
+  init_frame_edit_prompt: Edit the image to show the black lock lever on the tape measure housing pushed
+    down into the 'locked' position. The tape should look taut and static.
+  video_WM: A metal tape measure is extended 5 feet. The black lock lever is engaged in the down position,
+    holding the blade firmly in place. The tape is static. The camera rotates right until the tape and
+    housing completely exit the view, then rotates toward the left smoothly at the same rate until the
+    housing is back in the center of view. No zoom, no cut, no scene change. STOP.
+  camera_WM: A metal tape measure is extended 5 feet. The black lock lever is engaged in the down position,
+    holding the blade firmly in place. The tape is static. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up, high-angle shot of a yellow tape measure resting on a wooden floor.
+    A hand holds the tape housing on the right side of the frame. The yellow metal blade extends horizontally
+    towards the left. The numbers 4, 5, and 6 are clearly visible on the blade. A black lock lever on
+    the housing is in the down position.
+  init2final_edit_prompt: Edit the given image to show the yellow tape measure in the exact same state,
+    with the blade still extended across the wooden floor and the hand holding the housing. Ensure the
+    yellow blade remains visible with the numbers on it, and the black lock lever remains in the down
+    position. The scene should look identical to the original.
+  rationale: The video prompt explicitly states that the tape is static and the lock lever is engaged,
+    holding the blade in place. The camera rotates away and then returns to the view of the housing. Since
+    no release action is described and the static condition is emphasized, the physical state of the tape
+    measure (extension length) must remain unchanged. The rollout tests for state stability and the absence
+    of hallucinated retraction during occlusion.
+  questions:
+  - id: tape_extended
+    question: Is the yellow tape blade still extended from the housing?
+    answer_type: yes_no
+    notes_for_judge: The tape should not retract; the blade must remain visible.
+  - id: blade_visible
+    question: Is the tape measure blade visible on the wooden floor?
+    answer_type: yes_no
+    notes_for_judge: The blade should not disappear into the housing.
+  - id: length_unchanged
+    question: Does the tape appear to be the same length as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The tape is static, so the length should not change.
+  - id: lock_position
+    question: Is the black lock lever still in the down position?
+    answer_type: yes_no
+    notes_for_judge: The lock must remain engaged.
+  - id: numbers_visible
+    question: Are the numbers on the yellow blade still visible?
+    answer_type: yes_no
+    notes_for_judge: If the tape retracted, the numbers 4, 5, 6 would be gone.
+  - id: hand_holding
+    question: Is the hand still holding the tape measure housing?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: floor_visible
+    question: Is the wooden floor texture still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

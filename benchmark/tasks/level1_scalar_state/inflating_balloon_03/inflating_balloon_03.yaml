@@ -1,0 +1,64 @@
+id: inflating_balloon_03
+level: 1
+category: scalar_state
+tags: []
+variant_of: inflating_balloon
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to camera zooming out.
+changes:
+  occlusion_method: Camera zooms out until details are lost.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A white balloon is connected to an open helium tank and is inflating. The camera zooms out
+    rapidly until the balloon and tank become indistinguishable dots in the landscape, then zooms back
+    in smoothly until the original view is restored. No cut, no scene change. STOP.
+  camera_WM: A white weather balloon is attached to an open gas valve. The balloon is visibly expanding
+    and growing larger. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+evaluation:
+  init_frame_description: A green gas cylinder labeled 'HELIUM' sits on a grassy field. A deflated, cream-colored
+    or white balloon is attached to the nozzle on the left side of the tank. A gloved hand is visible
+    at the top, gripping the valve handle. The background features a grassy plain with rolling hills in
+    the distance under a cloudy sky.
+  init2final_edit_prompt: Edit the given image to show the white balloon significantly inflated. The balloon
+    should appear much larger, rounder, and fuller than in the original image, indicating an increase
+    in volume. It should look taut rather than limp. Keep the green helium tank, the gloved hand on the
+    valve, and the grassy landscape background exactly as they are.
+  rationale: The prompt describes a continuous action of the balloon inflating while the camera performs
+    a zoom-out and zoom-in maneuver. Since the camera returns to the original view without a cut, and
+    the inflation process is ongoing, the final state must show the balloon having accumulated more gas.
+    The primary scalar change is an increase in the balloon's volume (size). The tank and background remain
+    static invariants.
+  questions:
+  - id: balloon_size_increase
+    question: Is the white balloon larger than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the size of the balloon in the final frame to the initial frame. It should
+      be visibly larger.
+  - id: balloon_inflation_state
+    question: Does the balloon appear more inflated and fuller than at the start?
+    answer_type: yes_no
+    notes_for_judge: The balloon should look less limp/wrinkled and more taut/round.
+  - id: balloon_volume_expansion
+    question: Has the volume of the white balloon increased?
+    answer_type: yes_no
+    notes_for_judge: Check for volumetric expansion.
+  - id: balloon_limpness
+    question: Is the balloon less limp compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The initial balloon is draped on the grass; the final one should be filled out.
+  - id: balloon_screen_space
+    question: Does the balloon occupy a larger portion of the image than before?
+    answer_type: yes_no
+    notes_for_judge: Visual check of area coverage.
+  - id: tank_presence
+    question: Is the green helium tank still present and unchanged?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: background_consistency
+    question: Is the grassy landscape background consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

@@ -1,0 +1,82 @@
+id: dye_diffusion_09
+level: 1
+category: scalar_state
+tags: []
+variant_of: dye_diffusion
+variation_type: combined
+variation_description: Hot water in bowl + Camera zoom occlusion.
+changes:
+  occlusion_method: Camera zooms out.
+  dynamic_conditions: Water is hot (steam visible).
+  expected_outcome_change: Faster diffusion.
+prompts:
+  init_frame_edit_prompt: Edit the image to add visible steam rising from the water in the bowl, indicating
+    it is very hot.
+  video_WM: Single continuous shot, no cuts. The blue liquid in the dropper is a water-soluble dye. The
+    water in the bowl is near boiling temperature, releasing steam. High thermal energy significantly
+    increases molecular motion. When released, the dye interacts with the hot water. No stirring or additional
+    drops occur. Camera starts centered on the bowl and hand. The camera rapidly zooms out until the bowl
+    appears as a tiny, indiscernible dot in the distance. The camera remains zoomed out for several seconds
+    while the dye spreads in the hot water. Then the camera zooms back in to the original framing, bringing
+    the details of the bowl back into view.
+  camera_WM: Single continuous shot, no cuts. The blue liquid in the dropper is a water-soluble dye. The
+    water in the bowl is near boiling temperature, releasing steam. High thermal energy significantly
+    increases molecular motion. When released, the dye interacts with the hot water. No stirring or additional
+    drops occur. Camera starts centered on the bowl and hand. While the view is obscured, the dye spreads
+    in the hot water. Lighting and scene consistency remain unchanged. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+  Genie: null
+evaluation:
+  init_frame_description: A close-up view of a hand holding a dropper filled with dark blue liquid over
+    a clear glass bowl of hot water. A single drop of blue dye is suspended from the tip of the dropper,
+    about to fall. Inside the bowl, blue dye has already begun to settle at the bottom, forming distinct,
+    sharp, dark blue swirls and tendrils. Steam is rising from the water surface, indicating high temperature.
+    The background is a blurred indoor setting.
+  init2final_edit_prompt: Edit the given image to show the result of the blue dye diffusing into the hot
+    water. The distinct, sharp blue swirls at the bottom of the bowl should be transformed into a larger,
+    softer, and more diffuse blue cloud that spreads through a greater volume of the water. The water
+    should appear significantly hazier and tinted blue overall, rather than clear with isolated dark lines.
+    Remove the droplet hanging from the tip of the dropper, showing that it has fallen into the bowl.
+    Maintain the original camera angle, the position of the bowl, and the hand holding the dropper.
+  rationale: The video prompt describes a sequence where the camera zooms out and then back in, creating
+    a temporal gap during which physical processes occur. The key process is the diffusion of water-soluble
+    dye in near-boiling water. High thermal energy accelerates molecular motion, causing the initially
+    concentrated and sharp dye swirls to spread rapidly and mix with the surrounding water. Upon the camera's
+    return, the dye should occupy a larger volume and appear more diffuse (blurrier edges, lighter overall
+    tint) rather than distinct swirls. The drop hanging from the dropper in the initial frame is assumed
+    to have fallen and contributed to this diffusion.
+  questions:
+  - id: dye_spread_volume
+    question: Does the blue dye occupy a larger volume of the water than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The blue color should cover more area within the bowl.
+  - id: dye_diffusion_blur
+    question: Are the edges of the blue dye formations softer and less distinct than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Diffusion causes sharp swirls to become hazy clouds.
+  - id: water_tint_increase
+    question: Does the water appear more generally tinted with blue compared to the clear water in the
+      start?
+    answer_type: yes_no
+    notes_for_judge: The overall transparency should decrease as the dye mixes.
+  - id: droplet_fallen
+    question: Has the blue droplet hanging from the dropper tip disappeared?
+    answer_type: yes_no
+    notes_for_judge: The drop should have fallen into the mix.
+  - id: swirl_expansion
+    question: Have the concentrated dark blue swirls at the bottom expanded outward?
+    answer_type: yes_no
+    notes_for_judge: Check for directional expansion of the dye mass.
+  - id: clear_water_reduction
+    question: Is there less completely clear water visible in the bowl compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: As dye spreads, the amount of uncolored water decreases.
+  - id: bowl_consistency
+    question: Is the glass bowl still visible in the same position?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: hand_consistency
+    question: Is the hand holding the dropper still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

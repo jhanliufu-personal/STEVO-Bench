@@ -1,0 +1,76 @@
+id: vinegar_baking_soda_volcano_01
+level: 1
+category: scalar_state
+tags: []
+variant_of: vinegar_baking_soda_volcano
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to a person walking in front of the camera.
+changes:
+  occlusion_method: A person walks between the camera and the scene, blocking the view.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The hand pours vinegar into the container with baking soda. Vinegar contains acetic acid.
+    Baking soda is sodium bicarbonate. The acid-base reaction produces carbon dioxide gas. The reaction
+    is exothermic and rapid. Suddenly, a person walks in front of the camera, completely blocking the
+    view of the counter and jar with their torso. The person stands there for several seconds. Then the
+    person walks away, revealing the scene again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The hand pours vinegar into the container with baking soda. Vinegar contains acetic acid.
+    Baking soda is sodium bicarbonate. The acid-base reaction produces carbon dioxide gas. The reaction
+    is exothermic and rapid. Suddenly, a person walks in front of the camera, completely blocking the
+    view of the counter and jar with their torso. The person stands there for several seconds. Then the
+    person walks away, revealing the scene again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A close-up eye-level shot of a wooden countertop in a kitchen. In the center,
+    a clear glass apothecary jar sits on a rustic wooden tray; the jar contains a mound of white powder
+    (baking soda). To the left, a bottle of Heinz vinegar is visible. Above the jar, a hand holds a glass
+    pitcher filled with clear liquid (vinegar), positioned as if about to pour. The background features
+    a window on the left, a knife block, and a stove on the right.
+  init2final_edit_prompt: Edit the given image to show the result of mixing the vinegar and baking soda.
+    The glass jar should be filled to the brim or overflowing with thick white bubbly foam. The foam should
+    be spilling over the sides of the jar onto the wooden tray. The level of the substance in the jar
+    must be significantly higher than the initial powder level. The glass pitcher in the hand should contain
+    less liquid than before, appearing partially emptied.
+  rationale: The prompt describes pouring vinegar (acetic acid) into baking soda (sodium bicarbonate).
+    This creates a rapid acid-base reaction that releases carbon dioxide gas, causing the mixture to foam
+    and expand significantly in volume (the 'volcano' effect). The occlusion by the person covers the
+    duration of the pour and the reaction's peak. When the view is revealed, the jar should contain expanded
+    foam rather than just powder, likely overflowing due to the volume increase. The pitcher should have
+    less liquid as it was poured to trigger the reaction.
+  questions:
+  - id: vol_increase
+    question: Is the level of the substance inside the glass jar higher than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The substance should have expanded into foam, filling more of the jar.
+  - id: state_change_foam
+    question: Does the substance in the jar appear to be foamy or bubbly?
+    answer_type: yes_no
+    notes_for_judge: The reaction produces CO2 bubbles/foam.
+  - id: overflow
+    question: Is the substance in the jar near the top rim or overflowing?
+    answer_type: yes_no
+    notes_for_judge: The expansion usually causes the mixture to rise to the top or spill over.
+  - id: liquid_decrease
+    question: Is there less clear liquid in the handheld pitcher compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Vinegar must have been poured to cause the reaction.
+  - id: tray_mess
+    question: Is there foam or liquid visible on the wooden tray outside the jar?
+    answer_type: yes_no
+    notes_for_judge: Checks for overflow onto the immediate surface.
+  - id: powder_transformation
+    question: Has the pile of dry white powder been replaced by a wet or foamy mixture?
+    answer_type: yes_no
+    notes_for_judge: The dry powder state should be gone.
+  - id: invariant_bg_stove
+    question: Is the stove in the background still visible and unchanged?
+    answer_type: yes_no
+    notes_for_judge: Background invariant check.
+  - id: invariant_bottle
+    question: Is the vinegar bottle on the left still present?
+    answer_type: yes_no
+    notes_for_judge: Object permanence check for untouched items.

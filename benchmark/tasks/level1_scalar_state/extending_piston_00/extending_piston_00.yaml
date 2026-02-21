@@ -1,0 +1,64 @@
+id: extending_piston_00
+level: 1
+category: scalar_state
+tags: []
+variant_of: extending_piston
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A hydraulic piston is extending slowly. Camera remains stationary throughout. No zoom, no
+    cut, no scene change. STOP.
+  camera_WM: A hydraulic piston is extending slowly. Camera remains stationary throughout. No zoom, no
+    cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up view of a green excavator arm mechanism. A prominent hydraulic cylinder
+    runs diagonally across the frame, featuring a green painted barrel and a shiny silver metal rod extending
+    towards the top right. The rod is currently partially extended. In the foreground, a control lever
+    with a black handle and a rubber boot is visible on a dirty metal surface. The machinery shows signs
+    of wear, grease, and rust.
+  init2final_edit_prompt: Edit the given image to show the hydraulic piston in a more extended state.
+    Significantly increase the length of the visible shiny silver rod emerging from the green cylinder
+    barrel. Move the attachment point at the end of the rod further away from the cylinder body to reflect
+    this extension, making the overall hydraulic assembly appear longer.
+  rationale: The prompt specifies that the hydraulic piston is extending. This is a scalar change in length.
+    Physically, the hydraulic rod moves outward from the cylinder barrel, increasing the visible length
+    of the shiny metal section. The edit must reflect this geometric elongation while maintaining the
+    stationary camera view and the surrounding context of the excavator arm.
+  questions:
+  - id: piston_length_01
+    question: Is the shiny silver section of the hydraulic piston longer than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the length of the chrome rod visible between the green barrel and the end
+      joint.
+  - id: extension_state_01
+    question: Has the hydraulic rod extended further out of the green cylinder barrel?
+    answer_type: yes_no
+    notes_for_judge: Check if the rod has moved outward relative to the cylinder body.
+  - id: assembly_geometry_01
+    question: Is the distance between the cylinder barrel and the rod's end connection point greater than
+      before?
+    answer_type: yes_no
+    notes_for_judge: The overall assembly should look longer due to extension.
+  - id: surface_area_01
+    question: Is more of the chrome surface of the piston rod visible compared to the start?
+    answer_type: yes_no
+    notes_for_judge: Extension exposes more of the internal rod.
+  - id: relative_position_01
+    question: Is the end of the piston rod further away from the main green body of the cylinder?
+    answer_type: yes_no
+    notes_for_judge: Directional check for extension.
+  - id: invariant_lever_01
+    question: Is the black control lever in the foreground still present?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: invariant_color_01
+    question: Is the excavator arm still primarily green?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

@@ -1,0 +1,70 @@
+id: spray_foam_01
+level: 1
+category: scalar_state
+tags: []
+variant_of: spray_foam
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to a sheet of plywood sliding in front of
+  the camera.
+changes:
+  occlusion_method: A large sheet of plywood slides into view, blocking the scene, then slides away.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The insulation foam is expanding rapidly, and the volume of the yellow mound is visibly growing.
+    A large sheet of plywood slides into the frame from the right, completely blocking the view of the
+    wall cavity. The plywood then slides back to the right, revealing the scene again. No zoom, no cut,
+    no scene change. STOP.
+  camera_WM: The insulation foam is expanding rapidly, and the volume of the yellow mound is visibly growing.
+    A large sheet of plywood slides into the frame from the right, completely blocking the view of the
+    wall cavity. The plywood then slides back to the right, revealing the scene again. No zoom, no cut,
+    no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up view of a wooden wall cavity during construction. Two vertical wooden
+    studs frame the shot. Inside the cavity, a mound of wet, yellow spray foam insulation is adhering
+    to the backing board. A spray gun nozzle is visible in the upper right corner, directing a stream
+    of foam onto the mound. The floor is covered in sawdust and wood shavings.
+  init2final_edit_prompt: Edit the given image so that the mound of yellow spray foam insulation inside
+    the wall cavity is significantly larger and more voluminous. The foam should appear to have expanded,
+    filling more of the space between the vertical wooden studs and reaching higher up the wall backing.
+    Maintain the bubbly texture of the foam. Ensure the wooden studs, the floor with sawdust, and the
+    general lighting remain consistent with the original scene, but show the foam mass as having grown
+    in size.
+  rationale: The video prompt describes the foam expanding rapidly. Although a plywood sheet temporarily
+    occludes the view, the underlying physical process of expansion continues. Therefore, when the plywood
+    slides away to reveal the scene again in the final frame, the primary change must be a noticeable
+    increase in the volume and coverage of the yellow foam insulation compared to the initial frame. The
+    camera position returns to the original view, so the background structure remains constant.
+  questions:
+  - id: foam_volume_increase
+    question: Is the volume of the yellow spray foam larger than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the overall size of the yellow mound. It should be bigger.
+  - id: foam_height_growth
+    question: Does the foam insulation reach higher up the wall cavity than in the starting image?
+    answer_type: yes_no
+    notes_for_judge: Check the vertical extent of the foam.
+  - id: foam_width_expansion
+    question: Does the foam mass appear wider, filling more of the gap between the studs compared to the
+      start?
+    answer_type: yes_no
+    notes_for_judge: Check the horizontal spread of the foam.
+  - id: foam_surface_area
+    question: Does the yellow foam cover a larger surface area of the back wall than before?
+    answer_type: yes_no
+    notes_for_judge: Assess the coverage on the backing board.
+  - id: foam_bulge
+    question: Does the foam mound appear more swollen or expanded outward compared to the initial state?
+    answer_type: yes_no
+    notes_for_judge: Look for 3D expansion/bulging.
+  - id: stud_visibility
+    question: Are the vertical wooden studs still visible on the left and right sides?
+    answer_type: yes_no
+    notes_for_judge: 'Invariant check: The structure should remain.'
+  - id: sawdust_presence
+    question: Is the sawdust on the floor still visible?
+    answer_type: yes_no
+    notes_for_judge: 'Invariant check: The floor debris should not disappear.'

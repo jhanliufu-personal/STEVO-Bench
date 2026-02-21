@@ -1,0 +1,66 @@
+id: paper_towel_wicking_00
+level: 1
+category: scalar_state
+tags: []
+variant_of: paper_towel_wicking
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The paper towel edge remains in contact with the blue water. Paper towel has porous cellulose
+    fiber structure with capillary channels. Capillary action occurs when surface tension and adhesion
+    forces draw liquid upward against gravity. The water is blue-dyed. Camera remains stationary throughout.
+    No zoom, no cut, no scene change. STOP.
+  camera_WM: The paper towel edge remains in contact with the blue water. Paper towel has porous cellulose
+    fiber structure with capillary channels. Capillary action occurs when surface tension and adhesion
+    forces draw liquid upward against gravity. The water is blue-dyed. Camera remains stationary throughout.
+    No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A vertical strip of white paper towel is suspended by a metal clamp attached
+    to a retort stand. The bottom edge of the paper towel is submerged in a glass petri dish filled with
+    blue liquid. Several glass beakers are visible in the background on a lab bench.
+  init2final_edit_prompt: Edit the given image to show the blue liquid having wicked up the paper towel
+    strip. The blue color should extend significantly higher up the vertical paper strip than in the original
+    image, indicating absorption. The texture of the paper in the blue region should appear wet. The level
+    of liquid in the petri dish should be slightly lower.
+  rationale: The prompt describes capillary action, a physical process where liquid flows into narrow
+    spaces without the assistance of, or even in opposition to, external forces like gravity. Over time,
+    the blue water will travel upward through the porous cellulose fibers of the paper towel. The primary
+    visual change is the vertical growth of the blue region on the paper strip.
+  questions:
+  - id: wicking_height_increase
+    question: Is the blue liquid visible on a higher portion of the paper towel than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the vertical position of the blue dye front on the paper strip.
+  - id: blue_area_growth
+    question: Is the total area of the paper towel colored blue larger than it was initially?
+    answer_type: yes_no
+    notes_for_judge: The blue region should have expanded upward.
+  - id: liquid_rise_direction
+    question: Has the blue dye moved upward against gravity along the paper strip?
+    answer_type: yes_no
+    notes_for_judge: Check for upward movement of the liquid front.
+  - id: paper_wetness
+    question: Does the paper towel appear wet and colored blue further up the strip compared to the start?
+    answer_type: yes_no
+    notes_for_judge: Visual confirmation of the wicking process.
+  - id: white_area_reduction
+    question: Is the portion of the paper towel that remains dry and white smaller (or at least not larger)
+      than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: As the blue rises, the white dry area decreases.
+  - id: clamp_consistency
+    question: Is the metal clamp still holding the top of the paper towel strip?
+    answer_type: yes_no
+    notes_for_judge: Invariant check.
+  - id: dish_presence
+    question: Is the glass petri dish containing the blue liquid still present at the bottom?
+    answer_type: yes_no
+    notes_for_judge: Invariant check.

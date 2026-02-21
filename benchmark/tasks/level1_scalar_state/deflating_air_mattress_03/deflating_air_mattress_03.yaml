@@ -1,0 +1,68 @@
+id: deflating_air_mattress_03
+level: 1
+category: scalar_state
+tags: []
+variant_of: deflating_air_mattress
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to camera zooming out.
+changes:
+  occlusion_method: Camera zooms out until details are lost, then zooms back in.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A thick air mattress has its valve open and is visibly deflating. The air continues to escape
+    steadily. The camera zooms out rapidly until the mattress is too small to discern details, then zooms
+    back in smoothly to the original framing. No cut, no scene change. STOP.
+  camera_WM: A thick air mattress has its valve open and is visibly deflating. The air continues to escape
+    steadily. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+evaluation:
+  init_frame_description: A close-up, high-angle shot of a blue, inflated air mattress resting on a wooden
+    floor. The mattress has a tufted, textured surface and appears taut and thick. In the bottom left
+    foreground, a black air valve is visible with its cap unplugged and hanging by a plastic tether, indicating
+    the valve is open. A window and baseboard are visible in the blurred background.
+  init2final_edit_prompt: Edit the given image to show the blue air mattress in a partially deflated state.
+    The mattress should appear significantly flatter and less taut than in the original image, with visible
+    sagging and increased wrinkling on the top surface. The overall height of the mattress should be reduced,
+    making it look closer to the floor. Maintain the original camera angle, framing, and the open position
+    of the black valve.
+  rationale: The video prompt describes a continuous process of air escaping from the mattress while the
+    camera performs a zoom-out and zoom-in maneuver. Since the camera returns to the original framing
+    at the end, the final view should match the initial perspective but reflect the accumulated loss of
+    air volume. The mattress should therefore appear flatter, less pressurized, and more wrinkled due
+    to the deflation that occurred during the camera movement.
+  questions:
+  - id: deflation_volume_check
+    question: Does the air mattress appear flatter than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the apparent thickness/height of the mattress. It should look less inflated.
+  - id: surface_tension_check
+    question: Is the surface of the mattress less taut and more wrinkled than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Deflation causes the material to sag and wrinkle.
+  - id: height_reduction_check
+    question: Is the height of the mattress lower relative to the floor compared to the start?
+    answer_type: yes_no
+    notes_for_judge: The mattress should have lost vertical volume.
+  - id: inflation_state_comparison
+    question: Does the mattress look less inflated overall compared to the initial image?
+    answer_type: yes_no
+    notes_for_judge: General assessment of inflation state.
+  - id: valve_visibility
+    question: Is the black air valve still visible in the foreground?
+    answer_type: yes_no
+    notes_for_judge: The valve should remain in view as the framing returns to the start.
+  - id: valve_state_consistency
+    question: Is the valve cap still open (unplugged)?
+    answer_type: yes_no
+    notes_for_judge: The prompt does not mention closing the valve.
+  - id: framing_consistency
+    question: Is the mattress shown from approximately the same angle and distance as the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The camera zooms back in to the original framing.
+  - id: object_permanence
+    question: Is the mattress still blue and resting on the wooden floor?
+    answer_type: yes_no
+    notes_for_judge: Basic consistency check.

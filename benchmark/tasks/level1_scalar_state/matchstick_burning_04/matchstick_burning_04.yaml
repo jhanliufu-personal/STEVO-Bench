@@ -1,0 +1,69 @@
+id: matchstick_burning_04
+level: 1
+category: scalar_state
+tags: []
+variant_of: matchstick_burning
+variation_type: dynamic_condition
+variation_description: The matchstick wood is damp, implying the fire will struggle or extinguish.
+changes:
+  occlusion_method: null
+  dynamic_conditions: The wooden shaft is damp and saturated with water.
+  expected_outcome_change: Flame extinguishes or fails to travel down the stick
+prompts:
+  init_frame_edit_prompt: Edit the image to make the wooden stick of the match look damp and dark, with
+    small water droplets visible on the wood surface below the flame.
+  video_WM: The matchstick flame burns at the tip, but the wood shaft is visibly damp and saturated with
+    water. Oxygen is available. The camera rotates right at constant speed until the matchstick completely
+    exits the view to the right. The camera continues rotating right for several seconds while off-screen.
+    Then the camera rotates left smoothly at the same rate back to the original viewpoint. No zoom, no
+    cut, no scene change. STOP.
+  camera_WM: The matchstick flame burns at the tip, but the wood shaft is visibly damp and saturated with
+    water. Oxygen is available during the occlusion period. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, side-profile view of a human hand holding a matchstick. The matchstick
+    has a burnt, blackened head and a flame burning on the wood shaft immediately below the head. The
+    flame is orange and yellow with visible smoke rising. The unburnt portion of the wooden shaft is light
+    brown and appears visibly wet, with water droplets or a sheen of moisture along its surface. The background
+    is a plain, out-of-focus beige wall.
+  init2final_edit_prompt: Edit the given image to show the matchstick after the fire has struggled against
+    the wet wood. The flame should be extinguished or reduced to a very small, dying smolder. The blackened,
+    charred section at the tip should extend slightly further down the shaft than in the original image,
+    indicating a small amount of burning occurred, but the majority of the wood shaft must remain unburnt
+    and visibly damp. The hand and background should remain unchanged.
+  rationale: The initial frame establishes that the matchstick is saturated with water. Although a flame
+    is present at the tip, the physics of combustion dictates that the water in the wood will act as a
+    heat sink, preventing the fire from spreading effectively down the shaft. During the several seconds
+    of occlusion, the flame will likely consume the remaining dry or pre-heated fuel near the tip and
+    then extinguish or dwindle significantly as it encounters the damp wood. Therefore, the final state
+    should show a slightly larger charred area but a failed or dying fire, rather than a matchstick that
+    has burned down significantly.
+  questions:
+  - id: char_growth
+    question: Is the blackened, charred section of the matchstick longer than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The fire should have burned a small amount of wood before dying out, so the black
+      tip should be slightly extended.
+  - id: flame_reduction
+    question: Is the flame significantly smaller or completely extinguished compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Due to the damp wood, the fire should die down or go out.
+  - id: wood_preservation
+    question: Is the majority of the wooden shaft still unburnt?
+    answer_type: yes_no
+    notes_for_judge: The match should not have burned down completely or significantly due to the water
+      saturation.
+  - id: dampness_visibility
+    question: Are signs of moisture (droplets or sheen) still visible on the unburnt wood?
+    answer_type: yes_no
+    notes_for_judge: The unburnt wood should still look wet.
+  - id: hand_presence
+    question: Is the hand holding the matchstick still visible?
+    answer_type: yes_no
+    notes_for_judge: The hand should remain in the frame holding the match.
+  - id: background_consistency
+    question: Is the background still a blurred beige surface?
+    answer_type: yes_no
+    notes_for_judge: The background should not change.

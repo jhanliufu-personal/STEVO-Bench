@@ -1,0 +1,67 @@
+id: tape_retract_10
+level: 1
+category: scalar_state
+tags: []
+variant_of: tape_retract
+variation_type: combined
+variation_description: The internal spring is broken (tape is loose), and occlusion is via zoom out.
+changes:
+  occlusion_method: Camera zoom out.
+  dynamic_conditions: Spring broken (zero tension).
+  expected_outcome_change: Tape remains extended and loose (no movement).
+prompts:
+  init_frame_edit_prompt: Edit the image so the yellow tape blade looks loose, wavy, and slack on the
+    floor rather than straight and taut.
+  video_WM: A metal tape measure lies on the floor, extended 5 feet. The tape blade is loose and slack,
+    indicating a broken spring. The retraction button is pressed, but the tape remains limp on the floor.
+    The camera zooms out until the tape measure is too small to distinguish, then zooms back in to the
+    initial view. No cut, no scene change. STOP.
+  camera_WM: A metal tape measure lies on the floor, extended 5 feet. The tape blade is loose and slack,
+    indicating a broken spring. The retraction button is pressed, but the tape remains limp on the floor.
+    STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+evaluation:
+  init_frame_description: A high-angle close-up shows a yellow tape measure casing held by a hand on the
+    right side of the frame. A yellow metal tape blade extends from the casing towards the left, lying
+    on a wooden plank floor. The tape blade is slack, twisted, and wavy, indicating it is not under tension.
+    Black measurement markings are visible on the yellow blade. A window sill is partially visible in
+    the upper left corner.
+  init2final_edit_prompt: Edit the given image to show the tape measure still extended and slack on the
+    wooden floor. The yellow tape blade should remain loose, twisted, and unretracted, maintaining the
+    same length and messy configuration as the original view. The hand should still be holding the yellow
+    casing in the same position.
+  rationale: 'The prompt explicitly states that the tape measure has a broken spring and remains limp
+    when the retraction button is pressed. Therefore, the scalar property of ''tape extension length''
+    must remain constant rather than decreasing, which contradicts the typical affordance of a tape measure.
+    The camera zooms out and back in to the initial view, so the final frame must depict the tape exactly
+    as it started: extended, slack, and unretracted.'
+  questions:
+  - id: tape_extended
+    question: Is the metal tape blade still extended out of the casing?
+    answer_type: yes_no
+    notes_for_judge: The tape should not have retracted.
+  - id: tape_slack
+    question: Does the tape blade remain slack and loose on the floor?
+    answer_type: yes_no
+    notes_for_judge: It should not be taut or straight.
+  - id: tape_length_constant
+    question: Is the visible length of the tape approximately the same as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: It should not be significantly shorter.
+  - id: tape_twisted
+    question: Is the tape blade still twisted or wavy?
+    answer_type: yes_no
+    notes_for_judge: It should retain its messy shape.
+  - id: tape_unretracted
+    question: Has the tape avoided retracting into the casing?
+    answer_type: yes_no
+    notes_for_judge: The primary failure mode is the tape retracting.
+  - id: casing_visible
+    question: Is the yellow casing still visible in the hand?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: floor_visible
+    question: Is the wooden floor visible beneath the tape?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

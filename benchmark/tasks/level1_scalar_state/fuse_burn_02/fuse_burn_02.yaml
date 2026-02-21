@@ -1,0 +1,70 @@
+id: fuse_burn_02
+level: 1
+category: scalar_state
+tags: []
+variant_of: fuse_burn
+variation_type: occlusion_method
+variation_description: Occlusion by a metal sheet sliding in front of the camera
+changes:
+  occlusion_method: A large rusty metal sheet slides into view, blocking the scene, then slides back
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The fuse is burning rapidly, and the length of the black cord is visibly shortening as the
+    spark moves along it. The burning continues at a fast, constant rate. A large, rusty metal sheet slides
+    in from the right side of the frame until it completely blocks the view of the floor. The sheet pauses,
+    then slides back out to the right. No zoom, no cut, no scene change. STOP.
+  camera_WM: The fuse is burning rapidly, and the length of the black cord is visibly shortening as the
+    spark moves along it. The burning continues at a fast, constant rate. A large, rusty metal sheet slides
+    in from the right side of the frame until it completely blocks the view of the floor. The sheet pauses,
+    then slides back out to the right. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A thick, twisted, tan-colored rope fuse lies on a rough, grey concrete floor.
+    The fuse extends from the left foreground, curving towards the right background. The tip of the fuse
+    on the left is burning with a bright orange flame and emitting sparks and smoke. The burnt section
+    at the very tip is blackened, while the rest of the rope remains unburnt and tan.
+  init2final_edit_prompt: Edit the given image to show the burning tip of the fuse positioned significantly
+    further along the rope towards the right. The section of the rope previously occupied by the unburnt
+    tan texture, now behind the new burning tip, should appear blackened and charred. The length of the
+    remaining unburnt tan rope should be visibly shorter than in the original image. Ensure smoke and
+    sparks are emitting from the new location of the burning tip.
+  rationale: The video prompt describes a fuse burning rapidly. This is a continuous physical process
+    where the flame travels along the fuel source (the rope), consuming it. The unburnt section shortens,
+    and the burnt section (char/ash) grows. The prompt also describes a large metal sheet that slides
+    in to occlude the view and then slides back out. Since the sheet leaves the frame before the video
+    ends, the final frame should show the scene unoccluded, but with the state of the fuse advanced in
+    time (flame moved, rope burnt).
+  questions:
+  - id: flame_position
+    question: Is the burning tip of the fuse located further along the rope than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The fire should have moved from left to right along the path of the rope.
+  - id: unburnt_length
+    question: Is the unburnt tan section of the rope shorter than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: As the fuse burns, the unburnt fuel must decrease in length.
+  - id: charred_amount
+    question: Is there more blackened or charred material visible along the rope's path than in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: The area the fire has passed over should now be burnt/black.
+  - id: flame_location_right
+    question: Is the flame closer to the right side of the image compared to the starting position?
+    answer_type: yes_no
+    notes_for_judge: Directional check on the movement of the fire.
+  - id: start_point_state
+    question: Is the original starting point of the fire now charred or burnt out?
+    answer_type: yes_no
+    notes_for_judge: The fire moves away from the start, leaving char behind.
+  - id: sheet_absence
+    question: Is the metal sheet absent from the final view?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the sheet slides back out, so it should not be present in the final
+      frame.
+  - id: floor_visibility
+    question: Is the concrete floor visible again?
+    answer_type: yes_no
+    notes_for_judge: The occlusion should have cleared.

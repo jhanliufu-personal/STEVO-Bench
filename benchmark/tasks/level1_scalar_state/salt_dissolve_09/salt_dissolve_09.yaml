@@ -1,0 +1,64 @@
+id: salt_dissolve_09
+level: 1
+category: scalar_state
+tags: []
+variant_of: salt_dissolve
+variation_type: combined
+variation_description: Still water (Condition) + Zoom out (Method).
+changes:
+  occlusion_method: Camera zoom out.
+  dynamic_conditions: Water is stagnant/still.
+  expected_outcome_change: Slow dissolution.
+prompts:
+  init_frame_edit_prompt: Edit the image to remove all bubbles and turbulence from the water. The water
+    should look perfectly clear, still, and stagnant.
+  video_WM: A salt lick is submerged in a tank of stagnant, perfectly still water. The camera zooms out
+    until the tank is barely visible in the distance, then zooms back in to the original framing. No cut,
+    no scene change. STOP.
+  camera_WM: A salt lick is submerged in a tank of stagnant, perfectly still water. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+evaluation:
+  init_frame_description: A clear glass aquarium tank filled with water. Inside the tank, centered, is
+    a large, white, cubic block with a rough, textured surface, resembling a salt lick. To the right of
+    the block, a black vertical heater or filter tube is submerged in the water. The background shows
+    a window with a blurred building view.
+  init2final_edit_prompt: Edit the given image to show the white salt block partially dissolved. Reduce
+    the overall size and volume of the white block. Round off the sharp corners and edges of the block.
+    Smooth out the rough surface texture to make it look worn down by the water. Keep the black tube,
+    the tank, and the background unchanged.
+  rationale: 'The prompt describes a salt lick submerged in water. Physically, salt dissolves in water
+    over time. The camera maneuver (zoom out and back in) serves as a temporal bridge, implying a passage
+    of time sufficient for the physical process to progress. Therefore, upon returning to the original
+    framing, the salt block should exhibit signs of dissolution: a reduction in mass/volume, rounding
+    of sharp edges, and smoothing of surface texture. The water is stagnant, so the block will not have
+    moved, but it will have shrunk in place.'
+  questions:
+  - id: salt_size_reduction
+    question: Is the white block smaller than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the overall volume/area occupied by the block.
+  - id: salt_volume_decrease
+    question: Has the volume of the salt block decreased?
+    answer_type: yes_no
+    notes_for_judge: The block should take up less space in the tank.
+  - id: salt_edges_rounded
+    question: Are the edges of the block more rounded or worn compared to the start?
+    answer_type: yes_no
+    notes_for_judge: Dissolution attacks corners and edges, making them rounder.
+  - id: salt_mass_loss
+    question: Does the block appear to have lost mass compared to the initial image?
+    answer_type: yes_no
+    notes_for_judge: Look for shrinkage.
+  - id: salt_texture_smooth
+    question: Is the surface texture of the block smoother or less rough than initially?
+    answer_type: yes_no
+    notes_for_judge: Water smooths out rough crystalline textures.
+  - id: tank_presence
+    question: Is the glass tank still visible?
+    answer_type: yes_no
+    notes_for_judge: Consistency check.
+  - id: heater_presence
+    question: Is the black vertical tube on the right still present?
+    answer_type: yes_no
+    notes_for_judge: Consistency check.

@@ -1,0 +1,71 @@
+id: tank_filling_up_v10
+level: 1
+category: scalar_state
+tags: []
+variant_of: tank_filling_up
+variation_type: combined
+variation_description: Leaking tank combined with a warehouse worker blocking the view.
+changes:
+  occlusion_method: Occlusion by foreground (person)
+  dynamic_conditions: Tank integrity compromised (leak)
+  expected_outcome_change: Water level rises slower or stays steady
+prompts:
+  init_frame_edit_prompt: Edit the image to show a visible crack or hole near the bottom of the transparent
+    tank, with a stream of water leaking out onto the concrete floor.
+  video_WM: Single continuous take, no cuts or zoom. Camera is static, centered on the pipe and water
+    tank. Water flows into the tank, but it is leaking from a hole near the bottom. A warehouse worker
+    walks close to the camera lens, completely blocking the view with their back. They stand there for
+    several seconds, obscuring the scene. Then the worker walks away to the left, revealing the tank again.
+    STOP.
+  camera_WM: Single continuous take, no cuts or zoom. Camera is static, centered on the pipe and water
+    tank. Water flows into the tank, but it is leaking from a hole near the bottom. A warehouse worker
+    walks close to the camera lens, completely blocking the view with their back. They stand there for
+    several seconds, obscuring the scene. Then the worker walks away to the left, revealing the tank again.
+    STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A large clear cylindrical tank in a warehouse with red measurement markings
+    indicating volume in liters and weight in grams. The water level is approximately at the 150L mark
+    (between 140L and 160L). Water is pouring vigorously from a metal pipe at the top. A leak is spraying
+    water from a crack on the lower right side of the tank. A puddle of water is visible on the concrete
+    floor around the base.
+  init2final_edit_prompt: Edit the given image to show the water level in the tank significantly higher
+    than the initial level, reflecting a filling process. Expand the puddle of water on the concrete floor
+    to cover a larger area. Maintain the flow of water from the top pipe and the spray from the leak on
+    the side. Ensure the warehouse background remains consistent and the view is completely unobstructed.
+  rationale: The primary dynamic is the tank filling with water from the overhead pipe. The inflow rate
+    from the large pipe visually exceeds the outflow from the small crack, so the net volume of water
+    in the tank increases during the time the view is occluded. The leak continues throughout the sequence,
+    causing the puddle on the floor to accumulate and expand. The final frame occurs after the worker
+    has moved away, revealing the tank with a higher water level.
+  questions:
+  - id: q1
+    question: Is the water level in the tank higher than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the final water line to the initial level (approx 150L). It should be higher.
+  - id: q2
+    question: Is the puddle on the floor larger than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The leak persists over time, so the water on the floor should accumulate.
+  - id: q3
+    question: Is the water level clearly above the 150L mark?
+    answer_type: yes_no
+    notes_for_judge: The initial level was around 150L; the new level should be visibly above this point.
+  - id: q4
+    question: Is water still flowing from the overhead pipe?
+    answer_type: yes_no
+    notes_for_judge: 'Consistency check: the filling action should not stop.'
+  - id: q5
+    question: Is the tank still leaking from the side?
+    answer_type: yes_no
+    notes_for_judge: 'Consistency check: the physical damage (leak) should remain.'
+  - id: q6
+    question: Is the view of the tank unobstructed?
+    answer_type: yes_no
+    notes_for_judge: The worker should have walked away, leaving the view clear.
+  - id: q7
+    question: Has the volume of water inside the tank increased?
+    answer_type: yes_no
+    notes_for_judge: Primary scalar state change.

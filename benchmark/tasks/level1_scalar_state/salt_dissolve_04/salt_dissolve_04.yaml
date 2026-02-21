@@ -1,0 +1,64 @@
+id: salt_dissolve_04
+level: 1
+category: scalar_state
+tags: []
+variant_of: salt_dissolve
+variation_type: dynamic_condition
+variation_description: Material changed from salt to insoluble granite stone.
+changes:
+  occlusion_method: null
+  dynamic_conditions: The block is now solid granite (insoluble) instead of salt.
+  expected_outcome_change: No dissolution; block size remains constant.
+prompts:
+  init_frame_edit_prompt: Edit the image to change the white salt lick into a grey, textured granite stone
+    block of the same size. Keep the turbulent water and tank exactly the same.
+  video_WM: A solid granite stone block is submerged in a turbulent water tank. The water churns around
+    the insoluble stone. The camera rotates right until the tank and stone block completely exit the view,
+    then rotates toward the left smoothly at the same rate until the tank is back in the center of view.
+    No zoom, no cut, no scene change. STOP.
+  camera_WM: A solid granite stone block is submerged in a turbulent water tank. The water churns around
+    the insoluble stone. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A clear glass tank filled with turbulent water. In the center of the tank, a
+    large, cubic block of grey speckled granite is submerged. The water is churning, creating white bubbles
+    and foam around the stone. To the right of the tank, black pipes and a vertical heater or sensor are
+    visible. The background shows a window with a blurred view of a building.
+  init2final_edit_prompt: Edit the given image to show the granite block unchanged in size, shape, and
+    texture, submerged in the water. Render new, randomized water turbulence and bubbles around the block,
+    but ensure the stone block itself remains identical in dimensions and appearance to the original state.
+  rationale: The prompt specifies that the object is a solid granite stone, which is insoluble in water.
+    Although the camera rotates away and returns, the physical state of the stone (mass, volume, shape)
+    must remain conserved because granite does not dissolve. Therefore, the final frame should show the
+    stone exactly as it was initially, with the only differences being the stochastic pattern of the water
+    turbulence.
+  questions:
+  - id: presence_check
+    question: Is the granite block still clearly visible in the tank?
+    answer_type: yes_no
+    notes_for_judge: The stone should not disappear.
+  - id: size_conservation
+    question: Does the granite block appear to be approximately the same size as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Granite is insoluble; the block should not shrink.
+  - id: shape_conservation
+    question: Has the granite block retained its cubic shape with defined edges?
+    answer_type: yes_no
+    notes_for_judge: The block should not become rounded or amorphous.
+  - id: texture_conservation
+    question: Is the grey speckled texture of the stone still visible?
+    answer_type: yes_no
+    notes_for_judge: The material appearance should remain consistent.
+  - id: turbulence_check
+    question: Is the water still churning with bubbles around the stone?
+    answer_type: yes_no
+    notes_for_judge: The water dynamics should continue.
+  - id: pipe_consistency
+    question: Are the black pipes on the right side of the tank still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary object consistency check.
+  - id: view_alignment
+    question: Is the tank centered in the view similar to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The camera returns to the original angle.

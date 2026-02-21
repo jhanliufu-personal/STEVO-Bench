@@ -1,0 +1,64 @@
+id: expanding_sponge_water_03
+level: 1
+category: scalar_state
+tags: []
+variant_of: expanding_sponge_water
+variation_type: occlusion_method
+variation_description: Occlusion by zooming out until details are lost.
+changes:
+  occlusion_method: Camera zooms out to a distant view, then zooms back in.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: Water is poured over the compressed dry sponge. The sponge is porous cellulose. The camera
+    zooms out rapidly, pulling back until the dish and sponge are tiny, indistinguishable dots in the
+    distance, effectively obscuring the state change. The camera holds this distant view for several seconds.
+    Then the camera zooms back in smoothly to the exact original framing. No cut, no scene change. STOP.
+  camera_WM: Water is poured over the compressed dry sponge. The sponge is porous cellulose. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, high-angle shot of a wooden countertop near a window. A white, shallow,
+    circular dish sits on the wood, containing a dry, compressed, rectangular beige cellulose sponge.
+    A hand holds a clear glass pitcher filled with water above the dish, tilted in a pouring position
+    with a drop of water just falling from the spout.
+  init2final_edit_prompt: Edit the image so that the rectangular beige sponge inside the white dish appears
+    wet, saturated, and significantly expanded in height and volume. The sponge should look swollen and
+    much thicker than the dry compressed version in the original image.
+  rationale: 'The video prompt describes water being poured onto a compressed dry sponge. Physically,
+    porous cellulose sponges absorb water and expand significantly in volume, particularly in height (thickness),
+    while becoming wet and saturated. The camera action (zooming out to a distance and then back in) serves
+    to obscure the gradual expansion process, acting as a temporal jump or occlusion. When the camera
+    returns to the original framing, the sponge should be in its post-absorption state: expanded, taller,
+    and wet.'
+  questions:
+  - id: sponge_height_increase
+    question: Is the sponge taller than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the vertical thickness of the sponge in the final frame to the initial frame.
+  - id: sponge_volume_expansion
+    question: Has the sponge expanded in volume compared to the start?
+    answer_type: yes_no
+    notes_for_judge: The sponge should look larger/swollen.
+  - id: sponge_thickness_comparison
+    question: Is the sponge thicker than the compressed dry sponge shown initially?
+    answer_type: yes_no
+    notes_for_judge: Focus on the vertical dimension of the sponge.
+  - id: sponge_wetness
+    question: Does the sponge appear wet or saturated compared to the dry initial state?
+    answer_type: yes_no
+    notes_for_judge: Look for darkening or surface texture changes indicating wetness.
+  - id: sponge_swelling
+    question: Does the sponge look swollen compared to the flat initial state?
+    answer_type: yes_no
+    notes_for_judge: Swollen implies expansion due to absorption.
+  - id: dish_presence
+    question: Is the white dish containing the sponge still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: surface_consistency
+    question: Is the wooden surface still visible beneath the dish?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

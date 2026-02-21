@@ -1,0 +1,63 @@
+id: smoke_jar_filling_04
+level: 1
+category: scalar_state
+tags: []
+variant_of: smoke_jar_filling
+variation_type: dynamic_condition
+variation_description: The incense stick is not lit, so no smoke is produced.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Incense stick is unlit (no smoke source)
+  expected_outcome_change: The jar remains clear/empty (no smoke accumulation)
+prompts:
+  init_frame_edit_prompt: Edit the image to remove the smoke plume and the glowing red tip of the incense
+    stick, making it look like a fresh, unlit brown stick.
+  video_WM: An unlit incense stick is held at the jar opening. No smoke is being produced. The jar is
+    open at the top. The camera rotates right at constant speed until the jar completely exits the view
+    to the right. The camera continues rotating right for several seconds while off-screen. Then the camera
+    rotates left smoothly at the same rate back to the original viewpoint. No zoom, no cut, no scene change.
+    STOP.
+  camera_WM: An unlit incense stick is held at the jar opening. No smoke is being produced. The jar is
+    open at the top during the occlusion period. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A clear glass jar sits on a dark, textured wooden surface. An unlit brown incense
+    stick rests horizontally across the opening of the jar. The background is slightly blurred, showing
+    a window frame with daylight coming through. The interior of the jar is empty and transparent.
+  init2final_edit_prompt: Edit the given image to ensure the scene remains unchanged. The glass jar must
+    remain completely clear and empty, with no smoke, fog, or haze inside. The incense stick must remain
+    unlit, with no glowing tip or ash. The lighting and position of the objects should be identical to
+    the original.
+  rationale: 'The video prompt explicitly states that the incense stick is ''unlit'' and ''no smoke is
+    being produced.'' Although the camera rotates away and returns, the prompt does not describe any physical
+    action (such as lighting the stick) that would alter the state of the objects. Therefore, this is
+    a stability and object permanence task: the jar must remain empty and the stick unlit. The model should
+    not hallucinate smoke simply because of the context (incense/jar) or the task ID.'
+  questions:
+  - id: smoke_presence
+    question: Is the jar still completely free of smoke?
+    answer_type: yes_no
+    notes_for_judge: Check for any grey or white haze inside the jar. The answer should be YES if the
+      jar is clear.
+  - id: stick_state
+    question: Is the incense stick still unlit?
+    answer_type: yes_no
+    notes_for_judge: Check the tip of the stick. It should not be glowing or smoking.
+  - id: jar_clarity
+    question: Is the interior of the jar clearly visible and transparent?
+    answer_type: yes_no
+    notes_for_judge: The glass should not be obscured by smoke.
+  - id: smoke_amount_change
+    question: Is the amount of smoke inside the jar the same as in the initial frame (none)?
+    answer_type: yes_no
+    notes_for_judge: Since no smoke was produced, the amount should remain zero.
+  - id: combustion_check
+    question: Does the scene appear free of any burning or combustion?
+    answer_type: yes_no
+    notes_for_judge: There should be no fire, embers, or smoke.
+  - id: jar_empty
+    question: Is the jar still empty?
+    answer_type: yes_no
+    notes_for_judge: Refers to the volume of gas/smoke inside.

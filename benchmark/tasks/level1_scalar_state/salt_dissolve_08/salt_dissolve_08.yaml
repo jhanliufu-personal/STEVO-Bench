@@ -1,0 +1,62 @@
+id: salt_dissolve_08
+level: 1
+category: scalar_state
+tags: []
+variant_of: salt_dissolve
+variation_type: combined
+variation_description: Plastic wrapped block (Condition) + Lights off (Method).
+changes:
+  occlusion_method: Lights turn off.
+  dynamic_conditions: Block is wrapped in waterproof plastic.
+  expected_outcome_change: No dissolution (protected by plastic).
+prompts:
+  init_frame_edit_prompt: Edit the image to show the salt lick tightly wrapped in clear, reflective plastic
+    cling film. Keep the turbulent water.
+  video_WM: A salt lick, tightly wrapped in waterproof plastic film, is submerged in a turbulent water
+    tank. Suddenly, the lights turn off, leaving the scene in total darkness. After a moment, the lights
+    turn back on. No zoom, no cut, no scene change. STOP.
+  camera_WM: A salt lick, tightly wrapped in waterproof plastic film, is submerged in a turbulent water
+    tank. Suddenly, the lights turn off, leaving the scene in total darkness. After a moment, the lights
+    turn back on. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A rectangular glass tank filled with water containing a large, cubic salt lick
+    block. The block is tightly wrapped in clear, crinkled waterproof plastic film. The water is turbulent,
+    with numerous bubbles and surface agitation visible above and around the block. A black heater or
+    pump mechanism is visible on the right side of the tank, and pipes are visible on the left.
+  init2final_edit_prompt: Edit the given image to show the scene after a short duration. The salt block
+    must remain exactly the same size, shape, and volume as the initial frame, appearing completely undissolved
+    due to the waterproof plastic wrapping. The plastic film should remain intact and visible around the
+    block. The water should continue to look turbulent with a new, random arrangement of bubbles and surface
+    agitation, distinct from the initial frame. The water level should remain unchanged.
+  rationale: The salt lick is explicitly described as being wrapped in waterproof plastic film. This barrier
+    prevents the water from contacting the salt, meaning no dissolution can occur despite the turbulence
+    and the passage of time. Therefore, the mass and volume of the block must remain constant (scalar
+    change is zero). The only expected visual changes are the stochastic movements of the bubbles and
+    water turbulence.
+  questions:
+  - id: salt_size_conservation
+    question: Is the salt block approximately the same size as it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The block should not shrink because it is wrapped in waterproof plastic.
+  - id: salt_shape_conservation
+    question: Does the salt block retain its original cubic shape?
+    answer_type: yes_no
+    notes_for_judge: No rounding of corners or dissolution should be visible.
+  - id: plastic_visibility
+    question: Is the plastic wrapping still visible around the block?
+    answer_type: yes_no
+    notes_for_judge: The protective film should remain intact.
+  - id: volume_preservation
+    question: Does the block appear to have the same volume as before?
+    answer_type: yes_no
+    notes_for_judge: Check for any signs of shrinkage; there should be none.
+  - id: water_level_consistency
+    question: Is the water level approximately the same as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Water level should not drop or rise significantly.
+  - id: bubble_change
+    question: Are the bubbles in a different arrangement than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The turbulence is dynamic, so the exact bubble pattern should change.

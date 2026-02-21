@@ -1,0 +1,64 @@
+id: clay_drying_10
+level: 1
+category: scalar_state
+tags: []
+variant_of: clay_drying
+variation_type: combined
+variation_description: Lamp is off (no drying) and occlusion is by camera moving physically backward.
+changes:
+  occlusion_method: Camera physically moves backward away from the scene.
+  dynamic_conditions: The heat lamp is unlit.
+  expected_outcome_change: The pot remains dark and wet.
+prompts:
+  init_frame_edit_prompt: Edit the image so the heat lamp bulb is dark and unlit, and remove the bright
+    orange glow on the pot.
+  video_WM: A wet, dark terracotta pot sits under an unlit lamp. The camera physically moves backward
+    away from the table until the pot is too small to see clearly, then moves forward returning to the
+    original close-up position. No cut, no scene change. STOP.
+  camera_WM: A wet, dark terracotta pot sits under an unlit lamp. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up view of a dark, wet terracotta pot resting on a weathered stone pedestal
+    inside a greenhouse. To the right, a silver clamp lamp with a wire cage guard is positioned facing
+    the pot; the lamp is unlit, and the bulb inside appears dark red but not glowing. The pot's surface
+    is saturated, exhibiting a deep reddish-brown color with a visible wet sheen and a lighter dry patch
+    on the side. The background is blurred, showing wooden greenhouse framing and glass.
+  init2final_edit_prompt: Edit the given image to ensure the terracotta pot remains dark, wet, and saturated.
+    The pot should retain its deep reddish-brown color and surface moisture sheen without any signs of
+    drying. The lamp to the right must remain unlit and dark. The stone pedestal and background should
+    remain unchanged.
+  rationale: 'The video generation prompt specifies that the lamp is ''unlit'' and describes only camera
+    movement (moving backward and then returning to the original position). Without an active heat source
+    or a description of significant time passing, the wet terracotta pot will not dry visibly. Therefore,
+    the final state should be physically identical to the initial state: the pot remains wet and dark,
+    and the lamp remains off. The camera returns to the starting point, so the framing is also identical.'
+  questions:
+  - id: q1
+    question: Is the terracotta pot still dark and wet?
+    answer_type: yes_no
+    notes_for_judge: The pot should not have dried out; it should remain dark and saturated.
+  - id: q2
+    question: Has the pot turned a lighter, dry clay color?
+    answer_type: yes_no
+    notes_for_judge: Drying would turn the pot light pink/orange. It should remain dark red/brown.
+  - id: q3
+    question: Is the moisture sheen still visible on the pot's surface?
+    answer_type: yes_no
+    notes_for_judge: The wet texture should be preserved.
+  - id: q4
+    question: Is the lamp still unlit?
+    answer_type: yes_no
+    notes_for_judge: The prompt explicitly states the lamp is unlit.
+  - id: q5
+    question: Did the lamp turn on?
+    answer_type: yes_no
+    notes_for_judge: The lamp should remain off.
+  - id: q6
+    question: Is the pot significantly drier than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: No drying should occur.
+  - id: q7
+    question: Is the pot visible in a close-up view similar to the start?
+    answer_type: yes_no
+    notes_for_judge: The camera returns to the original position.

@@ -1,0 +1,61 @@
+id: dry_ice_sublimate_07
+level: 1
+category: scalar_state
+tags: []
+variant_of: dry_ice_sublimate
+variation_type: combined
+variation_description: Ice water condition combined with lights-off occlusion.
+changes:
+  occlusion_method: Lights turn off completely.
+  dynamic_conditions: Water is ice-cold with floating ice cubes.
+  expected_outcome_change: Slower sublimation rate.
+prompts:
+  init_frame_edit_prompt: Edit the image to show floating ice cubes in the water surrounding the central
+    dry ice block.
+  video_WM: The dry ice sits in ice-cold water filled with floating ice cubes. The sublimation is slow.
+    Suddenly, the lights turn off completely, making the screen pitch black. After a pause, the lights
+    turn back on. No cut, no scene change. STOP.
+  camera_WM: The dry ice sits in ice-cold water filled with floating ice cubes. The sublimation is slow.
+    Suddenly, the lights turn off completely, making the screen pitch black. After a pause, the lights
+    turn back on. No cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A beige ceramic bowl sits on a wooden table, filled with water and floating
+    clear ice cubes. In the center floats a large, opaque white block of dry ice. Thick white fog is sublimating
+    from the dry ice, filling the bowl surface and spilling over the edges onto the table. The lighting
+    is warm, creating specular highlights on the wet surfaces.
+  init2final_edit_prompt: Edit the given image to show the central block of white dry ice slightly smaller
+    in size due to sublimation. Change the shape and swirl pattern of the white fog to look like a completely
+    new, random configuration of vapor. Slightly shift or melt the surrounding clear ice cubes. Ensure
+    the scene is fully illuminated with the same lighting as the original image.
+  rationale: The video prompt describes a period of time passing while the lights are off. During this
+    interval, the dry ice continues to sublimate, which means it must lose mass and volume, resulting
+    in a smaller block in the final frame. Since the prompt specifies the sublimation is 'slow', the block
+    should not disappear entirely. The fog is a dynamic fluid, so its specific shape will have changed
+    completely during the blackout. The lights turn back on, so the final frame must be illuminated.
+  questions:
+  - id: dry_ice_smaller
+    question: Is the central block of dry ice smaller than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the volume/surface area of the opaque white block. It should be reduced.
+  - id: dry_ice_visible
+    question: Is the central block of dry ice still visible?
+    answer_type: yes_no
+    notes_for_judge: The prompt says sublimation is slow, so it should not be completely gone.
+  - id: fog_pattern_changed
+    question: Is the pattern of the white fog different from the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The smoke/fog is fluid and should have a new shape after time passes.
+  - id: lights_on
+    question: Is the scene fully illuminated?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the lights turn back on.
+  - id: ice_cubes_present
+    question: Are there still clear ice cubes visible in the water?
+    answer_type: yes_no
+    notes_for_judge: Regular ice melts slowly in ice-cold water; they should persist.
+  - id: bowl_position
+    question: Is the bowl in the same position on the table?
+    answer_type: yes_no
+    notes_for_judge: No camera motion or object movement was described for the bowl itself.

@@ -1,0 +1,65 @@
+id: inflating_balloon_07
+level: 1
+category: scalar_state
+tags: []
+variant_of: inflating_balloon
+variation_type: combined
+variation_description: Balloon leaks gas while obscured by fog.
+changes:
+  occlusion_method: Thick fog.
+  dynamic_conditions: Balloon is leaking/deflating.
+  expected_outcome_change: The balloon shrinks while hidden by fog.
+prompts:
+  init_frame_edit_prompt: Edit the image so the white balloon appears as a large, fully inflated, taut
+    sphere connected to the tank.
+  video_WM: A large, fully inflated white balloon is connected to a tank with a leaking valve. Thick white
+    fog rolls in from the sides until the balloon and tank are completely obscured from view, then the
+    fog slowly dissipates until the scene is clear again. No cut, no scene change. STOP.
+  camera_WM: A large, fully inflated white balloon is connected to a tank with a leaking valve. Thick
+    white fog rolls in from the sides until the balloon and tank are completely obscured from view, then
+    the fog slowly dissipates until the scene is clear again. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a large, fully inflated white spherical balloon
+    connected to the nozzle of a green helium tank. A person's arm, clad in a blue sleeve and a grey glove,
+    is holding the valve connection where the balloon meets the tank. The background shows a grassy field
+    and a cloudy sky.
+  init2final_edit_prompt: Edit the given image to show the white balloon significantly deflated and smaller
+    in volume. The balloon should appear shriveled, flaccid, or wrinkled, indicating a loss of gas compared
+    to its original fully inflated state. Keep the green helium tank, the gloved hand, and the grassy
+    background exactly as they are.
+  rationale: The initial frame displays a fully inflated balloon connected to a tank. The prompt describes
+    a 'leaking valve' and a period of occlusion by fog. In the context of a pressurized elastic container,
+    a leak typically results in the loss of gas to the environment, causing the balloon to deflate over
+    time. The fog serves as a temporal transition to mask the deflation process. Therefore, the final
+    state should show the balloon with significantly reduced volume (deflated) compared to the start.
+  questions:
+  - id: balloon_smaller
+    question: Is the balloon smaller than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the overall size/volume of the white balloon between the two frames.
+  - id: balloon_deflated
+    question: Is the balloon less inflated than before?
+    answer_type: yes_no
+    notes_for_judge: Check if the balloon appears to have lost gas.
+  - id: volume_decrease
+    question: Has the volume of the balloon decreased?
+    answer_type: yes_no
+    notes_for_judge: The balloon should take up less space in the final frame.
+  - id: less_taut
+    question: Is the balloon less taut or more wrinkled than it was initially?
+    answer_type: yes_no
+    notes_for_judge: Deflation usually results in a loss of surface tension and spherical shape.
+  - id: balloon_visible
+    question: Is the balloon visible in the final frame?
+    answer_type: yes_no
+    notes_for_judge: The balloon should be visible again after the fog clears.
+  - id: tank_presence
+    question: Is the green helium tank still visible?
+    answer_type: yes_no
+    notes_for_judge: The tank should remain in the scene.
+  - id: hand_presence
+    question: Is the gloved hand still visible?
+    answer_type: yes_no
+    notes_for_judge: The hand holding the valve should remain visible.

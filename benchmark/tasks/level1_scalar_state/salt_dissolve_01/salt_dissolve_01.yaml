@@ -1,0 +1,60 @@
+id: salt_dissolve_01
+level: 1
+category: scalar_state
+tags: []
+variant_of: salt_dissolve
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to lights turning off (pitch black).
+changes:
+  occlusion_method: Lights turn off completely, creating pitch blackness, then turn back on.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A salt lick is submerged in a turbulent water tank and is dissolving. Suddenly, the room lights
+    turn off completely, plunging the scene into pitch blackness. After a duration, the lights turn back
+    on to reveal the scene again. No zoom, no cut, no scene change. STOP.
+  camera_WM: A salt lick is submerged in a turbulent water tank and is dissolving. Suddenly, the room
+    lights turn off completely, plunging the scene into pitch blackness. After a duration, the lights
+    turn back on to reveal the scene again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A clear glass tank filled with turbulent water containing a large, roughly cubic
+    white block (salt lick). Bubbles and agitation are visible around the block, particularly at the top.
+    A black heater or sensor rod hangs vertically on the right side of the tank. The background shows
+    a window with daylight and industrial piping.
+  init2final_edit_prompt: Edit the given image to show the white block significantly reduced in size and
+    eroded, appearing smaller and more rounded with smoothed edges. Maintain the turbulent water and bubbles
+    around the diminished block. Keep the glass tank, the black vertical rod, and the background environment
+    exactly as they are.
+  rationale: The video prompt describes a salt lick dissolving in turbulent water. The sequence involves
+    a blackout period which implies a passage of time while the physical process of dissolution continues.
+    When the lights return, the primary state change is the reduction in mass and volume of the salt block
+    due to dissolution. The block should appear smaller and more eroded. The surrounding environment (tank,
+    equipment) remains static.
+  questions:
+  - id: salt_size_reduction
+    question: Is the white block smaller in overall size compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the bounding box or general area of the white mass. It should be smaller.
+  - id: salt_erosion_visible
+    question: Does the white block appear more eroded or rounded than it was initially?
+    answer_type: yes_no
+    notes_for_judge: Look for smoothing of edges or loss of the cubic shape.
+  - id: mass_loss_check
+    question: Is there less solid white material visible in the tank than before?
+    answer_type: yes_no
+    notes_for_judge: The total amount of solid matter should be reduced.
+  - id: shape_degradation
+    question: Has the block lost its sharp, defined cubic structure compared to the start?
+    answer_type: yes_no
+    notes_for_judge: Dissolution typically rounds off corners and irregular surfaces.
+  - id: tank_consistency
+    question: Is the glass tank still present and intact?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: rod_consistency
+    question: Is the black vertical rod on the right side still in the same position?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

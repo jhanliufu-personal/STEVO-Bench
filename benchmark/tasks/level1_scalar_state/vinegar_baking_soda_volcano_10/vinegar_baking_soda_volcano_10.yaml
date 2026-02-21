@@ -1,0 +1,76 @@
+id: vinegar_baking_soda_volcano_10
+level: 1
+category: scalar_state
+tags: []
+variant_of: vinegar_baking_soda_volcano
+variation_type: combined
+variation_description: 'Combined: Sugar instead of baking soda (dissolves, no gas) AND occlusion by thick
+  fog/steam.'
+changes:
+  occlusion_method: Thick fog fills the room.
+  dynamic_conditions: Powder is sugar instead of baking soda.
+  expected_outcome_change: No foaming. Sugar dissolves into the vinegar.
+prompts:
+  init_frame_edit_prompt: Edit the image to make the white powder look crystalline like sugar, and add
+    a label 'SUGAR' near the jar.
+  video_WM: The hand pours vinegar into a container filled with sugar. Sugar is sucrose. Vinegar is mostly
+    water and acetic acid. The sugar begins to dissolve in the liquid, but no gas is produced. Suddenly,
+    thick white fog rolls into the scene, completely obscuring the view of the counter and jar. The fog
+    swirls for several seconds. Then the fog clears away, revealing the scene again. No zoom, no cut,
+    no scene change. STOP.
+  camera_WM: The hand pours vinegar into a container filled with sugar. Sugar is sucrose. Vinegar is mostly
+    water and acetic acid. The sugar begins to dissolve in the liquid, but no gas is produced. Suddenly,
+    thick white fog rolls into the scene, completely obscuring the view of the counter and jar. The fog
+    swirls for several seconds. Then the fog clears away, revealing the scene again. No zoom, no cut,
+    no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a wooden kitchen counter. In the center, a clear
+    glass jar labeled 'SUGAR' is filled about one-third of the way with white granular sugar. To the left,
+    a bottle of Heinz vinegar stands on the counter. A hand enters from the top right, holding a glass
+    pitcher and pouring a clear liquid into the sugar jar. A wooden tray sits beneath the jar. A window
+    is visible in the background on the left.
+  init2final_edit_prompt: Edit the given image to show the glass jar labeled 'SUGAR' filled with a mixture
+    of liquid and sugar, with the fill level significantly higher than in the original image. The sugar
+    granules inside should appear wet, slushy, or partially dissolved. The glass pitcher held by the hand
+    should contain less liquid than before. Ensure there is absolutely no foam, bubbles, or volcanic eruption
+    overflowing from the jar; the contents should look like a flat liquid-sugar mixture. The scene must
+    be completely clear of any fog or mist.
+  rationale: 'The prompt describes a physical interaction where liquid is added to a container of sugar.
+    Physically, adding liquid increases the total volume inside the container (scalar change: volume increase).
+    Chemically, vinegar (acid) and sugar (sucrose) do not react to form gas, unlike baking soda; they
+    simply form a solution. Therefore, the final state must show a higher liquid level without the foaming
+    ''volcano'' effect often associated with kitchen chemistry visual tropes. The fog serves as a temporal
+    transition and occlusion, but the final state requires the fog to be cleared.'
+  questions:
+  - id: jar_level_increase
+    question: Is the level of contents inside the sugar jar higher than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The liquid was poured in, so the total volume in the jar must increase.
+  - id: sugar_wetness
+    question: Does the sugar inside the jar appear wet, slushy, or submerged in liquid?
+    answer_type: yes_no
+    notes_for_judge: The sugar should no longer look like dry white granules.
+  - id: no_foam_reaction
+    question: Is the jar free of overflowing foam, bubbles, or a volcanic eruption?
+    answer_type: yes_no
+    notes_for_judge: 'Crucial physics check: Sugar + Vinegar does not create gas. If there is foam, the
+      answer is NO.'
+  - id: pitcher_depletion
+    question: Does the glass pitcher contain less liquid than it did in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The liquid was poured into the jar.
+  - id: fog_cleared
+    question: Is the scene clearly visible and free of thick white fog?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the fog clears away.
+  - id: label_consistency
+    question: Is the 'SUGAR' label still visible on the jar?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: vinegar_bottle_presence
+    question: Is the vinegar bottle still visible to the left of the jar?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

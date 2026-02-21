@@ -1,0 +1,68 @@
+id: dough_rise_07
+level: 1
+category: scalar_state
+tags: []
+variant_of: dough_rise
+variation_type: combined
+variation_description: Cold temperature (slow rise) combined with lights off occlusion.
+changes:
+  occlusion_method: Lights turn off completely.
+  dynamic_conditions: Cold environment (40F).
+  expected_outcome_change: Little to no rise during darkness.
+prompts:
+  init_frame_edit_prompt: Edit the image to change the thermometer reading in the background to '40 F'
+    and change the red indicator line to blue.
+  video_WM: A bowl of yeast dough sits in a cold room (40F), where fermentation is minimal. Suddenly,
+    the room lights turn off, plunging the scene into complete darkness. After a short duration, the lights
+    turn back on. No cut, no scene change. STOP.
+  camera_WM: A bowl of yeast dough sits in a cold room (40F), where fermentation is minimal. Suddenly,
+    the room lights turn off, plunging the scene into complete darkness. After a short duration, the lights
+    turn back on. No cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A clear glass bowl sits on a wooden countertop, containing a round ball of yeast
+    dough dusted with white flour. A beige towel is draped over the back rim of the bowl. To the right,
+    a vertical thermometer is visible, with the red liquid indicating a temperature near 80 degrees Fahrenheit.
+    In the background, a window with blinds and other kitchen items, including a jar with a red lid, are
+    partially visible.
+  init2final_edit_prompt: Edit the given image to show the scene with the lights turned back on. The dough
+    ball inside the glass bowl must remain exactly the same size and shape as in the original image, showing
+    no expansion or rising. The flour dusting on the dough surface remains identical. The towel draped
+    over the bowl, the thermometer, and the background objects remain in their original positions. The
+    lighting should be bright and natural, matching the initial frame.
+  rationale: The video prompt specifies a 'short duration' in a 'cold room (40F)' where fermentation is
+    minimal. Physically, yeast dough rises very slowly, especially at cold temperatures (retarded fermentation).
+    Over a short duration of seconds or minutes (implied by the 'no cut' instruction), there would be
+    zero visible change in the dough's volume. The action of lights turning off and on is a state interruption
+    that tests object permanence, but the physical state of the dough (volume) should remain constant.
+    Therefore, the final frame should be visually identical to the initial frame.
+  questions:
+  - id: dough_visibility
+    question: Is the dough ball visible in the bowl?
+    answer_type: yes_no
+    notes_for_judge: Checks if the lights are back on and the object persisted.
+  - id: dough_stability_size
+    question: Is the dough approximately the same size as it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The dough should not have risen due to the cold temperature and short duration.
+  - id: dough_no_expansion
+    question: Did the dough remain without significant expansion?
+    answer_type: yes_no
+    notes_for_judge: Verifies that the model respected the 'cold room' and 'minimal fermentation' constraints.
+  - id: dough_height
+    question: Is the height of the dough in the bowl unchanged?
+    answer_type: yes_no
+    notes_for_judge: Checks for vertical growth, which should be absent.
+  - id: flour_texture
+    question: Is the flour dusting on the dough still visible in the same pattern?
+    answer_type: yes_no
+    notes_for_judge: Texture details should be preserved.
+  - id: towel_position
+    question: Is the towel still draped over the rim of the bowl in the same position?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: lighting_state
+    question: Is the scene brightly lit?
+    answer_type: yes_no
+    notes_for_judge: Verifies the lights turned back on.

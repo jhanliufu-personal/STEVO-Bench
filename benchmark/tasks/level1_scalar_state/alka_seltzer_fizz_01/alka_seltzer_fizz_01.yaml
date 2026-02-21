@@ -1,0 +1,70 @@
+id: alka_seltzer_fizz_01
+level: 1
+category: scalar_state
+tags: []
+variant_of: alka_seltzer_fizz
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to an object (menu) blocking the view.
+changes:
+  occlusion_method: A large opaque menu card slides in front of the camera.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The effervescent tablet contacts the water at the bottom of the glass. The tablet contains
+    citric acid and sodium bicarbonate which react in water to produce carbon dioxide gas. The reaction
+    is exothermic and vigorous. A large opaque menu card slides into the frame from the left, completely
+    blocking the view of the glass. The menu remains in front of the camera for several seconds. Then
+    the menu card slides out to the right, revealing the glass again. No zoom, no cut, no scene change.
+    STOP.
+  camera_WM: The effervescent tablet contacts the water at the bottom of the glass. The tablet contains
+    citric acid and sodium bicarbonate which react in water to produce carbon dioxide gas. The reaction
+    is exothermic and vigorous. A large opaque menu card slides into the frame from the left, completely
+    blocking the view of the glass. The menu remains in front of the camera for several seconds. Then
+    the menu card slides out to the right, revealing the glass again. No zoom, no cut, no scene change.
+    STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A close-up shot of a clear glass of water sitting on a white table in a sunlit
+    kitchen. A white, round effervescent tablet is suspended in mid-air just above the water's surface,
+    with a small droplet connecting the tablet to the water.
+  init2final_edit_prompt: Edit the given image to show the white tablet submerged at the bottom of the
+    glass. The water inside the glass should be filled with numerous small white gas bubbles rising to
+    the surface, giving the liquid a fizzy and cloudy appearance. The tablet should appear partially dissolved.
+    The background, lighting, and position of the glass should remain identical to the original image.
+  rationale: The video prompt describes the tablet falling into the water and reacting to produce gas.
+    Gravity pulls the tablet to the bottom of the glass. The chemical reaction releases carbon dioxide,
+    creating visual bubbles and turbulence. The occlusion by the menu card hides the transition, but implies
+    time has passed. Therefore, in the final frame, the tablet must be submerged and the water must be
+    full of bubbles, representing the accumulated state change during the hidden period.
+  questions:
+  - id: tablet_submerged
+    question: Is the tablet submerged within the water?
+    answer_type: yes_no
+    notes_for_judge: The tablet should no longer be in the air; it must be inside the liquid.
+  - id: bubbles_present
+    question: Are there significantly more bubbles in the water than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The initial frame has clear water; the final frame should show fizz/bubbles.
+  - id: tablet_position_lower
+    question: Is the tablet located lower in the frame than it was initially?
+    answer_type: yes_no
+    notes_for_judge: It should have fallen to the bottom of the glass.
+  - id: water_clarity_change
+    question: Does the water appear fizzier or cloudier than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Testing the visual texture change caused by the gas release.
+  - id: tablet_at_bottom
+    question: Is the tablet resting at the bottom of the glass?
+    answer_type: yes_no
+    notes_for_judge: Specific position check.
+  - id: glass_visible
+    question: Is the glass fully visible again after the occlusion?
+    answer_type: yes_no
+    notes_for_judge: Checks that the menu card has exited the frame.
+  - id: background_consistency
+    question: Is the kitchen background still visible and consistent with the start?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

@@ -1,0 +1,66 @@
+id: extending_piston_02
+level: 1
+category: scalar_state
+tags: []
+variant_of: extending_piston
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to a burst of steam obscuring the view.
+changes:
+  occlusion_method: Thick white steam fills the frame, obscuring the scene, then dissipates.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A hydraulic piston is extending slowly. A thick burst of white steam erupts, completely filling
+    the frame and obscuring the excavator arm. The steam slowly dissipates to reveal the scene again.
+    No zoom, no cut, no scene change. STOP.
+  camera_WM: A hydraulic piston is extending slowly. A thick burst of white steam erupts, completely filling
+    the frame and obscuring the excavator arm. The steam slowly dissipates to reveal the scene again.
+    No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up, slightly high-angle shot of a green excavator arm mechanism in a
+    cluttered industrial setting. The main focus is a large green hydraulic cylinder with a shiny silver
+    piston rod partially extended towards the top right. Hydraulic hoses run along the top of the arm.
+    In the foreground, a black control lever (joystick) with a ribbed rubber boot sits on a dirty, weathered
+    green metal surface. The background contains blurred industrial debris and machinery parts.
+  init2final_edit_prompt: Edit the given image so that the hydraulic piston is extended further than in
+    the original view. The shiny silver rod protruding from the green cylinder should be significantly
+    longer, pushing the attached joint outward to the right. The rest of the scene, including the control
+    lever in the foreground and the background debris, should remain unchanged in position and appearance.
+  rationale: The video prompt describes a hydraulic piston extending. A temporary occlusion by steam occurs,
+    but the prompt explicitly states the steam dissipates to reveal the scene again. Therefore, the final
+    frame must show the clear scene with the cumulative result of the extension action that occurred before
+    and during the occlusion. The primary scalar change is the increased length of the visible piston
+    rod.
+  questions:
+  - id: piston_length_increase
+    question: Is the shiny silver piston rod longer than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the length of the exposed chrome rod.
+  - id: extension_direction
+    question: Has the hydraulic mechanism extended further outward?
+    answer_type: yes_no
+    notes_for_judge: The piston should have pushed out, increasing the total length of the cylinder assembly.
+  - id: visible_chrome_area
+    question: Is there more visible surface area of the silver piston rod compared to the start?
+    answer_type: yes_no
+    notes_for_judge: As the piston extends, more of the inner rod is revealed.
+  - id: joint_displacement
+    question: Is the connection point at the end of the piston rod further away from the green cylinder
+      body?
+    answer_type: yes_no
+    notes_for_judge: The extension pushes the end joint away.
+  - id: arm_configuration
+    question: Does the configuration of the excavator arm reflect an extension of the hydraulic cylinder?
+    answer_type: yes_no
+    notes_for_judge: The geometry should change consistent with the piston pushing out.
+  - id: invariant_lever
+    question: Is the black control lever in the foreground still present?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: invariant_color
+    question: Is the machinery still green?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

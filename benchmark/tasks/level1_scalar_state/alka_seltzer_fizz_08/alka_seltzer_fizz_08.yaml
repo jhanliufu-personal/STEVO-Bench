@@ -1,0 +1,69 @@
+id: alka_seltzer_fizz_08
+level: 1
+category: scalar_state
+tags: []
+variant_of: alka_seltzer_fizz
+variation_type: combined
+variation_description: Oil liquid (no reaction) combined with lights out occlusion.
+changes:
+  occlusion_method: Lights turn off.
+  dynamic_conditions: Liquid is vegetable oil.
+  expected_outcome_change: No reaction.
+prompts:
+  init_frame_edit_prompt: Edit the image to change the clear water in the glass to a transparent yellow
+    vegetable oil.
+  video_WM: The effervescent tablet sits in vegetable oil. The oil lacks the water necessary to trigger
+    the effervescence. The lights in the room suddenly turn off, leaving the scene in absolute darkness.
+    The darkness persists for several seconds. Then the lights switch back on, illuminating the glass
+    again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The effervescent tablet sits in vegetable oil. The oil lacks the water necessary to trigger
+    the effervescence. The lights in the room suddenly turn off, leaving the scene in absolute darkness.
+    The darkness persists for several seconds. Then the lights switch back on, illuminating the glass
+    again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A clear glass tumbler filled with yellow vegetable oil sits on a white surface.
+    A white, round effervescent tablet is suspended in the air directly above the center of the glass.
+    The background shows a blurred kitchen interior with natural lighting.
+  init2final_edit_prompt: Edit the given image to show the white round tablet resting at the bottom of
+    the glass, submerged in the yellow liquid. The tablet must appear solid and intact. Do not add any
+    bubbles, foam, or fizzing to the liquid; keep the yellow oil clear and still. Maintain the original
+    lighting, background, and glass position.
+  rationale: The initial frame shows the tablet in the air, and the prompt implies a sequence where the
+    tablet ends up in the oil. Gravity will cause the tablet to fall into the glass. Since the liquid
+    is vegetable oil, which lacks water, the effervescent tablet will not react, dissolve, or release
+    gas bubbles. It will simply sink and settle at the bottom. The period of darkness (lights off/on)
+    acts as a time skip, allowing the tablet to fully settle at the bottom of the glass by the time the
+    lights return.
+  questions:
+  - id: pos_lower
+    question: Is the white tablet positioned lower than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The tablet should have fallen from the air to the bottom of the glass.
+  - id: pos_inside
+    question: Is the tablet now inside the glass tumbler?
+    answer_type: yes_no
+    notes_for_judge: It should be contained within the glass walls.
+  - id: pos_submerged
+    question: Is the tablet submerged beneath the surface of the yellow liquid?
+    answer_type: yes_no
+    notes_for_judge: It should be under the oil.
+  - id: pos_bottom
+    question: Is the tablet resting at the bottom of the glass?
+    answer_type: yes_no
+    notes_for_judge: It should have sunk to the bottom.
+  - id: phys_bubbles
+    question: Is the yellow liquid free of bubbles or foam?
+    answer_type: yes_no
+    notes_for_judge: 'Crucial physics check: effervescent tablets do not react in oil. There should be
+      no fizz.'
+  - id: phys_intact
+    question: Does the tablet appear solid and intact?
+    answer_type: yes_no
+    notes_for_judge: It should not have dissolved.
+  - id: env_lighting
+    question: Is the scene illuminated?
+    answer_type: yes_no
+    notes_for_judge: The lights should have turned back on.

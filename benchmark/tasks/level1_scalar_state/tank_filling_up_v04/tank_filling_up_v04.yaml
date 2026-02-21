@@ -1,0 +1,73 @@
+id: tank_filling_up_v04
+level: 1
+category: scalar_state
+tags: []
+variant_of: tank_filling_up
+variation_type: dynamic_condition
+variation_description: The water flow is stopped completely. The tank level should not change.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Pipe valve is closed (no water flowing)
+  expected_outcome_change: Water level remains constant (does not rise)
+prompts:
+  init_frame_edit_prompt: Edit the image to remove the water flowing from the pipe. Show the pipe opening
+    as dry with absolutely no water coming out. Keep the water level in the tank static.
+  video_WM: Single continuous take, no cuts or zoom. Camera starts centered on the pipe and water tank.
+    No water is flowing from the pipe; the valve is closed. Then the camera smoothly moves to the right
+    at constant speed until the pipe and tank leave the frame to the left and become completely invisible.
+    The camera continues moving right across the room for several seconds. Then the camera moves left
+    at the same speed back to the original viewpoint. STOP.
+  camera_WM: A metal pipe hangs over a transparent cylindrical water tank. No water is flowing from the
+    pipe; the valve is closed. Lighting and objects remain consistent and realistic. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: 'A large, clear cylindrical tank stands in the center of a warehouse with a
+    concrete floor. The tank features red measurement markings: a scale on the left labeled with ''g''
+    and a scale on the right labeled with ''L'' (liters) and ''lt''. The tank is partially filled with
+    clear water, with the surface level resting exactly at the 140 L mark on the right scale (aligned
+    with the 300 mark on the left scale). A metal pipe with an elbow joint hangs from the ceiling directly
+    above the tank''s opening. The pipe is dry, and no water is flowing. In the background, there are
+    industrial shelves, wooden pallets, and warehouse equipment.'
+  init2final_edit_prompt: Edit the given image to show the exact same scene without any changes to the
+    objects. The water tank should remain filled to the same level as before, specifically at the 140
+    L mark. The pipe above the tank should remain closed with no water flowing from it. The lighting,
+    background, and position of the tank should be identical to the original image.
+  rationale: 'The video generation prompt explicitly states that ''No water is flowing from the pipe;
+    the valve is closed'' at the beginning. It then describes a camera movement that pans right (occluding
+    the tank) and then pans left back to the original view. Crucially, the prompt never mentions the valve
+    opening or water starting to flow. Therefore, the physical state of the world must remain unchanged:
+    the water level should be constant (conservation of mass/object permanence), and the pipe should remain
+    off. This task tests whether the model can maintain a static state for an occluded object without
+    hallucinating a dynamic action (like filling) simply because the visual context (tank + pipe) suggests
+    it.'
+  questions:
+  - id: q1
+    question: Is the water level at approximately the same height as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The level should be at the 140 L mark.
+  - id: q2
+    question: Is the water level still aligned with the 140 L mark?
+    answer_type: yes_no
+    notes_for_judge: Check the right-hand scale.
+  - id: q3
+    question: Is the pipe free of flowing water?
+    answer_type: yes_no
+    notes_for_judge: There should be no stream of water coming from the pipe.
+  - id: q4
+    question: Did the water level remain below the 160 L mark?
+    answer_type: yes_no
+    notes_for_judge: Verifies the tank did not fill up.
+  - id: q5
+    question: Did the water level remain above the 120 L mark?
+    answer_type: yes_no
+    notes_for_judge: Verifies the tank did not empty.
+  - id: q6
+    question: Is the tank still partially filled with water?
+    answer_type: yes_no
+    notes_for_judge: Verifies the water didn't disappear.
+  - id: q7
+    question: Does the scene appear to be in the same state as the start?
+    answer_type: yes_no
+    notes_for_judge: General stability check.

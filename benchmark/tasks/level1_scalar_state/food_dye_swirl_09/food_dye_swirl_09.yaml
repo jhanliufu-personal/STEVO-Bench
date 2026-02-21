@@ -1,0 +1,64 @@
+id: food_dye_swirl_09
+level: 1
+category: scalar_state
+tags: []
+variant_of: food_dye_swirl
+variation_type: combined
+variation_description: Combines stirring condition with fog occlusion.
+changes:
+  occlusion_method: Fog.
+  dynamic_conditions: Stirring (forced convection).
+  expected_outcome_change: Rapid mixing.
+prompts:
+  init_frame_edit_prompt: Edit the image to insert a metal teaspoon into the glass of water.
+  video_WM: A drop of red food coloring contacts the water surface. A spoon is present in the water. The
+    water is agitated vigorously by the spoon. Thick fog rolls into the frame, completely obscuring the
+    glass from view. The fog remains dense for several seconds. Then the fog dissipates, revealing the
+    glass again. No zoom, no cut, no scene change. STOP.
+  camera_WM: A drop of red food coloring contacts the water surface. A spoon is present in the water.
+    The water is agitated vigorously by the spoon. Thick fog rolls into the frame, completely obscuring
+    the glass from view. The fog remains dense for several seconds. Then the fog dissipates, revealing
+    the glass again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A clear glass tumbler filled with water sits on a white surface. A metal spoon
+    is resting inside the glass. A glass dropper containing red liquid is positioned above the water,
+    dispensing a stream of red dye into the water. The dye forms concentrated dark red swirls and clouds
+    suspended in the clear water near the center.
+  init2final_edit_prompt: Edit the given image so that the water in the glass appears uniformly colored
+    translucent red or pink. Remove the distinct, concentrated dark red streaks and drops of dye, replacing
+    them with a homogeneous liquid color to simulate that the dye has been fully mixed into the water.
+    Keep the glass, spoon, and background unchanged.
+  rationale: The video prompt describes the addition of dye followed by vigorous agitation (stirring)
+    by the spoon. The occlusion (fog) hides the duration of the stirring process. Physically, stirring
+    causes the concentrated dye to disperse and mix with the water. Therefore, when the view returns,
+    the water should no longer show distinct streaks or drops but should be a uniform shade of red or
+    pink, representing a higher entropy state (mixed solution).
+  questions:
+  - id: q1
+    question: Is the water in the glass now a uniform red or pink color?
+    answer_type: yes_no
+    notes_for_judge: The water should look like a mixed solution, not clear water with separate drops.
+  - id: q2
+    question: Have the concentrated, distinct streaks of red dye dispersed?
+    answer_type: yes_no
+    notes_for_judge: The initial distinct swirls should be gone or significantly blurred into the background
+      color.
+  - id: q3
+    question: Is the color of the liquid more homogeneous than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Test for the scalar change of mixing/diffusion.
+  - id: q4
+    question: Is the water less clear and transparent than it was initially?
+    answer_type: yes_no
+    notes_for_judge: The addition of dye reduces transparency or changes the tint globally.
+  - id: q5
+    question: Is the spoon still visible inside the glass?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: q6
+    question: Is the glass tumbler still standing upright?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

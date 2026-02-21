@@ -1,0 +1,72 @@
+id: tape_retract_09
+level: 1
+category: scalar_state
+tags: []
+variant_of: tape_retract
+variation_type: combined
+variation_description: A brick blocks the tape retraction, and a person walks in front to occlude the
+  view.
+changes:
+  occlusion_method: Person walks in front of camera.
+  dynamic_conditions: Brick placed on tape.
+  expected_outcome_change: Tape retracts only until it hits the brick.
+prompts:
+  init_frame_edit_prompt: Edit the image to place a red brick on top of the yellow tape blade, about 2
+    feet from the housing.
+  video_WM: A metal tape measure is extended 5 feet with a red brick sitting on the blade. The retraction
+    button is pressed, and the tape pulls tight against the brick. A person wearing jeans walks past the
+    camera from left to right, completely blocking the view of the floor for a few seconds before exiting
+    the frame. No zoom, no cut, no scene change. STOP.
+  camera_WM: A metal tape measure is extended 5 feet with a red brick sitting on the blade. The retraction
+    button is pressed, and the tape pulls tight against the brick. A person wearing jeans walks past the
+    camera from left to right, completely blocking the view of the floor for a few seconds before exiting
+    the frame. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A red brick sits on a wooden floor. A yellow metal tape measure extends from
+    a housing held by a hand on the right side of the image. The tape blade passes underneath the brick
+    and extends significantly towards the left, with the end of the tape located far to the left of the
+    brick. Measurement markings (numbers 4, 5, 6) are visible on the section of the blade between the
+    brick and the housing.
+  init2final_edit_prompt: Edit the given image to show the tape measure retracted. Remove the section
+    of the yellow tape blade that extends to the left of the red brick, revealing the wooden floor underneath.
+    Place the metal hook of the tape measure directly against the left vertical face of the red brick.
+    Keep the red brick and the hand holding the tape housing in their original positions. Ensure the short
+    section of tape between the brick and the housing remains taut.
+  rationale: The video prompt describes a retraction action where the tape pulls tight against the brick.
+    Since a red brick is heavy and has high friction, the spring force of a standard tape measure is insufficient
+    to drag it. Therefore, the tape will slide out from underneath the brick until the metal hook at the
+    end of the tape catches on the left side of the brick, stopping the retraction. The occlusion by the
+    person walking past allows this physical transition to occur without requiring the rendering of the
+    sliding motion. The final state should show the tape fully retracted up to the brick.
+  questions:
+  - id: tape_length_reduced
+    question: Is the length of the yellow tape extending to the left of the brick significantly shorter
+      than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The tape to the left should be gone or minimal.
+  - id: hook_position
+    question: Is the metal hook of the tape measure positioned against the left side of the brick?
+    answer_type: yes_no
+    notes_for_judge: The hook should be visible at the limit of retraction against the obstacle.
+  - id: floor_visible
+    question: Is the wooden floor visible to the left of the brick where the tape used to be?
+    answer_type: yes_no
+    notes_for_judge: Check for the absence of the tape blade on the left.
+  - id: brick_stationary
+    question: Is the red brick in approximately the same position as it was initially?
+    answer_type: yes_no
+    notes_for_judge: The brick acts as an anchor and should not move significantly.
+  - id: hand_stationary
+    question: Is the hand holding the tape measure housing still in the same location?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: tape_taut
+    question: Is the section of tape between the housing and the brick taut?
+    answer_type: yes_no
+    notes_for_judge: It should not be slack or looping.
+  - id: total_tape_less
+    question: Is the total amount of visible yellow tape less than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Scalar check for retraction.

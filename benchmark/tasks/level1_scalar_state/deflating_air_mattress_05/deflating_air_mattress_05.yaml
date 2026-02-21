@@ -1,0 +1,64 @@
+id: deflating_air_mattress_05
+level: 1
+category: scalar_state
+tags: []
+variant_of: deflating_air_mattress
+variation_type: dynamic_condition
+variation_description: An electric pump is attached and running, causing inflation instead of deflation.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Electric pump attached and running.
+  expected_outcome_change: Mattress inflates and becomes firmer/larger.
+prompts:
+  init_frame_edit_prompt: Edit the image to show an electric air pump attached to the valve, plugged into
+    the wall.
+  video_WM: An electric air pump is attached to the mattress valve and is running loudly. The camera rotates
+    right until the mattress completely exits the view, then rotates toward the left smoothly at the same
+    rate until the mattress is back in the center of view. No zoom, no cut, no scene change. STOP.
+  camera_WM: An electric air pump is attached to the mattress valve and is running loudly. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A large blue inflatable air mattress sits on a wooden floor in a room with white
+    walls and a window. A black electric air pump is positioned on the floor near the corner of the mattress.
+    A black corrugated hose connects the side port of the pump to the valve on the mattress. The pump
+    is plugged into a wall outlet via a power cord. The mattress appears fully inflated and smooth.
+  init2final_edit_prompt: Edit the given image to show the blue air mattress in a partially deflated state.
+    The mattress should appear significantly flatter and less turgid than in the original image, with
+    visible wrinkles, sagging material, and a reduced height. Keep the pump, hose connection, floor, and
+    background details exactly as they are in the original image.
+  rationale: The hose is connected to the side intake port of the electric pump, which is the standard
+    configuration for deflating an air mattress (sucking air out). The prompt states the pump is running
+    loudly, indicating active operation. The camera rotates away and then returns to the original view,
+    covering a period of time during which the pump continues to run. Therefore, when the mattress comes
+    back into view, it should have lost a significant amount of air volume, appearing flatter and wrinklier
+    due to deflation.
+  questions:
+  - id: deflation_check_1
+    question: Is the mattress less inflated than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the turgidity and fullness of the mattress.
+  - id: deflation_check_2
+    question: Does the mattress appear flatter or lower in height compared to the start?
+    answer_type: yes_no
+    notes_for_judge: Look for a reduction in vertical volume.
+  - id: deflation_check_3
+    question: Are there more wrinkles or loose folds on the surface of the mattress than before?
+    answer_type: yes_no
+    notes_for_judge: Deflation causes the smooth surface to become wrinkled.
+  - id: deflation_check_4
+    question: Does the mattress look less firm or turgid than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Assess the visual tension of the material.
+  - id: deflation_check_5
+    question: Has the volume of the mattress decreased compared to the initial state?
+    answer_type: yes_no
+    notes_for_judge: General volume assessment.
+  - id: consistency_pump
+    question: Is the black air pump still visible and connected to the mattress?
+    answer_type: yes_no
+    notes_for_judge: The pump should remain in place.
+  - id: consistency_background
+    question: Are the wooden floor and wall outlet still visible as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Background consistency check.

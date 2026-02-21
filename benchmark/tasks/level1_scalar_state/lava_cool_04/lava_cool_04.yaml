@@ -1,0 +1,67 @@
+id: lava_cool_04
+level: 1
+category: scalar_state
+tags: []
+variant_of: lava_cool
+variation_type: dynamic_condition
+variation_description: Added gas flames to maintain the rock's temperature (prevents cooling).
+changes:
+  occlusion_method: null
+  dynamic_conditions: Blue gas flames burn around the rock, supplying constant heat.
+  expected_outcome_change: Rock remains glowing bright orange (does not cool/darken).
+prompts:
+  init_frame_edit_prompt: Edit the image to show blue gas flames licking up around the rock from the metal
+    tray, indicating an active heat source beneath it.
+  video_WM: A piece of volcanic rock is glowing bright orange. Blue gas flames burn steadily around the
+    rock, maintaining its high temperature. The camera rotates right until the rock and tray completely
+    exit the view, then rotates toward the left smoothly at the same rate until the rock is back in the
+    center of view. No zoom, no cut, no scene change. STOP.
+  camera_WM: A piece of volcanic rock is glowing bright orange. Blue gas flames burn steadily around the
+    rock, maintaining its high temperature. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A jagged, porous volcanic rock sits on a tarnished metal baking sheet. The rock
+    is glowing intensely from within, displaying bright orange and yellow veins of heat. Translucent blue
+    gas flames surround the rock, rising from the tray and the rock's surface. The tray rests on a gas
+    burner, which also emits blue flames from below. The scene is lit by the glow of the rock and the
+    blue fire.
+  init2final_edit_prompt: Edit the given image to show the volcanic rock continuing to glow with intense
+    bright orange and yellow heat. Render active blue flames burning around the rock and rising from the
+    tray, ensuring the fire has not extinguished. The rock must retain its incandescent appearance and
+    should not look cooled or darkened. Maintain the original camera angle and composition.
+  rationale: 'The prompt specifies that the camera rotates away and then returns to the original view,
+    meaning the final frame''s composition is identical to the initial frame. Crucially, the prompt states
+    that the gas flames ''burn steadily'' and ''maintain'' the rock''s high temperature. Therefore, despite
+    the passage of time and temporary occlusion, the physical state of the rock must remain unchanged:
+    it must still be glowing hot, and the flames must still be present. The evaluation tests for object
+    permanence and the persistence of the thermal state (preventing hallucinated cooling).'
+  questions:
+  - id: rock_glowing
+    question: Is the volcanic rock still glowing with bright orange or yellow light?
+    answer_type: yes_no
+    notes_for_judge: The rock should not have turned black or grey; it must retain its heat signature.
+  - id: flames_present
+    question: Are blue flames still visible around the rock?
+    answer_type: yes_no
+    notes_for_judge: The fire should not be extinguished.
+  - id: rock_center
+    question: Is the rock visible in the center of the frame?
+    answer_type: yes_no
+    notes_for_judge: Checks if the camera successfully returned to the starting position.
+  - id: no_cooling
+    question: Does the rock appear to be at a high temperature rather than cooled down?
+    answer_type: yes_no
+    notes_for_judge: The rock should look hot (glowing), not cold (dark).
+  - id: tray_visible
+    question: Is the metal tray still visible beneath the rock?
+    answer_type: yes_no
+    notes_for_judge: Checks for background consistency.
+  - id: glow_intensity
+    question: Is the intensity of the rock's glow maintained or brighter compared to a cold rock?
+    answer_type: yes_no
+    notes_for_judge: Verifies the 'maintaining high temperature' instruction.
+  - id: burner_flames
+    question: Are the flames from the burner under the tray still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary detail check.

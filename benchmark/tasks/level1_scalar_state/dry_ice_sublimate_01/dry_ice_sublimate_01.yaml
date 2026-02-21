@@ -1,0 +1,60 @@
+id: dry_ice_sublimate_01
+level: 1
+category: scalar_state
+tags: []
+variant_of: dry_ice_sublimate
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to thick fog filling the scene.
+changes:
+  occlusion_method: Thick fog fills the screen, obscuring the view completely, then clears.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The dry ice is sublimating rapidly in the warm water, and the size of the solid block is visibly
+    shrinking. Thick white fog suddenly fills the entire frame, completely obscuring the bowl and the
+    table. The fog remains thick for a moment, then slowly dissipates until the view is clear again. No
+    cut, no scene change. STOP.
+  camera_WM: The dry ice is sublimating rapidly in the warm water, and the size of the solid block is
+    visibly shrinking. Thick white fog suddenly fills the entire frame, completely obscuring the bowl
+    and the table. The fog remains thick for a moment, then slowly dissipates until the view is clear
+    again. No cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A beige ceramic bowl sitting on a wooden table, filled with water and a large,
+    roughly cubic block of translucent white dry ice. Thick white fog is emanating from the bowl and spilling
+    over the edges onto the table.
+  init2final_edit_prompt: Edit the given image to show the block of dry ice significantly reduced in size,
+    appearing partially sublimated and smaller than before. Keep the beige bowl, water, and wooden table
+    unchanged. Ensure the white fog is present but translucent and light, allowing a clear view of the
+    smaller ice block and the inside of the bowl.
+  rationale: The video prompt describes a physical process of sublimation where the dry ice shrinks over
+    time. A temporary occlusion by thick fog occurs, but the prompt specifies that the view clears again
+    by the end. Therefore, the final frame must show the scene with visibility restored, but with the
+    dry ice block having a noticeably smaller volume due to the elapsed time and sublimation process.
+  questions:
+  - id: dry_ice_size_01
+    question: Is the block of dry ice smaller than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the volume/size of the solid white block in the bowl.
+  - id: dry_ice_mass_02
+    question: Does the dry ice appear to have lost mass compared to the start?
+    answer_type: yes_no
+    notes_for_judge: The block should look eroded or shrunken.
+  - id: dry_ice_volume_03
+    question: Is the visible surface area of the solid ice block reduced?
+    answer_type: yes_no
+    notes_for_judge: Focus on the solid object, not the fog.
+  - id: visibility_04
+    question: Is the bowl clearly visible again, rather than being completely obscured by thick fog?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the view clears again.
+  - id: invariant_bowl_05
+    question: Is the beige bowl in the same position as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The camera should not have moved significantly.
+  - id: invariant_table_06
+    question: Is the wooden table surface still visible?
+    answer_type: yes_no
+    notes_for_judge: Check for background consistency.

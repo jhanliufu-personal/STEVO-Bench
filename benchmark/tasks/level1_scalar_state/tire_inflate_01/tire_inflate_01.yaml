@@ -1,0 +1,72 @@
+id: tire_inflate_01
+level: 1
+category: scalar_state
+tags: []
+variant_of: tire_inflate
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to a mechanic's back blocking the view.
+changes:
+  occlusion_method: A mechanic walks in front of the camera, completely blocking the view with their dark
+    uniform, then walks away.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The air is pumping into the tire at high pressure, and the tire is visibly and rapidly expanding.
+    The inflation continues steadily. A mechanic wearing a dark uniform walks directly in front of the
+    camera, completely blocking the view of the tire. The mechanic remains there for a moment, then walks
+    away to reveal the scene again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The air is pumping into the tire at high pressure, and the tire is visibly and rapidly expanding.
+    The inflation continues steadily. A mechanic wearing a dark uniform walks directly in front of the
+    camera, completely blocking the view of the tire. The mechanic remains there for a moment, then walks
+    away to reveal the scene again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up, low-angle shot of a bicycle wheel resting on a concrete garage floor.
+    The tire is currently under-inflated, showing significant flattening and deformation at the bottom
+    where it contacts the ground. A black air hose with a brass fitting is connected to the tire's valve
+    stem. Several tools, including wrenches and a screwdriver, are scattered on the floor in the foreground.
+    In the background, blurred, is a red air compressor and a window.
+  init2final_edit_prompt: Edit the given image to show the bicycle tire significantly more inflated. The
+    tire should appear rounder and firmer, with the flattened section at the bottom where it touches the
+    ground largely eliminated or much less pronounced. The rim should sit slightly higher off the ground
+    due to the tire's expansion. Ensure the sidewalls look taut. Keep the air hose connected to the valve.
+    Maintain the original background, tools on the floor, and lighting exactly as they are, with no people
+    present.
+  rationale: The video prompt describes a continuous process of rapid inflation that persists while a
+    mechanic temporarily blocks the view. When the mechanic walks away, the scene is revealed again after
+    some time has passed. Physically, this means the tire must have transitioned from a low-pressure,
+    flattened state to a high-pressure, rounder state. The contact patch with the ground should be smaller,
+    and the wheel should be lifted slightly by the expanding air volume. The mechanic must be absent in
+    the final frame.
+  questions:
+  - id: tire_inflation_status
+    question: Does the tire appear more inflated than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the overall fullness and shape of the tire.
+  - id: contact_patch_reduction
+    question: Is the flattened section of the tire at the bottom smaller or less deformed than in the
+      initial frame?
+    answer_type: yes_no
+    notes_for_judge: The tire should look less 'squished' against the ground.
+  - id: tire_roundness
+    question: Does the tire look rounder overall compared to the initial flattened state?
+    answer_type: yes_no
+    notes_for_judge: The shape should be closer to a perfect circle.
+  - id: rim_height
+    question: Is the metal rim sitting higher off the ground compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: As the tire inflates, it lifts the wheel structure upwards.
+  - id: mechanic_absence
+    question: Is the view clear of the mechanic who walked in front of the camera?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the mechanic walks away to reveal the scene.
+  - id: hose_connection
+    question: Is the air hose still connected to the tire valve?
+    answer_type: yes_no
+    notes_for_judge: The inflation process implies the hose remains attached.
+  - id: tool_consistency
+    question: Are the tools on the floor in the same positions as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Background objects should remain undisturbed.

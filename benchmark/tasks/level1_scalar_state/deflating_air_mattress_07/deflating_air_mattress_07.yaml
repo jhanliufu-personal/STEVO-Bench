@@ -1,0 +1,65 @@
+id: deflating_air_mattress_07
+level: 1
+category: scalar_state
+tags: []
+variant_of: deflating_air_mattress
+variation_type: combined
+variation_description: Valve is closed (no dynamics) and occlusion is by lights turning off.
+changes:
+  occlusion_method: Lights turn off completely.
+  dynamic_conditions: Valve is capped and closed.
+  expected_outcome_change: No deflation; mattress remains fully inflated.
+prompts:
+  init_frame_edit_prompt: Edit the image to show the air mattress valve tightly capped and closed.
+  video_WM: A thick air mattress has its valve tightly capped and closed. Suddenly, the lights in the
+    room turn off completely, plunging the scene into pitch black darkness. After a duration, the lights
+    turn back on. No zoom, no cut, no scene change. STOP.
+  camera_WM: A thick air mattress has its valve tightly capped and closed. Suddenly, the lights in the
+    room turn off completely, plunging the scene into pitch black darkness. After a duration, the lights
+    turn back on. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A large, blue, rectangular air mattress is placed on a light wood floor. The
+    mattress is fully inflated, appearing thick and firm with a tufted, textured top surface. A black
+    valve cap is clearly visible on the vertical side of the mattress facing the camera. The background
+    features a white baseboard and a window allowing natural light into the room.
+  init2final_edit_prompt: Edit the given image to show the blue air mattress remaining fully inflated
+    and unchanged. The black valve on the side must remain tightly capped and closed. The mattress should
+    retain its full height, volume, and taut surface texture, appearing exactly as thick and firm as in
+    the original image. The lighting should be bright, revealing the mattress in the same state as before.
+  rationale: The video prompt explicitly states that the valve is 'tightly capped and closed' and describes
+    a sequence where the lights turn off and then back on without describing any physical interaction,
+    puncture, or agent entering the scene. Since no cause for deflation is mentioned and the valve is
+    secured, the physical state of the mattress (volume and inflation) must remain constant. The task
+    tests the model's ability to maintain state stability (object persistence) and respect the 'capped'
+    constraint despite the temporal occlusion.
+  questions:
+  - id: q1
+    question: Is the air mattress still fully inflated?
+    answer_type: yes_no
+    notes_for_judge: The mattress should not have lost any volume.
+  - id: q2
+    question: Has the mattress deflated significantly compared to the start?
+    answer_type: yes_no
+    notes_for_judge: The answer must be NO as the valve was capped.
+  - id: q3
+    question: Is the mattress height approximately the same as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: It should remain thick.
+  - id: q4
+    question: Does the mattress appear flat on the floor?
+    answer_type: yes_no
+    notes_for_judge: It should remain raised and inflated.
+  - id: q5
+    question: Is the black valve still visible and capped?
+    answer_type: yes_no
+    notes_for_judge: The valve state should not change.
+  - id: q6
+    question: Is the surface of the mattress still taut and convex?
+    answer_type: yes_no
+    notes_for_judge: It should not look wrinkly or sagging.
+  - id: q7
+    question: Did the mattress maintain its volume during the darkness?
+    answer_type: yes_no
+    notes_for_judge: Test of state persistence.

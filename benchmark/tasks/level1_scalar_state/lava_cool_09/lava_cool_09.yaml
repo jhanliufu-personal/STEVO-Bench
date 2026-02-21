@@ -1,0 +1,66 @@
+id: lava_cool_09
+level: 1
+category: scalar_state
+tags: []
+variant_of: lava_cool
+variation_type: combined
+variation_description: Reheating cold rock combined with camera zoom occlusion.
+changes:
+  occlusion_method: Camera zooms out.
+  dynamic_conditions: Blowtorch heating rock.
+  expected_outcome_change: Rock starts glowing orange/red.
+prompts:
+  init_frame_edit_prompt: Edit the image to show a dark, cold volcanic rock. Add a mechanic arm holding
+    a blowtorch nozzle pointing a fierce blue flame directly at the rock's surface.
+  video_WM: A dark volcanic rock sits on the tray. A blowtorch directs an intense blue flame onto the
+    surface of the rock, transferring massive heat. The camera zooms out rapidly until the scene is too
+    small to discern details, then zooms back in smoothly until the rock fills the frame again. No cut,
+    no scene change. STOP.
+  camera_WM: A dark volcanic rock sits on the tray. A blowtorch directs an intense blue flame onto the
+    surface of the rock, transferring massive heat. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+evaluation:
+  init_frame_description: A close-up view of a dark, textured volcanic rock sitting on a stained metal
+    baking tray. A mechanical arm enters from the left, holding a blowtorch that emits a strong blue flame
+    directly onto the surface of the rock. The lighting is somewhat dim, highlighting the blue flame and
+    the texture of the rock.
+  init2final_edit_prompt: Edit the given image to make the area of the rock where the flame hits glow
+    intensely bright orange and yellow, appearing molten and significantly hotter than in the original
+    state. The glowing hot spot should be brighter and more saturated with heat colors compared to the
+    initial appearance.
+  rationale: The video prompt describes a blowtorch transferring massive heat to the rock while the camera
+    zooms out and back in. This sequence implies a duration of time during which the heat accumulates
+    on the rock's surface. Therefore, in the final frame, the rock must exhibit visual signs of increased
+    temperature, specifically a brighter and more intense red-orange glow (incandescence) at the point
+    of contact with the flame, compared to the initial frame.
+  questions:
+  - id: q1_heat_intensity
+    question: Is the area of the rock under the flame glowing more intensely than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Check for brighter red/orange/yellow colors indicating higher temperature.
+  - id: q2_heat_color
+    question: Does the rock surface appear hotter, indicated by bright orange or yellow incandescence,
+      compared to the start?
+    answer_type: yes_no
+    notes_for_judge: Visual proxy for temperature increase.
+  - id: q3_glow_brightness
+    question: Is the glowing hot spot on the rock brighter than it was in the initial image?
+    answer_type: yes_no
+    notes_for_judge: Compare the luminosity of the heated area.
+  - id: q4_molten_appearance
+    question: Does the heated section of the rock look more molten or incandescent than before?
+    answer_type: yes_no
+    notes_for_judge: Look for visual signs of extreme heat.
+  - id: q5_flame_presence
+    question: Is the blue flame from the blowtorch still visible?
+    answer_type: yes_no
+    notes_for_judge: The action is continuous; the flame should likely remain.
+  - id: q6_tray_consistency
+    question: Is the metal tray still visible beneath the rock?
+    answer_type: yes_no
+    notes_for_judge: Consistency check for the environment.
+  - id: q7_rock_identity
+    question: Is the dark volcanic rock still the primary subject of the frame?
+    answer_type: yes_no
+    notes_for_judge: Consistency check ensuring the camera returned to the subject.

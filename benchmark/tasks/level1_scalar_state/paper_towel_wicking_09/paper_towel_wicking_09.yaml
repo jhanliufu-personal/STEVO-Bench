@@ -1,0 +1,71 @@
+id: paper_towel_wicking_09
+level: 1
+category: scalar_state
+tags: []
+variant_of: paper_towel_wicking
+variation_type: combined
+variation_description: Fully saturated paper (no change) + Fog occlusion.
+changes:
+  occlusion_method: Fog/steam.
+  dynamic_conditions: Paper already fully wet.
+  expected_outcome_change: State remains static.
+prompts:
+  init_frame_edit_prompt: Edit the image to color the entire vertical paper towel strip blue, indicating
+    it is already fully saturated with the dyed water.
+  video_WM: The paper towel strip is completely saturated with blue water from bottom to top. Dense white
+    fog begins to roll in, rapidly becoming thick enough to completely obscure the petri dish and paper
+    towel. The fog swirls and hides the setup for several seconds. Then the fog dissipates clearly, revealing
+    the scene again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The paper towel strip is completely saturated with blue water from bottom to top. Dense white
+    fog begins to roll in, rapidly becoming thick enough to completely obscure the petri dish and paper
+    towel. The fog swirls and hides the setup for several seconds. Then the fog dissipates clearly, revealing
+    the scene again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A close-up shot of a vertical blue rectangular strip (resembling a sponge cloth
+    or heavy paper towel) clamped at the top by a metal stand. The bottom of the strip is submerged in
+    a glass petri dish filled with blue liquid. The strip appears uniform in color, likely its natural
+    dry color or partially wet. The petri dish sits on a blue surface, and blurred glass beakers are visible
+    in the background.
+  init2final_edit_prompt: Edit the given image to show the blue paper towel strip appearing completely
+    wet and saturated all the way to the top clamp; it should look darker blue and heavy with liquid.
+    Significantly lower the level of the blue liquid in the petri dish to reflect the volume absorbed
+    by the strip. Ensure the scene is sharp and clear with no fog or mist remaining.
+  rationale: The prompt describes the paper towel strip becoming completely saturated with blue water.
+    Physically, this wicking process transfers liquid from the petri dish into the porous material of
+    the strip. Therefore, the final state must show a lower liquid level in the dish (conservation of
+    mass) and the strip should appear visually wet (darker and glistening) up to the top. The fog mentioned
+    in the prompt acts as an occlusion curtain, hiding the duration of the process, but the final frame
+    must reveal the completed state after the fog dissipates.
+  questions:
+  - id: liquid_level_drop
+    question: Is the level of the blue liquid in the petri dish lower than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The liquid level must drop as water is absorbed by the towel.
+  - id: strip_saturation_appearance
+    question: Does the top portion of the paper towel strip appear darker or wetter than in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: Saturation typically darkens porous materials; the top should look wet.
+  - id: liquid_volume_decrease
+    question: Is there less blue liquid remaining in the dish compared to the start?
+    answer_type: yes_no
+    notes_for_judge: Scalar check for mass transfer.
+  - id: fog_cleared
+    question: Is the scene clearly visible without any obscuring fog?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the fog dissipates clearly.
+  - id: strip_wet_to_top
+    question: Does the wet or saturated appearance of the strip extend all the way to the top clamp?
+    answer_type: yes_no
+    notes_for_judge: Prompt specifies 'saturated... from bottom to top'.
+  - id: clamp_consistency
+    question: Is the metal clamp still holding the strip in the same position?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: background_consistency
+    question: Are the glass beakers in the background still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

@@ -1,0 +1,67 @@
+id: syrup_fill_00
+level: 1
+category: scalar_state
+tags: []
+variant_of: syrup_fill
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A glass jar is 25% full of syrup. A steady stream pours in, and the level is visibly rising.
+    Camera remains stationary throughout. No zoom, no cut, no scene change. STOP.
+  camera_WM: A glass jar is 25% full of syrup. A steady stream pours in, and the level is visibly rising.
+    Camera remains stationary throughout. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A clear glass jar sits on a wooden table, filled roughly one-third of the way
+    with amber-colored syrup. A metal pour spout enters from the top right, dispensing a steady stream
+    of syrup into the jar, causing bubbles and ripples on the liquid surface. To the left stands a worn
+    wooden cutting board. In the background, a beige ceramic jug sits on the window sill in front of a
+    window showing a blurred forest scene.
+  init2final_edit_prompt: Edit the given image to show the glass jar filled with significantly more amber
+    syrup, raising the liquid level to approximately 75% of the jar's height. Ensure the stream of syrup
+    continues to pour from the spout into the jar with bubbles on the surface. Keep the wooden table,
+    cutting board, ceramic jug, and window background exactly as they are.
+  rationale: The prompt describes a continuous pouring action where syrup is added to the jar without
+    interruption. As a result, the primary state change is the accumulation of liquid, leading to a higher
+    fluid level (volume increase) within the container. The camera is stationary, so the background and
+    static objects remain invariant. The final frame captures a moment where the jar is significantly
+    fuller than the start.
+  questions:
+  - id: q1
+    question: Is the level of the syrup in the jar higher than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the height of the liquid against the jar's features.
+  - id: q2
+    question: Does the jar contain a greater volume of liquid than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Assess the total amount of amber liquid visible.
+  - id: q3
+    question: Is the empty space at the top of the jar smaller than it was initially?
+    answer_type: yes_no
+    notes_for_judge: Check if the air gap has decreased.
+  - id: q4
+    question: Is the surface of the liquid closer to the rim of the jar than before?
+    answer_type: yes_no
+    notes_for_judge: Directional check on liquid height.
+  - id: q5
+    question: Is the stream of syrup still visible pouring into the jar?
+    answer_type: yes_no
+    notes_for_judge: The action is continuous, so the stream should persist.
+  - id: q6
+    question: Is the wooden cutting board on the left still present and unchanged?
+    answer_type: yes_no
+    notes_for_judge: Invariant check.
+  - id: q7
+    question: Is the ceramic jug in the background still visible?
+    answer_type: yes_no
+    notes_for_judge: Invariant check.
+  - id: q8
+    question: Has the liquid level risen visibly compared to the start?
+    answer_type: yes_no
+    notes_for_judge: Primary scalar change check.

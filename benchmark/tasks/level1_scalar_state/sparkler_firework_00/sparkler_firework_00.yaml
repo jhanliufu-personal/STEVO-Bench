@@ -1,0 +1,67 @@
+id: sparkler_firework_00
+level: 1
+category: scalar_state
+tags: []
+variant_of: sparkler_firework
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The sparkler has an active ignition point with sparks. The wire is coated with combustible
+    metallic compound. Oxygen is available. Camera remains stationary throughout. No zoom, no cut, no
+    scene change. STOP.
+  camera_WM: The sparkler has an active ignition point with sparks. The wire is coated with combustible
+    metallic compound. Oxygen is available. Camera remains stationary throughout. No zoom, no cut, no
+    scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A close-up shot against a black background showing a hand on the right holding
+    a lit sparkler. The sparkler extends horizontally to the left. The active burning point is roughly
+    in the middle of the stick, emitting bright white light and sparks. To the right of the flame (between
+    the flame and the hand), there is a section of unburnt gray coating. To the left of the flame, there
+    is a thin segment of bare or burnt wire where the fuel has already been consumed.
+  init2final_edit_prompt: Edit the given image to show the sparkler having burned further along the stick.
+    Move the bright burning point and the cluster of sparks significantly closer to the hand on the right.
+    Reduce the length of the unburnt gray coating between the flame and the hand. Increase the length
+    of the thin burnt wire extending to the left of the flame. Ensure the hand and background remain unchanged.
+  rationale: The sparkler is undergoing combustion, a process where the flame travels along the fuel-coated
+    wire. Based on the visual structure (bare wire handle held by the hand, followed by unburnt fuel,
+    then the flame, then the burnt wire tip), the flame propagates towards the hand. As time passes, the
+    flame position will shift to the right, the unburnt fuel section will decrease in length, and the
+    exposed burnt wire section will increase in length.
+  questions:
+  - id: flame_position_proximity
+    question: Is the bright burning point closer to the hand than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The flame travels towards the handle/hand as it burns.
+  - id: unburnt_fuel_length
+    question: Is the section of unburnt coating between the flame and the hand shorter than before?
+    answer_type: yes_no
+    notes_for_judge: The fuel is consumed, shortening the remaining coated section.
+  - id: burnt_wire_length
+    question: Is the visible length of the burnt wire to the left of the flame longer than in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: As the flame moves right, it leaves more burnt wire behind on the left.
+  - id: flame_direction
+    question: Has the source of the sparks moved to the right relative to the stick?
+    answer_type: yes_no
+    notes_for_judge: Directional check for flame propagation.
+  - id: fuel_consumption
+    question: Does the sparkler appear to have less remaining fuel coating than the initial state?
+    answer_type: yes_no
+    notes_for_judge: General mass/volume reduction of the fuel.
+  - id: hand_consistency
+    question: Is the hand holding the sparkler still visible and in the same approximate location?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: background_consistency
+    question: Is the background still dark/black?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

@@ -1,0 +1,61 @@
+id: inflating_balloon_06
+level: 1
+category: scalar_state
+tags: []
+variant_of: inflating_balloon
+variation_type: dynamic_condition
+variation_description: The balloon is untethered and filled with helium.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Balloon is detached from the tank.
+  expected_outcome_change: The balloon floats upwards and away.
+prompts:
+  init_frame_edit_prompt: Edit the image to show the white balloon floating freely just above the tank
+    nozzle, not physically connected to it.
+  video_WM: A white balloon filled with helium has just been released and is untethered. The camera rotates
+    right until the balloon and tank completely exit the view, then rotates toward the left smoothly at
+    the same rate until the tank is back in the center of view. No zoom, no cut, no scene change. STOP.
+  camera_WM: A white balloon filled with helium is untethered and free to move. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A green gas cylinder labeled 'HELIUM' sits on a grassy field. An inflated white
+    balloon is attached to the brass nozzle of the tank, extending to the left. A gloved hand is visible
+    at the top of the tank, manipulating the valve. A second, deflated white balloon lies on the grass
+    to the left of the tank. In the background, there is a wire fence and rolling hills under a cloudy
+    sky.
+  init2final_edit_prompt: Edit the given image to remove the inflated white balloon attached to the nozzle
+    of the helium tank. The brass nozzle should appear empty and exposed. Keep the green helium tank,
+    the deflated balloon lying on the grass, and the surrounding grassy field and background landscape
+    unchanged.
+  rationale: The prompt states that the helium-filled balloon is released and untethered. Because helium
+    is lighter than air, the balloon will immediately float upwards. The camera pans horizontally away
+    from the tank and then returns to the original view. During this occlusion, the balloon will have
+    risen out of the frame. Therefore, when the camera returns to the tank, the inflated balloon should
+    no longer be attached to the nozzle or visible in the frame, while the heavy tank and the deflated
+    balloon on the ground remain in place.
+  questions:
+  - id: balloon_gone
+    question: Is the inflated white balloon missing from the nozzle?
+    answer_type: yes_no
+    notes_for_judge: The balloon should have floated away, so it should not be attached to the tank anymore.
+  - id: nozzle_empty
+    question: Is the brass nozzle of the tank visible and empty?
+    answer_type: yes_no
+    notes_for_judge: The connection point where the balloon was attached should now be bare.
+  - id: space_empty
+    question: Is the space to the left of the nozzle, where the balloon was, now empty?
+    answer_type: yes_no
+    notes_for_judge: Check for the absence of the white sphere.
+  - id: tank_present
+    question: Is the green helium tank still visible?
+    answer_type: yes_no
+    notes_for_judge: The tank is heavy and stationary.
+  - id: deflated_balloon_present
+    question: Is the deflated white balloon on the ground still visible?
+    answer_type: yes_no
+    notes_for_judge: The deflated balloon is not filled with helium and should remain on the ground.
+  - id: background_consistent
+    question: Are the grass and background hills consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The environment should not change.

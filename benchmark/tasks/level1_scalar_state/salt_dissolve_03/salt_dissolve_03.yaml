@@ -1,0 +1,64 @@
+id: salt_dissolve_03
+level: 1
+category: scalar_state
+tags: []
+variant_of: salt_dissolve
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to extreme camera zoom out.
+changes:
+  occlusion_method: Camera zooms out until the tank is too small to see details, then zooms back in.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A salt lick is submerged in a turbulent water tank and is dissolving. The camera zooms out
+    rapidly until the tank becomes a tiny, indistinguishable dot in the distance. Then, the camera zooms
+    back in to the original framing. No cut, no scene change. STOP.
+  camera_WM: A salt lick is submerged in a turbulent water tank and is dissolving. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+evaluation:
+  init_frame_description: A clear glass tank filled with turbulent water. Inside the tank, a large, rough,
+    white cubic block (a salt lick) is submerged. The water is agitated, creating bubbles and white foam
+    around the block, particularly at the top and sides. To the right, there are black vertical heater
+    or filter tubes. To the left, black piping is visible outside the tank. The background shows a window
+    with a view of a building.
+  init2final_edit_prompt: Edit the given image to show the white salt block significantly dissolved. The
+    block should be smaller in volume with eroded, rounded edges and a reduced overall mass compared to
+    the original state. The water should remain turbulent with bubbles. Maintain the exact same camera
+    angle, tank structure, pipes, and background details.
+  rationale: The video prompt describes a salt lick dissolving in turbulent water while the camera performs
+    a long zoom-out and zoom-in maneuver. This camera trajectory implies a significant passage of time
+    while the tank is effectively unobservable (too small to see details). When the camera returns to
+    the initial framing, the physical process of dissolution must have progressed. Therefore, the final
+    state should show the salt block as smaller, eroded, and having lost mass due to the water's action
+    during the elapsed time.
+  questions:
+  - id: block_size_reduction
+    question: Is the white salt block smaller than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the overall size/volume of the block. It should be noticeably reduced.
+  - id: block_erosion
+    question: Does the salt block appear more eroded or rounded than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Look for smoothing of edges or loss of the cubic shape due to dissolution.
+  - id: volume_decrease
+    question: Has the volume of the solid white object decreased compared to the start?
+    answer_type: yes_no
+    notes_for_judge: The block should take up less space in the water.
+  - id: mass_loss
+    question: Is there less solid salt visible in the tank than in the initial image?
+    answer_type: yes_no
+    notes_for_judge: Refers to the remaining mass of the block.
+  - id: turbulence_presence
+    question: Is the water still turbulent with bubbles?
+    answer_type: yes_no
+    notes_for_judge: The agitation causing the dissolution should still be present.
+  - id: tank_structure_consistency
+    question: Are the black pipes and tank walls in the same position as the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The camera returns to the original framing, so static objects should be unchanged.
+  - id: block_space_occupancy
+    question: Does the block occupy a smaller portion of the tank's center than before?
+    answer_type: yes_no
+    notes_for_judge: Visual check of the area covered by the block.

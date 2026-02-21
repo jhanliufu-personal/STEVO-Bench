@@ -1,0 +1,75 @@
+id: dye_diffusion_07
+level: 1
+category: scalar_state
+tags: []
+variant_of: dye_diffusion
+variation_type: combined
+variation_description: Vegetable oil in bowl (immiscible) + Lights off occlusion.
+changes:
+  occlusion_method: Room lights turn off completely.
+  dynamic_conditions: Bowl contains vegetable oil instead of water.
+  expected_outcome_change: Dye forms droplets and sinks (immiscible) instead of diffusing.
+prompts:
+  init_frame_edit_prompt: Edit the image to make the clear liquid in the bowl appear yellowish and viscous,
+    looking like vegetable oil instead of water.
+  video_WM: Single continuous shot, no cuts, no zoom. The blue liquid in the dropper is a water-based
+    dye. The liquid in the bowl is vegetable oil. Water-based dye is immiscible in oil. When released,
+    the dye interacts with the oil according to fluid dynamics of immiscible liquids. No stirring or additional
+    drops occur. Camera starts centered on the bowl and hand. Suddenly, the room lights turn off completely,
+    plunging the scene into pitch blackness. The scene remains in total darkness for several seconds,
+    during which the liquids interact naturally. Then the lights turn back on, restoring the original
+    lighting and revealing the bowl again. The camera remains stationary throughout.
+  camera_WM: Single continuous shot, no cuts, no zoom. The blue liquid in the dropper is a water-based
+    dye. The liquid in the bowl is vegetable oil. Water-based dye is immiscible in oil. When released,
+    the dye interacts with the oil according to fluid dynamics of immiscible liquids. No stirring or additional
+    drops occur. Camera starts centered on the bowl and hand. Suddenly, the room lights turn off completely,
+    plunging the scene into pitch blackness. The scene remains in total darkness for several seconds,
+    during which the liquids interact naturally. Then the lights turn back on, restoring the original
+    lighting and revealing the bowl again. The camera remains stationary throughout. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A close-up shot showing a hand holding a dropper filled with dark blue liquid
+    over a clear glass bowl containing yellow vegetable oil. A small blue drop is suspended in mid-air,
+    falling from the dropper towards the oil. Inside the oil, there are already several distinct, spherical
+    blue blobs of dye settled near the bottom. The background shows a blurred window and lab equipment.
+  init2final_edit_prompt: Edit the given image to remove the small blue drop currently suspended in mid-air
+    between the dropper and the oil surface. Add a new distinct blue spherical blob at the bottom of the
+    glass bowl, joining the existing blue dye. Ensure the yellow oil remains clear and unmixed, with the
+    blue dye appearing as separate immiscible spheres. Keep the hand, dropper, and bowl in their original
+    positions.
+  rationale: The video prompt describes a period of darkness during which physics continues naturally.
+    The drop observed in mid-air in the initial frame will fall due to gravity. Since the blue dye is
+    water-based and the bowl contains oil, the liquids are immiscible. Water is denser than oil, so the
+    drop will sink to the bottom of the bowl rather than floating or dissolving. No new drops are released,
+    so the space between the dropper and the liquid surface becomes clear.
+  questions:
+  - id: drop_location_air
+    question: Is the space between the dropper tip and the oil surface free of falling drops?
+    answer_type: yes_no
+    notes_for_judge: The drop in mid-air should have fallen.
+  - id: dye_accumulation
+    question: Is the total volume of blue dye inside the bowl larger than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The falling drop has entered the bowl, adding to the mass inside.
+  - id: dye_position_bottom
+    question: Is the new blue dye located at the bottom of the bowl rather than floating on the surface?
+    answer_type: yes_no
+    notes_for_judge: Water-based dye is denser than oil and should sink.
+  - id: immiscibility_check
+    question: Does the blue dye inside the bowl remain as distinct blobs rather than mixing into the oil?
+    answer_type: yes_no
+    notes_for_judge: The liquids are immiscible; the oil should not turn green or blue uniformly.
+  - id: blob_growth
+    question: Has the cluster of blue blobs at the bottom of the bowl grown in size or number?
+    answer_type: yes_no
+    notes_for_judge: The falling drop adds to the collection at the bottom.
+  - id: oil_clarity
+    question: Is the yellow oil still transparent and distinct from the blue dye?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check for immiscibility.
+  - id: hand_presence
+    question: Is the hand holding the dropper still visible in the same position?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

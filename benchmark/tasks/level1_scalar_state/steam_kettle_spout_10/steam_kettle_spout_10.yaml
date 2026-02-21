@@ -1,0 +1,66 @@
+id: steam_kettle_spout_10
+level: 1
+category: scalar_state
+tags: []
+variant_of: steam_kettle_spout
+variation_type: combined
+variation_description: Violent boiling condition combined with smoke occlusion.
+changes:
+  occlusion_method: Thick smoke
+  dynamic_conditions: Maximum heat, violent boil
+  expected_outcome_change: Intense steam continues after smoke clears.
+prompts:
+  init_frame_edit_prompt: Edit the image to make the burner coils glow bright red and show a much larger,
+    more intense plume of steam shooting from the spout.
+  video_WM: The kettle sits on a burner set to maximum high heat. The water is boiling violently inside,
+    creating high pressure. Thick, opaque smoke begins to fill the room, completely obscuring the kettle
+    from view. The smoke swirls densely for several seconds. Then the smoke clears, restoring visibility.
+    No zoom, no cut, no scene change. STOP.
+  camera_WM: The kettle sits on a burner set to maximum high heat. The water is boiling violently inside,
+    creating high pressure. Thick, opaque smoke begins to fill the room, completely obscuring the kettle
+    from view. The smoke swirls densely for several seconds. Then the smoke clears, restoring visibility.
+    STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a stainless steel gooseneck kettle sitting on
+    an electric stove burner. The spiral burner coils are glowing bright orange-red, indicating high heat.
+    A significant amount of white steam is vigorously escaping from the kettle's spout and leaking from
+    under the lid, drifting upwards and to the right, partially obscuring the window in the background.
+  init2final_edit_prompt: Edit the given image to remove all visible steam and smoke. Show the kettle
+    sitting on the glowing red burner with the air around it completely clear. The white vapor plume coming
+    from the spout and lid should be erased, restoring full visibility of the background window and tiles.
+    Keep the kettle, the red-hot burner coils, and the kitchen environment otherwise unchanged.
+  rationale: The video prompt describes a sequence where the water boils violently, filling the room with
+    smoke/steam, which then clears to restore visibility. For the smoke (which originated from the boiling)
+    to clear while the burner remains on maximum heat, the physical implication is that the water has
+    boiled away or the emission has ceased. Therefore, the final frame should depict the kettle on the
+    still-hot burner but with the air clear of the initial steam plume, representing the state after the
+    smoke has dissipated.
+  questions:
+  - id: steam_reduction
+    question: Is there less visible steam in the final frame compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The final state should be clear of smoke/steam as per the 'smoke clears' instruction,
+      whereas the initial frame has visible steam.
+  - id: air_clarity
+    question: Is the air above the spout clearer than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The initial frame has a steam plume; the final frame should be clear.
+  - id: plume_dissipation
+    question: Has the white vapor cloud seen in the initial frame dissipated?
+    answer_type: yes_no
+    notes_for_judge: Test for the removal of the steam plume.
+  - id: background_visibility
+    question: Is the window in the background more visible than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The initial steam partially obscured the background; the final frame should be clear.
+  - id: burner_state
+    question: Is the burner coil still glowing red?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the burner is set to maximum high heat, so it should remain red.
+  - id: kettle_presence
+    question: Is the kettle still visible on the stove?
+    answer_type: yes_no
+    notes_for_judge: The kettle should not disappear; only the smoke/steam changes.

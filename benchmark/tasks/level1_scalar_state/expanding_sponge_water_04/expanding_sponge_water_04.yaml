@@ -1,0 +1,69 @@
+id: expanding_sponge_water_04
+level: 1
+category: scalar_state
+tags: []
+variant_of: expanding_sponge_water
+variation_type: dynamic_condition
+variation_description: The pitcher is empty and no water is pouring.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Pitcher is empty; no water contacts the sponge.
+  expected_outcome_change: Sponge remains compressed/dry (no expansion).
+prompts:
+  init_frame_edit_prompt: Edit the image to remove the stream of water pouring from the pitcher. The pitcher
+    remains tilted but empty.
+  video_WM: An empty glass pitcher is tilted over the compressed dry sponge. No water flows from the spout,
+    and the sponge remains completely dry. The camera rotates right at constant speed until the dish and
+    sponge completely exit the view to the right. The camera continues rotating right for several seconds
+    while off-screen. Then the camera rotates left smoothly at the same rate back to the original viewpoint.
+    No zoom, no cut, no scene change. STOP.
+  camera_WM: An empty glass pitcher is tilted over the compressed dry sponge. No water flows from the
+    spout, and the sponge remains completely dry. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A close-up shot of a wooden table surface featuring a white, shallow, round
+    dish. Inside the dish sits a dry, compressed, rectangular beige sponge with a porous texture. A hand
+    holds a clear glass pitcher tilted over the sponge; the pitcher appears empty. In the background,
+    a window with a white frame and blurred outdoor greenery is visible.
+  init2final_edit_prompt: Edit the given image to show the sponge remaining completely dry, thin, and
+    compressed. Ensure the sponge retains its original beige color and flat rectangular shape without
+    any expansion. Keep the white dish dry and free of any water. Maintain the glass pitcher in its tilted,
+    empty state over the dish. The wooden table and background details should remain identical to the
+    original view.
+  rationale: The video prompt explicitly states that no water flows from the pitcher and that the sponge
+    remains completely dry. Although the camera rotates to the right, causing the dish and sponge to exit
+    the frame (occlusion), and then returns to the original viewpoint, no physical interaction occurs
+    to change the state of the objects. Therefore, the final frame must show the sponge in its original
+    compressed, dry state, demonstrating object permanence and adherence to the negative constraint (no
+    pouring) despite the suggestive setup.
+  questions:
+  - id: sponge_state_dry
+    question: Is the sponge still dry in the final frame?
+    answer_type: yes_no
+    notes_for_judge: The sponge should not look wet or darker.
+  - id: sponge_state_compressed
+    question: Is the sponge still thin and compressed?
+    answer_type: yes_no
+    notes_for_judge: The sponge should not have expanded in height.
+  - id: dish_empty
+    question: Is the white dish free of standing water?
+    answer_type: yes_no
+    notes_for_judge: There should be no pool of water in the dish.
+  - id: sponge_size_consistency
+    question: Is the sponge approximately the same size as it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: It should not have grown larger.
+  - id: pitcher_empty
+    question: Is the glass pitcher still empty?
+    answer_type: yes_no
+    notes_for_judge: No water should be seen pouring or inside the pitcher.
+  - id: scene_consistency_table
+    question: Is the wooden table surface still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: scene_consistency_window
+    question: Is the window frame still visible in the background?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

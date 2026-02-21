@@ -1,0 +1,57 @@
+id: deflating_air_mattress_04
+level: 1
+category: scalar_state
+tags: []
+variant_of: deflating_air_mattress
+variation_type: dynamic_condition
+variation_description: The valve is capped and closed, preventing deflation.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Valve is capped and closed.
+  expected_outcome_change: No deflation; mattress remains fully inflated.
+prompts:
+  init_frame_edit_prompt: Edit the image to show the air mattress valve tightly capped and closed.
+  video_WM: A thick air mattress has its valve tightly capped and closed. The camera rotates right until
+    the mattress completely exits the view, then rotates toward the left smoothly at the same rate until
+    the mattress is back in the center of view. No zoom, no cut, no scene change. STOP.
+  camera_WM: A thick air mattress has its valve tightly capped and closed. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up view of a thick, blue air mattress placed on a wooden floor. The
+    mattress is fully inflated, with a taut, tufted top surface and rounded edges. A black circular valve
+    cap is visible on the vertical side facing the camera, appearing screwed in and closed.
+  init2final_edit_prompt: Edit the given image to show the air mattress in a fully inflated state. The
+    mattress should appear thick, taut, and firm, with the same volume and height as the original view.
+    The black valve cap on the side must be present and tightly closed. The surface should be smooth and
+    convex, with no signs of deflation, sagging, or wrinkling.
+  rationale: 'The video prompt specifies that the valve is ''tightly capped and closed'' and describes
+    camera movement (panning away and returning) without any physical interaction or time-lapse that would
+    induce deflation. Since the valve is closed and no external forces are applied, the physical state
+    of the mattress (its volume and pressure) must be conserved. Therefore, the final frame should show
+    the mattress exactly as it was initially: fully inflated and unchanged.'
+  questions:
+  - id: is_inflated
+    question: Is the air mattress still fully inflated?
+    answer_type: yes_no
+    notes_for_judge: The mattress should not look flat or saggy.
+  - id: volume_conserved
+    question: Does the mattress appear to have the same volume as it did initially?
+    answer_type: yes_no
+    notes_for_judge: Check for conservation of size and shape.
+  - id: valve_closed
+    question: Is the black valve cap still visible and closed?
+    answer_type: yes_no
+    notes_for_judge: The valve should not be open or missing.
+  - id: surface_taut
+    question: Is the surface of the mattress still taut and convex?
+    answer_type: yes_no
+    notes_for_judge: Deflation would cause concavity or wrinkles.
+  - id: height_maintained
+    question: Is the height of the mattress approximately the same as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: It should not be lower to the ground.
+  - id: no_wrinkles
+    question: Is the mattress free from new wrinkles or folds associated with deflation?
+    answer_type: yes_no
+    notes_for_judge: The surface should remain smooth.

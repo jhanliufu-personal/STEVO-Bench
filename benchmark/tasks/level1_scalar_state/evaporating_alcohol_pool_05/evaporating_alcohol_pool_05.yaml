@@ -1,0 +1,70 @@
+id: evaporating_alcohol_pool_05
+level: 1
+category: scalar_state
+tags: []
+variant_of: evaporating_alcohol_pool
+variation_type: dynamic_condition
+variation_description: The plate temperature is set to 95°C, which is above the boiling point of rubbing
+  alcohol (~82°C).
+changes:
+  occlusion_method: null
+  dynamic_conditions: Plate temperature is 95°C (hot) instead of 55°C.
+  expected_outcome_change: Rapid boiling and faster disappearance of the liquid.
+prompts:
+  init_frame_edit_prompt: 'Edit the image so the blue text on the display reads ''HOT: 95°C'' instead
+    of ''WARM: 55°C''.'
+  video_WM: Rubbing alcohol sits on the hot metal plate. The plate temperature is 95°C. Rubbing alcohol
+    has a boiling point of approximately 82°C. The liquid is in direct contact with the surface above
+    its boiling point. The camera rotates right at constant speed until the metal plate completely exits
+    the view to the right. The camera continues rotating right for several seconds while off-screen. Then
+    the camera rotates left smoothly at the same rate back to the original viewpoint. No zoom, no cut,
+    no scene change. STOP.
+  camera_WM: Rubbing alcohol sits on the hot metal plate. The plate temperature is 95°C. Rubbing alcohol
+    has a boiling point of approximately 82°C. The liquid is in direct contact with the surface above
+    its boiling point. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: 'A close-up view of a scratched metal hot plate surface. A digital display at
+    the bottom reads ''HOT: 95°C''. In the center of the plate, there is a thin, roughly circular pool
+    of clear liquid (rubbing alcohol). Faint steam or heat distortion is visible above the liquid. In
+    the background, there are blurred laboratory cables and the corner of a white piece of equipment.'
+  init2final_edit_prompt: Edit the given image to show the pool of liquid on the metal plate as significantly
+    smaller or completely gone. Reduce the surface area covered by the clear fluid, revealing more of
+    the scratched metal texture underneath. Keep the digital display reading 95°C and the background objects
+    unchanged.
+  rationale: The hot plate is set to 95°C, which is well above the boiling point of rubbing alcohol (approx.
+    82°C). The liquid is in a thin layer and is actively heating. The camera motion involves rotating
+    away and then back, which implies a passage of time while the subject is occluded. During this interval,
+    the alcohol will rapidly evaporate. Therefore, when the camera returns, the volume of liquid must
+    be significantly reduced or the plate should be dry.
+  questions:
+  - id: liquid_volume_reduction
+    question: Is the pool of liquid smaller than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The liquid should have evaporated significantly.
+  - id: surface_area_decrease
+    question: Is the surface area covered by the liquid reduced compared to the start?
+    answer_type: yes_no
+    notes_for_judge: The puddle should shrink.
+  - id: less_liquid_visible
+    question: Is there less rubbing alcohol visible on the hot plate than before?
+    answer_type: yes_no
+    notes_for_judge: Quantity comparison.
+  - id: plate_exposure
+    question: Is more of the metal plate surface exposed and dry compared to the initial view?
+    answer_type: yes_no
+    notes_for_judge: As liquid disappears, dry metal is revealed.
+  - id: evaporation_progress
+    question: Has the amount of liquid on the plate decreased?
+    answer_type: yes_no
+    notes_for_judge: Direct test of evaporation.
+  - id: invariant_temperature
+    question: Is the digital display still reading 95°C?
+    answer_type: yes_no
+    notes_for_judge: Invariant check.
+  - id: invariant_background
+    question: Are the cables in the background still in the same position?
+    answer_type: yes_no
+    notes_for_judge: Invariant check.

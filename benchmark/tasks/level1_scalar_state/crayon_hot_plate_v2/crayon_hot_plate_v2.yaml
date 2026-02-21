@@ -1,0 +1,70 @@
+id: crayon_hot_plate_v2
+level: 1
+category: scalar_state
+tags: []
+variant_of: crayon_hot_plate
+variation_type: occlusion_method
+variation_description: Occlusion changed to lights turning off completely.
+changes:
+  occlusion_method: Room lights turn off, creating pitch darkness.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The crayon is in contact with the hot plate surface. The plate is actively heating. The crayon
+    is made of paraffin wax with a melting point around 130°F. The plate temperature exceeds the wax melting
+    point. Suddenly, the room lights turn off completely, plunging the scene into absolute darkness where
+    nothing is visible. The darkness lasts for several seconds. Then the lights turn back on to reveal
+    the scene. No zoom, no cut, no scene change. STOP.
+  camera_WM: The crayon is in contact with the hot plate surface. The plate is actively heating. The crayon
+    is made of paraffin wax with a melting point around 130°F. The plate temperature exceeds the wax melting
+    point. Suddenly, the room lights turn off completely, plunging the scene into absolute darkness where
+    nothing is visible. The darkness lasts for several seconds. Then the lights turn back on to reveal
+    the scene. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A single blue crayon stands upright in the center of a black electric hot plate.
+    The hot plate has a circular heating element with concentric rings. On the front panel of the device,
+    a red indicator light is illuminated next to the word 'HEATING'. The background shows a kitchen counter
+    and stove area.
+  init2final_edit_prompt: Edit the given image to show the blue crayon in a partially melted state. Reduce
+    the height of the crayon and deform its shape to look like melting wax. Render a pool of blue liquid
+    wax spreading out from the base of the crayon onto the black circular heating surface. Keep the red
+    heating indicator light illuminated. Maintain the exact same camera angle, lighting conditions, and
+    background as the original image.
+  rationale: 'The prompt establishes that the hot plate is actively heating and its temperature exceeds
+    the melting point of the wax crayon. During the period of absolute darkness, the heat transfer continues
+    uninterrupted. Therefore, when the lights turn back on, the physical state of the crayon must have
+    evolved: the solid wax should have begun to liquefy, resulting in a reduction of the crayon''s height
+    or structural integrity and the formation of a pool of melted wax on the hot surface.'
+  questions:
+  - id: crayon_height_reduction
+    question: Is the standing part of the crayon shorter than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the vertical extent of the solid crayon. It should be lower due to melting.
+  - id: wax_pool_presence
+    question: Is there a visible pool of melted blue wax on the hot plate surface?
+    answer_type: yes_no
+    notes_for_judge: Look for liquid spreading at the base.
+  - id: crayon_deformation
+    question: Has the crayon lost its pristine cylindrical shape compared to the start?
+    answer_type: yes_no
+    notes_for_judge: The crayon should look deformed, warped, or toppled due to heat.
+  - id: solid_mass_reduction
+    question: Is there less solid crayon visible than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The amount of solid, un-melted wax should have decreased.
+  - id: wax_spreading
+    question: Does the blue color cover a wider area on the black plate than initially?
+    answer_type: yes_no
+    notes_for_judge: The footprint of the blue material should be larger due to the puddle.
+  - id: light_consistency
+    question: Is the red 'HEATING' indicator light still illuminated?
+    answer_type: yes_no
+    notes_for_judge: The appliance was not turned off, only the room lights.
+  - id: scene_visibility
+    question: Is the scene visible again (not pitch black)?
+    answer_type: yes_no
+    notes_for_judge: Verifies the lights turned back on.

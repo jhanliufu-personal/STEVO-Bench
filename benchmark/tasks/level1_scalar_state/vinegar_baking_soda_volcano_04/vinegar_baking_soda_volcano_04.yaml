@@ -1,0 +1,70 @@
+id: vinegar_baking_soda_volcano_04
+level: 1
+category: scalar_state
+tags: []
+variant_of: vinegar_baking_soda_volcano
+variation_type: dynamic_condition
+variation_description: Liquid changed from vinegar to water. No chemical reaction should occur.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Liquid is water instead of vinegar. Water is neutral.
+  expected_outcome_change: No foaming or bubbling occurs. The level rises only by the volume of water
+    added.
+prompts:
+  init_frame_edit_prompt: Edit the image to change the label on the bottle to read 'WATER' clearly.
+  video_WM: The hand pours water into the container with baking soda. Water is a neutral liquid. Baking
+    soda is sodium bicarbonate. There is no chemical reaction between water and baking soda. The camera
+    rotates right at constant speed until the container completely exits the view to the right. The camera
+    continues rotating right for several seconds while off-screen. Then the camera rotates left smoothly
+    at the same rate back to the original viewpoint. No zoom, no cut, no scene change. STOP.
+  camera_WM: The hand pours water into the container with baking soda. Water is a neutral liquid. Baking
+    soda is sodium bicarbonate. There is no chemical reaction between water and baking soda. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A clear glass jar containing white powder (baking soda) sits on a rustic wooden
+    tray. A hand holds a clear glass pitcher filled with water, tilted slightly above the jar as if about
+    to pour. In the background, a glass bottle with a label reading 'WATER' is visible on a wooden countertop
+    near a window.
+  init2final_edit_prompt: Edit the given image to show the result of pouring the water into the jar. The
+    glass pitcher in the hand should contain significantly less water or be empty. The glass jar on the
+    tray should be filled to a higher level with a mixture of water and white powder, appearing as a wet
+    paste, slurry, or cloudy liquid rather than dry powder. Ensure the mixture in the jar looks flat and
+    wet, with no foam, bubbles, or eruption overflowing from the rim. Keep the background, the 'WATER'
+    bottle, and the wooden tray unchanged.
+  rationale: 'The prompt explicitly states that water (a neutral liquid) is poured into baking soda and
+    that no chemical reaction occurs. Therefore, the physical simulation should show the transfer of mass
+    from the pitcher to the jar without the gas expansion or foaming associated with vinegar. The camera
+    rotates away and returns to the original viewpoint, meaning the final frame should match the initial
+    perspective but reflect the completed pouring action: the pitcher should be emptier, and the jar should
+    contain a wet, non-foamy mixture at a higher fill level.'
+  questions:
+  - id: pitcher_level
+    question: Is the water level in the handheld pitcher lower than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The pitcher should have been poured into the jar.
+  - id: jar_level
+    question: Is the level of contents inside the glass jar higher than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Water was added to the powder, so the total volume in the jar should increase.
+  - id: powder_wetness
+    question: Does the substance inside the jar appear wet, slushy, or liquid-like?
+    answer_type: yes_no
+    notes_for_judge: The dry powder should now be mixed with water.
+  - id: no_foam
+    question: Is the mixture in the jar free of overflowing foam or bubbles?
+    answer_type: yes_no
+    notes_for_judge: The prompt explicitly states no chemical reaction; there should be no volcano effect.
+  - id: containment
+    question: Are the contents of the jar fully contained within the glass without spilling over?
+    answer_type: yes_no
+    notes_for_judge: Without a reaction, the volume increase should be manageable and not overflow.
+  - id: bottle_consistency
+    question: Is the bottle labeled 'WATER' still visible in the background?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: tray_consistency
+    question: Is the wooden tray still present and unchanged?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

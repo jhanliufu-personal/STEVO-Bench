@@ -1,0 +1,70 @@
+id: sand_filling_up_jar_04
+level: 1
+category: scalar_state_change
+tags: []
+variant_of: sand_filling_up_jar
+variation_type: dynamic_condition
+variation_description: The funnel neck is plugged with a cork, preventing flow.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Funnel neck is plugged with a cork stopper; sand is present but cannot flow.
+  expected_outcome_change: No change in sand levels (static state).
+prompts:
+  init_frame_edit_prompt: Edit the image to show a cork stopper firmly plugging the bottom opening of
+    the glass funnel neck. Ensure no sand is falling from the funnel into the jar.
+  video_WM: Single continuous take, no cuts or zoom. Camera starts centered on the funnel and jar. A glass
+    funnel filled with sand sits atop a jar, but the neck is tightly plugged with a cork stopper, holding
+    the sand inside. The camera smoothly moves to the right at constant speed until the funnel and jar
+    leave the frame to the left and become completely invisible. The camera continues moving right across
+    the room for several seconds. Then the camera moves left at the same speed back to the original viewpoint.
+    Lighting and objects remain consistent and realistic.
+  camera_WM: A glass funnel filled with sand sits atop a jar, but the neck is tightly plugged with a cork
+    stopper, holding the sand inside. Lighting and objects remain consistent and realistic. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A glass jar sits on a wooden table with a glass funnel resting on top of it.
+    The funnel is filled with a significant amount of light brown sand. The neck of the funnel, where
+    it enters the jar, is tightly plugged with a cork stopper, physically blocking the opening. Inside
+    the jar, at the bottom, there is a pre-existing conical pile of sand, separated from the sand in the
+    funnel by the cork and empty air space. The background consists of out-of-focus wooden planks.
+  init2final_edit_prompt: Edit the given image to maintain the exact initial state of the objects. Ensure
+    the cork stopper remains tightly inserted in the neck of the jar. Keep the sand level in the top funnel
+    high and unchanged, as no sand should have flowed out. Keep the pile of sand in the bottom jar exactly
+    the same size and shape as the original. The scene should appear identical to the initial frame with
+    no changes to the sand levels or the cork's position.
+  rationale: The prompt explicitly states that the neck is tightly plugged with a cork stopper which holds
+    the sand inside. Although the camera pans away and returns, no action is described that would remove
+    the cork or unblock the passage. Therefore, based on physical constraints, the sand cannot flow from
+    the funnel into the jar. The state of the system (sand volumes and cork position) must remain invariant
+    throughout the sequence.
+  questions:
+  - id: cork_presence
+    question: Is the cork stopper still visible plugging the neck of the jar?
+    answer_type: yes_no
+    notes_for_judge: The cork should not disappear or move.
+  - id: funnel_sand_level
+    question: Is the sand level in the top funnel approximately the same as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The sand should not drain.
+  - id: jar_sand_amount
+    question: Is the amount of sand in the bottom jar unchanged compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The pile at the bottom should not grow.
+  - id: funnel_fullness
+    question: Does the top funnel still appear to be filled with sand?
+    answer_type: yes_no
+    notes_for_judge: It should not be empty or significantly lower.
+  - id: no_flow_visible
+    question: Is the empty space between the cork and the bottom sand pile free of falling sand?
+    answer_type: yes_no
+    notes_for_judge: There should be no stream of sand since the cork is plugged.
+  - id: bottom_pile_height
+    question: Is the sand pile in the bottom jar no taller than it was initially?
+    answer_type: yes_no
+    notes_for_judge: Since no sand flows, the pile height must not increase.
+  - id: cork_blocking
+    question: Is the cork still positioned between the sand in the funnel and the jar below?
+    answer_type: yes_no
+    notes_for_judge: Verifies the cork has not fallen in.

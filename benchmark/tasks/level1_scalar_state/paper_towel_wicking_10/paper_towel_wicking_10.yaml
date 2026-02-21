@@ -1,0 +1,67 @@
+id: paper_towel_wicking_10
+level: 1
+category: scalar_state
+tags: []
+variant_of: paper_towel_wicking
+variation_type: combined
+variation_description: Non-porous plastic strip (no wicking) + Camera zoom out occlusion.
+changes:
+  occlusion_method: Camera zooms out until scene is unrecognizable.
+  dynamic_conditions: Non-porous plastic strip.
+  expected_outcome_change: No wicking/water rise occurs.
+prompts:
+  init_frame_edit_prompt: Edit the image to replace the white paper towel strip with a smooth, shiny,
+    non-porous white plastic strip of the exact same size and position.
+  video_WM: A vertical strip of smooth, shiny white plastic stands with its edge in contact with the blue
+    water. The plastic is non-porous and hydrophobic. The camera zooms out continuously, pulling back
+    until the petri dish becomes a tiny dot and detail is lost. The camera holds this distant view for
+    several seconds. Then the camera zooms back in smoothly to the original framing. No cut, no scene
+    change. STOP.
+  camera_WM: A vertical strip of smooth, shiny white plastic stands with its edge in contact with the
+    blue water. The plastic is non-porous and hydrophobic. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+  Genie: null
+evaluation:
+  init_frame_description: A vertical strip of smooth white material is clamped in a metal stand, with
+    its bottom edge submerged in blue liquid contained in a glass petri dish. To the left, empty glass
+    beakers are visible. The background shows a blurred laboratory setting with a window. The strip is
+    currently white and appears dry above the water line.
+  init2final_edit_prompt: Edit the given image to show the scene unchanged. Keep the white plastic strip
+    completely white and dry above the water line, ensuring no blue liquid has wicked up the surface.
+    Maintain the blue liquid level strictly at the base of the strip where it touches the water. Preserve
+    the original position of the clamp, the petri dish, and the background beakers.
+  rationale: 'The prompt specifies that the strip is made of non-porous, hydrophobic plastic. Unlike paper
+    or fabric, this material does not support capillary action. Therefore, despite the passage of time
+    implied by the camera zoom sequence, the blue liquid will not climb up the strip. The final state
+    should show the strip exactly as it was initially: clean, white, and dry above the immersion point,
+    demonstrating the material''s hydrophobic properties.'
+  questions:
+  - id: wicking_check_1
+    question: Is the blue liquid level on the strip still at the bottom edge, similar to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The liquid should not have risen.
+  - id: wicking_check_2
+    question: Is the white strip free of blue discoloration above the water line?
+    answer_type: yes_no
+    notes_for_judge: Plastic is hydrophobic; no staining should occur.
+  - id: wicking_check_3
+    question: Has the liquid prevented from climbing up the vertical strip?
+    answer_type: yes_no
+    notes_for_judge: Verifies lack of capillary action.
+  - id: wicking_check_4
+    question: Does the strip appear dry above the point of immersion?
+    answer_type: yes_no
+    notes_for_judge: Surface should remain glossy/dry, not wet.
+  - id: wicking_check_5
+    question: Is the height of the blue liquid on the strip lower than the midpoint of the visible strip?
+    answer_type: yes_no
+    notes_for_judge: It should be at the very bottom.
+  - id: consistency_1
+    question: Is the metal clamp still holding the strip in the same position?
+    answer_type: yes_no
+    notes_for_judge: Object permanence check.
+  - id: consistency_2
+    question: Are the glass beakers on the left still visible?
+    answer_type: yes_no
+    notes_for_judge: Background consistency.

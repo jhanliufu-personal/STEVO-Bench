@@ -1,0 +1,70 @@
+id: tank_filling_up_v09
+level: 1
+category: scalar_state
+tags: []
+variant_of: tank_filling_up
+variation_type: combined
+variation_description: Liquid changed to thick oil (slow flow) combined with zoom-out occlusion.
+changes:
+  occlusion_method: Camera zoom out
+  dynamic_conditions: High viscosity liquid (slow flow)
+  expected_outcome_change: Level rises much slower than water
+prompts:
+  init_frame_edit_prompt: Edit the liquid flowing from the pipe and inside the tank to look like thick,
+    golden motor oil or honey. It should appear viscous.
+  video_WM: Single continuous take, no cuts. Camera starts centered on the pipe and tank where thick,
+    viscous oil is flowing slowly. The camera zooms out rapidly, pulling back until the tank becomes a
+    tiny, indistinguishable speck in the wide warehouse view, making details impossible to see. The camera
+    holds this wide shot for several seconds. Then the camera zooms back in smoothly to the original framing.
+    STOP.
+  camera_WM: Thick, viscous oil flows slowly from a metal pipe into a transparent cylindrical tank. Lighting
+    and objects remain consistent and realistic. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+  Genie: null
+evaluation:
+  init_frame_description: A large, clear cylindrical tank sits in the center of a warehouse with a concrete
+    floor. Inside the tank is a thick, golden-yellow viscous liquid, likely oil or honey. A metal pipe
+    extends from the top right, pouring a steady stream of this liquid into the tank, creating turbulence
+    on the surface. The tank has red measurement markings on its side, indicating volume in liters (Lt)
+    and weight in grams (g). The current liquid level is roughly aligned with the 100 Lt / 400 g markings.
+    In the background, there are industrial shelves, pallets, and machinery.
+  init2final_edit_prompt: Edit the given image to show the level of the golden liquid inside the clear
+    tank significantly higher than it was originally, reflecting the accumulation of fluid over time.
+    The stream of oil should continue pouring from the pipe into the tank. Maintain the exact same camera
+    angle, framing, and background warehouse environment, changing only the amount of liquid in the tank.
+  rationale: 'The prompt describes a continuous filling process where viscous oil flows into a tank. While
+    the camera zooms out and loses visual detail of the tank (occlusion by distance), the physical process
+    of filling continues. Upon zooming back in to the original framing, the state of the world must reflect
+    the elapsed time: the volume of liquid in the tank must have increased, resulting in a higher liquid
+    level. The stream is assumed to be continuous as no stop command was given.'
+  questions:
+  - id: q1_level_height
+    question: Is the level of the yellow liquid in the tank higher than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the liquid surface height against the red markings or the tank rim.
+  - id: q2_volume_increase
+    question: Does the tank contain a larger volume of liquid than seen in the starting image?
+    answer_type: yes_no
+    notes_for_judge: The tank should look fuller.
+  - id: q3_empty_space
+    question: Is the empty space at the top of the tank smaller than it was initially?
+    answer_type: yes_no
+    notes_for_judge: As liquid fills, the air gap decreases.
+  - id: q4_stream_continuity
+    question: Is the stream of oil still flowing from the pipe into the tank?
+    answer_type: yes_no
+    notes_for_judge: The action is continuous.
+  - id: q5_markings_coverage
+    question: Are more of the red measurement markings submerged or covered by the liquid compared to
+      the first frame?
+    answer_type: yes_no
+    notes_for_judge: Check if the liquid covers markings that were previously visible above the surface.
+  - id: q6_background_consistency
+    question: Are the warehouse shelves and pallets in the background unchanged?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: q7_tank_position
+    question: Is the clear tank in the same position on the floor as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

@@ -1,0 +1,65 @@
+id: evaporating_alcohol_pool_03
+level: 1
+category: scalar_state
+tags: []
+variant_of: evaporating_alcohol_pool
+variation_type: occlusion_method
+variation_description: Occlusion by zooming out until details are lost.
+changes:
+  occlusion_method: Camera zooms out to a wide shot where the plate is too small to see details.
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics (alcohol evaporates significantly).
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: Rubbing alcohol sits on the warm metal plate. The plate temperature is elevated above room
+    temperature. Alcohol is volatile with a low boiling point of 180°F and high vapor pressure. The surrounding
+    air is not saturated with alcohol vapor. The camera zooms out rapidly until the metal plate appears
+    as a tiny, indistinguishable speck in the distance. The camera holds this wide view for several seconds.
+    Then the camera zooms back in smoothly to the original viewpoint. No cut, no scene change. STOP.
+  camera_WM: Rubbing alcohol sits on the warm metal plate. The plate temperature is elevated above room
+    temperature. Alcohol is volatile with a low boiling point of 180°F and high vapor pressure. The surrounding
+    air is not saturated with alcohol vapor. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+  Genie: null
+evaluation:
+  init_frame_description: 'A close-up view of a brushed metal hot plate surface with a digital display
+    at the bottom reading ''WARM: 55°C''. A circular pool of clear liquid, identified as rubbing alcohol,
+    sits in the center of the plate. Faint vapor or distortion is visible above the liquid. The background
+    contains blurred laboratory equipment and cables.'
+  init2final_edit_prompt: 'Edit the given image to show the pool of liquid significantly reduced in size.
+    The edges of the liquid puddle should be receded inward, exposing more of the dry metal plate surface
+    around the perimeter. The remaining liquid should appear to occupy a smaller surface area than before.
+    Maintain the original camera angle, the ''WARM: 55°C'' text on the display, and the background details
+    exactly as they are.'
+  rationale: The scene depicts a volatile liquid (alcohol) on a heated surface (55°C). The video prompt
+    describes a camera sequence involving a zoom out, a hold for several seconds, and a zoom back in.
+    This sequence implies a passage of time during which the camera is effectively looking away or the
+    subject is too small to resolve. During this elapsed time, the heat will cause the alcohol to evaporate
+    rapidly. Therefore, upon returning to the initial viewpoint, the primary scalar state change is a
+    reduction in the volume and surface area of the liquid pool.
+  questions:
+  - id: liquid_area_reduction
+    question: Is the surface area covered by the liquid smaller than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the diameter/extent of the puddle.
+  - id: liquid_amount_decrease
+    question: Is there less liquid visible on the plate compared to the start?
+    answer_type: yes_no
+    notes_for_judge: Check for volume loss/evaporation.
+  - id: edge_recession
+    question: Have the outer edges of the liquid pool receded towards the center?
+    answer_type: yes_no
+    notes_for_judge: The puddle should shrink inward.
+  - id: dry_surface_exposure
+    question: Is more of the dry metal plate surface visible than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: As liquid shrinks, dry area increases.
+  - id: display_consistency
+    question: 'Does the digital display still read approximately ''WARM: 55°C''?'
+    answer_type: yes_no
+    notes_for_judge: The heater setting should remain consistent.
+  - id: background_consistency
+    question: Are the background cables and equipment in the same position as the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Only the liquid should change; the environment is static.

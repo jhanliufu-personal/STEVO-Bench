@@ -1,0 +1,66 @@
+id: matchstick_burning_07
+level: 1
+category: scalar_state
+tags: []
+variant_of: matchstick_burning
+variation_type: combined
+variation_description: Combined wet wood condition with object blocking occlusion.
+changes:
+  occlusion_method: A large opaque cardboard sheet slides in front of the camera.
+  dynamic_conditions: The wooden shaft is damp and saturated with water.
+  expected_outcome_change: Flame extinguishes or fails to travel down the stick
+prompts:
+  init_frame_edit_prompt: Edit the image to make the wooden stick of the match look damp and dark, with
+    small water droplets visible on the wood surface below the flame.
+  video_WM: The matchstick flame burns at the tip, but the wood shaft is visibly damp and saturated with
+    water. Oxygen is available. A large opaque sheet of cardboard slides from the left, completely blocking
+    the view of the hand and match. It stays there for several seconds. Then the cardboard slides back
+    to the left, revealing the scene again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The matchstick flame burns at the tip, but the wood shaft is visibly damp and saturated with
+    water. Oxygen is available. A large opaque sheet of cardboard slides from the left, completely blocking
+    the view of the hand and match. It stays there for several seconds. Then the cardboard slides back
+    to the left, revealing the scene again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A close-up view of a hand holding a wooden matchstick. The match is lit, with
+    a bright orange flame burning at the tip. The wooden shaft of the matchstick is visibly wet, covered
+    in distinct water droplets along its length. The background is a blurry, neutral beige wall.
+  init2final_edit_prompt: Edit the given image to show the matchstick after burning for a short duration.
+    Make the tip of the matchstick appear more charred and blackened, extending slightly further down
+    the shaft than in the original. Remove the water droplets immediately adjacent to the flame to simulate
+    evaporation. Keep the flame visible at the tip. Ensure the water droplets on the lower, unburnt part
+    of the shaft remain visible.
+  rationale: During the occlusion, the fire continues to burn the match head and the immediate tip of
+    the wood. This results in an increase in the charred, blackened area at the tip. However, because
+    the wood is saturated with water, the fire propagation is slow and does not consume the entire stick
+    rapidly. The heat from the flame causes the water droplets closest to the combustion zone to evaporate,
+    while droplets further down the shaft (away from the heat) remain intact.
+  questions:
+  - id: char_expansion
+    question: Is the blackened, charred area at the tip of the match larger than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The burnt region should have grown due to the passage of time.
+  - id: droplet_evaporation
+    question: Are the water droplets closest to the flame missing or reduced compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The heat from the flame should have evaporated the water droplets nearest to the
+      tip.
+  - id: flame_persistence
+    question: Is the flame still visible at the tip of the match?
+    answer_type: yes_no
+    notes_for_judge: The prompt implies the match continues to burn.
+  - id: unburnt_shaft
+    question: Is the majority of the matchstick shaft still unburnt?
+    answer_type: yes_no
+    notes_for_judge: Due to the wet wood, the fire should not have consumed the entire stick in just a
+      few seconds.
+  - id: lower_droplets_presence
+    question: Are there still water droplets visible on the lower, unburnt portion of the matchstick?
+    answer_type: yes_no
+    notes_for_judge: Droplets far from the heat source should not have evaporated.
+  - id: hand_consistency
+    question: Is the hand holding the match in the same position as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The camera and hand position should remain static.

@@ -1,0 +1,70 @@
+id: spooling_wire_00
+level: 1
+category: scalar_state
+tags: []
+variant_of: spooling_wire
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A motorized spindle winds yellow wire. The spool is in the center of view. Camera remains
+    stationary throughout. No zoom, no cut, no scene change. STOP.
+  camera_WM: A motorized spindle winds yellow wire. The spool is in the center of view. Camera remains
+    stationary throughout. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: 'A close-up industrial scene featuring a large winding machine. In the center,
+    a black spool is partially filled with bright yellow wire. To the left of the spool is a large, greasy
+    metal gear mechanism. Above the spool is a grey electric motor with cooling fins. In the background,
+    there are other spools of wire: a blue one on the bottom left, a black one on the far left, a black
+    one on the right, and a yellow one on the far right. The floor is concrete.'
+  init2final_edit_prompt: Edit the given image to show the central spool with a significantly larger amount
+    of yellow wire wound onto it. Increase the diameter of the yellow wire coil so it occupies more of
+    the space between the black flanges. The layer of yellow wire should appear thicker and more voluminous
+    than in the original image. Keep the machine structure, the gear on the left, the motor on top, and
+    the background spools exactly unchanged.
+  rationale: The video prompt describes a motorized spindle winding wire. Physically, this action results
+    in the accumulation of wire onto the spool over time. Therefore, the primary scalar change is an increase
+    in the volume and diameter of the yellow wire coil on the central spool. The camera is stationary,
+    so the background and machine structure remain constant while the wire accumulates.
+  questions:
+  - id: q1_diameter
+    question: Is the diameter of the yellow wire coil on the central spool larger than in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the thickness of the yellow wire layer on the central spool between the two
+      frames.
+  - id: q2_volume
+    question: Is there a greater volume of yellow wire on the central spool compared to the start?
+    answer_type: yes_no
+    notes_for_judge: The amount of wire should have increased due to the winding action.
+  - id: q3_flange_space
+    question: Does the yellow wire fill more of the space between the black spool flanges than before?
+    answer_type: yes_no
+    notes_for_judge: As the wire winds, the gap between the wire surface and the outer edge of the spool
+      flanges should decrease.
+  - id: q4_thickness
+    question: Is the layer of wound yellow wire thicker than it was initially?
+    answer_type: yes_no
+    notes_for_judge: Focus on the radial thickness of the wire coil.
+  - id: q5_accumulation
+    question: Has the amount of wound wire visibly accumulated?
+    answer_type: yes_no
+    notes_for_judge: Check for positive accumulation of material.
+  - id: q6_gear_consistency
+    question: Is the large gear mechanism on the left still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: q7_motor_consistency
+    question: Is the electric motor above the spool still present?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: q8_background_consistency
+    question: Are the background wire spools (blue, black, yellow) still in their original positions?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

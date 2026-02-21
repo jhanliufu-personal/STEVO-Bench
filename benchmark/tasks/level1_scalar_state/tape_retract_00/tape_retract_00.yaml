@@ -1,0 +1,58 @@
+id: tape_retract_00
+level: 1
+category: scalar_state
+tags: []
+variant_of: tape_retract
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A metal tape measure is extended 5 feet. The retraction button is held down. Camera remains
+    stationary throughout. No zoom, no cut, no scene change. STOP.
+  camera_WM: A metal tape measure is extended 5 feet. The retraction button is held down. Camera remains
+    stationary throughout. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up shot of a hand holding a yellow tape measure on a wooden floor. The
+    tape measure housing is on the right side of the frame. The yellow metal tape blade is extended out
+    to the left, with numerical markings '4', '5', and '6' visible. The metal hook at the end of the tape
+    is visible on the far left. A window sill runs along the top left background.
+  init2final_edit_prompt: Edit the given image to show the metal tape measure retracted. The length of
+    the extended yellow tape blade should be significantly shorter or fully withdrawn into the housing.
+    The metal hook should be positioned much closer to the plastic case held by the hand, or resting against
+    it. The wooden floor texture should be visible where the tape was previously extended. Keep the hand
+    and the tape measure housing in the same position.
+  rationale: The prompt describes holding the retraction button on an extended tape measure. This action
+    releases the internal locking mechanism, allowing the spring to pull the tape blade back into the
+    housing. Consequently, the scalar state variable (length of extended tape) decreases. The metal hook
+    moves from left to right towards the housing, and the amount of visible yellow tape diminishes.
+  questions:
+  - id: tape_length_shorter
+    question: Is the visible length of the yellow tape shorter than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the extent of the yellow blade extending from the housing.
+  - id: hook_closer
+    question: Is the metal hook closer to the tape measure housing than it was initially?
+    answer_type: yes_no
+    notes_for_judge: The hook should have moved towards the right.
+  - id: less_tape_visible
+    question: Is there less yellow tape surface area visible compared to the start?
+    answer_type: yes_no
+    notes_for_judge: The tape should have retracted into the case.
+  - id: floor_revealed
+    question: Is the wooden floor visible in the area where the tape was previously extended?
+    answer_type: yes_no
+    notes_for_judge: The retraction should reveal the floor underneath the previous position of the tape.
+  - id: hand_position_consistent
+    question: Is the hand holding the tape measure housing in approximately the same position?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: housing_consistent
+    question: Is the yellow tape measure housing still visible on the right side?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

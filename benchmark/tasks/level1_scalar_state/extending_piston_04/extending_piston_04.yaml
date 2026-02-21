@@ -1,0 +1,69 @@
+id: extending_piston_04
+level: 1
+category: scalar_state
+tags: []
+variant_of: extending_piston
+variation_type: dynamic_condition
+variation_description: Piston direction changed from extending to retracting.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Piston is retracting (pulling in) instead of extending.
+  expected_outcome_change: The silver rod should be shorter/less visible upon return.
+prompts:
+  init_frame_edit_prompt: Edit the image so the silver piston rod is extended significantly further out
+    than in the original, showing nearly maximum length.
+  video_WM: A hydraulic piston is retracting, pulling the silver rod back into the green housing. The
+    camera rotates right until the piston assembly completely exits the view, then rotates toward the
+    left smoothly at the same rate until the piston is back in the center of view. No zoom, no cut, no
+    scene change. STOP.
+  camera_WM: A hydraulic piston is retracting, pulling the silver rod back into the green housing. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up view of a green excavator arm mechanism featuring a large hydraulic
+    cylinder with an extended silver chrome rod. The cylinder is painted green with signs of wear, grease,
+    and rust. A black control lever with a rubber boot is visible in the foreground on a control panel.
+    Hydraulic hoses run along the top of the arm. The background contains blurred machinery parts and
+    ground debris.
+  init2final_edit_prompt: Edit the given image to show the hydraulic piston in a retracted state. Shorten
+    the visible length of the silver chrome rod significantly, making it appear as though it has slid
+    inside the green cylinder housing. Position the end joint of the rod closer to the main green cylinder
+    body. Keep the camera angle, lighting, the green machinery structure, and the foreground control lever
+    exactly as they are in the original image.
+  rationale: The video prompt describes a hydraulic piston retracting, which is a scalar change in length
+    (shortening). The camera performs a panning motion away from the object and then returns to the original
+    viewpoint. This camera movement acts as a temporal transition. When the view returns to the initial
+    position, the physical action of retraction should have progressed, resulting in a shorter exposed
+    rod compared to the initial frame.
+  questions:
+  - id: rod_length_shortened
+    question: Is the visible length of the silver rod shorter than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the length of the shiny silver cylinder extending from the green housing.
+  - id: retraction_occurred
+    question: Does the hydraulic piston appear to have retracted into the green housing?
+    answer_type: yes_no
+    notes_for_judge: Retraction means the rod moves into the cylinder.
+  - id: joint_proximity
+    question: Is the connection point at the end of the silver rod closer to the green cylinder body than
+      before?
+    answer_type: yes_no
+    notes_for_judge: The end of the rod is the joint/knuckle; it should be closer to the seal of the green
+      tube.
+  - id: less_chrome_visible
+    question: Is there less exposed silver chrome surface visible on the piston compared to the start?
+    answer_type: yes_no
+    notes_for_judge: As the rod retracts, less surface area is exposed.
+  - id: overall_assembly_length
+    question: Is the total length of the piston assembly (green cylinder plus exposed rod) shorter than
+      in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The combined length decreases during retraction.
+  - id: consistency_lever
+    question: Is the black control lever still visible in the foreground?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: consistency_hoses
+    question: Are the hydraulic hoses along the top of the arm still present?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

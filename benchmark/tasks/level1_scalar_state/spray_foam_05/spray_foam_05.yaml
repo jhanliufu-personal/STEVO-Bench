@@ -1,0 +1,65 @@
+id: spray_foam_05
+level: 1
+category: scalar_state
+tags: []
+variant_of: spray_foam
+variation_type: dynamic_condition
+variation_description: A solvent is applied to the foam, causing it to dissolve/shrink instead of expand.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Chemical solvent applied to foam causing breakdown.
+  expected_outcome_change: The foam volume decreases (shrinks) instead of increasing.
+prompts:
+  init_frame_edit_prompt: Edit the image to show the yellow foam looking wet and collapsing, with a clear
+    liquid solvent dripping over it.
+  video_WM: A strong solvent is reacting with the foam, causing the yellow mound to hiss, dissolve, and
+    shrink in volume rapidly. The camera rotates right until the foam completely exits the view, then
+    rotates toward the left smoothly at the same rate until the foam is back in the center of view. No
+    zoom, no cut, no scene change. STOP.
+  camera_WM: A strong solvent is reacting with the foam, causing the yellow mound to hiss, dissolve, and
+    shrink in volume rapidly. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up view of a wall cavity framed by vertical wooden studs. A large, irregular
+    mound of yellowish-brown expanding foam fills the space between the studs near the bottom plate. The
+    foam has a glossy, bubbly texture. A metal nozzle tip is visible at the top right, dripping liquid
+    onto the foam. Sawdust and wood shavings are scattered on the wooden floor plate.
+  init2final_edit_prompt: Edit the given image to show the mound of yellow foam significantly reduced
+    in volume, appearing shrunken, dissolved, and collapsed. The foam should look deflated and occupy
+    much less space between the wooden studs compared to the original size. Keep the wooden studs, the
+    floor plate, and the scattered sawdust identical to the original view.
+  rationale: The video prompt describes a camera panning action that moves the subject out of view and
+    then returns to the exact same centering. Therefore, the final frame's viewpoint is identical to the
+    initial frame. The physical action describes a solvent dissolving the foam, which is a scalar reduction
+    in volume. Consequently, the final image must show the foam mound as significantly smaller, shrunken,
+    or collapsed compared to the initial expanded state.
+  questions:
+  - id: foam_volume_reduction
+    question: Is the mound of foam smaller in volume than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the overall size/mass of the foam. It should be reduced.
+  - id: foam_height_decrease
+    question: Is the top of the foam mound lower than it was in the starting image?
+    answer_type: yes_no
+    notes_for_judge: The foam should have shrunk downwards.
+  - id: foam_shrunken_appearance
+    question: Does the foam appear shrunken or collapsed compared to the initial state?
+    answer_type: yes_no
+    notes_for_judge: Look for signs of deflation or dissolving.
+  - id: less_foam_mass
+    question: Is there less visible foam mass between the studs than before?
+    answer_type: yes_no
+    notes_for_judge: Quantity assessment.
+  - id: stud_visibility
+    question: Is more of the back wall or side studs visible due to the foam shrinking?
+    answer_type: yes_no
+    notes_for_judge: As the foam shrinks, previously occluded background elements may become visible.
+  - id: wood_structure_consistency
+    question: Are the vertical wooden studs still in the same position?
+    answer_type: yes_no
+    notes_for_judge: Check for scene consistency.
+  - id: sawdust_presence
+    question: Is the sawdust on the floor still visible?
+    answer_type: yes_no
+    notes_for_judge: Check for background preservation.

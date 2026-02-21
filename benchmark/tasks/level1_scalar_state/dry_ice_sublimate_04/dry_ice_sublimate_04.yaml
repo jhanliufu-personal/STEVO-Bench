@@ -1,0 +1,67 @@
+id: dry_ice_sublimate_04
+level: 1
+category: scalar_state
+tags: []
+variant_of: dry_ice_sublimate
+variation_type: dynamic_condition
+variation_description: Water changed from warm to ice-cold with floating ice cubes.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Water is ice-cold with floating ice cubes.
+  expected_outcome_change: Sublimation rate is significantly slower; block shrinks much less.
+prompts:
+  init_frame_edit_prompt: Edit the image to show floating ice cubes in the water surrounding the central
+    dry ice block.
+  video_WM: The dry ice sits in ice-cold water filled with floating ice cubes. The sublimation process
+    is slow and gentle. The camera rotates right until the bowl completely exits the view, then rotates
+    toward the left smoothly at the same rate until the bowl is back in the center of view. No zoom, no
+    cut, no scene change. STOP.
+  camera_WM: The dry ice sits in ice-cold water filled with floating ice cubes. The sublimation process
+    is slow and gentle. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A beige ceramic bowl sits on a wooden surface, filled with water and floating
+    clear ice cubes. In the center of the bowl is a large, opaque white block of dry ice. Thick white
+    fog and mist are emanating from the bowl, spilling over the rim and settling on the wooden table.
+    The lighting is natural, casting soft shadows to the right.
+  init2final_edit_prompt: Edit the given image to show the central block of dry ice slightly reduced in
+    size, appearing smaller due to sublimation. Maintain the presence of white fog and mist around the
+    bowl. Keep the bowl centered, the surrounding clear ice cubes, and the wooden background identical
+    to the original view.
+  rationale: The video prompt describes a camera panning away and then returning to the original centered
+    view. During the elapsed time of the camera movement, the dry ice sitting in water will undergo sublimation
+    (transitioning from solid to gas). Physically, this causes the mass and volume of the dry ice block
+    to decrease. Therefore, the key state change is the reduction in size of the central dry ice block.
+    The fog is a byproduct of this process and should persist. The camera returns to the starting position,
+    so the framing remains unchanged.
+  questions:
+  - id: dry_ice_size_reduction
+    question: Is the central block of dry ice smaller than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the size/volume of the large white block in the center. It should be smaller
+      due to sublimation.
+  - id: dry_ice_mass_decrease
+    question: Does the dry ice block appear to have less mass than at the start?
+    answer_type: yes_no
+    notes_for_judge: The block should look eroded or shrunken.
+  - id: dry_ice_volume_change
+    question: Has the volume of the central white block decreased compared to the initial image?
+    answer_type: yes_no
+    notes_for_judge: Check for a reduction in the 3D volume of the dry ice.
+  - id: camera_return_centering
+    question: Is the bowl positioned in the center of the frame?
+    answer_type: yes_no
+    notes_for_judge: The camera should have returned to the initial view.
+  - id: fog_presence
+    question: Is there still white mist or fog visible emanating from the bowl?
+    answer_type: yes_no
+    notes_for_judge: Sublimation produces fog; it should not disappear completely.
+  - id: ice_cubes_presence
+    question: Are the smaller clear ice cubes still visible in the water?
+    answer_type: yes_no
+    notes_for_judge: The surrounding ice cubes should remain, though they may have shifted slightly.
+  - id: bowl_visibility
+    question: Is the entire bowl visible again after the camera movement?
+    answer_type: yes_no
+    notes_for_judge: The prompt requires the bowl to return to the center of view.

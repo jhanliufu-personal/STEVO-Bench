@@ -1,0 +1,67 @@
+id: evaporating_alcohol_pool_04
+level: 1
+category: scalar_state
+tags: []
+variant_of: evaporating_alcohol_pool
+variation_type: dynamic_condition
+variation_description: The plate temperature is set to a cold setting (10°C), inhibiting evaporation.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Plate temperature is 10°C (cool) instead of 55°C (warm).
+  expected_outcome_change: Minimal to no evaporation (liquid volume remains largely constant).
+prompts:
+  init_frame_edit_prompt: 'Edit the image so the blue text on the display reads ''COOL: 10°C'' instead
+    of ''WARM: 55°C''.'
+  video_WM: Rubbing alcohol sits on the cool metal plate. The plate temperature is actively cooled to
+    10°C. While alcohol is volatile, low temperatures significantly reduce its vapor pressure. The surrounding
+    air is still. The camera rotates right at constant speed until the metal plate completely exits the
+    view to the right. The camera continues rotating right for several seconds while off-screen. Then
+    the camera rotates left smoothly at the same rate back to the original viewpoint. No zoom, no cut,
+    no scene change. STOP.
+  camera_WM: Rubbing alcohol sits on the cool metal plate. The plate temperature is actively cooled to
+    10°C. While alcohol is volatile, low temperatures significantly reduce its vapor pressure. The surrounding
+    air is still. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: 'A close-up, high-angle shot of a brushed metal laboratory hotplate. In the
+    center of the plate, there is a clear, roughly circular puddle of liquid rubbing alcohol. The liquid
+    is transparent and flat. At the bottom of the device, a digital display screen with blue text reads
+    ''COOL: 10°C''. Black cables are visible in the blurred background behind the plate.'
+  init2final_edit_prompt: 'Edit the given image to show the pool of rubbing alcohol still present on the
+    metal plate. The liquid puddle should retain substantially the same surface area, shape, and volume
+    as in the original image, appearing clear and unevaporated. The digital display reading ''COOL: 10°C''
+    should remain visible.'
+  rationale: The prompt specifies that the plate is actively cooled to 10°C. While alcohol is volatile,
+    this low temperature significantly suppresses its vapor pressure, meaning evaporation will be negligible
+    over the duration of the camera movement (likely 10-20 seconds). The camera rotates away and then
+    returns to the exact same viewpoint. Therefore, the final frame should show the alcohol puddle intact,
+    with virtually no loss of volume, demonstrating object permanence and correct physical reasoning about
+    temperature-dependent evaporation.
+  questions:
+  - id: puddle_existence
+    question: Is the pool of liquid alcohol still clearly visible on the metal plate?
+    answer_type: yes_no
+    notes_for_judge: The puddle should not have disappeared; it should be preserved due to the low temperature.
+  - id: volume_conservation
+    question: Does the liquid puddle appear to have maintained most of its original surface area?
+    answer_type: yes_no
+    notes_for_judge: The size should be approximately the same as the initial frame, not significantly
+      shrunk.
+  - id: liquid_location
+    question: Is the liquid still positioned in the center of the metal plate?
+    answer_type: yes_no
+    notes_for_judge: The liquid should not have moved or slid off.
+  - id: liquid_state
+    question: Does the substance on the plate still appear to be a clear liquid?
+    answer_type: yes_no
+    notes_for_judge: It should not look like ice or a dry stain.
+  - id: plate_visibility
+    question: Is the brushed metal texture of the plate still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: display_presence
+    question: Is the digital display area at the bottom of the device still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

@@ -1,0 +1,65 @@
+id: clay_drying_00
+level: 1
+category: scalar_state
+tags: []
+variant_of: clay_drying
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A wet, dark terracotta pot is under a hot lamp. Camera remains stationary throughout. No zoom,
+    no cut, no scene change. STOP.
+  camera_WM: A wet, dark terracotta pot is under a hot lamp. Camera remains stationary throughout. No
+    zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A dark, wet terracotta pot sits on a weathered stone pedestal inside a greenhouse.
+    A metal clamp lamp with a red heat bulb is positioned to the right, shining directly onto the side
+    of the pot. A circular, lighter-colored dry patch is visible on the pot's surface where the light
+    hits, surrounded by dark, damp clay. Steam or vapor is rising from the top of the pot.
+  init2final_edit_prompt: Edit the given image to show the terracotta pot in a drier state. Expand the
+    light-colored dry patch on the side of the pot significantly so it covers a larger surface area. Change
+    the color of the surrounding dark, wet clay to a lighter, matte orange-brown tone to indicate evaporation.
+    Reduce the apparent wetness and gloss on the pot's surface while keeping the lamp, pedestal, and background
+    unchanged.
+  rationale: The heat lamp is actively applying thermal energy to the wet porous clay. Over time, this
+    causes the water to evaporate, a process already visible in the initial frame as a small dry patch
+    and rising steam. As the process continues, the dry (lighter, matte) area will expand outward from
+    the heat source, and the wet (darker, glossy) area will recede. The scalar change is the reduction
+    of surface moisture and the increase of dry surface area.
+  questions:
+  - id: dry_patch_expansion
+    question: Is the light-colored dry patch on the side of the pot larger than it was in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the surface area of the lighter, dry clay against the initial image.
+  - id: wet_area_reduction
+    question: Has the dark, wet area on the pot's surface decreased in size?
+    answer_type: yes_no
+    notes_for_judge: The dark reddish-brown area should be smaller as the dry area expands.
+  - id: color_lightening
+    question: Is the overall color of the pot's illuminated side lighter than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Drying terracotta turns from dark red/brown to a lighter orange/clay color.
+  - id: texture_matte
+    question: Does the surface of the pot appear more matte and less glossy in the illuminated region?
+    answer_type: yes_no
+    notes_for_judge: Wet clay is often slightly glossy; dry clay is matte.
+  - id: boundary_movement
+    question: Has the boundary between the light dry area and the dark wet area moved outward from the
+      center of the light?
+    answer_type: yes_no
+    notes_for_judge: The drying front should recede away from the heat source.
+  - id: lamp_consistency
+    question: Is the heat lamp still positioned to the right of the pot?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: pedestal_consistency
+    question: Is the pot still resting on the stone pedestal?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

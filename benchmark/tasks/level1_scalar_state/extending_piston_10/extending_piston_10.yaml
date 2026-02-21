@@ -1,0 +1,64 @@
+id: extending_piston_10
+level: 1
+category: scalar_state
+tags: []
+variant_of: extending_piston
+variation_type: combined
+variation_description: Leaking/stalled piston + Occlusion by camera moving physically away.
+changes:
+  occlusion_method: Camera physically moves backward (dolly out) into the distance.
+  dynamic_conditions: Piston has a blown seal and is struggling to move (very slow/stalled).
+  expected_outcome_change: Little to no extension; fluid leakage evident.
+prompts:
+  init_frame_edit_prompt: Edit the image to show dark hydraulic fluid dripping from the seal where the
+    silver rod meets the green housing.
+  video_WM: A hydraulic piston has a blown seal and is leaking fluid, struggling to move. The camera moves
+    backward away from the machine until the arm is lost in the distance, then moves back to the original
+    close-up position. No cut, no scene change. STOP.
+  camera_WM: A hydraulic piston has a blown seal and is leaking fluid, struggling to move. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up view of a weathered green hydraulic excavator arm. A hydraulic cylinder
+    is visible diagonally, with a shiny silver metal piston rod extending partially from the green housing.
+    Dark hydraulic fluid is leaking from the seal where the rod exits, creating wet streaks dripping down
+    the side of the green metal. A control lever with a black rubber boot is visible in the foreground.
+  init2final_edit_prompt: Edit the given image to show the shiny metal piston rod extended further out
+    of the green cylinder, making the exposed silver section visibly longer. Increase the amount of dark
+    hydraulic fluid streaking down the side of the arm to show accumulated leakage. Keep the camera angle,
+    framing, and background identical to the original image.
+  rationale: The video prompt describes a continuous sequence where the camera moves away and then returns
+    to the exact starting position. This implies a passage of time during which the physical action continues.
+    The piston is described as 'struggling to move', which implies slow but positive displacement in the
+    direction of extension (based on the task ID 'extending_piston'). Additionally, the active leak would
+    cause more fluid to accumulate on the surface over time. Therefore, the final frame should show the
+    piston extended further and more oil present than in the initial frame.
+  questions:
+  - id: piston_extension_1
+    question: Is the shiny metal piston rod longer than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the length of the exposed silver rod extending from the green cylinder.
+  - id: piston_extension_2
+    question: Has the hydraulic piston extended further out of the housing?
+    answer_type: yes_no
+    notes_for_judge: Check if the distance between the cylinder seal and the end of the rod has increased.
+  - id: fluid_accumulation_1
+    question: Is there more dark fluid visible on the green arm than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Look for an increase in the area covered by oil stains or drips.
+  - id: fluid_accumulation_2
+    question: Are the oil streaks dripping from the seal more extensive than before?
+    answer_type: yes_no
+    notes_for_judge: Assess whether the leakage appears to have continued and accumulated.
+  - id: piston_geometry
+    question: Is the connection point at the end of the piston rod further from the cylinder body?
+    answer_type: yes_no
+    notes_for_judge: This is a proxy for checking extension length.
+  - id: consistency_lever
+    question: Is the control lever in the foreground still visible?
+    answer_type: yes_no
+    notes_for_judge: Verify that static foreground elements remain consistent.
+  - id: consistency_color
+    question: Is the excavator arm still green?
+    answer_type: yes_no
+    notes_for_judge: Verify that the object's intrinsic color has not changed.

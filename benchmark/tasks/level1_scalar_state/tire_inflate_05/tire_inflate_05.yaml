@@ -1,0 +1,70 @@
+id: tire_inflate_05
+level: 1
+category: scalar_state
+tags: []
+variant_of: tire_inflate
+variation_type: dynamic_condition
+variation_description: Condition changed to static state (no air flow).
+changes:
+  occlusion_method: null
+  dynamic_conditions: The air hose is disconnected and lying on the ground.
+  expected_outcome_change: No change in tire size (static).
+prompts:
+  init_frame_edit_prompt: Edit the image to show the brass air hose connector disconnected from the valve
+    stem and lying on the concrete floor next to the tire.
+  video_WM: The air hose is disconnected and lying on the floor next to the tire. The tire sits completely
+    still with no airflow interacting with it. The camera rotates right until the tire completely exits
+    the view, then rotates toward the left smoothly at the same rate until the tire is back in the center
+    of view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The air hose is disconnected and lying on the floor next to the tire. The tire sits completely
+    still with no airflow interacting with it. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up, low-angle shot of a bicycle wheel and tire resting on a concrete
+    floor. The tire is black with a knobby tread pattern and appears partially deflated, as the bottom
+    section in contact with the floor is noticeably flattened and compressed. The silver metal rim and
+    spokes are visible. A Presta valve stem sticks up from the rim at the bottom center. In the foreground,
+    a black air hose with a brass quick-connect coupler lies on the floor, clearly disconnected from the
+    tire. To the left, a wrench is visible on the floor. In the background, out of focus, there is a red
+    air compressor and a window.
+  init2final_edit_prompt: Edit the given image to show the bicycle tire with a flattened bottom section,
+    indicating low air pressure. The air hose lies on the floor, disconnected from the tire valve. The
+    metal rim is positioned close to the ground due to the tire compression. The wrenches and background
+    elements are positioned exactly as they were.
+  rationale: The video prompt explicitly states that the air hose is disconnected and the tire sits completely
+    still with no airflow interacting with it. The camera rotates away to occlude the tire and then returns
+    to the initial view. Since no physical interaction or inflation occurs, the scalar state of the tire
+    (its volume and compression) must remain exactly the same in the final frame as in the initial frame.
+    This task tests the model's ability to maintain state consistency and object permanence (not hallucinating
+    inflation) during temporary occlusion.
+  questions:
+  - id: tire_compression
+    question: Is the bottom of the tire still flattened against the floor?
+    answer_type: yes_no
+    notes_for_judge: The tire should not have inflated; it should look squished at the bottom.
+  - id: hose_disconnected
+    question: Is the air hose still disconnected from the tire valve?
+    answer_type: yes_no
+    notes_for_judge: The hose should be lying on the floor, not attached to the valve.
+  - id: inflation_level
+    question: Does the tire appear to have the same low pressure as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the visual 'flatness' or lack of roundness at the bottom.
+  - id: rim_height
+    question: Is the distance between the metal rim and the floor approximately the same as in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: If the tire inflated, the rim would rise higher.
+  - id: valve_visibility
+    question: Is the valve stem visible and free of any hose connection?
+    answer_type: yes_no
+    notes_for_judge: The valve should be exposed.
+  - id: hose_position
+    question: Is the brass coupler of the air hose lying on the floor?
+    answer_type: yes_no
+    notes_for_judge: It should not be floating or attached.
+  - id: tool_consistency
+    question: Are the wrenches on the floor in the same position as initially?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

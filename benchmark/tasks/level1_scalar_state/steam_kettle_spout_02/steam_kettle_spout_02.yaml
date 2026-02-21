@@ -1,0 +1,76 @@
+id: steam_kettle_spout_02
+level: 1
+category: scalar_state
+tags: []
+variant_of: steam_kettle_spout
+variation_type: occlusion_method
+variation_description: Occlusion changed to a person walking in front of the camera.
+changes:
+  occlusion_method: Person blocks view
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The kettle sits on an active hot burner. The kettle contains water. Water boils at 212°F at
+    standard pressure. The burner provides continuous heat. Steam exits through the spout opening. A person
+    wearing a chef's apron walks into the frame from the left and stands directly in front of the camera,
+    completely blocking the view of the kettle and stove. The person remains there for several seconds.
+    Then the person walks out of the frame to the right, revealing the stove again. No zoom, no cut, no
+    scene change. STOP.
+  camera_WM: The kettle sits on an active hot burner. The kettle contains water. Water boils at 212°F
+    at standard pressure. The burner provides continuous heat. Steam exits through the spout opening.
+    A person wearing a chef's apron walks into the frame from the left and stands directly in front of
+    the camera, completely blocking the view of the kettle and stove. The person remains there for several
+    seconds. Then the person walks out of the frame to the right, revealing the stove again. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A silver gooseneck kettle sits on a black electric stovetop. The spiral burner
+    coil underneath the kettle is glowing bright orange-red, indicating high heat. A wisp of white steam
+    is rising from the curved spout of the kettle. The kettle has a black handle and a black lid knob.
+    The background features a speckled countertop, a wooden knife block, and a window letting in daylight.
+  init2final_edit_prompt: Edit the given image to show the silver kettle sitting on the stove with the
+    electric burner coil underneath glowing bright red. Ensure white steam is visibly rising from the
+    kettle's spout. The scene must be completely free of any people or obstructions, revealing the full
+    kettle, the stove, and the original background with the window and knife block.
+  rationale: The video depicts a continuous thermodynamic process where heat is constantly applied to
+    the kettle. Although a person temporarily occludes the view, the underlying physical state (boiling)
+    persists because the heat source remains active. Therefore, in the final frame after the person leaves,
+    the burner coil must still be glowing red (maintaining high temperature) and steam must still be exiting
+    the spout (maintaining the phase change). The water level inside would have decreased slightly, but
+    this is likely not visible; the primary visual evidence of the state is the steam and the glowing
+    coil.
+  questions:
+  - id: '1'
+    question: Is the electric burner coil glowing red or orange?
+    answer_type: yes_no
+    notes_for_judge: Checks for the persistence of the high-temperature state (glowing coil).
+  - id: '2'
+    question: Is steam visible rising from the kettle's spout?
+    answer_type: yes_no
+    notes_for_judge: Checks for the persistence of the boiling state (phase change).
+  - id: '3'
+    question: Is the person completely absent from the frame?
+    answer_type: yes_no
+    notes_for_judge: Checks for the end of the occlusion event.
+  - id: '4'
+    question: Is the view of the kettle unobstructed?
+    answer_type: yes_no
+    notes_for_judge: Verifies the object is visible again.
+  - id: '5'
+    question: Is the steam white or misty in appearance?
+    answer_type: yes_no
+    notes_for_judge: Verifies the visual attribute of the steam.
+  - id: '6'
+    question: Is the kettle still positioned on the burner?
+    answer_type: yes_no
+    notes_for_judge: Verifies spatial consistency.
+  - id: '7'
+    question: Is the black handle of the kettle visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: '8'
+    question: Is the window visible in the background?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

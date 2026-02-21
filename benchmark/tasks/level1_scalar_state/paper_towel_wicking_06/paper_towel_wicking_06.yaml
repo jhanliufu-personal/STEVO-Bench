@@ -1,0 +1,69 @@
+id: paper_towel_wicking_06
+level: 1
+category: scalar_state
+tags: []
+variant_of: paper_towel_wicking
+variation_type: dynamic_condition
+variation_description: 'Initial state change: The paper towel is already fully saturated with blue water.'
+changes:
+  occlusion_method: null
+  dynamic_conditions: Paper is already fully wet/blue.
+  expected_outcome_change: State remains static (stays blue) or drips, but no rising front.
+prompts:
+  init_frame_edit_prompt: Edit the image to color the entire vertical paper towel strip blue, indicating
+    it is already fully saturated with the dyed water.
+  video_WM: The paper towel strip is completely saturated with blue water from bottom to top. The fibers
+    are fully soaked and cannot absorb more liquid. The bottom edge rests in the blue water source. The
+    camera rotates right at constant speed until the setup completely exits the view to the right. The
+    camera continues rotating right for several seconds while off-screen. Then the camera rotates left
+    smoothly at the same rate back to the original viewpoint. No zoom, no cut, no scene change. STOP.
+  camera_WM: The paper towel strip is completely saturated with blue water from bottom to top. The fibers
+    are fully soaked and cannot absorb more liquid. The bottom edge rests in the blue water source. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A vertical blue rectangular strip, resembling a sponge or thick paper towel,
+    is suspended by a metal clamp stand. The bottom edge of the strip is submerged in a glass petri dish
+    filled with blue liquid. The strip is uniformly colored blue from bottom to top, indicating it is
+    already saturated. In the background, out of focus, there are glass beakers and a laboratory bench.
+  init2final_edit_prompt: Edit the given image to show the blue strip remaining completely saturated with
+    blue liquid. Ensure the strip is uniformly blue from the bottom edge in the dish to the very top edge,
+    with no white or dry patches. The blue liquid level in the petri dish should remain visible at the
+    base. The metal clamp holding the strip and the background laboratory equipment should remain unchanged.
+  rationale: The prompt explicitly states that the strip is already 'completely saturated' and 'cannot
+    absorb more liquid', establishing a physical equilibrium where the scalar state (volume of water in
+    the strip) is at its maximum and will not increase. The duration of the camera movement (several seconds)
+    is too short for significant evaporation or drying to occur. Therefore, the physical state of the
+    scene remains constant. The task primarily tests the world model's ability to maintain the 'saturated'
+    state (uniform blue color) and object permanence after the object is occluded by the camera rotation
+    and then revealed again.
+  questions:
+  - id: saturation_uniformity
+    question: Is the paper towel strip uniformly blue from the bottom to the top?
+    answer_type: yes_no
+    notes_for_judge: The strip should not show fading or drying at the top.
+  - id: saturation_state
+    question: Does the strip appear fully saturated with liquid?
+    answer_type: yes_no
+    notes_for_judge: The texture and color should imply wetness/saturation.
+  - id: no_drying
+    question: Is the strip free of any white or dry-looking patches?
+    answer_type: yes_no
+    notes_for_judge: The strip should remain blue; white would indicate hallucinated drying.
+  - id: liquid_presence
+    question: Is the blue liquid still visible in the petri dish at the bottom?
+    answer_type: yes_no
+    notes_for_judge: The source liquid should not disappear.
+  - id: top_color
+    question: Is the top edge of the strip blue?
+    answer_type: yes_no
+    notes_for_judge: Verifies the liquid height is maintained at the top.
+  - id: clamp_visibility
+    question: Is the metal clamp holding the strip still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: background_consistency
+    question: Are the glass beakers in the background still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

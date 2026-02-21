@@ -1,0 +1,62 @@
+id: sparkler_firework_03
+level: 1
+category: scalar_state
+tags: []
+variant_of: sparkler_firework
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to extreme camera zoom out.
+changes:
+  occlusion_method: Camera zooms out until object is invisible.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The sparkler has an active ignition point with sparks. The wire is coated with combustible
+    metallic compound. Oxygen is available. The camera zooms out rapidly and continuously until the sparkler
+    becomes a microscopic dot and then vanishes from sight. The camera holds this distant view for several
+    seconds. Then the camera zooms back in smoothly to the original framing. No cut, no scene change.
+    STOP.
+  camera_WM: The sparkler has an active ignition point with sparks. The wire is coated with combustible
+    metallic compound. Oxygen is available. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+  Genie: null
+evaluation:
+  init_frame_description: A close-up shot against a black background showing a hand holding a lit sparkler.
+    The sparkler is emitting bright, chaotic white and gold sparks from a specific ignition point on the
+    wire. Above the ignition point, a thin segment of burnt wire is visible. Below the ignition point,
+    a thicker segment of unburnt grey coating extends down to the hand.
+  init2final_edit_prompt: Edit the given image to show the sparkler having burned further down the wire.
+    Move the bright cluster of sparks and the ignition point to a position lower on the wire, significantly
+    closer to the hand. Shorten the length of the thick unburnt coating below the flame. Lengthen the
+    thin segment of burnt wire visible above the flame. Maintain the original hand position and dark background.
+  rationale: 'The video prompt describes a continuous combustion process. While the camera zooms out and
+    holds a distant view, the sparkler continues to burn, consuming the combustible coating. When the
+    camera zooms back in to the original framing, the state of the sparkler must reflect the passage of
+    time: the ignition point must have traveled down the wire, reducing the amount of unburnt fuel remaining.'
+  questions:
+  - id: flame_position
+    question: Is the source of the sparks located lower on the wire (closer to the hand) than in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: The burning point travels down towards the handle over time.
+  - id: coating_length
+    question: Is the length of the unburnt coating below the flame shorter than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: As the sparkler burns, the fuel (coating) is consumed.
+  - id: burnt_wire_length
+    question: Is the segment of burnt wire above the sparks longer than it was initially?
+    answer_type: yes_no
+    notes_for_judge: The exposed wire grows as the coating burns away.
+  - id: fuel_consumption
+    question: Does the sparkler appear to have less fuel remaining than at the start?
+    answer_type: yes_no
+    notes_for_judge: General check for mass depletion.
+  - id: hand_consistency
+    question: Is the hand holding the sparkler still in the same position?
+    answer_type: yes_no
+    notes_for_judge: The camera returns to the original framing.
+  - id: background_consistency
+    question: Is the background still dark?
+    answer_type: yes_no
+    notes_for_judge: Environmental consistency.

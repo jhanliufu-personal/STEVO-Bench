@@ -1,0 +1,72 @@
+id: fuse_burn_01
+level: 1
+category: scalar_state
+tags: []
+variant_of: fuse_burn
+variation_type: occlusion_method
+variation_description: Occlusion by thick smoke instead of camera rotation
+changes:
+  occlusion_method: Thick smoke fills the scene, obscuring vision, then dissipates
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The fuse is burning rapidly, and the length of the black cord is visibly shortening as the
+    spark moves along it. The burning continues at a fast, constant rate. Suddenly, thick white smoke
+    billows into the frame, completely obscuring the floor and the fuse from view. The smoke lingers for
+    a moment, then rapidly clears away. No zoom, no cut, no scene change. STOP.
+  camera_WM: The fuse is burning rapidly, and the length of the black cord is visibly shortening as the
+    spark moves along it. The burning continues at a fast, constant rate. Suddenly, thick white smoke
+    billows into the frame, completely obscuring the floor and the fuse from view. The smoke lingers for
+    a moment, then rapidly clears away. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A thick, textured rope fuse lies on a grey concrete floor, curving from the
+    foreground left towards the background right. A bright orange burning spark with flying embers is
+    active at the tip of the rope in the lower-left area. The rope appears to be a dark, heavy cord. The
+    floor has a rough, industrial texture.
+  init2final_edit_prompt: Edit the given image to show that the fuse has burned significantly further
+    along its length. Move the bright orange spark and flame further along the rope's path towards the
+    right side of the frame. Render the section of the rope where the spark was originally located as
+    a trail of black charred ash or scorch marks. Ensure the remaining segment of unburnt rope is visibly
+    shorter than in the original image. Maintain the same camera angle and concrete floor background.
+  rationale: The prompt describes a continuous burning process that persists even when the view is occluded
+    by smoke. Since the burning is 'rapid' and 'constant', the state of the world must evolve during the
+    occlusion. The primary scalar change is the position of the spark (moving along the path) and the
+    length of the unburnt fuse (decreasing). When the smoke clears, the final frame must show the spark
+    advanced along the rope and the unburnt material reduced, leaving a trail of ash or burnt residue
+    behind.
+  questions:
+  - id: fuse_burn_01_q1
+    question: Is the burning spark located further along the rope than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The spark should have moved from the tip along the body of the rope.
+  - id: fuse_burn_01_q2
+    question: Is the length of the unburnt rope shorter than it was initially?
+    answer_type: yes_no
+    notes_for_judge: The fuse is being consumed, so the intact part must be shorter.
+  - id: fuse_burn_01_q3
+    question: Has the flame moved away from its starting position at the bottom-left tip?
+    answer_type: yes_no
+    notes_for_judge: Check for displacement of the fire source.
+  - id: fuse_burn_01_q4
+    question: Is there a longer trail of charred residue or ash visible compared to the start?
+    answer_type: yes_no
+    notes_for_judge: As the fuse burns, it leaves ash or scorch marks behind.
+  - id: fuse_burn_01_q5
+    question: Is the flame closer to the right side of the image than it was initially?
+    answer_type: yes_no
+    notes_for_judge: Directional check based on the rope's path.
+  - id: fuse_burn_01_q6
+    question: Is the remaining intact fuse smaller than the fuse in the first image?
+    answer_type: yes_no
+    notes_for_judge: General mass/length check.
+  - id: fuse_burn_01_q7
+    question: Is the concrete floor texture still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: fuse_burn_01_q8
+    question: Is the rope still lying on the ground?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

@@ -1,0 +1,67 @@
+id: sparkler_firework_04
+level: 1
+category: scalar_state
+tags: []
+variant_of: sparkler_firework
+variation_type: dynamic_condition
+variation_description: The sparkler is unlit (control condition).
+changes:
+  occlusion_method: null
+  dynamic_conditions: Sparkler is unlit/cold.
+  expected_outcome_change: No state change (no burning).
+prompts:
+  init_frame_edit_prompt: Edit the image to remove the sparks and glowing light completely, showing just
+    the unlit grey metal wire of the sparkler held in the hand.
+  video_WM: An unlit sparkler is held in a hand. The wire is coated with combustible metallic compound
+    but is currently cold and not ignited. Oxygen is available. The camera rotates right at constant speed
+    until the sparkler completely exits the view to the right. The camera continues rotating right for
+    several seconds while off-screen. Then the camera rotates left smoothly at the same rate back to the
+    original viewpoint. No zoom, no cut, no scene change. STOP.
+  camera_WM: An unlit sparkler is held in a hand. The wire is coated with combustible metallic compound
+    but is currently cold and not ignited. Oxygen is available. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A close-up shot against a black background showing a human hand holding an unlit
+    sparkler. The sparkler consists of a straight wire coated with a thick, grey, granular metallic substance.
+    The handle is a thin bare wire. The lighting highlights the rough texture of the combustible coating.
+  init2final_edit_prompt: Edit the given image to show the sparkler remaining completely unlit and intact.
+    The grey granular coating should cover the same length of the wire as in the original image. Do not
+    add any sparks, flames, smoke, or signs of burning. The hand should still be holding the sparkler
+    in the same position against the black background.
+  rationale: The prompt explicitly states the sparkler is unlit, cold, and not ignited, although oxygen
+    is available. No ignition source (like a lighter or match) or ignition action is described in the
+    prompt. The camera rotates away and then returns to the original view. According to physical causality,
+    without an ignition event, the sparkler must remain unlit and unconsumed during the elapsed time.
+    Therefore, the final frame should show the sparkler in its original state, testing the model's ability
+    to avoid hallucinating spontaneous combustion.
+  questions:
+  - id: sparkler_unlit_check
+    question: Is the sparkler still unlit?
+    answer_type: yes_no
+    notes_for_judge: The sparkler should not be burning, glowing, or emitting sparks.
+  - id: coating_conservation
+    question: Is the grey granular coating still visible along the full length of the sparkler?
+    answer_type: yes_no
+    notes_for_judge: The coating should not have been consumed or shortened.
+  - id: no_fire_hallucination
+    question: Is the sparkler free of sparks, flames, or smoke?
+    answer_type: yes_no
+    notes_for_judge: Check for any hallucinated fire effects.
+  - id: length_conservation
+    question: Does the sparkler appear to be the same length as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Since it was not lit, it should not have burned down.
+  - id: tip_condition
+    question: Is the tip of the sparkler still grey and unburnt?
+    answer_type: yes_no
+    notes_for_judge: The tip should not be black, glowing, or missing.
+  - id: hand_visibility
+    question: Is the hand still visible holding the sparkler?
+    answer_type: yes_no
+    notes_for_judge: Object permanence check for the hand.
+  - id: background_consistency
+    question: Is the background still black?
+    answer_type: yes_no
+    notes_for_judge: Environmental consistency check.

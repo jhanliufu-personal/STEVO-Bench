@@ -1,0 +1,65 @@
+id: deflating_air_mattress_02
+level: 1
+category: scalar_state
+tags: []
+variant_of: deflating_air_mattress
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to a large object blocking the view.
+changes:
+  occlusion_method: A large opaque camping bag moves in front of the camera.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A thick air mattress has its valve open and is visibly deflating. The air continues to escape
+    steadily. A large opaque camping bag moves into the frame and covers the lens, completely blocking
+    the view of the mattress. The bag then moves away to reveal the scene again. No zoom, no cut, no scene
+    change. STOP.
+  camera_WM: A thick air mattress has its valve open and is visibly deflating. The air continues to escape
+    steadily. A large opaque camping bag moves into the frame and covers the lens, completely blocking
+    the view of the mattress. The bag then moves away to reveal the scene again. No zoom, no cut, no scene
+    change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A blue, inflated air mattress resting on a wooden floor. The mattress is thick
+    and taut with a textured surface. In the foreground, a black air valve is visible and open, with its
+    cap hanging to the side. A window and white baseboards are visible in the background.
+  init2final_edit_prompt: Edit the given image to make the blue air mattress look deflated. Reduce the
+    volume and height of the mattress so it sits lower on the wooden floor. Render the surface with loose
+    folds, sagging, and wrinkles to indicate loss of air pressure, replacing the original taut appearance.
+    Keep the valve open and the background identical.
+  rationale: 'The video prompt establishes that the mattress is actively deflating through an open valve.
+    The occlusion event (the bag covering the lens) implies a passage of time during which this physical
+    process continues. Therefore, when the view is restored, the mattress must exhibit signs of significant
+    air loss: reduced volume, lower height, and a slacker, more wrinkled surface texture compared to the
+    initial taut state.'
+  questions:
+  - id: deflation_check_1
+    question: Is the air mattress less inflated than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the overall fullness and tautness.
+  - id: height_check
+    question: Is the height of the mattress lower than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The top surface should be closer to the floor.
+  - id: surface_texture_check
+    question: Does the surface of the mattress appear looser or more wrinkled than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Look for sagging or folds indicating loss of pressure.
+  - id: flatness_check
+    question: Is the mattress flatter against the floor than it was initially?
+    answer_type: yes_no
+    notes_for_judge: Assess the profile of the mattress.
+  - id: volume_check
+    question: Has the volume of the mattress decreased compared to the start?
+    answer_type: yes_no
+    notes_for_judge: The object should take up less 3D space vertically.
+  - id: valve_consistency
+    question: Is the black valve still open?
+    answer_type: yes_no
+    notes_for_judge: The valve state should not change, though its position may shift slightly down.
+  - id: background_consistency
+    question: Is the window in the background still visible?
+    answer_type: yes_no
+    notes_for_judge: The camera view returns to the original framing.

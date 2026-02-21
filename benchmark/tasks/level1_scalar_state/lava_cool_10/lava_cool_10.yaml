@@ -1,0 +1,69 @@
+id: lava_cool_10
+level: 1
+category: scalar_state
+tags: []
+variant_of: lava_cool
+variation_type: combined
+variation_description: Rapid cooling in water combined with foreground object occlusion.
+changes:
+  occlusion_method: A large wooden board passes in front.
+  dynamic_conditions: Rock submerged in water (rapid cooling).
+  expected_outcome_change: Rock turns black very quickly due to quenching.
+prompts:
+  init_frame_edit_prompt: Edit the image to show the metal tray filled with water, with the glowing rock
+    sitting partially submerged in the liquid.
+  video_WM: A glowing volcanic rock sits partially submerged in a tray of water, generating steam. A large
+    wooden board slides horizontally across the foreground, completely blocking the view of the tray,
+    then continues sliding until the view is clear again. No zoom, no cut, no scene change. STOP.
+  camera_WM: A glowing volcanic rock sits partially submerged in a tray of water, generating steam. A
+    large wooden board slides horizontally across the foreground, completely blocking the view of the
+    tray, then continues sliding until the view is clear again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a jagged, roughly spherical lump of volcanic rock
+    sitting in a rusted metal baking sheet filled with dark water. The rock has a blackened, hardened
+    crust, but deep fissures and the core are glowing with intense orange and yellow heat (incandescence).
+    Copious amounts of white steam and smoke are rising from the rock and the water around its base. The
+    background is a dark, indistinct industrial setting.
+  init2final_edit_prompt: Edit the given image to make the volcanic rock appear significantly cooler.
+    Reduce the intensity and surface area of the glowing orange and yellow fissures, changing them to
+    dull red or solidified black rock. Make the overall appearance of the rock darker to reflect a drop
+    in temperature. Maintain the presence of steam rising from the object and keep the metal tray and
+    water context unchanged.
+  rationale: 'The video prompt describes a hot volcanic rock sitting in water, which is a cooling environment.
+    The occlusion by the wooden board implies a passage of time. During this time, the primary scalar
+    change is the reduction of temperature (cooling). Visually, this must be represented by a decrease
+    in incandescence: the bright yellow and orange glow should fade to dull red or black as the lava hardens.
+    The final state must show the rock in a cooler state than the initial frame, with the view cleared
+    of the occluding board.'
+  questions:
+  - id: glow_intensity
+    question: Is the intensity of the glowing orange and yellow light reduced compared to the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the brightness of the cracks. The final frame should be dimmer.
+  - id: glow_area
+    question: Is the total area of visible glowing lava smaller than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The blackened crust should have expanded, reducing the visible glowing core.
+  - id: rock_darkness
+    question: Does the rock appear darker overall than it did initially?
+    answer_type: yes_no
+    notes_for_judge: Cooling lava turns black/grey.
+  - id: color_shift
+    question: Have the bright yellow sections shifted towards darker reds or black?
+    answer_type: yes_no
+    notes_for_judge: Check for color temperature shift indicating cooling.
+  - id: incandescence_presence
+    question: Is there less visible incandescence in the fissures of the rock?
+    answer_type: yes_no
+    notes_for_judge: Direct measure of heat visual.
+  - id: tray_consistency
+    question: Is the metal tray containing the water still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: occlusion_clear
+    question: Is the view clear of the wooden board mentioned in the prompt?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the board continues sliding until the view is clear.

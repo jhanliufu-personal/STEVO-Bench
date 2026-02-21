@@ -1,0 +1,65 @@
+id: dough_rise_02
+level: 1
+category: scalar_state
+tags: []
+variant_of: dough_rise
+variation_type: occlusion_method
+variation_description: Occlusion changed to a person walking in front of the camera.
+changes:
+  occlusion_method: A chef walks in front of the camera, blocking the view.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A bowl of yeast dough is visibly rising. The fermentation and expansion continue steadily.
+    A chef in a white uniform walks slowly across the foreground from left to right, their torso completely
+    blocking the view of the bowl for several seconds before clearing the frame. No cut, no scene change.
+    STOP.
+  camera_WM: A bowl of yeast dough is visibly rising. The fermentation and expansion continue steadily.
+    A chef in a white uniform walks slowly across the foreground from left to right, their torso completely
+    blocking the view of the bowl for several seconds before clearing the frame. No cut, no scene change.
+    STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A clear glass bowl sits on a wooden countertop, containing a ball of dough dusted
+    with flour. A beige cloth towel is draped over the back rim of the bowl. To the right, a vertical
+    thermometer stands on the window sill. In the background, a window and other kitchen containers are
+    visible. The lighting is bright and natural.
+  init2final_edit_prompt: Edit the given image to show the dough inside the glass bowl having expanded
+    significantly. The dough ball should appear larger, puffier, and occupy more volume within the bowl,
+    reaching a higher level than in the original image. Keep the bowl, cloth, and background objects unchanged.
+  rationale: The video prompt describes the continuous rising of yeast dough, which is a scalar change
+    in volume (expansion). The chef's action serves as a temporary occlusion that implies the passage
+    of time, allowing the fermentation process to progress. Once the chef clears the frame, the camera
+    view returns to the bowl, which should now contain dough that has visibly grown in size and height
+    due to the rising process.
+  questions:
+  - id: dough_volume_increase
+    question: Is the dough larger in volume than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the overall size of the dough ball.
+  - id: dough_height_rise
+    question: Is the top of the dough higher in the bowl than in the starting image?
+    answer_type: yes_no
+    notes_for_judge: Check if the dough has risen vertically.
+  - id: dough_fill_ratio
+    question: Does the dough occupy more of the bowl's interior space than before?
+    answer_type: yes_no
+    notes_for_judge: The empty space in the bowl should be reduced.
+  - id: dough_expansion_visible
+    question: Has the dough expanded visibly compared to the first frame?
+    answer_type: yes_no
+    notes_for_judge: Look for general expansion in width or height.
+  - id: dough_surface_area
+    question: Is the visible surface area of the dough larger than initially?
+    answer_type: yes_no
+    notes_for_judge: The dough should look bigger.
+  - id: occlusion_cleared
+    question: Is the view of the bowl unobstructed by any person?
+    answer_type: yes_no
+    notes_for_judge: The chef should have cleared the frame.
+  - id: background_consistency
+    question: Is the thermometer in the background still visible?
+    answer_type: yes_no
+    notes_for_judge: Ensure background elements persist.

@@ -1,0 +1,68 @@
+id: tank_filling_up_v02
+level: 1
+category: scalar_state
+tags: []
+variant_of: tank_filling_up
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera panning to a forklift driving in front of the view.
+changes:
+  occlusion_method: Object blocking (forklift)
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: Single continuous take, no cuts or zoom. Camera is static, centered on the pipe and water
+    tank. Water flows continuously. A large forklift carrying a crate drives into the frame from the right,
+    stopping directly in front of the camera and completely blocking the view of the tank. The forklift
+    remains there for several seconds, then reverses out of the frame, revealing the tank again. STOP.
+  camera_WM: Single continuous take, no cuts or zoom. Camera is static, centered on the pipe and water
+    tank. Water flows continuously. A large forklift carrying a crate drives into the frame from the right,
+    stopping directly in front of the camera and completely blocking the view of the tank. The forklift
+    remains there for several seconds, then reverses out of the frame, revealing the tank again. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A large, transparent cylindrical tank sits on a concrete warehouse floor. The
+    tank has a vertical red measurement scale marked with 'g' and 'L' units. A metal pipe extends from
+    the top right, pouring a stream of water into the tank. The water level is currently near the 140
+    L mark on the scale, with visible turbulence and bubbles where the stream hits the surface. In the
+    background, there are warehouse shelves, wooden pallets, and industrial equipment.
+  init2final_edit_prompt: Edit the given image to show the water level in the transparent tank significantly
+    higher than it was initially. The water surface should be at a higher point on the red measurement
+    scale, indicating that the tank has continued to fill. Maintain the stream of water pouring from the
+    pipe and the splashing turbulence on the surface. Ensure the view is clear and unobstructed, with
+    the background warehouse environment unchanged.
+  rationale: The video prompt describes a continuous process of water flowing into the tank. Although
+    a forklift temporarily blocks the view, the physical process of filling continues during this occlusion.
+    Therefore, when the forklift moves away and reveals the tank again, the accumulated water volume must
+    be greater, resulting in a visibly higher water level compared to the initial frame.
+  questions:
+  - id: water_level_rise
+    question: Is the water level in the tank higher than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the water surface against the red markings or the top of the tank.
+  - id: volume_increase
+    question: Does the tank contain a larger volume of water than seen initially?
+    answer_type: yes_no
+    notes_for_judge: Infer volume from the water level height.
+  - id: empty_space_reduction
+    question: Is the empty air gap at the top of the tank smaller than in the first frame?
+    answer_type: yes_no
+    notes_for_judge: As water fills the tank, the empty space above the water decreases.
+  - id: scale_coverage
+    question: Does the water cover more of the red measurement scale than before?
+    answer_type: yes_no
+    notes_for_judge: Check if higher numbers on the scale are now submerged or reached.
+  - id: flow_continuity
+    question: Is water still pouring from the pipe into the tank?
+    answer_type: yes_no
+    notes_for_judge: The prompt states water flows continuously.
+  - id: occlusion_cleared
+    question: Is the tank fully visible again, without the forklift blocking the view?
+    answer_type: yes_no
+    notes_for_judge: The forklift should have reversed out of frame.
+  - id: background_consistency
+    question: Are the pallets and shelves in the background in the same position as the start?
+    answer_type: yes_no
+    notes_for_judge: Only the water level and the transient forklift should have changed/moved.

@@ -1,0 +1,68 @@
+id: dough_rise_05
+level: 1
+category: scalar_state
+tags: []
+variant_of: dough_rise
+variation_type: dynamic_condition
+variation_description: Temperature changed to hot (100F), implying rapid fermentation.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Environment is hot (100F) instead of warm (80F).
+  expected_outcome_change: Dough should rise significantly faster/more volume.
+prompts:
+  init_frame_edit_prompt: Edit the image to change the thermometer reading in the background to '100 F'
+    and make the red indicator line higher.
+  video_WM: A bowl of yeast dough sits in a hot proofing environment, indicated by the thermometer reading
+    100F. The high heat accelerates the yeast fermentation. The camera rotates right until the bowl completely
+    exits the view, then rotates toward the left smoothly at the same rate until the bowl is back in the
+    center of view. No zoom, no cut, no scene change. STOP.
+  camera_WM: A bowl of yeast dough sits in a hot proofing environment, indicated by the thermometer reading
+    100F. The high heat accelerates the yeast fermentation. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A clear glass mixing bowl sits on a wooden countertop, containing a ball of
+    yeast dough dusted with flour. A beige cloth napkin is draped over the top of the bowl, hanging down
+    the left side. Behind the bowl, a window is visible with a vertical thermometer mounted on the frame.
+    To the left, a jar or container is partially visible. The lighting is natural and bright.
+  init2final_edit_prompt: Edit the given image to show the dough ball significantly expanded in size.
+    The dough should appear to have risen, occupying a much larger volume within the glass bowl, pressing
+    further out against the glass walls and reaching higher up towards the cloth covering.
+  rationale: The prompt describes a hot proofing environment which accelerates yeast fermentation. The
+    camera maneuver (rotating away and returning) implies a passage of time or a time-lapse sequence.
+    During this unobserved period, the yeast activity causes the dough to fill with gas and expand in
+    volume. Therefore, the final frame must show the dough having risen and increased in size compared
+    to the initial state, while the camera angle returns to the original position.
+  questions:
+  - id: dough_volume_increase
+    question: Is the dough ball larger in volume than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the overall size of the dough mass.
+  - id: dough_fill_bowl
+    question: Does the dough occupy more of the glass bowl's interior space than before?
+    answer_type: yes_no
+    notes_for_judge: Check if the empty space in the bowl has decreased.
+  - id: dough_height
+    question: Is the top of the dough closer to the cloth covering than it was initially?
+    answer_type: yes_no
+    notes_for_judge: Look for vertical growth.
+  - id: dough_expansion_width
+    question: Has the dough expanded horizontally to touch more of the glass sides?
+    answer_type: yes_no
+    notes_for_judge: Check the contact area between dough and glass.
+  - id: dough_risen_state
+    question: Does the dough appear puffier or more risen compared to the start?
+    answer_type: yes_no
+    notes_for_judge: Qualitative assessment of the dough's texture and state.
+  - id: bowl_position_consistency
+    question: Is the glass bowl centered in the frame?
+    answer_type: yes_no
+    notes_for_judge: The camera should have returned to the original view.
+  - id: cloth_presence
+    question: Is the cloth still draped over the top of the bowl?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: thermometer_visibility
+    question: Is the thermometer still visible in the background?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

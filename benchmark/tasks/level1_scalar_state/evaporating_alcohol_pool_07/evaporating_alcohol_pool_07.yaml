@@ -1,0 +1,69 @@
+id: evaporating_alcohol_pool_07
+level: 1
+category: scalar_state
+tags: []
+variant_of: evaporating_alcohol_pool
+variation_type: combined
+variation_description: Cold plate (low evaporation) combined with fog occlusion.
+changes:
+  occlusion_method: Thick fog obscures the view.
+  dynamic_conditions: Plate temperature is 10°C (cool).
+  expected_outcome_change: Minimal evaporation.
+prompts:
+  init_frame_edit_prompt: 'Edit the image so the blue text on the display reads ''COOL: 10°C'' instead
+    of ''WARM: 55°C''.'
+  video_WM: Rubbing alcohol sits on the cool metal plate. The plate temperature is 10°C. Low temperatures
+    significantly reduce the vapor pressure of the alcohol. Suddenly, thick white fog fills the area,
+    completely obscuring the scale and the plate. The fog swirls densely for several seconds. Then the
+    fog clears away, revealing the metal plate again. No zoom, no cut, no scene change. STOP.
+  camera_WM: Rubbing alcohol sits on the cool metal plate. The plate temperature is 10°C. Low temperatures
+    significantly reduce the vapor pressure of the alcohol. Suddenly, thick white fog fills the area,
+    completely obscuring the scale and the plate. The fog swirls densely for several seconds. Then the
+    fog clears away, revealing the metal plate again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: 'A close-up, high-angle shot of a scratched, square metal laboratory hotplate.
+    A large, roughly circular pool of clear liquid (rubbing alcohol) sits in the center of the plate.
+    The liquid surface is calm and flat. In the foreground, a digital display embedded in the device reads
+    ''COOL: 10°C'' in bright blue segments. The background contains blurred laboratory equipment and cables.'
+  init2final_edit_prompt: 'Edit the given image to show the metal plate with the pool of rubbing alcohol
+    still present. The liquid pool should retain its original size, shape, and transparency, appearing
+    as a clear puddle on the metal surface. The digital display should still read ''COOL: 10°C''. Ensure
+    the view is clear and free of any fog or smoke.'
+  rationale: The prompt establishes that the plate is at 10°C, which is a low temperature for rubbing
+    alcohol (isopropanol). At this temperature, the vapor pressure is low, and the evaporation rate is
+    negligible over a duration of several seconds. The 'thick white fog' acts as a temporary visual occluder
+    to test object permanence. After the fog clears, the physical state of the liquid pool should remain
+    virtually unchanged from the initial frame, demonstrating that the model understands the liquid does
+    not boil or evaporate rapidly on a cool surface.
+  questions:
+  - id: liquid_visible
+    question: Is the pool of liquid still clearly visible on the plate?
+    answer_type: yes_no
+    notes_for_judge: Tests for object permanence after occlusion.
+  - id: liquid_size_stability
+    question: Does the liquid pool appear to be roughly the same size as it was initially?
+    answer_type: yes_no
+    notes_for_judge: Tests that volume did not significantly decrease (correct physics for cool plate).
+  - id: liquid_not_evaporated
+    question: Has the liquid avoided completely evaporating?
+    answer_type: yes_no
+    notes_for_judge: Verifies the liquid did not disappear.
+  - id: liquid_calm
+    question: Is the liquid surface calm rather than boiling?
+    answer_type: yes_no
+    notes_for_judge: Tests physical state consistency with low temperature.
+  - id: plate_covered
+    question: Is the center of the metal plate still covered by the liquid pool?
+    answer_type: yes_no
+    notes_for_judge: Verifies the position and existence of the liquid.
+  - id: fog_cleared
+    question: Is the view clear of the thick white fog?
+    answer_type: yes_no
+    notes_for_judge: Verifies the occlusion event has ended.
+  - id: display_consistency
+    question: 'Is the digital display reading ''COOL: 10°C'' still visible?'
+    answer_type: yes_no
+    notes_for_judge: Checks for preservation of static scene elements.

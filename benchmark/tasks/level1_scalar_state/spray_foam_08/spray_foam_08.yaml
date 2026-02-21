@@ -1,0 +1,61 @@
+id: spray_foam_08
+level: 1
+category: scalar_state
+tags: []
+variant_of: spray_foam
+variation_type: combined
+variation_description: Dissolving foam combined with plywood blocking occlusion.
+changes:
+  occlusion_method: Plywood blocking.
+  dynamic_conditions: Solvent causing shrinking.
+  expected_outcome_change: Volume decreases.
+prompts:
+  init_frame_edit_prompt: Edit the image to show the yellow foam looking wet and collapsing, with a clear
+    liquid solvent dripping over it.
+  video_WM: A strong solvent is reacting with the foam, causing the yellow mound to dissolve and shrink
+    rapidly. A large sheet of plywood slides into the frame from the right, completely blocking the view.
+    The plywood then slides back to the right. No zoom, no cut, no scene change. STOP.
+  camera_WM: A strong solvent is reacting with the foam, causing the yellow mound to dissolve and shrink
+    rapidly. A large sheet of plywood slides into the frame from the right, completely blocking the view.
+    The plywood then slides back to the right. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up view of a wooden wall cavity framed by vertical studs. A large, irregular
+    mound of wet, yellowish spray foam is expanding at the bottom of the cavity. A gloved hand holding
+    a spray gun nozzle enters from the top right, directing a stream of liquid onto the foam. Sawdust
+    and debris cover the floor at the base of the studs.
+  init2final_edit_prompt: Edit the given image to show the yellow foam mound significantly reduced in
+    volume. The foam should appear melted, deflated, and dissolved, occupying much less space in the wall
+    cavity than in the original image. The height of the foam pile should be lower. Maintain the wooden
+    studs, the floor debris, and the camera angle exactly as they are.
+  rationale: 'The video prompt describes a chemical reaction where a solvent dissolves the foam, causing
+    it to shrink rapidly. Although a plywood sheet temporarily occludes the view, it retracts by the end
+    of the sequence. Therefore, the final frame must show the aftermath of the reaction: the foam mound
+    should be visibly smaller, deflated, and lower in height compared to the initial expanding state.
+    The camera remains static, preserving the background structure.'
+  questions:
+  - id: foam_volume_reduction
+    question: Is the overall volume of the yellow foam smaller than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The foam should have shrunk or dissolved, occupying less space.
+  - id: foam_height_decrease
+    question: Is the top of the foam mound lower than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The vertical extent of the foam should be reduced.
+  - id: foam_deflation
+    question: Does the foam appear more deflated or melted compared to the initial fluffy texture?
+    answer_type: yes_no
+    notes_for_judge: Look for signs of dissolving or loss of expansion.
+  - id: stud_visibility
+    question: Are the wooden studs framing the cavity still visible and in the same position?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: plywood_absence
+    question: Is the view clear of the plywood sheet that temporarily blocked the scene?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the plywood slides back, so the final frame should be unoccluded.
+  - id: debris_consistency
+    question: Is the sawdust and debris on the floor still present?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

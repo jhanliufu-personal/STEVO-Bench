@@ -1,0 +1,62 @@
+id: spooling_wire_08
+level: 1
+category: scalar_state
+tags: []
+variant_of: spooling_wire
+variation_type: combined
+variation_description: Machine is stopped + Safety screen occlusion.
+changes:
+  occlusion_method: Safety screen blocking.
+  dynamic_conditions: Machine is off.
+  expected_outcome_change: No change.
+prompts:
+  init_frame_edit_prompt: Edit the image to remove any motion blur from the spindle and wire, making the
+    machine look completely static and powered down.
+  video_WM: A motorized spindle sits idle with yellow wire wound on it. The machine is powered off. A
+    large opaque metal safety screen slides in from the side, completely blocking the view of the machine,
+    then slides away to reveal the scene again. No zoom, no cut, no scene change. STOP.
+  camera_WM: A motorized spindle sits idle with yellow wire wound on it. The machine is powered off. A
+    large opaque metal safety screen slides in from the side, completely blocking the view of the machine,
+    then slides away to reveal the scene again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up view of an industrial winding machine in a workshop. The central
+    focus is a horizontal spindle wound with a coil of bright yellow wire. To the right of the wire is
+    a black circular flange, and further right is a metal shaft. Above the spindle, there is a set of
+    metal gears and a large grey electric motor with cooling fins. In the background, there are other
+    spools of wire, including black wire on the left and yellow wire on the right, along with workshop
+    walls and lighting.
+  init2final_edit_prompt: Edit the given image to show the industrial machine and yellow wire spool in
+    the exact same configuration as the original, ensuring the amount of yellow wire, the diameter of
+    the coil, and the position of the gears remain identical to the start.
+  rationale: The prompt explicitly states that the machine is powered off and sits idle. Although an opaque
+    safety screen temporarily blocks the view, no physical action or operation is described that would
+    change the state of the machine or the wire. Therefore, the amount of wire, the position of the gears,
+    and the overall configuration must remain invariant (unchanged) when the screen is removed. The final
+    frame should be visually identical to the initial frame.
+  questions:
+  - id: q1
+    question: Is the amount of yellow wire on the central spool the same as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The machine was powered off, so no winding should occur.
+  - id: q2
+    question: Is the diameter of the yellow wire coil unchanged compared to the start?
+    answer_type: yes_no
+    notes_for_judge: Check for hallucinated growth or shrinkage.
+  - id: q3
+    question: Are the metal gears above the spindle in the same orientation as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The machine is idle, so gears should not rotate.
+  - id: q4
+    question: Is the black flange on the right side of the yellow wire still in the same position?
+    answer_type: yes_no
+    notes_for_judge: Components should not move.
+  - id: q5
+    question: Does the yellow wire appear to have the same volume as it did initially?
+    answer_type: yes_no
+    notes_for_judge: Verifying scalar consistency.
+  - id: q6
+    question: Are the background wire spools still in their original locations?
+    answer_type: yes_no
+    notes_for_judge: Background consistency check.

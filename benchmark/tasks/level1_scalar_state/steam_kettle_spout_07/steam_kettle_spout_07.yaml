@@ -1,0 +1,68 @@
+id: steam_kettle_spout_07
+level: 1
+category: scalar_state
+tags: []
+variant_of: steam_kettle_spout
+variation_type: combined
+variation_description: Cold burner condition combined with lights off occlusion.
+changes:
+  occlusion_method: Lights turn off
+  dynamic_conditions: Burner is cold/inactive
+  expected_outcome_change: No steam visible when lights return.
+prompts:
+  init_frame_edit_prompt: Edit the image to show the stove burner coils as black and cold, and remove
+    all steam coming from the kettle spout.
+  video_WM: The kettle sits on a cold, inactive burner. The stove is turned off. The water inside is at
+    room temperature. Suddenly, the lights in the kitchen turn off completely, plunging the scene into
+    absolute darkness. The scene remains pitch black for several seconds. Then the lights turn back on,
+    restoring visibility. No zoom, no cut, no scene change. STOP.
+  camera_WM: The kettle sits on a cold, inactive burner. The stove is turned off. The water inside is
+    at room temperature. Suddenly, the lights in the kitchen turn off completely, plunging the scene into
+    absolute darkness. The scene remains pitch black for several seconds. Then the lights turn back on,
+    restoring visibility. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A silver gooseneck kettle sits on a black electric coil burner on a stovetop.
+    The kettle has a black handle on the left and a black knob on its lid. The lid has a textured appearance,
+    possibly from condensation or reflections. The background features a speckled beige countertop and
+    a window frame on the right. The scene is brightly lit.
+  init2final_edit_prompt: Edit the given image to show the scene fully illuminated with bright lighting.
+    The silver kettle remains on the stove. The electric burner coils are black and do not glow. There
+    is no steam or vapor rising from the kettle's spout. The kettle's position, the handle orientation,
+    and the background details remain exactly as they were in the original image.
+  rationale: 'The video prompt establishes that the stove is off and the water is at room temperature.
+    The action consists solely of the lights turning off and then back on. No heating occurs during the
+    darkness, so the water temperature does not rise, and no phase change (boiling) takes place. The final
+    state should be visually identical to the initial state: the lights are back on, the burner is cold
+    (black), and there is no steam coming from the spout.'
+  questions:
+  - id: q1
+    question: Is the space immediately above the kettle's spout free of steam?
+    answer_type: yes_no
+    notes_for_judge: The stove is off, so no steam should be generated.
+  - id: q2
+    question: Are the stove burner coils black and non-glowing?
+    answer_type: yes_no
+    notes_for_judge: The burner is inactive and cold.
+  - id: q3
+    question: Is the kitchen scene fully illuminated?
+    answer_type: yes_no
+    notes_for_judge: The lights turn back on at the end.
+  - id: q4
+    question: Does the kettle appear to be free of any rising vapor or smoke?
+    answer_type: yes_no
+    notes_for_judge: Verifying absence of hallucinated boiling.
+  - id: q5
+    question: Is the kettle in the same position on the stove as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The kettle should not have moved.
+  - id: q6
+    question: Is the handle of the kettle still pointing to the left?
+    answer_type: yes_no
+    notes_for_judge: Orientation check.
+  - id: q7
+    question: Is the countertop texture clearly visible?
+    answer_type: yes_no
+    notes_for_judge: Checks that lights are on and view is not obscured.

@@ -1,0 +1,67 @@
+id: crayon_hot_plate_v5
+level: 1
+category: scalar_state
+tags: []
+variant_of: crayon_hot_plate
+variation_type: dynamic_condition
+variation_description: The wax crayon is replaced by a steel bolt (high melting point).
+changes:
+  occlusion_method: null
+  dynamic_conditions: Object material changed from wax to steel.
+  expected_outcome_change: The object heats up but retains its shape (no melting).
+prompts:
+  init_frame_edit_prompt: Edit the image to replace the blue crayon with a silver steel bolt of similar
+    size standing vertically on the center of the plate.
+  video_WM: A steel bolt is in contact with the hot plate surface. The plate is actively heating. The
+    bolt is made of steel with a melting point around 2500°F. The plate temperature is far below the steel
+    melting point. The camera rotates right at constant speed until the hot plate completely exits the
+    view to the right. The camera continues rotating right for several seconds while off-screen. Then
+    the camera rotates left smoothly at the same rate back to the original viewpoint. No zoom, no cut,
+    no scene change. STOP.
+  camera_WM: A steel bolt is in contact with the hot plate surface. The plate is actively heating. The
+    bolt is made of steel with a melting point around 2500°F. The plate temperature is far below the steel
+    melting point. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a black electric hot plate. A silver steel bolt
+    stands vertically on its head in the center of the circular heating element, with the threaded shaft
+    pointing upwards. Wisps of steam or smoke are rising from the plate. A red indicator light labeled
+    'HEATING' is illuminated on the front panel.
+  init2final_edit_prompt: Edit the given image to show the scene after a period of continued heating.
+    The steel bolt must remain completely solid, upright, and unchanged in shape, retaining its threaded
+    texture and original height, as steel does not melt at hot plate temperatures. The red heating indicator
+    light should remain illuminated. The smoke or steam may vary slightly, but the physical structure
+    of the bolt and hot plate must remain identical to the original.
+  rationale: The task involves a steel bolt placed on a standard hot plate. The melting point of steel
+    (approx. 2500°F) is far higher than the maximum temperature a kitchen hot plate can reach (approx.
+    900°F). Therefore, despite the heating action and the passage of time during the camera occlusion,
+    the bolt will not melt, deform, or change shape. The correct physical simulation requires the model
+    to recognize the material properties of steel and maintain the object's state as solid and unchanged,
+    resisting the tendency to hallucinate melting simply because a hot plate is present.
+  questions:
+  - id: bolt_standing
+    question: Is the steel bolt still standing upright?
+    answer_type: yes_no
+    notes_for_judge: The bolt should not have fallen over or melted into a puddle.
+  - id: bolt_height
+    question: Is the height of the bolt approximately the same as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The bolt should not shrink due to melting.
+  - id: threads_visible
+    question: Are the screw threads on the bolt still clearly visible and defined?
+    answer_type: yes_no
+    notes_for_judge: Melting would smooth out the threads; they should remain sharp.
+  - id: solid_state
+    question: Does the bolt appear to be completely solid rather than liquid?
+    answer_type: yes_no
+    notes_for_judge: There should be no pooling or liquid phase.
+  - id: light_on
+    question: Is the red 'HEATING' indicator light still illuminated?
+    answer_type: yes_no
+    notes_for_judge: The prompt implies the plate is actively heating throughout.
+  - id: no_deformation
+    question: Is the overall shape of the bolt preserved without deformation?
+    answer_type: yes_no
+    notes_for_judge: Check for bending or warping.

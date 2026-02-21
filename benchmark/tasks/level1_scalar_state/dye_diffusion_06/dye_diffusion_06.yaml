@@ -1,0 +1,79 @@
+id: dye_diffusion_06
+level: 1
+category: scalar_state
+tags: []
+variant_of: dye_diffusion
+variation_type: dynamic_condition
+variation_description: Water in bowl is boiling hot, indicated by steam.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Water is near boiling temperature (high thermal energy).
+  expected_outcome_change: Dye will diffuse much faster and more chaotically due to increased molecular
+    motion.
+prompts:
+  init_frame_edit_prompt: Edit the image to add visible steam rising from the water in the bowl, indicating
+    it is very hot.
+  video_WM: Single continuous shot, no cuts, no zoom. The blue liquid in the dropper is a water-soluble
+    dye. The water in the bowl is near boiling temperature, releasing steam. High thermal energy significantly
+    increases molecular motion and fluid currents. When released, the dye interacts with the hot water.
+    No stirring or additional drops occur. Camera starts centered on the bowl and hand. The camera smoothly
+    moves right at constant speed until the bowl, hand, and dropper completely exit the frame to the right.
+    While the bowl is out of view, the dye spreads within the hot water. The camera continues moving right
+    for several seconds. Then the camera moves left at the same constant speed back to the original viewpoint,
+    bringing the bowl back into view.
+  camera_WM: Single continuous shot, no cuts, no zoom. The blue liquid in the dropper is a water-soluble
+    dye. The water in the bowl is near boiling temperature, releasing steam. High thermal energy significantly
+    increases molecular motion and fluid currents. When released, the dye interacts with the hot water.
+    No stirring or additional drops occur. While the bowl is out of view, the dye spreads within the hot
+    water. Lighting and scene consistency remain unchanged. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A close-up shot of a hand holding a dropper filled with dark blue liquid over
+    a clear glass bowl containing hot water. A drop of blue dye has just entered the water, creating a
+    concentrated vertical blue streak and a splash point near the surface. Steam is rising from the water,
+    indicating high temperature. The background is a blurred indoor setting.
+  init2final_edit_prompt: Edit the given image to show the blue dye significantly dispersed within the
+    water. The distinct vertical blue streak and concentrated drop should be transformed into a wider,
+    more diffuse cloud of blue tint spreading through the bowl. The blue color should cover a larger volume
+    of the water than in the original image, appearing less saturated and more mixed due to diffusion.
+    Keep the water level, the bowl, the hand, and the background unchanged.
+  rationale: The video prompt describes a sequence where the camera pans away and then returns to the
+    original view. During the time the bowl is out of frame, the physics of the scene continues. Since
+    the water is near boiling, thermal convection currents and high molecular motion will cause the water-soluble
+    dye to diffuse rapidly. Upon the camera's return, the dye should no longer be a tight streak or drop
+    but should have spread significantly into a larger, cloudier volume of blue within the bowl.
+  questions:
+  - id: dye_spread_volume
+    question: Does the blue dye occupy a larger volume of the water than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The dye should have spread out from the initial impact point.
+  - id: dye_dispersion
+    question: Is the blue color more dispersed and less concentrated than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Look for a cloud-like spread rather than a sharp streak.
+  - id: dye_streak_dissipation
+    question: Has the distinct vertical streak of dye from the initial frame expanded into a wider shape?
+    answer_type: yes_no
+    notes_for_judge: The initial sharp line of dye should be fuzzier or wider.
+  - id: dye_mixing
+    question: Does the water appear more generally tinted with blue than it was initially?
+    answer_type: yes_no
+    notes_for_judge: The clear areas should be reduced as the blue spreads.
+  - id: dye_cloud_width
+    question: Is the cloud of blue dye wider than the initial vertical stream?
+    answer_type: yes_no
+    notes_for_judge: Lateral expansion is expected due to diffusion.
+  - id: bowl_presence
+    question: Is the glass bowl still visible in the frame?
+    answer_type: yes_no
+    notes_for_judge: Invariant check.
+  - id: water_level_consistency
+    question: Is the water level approximately the same as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Invariant check; evaporation is negligible for this duration.
+  - id: hand_presence
+    question: Is the hand holding the dropper still visible?
+    answer_type: yes_no
+    notes_for_judge: The camera returns to the original viewpoint; the hand should remain.

@@ -1,0 +1,66 @@
+id: spray_foam_10
+level: 1
+category: scalar_state
+tags: []
+variant_of: spray_foam
+variation_type: combined
+variation_description: Cured/static foam combined with dust cloud occlusion.
+changes:
+  occlusion_method: Dust cloud.
+  dynamic_conditions: Foam is cured/static.
+  expected_outcome_change: No change in volume.
+prompts:
+  init_frame_edit_prompt: Edit the image to make the yellow foam look dry, rigid, and matte, indicating
+    it has fully hardened and cured.
+  video_WM: The yellow insulation foam is fully cured, rigid, and static. A thick cloud of white construction
+    dust blows into the scene, completely obscuring visibility. The dust cloud gradually dissipates. No
+    zoom, no cut, no scene change. STOP.
+  camera_WM: The yellow insulation foam is fully cured, rigid, and static. A thick cloud of white construction
+    dust blows into the scene, completely obscuring visibility. The dust cloud gradually dissipates. No
+    zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up shot of yellow, bubbly spray insulation foam that has expanded and
+    hardened between vertical wooden studs. The foam has an organic, irregular surface texture and bulges
+    slightly from the wall cavity. The floor and bottom wooden plate are covered with scattered sawdust
+    and wood debris.
+  init2final_edit_prompt: Edit the given image to show the scene exactly as it was initially. The yellow
+    insulation foam and wooden studs must remain unchanged in shape, volume, and position. The air must
+    be clear and free of any obscuring dust or fog. Ensure the foam looks rigid and static, with no new
+    expansion.
+  rationale: 'The prompt explicitly states the foam is ''cured, rigid, and static'', which dictates that
+    its scalar properties (volume, mass, shape) must remain constant (change = 0). The dynamic event is
+    a temporary occlusion by a dust cloud that subsequently dissipates. The core challenge is object permanence:
+    the model must restore the original state of the foam after the occlusion without hallucinating expansion
+    (common in foam videos) or deformation. The final frame should be visually identical to the initial
+    frame.'
+  questions:
+  - id: foam_visibility
+    question: Is the yellow insulation foam clearly visible in the final frame?
+    answer_type: yes_no
+    notes_for_judge: The dust should have dissipated, revealing the foam.
+  - id: foam_volume_stability
+    question: Is the volume of the yellow foam approximately the same as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The foam is cured and static; it should not grow or shrink.
+  - id: foam_shape_preservation
+    question: Is the overall shape of the foam consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Check for object permanence; the shape should not morph.
+  - id: no_expansion
+    question: Is the foam free from any significant expansion compared to the start?
+    answer_type: yes_no
+    notes_for_judge: Answer YES if the foam did NOT expand. The prompt says it is static.
+  - id: no_shrinkage
+    question: Is the foam free from any significant shrinkage or melting?
+    answer_type: yes_no
+    notes_for_judge: Answer YES if the foam did NOT shrink.
+  - id: dust_dissipation
+    question: Is the view clear of the thick dust cloud described in the prompt?
+    answer_type: yes_no
+    notes_for_judge: The dust should have dissipated.
+  - id: stud_stability
+    question: Are the wooden studs visible in their original positions?
+    answer_type: yes_no
+    notes_for_judge: The structure should remain static.

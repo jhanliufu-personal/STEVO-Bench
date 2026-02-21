@@ -1,0 +1,69 @@
+id: smoke_jar_filling_08
+level: 1
+category: scalar_state
+tags: []
+variant_of: smoke_jar_filling
+variation_type: combined
+variation_description: Sealed jar combined with object blocking occlusion.
+changes:
+  occlusion_method: Object blocking
+  dynamic_conditions: Jar is sealed with a lid
+  expected_outcome_change: Jar interior remains clear
+prompts:
+  init_frame_edit_prompt: Edit the image to add a glass lid sealing the top of the jar.
+  video_WM: The incense stick burns above a sealed jar. The jar opening is completely covered by a glass
+    lid. Smoke flows down towards the lid. A large opaque book slides from the left into the foreground,
+    completely blocking the jar from view. The book remains there for several seconds. Then the book slides
+    back to the left, revealing the jar again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The incense stick burns above a sealed jar. The jar opening is completely covered by a glass
+    lid. Smoke flows down towards the lid. A large opaque book slides from the left into the foreground,
+    completely blocking the jar from view. The book remains there for several seconds. Then the book slides
+    back to the left, revealing the jar again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A clear glass jar with a knobbed glass lid sits on a dark, weathered wooden
+    surface. Inside the jar, swirls of white smoke are visible. The jar is sealed. The background shows
+    a window frame with natural light coming through. There is no smoke visible on the exterior of the
+    jar.
+  init2final_edit_prompt: Edit the given image to show white smoke flowing over the exterior of the glass
+    lid and drifting down the outside walls of the jar. The smoke should appear to originate from above
+    the lid. The smoke inside the jar should remain visible but appear slightly less dense and more settled
+    than in the original image. Ensure the jar remains sealed with the lid in place.
+  rationale: The prompt describes an external source of smoke (incense) flowing towards a sealed jar.
+    Because the jar is explicitly described as 'sealed' and 'completely covered', the external smoke cannot
+    enter the jar. Instead, the smoke will flow over the lid and down the exterior sides of the jar. The
+    smoke already inside the jar is trapped and will likely settle or dissipate slightly over the duration
+    of the occlusion ('several seconds'), reducing its opacity, but not increasing in volume. The book
+    occlusion serves as a time-skip mechanism allowing these changes to occur.
+  questions:
+  - id: external_smoke_presence
+    question: Is there smoke visible on the exterior of the jar?
+    answer_type: yes_no
+    notes_for_judge: The prompt describes smoke flowing down towards the lid of a sealed jar, so it should
+      accumulate outside.
+  - id: external_smoke_increase
+    question: Is there more smoke on the outside of the jar than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Initial frame had zero external smoke.
+  - id: smoke_flow_direction
+    question: Does the external smoke appear to be flowing down the sides of the jar?
+    answer_type: yes_no
+    notes_for_judge: Gravity affects the smoke flowing over the lid.
+  - id: internal_smoke_conservation
+    question: Does the amount of smoke inside the jar appear roughly the same or less than before?
+    answer_type: yes_no
+    notes_for_judge: The jar is sealed, so internal smoke cannot increase. It may settle (decrease).
+  - id: lid_presence
+    question: Is the jar still covered by the glass lid?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the jar is sealed and covered.
+  - id: jar_visibility
+    question: Is the jar visible again after the book moved away?
+    answer_type: yes_no
+    notes_for_judge: The book slides back to reveal the jar.
+  - id: internal_smoke_settling
+    question: Is the smoke inside the jar less dense or lower than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Smoke settles over time; it should not become fuller or more opaque.

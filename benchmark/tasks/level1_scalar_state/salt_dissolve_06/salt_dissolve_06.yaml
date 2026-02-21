@@ -1,0 +1,63 @@
+id: salt_dissolve_06
+level: 1
+category: scalar_state
+tags: []
+variant_of: salt_dissolve
+variation_type: dynamic_condition
+variation_description: Environment changed from water-filled to empty (dry) tank.
+changes:
+  occlusion_method: null
+  dynamic_conditions: The tank is empty (air only), no water.
+  expected_outcome_change: No dissolution; block remains unchanged.
+prompts:
+  init_frame_edit_prompt: Edit the image to remove the water completely. The salt lick is sitting in a
+    dry glass tank. Remove all bubbles and water refraction effects.
+  video_WM: A salt lick sits inside a dry glass tank filled only with air. The camera rotates right until
+    the tank and salt block completely exit the view, then rotates toward the left smoothly at the same
+    rate until the tank is back in the center of view. No zoom, no cut, no scene change. STOP.
+  camera_WM: A salt lick sits inside a dry glass tank filled only with air. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A clear glass rectangular tank sits in front of a window with a blurred urban
+    background. Inside the tank, a large, white, cubic salt lick with a rough, textured surface is centered.
+    To the right, inside the tank, a black vertical pipe or heater device is attached to the glass wall.
+    The tank appears dry and contains no liquid.
+  init2final_edit_prompt: Edit the given image to show the scene exactly as it was initially. Ensure the
+    white salt block remains the same size, shape, and texture, appearing solid and dry. Keep the glass
+    tank empty of any liquid water. Maintain the original camera angle and composition with the tank centered.
+  rationale: The prompt specifies that the tank is dry and filled only with air. While the camera pans
+    away and returns, no external agents such as water or heat are introduced that would cause the salt
+    block to dissolve or melt. Therefore, the physical state of the salt block (size, shape, texture)
+    must remain unchanged (persistence), and the tank must remain dry. This task tests object permanence
+    and the ability to avoid hallucinating state changes (like dissolving) when the necessary physical
+    conditions (water) are absent.
+  questions:
+  - id: salt_presence
+    question: Is the white salt block still visible in the center of the tank?
+    answer_type: yes_no
+    notes_for_judge: Tests object permanence.
+  - id: salt_size_conservation
+    question: Is the salt block approximately the same size as it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Tests that the block has not shrunk or dissolved.
+  - id: salt_shape_conservation
+    question: Does the salt block retain its cubic shape?
+    answer_type: yes_no
+    notes_for_judge: Tests that the block has not deformed.
+  - id: tank_dryness
+    question: Is the tank still free of visible liquid water?
+    answer_type: yes_no
+    notes_for_judge: Verifies no water was hallucinated.
+  - id: salt_texture
+    question: Does the surface of the salt block remain rough and textured?
+    answer_type: yes_no
+    notes_for_judge: Tests texture consistency.
+  - id: salt_solid_state
+    question: Does the salt block appear to be solid rather than melting or dissolving?
+    answer_type: yes_no
+    notes_for_judge: Verifies physical state consistency.
+  - id: equipment_consistency
+    question: Is the black vertical device still visible on the right side of the tank?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

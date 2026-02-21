@@ -1,0 +1,60 @@
+id: extending_piston_03
+level: 1
+category: scalar_state
+tags: []
+variant_of: extending_piston
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to camera zooming out until detail is lost.
+changes:
+  occlusion_method: Camera zooms out rapidly until the object is indistinguishable, then zooms back in.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A hydraulic piston is extending slowly. The camera zooms out rapidly until the piston is a
+    tiny speck indistinguishable in the wider construction site, then zooms back in to the original framing.
+    No cut, no scene change. STOP.
+  camera_WM: A hydraulic piston is extending slowly. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+evaluation:
+  init_frame_description: A close-up view of a green excavator arm featuring a hydraulic cylinder with
+    a shiny silver piston rod extending from it. The metal is weathered and greasy. Hydraulic hoses run
+    along the top of the arm. In the foreground, a black control lever with a rubber boot is visible.
+    The background shows blurred construction site debris.
+  init2final_edit_prompt: Edit the given image to show the hydraulic piston extended further. Increase
+    the length of the exposed shiny silver rod emerging from the green cylinder housing. Ensure the connection
+    point at the end of the rod is pushed further out along its axis compared to the original state. Maintain
+    the exact same camera angle, zoom level, and framing as the initial image.
+  rationale: The video prompt describes a continuous physical action (the piston extending slowly) that
+    persists while the camera performs a distraction maneuver (zooming out and then back in). Since the
+    camera returns to the original framing at the end, the final frame should be visually identical to
+    the start, except for the state of the piston. The piston rod should appear longer (more extended)
+    than in the initial frame because the extension action continued throughout the duration of the camera
+    movement.
+  questions:
+  - id: rod_length_increase
+    question: Is the visible length of the shiny silver piston rod longer than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the length of the chrome section of the hydraulic cylinder.
+  - id: extension_state
+    question: Does the hydraulic piston appear more extended compared to the start?
+    answer_type: yes_no
+    notes_for_judge: Check if the mechanism has pushed out further.
+  - id: exposed_surface_area
+    question: Is there more exposed silver metal surface on the rod than before?
+    answer_type: yes_no
+    notes_for_judge: The silver area should increase as the rod extends.
+  - id: relative_distance
+    question: Is the distance between the green cylinder housing and the end of the rod greater than in
+      the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The gap spanned by the silver rod should be wider.
+  - id: camera_framing_consistency
+    question: Is the control lever in the foreground still visible and in the same position?
+    answer_type: yes_no
+    notes_for_judge: The camera should have returned to the original framing.
+  - id: background_consistency
+    question: Are the hydraulic hoses on top of the arm still in the same configuration?
+    answer_type: yes_no
+    notes_for_judge: Only the piston extension should change; static parts of the arm should remain consistent.

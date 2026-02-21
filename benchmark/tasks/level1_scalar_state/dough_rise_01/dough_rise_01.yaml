@@ -1,0 +1,65 @@
+id: dough_rise_01
+level: 1
+category: scalar_state
+tags: []
+variant_of: dough_rise
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to lights turning off.
+changes:
+  occlusion_method: Lights turn off completely (pitch black) then turn back on.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A bowl of yeast dough is visibly rising. The fermentation and expansion continue steadily.
+    Suddenly, the room lights turn off, plunging the scene into complete darkness. After a duration equal
+    to the original rotation, the lights turn back on. No cut, no scene change. STOP.
+  camera_WM: A bowl of yeast dough is visibly rising. The fermentation and expansion continue steadily.
+    Suddenly, the room lights turn off, plunging the scene into complete darkness. After a duration equal
+    to the original rotation, the lights turn back on. No cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A clear glass bowl sits on a wooden countertop, containing a ball of yeast dough
+    dusted with flour. A beige cloth is draped over the rim of the bowl, partially covering the opening
+    but leaving the dough visible. In the background, there is a window, a jar with a red lid, a container
+    of flour, and a vertical thermometer showing a temperature around 80 degrees Fahrenheit. Sunlight
+    illuminates the scene from the right.
+  init2final_edit_prompt: Edit the given image to show the dough significantly expanded in size. The dough
+    ball should be larger, filling more of the interior volume of the glass bowl and rising higher towards
+    the rim. The texture should appear stretched consistent with rising dough. Keep the glass bowl, the
+    cloth, the background objects, and the lighting conditions identical to the original image.
+  rationale: The prompt describes a process of yeast fermentation where the dough rises over time. The
+    period of darkness acts as a temporal occlusion; although the viewer cannot see the process during
+    the blackout, the state of the dough (volume) continues to evolve. When the lights turn back on, the
+    dough must be visibly larger and more expanded than in the initial frame, reflecting the passage of
+    time. The camera and background remain static.
+  questions:
+  - id: dough_volume_increase
+    question: Is the dough ball visibly larger than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the overall size of the dough mass.
+  - id: dough_fill_bowl
+    question: Does the dough occupy a greater percentage of the bowl's volume compared to the start?
+    answer_type: yes_no
+    notes_for_judge: Check if the empty space inside the bowl has decreased.
+  - id: dough_height
+    question: Is the top of the dough dome higher relative to the bowl's rim than before?
+    answer_type: yes_no
+    notes_for_judge: Look at the vertical level of the dough.
+  - id: dough_expansion_sides
+    question: Has the dough expanded closer to the sides of the glass bowl?
+    answer_type: yes_no
+    notes_for_judge: Check the gap between the dough and the glass walls.
+  - id: lighting_restored
+    question: Is the scene fully illuminated again?
+    answer_type: yes_no
+    notes_for_judge: The final frame should be after the lights turn back on.
+  - id: bowl_invariant
+    question: Is the glass bowl in the same position on the counter?
+    answer_type: yes_no
+    notes_for_judge: The bowl should not have moved.
+  - id: thermometer_invariant
+    question: Is the thermometer in the background still visible and unchanged?
+    answer_type: yes_no
+    notes_for_judge: Background objects should persist.

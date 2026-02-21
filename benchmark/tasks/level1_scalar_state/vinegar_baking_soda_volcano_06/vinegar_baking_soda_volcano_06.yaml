@@ -1,0 +1,71 @@
+id: vinegar_baking_soda_volcano_06
+level: 1
+category: scalar_state
+tags: []
+variant_of: vinegar_baking_soda_volcano
+variation_type: dynamic_condition
+variation_description: Liquid changed from vinegar to vegetable oil. No reaction.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Liquid is vegetable oil instead of vinegar.
+  expected_outcome_change: No bubbling. Oil sits on top or mixes as a slurry without gas production.
+prompts:
+  init_frame_edit_prompt: Edit the image to make the liquid being poured look yellow and viscous like
+    vegetable oil, and change the bottle label to 'OIL'.
+  video_WM: The hand pours vegetable oil into the container with baking soda. Oil is a hydrophobic lipid.
+    Baking soda is a salt. There is no chemical reaction that produces gas. The camera rotates right at
+    constant speed until the container completely exits the view to the right. The camera continues rotating
+    right for several seconds while off-screen. Then the camera rotates left smoothly at the same rate
+    back to the original viewpoint. No zoom, no cut, no scene change. STOP.
+  camera_WM: The hand pours vegetable oil into the container with baking soda. Oil is a hydrophobic lipid.
+    Baking soda is a salt. There is no chemical reaction that produces gas. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a wooden kitchen counter. A rustic wooden tray
+    holds a clear glass apothecary jar filled about halfway with white powder (baking soda). A hand enters
+    from the top right, holding a glass pitcher filled with yellow vegetable oil, tilting it to pour a
+    stream of oil into the jar. To the left of the tray sits a clear glass bottle labeled 'OIL' containing
+    yellow liquid. A window is visible on the far left, and a stove is in the background on the right.
+  init2final_edit_prompt: Edit the given image to show the central glass jar filled with a higher level
+    of yellow oil sitting on top of or saturating the white powder. The total volume of contents inside
+    the jar must be visibly higher than in the original image. The glass pitcher held by the hand should
+    contain less oil than before, with a lower liquid level. Do not generate any foam, bubbles, fizzing,
+    or volcanic eruption effects; the mixture should look like flat oil and powder.
+  rationale: 'The prompt specifies pouring oil into baking soda. Unlike vinegar, oil does not react with
+    baking soda to produce gas (CO2). Therefore, the physical change is purely additive: the volume in
+    the jar increases as oil is added, and the volume in the pitcher decreases. The camera motion (panning
+    away and returning) implies time has passed, allowing for a significant amount of oil to be poured.
+    The final state should show a fuller jar and an emptier pitcher, but crucially, no chemical reaction
+    (foaming/expansion) should be depicted.'
+  questions:
+  - id: q1_jar_level
+    question: Is the level of the contents inside the central glass jar higher than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: 'Primary scalar check: The jar should be fuller due to the added oil.'
+  - id: q2_pitcher_level
+    question: Does the handheld glass pitcher contain less oil than it did in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: 'Primary scalar check: The source container should be depleted.'
+  - id: q3_oil_accumulation
+    question: Is there more yellow liquid visible inside the jar compared to the start?
+    answer_type: yes_no
+    notes_for_judge: Checks for accumulation of the specific substance being poured.
+  - id: q4_no_reaction
+    question: Is the mixture in the jar free of expanding foam or rising bubbles?
+    answer_type: yes_no
+    notes_for_judge: 'Physics check: Oil and baking soda do not react. If there is a ''volcano'' effect,
+      the answer is NO.'
+  - id: q5_total_volume
+    question: Is the total volume of material (powder plus liquid) in the jar greater than before?
+    answer_type: yes_no
+    notes_for_judge: Scalar check on mass/volume accumulation.
+  - id: q6_consistency_bottle
+    question: Is the bottle labeled 'OIL' still visible on the left side?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: q7_consistency_tray
+    question: Is the wooden tray still present under the jar?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

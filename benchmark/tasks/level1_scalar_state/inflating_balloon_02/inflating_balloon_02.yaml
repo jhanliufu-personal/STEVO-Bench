@@ -1,0 +1,59 @@
+id: inflating_balloon_02
+level: 1
+category: scalar_state
+tags: []
+variant_of: inflating_balloon
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to a large vehicle driving in front.
+changes:
+  occlusion_method: A large tractor/vehicle drives in front, blocking the view.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A white balloon is connected to an open helium tank and is inflating. A large agricultural
+    tractor drives slowly across the foreground, completely blocking the view of the balloon and tank,
+    then continues moving until the scene is revealed again. No cut, no scene change. STOP.
+  camera_WM: A white weather balloon is attached to an open gas valve. The balloon is visibly expanding
+    and growing larger. A large agricultural tractor drives slowly across the foreground, completely blocking
+    the view of the balloon and tank, then continues moving until the scene is revealed again. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A green gas cylinder labeled 'HELIUM' sits on a grassy field. A deflated, cream-colored
+    balloon is attached to the tank's nozzle and drapes down onto the grass. A gloved hand is positioned
+    on the valve handle at the top of the tank. In the background, there is a wire fence and rolling hills.
+  init2final_edit_prompt: Edit the given image to show the cream-colored balloon significantly inflated
+    and expanded. The balloon should appear filled with gas, much larger in volume than the deflated state,
+    and potentially floating or lifting slightly off the grass due to the helium. Keep the green helium
+    tank, the gloved hand, and the grassy background identical to the original scene.
+  rationale: 'The video prompt describes an inflation process that continues while the view is temporarily
+    occluded by a passing tractor. Since the tractor moves until the scene is revealed again, the final
+    state must show the result of the elapsed time: the balloon must have accumulated gas and increased
+    in volume (scalar change). The tractor itself should no longer be blocking the view.'
+  questions:
+  - id: balloon_inflated
+    question: Is the white balloon larger than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the volume of the balloon in the final frame to the deflated balloon in the
+      initial frame.
+  - id: balloon_volume_increase
+    question: Does the balloon appear to contain more gas than it did initially?
+    answer_type: yes_no
+    notes_for_judge: The balloon should look expanded or inflated.
+  - id: balloon_expansion
+    question: Has the balloon expanded in size compared to the start?
+    answer_type: yes_no
+    notes_for_judge: Focus on the physical size/area occupied by the balloon.
+  - id: tank_visibility
+    question: Is the green helium tank visible and unoccluded?
+    answer_type: yes_no
+    notes_for_judge: The tractor should have passed, revealing the tank again.
+  - id: tank_consistency
+    question: Is the text 'HELIUM' still visible on the green tank?
+    answer_type: yes_no
+    notes_for_judge: Check for object consistency.
+  - id: scene_revealed
+    question: Is the view of the balloon and tank clear of the tractor?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the tractor moves until the scene is revealed again.

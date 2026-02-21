@@ -1,0 +1,62 @@
+id: heating_rod_10
+level: 1
+category: scalar_state
+tags: []
+variant_of: heating_rod
+variation_type: combined
+variation_description: Combined cooling dynamics with foreground object occlusion.
+changes:
+  occlusion_method: A forklift drives past, blocking the view.
+  dynamic_conditions: Rod starts bright orange; Coil inactive.
+  expected_outcome_change: Rod cools down (dimmer) while blocked by forklift.
+prompts:
+  init_frame_edit_prompt: Edit the image to make the steel rod glow bright orange, indicating it is very
+    hot.
+  video_WM: A bright orange glowing steel rod sits in an inactive induction coil. A forklift carrying
+    a large crate drives past in the foreground, completely blocking the view of the rod and coil, then
+    exits the frame to reveal the scene. No zoom, no cut, no scene change. STOP.
+  camera_WM: A bright orange glowing steel rod sits in an inactive induction coil. A forklift carrying
+    a large crate drives past in the foreground, completely blocking the view of the rod and coil, then
+    exits the frame to reveal the scene. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up industrial shot showing a thick, horizontal steel rod passing through
+    a copper induction heating coil. The section of the rod inside the coil is glowing intensely with
+    a bright yellow-white color, indicating high temperature. The ends of the rod outside the coil are
+    dark grey metal. The background features a workshop environment with heavy machinery and a press.
+  init2final_edit_prompt: Edit the given image to show the steel rod having cooled down. Reduce the brightness
+    and intensity of the glowing section inside the coil, shifting its color from bright yellow-white
+    to a duller orange or deep red. Do not change the copper coil or the background machinery.
+  rationale: The prompt explicitly states that the induction coil is 'inactive', meaning there is no energy
+    source maintaining the heat of the rod. The action describes a forklift driving past and blocking
+    the view, which implies a passage of time (likely several seconds). During this occlusion period,
+    the highly heated steel rod must lose heat to the surrounding environment via radiation and convection.
+    Therefore, in the final frame, the rod should appear cooler (dimmer and redder) than in the initial
+    frame. The forklift exits the frame, so the final view should be unobstructed.
+  questions:
+  - id: rod_dimmer
+    question: Is the glowing section of the rod dimmer than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The rod should lose brightness as it cools.
+  - id: color_shift
+    question: Has the color of the heated rod shifted towards red or orange, appearing less yellow-white
+      than before?
+    answer_type: yes_no
+    notes_for_judge: Cooling metal shifts from white/yellow to orange/red.
+  - id: temp_decrease
+    question: Does the rod appear to have cooled down compared to the initial state?
+    answer_type: yes_no
+    notes_for_judge: Infer temperature from brightness and color temperature.
+  - id: glow_intensity
+    question: Is the intensity of the glow lower than in the starting image?
+    answer_type: yes_no
+    notes_for_judge: Check for reduced luminance in the heated area.
+  - id: coil_visible
+    question: Is the copper induction coil still visible around the rod?
+    answer_type: yes_no
+    notes_for_judge: The coil should remain in place.
+  - id: forklift_gone
+    question: Is the view of the rod and coil unobstructed by the forklift?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the forklift exits the frame.

@@ -1,0 +1,70 @@
+id: alka_seltzer_fizz_05
+level: 1
+category: scalar_state
+tags: []
+variant_of: alka_seltzer_fizz
+variation_type: dynamic_condition
+variation_description: Liquid changed to vegetable oil, preventing the reaction entirely.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Liquid is vegetable oil (non-polar) instead of water.
+  expected_outcome_change: No reaction; tablet sits at bottom unchanged; no bubbles.
+prompts:
+  init_frame_edit_prompt: Edit the image to change the clear water in the glass to a transparent yellow
+    vegetable oil.
+  video_WM: The effervescent tablet contacts the vegetable oil at the bottom of the glass. Vegetable oil
+    is a non-polar solvent and contains no water molecules to facilitate the acid-base reaction. The tablet
+    rests in the viscous fluid. The camera rotates right at constant speed until the glass completely
+    exits the view to the right. The camera continues rotating right for several seconds while off-screen.
+    Then the camera rotates left smoothly at the same rate back to the original viewpoint. No zoom, no
+    cut, no scene change. STOP.
+  camera_WM: The effervescent tablet contacts the vegetable oil at the bottom of the glass. Vegetable
+    oil is a non-polar solvent and contains no water molecules to facilitate the acid-base reaction. The
+    tablet rests in the viscous fluid. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A clear glass tumbler filled with a translucent yellow liquid (vegetable oil)
+    sits on a white surface. A white, round effervescent tablet is suspended in mid-air just above the
+    center of the liquid's surface, with a small droplet connecting the tablet to the liquid. The background
+    shows a blurred kitchen interior with cabinets and a window.
+  init2final_edit_prompt: Edit the given image to show the white tablet resting at the bottom of the glass,
+    fully submerged in the yellow liquid. The tablet should appear whole, solid, and undissolved. Ensure
+    the yellow liquid remains clear with absolutely no bubbles, foam, or fizzing. The liquid level should
+    remain approximately the same.
+  rationale: The prompt specifies that the liquid is vegetable oil, which is non-polar and lacks water.
+    Effervescent tablets require water to trigger the acid-base reaction that creates bubbles. Therefore,
+    physically, the tablet will simply sink to the bottom due to gravity without reacting, dissolving,
+    or creating gas. During the camera's rotation away and back, the tablet has time to fall through the
+    viscous fluid and settle at the bottom, remaining intact.
+  questions:
+  - id: tablet_vertical_pos
+    question: Is the white tablet positioned lower in the frame than it was initially?
+    answer_type: yes_no
+    notes_for_judge: The tablet should have fallen to the bottom.
+  - id: tablet_at_bottom
+    question: Is the white tablet resting at the bottom of the glass?
+    answer_type: yes_no
+    notes_for_judge: It should be at the lowest point inside the glass.
+  - id: tablet_submerged
+    question: Is the tablet fully submerged in the yellow liquid?
+    answer_type: yes_no
+    notes_for_judge: It must be under the surface.
+  - id: no_reaction_bubbles
+    question: Is the liquid free of bubbles or fizzing?
+    answer_type: yes_no
+    notes_for_judge: 'Crucial physics check: Oil does not react with the tablet, so no bubbles should
+      appear.'
+  - id: tablet_integrity
+    question: Does the tablet appear solid and undissolved?
+    answer_type: yes_no
+    notes_for_judge: It should not look crumbled or smaller.
+  - id: liquid_clarity
+    question: Is the yellow liquid still clear and translucent?
+    answer_type: yes_no
+    notes_for_judge: It should not be cloudy.
+  - id: glass_consistency
+    question: Is the glass tumbler still in the same position on the table?
+    answer_type: yes_no
+    notes_for_judge: The camera returned to the original viewpoint.

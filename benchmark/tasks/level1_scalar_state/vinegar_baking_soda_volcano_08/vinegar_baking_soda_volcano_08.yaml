@@ -1,0 +1,69 @@
+id: vinegar_baking_soda_volcano_08
+level: 1
+category: scalar_state
+tags: []
+variant_of: vinegar_baking_soda_volcano
+variation_type: combined
+variation_description: 'Combined: Flour instead of baking soda (no reaction) AND occlusion by lights turning
+  off.'
+changes:
+  occlusion_method: Lights turn off completely.
+  dynamic_conditions: Powder is flour instead of baking soda.
+  expected_outcome_change: No foaming/reaction.
+prompts:
+  init_frame_edit_prompt: Edit the image to change the white powder texture to look like flour.
+  video_WM: The hand pours vinegar into the container filled with flour. Vinegar is acidic, but flour
+    is starch and does not react to release gas. Suddenly, the lights in the room turn off completely,
+    leaving the scene in total darkness. The darkness persists for several seconds. Then the lights turn
+    back on, illuminating the scene again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The hand pours vinegar into the container filled with flour. Vinegar is acidic, but flour
+    is starch and does not react to release gas. Suddenly, the lights in the room turn off completely,
+    leaving the scene in total darkness. The darkness persists for several seconds. Then the lights turn
+    back on, illuminating the scene again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a wooden kitchen countertop. In the center, a
+    clear glass apothecary jar sits on a rustic wooden tray; the jar is partially filled with white powder
+    (flour). A hand enters from the top right, holding a glass pitcher and pouring clear liquid (vinegar)
+    into the jar. To the left of the jar, a bottle of Heinz vinegar stands on the counter. In the background,
+    a window, knife block, and kitchen stove are visible. The lighting is natural and bright.
+  init2final_edit_prompt: Edit the given image to show the glass jar containing a wet mixture of flour
+    and liquid. The level of the contents in the jar should be higher than in the original image, appearing
+    as a dense, wet paste or sludge rather than dry powder. Ensure the mixture does NOT look like expanding
+    foam or bubbles. The glass pitcher held by the hand should contain significantly less liquid than
+    before. The lighting should be bright and identical to the original image, showing the scene fully
+    illuminated.
+  rationale: The prompt describes pouring vinegar into flour. Unlike baking soda, flour does not react
+    chemically with vinegar to produce gas or foam. Therefore, the physical change is strictly the accumulation
+    of liquid volume and the wetting of the powder. The mixture will turn into a wet paste and the level
+    in the jar will rise due to the added liquid, while the level in the pitcher decreases. The lighting
+    turns off and then back on, so the final frame must be fully illuminated, showing the result of the
+    pouring action without any chemical expansion.
+  questions:
+  - id: jar_level_increase
+    question: Is the level of material inside the central glass jar higher than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The hand poured liquid into the jar, so the volume must increase.
+  - id: pitcher_level_decrease
+    question: Is the amount of liquid in the handheld glass pitcher less than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Liquid was poured out, so the source container must be emptier.
+  - id: powder_wetness
+    question: Does the white substance in the jar appear wet, clumpy, or paste-like?
+    answer_type: yes_no
+    notes_for_judge: The flour has been mixed with vinegar.
+  - id: no_reaction_foam
+    question: Is the mixture in the jar free from expanding foam or overflowing bubbles?
+    answer_type: yes_no
+    notes_for_judge: 'Crucial physics check: Flour + Vinegar = No reaction. If there is a volcano/foam,
+      answer NO.'
+  - id: lighting_restored
+    question: Is the scene fully illuminated, matching the brightness of the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the lights turn back on.
+  - id: vinegar_bottle_consistency
+    question: Is the vinegar bottle to the left of the jar still visible and upright?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

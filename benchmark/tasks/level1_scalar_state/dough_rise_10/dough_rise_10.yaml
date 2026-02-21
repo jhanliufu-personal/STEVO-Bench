@@ -1,0 +1,63 @@
+id: dough_rise_10
+level: 1
+category: scalar_state
+tags: []
+variant_of: dough_rise
+variation_type: combined
+variation_description: Unleavened dough (no rise) combined with camera zoom occlusion.
+changes:
+  occlusion_method: Camera zoom out.
+  dynamic_conditions: Unleavened dough (no active yeast).
+  expected_outcome_change: No change in volume (static state).
+prompts:
+  init_frame_edit_prompt: Edit the image to remove the thermometer from the background completely.
+  video_WM: A bowl of dense, unleavened dough rests on the counter. Without yeast, the mixture is chemically
+    inactive. The camera zooms out continuously until the bowl is too small to see clearly, then zooms
+    back in to the original framing. No cut, no scene change. STOP.
+  camera_WM: A bowl of dense, unleavened dough rests on the counter. Without yeast, the mixture is chemically
+    inactive. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+evaluation:
+  init_frame_description: A clear glass bowl sits on a wooden countertop, illuminated by natural sunlight.
+    Inside the bowl is a smooth, round ball of light-colored dough, lightly dusted with flour. A beige
+    cloth towel is draped over the back rim of the bowl, partially covering the opening but leaving the
+    dough visible. In the background, a window frame and a blurry thermometer are visible.
+  init2final_edit_prompt: Edit the given image to show the dough remaining exactly the same size and shape
+    as the original. Ensure the dough ball has not expanded, risen, or changed in volume. Keep the dough
+    compact at the bottom of the bowl with the same gap between the dough and the rim. Maintain the original
+    lighting and the position of the towel and bowl.
+  rationale: The prompt explicitly states the dough is unleavened and chemically inactive, meaning no
+    fermentation or rising will occur. Although the camera zooms out and back in, implying a passage of
+    time, the physical state of the dough (volume) must remain constant. The final frame returns to the
+    original camera framing, so the scene should appear virtually identical to the initial frame, testing
+    the model's ability to adhere to physical constraints over visual priors.
+  questions:
+  - id: dough_size_same
+    question: Is the dough ball approximately the same size as it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The dough should not have grown.
+  - id: dough_below_rim
+    question: Is the top of the dough still positioned well below the rim of the bowl?
+    answer_type: yes_no
+    notes_for_judge: It should not rise to meet the rim.
+  - id: dough_gap_towel
+    question: Is there still a visible gap between the dough and the cloth towel?
+    answer_type: yes_no
+    notes_for_judge: Expansion would close this gap.
+  - id: dough_compact
+    question: Does the dough still appear dense and compact rather than fluffy or aerated?
+    answer_type: yes_no
+    notes_for_judge: Texture should remain unleavened.
+  - id: dough_no_rise
+    question: Has the dough remained at the bottom of the bowl without filling the container?
+    answer_type: yes_no
+    notes_for_judge: Verifies lack of volume increase.
+  - id: bowl_position
+    question: Is the glass bowl still centered in the frame?
+    answer_type: yes_no
+    notes_for_judge: Camera returns to original framing.
+  - id: towel_presence
+    question: Is the beige cloth towel still draped over the back of the bowl?
+    answer_type: yes_no
+    notes_for_judge: Secondary object consistency.

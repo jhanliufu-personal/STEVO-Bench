@@ -1,0 +1,68 @@
+id: matchstick_burning_02
+level: 1
+category: scalar_state
+tags: []
+variant_of: matchstick_burning
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to thick smoke filling the environment.
+changes:
+  occlusion_method: Thick grey smoke fills the frame.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The matchstick flame burns at the tip. The match is wooden with combustible material. Oxygen
+    is available. Thick grey smoke begins to fill the frame, quickly becoming so dense that the hand and
+    match are completely obscured. The smoke lingers for several seconds. Then the smoke clears rapidly,
+    revealing the scene again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The matchstick flame burns at the tip. The match is wooden with combustible material. Oxygen
+    is available. Thick grey smoke begins to fill the frame, quickly becoming so dense that the hand and
+    match are completely obscured. The smoke lingers for several seconds. Then the smoke clears rapidly,
+    revealing the scene again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A close-up side view of a hand holding a wooden matchstick. The match is lit
+    with a bright orange and yellow flame at the tip. The head of the match is blackened and charred,
+    while the rest of the wooden stick is unburnt and light brown. The background is a solid, out-of-focus
+    beige or grey surface.
+  init2final_edit_prompt: Edit the given image to show the matchstick after it has burned further down.
+    The blackened, charred portion of the stick should be significantly longer, extending down the shaft
+    towards the fingers. The unburnt light-colored wooden section should be shorter. The flame should
+    be positioned lower on the stick, at the edge of the new charred area. Ensure the smoke has cleared
+    and the scene is fully visible again.
+  rationale: 'The video prompt describes a continuous burning process that is temporarily occluded by
+    smoke. During the time the smoke fills the frame and then clears, the matchstick continues to burn.
+    Therefore, in the final frame, the physical state of the match must reflect this progression: the
+    fire will have consumed more of the wood, resulting in a longer charred section and a shorter unburnt
+    section compared to the initial frame.'
+  questions:
+  - id: charred_length
+    question: Is the blackened, charred portion of the matchstick longer than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the length of the black part of the stick. It should have grown.
+  - id: unburnt_length
+    question: Is the unburnt, light-colored wooden section of the match shorter than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The usable wood should have decreased as the fire burned down.
+  - id: flame_position
+    question: Is the flame positioned closer to the fingers than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The flame travels down the stick as it burns.
+  - id: burn_progression
+    question: Does the matchstick appear more consumed by fire than in the starting image?
+    answer_type: yes_no
+    notes_for_judge: General assessment of the state change.
+  - id: smoke_cleared
+    question: Is the view clear of the thick smoke described in the prompt?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the smoke clears rapidly revealing the scene.
+  - id: hand_consistency
+    question: Is the hand holding the matchstick still visible and in the same approximate position?
+    answer_type: yes_no
+    notes_for_judge: Consistency check for the non-changing object.
+  - id: background_consistency
+    question: Is the background consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Consistency check.

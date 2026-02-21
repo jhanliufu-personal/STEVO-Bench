@@ -1,0 +1,63 @@
+id: dough_rise_03
+level: 1
+category: scalar_state
+tags: []
+variant_of: dough_rise
+variation_type: occlusion_method
+variation_description: Occlusion changed to thick steam filling the room.
+changes:
+  occlusion_method: Thick steam fills the view, obscuring the scene.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A bowl of yeast dough is visibly rising. The fermentation and expansion continue steadily.
+    Thick white steam from a nearby pot begins to fill the air, becoming dense enough to completely obscure
+    the bowl from view. The steam then slowly dissipates until the bowl is visible again. No cut, no scene
+    change. STOP.
+  camera_WM: A bowl of yeast dough is visibly rising. The fermentation and expansion continue steadily.
+    Thick white steam from a nearby pot begins to fill the air, becoming dense enough to completely obscure
+    the bowl from view. The steam then slowly dissipates until the bowl is visible again. No cut, no scene
+    change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A clear glass bowl sits on a wooden countertop, containing a ball of dough dusted
+    with flour. A beige cloth napkin is draped over the back rim of the bowl. To the right of the bowl,
+    a vertical thermometer is visible. In the background, there is a window and a jar. Sunlight illuminates
+    the scene from the right side, highlighting the texture of the dough.
+  init2final_edit_prompt: Edit the given image to show the dough inside the glass bowl significantly expanded
+    in volume. The dough should appear larger, puffier, and fill more of the bowl's interior space than
+    before, indicating it has risen. Ensure the scene is clear of any steam or fog, making the bowl and
+    its contents fully visible and sharp. Keep the glass bowl, the cloth, the thermometer, and the wooden
+    counter in their original positions and appearance.
+  rationale: The prompt describes a continuous process of the dough rising, which is a scalar change in
+    volume. The steam occlusion serves as a mechanism to advance time without a hard cut. During the period
+    where the bowl is hidden by steam, the fermentation process continues. Therefore, when the steam dissipates
+    and the bowl is revealed again, the dough must be visibly larger and more expanded than in the initial
+    frame.
+  questions:
+  - id: dough_volume_increase
+    question: Is the dough ball larger in volume than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the size of the dough mass in the bowl between the two frames.
+  - id: dough_fill_level
+    question: Does the dough occupy a larger portion of the glass bowl compared to the start?
+    answer_type: yes_no
+    notes_for_judge: Check if the dough takes up more space inside the container.
+  - id: dough_height
+    question: Is the top surface of the dough higher within the bowl than it was initially?
+    answer_type: yes_no
+    notes_for_judge: Look at the height of the dough relative to the rim or the cloth.
+  - id: dough_texture_expansion
+    question: Does the dough appear more expanded or puffy than in the initial image?
+    answer_type: yes_no
+    notes_for_judge: Assess the visual quality of the dough for signs of rising.
+  - id: visibility_restored
+    question: Is the bowl clearly visible again, without being obscured by thick steam?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the steam dissipates; the final frame should be clear.
+  - id: background_consistency
+    question: Is the thermometer still visible to the right of the bowl?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

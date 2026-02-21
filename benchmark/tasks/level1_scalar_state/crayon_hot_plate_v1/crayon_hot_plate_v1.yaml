@@ -1,0 +1,64 @@
+id: crayon_hot_plate_v1
+level: 1
+category: scalar_state
+tags: []
+variant_of: crayon_hot_plate
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to a large object (pot lid) blocking the
+  view.
+changes:
+  occlusion_method: A large metal pot lid slides in to cover the scene.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The crayon is in contact with the hot plate surface. The plate is actively heating. The crayon
+    is made of paraffin wax with a melting point around 130°F. The plate temperature exceeds the wax melting
+    point. A large metal pot lid slides into view from the side, completely covering the hot plate and
+    crayon. The lid blocks the view for several seconds. Then the lid slides away, revealing the hot plate
+    again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The crayon is in contact with the hot plate surface. The plate is actively heating. The crayon
+    is made of paraffin wax with a melting point around 130°F. The plate temperature exceeds the wax melting
+    point. A large metal pot lid slides into view from the side, completely covering the hot plate and
+    crayon. The lid blocks the view for several seconds. Then the lid slides away, revealing the hot plate
+    again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A close-up shot of a black electric hot plate with a circular heating element.
+    A blue crayon is standing upright in the center of the heating surface. On the front of the device,
+    a red indicator light labeled 'HEATING' is illuminated. The background is dark and out of focus.
+  init2final_edit_prompt: Edit the given image to show the blue crayon melted into a pool of blue wax
+    on the hot plate surface. The blue wax should be flattened and spread out on the black heating element,
+    rather than standing vertically. Keep the red heating light illuminated and the hot plate device unchanged.
+  rationale: The initial frame establishes that the hot plate is active (indicated by the red light) and
+    the crayon is made of wax. The video prompt describes an occlusion event where a lid covers the setup
+    for several seconds. During this time, the heat transfer from the plate to the crayon will cause the
+    wax to melt. Therefore, in the final frame, the crayon should no longer be a standing solid cylinder
+    but should be a melted blob or puddle of wax on the surface.
+  questions:
+  - id: crayon_height_reduction
+    question: Is the blue object significantly shorter than the standing crayon in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The crayon should have melted down, reducing its height drastically.
+  - id: crayon_state_melted
+    question: Does the blue material appear to be melted or losing its rigid shape?
+    answer_type: yes_no
+    notes_for_judge: Look for signs of melting, puddling, or slumping.
+  - id: crayon_not_standing
+    question: Is the blue crayon no longer standing upright?
+    answer_type: yes_no
+    notes_for_judge: If it is still a perfect vertical cylinder, the answer is No.
+  - id: wax_spreading
+    question: Has the blue wax spread out on the surface of the hot plate?
+    answer_type: yes_no
+    notes_for_judge: Melting causes the volume to spread horizontally.
+  - id: light_consistency
+    question: Is the red heating light still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: plate_visibility
+    question: Is the black circular heating element still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

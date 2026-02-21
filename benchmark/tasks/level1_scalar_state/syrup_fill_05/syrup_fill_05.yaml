@@ -1,0 +1,64 @@
+id: syrup_fill_05
+level: 1
+category: scalar_state
+tags: []
+variant_of: syrup_fill
+variation_type: dynamic_condition
+variation_description: The stream is replaced by a slow drip, implying very slow filling.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Slow drip instead of steady stream.
+  expected_outcome_change: Level rises negligibly (much less than original).
+prompts:
+  init_frame_edit_prompt: Edit the image to change the steady stream of syrup into a very slow, intermittent
+    drip of individual droplets falling from the spout.
+  video_WM: A glass jar is 25% full of syrup. Slow, individual droplets drip from the spout one by one.
+    The camera rotates right until the jar and spout completely exit the view, then rotates toward the
+    left smoothly at the same rate until the jar is back in the center of view. No zoom, no cut, no scene
+    change. STOP.
+  camera_WM: A glass jar is 25% full of syrup. Slow, individual droplets drip from the spout one by one.
+    STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A clear glass jar sits on a wooden table, filled approximately 25% with amber-colored
+    syrup. A metal spout is positioned above the jar, pouring a stream of syrup that creates ripples on
+    the surface. To the left, a wooden cutting board leans against the wall. Behind the jar is a beige
+    ceramic jug. A window in the background shows a blurred forest scene.
+  init2final_edit_prompt: Edit the given image to show the syrup level in the glass jar slightly higher
+    than it was initially, reflecting the accumulation of syrup. The liquid should retain its amber color
+    and transparency. Keep the jar centered, the background identical, and the lighting unchanged.
+  rationale: 'The video prompt describes a filling process (''droplets drip'') that persists during a
+    camera pan. The occlusion caused by the camera rotation implies a passage of time. Consequently, the
+    final frame must show the accumulated result of this action: a slightly increased volume of syrup
+    in the jar. The ''slow'' rate ensures the jar does not fill completely, but the direction of change
+    must be positive (filling).'
+  questions:
+  - id: q1
+    question: Is the syrup level in the jar higher than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The level should be visibly higher due to the filling action.
+  - id: q2
+    question: Has the amount of syrup in the jar increased compared to the start?
+    answer_type: yes_no
+    notes_for_judge: Check for accumulation of liquid.
+  - id: q3
+    question: Is the jar still less than half full?
+    answer_type: yes_no
+    notes_for_judge: The filling is described as 'slow', so it should not be full or nearly full.
+  - id: q4
+    question: Is the syrup level lower than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The level should not decrease.
+  - id: q5
+    question: Is the jar empty?
+    answer_type: yes_no
+    notes_for_judge: The jar should contain syrup.
+  - id: q6
+    question: Is the wooden cutting board still visible on the left?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: q7
+    question: Is the ceramic jug still visible behind the jar?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
