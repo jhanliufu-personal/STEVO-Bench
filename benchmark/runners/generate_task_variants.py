@@ -480,10 +480,12 @@ def infer_hy_worldplay(video_wm: str) -> Optional[str]:
     right_phrases = [
         "rotates right", "moves right", "pans right",
         "rotate right", "move right", "pan right", "moving right",
+        "moves to the right", "move to the right", "moving to the right",
     ]
     left_phrases = [
         "rotates left", "moves left", "pans left",
         "rotate left", "move left", "pan left", "moving left",
+        "moves to the left", "move to the left", "moving to the left",
     ]
 
     if any(p in lower for p in zoom_phrases):
