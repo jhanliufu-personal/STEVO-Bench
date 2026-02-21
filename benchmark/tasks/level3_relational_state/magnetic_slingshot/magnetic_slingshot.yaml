@@ -3,8 +3,9 @@ level: 3
 category: relational_state
 relational_type: field_coupling
 prompts:
-  image_gen_prompt: A heavy magnetic puck is sliding down a frictionless rail toward a second identical
-    magnetic puck that is currently stationary. Both magnets have their North poles facing each other.
+  image_gen_prompt: Generate an image that shows the following:a heavy magnetic puck is sliding down a
+    frictionless rail toward a second identical magnetic puck that is currently stationary. Both magnets
+    have their North poles facing each other.
   video_WM: The first magnetic puck approaches the second stationary puck at high speed. The repulsion
     between the two North poles is significant. Neither puck is attached to the rail. The camera rotates
     right until the rail completely exits the view, then rotates toward the left smoothly at the same
@@ -14,3 +15,48 @@ prompts:
     The magnetic field interaction couples the motion of the two entities. STOP.
 camera_control:
   HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A clear acrylic inclined rail labeled 'FRICTIONLESS RAIL' sits on a metallic
+    table. Two cylindrical metal pucks are placed in the rail's groove. Each puck has a red letter 'N'
+    on one flat face. The upper puck is positioned on the left, with its 'N' face pointing down the slope.
+    The lower puck is positioned on the right, with its 'N' face pointing up the slope, creating a repulsive
+    magnetic configuration. In the background, a whiteboard displays physics equations related to motion
+    and energy.
+  init2final_edit_prompt: Edit the given image to show the pucks further down the incline. Move the upper
+    (left) puck down the rail so it is positioned approximately where the lower puck was originally. Move
+    the lower (right) puck significantly further down the rail, placing it near the bottom-right edge
+    of the track. Increase the distance between the two pucks to reflect separation after repulsion. Ensure
+    both pucks remain seated in the rail groove and maintain the background details.
+  rationale: The scenario describes a high-speed approach of one magnet towards another on a frictionless
+    incline. The magnetic repulsion acts as a spring, causing an elastic-like collision. The moving upper
+    puck will transfer its momentum to the stationary lower puck. Consequently, the upper puck will slow
+    down significantly (or momentarily stop) roughly at the point of closest approach, while the lower
+    puck will accelerate rapidly down the rail. After the camera rotation (representing elapsed time),
+    the upper puck should have advanced to the lower puck's former position, and the lower puck should
+    have moved much further down, increasing the separation distance.
+  questions:
+  - id: puck1_moved_down
+    question: Is the upper puck positioned lower on the rail than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The upper puck should have moved down the slope.
+  - id: puck2_moved_further
+    question: Is the lower puck positioned closer to the bottom-right edge of the rail than in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: The lower puck should have been pushed further down the rail.
+  - id: separation_increased
+    question: Is the distance between the two pucks greater than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Due to the momentum transfer, the lower puck moves faster, increasing the gap.
+  - id: puck1_location
+    question: Is the upper puck now located roughly where the lower puck was initially (or lower)?
+    answer_type: yes_no
+    notes_for_judge: It takes the place of the target during the collision.
+  - id: rail_constraint
+    question: Do both pucks appear to be seated within the rail groove?
+    answer_type: yes_no
+    notes_for_judge: They should not be floating or derailed.
+  - id: background_consistency
+    question: Are the whiteboard equations in the background unchanged?
+    answer_type: yes_no
+    notes_for_judge: The environment should be static.

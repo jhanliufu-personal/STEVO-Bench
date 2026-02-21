@@ -1,0 +1,70 @@
+id: bellows_pressure_system_06
+level: 3
+category: relational_state
+tags: []
+variant_of: bellows_pressure_system
+variation_type: dynamic_condition
+variation_description: The bellows has a large tear, so air escapes the tear instead of inflating the
+  balloon.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Large tear in the leather bellows.
+  expected_outcome_change: The balloon remains deflated because air escapes through the tear.
+prompts:
+  init_frame_edit_prompt: Edit the image to show a large, jagged tear in the leather side of the bellows,
+    revealing the dark interior.
+  video_WM: A mechanical press begins squeezing the handles of the bellows together at a constant speed.
+    There is a large, visible tear in the leather side of the bellows. The camera rotates right until
+    the bellows completely exit the view, then rotates toward the left smoothly at the same rate until
+    the blue balloon is back in the center of view. No zoom, no cut, no scene change. STOP.
+  camera_WM: A mechanical press begins squeezing the handles of the bellows together at a constant speed.
+    There is a large, visible tear in the leather side of the bellows. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: An antique wooden bellows with leather sides sits on a workbench. The bellows
+    handles are spread apart in an open position. There is a large, jagged tear visible in the leather
+    on the side facing the viewer. A black rubber hose connects the bellows nozzle to a blue rubber balloon,
+    which is lying deflated and flaccid on the wooden surface. Wood shavings and tools are visible in
+    the background.
+  init2final_edit_prompt: Edit the given image to show the wooden bellows in a compressed state, with
+    the two handles squeezed close together. The leather sides should appear folded and collapsed between
+    the wooden boards. The large tear in the leather should appear distorted or compressed due to the
+    folding. The blue balloon must remain completely deflated and flaccid, appearing identical in size
+    and inflation state to the original image, reflecting that air has escaped through the tear rather
+    than inflating it.
+  rationale: The video depicts the bellows being squeezed, which reduces the internal volume. In a sealed
+    system, this action would force air through the hose to inflate the balloon. However, the large tear
+    in the leather provides a path of least resistance for the air to escape. Consequently, the air vents
+    out through the hole rather than building up pressure in the hose. Therefore, while the bellows handles
+    move together and the leather compresses, the balloon remains uninflated and flaccid.
+  questions:
+  - id: bellows_compressed
+    question: Are the handles of the bellows closer together than they were in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The bellows should be squeezed/compressed.
+  - id: balloon_deflated
+    question: Does the blue balloon remain deflated and flaccid?
+    answer_type: yes_no
+    notes_for_judge: The balloon should not inflate because of the tear in the bellows.
+  - id: balloon_size_conservation
+    question: Is the volume of the blue balloon approximately the same as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: It should not have expanded significantly.
+  - id: leather_folded
+    question: Do the leather sides of the bellows appear more folded or collapsed compared to the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: Visual evidence of compression.
+  - id: coupled_failure_check
+    question: Is the balloon uninflated despite the bellows being compressed?
+    answer_type: yes_no
+    notes_for_judge: 'This tests the relationship: compression + leak = no inflation.'
+  - id: tear_visibility
+    question: Is the tear in the bellows still visible or traceable in the compressed leather?
+    answer_type: yes_no
+    notes_for_judge: The tear should not disappear, though it may be distorted.
+  - id: hose_connection
+    question: Does the black hose remain connected between the bellows and the balloon?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

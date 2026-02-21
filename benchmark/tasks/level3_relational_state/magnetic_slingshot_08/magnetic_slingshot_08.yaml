@@ -1,0 +1,71 @@
+id: magnetic_slingshot_08
+level: 3
+category: relational_state
+tags: []
+variant_of: magnetic_slingshot
+variation_type: combined
+variation_description: Stationary magnet is much heavier, and view is blocked by an object.
+changes:
+  occlusion_method: A clipboard blocks the view.
+  dynamic_conditions: Stationary magnet has much higher mass.
+  expected_outcome_change: Moving magnet bounces back; stationary magnet moves very little.
+prompts:
+  init_frame_edit_prompt: Edit the image to make the lower stationary puck twice as large and metallic,
+    appearing very heavy.
+  video_WM: The standard magnetic puck approaches a massive, heavy stationary magnet at high speed. The
+    repulsion between the two North poles is significant. Neither is attached to the rail. A clipboard
+    is lowered in front of the camera, completely blocking the view. After a moment, the clipboard is
+    lifted away. No zoom, no cut, no scene change. STOP.
+  camera_WM: The standard magnetic puck approaches a massive, heavy stationary magnet at high speed. The
+    repulsion between the two North poles is significant. Neither is attached to the rail. A clipboard
+    is lowered in front of the camera, completely blocking the view. After a moment, the clipboard is
+    lifted away. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A clear acrylic inclined rail labeled 'FRICTIONLESS RAIL' sits on a metallic
+    surface. Inside the rail's channel, there are two cylindrical objects. The upper object is a smaller
+    metallic puck with a large red letter 'N' on its visible face, oriented facing down the slope. The
+    lower object is a larger, thicker, plain metallic cylinder positioned further down the incline. In
+    the background, a whiteboard displays handwritten physics equations and a diagram of a block on an
+    incline.
+  init2final_edit_prompt: Edit the given image to show the aftermath of a magnetic repulsion event. Position
+    the smaller magnet with the red 'N' significantly higher up the inclined rail, creating a large gap
+    between it and the lower object. Shift the larger bottom cylinder slightly further down the slope.
+    Ensure the two objects are clearly separated and not touching, maintaining the background and rail
+    structure exactly as they are.
+  rationale: The prompt describes a scenario where a moving magnet approaches a stationary heavy magnet
+    with opposing poles (North facing North). This creates a magnetic spring effect. The lighter top magnet
+    will decelerate as it approaches, stop before touching the bottom magnet due to repulsion, and then
+    accelerate back up the slope (bounce). The heavy bottom magnet, while massive, is on a frictionless
+    rail and not attached, so it will recoil slightly downwards due to the transfer of momentum. The occlusion
+    hides the moment of closest approach/reversal. In the final state, the top magnet should be moving
+    back up (higher position) and the bottom magnet should have moved down (lower position), with a clear
+    separation between them.
+  questions:
+  - id: relational_separation
+    question: Is there a visible gap between the smaller magnet and the larger cylinder?
+    answer_type: yes_no
+    notes_for_judge: Due to magnetic repulsion, the objects should not be touching.
+  - id: relative_position_order
+    question: Is the smaller magnet with the red 'N' positioned higher on the rail than the larger cylinder?
+    answer_type: yes_no
+    notes_for_judge: The relative vertical ordering (small above large) must be preserved.
+  - id: coupled_recoil_motion
+    question: Has the larger bottom cylinder moved further down the slope compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The heavy magnet should recoil downwards due to the repulsive force from the approaching
+      puck.
+  - id: primary_bounce_motion
+    question: Is the smaller magnet positioned higher up the rail than the point of closest approach (i.e.,
+      is it separated from the bottom magnet)?
+    answer_type: yes_no
+    notes_for_judge: The top magnet should have bounced and be located away from the bottom magnet.
+  - id: object_permanence_N
+    question: Is the red letter 'N' still visible on the face of the smaller magnet?
+    answer_type: yes_no
+    notes_for_judge: The object identity should be preserved.
+  - id: background_consistency
+    question: Are the physics equations on the whiteboard in the background still visible and unchanged?
+    answer_type: yes_no
+    notes_for_judge: The background should remain static.

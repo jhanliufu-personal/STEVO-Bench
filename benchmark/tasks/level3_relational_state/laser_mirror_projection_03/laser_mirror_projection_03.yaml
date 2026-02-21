@@ -1,0 +1,65 @@
+id: laser_mirror_projection_03
+level: 3
+category: relational_state
+tags: []
+variant_of: laser_mirror_projection
+variation_type: occlusion_method
+variation_description: Occlusion changed to camera zooming out until details are lost.
+changes:
+  occlusion_method: Camera zooms out to extreme distance.
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics (spot moves along the same arc).
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The motorized base begins to rotate the mirror slowly clockwise. The laser pointer and the
+    white screen remain fixed in place. The camera zooms out rapidly until the entire lab setup is a tiny,
+    indistinguishable speck in the distance. The camera then zooms back in to the original framing. No
+    cut, no scene change. STOP.
+  camera_WM: The motorized base begins to rotate the mirror slowly clockwise. The laser pointer and the
+    white screen remain fixed in place. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+evaluation:
+  init_frame_description: A physics lab setup featuring a green laser pointer mounted on a stand on the
+    left, a square mirror mounted on a motorized rotational stage in the center, and a white projection
+    screen on the right. A bright green laser beam travels from the pointer to the mirror and reflects
+    onto the screen, terminating in a bright green spot. A faint curved green trail is visible on the
+    screen, indicating the path of previous motion.
+  init2final_edit_prompt: Edit the given image to move the bright green laser dot on the white screen
+    to a new position horizontally to the right of its original location. Redraw the reflected green laser
+    beam so it connects the center mirror to this new dot position in a straight line. Ensure the laser
+    pointer, the mirror stand, and the white screen frame remain in their exact original positions.
+  rationale: The prompt specifies that the motorized mirror base rotates clockwise. In a standard optical
+    setup, a clockwise rotation of the mirror (viewed from above) causes the reflected beam to sweep to
+    the right across the projection surface. The camera zoom-out and zoom-in sequence acts as a temporal
+    occlusion; during this time, the rotation continues. Therefore, when the camera returns to the initial
+    view, the laser dot must have shifted to a new position along its trajectory (to the right) relative
+    to the initial frame, reflecting the coupled relationship between the mirror's angle and the beam's
+    projection.
+  questions:
+  - id: dot_position_change
+    question: Is the bright green laser dot on the screen in a different position than it was in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: The dot must have moved from its original coordinates.
+  - id: dot_direction_right
+    question: Has the laser dot on the screen moved to the right relative to its starting position?
+    answer_type: yes_no
+    notes_for_judge: Clockwise rotation of the mirror should sweep the beam to the right.
+  - id: beam_connection
+    question: Does the green laser beam visually connect the mirror to the new position of the laser dot?
+    answer_type: yes_no
+    notes_for_judge: The beam must be a continuous line from mirror to dot.
+  - id: laser_source_invariant
+    question: Is the laser pointer on the left still in the same position and orientation?
+    answer_type: yes_no
+    notes_for_judge: The laser source is fixed.
+  - id: screen_invariant
+    question: Is the white projection screen in the same position as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The screen is fixed.
+  - id: beam_straightness
+    question: Is the segment of the laser beam between the mirror and the screen straight?
+    answer_type: yes_no
+    notes_for_judge: Light travels in straight lines; the beam should not be curved (ignoring the faint
+      trail from the init frame).

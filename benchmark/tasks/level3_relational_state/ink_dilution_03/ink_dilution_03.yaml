@@ -1,0 +1,65 @@
+id: ink_dilution_03
+level: 3
+category: relational_state
+tags: []
+variant_of: ink_dilution
+variation_type: occlusion_method
+variation_description: Replaces camera rotation with a rapid zoom out.
+changes:
+  occlusion_method: Camera zooms out until details are indistinguishable.
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics (dilution and volume increase)
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The clear water is poured into the dark ink. The total volume of liquid is rising. The pouring
+    continues. The camera zooms out rapidly until the beaker is too small to distinguish details, then
+    zooms back in to the original framing. No cut, no scene change. STOP.
+  camera_WM: The clear water is poured into the dark ink. The total volume of liquid is rising. The pouring
+    continues.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+evaluation:
+  init_frame_description: A close-up shot of a glass beaker on a wooden table containing dark purple ink.
+    A glass pitcher is positioned above it, pouring a stream of clear water into the beaker. Turbulent
+    mixing is visible where the water hits the ink. In the background, there is a window and other laboratory
+    glassware.
+  init2final_edit_prompt: Edit the given image to show the liquid level in the beaker significantly higher
+    than before. Change the color of the liquid in the beaker to a much lighter, more transparent purple
+    to represent dilution. Reduce the volume of water visible inside the glass pitcher. Maintain the pouring
+    stream and the position of the beaker and background objects.
+  rationale: 'The prompt describes a continuous pouring action while the camera zooms out and back in.
+    This implies a passage of time during which water is added to the ink. Physically, this must result
+    in two coupled changes: the volume in the beaker increases (level rises) and the concentration of
+    the ink decreases (color becomes lighter and more transparent). Conversely, the source pitcher must
+    lose water. The final frame returns to the original view, so the spatial layout remains identical
+    while the fluid states evolve.'
+  questions:
+  - id: beaker_level_rise
+    question: Is the liquid level in the beaker higher than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Check for a vertical increase in the fluid line within the beaker.
+  - id: ink_dilution_color
+    question: Is the liquid in the beaker lighter in color compared to the initial dark ink?
+    answer_type: yes_no
+    notes_for_judge: The liquid should appear less saturated or a lighter shade of purple due to dilution.
+  - id: ink_dilution_transparency
+    question: Is the liquid in the beaker more transparent than the initial opaque ink?
+    answer_type: yes_no
+    notes_for_judge: Dilution should increase transparency.
+  - id: pitcher_depletion
+    question: Does the glass pitcher contain less water than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: 'Conservation of mass: if water went into the beaker, the pitcher must have less.'
+  - id: coupled_volume_color
+    question: Does the beaker show both an increase in volume and a decrease in color intensity?
+    answer_type: yes_no
+    notes_for_judge: Tests the coupled relationship of dilution.
+  - id: background_stability
+    question: Are the window and background glassware in the same position as the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The camera returns to the original framing, so static background objects should not
+      move.
+  - id: beaker_position
+    question: Is the beaker in the same position on the table as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The beaker itself should not move, only the liquid inside changes.

@@ -1,0 +1,67 @@
+id: hinged_mirror_angle_05
+level: 3
+category: relational_state
+tags: []
+variant_of: hinged_mirror_angle
+variation_type: dynamic_condition
+variation_description: The mirrors remain static, but the apple moves closer to the hinge vertex.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Mirrors are static; apple moves toward the vertex.
+  expected_outcome_change: Reflections shift position/perspective; mirror angle constant.
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The hinged mirrors remain stationary at their current angle. An invisible force begins sliding
+    the apple slowly across the table directly toward the brass hinge vertex. The camera rotates right
+    until the mirrors completely exit the view, then rotates toward the left smoothly at the same rate
+    until the intersection of the two mirrors is back in the center of view. No zoom, no cut, no scene
+    change. STOP.
+  camera_WM: The hinged mirrors remain stationary at their current angle. An invisible force begins sliding
+    the apple slowly across the table directly toward the brass hinge vertex. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A red apple sits on a wooden table in front of a hinged mirror consisting of
+    two rectangular panels joined by a vertical brass hinge. The mirrors are angled toward the viewer,
+    creating reflections of the apple in both the left and right panels. The background shows a window
+    and room interior, partially seen directly and partially reflected in the mirrors.
+  init2final_edit_prompt: Edit the given image to place the red apple closer to the central brass hinge
+    on the table surface. Adjust the reflections of the apple in both the left and right mirror panels
+    to appear closer to the hinge, consistent with the apple's new position. Maintain the original camera
+    angle, lighting, and background details.
+  rationale: The prompt describes a camera movement that rotates away and then returns to the exact starting
+    orientation, meaning the final viewpoint is identical to the initial one. During this time, the apple
+    slides towards the mirror hinge. Therefore, in the final frame, the apple must be physically closer
+    to the hinge vertex. Due to the laws of optics, the reflections in the mirrors must also appear to
+    move closer to the hinge, maintaining the geometric relationship between the object and its virtual
+    images.
+  questions:
+  - id: apple_proximity_hinge
+    question: Is the red apple positioned closer to the vertical brass hinge than it was in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the distance between the apple and the central hinge in both frames.
+  - id: reflection_convergence
+    question: Do the reflections of the apple in the left and right mirrors appear closer to the central
+      hinge than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: As the object approaches the mirror vertex, the reflections should also appear to
+      approach the vertex.
+  - id: object_reflection_distance
+    question: Is the apparent distance between the real apple and its reflections smaller than in the
+      initial frame?
+    answer_type: yes_no
+    notes_for_judge: 'Relational check: as an object gets closer to a mirror, it gets closer to its reflection.'
+  - id: reflection_symmetry
+    question: Are reflections of the apple still visible in both the left and right mirror panels?
+    answer_type: yes_no
+    notes_for_judge: The apple moves toward the vertex, so it should remain within the field of view of
+      both angled mirrors.
+  - id: camera_return
+    question: Is the vertical brass hinge centered in the frame, matching the initial viewpoint?
+    answer_type: yes_no
+    notes_for_judge: The camera rotates away and back to the center.
+  - id: apple_table_contact
+    question: Does the apple appear to be resting on the table surface?
+    answer_type: yes_no
+    notes_for_judge: The apple slides; it should not be floating.

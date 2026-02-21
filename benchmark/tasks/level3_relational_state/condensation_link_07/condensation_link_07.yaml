@@ -1,0 +1,64 @@
+id: condensation_link_07
+level: 3
+category: relational_state
+tags: []
+variant_of: condensation_link
+variation_type: combined
+variation_description: Stove is off (no steam) and occlusion is lights turning off.
+changes:
+  occlusion_method: Lights turn off completely (pitch black) then turn back on.
+  dynamic_conditions: The water is cold and still; no steam is rising.
+  expected_outcome_change: No condensation forms.
+prompts:
+  init_frame_edit_prompt: Edit the image to show the water in the pot is completely still with no bubbles
+    and no steam rising. Ensure the stove burner underneath appears inactive/off.
+  video_WM: The glass pane is lowered over the pot of still, cold water. There is no steam rising. Suddenly,
+    the kitchen lights turn off, plunging the scene into complete darkness. After a moment, the lights
+    turn back on to reveal the scene again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The glass pane is lowered over the pot of still, cold water. There is no steam rising. Suddenly,
+    the kitchen lights turn off, plunging the scene into complete darkness. After a moment, the lights
+    turn back on to reveal the scene again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a kitchen scene showing a large stainless steel
+    pot filled with still water on a gas stove. A person's hand is holding a rectangular pane of clear
+    glass suspended in the air above the pot. In the background, a wooden knife block with knives and
+    a silver toaster are visible on a wooden countertop. The lighting is natural and bright.
+  init2final_edit_prompt: Edit the given image to show the hand holding the glass pane in a lower position,
+    closer to the rim of the pot. The glass pane must remain completely clear and transparent, with absolutely
+    no condensation, fog, mist, or water droplets on its surface. The water in the pot should remain still
+    and calm.
+  rationale: The video prompt explicitly states that the water is 'still' and 'cold' and that there is
+    'no steam rising'. Physically, condensation forms when warm vapor contacts a cooler surface. Since
+    the water is cold, lowering the glass pane over it should NOT produce any condensation, fog, or steam
+    on the glass. The 'lights off' occlusion masks the duration of the movement, so the final frame should
+    simply show the glass in a lower position (kinematic change) while strictly maintaining its transparency
+    (thermodynamic consistency with cold water).
+  questions:
+  - id: glass_position
+    question: Is the glass pane positioned lower relative to the pot than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the vertical distance between the glass and the pot rim. It should be smaller.
+  - id: glass_clarity
+    question: Does the glass pane appear completely clear and transparent?
+    answer_type: yes_no
+    notes_for_judge: The glass should not be foggy, misty, or opaque.
+  - id: no_condensation
+    question: Is the glass pane free of visible condensation, water droplets, or steam?
+    answer_type: yes_no
+    notes_for_judge: Since the water is cold, there should be no condensation. Answer YES if the glass
+      is clean.
+  - id: hand_position
+    question: Is the hand holding the glass positioned lower in the frame?
+    answer_type: yes_no
+    notes_for_judge: The hand should move down along with the glass.
+  - id: water_state
+    question: Is the water surface still calm and free of boiling bubbles?
+    answer_type: yes_no
+    notes_for_judge: The prompt specifies still, cold water.
+  - id: transparency_check
+    question: Are objects behind the glass (like the back of the pot) clearly visible through it without
+      blurring?
+    answer_type: yes_no
+    notes_for_judge: Tests for lack of refraction/blur caused by condensation.

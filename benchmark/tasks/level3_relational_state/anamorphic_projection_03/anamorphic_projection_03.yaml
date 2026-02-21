@@ -1,0 +1,66 @@
+id: anamorphic_projection_03
+level: 3
+category: relational_state
+tags: []
+variant_of: anamorphic_projection
+variation_type: occlusion_method
+variation_description: Occlusion by zooming out until details are lost.
+changes:
+  occlusion_method: Camera zooms out rapidly to a high overhead view where details are indiscernible.
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics (drawing rotates), different occlusion.
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A hand begins rotating the flat drawing on the table around the base of the cylindrical mirror.
+    The mirror remains stationary. The camera zooms out rapidly and pulls back until the table is a tiny
+    speck in the distance, making the drawing indiscernible. Then the camera zooms back in to the original
+    framing. No cut, no scene change. STOP.
+  camera_WM: A hand begins rotating the flat drawing on the table around the base of the cylindrical mirror.
+    The mirror remains stationary. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+evaluation:
+  init_frame_description: A cylindrical metal mirror stands vertically in the center of a sheet of white
+    paper resting on a wooden table. The paper features a distorted, colorful anamorphic drawing composed
+    of swirling blue, brown, green, and yellow lines. In the reflection of the cylindrical mirror, a woman's
+    face is clearly visible and undistorted, looking straight ahead at the camera. The drawing on the
+    paper appears stretched and curved around the base of the mirror.
+  init2final_edit_prompt: 'Edit the given image to show the sheet of paper with the drawing rotated around
+    the central cylinder. The pattern of swirling colored lines on the paper must be in a different orientation
+    relative to the table edges (e.g., rotated 45-90 degrees). Correspondingly, update the reflection
+    in the cylindrical mirror to match this rotation: the woman''s face should no longer be centered and
+    looking forward; it should be rotated to the side, partially obscured, or replaced by a different
+    part of the distorted drawing, consistent with the paper''s new angle. Keep the cylinder and table
+    stationary.'
+  rationale: The video prompt describes a physical rotation of the anamorphic drawing around the stationary
+    mirror. In this coupled system, the image seen in the mirror is a direct reflection of the drawing
+    on the paper. Therefore, rotating the paper must cause the reflection to rotate around the cylinder's
+    surface. The zoom-out and zoom-in sequence provides a temporal gap for this state change to occur.
+    The final frame must show the paper in a new orientation and the reflection correspondingly altered
+    (the face rotated away), preserving the physical relationship between the source object and its reflection.
+  questions:
+  - id: paper_rotation
+    question: Is the orientation of the colorful drawing on the paper different from the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The lines on the paper should appear rotated around the cylinder.
+  - id: reflection_change
+    question: Has the reflection in the mirror changed from the initial centered face?
+    answer_type: yes_no
+    notes_for_judge: The reflection must not be identical to the first frame.
+  - id: face_orientation
+    question: Is the face in the mirror rotated away from the center or partially obscured?
+    answer_type: yes_no
+    notes_for_judge: The face should move sideways or disappear as the paper rotates.
+  - id: coupled_change
+    question: Do both the paper's orientation and the mirror's reflection appear changed relative to the
+      initial frame?
+    answer_type: yes_no
+    notes_for_judge: Checks for the coupled relationship; both must change.
+  - id: cylinder_position
+    question: Is the cylindrical mirror still standing in the center of the paper?
+    answer_type: yes_no
+    notes_for_judge: The mirror itself should not move, only the paper rotates around it.
+  - id: table_consistency
+    question: Is the wooden table surface visible and consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The environment should remain stable.

@@ -1,0 +1,60 @@
+id: tea_dilution_10
+level: 3
+category: relational_state
+tags: []
+variant_of: tea_dilution
+variation_type: combined
+variation_description: No pouring (Condition) + Camera zoom (Occlusion).
+changes:
+  occlusion_method: Camera zooms out.
+  dynamic_conditions: Pitcher upright, no pouring.
+  expected_outcome_change: No state change.
+prompts:
+  init_frame_edit_prompt: Edit the image to remove the pouring stream completely and tilt the pitcher
+    back to an upright position next to the glass. The water in the glass should be clear with no concentrate
+    in it.
+  video_WM: A pitcher of black concentrate sits next to a glass of water. No pouring occurs. The camera
+    zooms out rapidly until the objects are barely visible, then zooms back in to the original framing.
+    No cut, no scene change. STOP.
+  camera_WM: A pitcher of black concentrate sits next to a glass of water. No pouring occurs. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a clear glass filled with hot water, evidenced
+    by steam rising and bubbles clinging to the inside walls. To the right of the glass sits a small,
+    speckled, earth-toned ceramic pitcher with a handle. Both objects rest on a wooden table, illuminated
+    by natural light from a window in the background.
+  init2final_edit_prompt: Edit the given image to show the exact same scene with the objects unchanged.
+    Ensure the water in the glass remains completely clear and colorless, with no dark liquid mixed in.
+    Maintain the original liquid levels in both the glass and the pitcher, and keep the ceramic pitcher
+    in its original position to the right of the glass.
+  rationale: 'The prompt explicitly states that ''No pouring occurs'', serving as a control task to test
+    state stability and instruction following. The camera zooms out and back in, creating a period where
+    details are lost, but physically, nothing changes between the containers. A correct rollout must conserve
+    the initial state: the water must not turn dark (no hallucinated mixing), and the objects must remain
+    in their original positions relative to each other.'
+  questions:
+  - id: water_clarity
+    question: Does the water in the glass remain clear and colorless?
+    answer_type: yes_no
+    notes_for_judge: The water should not look like tea or coffee; it must remain clear water.
+  - id: conservation_volume
+    question: Does the water level in the glass appear approximately the same as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Since no pouring occurred, the level should not have risen.
+  - id: no_mixing
+    question: Is the water free from any dark swirls or discoloration?
+    answer_type: yes_no
+    notes_for_judge: Verifies that no concentrate was poured.
+  - id: relative_position
+    question: Is the ceramic pitcher still positioned to the right of the glass?
+    answer_type: yes_no
+    notes_for_judge: Checks for object permanence and spatial consistency after camera move.
+  - id: pitcher_orientation
+    question: Is the handle of the pitcher still visible and oriented as it was initially?
+    answer_type: yes_no
+    notes_for_judge: The pitcher should not have rotated or moved.
+  - id: scene_stability
+    question: Does the overall scene configuration appear identical to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: General check for stability after the zoom out/in trajectory.

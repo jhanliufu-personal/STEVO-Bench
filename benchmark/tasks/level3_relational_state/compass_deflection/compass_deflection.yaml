@@ -13,3 +13,54 @@ prompts:
     two entities is the primary driver. STOP.
 camera_control:
   HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A brass compass with an open lid rests on a wooden table. The compass needle
+    has a red tip pointing approximately to the 10 or 11 o'clock position and a silver tip pointing to
+    the 4 or 5 o'clock position. To the right, a hand holds a rectangular bar magnet with its red pole
+    facing the compass and blue pole facing away. A wooden ruler lies in the foreground.
+  init2final_edit_prompt: Edit the given image to position the bar magnet significantly closer to the
+    right side of the compass housing. Rotate the compass needle counter-clockwise so that it aligns horizontally,
+    with the silver tip pointing directly toward the red pole of the magnet (3 o'clock) and the red tip
+    pointing directly away to the left (9 o'clock).
+  rationale: The video prompt describes the magnet moving steadily closer to the compass. Physically,
+    the red end of the magnet (North pole) creates a magnetic field that repels the red tip of the compass
+    needle (North) and attracts the silver tip (South). As the magnet gets closer, its magnetic field
+    dominates the local environment, forcing the needle to align with the field lines. This causes the
+    needle to rotate counter-clockwise until the silver tip points directly at the magnet and the red
+    tip points away. The camera rotation serves as an occlusion event, but the final state is determined
+    by the closer proximity of the magnet.
+  questions:
+  - id: magnet_proximity
+    question: Is the bar magnet positioned closer to the compass than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the distance between the magnet and the compass housing in both frames.
+  - id: needle_alignment_silver
+    question: Does the silver tip of the compass needle point more directly towards the magnet than in
+      the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The silver tip should be attracted to the red pole of the magnet.
+  - id: needle_alignment_red
+    question: Is the red tip of the compass needle pointing more to the left (away from the magnet) compared
+      to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The red tip should be repelled by the red pole of the magnet.
+  - id: needle_rotation_direction
+    question: Has the compass needle rotated counter-clockwise relative to its starting position?
+    answer_type: yes_no
+    notes_for_judge: 'Initial: ~10:30/4:30. Expected: ~9:00/3:00.'
+  - id: needle_horizontal
+    question: Is the compass needle oriented more horizontally (East-West) than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The needle should align with the axis between the compass and the magnet.
+  - id: magnet_orientation
+    question: Does the red end of the magnet still face the compass?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the magnet remains oriented in the same direction.
+  - id: compass_position
+    question: Is the compass housing located in the center of the frame?
+    answer_type: yes_no
+    notes_for_judge: The camera returns to center the compass.
+  - id: ruler_presence
+    question: Is the wooden ruler still visible in the foreground?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

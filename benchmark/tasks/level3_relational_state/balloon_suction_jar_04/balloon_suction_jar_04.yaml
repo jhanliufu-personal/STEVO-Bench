@@ -1,0 +1,67 @@
+id: balloon_suction_jar_04
+level: 3
+category: relational_state
+tags: []
+variant_of: balloon_suction_jar
+variation_type: dynamic_condition
+variation_description: The pump is switched off, so no pressure change occurs.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Pump power switch is in OFF position.
+  expected_outcome_change: No change in balloon size (remains static).
+prompts:
+  init_frame_edit_prompt: Edit the image to flip the black power switch on the pump to the 'OFF' position
+    (O) and ensure the pressure gauge needle is resting at zero.
+  video_WM: The vacuum pump is connected to the sealed bell jar, but the power switch remains in the OFF
+    position. The system sits idle with no mechanism active. The camera rotates right until the vacuum
+    pump completely exits the view, then rotates toward the left smoothly at the same rate until the balloon
+    inside the jar is back in the center of view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The vacuum pump is connected to the sealed bell jar, but the power switch remains in the
+    OFF position. The system sits idle with no mechanism active. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A laboratory setup on a wooden table featuring a clear glass bell jar on the
+    left containing a red balloon. The balloon is tied to a string and rests on the jar's base, appearing
+    uninflated. To the right, a vacuum pump with a silver motor housing and black top box is connected
+    to the jar via a beige hose. The pump has a pressure gauge and a red/black switch currently in the
+    'OFF' position. The background shows a whiteboard and lab counter.
+  init2final_edit_prompt: Edit the given image to show the red balloon centered in the frame. The balloon
+    must remain exactly the same size and shape as in the original view, appearing uninflated. The vacuum
+    pump switch must remain in the OFF position. The lighting and object states should remain unchanged.
+  rationale: The video prompt specifies that the vacuum pump is connected but the switch remains in the
+    OFF position, and the system is idle. Therefore, no vacuum is created, and the pressure inside the
+    bell jar remains at atmospheric levels. Consequently, the balloon's volume must remain constant (conservation
+    of state) throughout the camera movement. The camera rotates right (panning away) and then returns
+    left to center the balloon, testing object permanence and state stability in the absence of active
+    forces.
+  questions:
+  - id: balloon_visible
+    question: Is the red balloon visible in the final frame?
+    answer_type: yes_no
+    notes_for_judge: Tests object permanence after the camera pans away and returns.
+  - id: balloon_size_conserved
+    question: Is the red balloon approximately the same size as it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: 'Primary state check: The pump is OFF, so the balloon should not inflate or deflate.'
+  - id: balloon_volume_unchanged
+    question: Does the balloon appear to have maintained its original volume?
+    answer_type: yes_no
+    notes_for_judge: Verifies conservation of volume in an idle system.
+  - id: balloon_shape_consistent
+    question: Is the shape of the balloon consistent with its initial uninflated state?
+    answer_type: yes_no
+    notes_for_judge: The balloon should not look rounder or more taut.
+  - id: jar_visible
+    question: Is the clear bell jar visible surrounding the balloon?
+    answer_type: yes_no
+    notes_for_judge: Checks context preservation.
+  - id: balloon_position_relative
+    question: Is the balloon resting on the string or base in a similar configuration to the start?
+    answer_type: yes_no
+    notes_for_judge: Checks that the object hasn't floated up or moved inexplicably.
+  - id: pump_switch_off
+    question: If the vacuum pump is visible, is the switch in the OFF position?
+    answer_type: yes_no
+    notes_for_judge: If the pump is out of frame due to centering the balloon, answer YES (benefit of
+      doubt) or ignore. If visible, it must be OFF.

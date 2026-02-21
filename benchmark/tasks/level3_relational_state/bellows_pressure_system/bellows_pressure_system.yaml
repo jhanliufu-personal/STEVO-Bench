@@ -13,3 +13,44 @@ prompts:
     is maintained. STOP.
 camera_control:
   HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A wooden workbench scene featuring a large wooden bellows on the left with two
+    handles and leather/fabric sides. A black rubber hose is clamped to the bellows' nozzle and loops
+    around to the right, connecting to a deflated blue balloon lying flat on the wooden surface. Wood
+    shavings and various woodworking tools are visible in the background.
+  init2final_edit_prompt: Edit the given image to show the blue balloon significantly inflated. The balloon
+    should appear round, taut, and much larger than its original size, with a smooth surface indicating
+    internal pressure. The neck of the balloon should remain securely attached to the black rubber hose.
+    If the wooden handles of the bellows are visible, they should be positioned closer together, representing
+    a compressed state.
+  rationale: The action describes squeezing the bellows handles, which forces air out of the bellows chamber.
+    Due to the secure hose connection, this displaced air travels into the blue balloon. Consequently,
+    the balloon must inflate, increasing in volume and becoming rounder and tauter. The camera motion
+    temporarily occludes the bellows but returns to focus on the balloon, which should preserve the inflated
+    state achieved during the action.
+  questions:
+  - id: balloon_inflation_state
+    question: Is the blue balloon significantly more inflated than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The balloon should look rounder, larger, and filled with air, not flat.
+  - id: balloon_volume_increase
+    question: Does the blue balloon occupy a larger volume of space compared to the initial view?
+    answer_type: yes_no
+    notes_for_judge: Check for obvious expansion in size.
+  - id: balloon_tautness
+    question: Does the surface of the balloon appear smoother and more taut, rather than wrinkled and
+      flaccid?
+    answer_type: yes_no
+    notes_for_judge: Inflation removes wrinkles and creates a smooth, tensioned surface.
+  - id: hose_connection_persistence
+    question: Is the black hose still connected to the blue balloon?
+    answer_type: yes_no
+    notes_for_judge: The coupling must remain intact for inflation to occur.
+  - id: causal_state_change
+    question: Does the final state of the balloon indicate that air has been transferred into it?
+    answer_type: yes_no
+    notes_for_judge: The balloon should not be deflated; it must show the result of the bellows' action.
+  - id: camera_centering
+    question: Is the blue balloon positioned near the center of the frame?
+    answer_type: yes_no
+    notes_for_judge: The prompt specifies the camera rotates until the balloon is back in the center.

@@ -1,0 +1,68 @@
+id: condensation_link_03
+level: 3
+category: relational_state
+tags: []
+variant_of: condensation_link
+variation_type: occlusion_method
+variation_description: Occlusion changed to extreme zoom out/blur.
+changes:
+  occlusion_method: Camera zooms out until details are lost, then zooms back in.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The glass pane is lowered until it is directly in the path of the rising steam. The water
+    continues to boil and produce vapor. The camera zooms out rapidly until the stove and glass become
+    distant, indistinguishable specks in the wider kitchen view. The camera then zooms back in smoothly
+    to the original framing. No cut, no scene change. STOP.
+  camera_WM: The cold glass pane is placed into the path of the rising steam. The thermal interaction
+    between the vapor and the glass is active. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a stainless steel pot on a gas stove with water
+    boiling inside. Steam is rising vigorously from the pot. A person's hand enters from the right, holding
+    a rectangular pane of clear glass horizontally above the pot. The glass pane currently has a light
+    scattering of small water droplets on it but remains mostly transparent, allowing the background kitchen
+    cabinets to be seen through it.
+  init2final_edit_prompt: Edit the given image to show the glass pane covered in a heavy, dense layer
+    of condensation. The glass surface should appear significantly foggier and less transparent due to
+    the accumulation of water vapor. Render large, merged water droplets and vertical streaks of water
+    running down the glass pane. Ensure the water in the pot below remains boiling with visible agitation
+    and bubbles.
+  rationale: 'The video prompt describes a coupled physical interaction where the glass is lowered into
+    the rising steam. The camera zoom-out and zoom-in sequence serves as a passage of time. During this
+    interval, the continuous exposure of the cool glass surface to the hot steam causes significant condensation.
+    Conservation of mass dictates that the water vapor leaving the pot accumulates on the glass. Therefore,
+    the final state must show the cumulative effect of this interaction: the glass should be much wetter,
+    foggier, and likely dripping, compared to the initial light condensation.'
+  questions:
+  - id: condensation_density
+    question: Is the density of water droplets on the glass pane significantly higher than in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the glass surface texture. The final frame should show crowded, dense droplets
+      compared to the sparse ones in the init frame.
+  - id: glass_opacity
+    question: Does the glass pane appear foggier or less transparent due to the accumulated steam?
+    answer_type: yes_no
+    notes_for_judge: The background seen through the glass should be more obscured by the white/grey fog
+      of condensation.
+  - id: water_streaks
+    question: Are there visible streaks of water or larger merged droplets on the glass surface?
+    answer_type: yes_no
+    notes_for_judge: Prolonged exposure to steam causes droplets to merge and run; look for vertical streaks
+      or heavy accumulation.
+  - id: accumulation_comparison
+    question: Does the total amount of water visible on the glass appear greater than in the starting
+      image?
+    answer_type: yes_no
+    notes_for_judge: This tests the accumulation over time.
+  - id: boiling_state
+    question: Does the water in the pot still appear to be boiling?
+    answer_type: yes_no
+    notes_for_judge: Check for bubbles or surface agitation in the water.
+  - id: hand_presence
+    question: Is the hand holding the glass pane still visible?
+    answer_type: yes_no
+    notes_for_judge: The hand should still be present holding the glass.

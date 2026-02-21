@@ -1,0 +1,73 @@
+id: pouring_water_into_cup_00
+level: 3
+category: relational_state
+tags: []
+variant_of: pouring_water_into_cup
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: Single continuous shot, no cuts, no zoom, no scene transitions. Camera remains stationary
+    throughout, centered on the hand holding the pitcher, the pouring water stream, and the empty glass.
+    The hand continues holding the pitcher in the same tilted position so that water keeps pouring continuously.
+    The pouring action remains fully visible within the frame for the entire duration.
+  camera_WM: Single continuous shot, no cuts, no zoom, no scene transitions. Camera remains stationary
+    throughout, centered on the hand holding the pitcher, the pouring water stream, and the empty glass.
+    The hand continues holding the pitcher in the same tilted position so that water keeps pouring continuously.
+    The pouring action remains fully visible within the frame for the entire duration.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A close-up shot of a hand holding a clear glass pitcher tilted downwards, pouring
+    water into a clear glass tumbler sitting on a wooden table. The pitcher is partially full of water.
+    A stream of water is flowing from the pitcher's spout into the glass. The glass is currently mostly
+    empty, with the water just beginning to accumulate at the bottom. The background shows a blurred window
+    with natural light.
+  init2final_edit_prompt: Edit the given image to show the glass tumbler significantly fuller with water.
+    The water level inside the pitcher must be visibly lower than in the original image. Maintain the
+    stream of water flowing from the pitcher spout into the glass. Keep the hand, the position of the
+    glass on the table, and the background identical to the original view.
+  rationale: The video prompt describes a continuous pouring action where the hand maintains the tilt
+    of the pitcher. Physically, this is a coupled system where mass is transferred from the pitcher to
+    the glass. As time passes, the volume of water in the glass must increase (state variable A), and
+    the volume of water in the pitcher must correspondingly decrease (state variable B) due to conservation
+    of mass. The stream connecting them must remain visible as the action is continuous.
+  questions:
+  - id: glass_level_higher
+    question: Is the water level in the glass higher than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the fill level of the glass in the final frame to the initial frame.
+  - id: pitcher_level_lower
+    question: Is the water level in the pitcher lower than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Check if the amount of water remaining in the source pitcher has decreased.
+  - id: stream_visible
+    question: Is there a visible stream of water flowing from the pitcher to the glass?
+    answer_type: yes_no
+    notes_for_judge: The prompt specifies continuous pouring, so the connection must be maintained.
+  - id: glass_fuller_relational
+    question: Does the glass appear to contain more water than it did initially?
+    answer_type: yes_no
+    notes_for_judge: Primary state change check for the destination container.
+  - id: pitcher_emptier_relational
+    question: Does the pitcher appear to contain less water than it did initially?
+    answer_type: yes_no
+    notes_for_judge: Primary state change check for the source container.
+  - id: coupled_change
+    question: Do the changes in water levels reflect a transfer from the pitcher to the glass (pitcher
+      down, glass up)?
+    answer_type: yes_no
+    notes_for_judge: 'Both conditions must be true: pitcher level decreases AND glass level increases.'
+  - id: glass_position_invariant
+    question: Is the glass still positioned on the wooden table in the same location?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: hand_holding_pitcher
+    question: Is the hand still visible holding the pitcher?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

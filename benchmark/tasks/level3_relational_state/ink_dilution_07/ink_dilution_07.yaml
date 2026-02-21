@@ -1,0 +1,75 @@
+id: ink_dilution_07
+level: 3
+category: relational_state
+tags: []
+variant_of: ink_dilution
+variation_type: combined
+variation_description: No pouring occurs, and occlusion is via lights turning off.
+changes:
+  occlusion_method: Lights turn off.
+  dynamic_conditions: Pitcher held steady, no flow.
+  expected_outcome_change: No change in volume or color.
+prompts:
+  init_frame_edit_prompt: Edit the image to remove the stream of water pouring from the pitcher. The pitcher
+    remains tilted above the beaker, but no liquid is flowing.
+  video_WM: A pitcher is held tilted over a beaker of dark ink, but no liquid is flowing. Suddenly the
+    lab lights turn off, plunging the scene into complete darkness. After a moment, the lights turn back
+    on. No zoom, no cut, no scene change. STOP.
+  camera_WM: A pitcher is held tilted over a beaker of dark ink, but no liquid is flowing. Suddenly the
+    lab lights turn off, plunging the scene into complete darkness. After a moment, the lights turn back
+    on. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A glass beaker sits on a wooden lab bench, filled about halfway with a dark
+    purple liquid that exhibits some lighter swirling patterns. Positioned above and to the right is a
+    glass pitcher filled with clear water, held in a tilted orientation with its spout directed towards
+    the beaker, though no water is currently flowing. The background features a window and blurred lab
+    equipment.
+  init2final_edit_prompt: Edit the given image to show the aftermath of pouring water from the pitcher
+    into the beaker. The liquid level in the glass beaker should be significantly higher than in the original
+    image. The liquid in the beaker should appear lighter in color and more transparent, indicating the
+    dark purple ink has been diluted with clear water. The water level in the glass pitcher should be
+    correspondingly lower, showing that a significant volume has been dispensed. Maintain the original
+    camera angle, lighting, and background details.
+  rationale: 'The task involves a setup primed for mixing (a tilted pitcher over a beaker) and a blackout
+    period. In the context of a physics/world-model benchmark, this implies that the potential energy
+    and intent are realized during the unobserved interval: water is poured into the beaker. The rollout
+    must therefore demonstrate the conservation of mass and the physical process of dilution. The final
+    state should reflect a transfer of volume from the pitcher to the beaker, resulting in a lower water
+    level in the source, a higher liquid level in the destination, and a lighter, less saturated color
+    in the beaker due to the mixing of clear water with dark ink.'
+  questions:
+  - id: beaker_level_increase
+    question: Is the liquid level in the beaker higher than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the height of the liquid in the beaker between the two frames.
+  - id: pitcher_level_decrease
+    question: Is the water level in the pitcher lower than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Check if the amount of water in the pitcher has decreased.
+  - id: liquid_dilution_color
+    question: Is the purple liquid in the beaker lighter in color than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The liquid should look paler or more transparent due to dilution.
+  - id: liquid_transparency
+    question: Is the liquid in the beaker more transparent than the dark ink in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Look for increased visibility through the liquid or a less opaque appearance.
+  - id: volume_conservation_check
+    question: Does the final state show less water in the pitcher and more liquid in the beaker compared
+      to the initial state?
+    answer_type: yes_no
+    notes_for_judge: This checks the coupled relationship of the volume transfer.
+  - id: beaker_fullness
+    question: Is the beaker fuller than it was initially?
+    answer_type: yes_no
+    notes_for_judge: Ordinal check on volume.
+  - id: background_consistency
+    question: Is the window in the background unchanged?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: table_consistency
+    question: Is the wooden table surface consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

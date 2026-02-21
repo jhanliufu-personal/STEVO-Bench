@@ -1,0 +1,68 @@
+id: anamorphic_projection_02
+level: 3
+category: relational_state
+tags: []
+variant_of: anamorphic_projection
+variation_type: occlusion_method
+variation_description: Occlusion by turning off the lights (pitch black).
+changes:
+  occlusion_method: Room lights turn off completely.
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics (drawing rotates), different occlusion.
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A hand begins rotating the flat drawing on the table around the base of the cylindrical mirror.
+    The mirror remains stationary. Suddenly, the room lights turn off, plunging the scene into complete
+    darkness. After a few seconds, the lights turn back on, illuminating the table again. No zoom, no
+    cut, no scene change. STOP.
+  camera_WM: A hand begins rotating the flat drawing on the table around the base of the cylindrical mirror.
+    The mirror remains stationary. Suddenly, the room lights turn off, plunging the scene into complete
+    darkness. After a few seconds, the lights turn back on, illuminating the table again. No zoom, no
+    cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A shiny cylindrical metal mirror stands vertically in the center of a white
+    sheet of paper resting on a wooden table. The paper contains a distorted anamorphic drawing composed
+    of swirling lines in blue, brown, black, and green. In the reflection of the cylinder, these distorted
+    lines are optically corrected to show a clear, realistic image of a woman's face looking forward.
+  init2final_edit_prompt: Edit the given image to show the sheet of paper rotated to a different angle
+    around the stationary central cylinder. The pattern of swirling lines on the paper must appear rotated
+    relative to the table. Consequently, update the reflection in the cylindrical mirror to show a different,
+    distorted pattern of lines, ensuring the woman's face is no longer centered or clearly visible. Keep
+    the table and cylinder position identical to the original, and ensure the scene is fully illuminated.
+  rationale: The video prompt describes a rotation of the anamorphic drawing around the base of the stationary
+    mirror. Anamorphic images rely on precise alignment between the distorted drawing, the mirror curvature,
+    and the viewing angle. Rotating the paper breaks this alignment. Therefore, in the final state, the
+    paper's pattern will be oriented differently, and the reflection in the mirror will no longer show
+    the coherent face, but rather a distorted or shifted version of the drawing. The lighting returns
+    to normal after the blackout.
+  questions:
+  - id: paper_rotation
+    question: Is the orientation of the swirling lines on the paper different from the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The paper should have rotated, changing the position of the lines relative to the
+      table corners.
+  - id: reflection_change
+    question: Has the reflection in the cylindrical mirror changed significantly from the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The reflection should no longer be the static face seen initially.
+  - id: face_disappearance
+    question: Is the woman's face no longer clearly visible and centered in the mirror?
+    answer_type: yes_no
+    notes_for_judge: Due to the rotation, the anamorphic alignment is lost; the face should be distorted,
+      shifted, or gone.
+  - id: reflection_coupling
+    question: Does the reflection in the mirror still consist of colors and textures matching the drawing
+      on the paper?
+    answer_type: yes_no
+    notes_for_judge: The reflection should still look like it comes from the paper (blue/brown/black lines),
+      just arranged differently.
+  - id: mirror_stationarity
+    question: Is the cylindrical mirror in the same position on the table as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The mirror itself should not have moved; only the paper rotated.
+  - id: lighting_restored
+    question: Is the scene fully illuminated?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the lights turn back on.

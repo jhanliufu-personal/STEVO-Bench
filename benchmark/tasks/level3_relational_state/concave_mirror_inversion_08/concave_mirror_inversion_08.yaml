@@ -1,0 +1,63 @@
+id: concave_mirror_inversion_08
+level: 3
+category: relational_state
+tags: []
+variant_of: concave_mirror_inversion
+variation_type: combined
+variation_description: Stationary candle condition combined with object blocking occlusion.
+changes:
+  occlusion_method: A dark cloth blocks the view instead of camera rotation.
+  dynamic_conditions: Candle is stationary.
+  expected_outcome_change: No change in reflection state.
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The candle remains stationary at its current distance from the silver bowl. The flame flickers.
+    A dark cloth is held up in front of the camera lens, completely blocking the view, and is then removed.
+    No zoom, no cut, no scene change. STOP.
+  camera_WM: The candle remains stationary at its current distance from the silver bowl. The flame flickers.
+    A dark cloth is held up in front of the camera lens, completely blocking the view, and is then removed.
+    No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up view of a large silver bowl with a concave interior. Inside the bowl,
+    a reflection of a candle flame is visible in the center; the reflection is upright. In the background,
+    out of focus, there is a wooden room with a window on the left and a real candle on a table to the
+    right.
+  init2final_edit_prompt: Edit the given image to show the scene exactly as it was, preserving the state
+    of all objects. Ensure the silver bowl is visible with the reflection of the candle flame still present
+    in the center of the bowl. The reflection must remain upright and in the same position. The background
+    wooden room, the window, and the candle on the table to the right should remain unchanged. The flame
+    shape may be slightly different due to flickering, but the overall composition and optical reflection
+    properties must be identical to the original image.
+  rationale: The video prompt specifies that the candle and bowl remain stationary and that the view is
+    temporarily occluded by a cloth. Since the physical arrangement of the optical system (object distance,
+    mirror curvature) does not change, the resulting image (the reflection) must remain in the same state
+    (upright and centered) when the occlusion is removed. This task tests the model's ability to maintain
+    the state of a coupled system (object-reflection relationship) through a period of occlusion without
+    hallucinating changes to the optical physics.
+  questions:
+  - id: reflection_persistence
+    question: Is the reflection of the candle flame still visible inside the silver bowl?
+    answer_type: yes_no
+    notes_for_judge: The reflection should not disappear after the occlusion.
+  - id: reflection_orientation
+    question: Is the reflection of the flame inside the bowl still upright (pointing upwards)?
+    answer_type: yes_no
+    notes_for_judge: The initial reflection is upright; since nothing moved, it must remain upright.
+  - id: reflection_position
+    question: Is the reflection of the flame still positioned in the center of the bowl?
+    answer_type: yes_no
+    notes_for_judge: The geometry is stationary, so the reflection position must be conserved.
+  - id: background_candle_persistence
+    question: Is the real candle in the background (on the right) still visible?
+    answer_type: yes_no
+    notes_for_judge: The background objects should persist.
+  - id: optical_consistency
+    question: Does the reflection in the bowl appear consistent with the stationary light source?
+    answer_type: yes_no
+    notes_for_judge: It should not shift, invert, or distort significantly compared to the initial frame.
+  - id: bowl_structure
+    question: Does the silver bowl retain its concave shape and metallic texture?
+    answer_type: yes_no
+    notes_for_judge: The object itself should not morph.

@@ -1,0 +1,68 @@
+id: syringe_hydraulic_10
+level: 3
+category: relational_state
+tags: []
+variant_of: syringe_hydraulic
+variation_type: combined
+variation_description: Syringes contain air/gas instead of liquid (condition) and camera zooms out (occlusion).
+changes:
+  occlusion_method: Camera zoom out/in.
+  dynamic_conditions: Syringes filled with compressible air instead of incompressible liquid.
+  expected_outcome_change: Delayed or springy movement of right plunger due to gas compression.
+prompts:
+  init_frame_edit_prompt: Edit the image to remove the red color from the liquid, making the syringes
+    appear to be filled with clear air.
+  video_WM: A mechanical finger begins pressing the plunger of the left syringe. The system is filled
+    with air. The pressing continues at a constant rate. The camera zooms out until the syringes are too
+    small to distinguish details, then zooms back in to the original framing. No cut, no scene change.
+    STOP.
+  camera_WM: A mechanical finger begins pressing the plunger of the left syringe. The system is filled
+    with air. The pressing continues at a constant rate.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+evaluation:
+  init_frame_description: Two large plastic syringes lying on a metal tray, connected nozzle-to-nozzle
+    by a clear flexible plastic tube. The left syringe is oriented with its plunger handle on the left
+    and nozzle on the right; it is filled with air to approximately the 45ml mark (plunger withdrawn).
+    The right syringe is oriented with its nozzle on the left and plunger handle on the right; it is mostly
+    empty, with the plunger pushed in near the 10ml mark.
+  init2final_edit_prompt: Edit the given image to show the state after the left syringe's plunger has
+    been pressed. The left syringe's plunger should be pushed significantly inward (to the right), positioning
+    the black rubber stopper close to the nozzle. Correspondingly, the right syringe's plunger should
+    be pushed outward (to the right), positioning its black rubber stopper further away from the nozzle,
+    indicating it has filled with the air transferred from the left syringe.
+  rationale: The system is a closed pneumatic circuit connecting two syringes. When the left plunger is
+    pressed, the air volume inside the left syringe is displaced through the connecting tube into the
+    right syringe. This increase in pressure forces the plunger of the right syringe to extend outwards.
+    Therefore, the final state must show the left syringe with reduced volume (plunger in) and the right
+    syringe with increased volume (plunger out), conserving the approximate total air volume.
+  questions:
+  - id: left_volume_decrease
+    question: Is the black rubber stopper of the left syringe closer to the nozzle than it was in the
+      initial frame?
+    answer_type: yes_no
+    notes_for_judge: The left plunger should have moved inward (to the right), reducing the volume.
+  - id: right_volume_increase
+    question: Is the black rubber stopper of the right syringe further from the nozzle than it was in
+      the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The right plunger should have moved outward (to the right), increasing the volume.
+  - id: coupled_motion_direction
+    question: Have both syringe plungers moved to the right relative to the image frame?
+    answer_type: yes_no
+    notes_for_judge: Pushing the left plunger moves it right; filling the right syringe moves its plunger
+      right.
+  - id: volume_transfer
+    question: Does the right syringe appear to contain more air volume than the left syringe in the final
+      frame?
+    answer_type: yes_no
+    notes_for_judge: Initially left had more; after transfer, right should have more (or at least significantly
+      increased).
+  - id: tube_integrity
+    question: Is the clear tubing still connecting the two syringes?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: tray_consistency
+    question: Is the metal tray still present underneath the syringes?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

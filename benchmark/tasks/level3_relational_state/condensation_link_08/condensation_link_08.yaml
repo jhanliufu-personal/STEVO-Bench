@@ -1,0 +1,62 @@
+id: condensation_link_08
+level: 3
+category: relational_state
+tags: []
+variant_of: condensation_link
+variation_type: combined
+variation_description: Pot is lidded and occlusion is a person blocking view.
+changes:
+  occlusion_method: A person walks in front of the camera.
+  dynamic_conditions: Pot is covered by a lid.
+  expected_outcome_change: No condensation forms.
+prompts:
+  init_frame_edit_prompt: Edit the image to place a metal lid securely on top of the pot, covering the
+    water completely so no steam escapes.
+  video_WM: The glass pane is held over the lidded pot. No steam escapes the lid. A person walks into
+    the frame, their back to the camera, completely blocking the view of the kitchen counter. They stand
+    there briefly before moving away to reveal the scene again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The glass pane is held over the lidded pot. No steam escapes the lid. A person walks into
+    the frame, their back to the camera, completely blocking the view of the kitchen counter. They stand
+    there briefly before moving away to reveal the scene again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a kitchen stove featuring a large stainless steel
+    stockpot with a lid on a burner. The pot has a reflective metal surface and a handle on the lid. Behind
+    the pot, a wooden knife block with black-handled knives and a silver toaster are visible on a wooden
+    counter. A window in the background provides natural lighting from the right side.
+  init2final_edit_prompt: Edit the given image to show a clear, rectangular glass pane being held horizontally
+    just above the pot's lid. The glass pane must be completely transparent and dry, with absolutely no
+    condensation, fog, or water droplets on its surface. Ensure the pot lid remains closed and no steam
+    is visible.
+  rationale: The video prompt introduces a glass pane held over the pot but explicitly states that no
+    steam escapes the lid. Physically, without escaping steam, there is no source of moisture to condense
+    on the glass surface. The occlusion event (person walking in and out) tests the model's ability to
+    maintain this specific physical constraint (no steam implies no condensation) over time and interruption.
+    The final state should show the glass pane introduced by the prompt, but it must remain clear and
+    dry.
+  questions:
+  - id: glass_presence
+    question: Is there a glass pane visible positioned above the pot?
+    answer_type: yes_no
+    notes_for_judge: The glass pane should be the most prominent new object above the pot.
+  - id: glass_clarity
+    question: Is the glass pane free of condensation, fog, or water droplets?
+    answer_type: yes_no
+    notes_for_judge: The glass should be clear. If it is foggy or has droplets, answer NO.
+  - id: glass_transparency
+    question: Is the pot lid clearly visible through the glass pane?
+    answer_type: yes_no
+    notes_for_judge: The glass should be transparent enough to see the lid underneath.
+  - id: no_steam
+    question: Is the area between the pot lid and the glass pane free of visible steam?
+    answer_type: yes_no
+    notes_for_judge: There should be no white clouds or steam rising.
+  - id: lid_state
+    question: Is the pot lid still closed?
+    answer_type: yes_no
+    notes_for_judge: The lid should be sitting on the pot, not removed or tilted open.
+  - id: occlusion_cleared
+    question: Is the view of the pot unobstructed by a person?
+    answer_type: yes_no
+    notes_for_judge: The person mentioned in the prompt should have moved away.

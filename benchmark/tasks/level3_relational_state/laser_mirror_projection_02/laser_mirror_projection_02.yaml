@@ -1,0 +1,69 @@
+id: laser_mirror_projection_02
+level: 3
+category: relational_state
+tags: []
+variant_of: laser_mirror_projection
+variation_type: occlusion_method
+variation_description: Occlusion changed to thick fog filling the room.
+changes:
+  occlusion_method: Thick fog obscures the scene.
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics (spot moves along the same arc).
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The motorized base begins to rotate the mirror slowly clockwise. The laser pointer and the
+    white screen remain fixed in place. Suddenly, thick white fog pumps into the room, becoming so dense
+    that the equipment and the screen are completely obscured. After a moment, the fog clears rapidly,
+    revealing the scene again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The motorized base begins to rotate the mirror slowly clockwise. The laser pointer and the
+    white screen remain fixed in place. Suddenly, thick white fog pumps into the room, becoming so dense
+    that the equipment and the screen are completely obscured. After a moment, the fog clears rapidly,
+    revealing the scene again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A physics lab setup featuring a green laser pointer mounted on a stand on the
+    left, a central mirror mounted on a silver motorized rotation stage, and a white projection screen
+    on the right. A bright green laser beam originates from the pointer, strikes the mirror, and reflects
+    onto the screen, creating a bright green spot. A faint curved trace of green light is visible on the
+    screen, indicating the path of the reflection.
+  init2final_edit_prompt: Edit the given image to move the bright green laser spot on the white projection
+    screen significantly to the right of its current position. Redraw the reflected green laser beam so
+    it connects in a straight line from the central mirror to this new spot location. Ensure the scene
+    appears fully clear with no fog or obstruction, keeping the laser pointer, mirror base, and background
+    furniture unchanged.
+  rationale: The video prompt describes a clockwise rotation of the motorized mirror base. In this optical
+    setup, rotating the mirror clockwise (around its vertical axis) increases the angle of reflection
+    relative to the incident beam, causing the reflected laser spot to sweep horizontally to the right
+    across the screen. The fog acts as a temporary occluder to mask the transition; when it clears, the
+    mirror has rotated further, so the laser spot must be displaced to the right relative to the initial
+    frame.
+  questions:
+  - id: spot_displacement_right
+    question: Is the green laser spot on the screen positioned to the right of its location in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: The mirror rotation is clockwise, which sweeps the beam to the right.
+  - id: beam_connection
+    question: Does the green laser beam form a continuous straight line from the mirror to the new spot
+      position?
+    answer_type: yes_no
+    notes_for_judge: Light travels in straight lines; the beam must connect the source (mirror reflection
+      point) to the destination (screen spot).
+  - id: fog_cleared
+    question: Is the scene completely clear of the thick white fog mentioned in the prompt?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the fog clears rapidly.
+  - id: laser_source_static
+    question: Is the laser pointer on the left still in its original position?
+    answer_type: yes_no
+    notes_for_judge: Only the mirror rotates; the source is fixed.
+  - id: screen_static
+    question: Is the white projection screen still in its original position?
+    answer_type: yes_no
+    notes_for_judge: The screen is fixed.
+  - id: spot_visible
+    question: Is the reflected laser spot clearly visible on the white screen?
+    answer_type: yes_no
+    notes_for_judge: The spot should not disappear unless it moved off-screen, but the prompt implies
+      a visible result.

@@ -1,0 +1,71 @@
+id: anamorphic_projection_01
+level: 3
+category: relational_state
+tags: []
+variant_of: anamorphic_projection
+variation_type: occlusion_method
+variation_description: Occlusion by a large object (portfolio case) instead of camera rotation.
+changes:
+  occlusion_method: A large black portfolio case slides in front of the lens.
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics (drawing rotates), different occlusion.
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A hand begins rotating the flat drawing on the table around the base of the cylindrical mirror.
+    The mirror remains stationary. A large black portfolio case slides into the foreground, completely
+    blocking the view of the table and cylinder. After a moment, the portfolio slides away to reveal the
+    scene again. No zoom, no cut, no scene change. STOP.
+  camera_WM: A hand begins rotating the flat drawing on the table around the base of the cylindrical mirror.
+    The mirror remains stationary. A large black portfolio case slides into the foreground, completely
+    blocking the view of the table and cylinder. After a moment, the portfolio slides away to reveal the
+    scene again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A shiny metal cylindrical mirror stands vertically in the center of a white
+    sheet of paper on a wooden table. The paper features a distorted anamorphic drawing composed of swirling
+    colored pencil lines (blue, brown, yellow, black). In the reflective surface of the cylinder, these
+    distorted lines resolve into a clear, coherent image of a woman's face looking directly at the viewer.
+  init2final_edit_prompt: Edit the given image to show the sheet of paper rotated on the table surface
+    around the stationary cylinder. The pattern of swirling lines on the paper should be in a new orientation
+    (rotated). Correspondingly, the reflection of the woman's face in the cylinder must be rotated sideways
+    or shifted laterally, so she is no longer looking directly forward, reflecting the change in the paper's
+    position. Ensure the black portfolio case is not visible.
+  rationale: The prompt describes rotating the drawing (the paper) while the mirror remains stationary.
+    In cylindrical anamorphosis, the reflected image is directly coupled to the orientation of the source
+    drawing. Rotating the paper around the cylinder causes the reflected image to rotate around the cylinder's
+    surface. From a fixed camera angle, this means the face will appear to rotate sideways or move laterally
+    out of the center view. The occlusion allows this transition to occur instantly from the viewer's
+    perspective.
+  questions:
+  - id: paper_rotation
+    question: Is the pattern of colored lines on the paper rotated or oriented differently compared to
+      the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The paper should have been rotated around the cylinder.
+  - id: reflection_change_primary
+    question: Is the woman's face in the reflection no longer facing directly forward and upright?
+    answer_type: yes_no
+    notes_for_judge: The rotation of the source image should cause the reflection to rotate or shift away
+      from the center alignment.
+  - id: coupled_change
+    question: Do both the paper pattern and the mirror reflection show a change in orientation?
+    answer_type: yes_no
+    notes_for_judge: Tests the coupled relationship; if the paper moves, the reflection must move.
+  - id: reflection_shift
+    question: Does the reflection of the face appear rotated or shifted to the side relative to the cylinder's
+      center?
+    answer_type: yes_no
+    notes_for_judge: Specific check for the directional change of the reflection.
+  - id: cylinder_invariant
+    question: Is the cylindrical mirror still positioned in the center of the paper?
+    answer_type: yes_no
+    notes_for_judge: The mirror itself is stationary and central.
+  - id: portfolio_absence
+    question: Is the black portfolio case absent from the final view?
+    answer_type: yes_no
+    notes_for_judge: The portfolio was an occluder that should have slid away.
+  - id: table_invariant
+    question: Is the wooden table surface still visible around the paper?
+    answer_type: yes_no
+    notes_for_judge: Context invariant.

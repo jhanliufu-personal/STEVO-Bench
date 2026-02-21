@@ -1,0 +1,64 @@
+id: tension_acceleration_09
+level: 3
+category: relational_state
+tags: []
+variant_of: tension_acceleration
+variation_type: combined
+variation_description: Fog occlusion combined with a very light hanging mass.
+changes:
+  occlusion_method: Fog fills room.
+  dynamic_conditions: Hanging mass is 10g.
+  expected_outcome_change: Cart moves barely or not at all due to insufficient force to overcome minor
+    resistance.
+prompts:
+  init_frame_edit_prompt: Edit the image to change the hanging weight text to '10g' and make it look like
+    a tiny plastic weight.
+  video_WM: The suspended 10g weight is released. Thick smoke pumps into the scene, completely obscuring
+    the table and apparatus. The smoke is then vented, clearing the view. No zoom, no cut, no scene change.
+    STOP.
+  camera_WM: The suspended 10g weight is released. Thick smoke pumps into the scene, completely obscuring
+    the table and apparatus. The smoke is then vented, clearing the view. No zoom, no cut, no scene change.
+    STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A wooden lab table featuring a plastic dynamics cart labeled '1KG' with black
+    wheels. A string connects the cart to a pulley clamped to the left edge of the table. A small weight
+    labeled '10g' hangs from the string below the pulley. A wooden meter stick and a silver stopwatch
+    are placed on the table next to the cart. The background shows a classroom lab environment with stools
+    and other tables.
+  init2final_edit_prompt: Edit the given image to show the plastic cart positioned further to the left,
+    significantly closer to the pulley clamp. Correspondingly, position the hanging 10g weight lower down,
+    further from the pulley, to reflect the distance the cart has traveled. Ensure the string remains
+    taut between the cart and the pulley. Keep the background, table, meter stick, and stopwatch unchanged.
+  rationale: The prompt describes the release of the 10g weight, which acts as the driving force for the
+    system. Due to gravity, the weight accelerates downward, pulling the connected 1kg cart to the left
+    across the table. Although the acceleration is small due to the mass ratio, the 'thick smoke' occlusion
+    implies a passage of time sufficient for visible displacement. Therefore, in the final state, the
+    cart must be closer to the pulley and the weight must be lower, maintaining the coupled relationship
+    defined by the string.
+  questions:
+  - id: cart_displacement
+    question: Is the plastic cart closer to the pulley clamp than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the distance between the front of the cart and the pulley in both frames.
+  - id: weight_displacement
+    question: Is the hanging 10g weight positioned lower than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Check the vertical position of the hanging mass relative to the table edge.
+  - id: coupled_motion_direction
+    question: Has the cart moved to the left relative to the meter stick?
+    answer_type: yes_no
+    notes_for_judge: The cart should have moved along the ruler towards the left.
+  - id: string_integrity
+    question: Is the string still visible connecting the cart to the pulley?
+    answer_type: yes_no
+    notes_for_judge: The connection must be maintained.
+  - id: stopwatch_invariant
+    question: Is the stopwatch in the same position on the table as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The stopwatch is an unrelated object and should not move.
+  - id: cart_label_visibility
+    question: Is the '1KG' label still visible on the cart?
+    answer_type: yes_no
+    notes_for_judge: Identity preservation.

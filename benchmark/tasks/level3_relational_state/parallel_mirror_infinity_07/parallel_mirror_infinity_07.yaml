@@ -1,0 +1,66 @@
+id: parallel_mirror_infinity_07
+level: 3
+category: relational_state
+tags: []
+variant_of: parallel_mirror_infinity
+variation_type: combined
+variation_description: Flashlight turned off (condition) + Object blocking view (occlusion).
+changes:
+  occlusion_method: Wooden board blocks view.
+  dynamic_conditions: Flashlight switched off.
+  expected_outcome_change: Reflections disappear/dark.
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The person switches the flashlight off. The mirrors remain perfectly parallel. A large wooden
+    board is lowered from above, completely blocking the view. The board is then raised back up to reveal
+    the scene. No zoom, no cut, no scene change. STOP.
+  camera_WM: The person switches the flashlight off. The mirrors remain perfectly parallel. A large wooden
+    board is lowered from above, completely blocking the view. The board is then raised back up to reveal
+    the scene. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A man stands in a dim industrial room between two large parallel mirrors, holding
+    a lit flashlight that emits a bright orange glow. The mirrors create an infinite tunnel of reflections
+    showing the man and the light repeating into the distance. The flashlight's glare is prominent in
+    the center and in all reflected instances.
+  init2final_edit_prompt: Edit the image to switch the flashlight off. Remove the bright orange glow and
+    flare from the flashlight held by the man. Remove the corresponding orange glow and light flares from
+    all the infinite reflections in the mirrors. The man and the mirrors should remain in the same position,
+    but the scene should appear darker, lit only by ambient light, with the flashlight bulb appearing
+    dark in both the real world and the reflections.
+  rationale: The prompt specifies that the flashlight is switched off. Due to the laws of optics, extinguishing
+    the primary light source must simultaneously extinguish the light in all reflections. The occlusion
+    (wooden board) lowers and raises, returning the view to the original framing but with the new state
+    (light off). The mirrors remain parallel, preserving the infinite regression geometry, but the lighting
+    state is coupled across all reflections.
+  questions:
+  - id: flashlight_state_real
+    question: Is the flashlight held by the real person turned off?
+    answer_type: yes_no
+    notes_for_judge: The bright orange flare should be gone from the main flashlight.
+  - id: flashlight_state_reflection
+    question: Do the flashlights visible in the mirror reflections appear turned off?
+    answer_type: yes_no
+    notes_for_judge: Check the reflections; they must match the real flashlight's state (off).
+  - id: lighting_change
+    question: Is the bright orange glow or glare absent from the scene?
+    answer_type: yes_no
+    notes_for_judge: The scene should be darker and lack the warm orange light source.
+  - id: mirror_geometry_persistence
+    question: Are the infinite reflections of the person still visible (geometry preserved)?
+    answer_type: yes_no
+    notes_for_judge: The mirrors should still show the tunnel effect, even if darker.
+  - id: coupled_state_consistency
+    question: Is the state of the flashlight (on/off) consistent between the real person and the reflections?
+    answer_type: yes_no
+    notes_for_judge: It is physically impossible for the real light to be off while reflections are on,
+      or vice versa.
+  - id: occlusion_clearance
+    question: Is the view clear of the wooden board mentioned in the prompt?
+    answer_type: yes_no
+    notes_for_judge: The prompt says the board is raised back up to reveal the scene.
+  - id: person_presence
+    question: Is the person still standing in the same location between the mirrors?
+    answer_type: yes_no
+    notes_for_judge: The person should not have moved significantly.

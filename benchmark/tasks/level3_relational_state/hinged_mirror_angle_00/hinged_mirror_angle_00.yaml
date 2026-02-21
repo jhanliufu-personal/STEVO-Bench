@@ -1,0 +1,63 @@
+id: hinged_mirror_angle_00
+level: 3
+category: relational_state
+tags: []
+variant_of: hinged_mirror_angle
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A mechanical arm grabs the edge of one mirror and begins slowly closing the hinge, decreasing
+    the angle between the two mirrors. The apple remains stationary. Camera remains stationary throughout.
+    No zoom, no cut, no scene change. STOP.
+  camera_WM: A mechanical arm grabs the edge of one mirror and begins slowly closing the hinge, decreasing
+    the angle between the two mirrors. The apple remains stationary. Camera remains stationary throughout.
+    No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: Two rectangular mirrors joined by a vertical brass piano hinge, standing upright
+    on a wooden table. The mirrors are angled open, forming a wide V-shape. A red apple sits on the table
+    in front of the hinge. Reflections of the apple are visible in both mirror panels. The background
+    shows a room with white walls, a window, and a door.
+  init2final_edit_prompt: Edit the given image to show a mechanical arm gripping the outer edge of the
+    right-hand mirror. The right mirror should be rotated inward towards the apple, making the angle between
+    the two mirrors significantly more acute (sharper) than the original wide angle. Ensure the reflection
+    of the apple in the right mirror is updated to match the new angle. The apple itself remains stationary
+    on the table.
+  rationale: The video prompt describes a mechanical arm closing the hinge. This action reduces the angle
+    between the two mirrors, bringing them closer together (a relational geometric change). As the mirror
+    angle changes, the optical relationship between the apple and the mirror surface changes, altering
+    the reflection. The apple itself is stationary, serving as a reference point for the movement of the
+    mirrors.
+  questions:
+  - id: mirror_angle_reduction
+    question: Is the angle between the two mirrors smaller (more acute) than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the V-shape formed by the mirrors. It should be narrower/sharper in the final
+      frame.
+  - id: mirror_edge_distance
+    question: Is the distance between the outer vertical edges of the two mirrors smaller than in the
+      initial frame?
+    answer_type: yes_no
+    notes_for_judge: As the hinge closes, the outer edges come closer together.
+  - id: mechanical_arm_presence
+    question: Is a mechanical arm visible interacting with one of the mirrors?
+    answer_type: yes_no
+    notes_for_judge: The prompt explicitly mentions a mechanical arm grabbing the mirror.
+  - id: apple_stationary
+    question: Is the physical red apple in the same position on the table relative to the hinge's base?
+    answer_type: yes_no
+    notes_for_judge: The apple should not move; only the mirrors move.
+  - id: reflection_consistency
+    question: Is a reflection of the apple still visible in the mirror that moved?
+    answer_type: yes_no
+    notes_for_judge: The mirror should still reflect the scene, including the apple.
+  - id: background_occlusion_change
+    question: Is the background area behind the moved mirror different than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Moving the mirror should reveal or occlude different parts of the background room.

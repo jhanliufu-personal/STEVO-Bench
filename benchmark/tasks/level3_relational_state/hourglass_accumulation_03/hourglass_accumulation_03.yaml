@@ -1,0 +1,64 @@
+id: hourglass_accumulation_03
+level: 1
+category: scalar_state
+tags: []
+variant_of: hourglass_accumulation
+variation_type: occlusion_method
+variation_description: Replaces camera rotation with a rapid zoom out.
+changes:
+  occlusion_method: Camera zooms out until details are indistinguishable.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: Sand flows into the bottom of an hourglass. The camera zooms out rapidly until the hourglass
+    is too small to distinguish details, merging into the background environment. Then, the camera zooms
+    back in to the original framing. No cut, no scene change. STOP.
+  camera_WM: Sand flows into the bottom of an hourglass. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a wooden hourglass standing on a scratched wooden
+    desk. The hourglass has three turned wood pillars and glass bulbs containing white sand. Sand is actively
+    streaming from the top bulb to the bottom bulb. The top bulb is roughly half full. The bottom bulb
+    contains a conical pile of sand. To the left of the hourglass are stacks of old, leather-bound books.
+    In the background, out of focus, are bookshelves and a window letting in natural daylight.
+  init2final_edit_prompt: Edit the given image to show the hourglass with a significantly larger and taller
+    pile of sand in the bottom bulb and a lower level of sand in the top bulb. Ensure the stream of falling
+    sand is still visible. Keep the camera angle, lighting, desk texture, and background books exactly
+    identical to the original image.
+  rationale: 'The video prompt describes a continuous physical process (sand flowing) that persists while
+    the camera zooms out and back in. The camera movement serves as a temporary occlusion or loss of detail,
+    but the simulation time continues to advance. When the camera returns to the initial framing, the
+    hourglass must show the accumulated result of this time passing: the bottom bulb must contain more
+    sand (a larger, taller pile) and the top bulb must contain less sand. The surrounding static environment
+    must remain unchanged.'
+  questions:
+  - id: bottom_pile_height
+    question: Is the pile of sand in the bottom bulb taller than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the peak of the sand cone in the bottom bulb to the initial image.
+  - id: bottom_pile_volume
+    question: Is the volume of sand in the bottom bulb greater than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The pile should look larger overall.
+  - id: top_level_decrease
+    question: Is the level of sand in the top bulb lower than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The top bulb should have depleted somewhat.
+  - id: sand_accumulation
+    question: Has more sand accumulated in the bottom chamber compared to the start?
+    answer_type: yes_no
+    notes_for_judge: Check for accumulation.
+  - id: top_depletion
+    question: Is there less sand remaining in the upper chamber than before?
+    answer_type: yes_no
+    notes_for_judge: Check for depletion.
+  - id: hourglass_position
+    question: Is the hourglass in the same position on the desk as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The object should not have moved laterally.
+  - id: background_books
+    question: Are the books on the left side of the frame unchanged?
+    answer_type: yes_no
+    notes_for_judge: Static objects should remain consistent.

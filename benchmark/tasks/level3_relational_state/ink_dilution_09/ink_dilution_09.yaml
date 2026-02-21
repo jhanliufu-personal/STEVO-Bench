@@ -1,0 +1,61 @@
+id: ink_dilution_09
+level: 3
+category: relational_state
+tags: []
+variant_of: ink_dilution
+variation_type: combined
+variation_description: Red liquid pours into Blue liquid, occluded by chemical smoke.
+changes:
+  occlusion_method: Thick chemical smoke.
+  dynamic_conditions: Red pouring into Blue.
+  expected_outcome_change: Liquid turns Purple.
+prompts:
+  init_frame_edit_prompt: Edit the image so the liquid in the beaker is blue and the liquid pouring from
+    the pitcher is red.
+  video_WM: Red liquid is poured into the blue liquid. The total volume of liquid is rising. The pouring
+    continues. Thick white chemical smoke rises up, filling the frame and completely obscuring the beaker.
+    The smoke then clears. No zoom, no cut, no scene change. STOP.
+  camera_WM: Red liquid is poured into the blue liquid. The total volume of liquid is rising. The pouring
+    continues. Thick white chemical smoke rises up, filling the frame and completely obscuring the beaker.
+    The smoke then clears. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up shot of a glass beaker on a wooden table containing a blue liquid.
+    A glass pitcher is positioned above it, pouring a stream of red liquid into the beaker. The background
+    features a window and blurred laboratory equipment.
+  init2final_edit_prompt: Edit the given image to show the beaker containing a purple or dark violet liquid
+    mixture, with the liquid level significantly higher than in the original image. The glass pitcher
+    should contain less red liquid than before, reflecting that it has been poured into the beaker. Ensure
+    there is no smoke obscuring the view and the beaker is clearly visible.
+  rationale: The prompt describes a continuous pouring action followed by a chemical reaction that produces
+    smoke. During the occlusion by smoke, the pouring adds volume to the beaker and mixes the colors.
+    Conservation of mass dictates that as the red liquid leaves the pitcher, the volume in the beaker
+    increases. The interaction between red and blue liquids results in a purple mixture. The final state
+    requires the smoke to have cleared, revealing these changes.
+  questions:
+  - id: beaker_volume_increase
+    question: Is the level of liquid in the beaker higher than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The beaker should contain more liquid due to the pouring.
+  - id: pitcher_volume_decrease
+    question: Is the amount of red liquid remaining in the pitcher less than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The source container must be depleted as the destination fills.
+  - id: color_mixing
+    question: Has the liquid in the beaker changed color from pure blue to a mixture (e.g., purple, violet,
+      or dark red)?
+    answer_type: yes_no
+    notes_for_judge: Red added to blue should result in a color change.
+  - id: smoke_cleared
+    question: Is the beaker clearly visible without being obscured by smoke?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the smoke clears.
+  - id: coupled_volume_change
+    question: Does the scene show the pitcher being emptier while the beaker is fuller?
+    answer_type: yes_no
+    notes_for_judge: Checks the relational constraint of volume transfer.
+  - id: background_consistency
+    question: Are the wooden table and background window preserved from the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

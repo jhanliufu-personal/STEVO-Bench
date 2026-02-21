@@ -1,0 +1,63 @@
+id: concave_mirror_inversion_02
+level: 3
+category: relational_state
+tags: []
+variant_of: concave_mirror_inversion
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to lights turning off.
+changes:
+  occlusion_method: Room lights turn off completely instead of camera rotation.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The candle is moved steadily closer to the silver bowl, passing through the focal point of
+    the curvature. The flame remains lit. Suddenly, all lights in the room are extinguished, plunging
+    the scene into total darkness where nothing is visible. After a few seconds, the lights turn back
+    on. No zoom, no cut, no scene change. STOP.
+  camera_WM: The candle is moved steadily closer to the silver bowl, passing through the focal point of
+    the curvature. The flame remains lit. Suddenly, all lights in the room are extinguished, plunging
+    the scene into total darkness where nothing is visible. After a few seconds, the lights turn back
+    on. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up shot of a large silver bowl resting on a wooden table. Inside the
+    bowl, a small reflection of a candle flame is visible in the center. In the background, slightly out
+    of focus, a real lit candle stands on a table to the right. The room has a rustic interior with wooden
+    walls.
+  init2final_edit_prompt: Edit the given image to show the lit candle from the background moved to a position
+    very close to the silver bowl in the foreground. The reflection of the flame inside the bowl must
+    appear significantly larger, magnified, and upright, consistent with a virtual image in a concave
+    mirror. Ensure the room is fully illuminated and the camera angle remains unchanged.
+  rationale: The prompt describes moving the candle closer and passing through the focal point of the
+    concave mirror (the bowl). Physically, this transition changes the reflection from a small, inverted
+    real image (or distant image) to a large, upright, magnified virtual image. The blackout is an occlusion
+    event; the final frame must show the state after the lights return, with the candle in its new close
+    position and the reflection optically updated.
+  questions:
+  - id: reflection_size
+    question: Is the reflection of the flame inside the bowl significantly larger than in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: The reflection should be magnified as the object is now within the focal length.
+  - id: candle_position
+    question: Is the physical candle positioned closer to the bowl than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The candle should have moved from the background to near the bowl.
+  - id: reflection_orientation
+    question: Does the reflected flame appear upright?
+    answer_type: yes_no
+    notes_for_judge: Passing the focal point changes the image from inverted to upright.
+  - id: lights_on
+    question: Is the room fully illuminated?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the lights turn back on.
+  - id: bowl_position
+    question: Is the silver bowl in the same position relative to the camera?
+    answer_type: yes_no
+    notes_for_judge: The camera should not zoom or move.
+  - id: flame_visibility
+    question: Is the candle flame still lit?
+    answer_type: yes_no
+    notes_for_judge: The prompt states 'The flame remains lit'.

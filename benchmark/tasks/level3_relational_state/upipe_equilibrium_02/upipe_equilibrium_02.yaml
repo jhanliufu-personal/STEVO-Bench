@@ -1,0 +1,67 @@
+id: upipe_equilibrium_02
+level: 3
+category: relational_state
+tags: []
+variant_of: upipe_equilibrium
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to zooming out until detail is lost.
+changes:
+  occlusion_method: Camera zoom out
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A mechanical arm begins pushing the left piston down into the pipe. The movement is steady
+    and continuous. The camera zooms out rapidly until the U-pipe is a tiny, indistinguishable dot in
+    the distance. Then the camera zooms back in to the original framing. No cut, no scene change. STOP.
+  camera_WM: A mechanical arm begins pushing the left piston down into the pipe. The movement is steady
+    and continuous. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+evaluation:
+  init_frame_description: A close-up shot of a U-shaped glass tube (U-pipe) sitting on a wooden table
+    in a laboratory setting. The tube is partially filled with a bright blue liquid. The left arm of the
+    tube is fitted with a black piston mechanism featuring a plunger handle at the top. The right arm
+    is open at the top. The liquid levels in both arms are roughly at the same height, demonstrating equilibrium.
+    The background is blurred, showing lab equipment and a window.
+  init2final_edit_prompt: Edit the given image to show the black piston on the left side pushed significantly
+    further down into the glass tube. The blue liquid level in the left arm must be lower, sitting directly
+    beneath the lowered piston. Correspondingly, the blue liquid level in the right arm must be significantly
+    higher than it was originally, reflecting the displaced volume. Ensure the rise in the right arm is
+    roughly proportional to the drop in the left arm. Maintain the original background, lighting, and
+    camera angle.
+  rationale: The video prompt describes a mechanical action pushing the piston down, followed by a zoom-out
+    and zoom-in sequence. This camera maneuver acts as a temporal transition, implying that time has passed
+    and the action has had an effect. Physically, pushing the piston down on the left side exerts pressure
+    on the incompressible liquid. To conserve volume, the liquid displaced from the left arm must move
+    to the right arm. Therefore, the final state must show the left liquid level lower (with the piston)
+    and the right liquid level higher.
+  questions:
+  - id: piston_position
+    question: Is the black piston handle on the left lower than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the vertical position of the black handle relative to the top rim of the
+      left glass tube.
+  - id: right_level_rise
+    question: Is the blue liquid level in the right arm higher than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The liquid on the right should have risen due to displacement from the left.
+  - id: left_level_drop
+    question: Is the blue liquid level in the left arm lower than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The liquid on the left should be pushed down by the piston.
+  - id: relative_levels
+    question: Is the liquid level in the right arm now clearly higher than the liquid level in the left
+      arm?
+    answer_type: yes_no
+    notes_for_judge: Initially they were roughly equal. Now the right should be high and the left low.
+  - id: volume_conservation
+    question: Does the rise in the right arm's liquid level appear roughly proportional to the drop in
+      the left arm's level?
+    answer_type: yes_no
+    notes_for_judge: Check for conservation of volume; the amount lost on the left should equal the amount
+      gained on the right.
+  - id: tube_integrity
+    question: Is the U-shaped glass tube still standing in the same position on the table?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

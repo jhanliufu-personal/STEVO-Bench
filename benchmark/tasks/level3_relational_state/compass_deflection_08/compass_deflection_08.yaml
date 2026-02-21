@@ -1,0 +1,68 @@
+id: compass_deflection_08
+level: 3
+category: relational_state
+tags: []
+variant_of: compass_deflection
+variation_type: combined
+variation_description: Magnet moves away + occlusion by lights turning off.
+changes:
+  occlusion_method: Lights turn off.
+  dynamic_conditions: Magnet moves away.
+  expected_outcome_change: Needle returns toward North.
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A hand begins moving the bar magnet steadily away from the side of the compass housing. Suddenly,
+    all lights in the room turn off, plunging the scene into total darkness. After a brief period, the
+    lights turn back on. No zoom, no cut, no scene change. STOP.
+  camera_WM: A hand begins moving the bar magnet steadily away from the side of the compass housing. Suddenly,
+    all lights in the room turn off, plunging the scene into total darkness. After a brief period, the
+    lights turn back on. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up, slightly high-angle shot of a wooden table. On the left is a brass
+    compass with its lid open; the needle is oriented horizontally with the white/silver tip pointing
+    to the right and the red tip pointing to the left. On the right, a hand holds a rectangular bar magnet
+    with the red (North) pole facing the compass and the blue (South) pole facing away. A wooden ruler
+    lies in the foreground, and a window is visible in the background.
+  init2final_edit_prompt: Edit the given image to move the hand and bar magnet significantly further to
+    the right side of the frame, increasing the gap between the magnet and the compass. Edit the compass
+    needle to rotate it to a new angle (e.g., pointing diagonally or vertically) so that it is no longer
+    aligned horizontally with the magnet's previous position.
+  rationale: The initial frame shows a compass needle strongly deflected by a nearby magnet (the red North
+    pole of the magnet attracts the South-seeking white tip of the needle). As the prompt describes moving
+    the magnet away, the magnetic force exerted on the needle decreases significantly. Consequently, the
+    compass needle must rotate back towards alignment with the Earth's ambient magnetic field. The lights
+    turning off and on serve as a transition to the new state where the magnet is further away and the
+    needle has reoriented.
+  questions:
+  - id: magnet_distance
+    question: Is the bar magnet positioned further to the right than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The magnet should be visibly further away from the compass.
+  - id: needle_rotation
+    question: Has the compass needle rotated to a different angle compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The needle should no longer be in the exact horizontal position seen initially.
+  - id: needle_orientation_change
+    question: Is the white tip of the compass needle pointing in a different direction than directly at
+      the magnet's initial position?
+    answer_type: yes_no
+    notes_for_judge: In the init frame, the needle points directly at the magnet. In the final frame,
+      it should point elsewhere (e.g., North).
+  - id: magnet_hand_position
+    question: Is the hand holding the magnet located closer to the right edge of the image than before?
+    answer_type: yes_no
+    notes_for_judge: Checks for the movement of the actor.
+  - id: coupled_state_change
+    question: Does the scene show both the magnet moved away and the compass needle reoriented?
+    answer_type: yes_no
+    notes_for_judge: 'This tests the relational link: moving the magnet causes the needle to move.'
+  - id: ruler_consistency
+    question: Is the wooden ruler still present in the foreground?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: lighting_restored
+    question: Are the lights on and the scene fully visible?
+    answer_type: yes_no
+    notes_for_judge: Verifies the 'lights turn back on' instruction.

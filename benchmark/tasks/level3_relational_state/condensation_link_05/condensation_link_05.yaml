@@ -1,0 +1,65 @@
+id: condensation_link_05
+level: 3
+category: relational_state
+tags: []
+variant_of: condensation_link
+variation_type: dynamic_condition
+variation_description: Glass is held away from the steam path.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Glass is positioned to the side of the pot, not over it.
+  expected_outcome_change: No new condensation; existing condensation (if any) might evaporate or stay
+    static.
+prompts:
+  init_frame_edit_prompt: Edit the image to position the glass pane to the left side of the pot, completely
+    out of the path of the rising steam.
+  video_WM: The glass pane is held to the side of the boiling pot, completely avoiding the column of rising
+    steam. The water boils and produces vapor that rises straight up, missing the glass. The camera rotates
+    right until the stove completely exits the view, then rotates toward the left smoothly at the same
+    rate until the glass pane is back in the center of view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The glass pane is held to the side of the boiling pot, completely avoiding the column of
+    rising steam. The water boils and produces vapor that rises straight up, missing the glass. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up view of a kitchen scene showing a stainless steel pot on a stove
+    with water boiling and a column of white steam rising vertically. To the left of the steam column,
+    a hand holds a rectangular, clear glass pane vertically. The glass pane is transparent, allowing the
+    wooden knife block and other background kitchen items to be seen through it clearly. The glass is
+    positioned to the side, not directly above the pot.
+  init2final_edit_prompt: Edit the given image to show the glass pane remaining completely clear and transparent,
+    with no condensation, fog, or mist on its surface. The background objects behind the glass should
+    be visible clearly and sharply. The steam from the pot should be visible rising vertically but clearly
+    separated from the glass pane, not touching it.
+  rationale: The prompt establishes a specific spatial relationship where the glass pane is held to the
+    side of the boiling pot, explicitly avoiding the column of rising steam. Physically, condensation
+    requires the warm, moist steam to contact the cooler glass surface. Since the prompt dictates that
+    the steam misses the glass, the glass must remain clear and transparent, conserving its initial dry
+    state. The camera rotation introduces an occlusion period to test if the model maintains this 'no-interaction'
+    state or incorrectly hallucinates condensation based on the semantic association between boiling water
+    and glass.
+  questions:
+  - id: glass_clarity
+    question: Is the glass pane free of condensation, fog, or mist?
+    answer_type: yes_no
+    notes_for_judge: The glass should remain clear because it avoided the steam.
+  - id: transparency_check
+    question: Are the background objects (like the wooden block) clearly visible through the glass pane?
+    answer_type: yes_no
+    notes_for_judge: The view through the glass should not be blurred by steam.
+  - id: steam_separation
+    question: Does the steam column appear to rise without enveloping the glass pane?
+    answer_type: yes_no
+    notes_for_judge: The steam should be visible but spatially separated from the glass.
+  - id: glass_dryness
+    question: Does the surface of the glass pane appear dry?
+    answer_type: yes_no
+    notes_for_judge: There should be no water droplets or wetness.
+  - id: state_conservation
+    question: Is the transparency of the glass pane preserved relative to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare with the initial frame; it should look equally clear.
+  - id: boiling_context
+    question: Is the water in the pot still boiling or producing steam?
+    answer_type: yes_no
+    notes_for_judge: The boiling action should continue.

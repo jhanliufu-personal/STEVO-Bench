@@ -1,0 +1,75 @@
+id: shadow_magnification_09
+level: 3
+category: relational_state
+tags: []
+variant_of: shadow_magnification
+variation_type: combined
+variation_description: Moving light source + Blocking screen.
+changes:
+  occlusion_method: Large opaque screen blocks view.
+  dynamic_conditions: Light source moves toward object.
+  expected_outcome_change: Shadow grows.
+prompts:
+  init_frame_edit_prompt: Edit the image to place the spotlight on a motorized slider track or dolly,
+    implying it can move.
+  video_WM: The spotlight begins sliding along its track toward the stationary dinosaur pedestal. The
+    dinosaur remains fixed. A large opaque black screen lowers from above, completely blocking the view
+    of the room. The screen then raises smoothly to reveal the room again. No zoom, no cut, no scene change.
+    STOP.
+  camera_WM: The spotlight begins sliding along its track toward the stationary dinosaur pedestal. The
+    dinosaur remains fixed. A large opaque black screen lowers from above, completely blocking the view
+    of the room. The screen then raises smoothly to reveal the room again. No zoom, no cut, no scene change.
+    STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A toy T-Rex dinosaur stands on a wooden pedestal in the center of the frame.
+    To the right, a spotlight is mounted on a horizontal metal track system, illuminating the dinosaur.
+    To the left, a shadow of the dinosaur is cast on a plain, textured wall. The shadow is roughly comparable
+    in size to the dinosaur toy. The background is a dimly lit room with a concrete-like texture.
+  init2final_edit_prompt: Edit the given image to move the spotlight assembly to the left along the horizontal
+    track, positioning it physically closer to the dinosaur. Significantly increase the size of the dinosaur's
+    shadow on the wall to reflect the closer light source. Keep the dinosaur toy and the wooden pedestal
+    exactly in their original positions and poses.
+  rationale: 'The video prompt specifies that the spotlight moves toward the stationary dinosaur. According
+    to the laws of optics, as a light source moves closer to an object (reducing the distance between
+    source and occluder), the cast shadow on a background wall becomes larger (magnification). The occlusion
+    event hides the duration of this movement, but the final state must show the coupled relationship:
+    the light is closer, and consequently, the shadow is larger. The dinosaur and pedestal remain fixed
+    invariants.'
+  questions:
+  - id: light_position_change
+    question: Is the spotlight assembly positioned further to the left on the track compared to the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the position of the light fixture on the horizontal rail. It should be closer
+      to the center/dinosaur.
+  - id: shadow_size_increase
+    question: Is the dinosaur's shadow on the wall larger than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The shadow should be magnified due to the light moving closer.
+  - id: light_dino_distance
+    question: Is the distance between the spotlight and the dinosaur smaller than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Visual check of the gap between the light source and the object.
+  - id: shadow_magnification_relation
+    question: Does the shadow appear significantly taller than the dinosaur toy?
+    answer_type: yes_no
+    notes_for_judge: In the initial frame, they are roughly similar; in the final frame, the shadow should
+      be clearly larger.
+  - id: dino_invariant
+    question: Is the dinosaur toy still standing on the wooden pedestal in the same position?
+    answer_type: yes_no
+    notes_for_judge: The object itself should not move.
+  - id: pedestal_invariant
+    question: Is the wooden pedestal in the same position as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The base should be static.
+  - id: shadow_identity
+    question: Is the shadow still recognizable as the silhouette of the dinosaur?
+    answer_type: yes_no
+    notes_for_judge: The shape should be preserved, just scaled.
+  - id: track_visibility
+    question: Is the horizontal track still visible?
+    answer_type: yes_no
+    notes_for_judge: The mechanism should remain part of the scene.

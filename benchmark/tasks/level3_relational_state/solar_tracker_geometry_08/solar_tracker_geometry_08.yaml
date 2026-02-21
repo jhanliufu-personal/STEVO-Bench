@@ -1,0 +1,68 @@
+id: solar_tracker_geometry_08
+level: 3
+category: relational_state
+tags: []
+variant_of: solar_tracker_geometry
+variation_type: combined
+variation_description: Fast movement occluded by camera moving behind a dune.
+changes:
+  occlusion_method: 'Camera movement: Moves physically behind a sand dune.'
+  dynamic_conditions: 'Speed: High velocity tracking.'
+  expected_outcome_change: Panel changes angle much more significantly than original.
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The tracker is in high-speed diagnostic mode. The panel tilts rapidly toward the horizon.
+    The camera physically moves backward, retreating behind a large sand dune that rises up to completely
+    block the line of sight to the panel. The camera pauses behind the dune, then moves forward again
+    to crest the dune and restore the original viewpoint. No cut, no scene change. STOP.
+  camera_WM: The tracker is in high-speed diagnostic mode. The panel tilts rapidly toward the horizon.
+    STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A large, rectangular solar panel array mounted on a heavy-duty mechanical tracker
+    in a desert environment. The panel is currently angled upwards and to the right, with its surface
+    catching the light of a setting sun located low on the horizon. The tracker mechanism includes a prominent
+    large toothed gear wheel and metal support struts anchored in the reddish sand. The sky is a gradient
+    of orange and purple, indicating sunset or sunrise.
+  init2final_edit_prompt: Edit the given image to change the orientation of the solar panel. Tilt the
+    panel significantly downwards so that its surface faces the horizon and the setting sun more directly,
+    making it appear more vertical compared to its original upward-angled position. Rotate the large mechanical
+    gear attached to the panel to correspond with this new angle. Keep the camera viewpoint, the stationary
+    base of the machine, the sand dunes, and the background sky exactly the same as the original image.
+  rationale: 'The video prompt describes a sequence where the camera moves away to a position of total
+    occlusion behind a dune and then returns to the exact original viewpoint. During this occlusion, the
+    solar tracker performs a physical action: tilting rapidly toward the horizon. Therefore, the final
+    frame must depict the scene from the original perspective, but the state of the tracker must have
+    evolved. The panel should be oriented differently (facing the horizon more directly), and the coupled
+    mechanical components (the large gear) must show a corresponding rotation, while the static environment
+    remains unchanged.'
+  questions:
+  - id: panel_orientation_change
+    question: Is the solar panel tilted at a different angle compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The panel should have moved from an upward tilt to a position facing the horizon.
+  - id: panel_facing_horizon
+    question: Does the surface of the solar panel appear to face the horizon or sunset more directly than
+      in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The prompt specifies tilting toward the horizon; the face should be more vertical
+      or aligned with the sun's position.
+  - id: gear_rotation_coupled
+    question: Has the large gear mechanism rotated relative to its initial position?
+    answer_type: yes_no
+    notes_for_judge: The gear is mechanically coupled to the panel; if the panel tilts, the gear must
+      rotate.
+  - id: panel_verticality
+    question: Is the top edge of the panel positioned differently (e.g., lower or more forward) consistent
+      with a downward tilt?
+    answer_type: yes_no
+    notes_for_judge: Checks for geometric consistency of the tilt action.
+  - id: base_stationarity
+    question: Is the base of the tracker anchored in the sand in the same position as the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The base should not move; only the articulating parts should change.
+  - id: viewpoint_restoration
+    question: Is the camera viewpoint and background composition identical to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The camera returns to the original spot; background dunes and sky should match.

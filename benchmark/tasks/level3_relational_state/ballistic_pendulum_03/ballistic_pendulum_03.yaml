@@ -1,0 +1,72 @@
+id: ballistic_pendulum_03
+level: 3
+category: relational_state
+tags: []
+variant_of: ballistic_pendulum
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to thick fog filling the room.
+changes:
+  occlusion_method: Thick fog fills the space, obscuring the scene, then clears.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The metal projectile makes direct contact with the wooden block, embedding itself into the
+    wood. The block is free to swing on its wire suspension. Dense white fog rapidly fills the room, reducing
+    visibility to zero and completely hiding the apparatus. The fog then dissipates, clearing the view
+    to reveal the scene again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The metal projectile makes direct contact with the wooden block, embedding itself into the
+    wood. The block is free to swing on its wire suspension. Dense white fog rapidly fills the room, reducing
+    visibility to zero and completely hiding the apparatus. The fog then dissipates, clearing the view
+    to reveal the scene again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A large, rectangular, weathered wooden block is suspended by two braided metal
+    cables in an industrial room with pipes and a concrete ceiling. A shiny, cylindrical metal projectile
+    is frozen in mid-air, positioned just to the left of the block, flying towards the block's left face.
+    A small puff of dust or debris is visible at the point of imminent impact on the wood.
+  init2final_edit_prompt: Edit the given image to show the wooden block displaced to the right and slightly
+    upwards, as if swinging from the impact. The suspension cables should be angled to the right, following
+    the block's movement. The metal projectile should be removed from the air, as it is now embedded inside
+    the wood. A visible entry hole or impact damage should be present on the left face of the wooden block
+    where the projectile struck.
+  rationale: The video prompt describes a ballistic pendulum experiment. The projectile undergoes an inelastic
+    collision with the wooden block, embedding itself. According to the conservation of momentum, the
+    transfer of momentum from the projectile to the block causes the block to swing upwards and to the
+    right. The fog occlusion allows time for the impact to occur and the swing to initiate. When the view
+    clears, the projectile should be inside the block (invisible), and the block should be displaced from
+    its equilibrium position in the direction of the projectile's flight.
+  questions:
+  - id: projectile_embedded
+    question: Is the metal projectile no longer visible floating in the air?
+    answer_type: yes_no
+    notes_for_judge: The projectile should be embedded in the wood, so it should not be seen as a separate
+      object.
+  - id: block_displacement_x
+    question: Is the wooden block positioned to the right of its location in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The block must move in the direction of the projectile's momentum (to the right).
+  - id: cable_angle
+    question: Do the suspension cables angle towards the right?
+    answer_type: yes_no
+    notes_for_judge: The cables are coupled to the block; if the block moves right, the cables must angle
+      right.
+  - id: impact_damage
+    question: Is there a visible hole or impact mark on the left face of the wooden block?
+    answer_type: yes_no
+    notes_for_judge: Evidence of the interaction (entry point) should be visible.
+  - id: block_displacement_y
+    question: Is the wooden block at a higher vertical position or swung upwards compared to the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: Pendulum motion converts kinetic energy to potential energy (height).
+  - id: coupled_motion
+    question: Does the configuration of the cables and block appear consistent with a pendulum swinging
+      to the right?
+    answer_type: yes_no
+    notes_for_judge: Checks the relational constraint between the support wires and the mass.
+  - id: background_consistency
+    question: Are the ceiling pipes and background structure preserved from the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

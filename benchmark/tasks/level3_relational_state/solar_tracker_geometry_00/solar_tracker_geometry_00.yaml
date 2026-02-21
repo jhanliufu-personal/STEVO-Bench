@@ -1,0 +1,65 @@
+id: solar_tracker_geometry_00
+level: 3
+category: relational_state
+tags: []
+variant_of: solar_tracker_geometry
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The motorized tracker is active, and the solar panel begins tilting slowly and steadily further
+    down toward the horizon. The sun remains bright and low in the sky. Camera remains stationary throughout,
+    keeping the solar panel and its shadow fully in view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The motorized tracker is active, and the solar panel begins tilting slowly and steadily further
+    down toward the horizon. The sun remains bright and low in the sky. Camera remains stationary throughout,
+    keeping the solar panel and its shadow fully in view. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A large, rectangular solar panel mounted on a motorized metal truss structure
+    in a desert landscape. The panel is angled steeply upwards towards the left side of the frame. A large
+    gear mechanism is visible at the pivot point. The sun is low on the horizon to the right, casting
+    a warm orange glow and creating a distinct shadow of the tracker on the sandy ground. Dust and haze
+    are present near the ground.
+  init2final_edit_prompt: Edit the given image to show the solar panel tilted downwards to a lower angle.
+    The upper-left edge of the panel should be positioned significantly lower than in the original view,
+    making the panel's slope appear less steep and more parallel to the ground. Adjust the shadow cast
+    on the sand to accurately reflect the new, lower orientation of the panel relative to the stationary
+    sun. Keep the base of the tracker and the background landscape identical.
+  rationale: The prompt describes the solar panel tilting down toward the horizon. This is a mechanical
+    rotation around the central pivot. As the panel's angle of inclination decreases (becomes flatter),
+    the highest point of the panel will lower. Crucially, because the light source (sun) is fixed, the
+    shadow cast by the panel must change shape and position to maintain geometric consistency with the
+    new panel angle. The base and environment remain static.
+  questions:
+  - id: panel_height_change
+    question: Is the highest edge of the solar panel lower in the frame compared to the initial image?
+    answer_type: yes_no
+    notes_for_judge: The panel should have tilted down, bringing the top edge closer to the ground.
+  - id: panel_angle_steepness
+    question: Does the solar panel appear less steeply inclined relative to the ground than in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: The angle should be flatter/more horizontal.
+  - id: shadow_coupling
+    question: Does the shadow on the ground change shape to correspond with the panel's new angle?
+    answer_type: yes_no
+    notes_for_judge: The shadow cannot remain identical; it must shift as the occluding object (panel)
+      moves.
+  - id: base_stationarity
+    question: Is the base of the tracker structure in the same position relative to the ground?
+    answer_type: yes_no
+    notes_for_judge: Only the tilting part should move; the base is fixed.
+  - id: sun_consistency
+    question: Is the sun's position in the sky unchanged?
+    answer_type: yes_no
+    notes_for_judge: The camera and time of day (short duration) are static.
+  - id: pivot_connection
+    question: Does the panel appear to remain attached to the central pivot mechanism while tilted?
+    answer_type: yes_no
+    notes_for_judge: The movement should be a rotation around the pivot, not a translation of the whole
+      object.

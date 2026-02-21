@@ -1,0 +1,73 @@
+id: tension_acceleration_00
+level: 3
+category: relational_state
+tags: []
+variant_of: tension_acceleration
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The suspended 5kg weight is released from a stationary state. The string is taut and the cart's
+    wheels are frictionless. Camera remains stationary throughout, keeping the cart, string, pulley, and
+    suspended weight fully visible in the frame at all times. No zoom, no cut, no scene change. STOP.
+  camera_WM: The suspended 5kg weight is released from a stationary state. The string is taut and the
+    cart's wheels are frictionless. Camera remains stationary throughout, keeping the cart, string, pulley,
+    and suspended weight fully visible in the frame at all times. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A physics lab setup on a wooden table. A white plastic cart labeled '1KG' with
+    black wheels sits on the table surface. A metal pulley is clamped to the left edge of the table. A
+    white string connects the cart to a metal weight labeled '5KG' which is suspended and hanging vertically
+    off the table edge. A wooden meter stick and a silver stopwatch lie on the table near the cart. In
+    the background, there are lab stools and other tables.
+  init2final_edit_prompt: Edit the given image so that the white cart labeled '1KG' is positioned significantly
+    further to the left, much closer to the metal pulley clamp. Position the suspended metal weight labeled
+    '5KG' lower down in the frame, as if it has dropped. Ensure the string connecting the cart and weight
+    remains taut, with the horizontal segment on the table becoming shorter and the vertical segment hanging
+    down becoming longer.
+  rationale: The system is a modified Atwood machine. The 5kg hanging mass exerts a gravitational force
+    that accelerates the entire system (cart + weight). Since the hanging mass (5kg) is significantly
+    heavier than the cart (1kg) and friction is negligible, the system will accelerate rapidly. The cart
+    will move to the left towards the pulley, and the weight will drop downwards. The string length is
+    conserved, so the distance the cart moves left must equal the distance the weight drops. The final
+    frame captures a moment during this rapid acceleration where the cart has advanced towards the pulley
+    and the weight has descended.
+  questions:
+  - id: cart_position_relational
+    question: Is the 1KG cart closer to the pulley than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The cart must move left towards the pulley.
+  - id: weight_position_relational
+    question: Is the 5KG suspended weight lower in the frame than it was initially?
+    answer_type: yes_no
+    notes_for_judge: The weight acts as the driver and must fall.
+  - id: string_horizontal_length
+    question: Is the horizontal segment of the string (between cart and pulley) shorter than in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: As the cart moves left, this segment shortens.
+  - id: string_vertical_length
+    question: Is the vertical segment of the string (holding the weight) longer than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: As the weight drops, this segment lengthens.
+  - id: coupled_motion_direction
+    question: Does the change in the cart's position correspond to a movement to the left?
+    answer_type: yes_no
+    notes_for_judge: Check directionality.
+  - id: pulley_stability
+    question: Is the metal pulley clamp still attached to the edge of the table?
+    answer_type: yes_no
+    notes_for_judge: The mechanism should remain fixed.
+  - id: meter_stick_stationary
+    question: Is the wooden meter stick in the same position relative to the table as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The meter stick is not connected to the system and should not move.
+  - id: stopwatch_stationary
+    question: Is the silver stopwatch in the same location on the table?
+    answer_type: yes_no
+    notes_for_judge: Unrelated object should remain stationary.

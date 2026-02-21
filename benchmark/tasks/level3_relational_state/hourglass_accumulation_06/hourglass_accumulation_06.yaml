@@ -1,0 +1,66 @@
+id: hourglass_accumulation_06
+level: 1
+category: scalar_state
+tags: []
+variant_of: hourglass_accumulation
+variation_type: dynamic_condition
+variation_description: A pebble blocks the neck, preventing flow despite vertical orientation.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Neck is blocked by a pebble.
+  expected_outcome_change: No accumulation; sand stays in top bulb.
+prompts:
+  init_frame_edit_prompt: Edit the image to show a small dark pebble stuck in the neck of the hourglass,
+    preventing the sand in the top bulb from flowing down.
+  video_WM: An hourglass stands on the table, but a pebble blocks the neck, stopping the sand flow. The
+    camera rotates right until the hourglass completely exits the view, then rotates toward the left smoothly
+    at the same rate until the hourglass is back in the center of view. No zoom, no cut, no scene change.
+    STOP.
+  camera_WM: An hourglass stands on the table, but a pebble blocks the neck, stopping the sand flow. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a wooden hourglass standing on a wooden desk.
+    The hourglass has three turned pillars and contains white sand. A vertical stream of sand is actively
+    falling from the top bulb, forming a conical pile in the bottom bulb. In the background, there is
+    a window with a wooden frame and bookshelves filled with books.
+  init2final_edit_prompt: Edit the given image to remove the vertical stream of falling sand inside the
+    hourglass, leaving the glass neck clear. Ensure the sand pile in the bottom bulb remains exactly the
+    same height and size as in the original image. Ensure the sand level in the top bulb remains exactly
+    the same height. Do not change the position of the hourglass or the background.
+  rationale: The video prompt explicitly states that a pebble blocks the neck, stopping the sand flow.
+    Although the initial frame shows sand flowing, the prompt's instruction overrides this, dictating
+    that the flow ceases. The camera rotates away and then returns. During the period of occlusion, no
+    sand accumulates in the bottom bulb because the flow is blocked. Therefore, in the final frame, the
+    sand levels must be identical to the initial state (zero accumulation), and the falling stream of
+    sand must be absent.
+  questions:
+  - id: flow_stopped
+    question: Is the vertical stream of falling sand no longer visible in the hourglass?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the flow is stopped; the stream should be gone.
+  - id: bottom_pile_height
+    question: Is the sand pile in the bottom bulb approximately the same height as it was in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: Since flow stopped, the pile should not have grown.
+  - id: bottom_pile_growth_check
+    question: Is the sand pile in the bottom bulb clearly no larger than it was initially?
+    answer_type: yes_no
+    notes_for_judge: Verifies that no accumulation occurred during the occlusion.
+  - id: top_level_height
+    question: Is the sand level in the top bulb approximately the same as it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Since flow stopped, the top level should not have dropped.
+  - id: top_level_drop_check
+    question: Is the sand level in the top bulb clearly no lower than it was initially?
+    answer_type: yes_no
+    notes_for_judge: Verifies that mass was conserved in the top bulb.
+  - id: hourglass_centered
+    question: Is the hourglass positioned in the center of the frame?
+    answer_type: yes_no
+    notes_for_judge: The camera rotates back to the center view.
+  - id: background_consistency
+    question: Are the bookshelves in the background still visible?
+    answer_type: yes_no
+    notes_for_judge: Checks for scene consistency.

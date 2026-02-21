@@ -1,0 +1,66 @@
+id: hinged_mirror_angle_03
+level: 3
+category: relational_state
+tags: []
+variant_of: hinged_mirror_angle
+variation_type: occlusion_method
+variation_description: Occlusion changed to camera zooming out until details are lost.
+changes:
+  occlusion_method: Camera zooms out until the scene is indistinguishable, then zooms back in.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A mechanical arm grabs the edge of one mirror and begins slowly closing the hinge, decreasing
+    the angle between the two mirrors. The apple remains stationary. The camera zooms out rapidly until
+    the mirrors and apple are too small to distinguish, then zooms back in to the original framing. No
+    cut, no scene change. STOP.
+  camera_WM: A mechanical arm grabs the edge of one mirror and begins slowly closing the hinge, decreasing
+    the angle between the two mirrors. The apple remains stationary. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+evaluation:
+  init_frame_description: A still life scene showing two rectangular mirrors joined by a vertical brass
+    hinge, standing on a wooden table. The mirrors are angled open in a V-shape. A red apple sits on the
+    table directly in front of the hinge. Reflections of the apple are visible in both mirror panels.
+    The background features a blurred room interior with a window.
+  init2final_edit_prompt: Edit the given image to show the two mirrors folded closer together, forming
+    a significantly narrower V-shape angle. Include a mechanical arm gripping the outer edge of one of
+    the mirrors. Ensure the red apple remains in the exact same position on the table. Update the reflections
+    on the mirror surfaces to correspond to the new, steeper angles of the glass.
+  rationale: The video describes a mechanical action where an arm reduces the angle between the hinged
+    mirrors. The camera zoom-out and zoom-in serves as a temporal transition, allowing the state change
+    to occur while the details are temporarily obscured. Upon returning to the original framing, the primary
+    state change is the reduced angle between the mirrors (they are more closed) and the presence of the
+    mechanical arm effecting this change. The apple is a static object and should remain unchanged, while
+    the reflections in the mirrors must update to reflect the new geometry.
+  questions:
+  - id: mirror_angle_change
+    question: Is the angle between the two mirrors narrower than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the V-shape opening. It should be more acute/closed in the final frame.
+  - id: mechanical_arm_presence
+    question: Is a mechanical arm visible interacting with one of the mirrors?
+    answer_type: yes_no
+    notes_for_judge: The prompt describes an arm grabbing the mirror.
+  - id: mirror_edges_distance
+    question: Are the outer vertical edges of the mirrors closer to each other compared to the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: As the hinge closes, the tips of the V should move closer.
+  - id: apple_conservation
+    question: Is the red apple still present on the table in the same location?
+    answer_type: yes_no
+    notes_for_judge: The apple is stationary.
+  - id: reflection_presence
+    question: Are reflections of the apple still visible in the mirror surfaces?
+    answer_type: yes_no
+    notes_for_judge: Mirrors should still function as mirrors.
+  - id: hinge_stability
+    question: Is the central brass hinge still visible and upright?
+    answer_type: yes_no
+    notes_for_judge: The hinge acts as the pivot and should remain the anchor point.
+  - id: framing_consistency
+    question: Is the camera framing approximately the same as the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The camera zooms back in to the original framing.

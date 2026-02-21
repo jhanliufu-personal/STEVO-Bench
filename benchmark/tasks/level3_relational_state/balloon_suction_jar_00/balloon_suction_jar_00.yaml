@@ -1,0 +1,62 @@
+id: balloon_suction_jar_00
+level: 3
+category: relational_state
+tags: []
+variant_of: balloon_suction_jar
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The technician activates the vacuum pump, which begins to evacuate the air from the bell jar
+    at a constant rate. The jar remains sealed. A balloon sits inside the jar. Camera remains stationary
+    throughout. No zoom, no cut, no scene change. STOP.
+  camera_WM: The technician activates the vacuum pump, which begins to evacuate the air from the bell
+    jar at a constant rate. The jar remains sealed. A balloon sits inside the jar. Camera remains stationary
+    throughout. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A clear glass bell jar sits on a wooden laboratory table, containing an inflated
+    red balloon tied with a string. A beige hose connects the base of the jar to a silver and black vacuum
+    pump located on the right side of the image. The pump features a pressure gauge, a black handle, and
+    cooling fins.
+  init2final_edit_prompt: Edit the given image to show the red balloon inside the bell jar significantly
+    expanded in size. The balloon should appear much larger and more inflated, occupying a greater portion
+    of the interior volume of the glass dome. Maintain the position of the bell jar, the vacuum pump,
+    and the hose, ensuring the background remains unchanged.
+  rationale: The video prompt describes the activation of a vacuum pump connected to a sealed bell jar
+    containing a balloon. As the pump evacuates air from the jar, the ambient pressure surrounding the
+    balloon decreases. According to physics principles (specifically Boyle's Law regarding pressure and
+    volume relationships), the air trapped inside the balloon will expand against the lowering external
+    pressure. Therefore, the balloon must increase in volume and appear significantly larger in the final
+    frame.
+  questions:
+  - id: balloon_expansion_01
+    question: Is the red balloon larger in size compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The balloon should have expanded due to the vacuum.
+  - id: balloon_volume_02
+    question: Does the balloon occupy a greater proportion of the bell jar's interior volume than it did
+      initially?
+    answer_type: yes_no
+    notes_for_judge: 'Relational check: balloon volume vs jar volume.'
+  - id: balloon_width_03
+    question: Is the diameter of the red balloon wider than in the starting image?
+    answer_type: yes_no
+    notes_for_judge: Check for horizontal expansion.
+  - id: balloon_inflation_04
+    question: Does the balloon appear more stretched or inflated relative to its initial state?
+    answer_type: yes_no
+    notes_for_judge: Qualitative check for expansion.
+  - id: jar_integrity_05
+    question: Is the glass bell jar still intact and covering the balloon?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: pump_presence_06
+    question: Is the vacuum pump still visible and connected to the jar?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

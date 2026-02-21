@@ -1,0 +1,63 @@
+id: hinged_mirror_angle_10
+level: 3
+category: relational_state
+tags: []
+variant_of: hinged_mirror_angle
+variation_type: combined
+variation_description: Apple is removed from the scene while camera zooms out.
+changes:
+  occlusion_method: Camera zoom out.
+  dynamic_conditions: Apple is removed from the scene.
+  expected_outcome_change: Apple and its reflections are gone.
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A hand enters the frame, grabs the apple, and lifts it straight up and out of the scene. The
+    mirrors remain stationary. The camera zooms out until the table is a small speck, then zooms back
+    in to the original framing. No cut, no scene change. STOP.
+  camera_WM: A hand enters the frame, grabs the apple, and lifts it straight up and out of the scene.
+    The mirrors remain stationary. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+evaluation:
+  init_frame_description: A red apple sits on a wooden table in front of a hinged mirror consisting of
+    two panels joined by a central brass hinge. The apple is reflected in both mirror panels. The background
+    reflected in the mirrors shows a room with windows and a door.
+  init2final_edit_prompt: Edit the given image to remove the red apple from the table. Also remove the
+    reflections of the apple from both the left and right mirror panels. The wooden table surface should
+    be visible where the apple was, and the mirror reflections should show the empty table and background
+    room without the apple. Keep the mirrors, the brass hinge, and the surrounding room environment unchanged.
+  rationale: The video prompt describes the removal of the apple from the scene, followed by a camera
+    movement that returns to the exact original framing. The primary state change is the removal of the
+    object. Because the scene involves mirrors, the removal of the physical object must be coupled with
+    the disappearance of its reflections in both panels to maintain physical consistency. The final frame
+    should show the initial scene (table, mirrors, background) but with the apple and its reflections
+    entirely absent.
+  questions:
+  - id: apple_removed_physical
+    question: Is the real red apple absent from the table surface?
+    answer_type: yes_no
+    notes_for_judge: Check the center of the table where the physical apple was located.
+  - id: apple_removed_reflection_left
+    question: Is the reflection of the apple absent from the left mirror panel?
+    answer_type: yes_no
+    notes_for_judge: The left mirror should no longer show the red apple.
+  - id: apple_removed_reflection_right
+    question: Is the reflection of the apple absent from the right mirror panel?
+    answer_type: yes_no
+    notes_for_judge: The right mirror should no longer show the red apple.
+  - id: reflection_consistency
+    question: Do the mirrors reflect the empty wooden table surface where the apple used to be?
+    answer_type: yes_no
+    notes_for_judge: The reflections should show the table texture instead of the fruit.
+  - id: hinge_invariant
+    question: Is the central brass hinge still visible connecting the two mirrors?
+    answer_type: yes_no
+    notes_for_judge: The hinge is a static object and should remain.
+  - id: mirror_position_invariant
+    question: Are the two mirror panels still standing in their original configuration?
+    answer_type: yes_no
+    notes_for_judge: The mirrors themselves should not have moved.
+  - id: background_reflection_invariant
+    question: Is the reflection of the background room (windows/walls) still visible in the mirrors?
+    answer_type: yes_no
+    notes_for_judge: The environment reflected in the mirrors should persist, minus the apple.

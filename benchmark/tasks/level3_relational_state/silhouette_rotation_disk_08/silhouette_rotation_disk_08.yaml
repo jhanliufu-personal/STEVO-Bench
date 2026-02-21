@@ -1,0 +1,71 @@
+id: silhouette_rotation_disk_08
+level: 3
+category: relational_state
+tags: []
+variant_of: silhouette_rotation_disk
+variation_type: combined
+variation_description: Blocking occlusion combined with a spherical object. Sphere shadow remains circular
+  regardless of rotation.
+changes:
+  occlusion_method: Opaque board blocking
+  dynamic_conditions: Object changed to a sphere
+  expected_outcome_change: Shadow remains a circle (sphere symmetry)
+prompts:
+  init_frame_edit_prompt: Edit the image to replace the flat circular disk with a solid metal sphere of
+    the same diameter centered on the base.
+  video_WM: The motorized base begins to rotate the metal sphere slowly and steadily by exactly 90 degrees
+    around its vertical axis. The spotlight and screen remain fixed in place. A large, opaque black panel
+    slides into the frame from the right, completely blocking the view of the sphere and screen. The panel
+    pauses, then slides back out to the right, revealing the scene. No zoom, no cut, no scene change.
+    STOP.
+  camera_WM: The motorized base begins to rotate the metal sphere slowly and steadily by exactly 90 degrees
+    around its vertical axis. The spotlight and screen remain fixed in place. A large, opaque black panel
+    slides into the frame from the right, completely blocking the view of the sphere and screen. The panel
+    pauses, then slides back out to the right, revealing the scene. No zoom, no cut, no scene change.
+    STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A large, metallic sphere with a visible horizontal seam and surface scratches
+    rests on a motorized turntable. A studio spotlight on the left illuminates the sphere, creating a
+    bright specular highlight on its left side and casting a sharp, dark circular shadow onto a white
+    background screen.
+  init2final_edit_prompt: Edit the given image to show the metal sphere rotated 90 degrees around its
+    vertical axis. Change the surface texture and scratches on the sphere to reflect a new orientation,
+    while keeping the horizontal seam line at the same vertical height. Ensure the circular shadow on
+    the background screen remains exactly the same shape, size, and position. Keep the bright specular
+    highlight on the sphere in the same screen position, unaffected by the rotation of the material underneath.
+  rationale: The sphere rotates 90 degrees around its vertical axis. Because the object is a sphere, its
+    projected shadow on the screen must remain a perfect circle (invariant shape). Similarly, because
+    the light source and camera are fixed, the specular highlight on the sphere depends on the surface
+    geometry, not the texture; therefore, the highlight remains in the same position while the surface
+    texture moves underneath it. The final frame should show new surface details (scratches) due to the
+    rotation, but the overall geometric configuration (shadow, highlight, sphere outline) must be conserved.
+  questions:
+  - id: shadow_shape_conservation
+    question: Is the shadow on the background screen still circular?
+    answer_type: yes_no
+    notes_for_judge: A sphere's shadow should remain circular regardless of rotation.
+  - id: highlight_position_invariance
+    question: Is the bright specular highlight on the sphere in the same position as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The highlight is determined by the fixed light and camera, so it should not rotate
+      with the object.
+  - id: texture_change_rotation
+    question: Do the surface scratches and texture details on the sphere appear different compared to
+      the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The sphere rotated, so the specific pattern of scratches should change.
+  - id: seam_height_constraint
+    question: Is the horizontal seam line on the sphere still positioned at roughly the same vertical
+      height?
+    answer_type: yes_no
+    notes_for_judge: Rotation around the vertical axis preserves the height of horizontal features.
+  - id: shadow_size_conservation
+    question: Is the size of the shadow consistent with the size of the sphere?
+    answer_type: yes_no
+    notes_for_judge: The shadow should not shrink or grow as the sphere rotates.
+  - id: object_stability
+    question: Is the sphere still centered on the turntable base?
+    answer_type: yes_no
+    notes_for_judge: The object should not have drifted off its base.

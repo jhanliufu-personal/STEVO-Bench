@@ -1,0 +1,66 @@
+id: acoustic_vibration_water_01
+level: 3
+category: relational_state
+tags: []
+variant_of: acoustic_vibration_water
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to room lights turning off completely.
+changes:
+  occlusion_method: Lights turn off (pitch black) then on
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A rubber mallet strikes the tuning fork, causing it to vibrate with a loud, continuous hum.
+    The fork is positioned inches away from the glass. Suddenly, the room lights turn off completely,
+    plunging the scene into pitch blackness. After a few seconds, the lights turn back on to reveal the
+    scene again. No zoom, no cut, no scene change. STOP.
+  camera_WM: A rubber mallet strikes the tuning fork, causing it to vibrate with a loud, continuous hum.
+    The fork is positioned inches away from the glass. Suddenly, the room lights turn off completely,
+    plunging the scene into pitch blackness. After a few seconds, the lights turn back on to reveal the
+    scene again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A large metal tuning fork is clamped horizontally to a rough wooden block on
+    the left side of the frame using a black C-clamp. The tines of the fork extend towards the right,
+    positioned a few inches away from a clear glass bowl filled with water. A rubber mallet with a wooden
+    handle and a black head lies on the dark table surface in the foreground, below the bowl and fork.
+    The scene is illuminated by natural light coming from a window in the background.
+  init2final_edit_prompt: Edit the given image to show the rubber mallet lying in a different position
+    and orientation on the table, as if it has been picked up and set back down. Apply a soft motion blur
+    to the tines of the tuning fork to simulate vibration. Ensure the water surface in the glass bowl
+    remains calm and flat, with no splashes or ripples. Maintain the original lighting, camera angle,
+    and the positions of the wooden block, C-clamp, and glass bowl.
+  rationale: The video prompt describes a physical interaction where the mallet strikes the tuning fork.
+    This implies the mallet must be moved from its initial resting state, so in the final frame, it should
+    be in a different position or orientation. The strike causes the tuning fork to vibrate, which should
+    be visually represented by motion blur on the tines. Since the prompt specifies the fork is 'inches
+    away' from the glass, there is no physical contact with the water, so the water surface must remain
+    calm (testing the correct modeling of physical isolation). The lighting returns to the on state, restoring
+    the original visibility.
+  questions:
+  - id: mallet_displacement
+    question: Is the rubber mallet in a different position or orientation compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The mallet should have moved as a result of the striking action.
+  - id: fork_vibration
+    question: Do the tines of the tuning fork appear blurred or indistinct, suggesting vibration?
+    answer_type: yes_no
+    notes_for_judge: The fork should show signs of vibration (motion blur) due to the strike.
+  - id: water_isolation
+    question: Is the water surface calm and free of splashes or ripples?
+    answer_type: yes_no
+    notes_for_judge: Since the fork does not touch the water, the water should remain undisturbed.
+  - id: water_conservation
+    question: Is the water level in the bowl approximately the same as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Tests conservation of mass/volume.
+  - id: spatial_invariance
+    question: Is the relative position of the wooden block and the glass bowl unchanged?
+    answer_type: yes_no
+    notes_for_judge: These heavy objects should not move.
+  - id: structural_integrity
+    question: Is the C-clamp still securing the tuning fork to the wooden block?
+    answer_type: yes_no
+    notes_for_judge: The mechanism should remain intact.

@@ -1,0 +1,62 @@
+id: pulley_counterweight_00
+level: 3
+category: relational_state
+tags: []
+variant_of: pulley_counterweight
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A hand begins pulling the left weight downward at a constant speed. The rope remains taut
+    across the pulley. The motion continues steadily. Camera remains stationary throughout. No zoom, no
+    cut, no scene change. STOP.
+  camera_WM: A hand begins pulling the left weight downward at a constant speed. The rope remains taut
+    across the pulley. The motion continues steadily. Camera remains stationary throughout. No zoom, no
+    cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A low-angle shot of a rustic wooden interior showing a metal pulley mounted
+    to a wooden ceiling beam. A thick rope passes over the pulley, suspending two identical bell-shaped
+    weights labeled '5KG IRON'. The weights are hanging at approximately the same height, balanced in
+    the center of the frame. The background features dark wooden walls and a bright window on the right.
+  init2final_edit_prompt: Edit the given image to show a hand grasping the left weight and pulling it
+    downward. The left weight should be positioned significantly lower than it was in the original image.
+    Correspondingly, the right weight should be positioned significantly higher, much closer to the pulley.
+    Ensure the rope remains taut and continuous, with the left segment longer and the right segment shorter
+    than before.
+  rationale: 'The prompt specifies that a hand pulls the left weight downward. In this simple pulley system,
+    the rope has a fixed length. Therefore, pulling the left side down mechanically forces the right side
+    to move upward by an equal distance. The final state must depict this coupled motion: the left weight
+    lower, the right weight higher, and the rope taut between them.'
+  questions:
+  - id: left_weight_down
+    question: Is the left weight positioned lower than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The left weight must have moved down due to the pulling action.
+  - id: right_weight_up
+    question: Is the right weight positioned higher than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Due to the pulley coupling, the right weight must move up when the left moves down.
+  - id: relative_height_diff
+    question: Is the right weight now positioned higher than the left weight?
+    answer_type: yes_no
+    notes_for_judge: In the initial frame they are roughly level; the action should create a significant
+      vertical offset where right > left.
+  - id: rope_asymmetry
+    question: Is the visible length of rope on the left side longer than the visible length of rope on
+      the right side?
+    answer_type: yes_no
+    notes_for_judge: The left rope segment lengthens and the right shortens, creating asymmetry.
+  - id: vertical_separation_increase
+    question: Is the vertical distance between the two weights greater than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: They started near each other vertically; the action separates them vertically.
+  - id: hand_visible
+    question: Is a hand visible interacting with the left weight or rope?
+    answer_type: yes_no
+    notes_for_judge: The prompt explicitly states a hand is pulling.

@@ -1,0 +1,66 @@
+id: anamorphic_projection_07
+level: 3
+category: relational_state
+tags: []
+variant_of: anamorphic_projection
+variation_type: combined
+variation_description: Static scene (no rotation) occluded by thick fog.
+changes:
+  occlusion_method: Thick fog obscures the view.
+  dynamic_conditions: No movement.
+  expected_outcome_change: No change in state.
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The distorted drawing and cylindrical mirror sit motionless on the table. Thick white fog
+    rolls across the table, completely obscuring the cylinder and drawing from view. The fog slowly dissipates,
+    revealing the table again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The distorted drawing and cylindrical mirror sit motionless on the table. Thick white fog
+    rolls across the table, completely obscuring the cylinder and drawing from view. The fog slowly dissipates,
+    revealing the table again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A reflective metal cylinder stands vertically in the center of a piece of paper
+    on a wooden table. The paper features a distorted, swirling anamorphic drawing of colored lines. The
+    reflection on the curved surface of the cylinder optically corrects the distortion, revealing a clear
+    image of a woman's face.
+  init2final_edit_prompt: Edit the given image to show the scene clearly visible again. Ensure the cylindrical
+    mirror remains in the exact same position on the paper. The reflection in the cylinder must still
+    show the woman's face, maintaining the precise optical alignment and color consistency with the distorted
+    drawing on the paper. The drawing and the table surface should be visible and unchanged.
+  rationale: The prompt describes a static scene where objects are explicitly stated to be motionless.
+    A temporary occlusion (fog) occurs and then clears. Therefore, the final state must be identical to
+    the initial state, testing the model's ability to maintain object permanence and the complex relational
+    constraint of the anamorphic reflection (the coupling between the distorted drawing and the corrected
+    reflection) through a period of zero visibility.
+  questions:
+  - id: reflection_content_preservation
+    question: Does the reflection in the cylinder still show a woman's face?
+    answer_type: yes_no
+    notes_for_judge: The reflection must persist after the occlusion clears.
+  - id: optical_coupling_consistency
+    question: Is the relationship between the distorted drawing and the reflection preserved (i.e., do
+      the colors and lines correspond)?
+    answer_type: yes_no
+    notes_for_judge: 'Tests the relational state: the reflection is causally linked to the drawing.'
+  - id: spatial_alignment
+    question: Is the position of the cylinder relative to the swirling lines unchanged?
+    answer_type: yes_no
+    notes_for_judge: The cylinder should be centered in the swirls as before.
+  - id: color_consistency
+    question: Are the colors visible in the reflection consistent with the colors of the drawing on the
+      paper?
+    answer_type: yes_no
+    notes_for_judge: 'Relational check: the reflection source is the paper.'
+  - id: scene_restoration
+    question: Is the wooden table surface visible again?
+    answer_type: yes_no
+    notes_for_judge: Verifies the fog has dissipated.
+  - id: object_permanence_drawing
+    question: Is the distorted drawing on the paper still visible and unchanged?
+    answer_type: yes_no
+    notes_for_judge: The drawing should not disappear or change pattern.
+  - id: overall_state_conservation
+    question: Does the scene appear to have returned to its initial configuration?
+    answer_type: yes_no
+    notes_for_judge: Since objects were motionless, the state should be conserved.

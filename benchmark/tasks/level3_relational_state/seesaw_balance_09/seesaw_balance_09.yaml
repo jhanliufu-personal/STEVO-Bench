@@ -1,0 +1,65 @@
+id: seesaw_balance_09
+level: 3
+category: relational_state
+tags: []
+variant_of: seesaw_balance
+variation_type: combined
+variation_description: Pushing down right side + Fog occlusion.
+changes:
+  occlusion_method: Dense fog.
+  dynamic_conditions: Force applied to right side.
+  expected_outcome_change: Seesaw tips right-down.
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A heavy adult grabs the handle of the raised right seat and hangs their full body weight on
+    it. Suddenly, a dense, opaque white fog rolls in, completely obscuring the playground. The fog clears
+    rapidly to reveal the scene again. No zoom, no cut, no scene change. STOP.
+  camera_WM: A heavy adult grabs the handle of the raised right seat and hangs their full body weight
+    on it. Suddenly, a dense, opaque white fog rolls in, completely obscuring the playground. The fog
+    clears rapidly to reveal the scene again. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A wooden seesaw in a playground setting with wood chip ground cover. The seesaw
+    is currently unbalanced, tilted down to the left side. A burlap sack labeled '20 KG SAND' sits on
+    the lower left seat. The right seat is raised high in the air and is empty. In the background, there
+    are trees and other playground structures.
+  init2final_edit_prompt: Edit the given image to show the seesaw tilted down to the right side. Render
+    a heavy adult figure on the right side, holding the handle and weighing that side down near the ground.
+    The left side of the seesaw should be raised high in the air, carrying the '20 KG SAND' sack upwards.
+    Maintain the original background, lighting, and the appearance of the sandbag.
+  rationale: The prompt introduces a heavy adult (significantly exceeding 20kg) who applies their full
+    weight to the raised right side of the seesaw. According to the physics of a lever, this greater weight
+    creates a torque that overcomes the counter-torque of the 20kg sandbag. Therefore, the seesaw must
+    rotate, resulting in the right side going down and the left side (with the sandbag) going up. The
+    final frame reveals this new equilibrium state after the fog clears.
+  questions:
+  - id: seesaw_tilt_direction
+    question: Is the right seat of the seesaw lower than the left seat?
+    answer_type: yes_no
+    notes_for_judge: The seesaw should be tilted down to the right due to the adult's weight.
+  - id: sandbag_elevation
+    question: Is the sandbag on the left side raised higher than the pivot point?
+    answer_type: yes_no
+    notes_for_judge: Since the left side goes up, the sandbag should be high in the air.
+  - id: adult_presence
+    question: Is there a human figure visible on the right side of the seesaw?
+    answer_type: yes_no
+    notes_for_judge: The prompt specifies an adult hangs their weight on the right; they must be present
+      to maintain the tilt against the sandbag.
+  - id: state_inversion
+    question: Has the tilt of the seesaw inverted compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: 'Initial: Left down. Final: Right down.'
+  - id: sandbag_conservation
+    question: Is the '20 KG SAND' sack still visible on the left seat?
+    answer_type: yes_no
+    notes_for_judge: The object should be conserved, just moved to a new position.
+  - id: pivot_consistency
+    question: Does the central pivot of the seesaw appear to be in the same location relative to the ground?
+    answer_type: yes_no
+    notes_for_judge: The seesaw structure should not move, only rotate.
+  - id: background_consistency
+    question: Are the trees and wood chips in the background consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The environment should not change.

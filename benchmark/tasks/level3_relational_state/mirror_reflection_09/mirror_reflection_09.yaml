@@ -1,0 +1,62 @@
+id: mirror_reflection_09
+level: 3
+category: relational_state
+tags: []
+variant_of: mirror_reflection
+variation_type: combined
+variation_description: Ball remains stationary + Camera zooms out and in.
+changes:
+  occlusion_method: Camera zooms out until details are lost.
+  dynamic_conditions: Initial velocity is zero (stationary).
+  expected_outcome_change: No change in state; ball remains in original position.
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The red ball sits stationary on the table. No hand touches it. The camera zooms out rapidly
+    until the table and mirror are small and indistinct in the distance. The camera then zooms back in
+    to the original framing. No cut, no scene change. STOP.
+  camera_WM: The red ball sits stationary on the table. No hand touches it. The geometric relationship
+    between the object and its reflection is maintained. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+evaluation:
+  init_frame_description: A close-up view of a red billiard ball with the number 3 in a white circle resting
+    on a wooden table. Behind the ball is a framed mirror. The mirror reflects the back of the red ball
+    and a green pool table in the background. The mirror frame is made of wood with a beveled edge.
+  init2final_edit_prompt: Edit the given image to show the exact same scene as the original. The red ball
+    with the number 3 must be in the same position on the wooden table. The mirror behind the ball must
+    show the reflection of the ball and the green pool table in the background, maintaining the exact
+    original alignment and composition.
+  rationale: The video prompt specifies that the ball is stationary and untouched. The camera zooms out
+    and then returns to the exact original framing. Therefore, the physical state of the world is unchanged,
+    and the final view should be identical to the initial view. The task tests the model's ability to
+    preserve object permanence, spatial relationships, and reflection consistency (the coupled state of
+    the object and its mirror image) through a camera excursion.
+  questions:
+  - id: ball_position_relative
+    question: Is the position of the red ball relative to the mirror frame unchanged compared to the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: Check if the distance and angle between the ball and the bottom of the mirror frame
+      are preserved.
+  - id: reflection_existence
+    question: Is the reflection of the red ball visible in the mirror?
+    answer_type: yes_no
+    notes_for_judge: The mirror must show the reflected image of the ball.
+  - id: reflection_alignment
+    question: Is the alignment between the real ball and its reflection consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The reflection should appear directly behind the ball, consistent with the original
+      perspective.
+  - id: background_reflection_consistency
+    question: Is the reflection of the green pool table still visible in the mirror?
+    answer_type: yes_no
+    notes_for_judge: The background reflection should not disappear or change into something else.
+  - id: ball_identity
+    question: Is the number '3' visible on the red ball?
+    answer_type: yes_no
+    notes_for_judge: The object identity should be preserved.
+  - id: scene_conservation
+    question: Does the overall scene composition appear identical to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Since the camera returns to the original framing and nothing moved, the image should
+      look the same.

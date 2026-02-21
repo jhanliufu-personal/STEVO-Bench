@@ -1,0 +1,67 @@
+id: silhouette_rotation_disk_05
+level: 3
+category: relational_state
+tags: []
+variant_of: silhouette_rotation_disk
+variation_type: dynamic_condition
+variation_description: Disk rotates 45 degrees. Final shadow should be an ellipse.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Rotation angle changed from 90 degrees to 45 degrees
+  expected_outcome_change: Shadow becomes an ellipse instead of a thin line
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The motorized base begins to rotate the flat circular disk slowly and steadily by exactly
+    45 degrees around its vertical axis. The spotlight and screen remain fixed in place. The camera rotates
+    right until the disk completely exits the view, then rotates toward the left smoothly at the same
+    rate until the white screen is back in the center of view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The motorized base begins to rotate the flat circular disk slowly and steadily by exactly
+    45 degrees around its vertical axis. The spotlight and screen remain fixed in place. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A studio photography setup featuring a large spotlight on a stand to the left,
+    a flat circular metal disk mounted vertically on a motorized turntable in the center, and a large
+    white diffusion screen on the right. The disk is oriented edge-on to the camera and perpendicular
+    to the light beam, casting a perfectly circular dark shadow on the white screen.
+  init2final_edit_prompt: Edit the given image to show the central metal disk rotated 45 degrees around
+    its vertical axis. The disk should no longer appear edge-on; its circular face should be partially
+    visible as an ellipse. Correspondingly, the shadow on the white screen must become narrower horizontally,
+    forming a vertical oval or ellipse instead of a perfect circle, to reflect the disk's angled orientation
+    relative to the light source. Keep the spotlight, stand, background, and camera framing identical
+    to the original image.
+  rationale: The video prompt describes a 45-degree rotation of the disk while the camera pans away and
+    returns. The camera movement serves as an occlusion/temporal gap, but the final viewpoint returns
+    to the initial framing. Physically, rotating a disk that is initially perpendicular to a light source
+    by 45 degrees will change its projected shadow from a circle to a narrower ellipse (width reduced
+    by approximately 30%). Visually, the disk itself will change from a thin edge-on profile to showing
+    its face as an ellipse. The height of the shadow and the disk should remain unchanged as the rotation
+    is around the vertical axis.
+  questions:
+  - id: disk_face_visibility
+    question: Is the face of the metal disk partially visible as an ellipse, rather than just appearing
+      as a thin edge?
+    answer_type: yes_no
+    notes_for_judge: In the initial frame, the disk is edge-on. After 45 degrees rotation, the face should
+      be visible.
+  - id: shadow_shape_change
+    question: Is the shadow on the white screen narrower horizontally than the circular shadow in the
+      initial frame?
+    answer_type: yes_no
+    notes_for_judge: The shadow should transform from a circle to an ellipse/oval due to the rotation.
+  - id: shadow_geometry_consistency
+    question: Does the shadow appear as a vertical oval or ellipse?
+    answer_type: yes_no
+    notes_for_judge: It should no longer be a perfect circle.
+  - id: shadow_height_conservation
+    question: Is the vertical height of the shadow approximately the same as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Rotation is around the vertical axis, so height is conserved.
+  - id: coupled_state_consistency
+    question: Do the disk and its shadow show a consistent state change (disk angled and shadow narrowed)?
+    answer_type: yes_no
+    notes_for_judge: 'Check for the relational link: if the disk rotates, the shadow must narrow.'
+  - id: spotlight_position
+    question: Is the spotlight on the left still in the same position and orientation?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

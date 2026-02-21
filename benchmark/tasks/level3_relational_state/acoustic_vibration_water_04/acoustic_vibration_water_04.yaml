@@ -1,0 +1,63 @@
+id: acoustic_vibration_water_04
+level: 3
+category: relational_state
+tags: []
+variant_of: acoustic_vibration_water
+variation_type: dynamic_condition
+variation_description: The mallet does not strike the fork, leaving the system static.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Mallet remains stationary; no vibration initiated
+  expected_outcome_change: No ripples; water remains perfectly still
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The rubber mallet remains resting on the table next to the tuning fork. The fork is stationary
+    and silent, positioned inches away from the glass. The camera rotates right until the fork completely
+    exits the view, then rotates toward the left smoothly at the same rate until the surface of the water
+    is back in the center of view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The rubber mallet remains resting on the table next to the tuning fork. The fork is stationary
+    and silent, positioned inches away from the glass. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a physics experiment setup on a dark table. A
+    large, rusty tuning fork is clamped horizontally in a wooden block on the left side. A clear glass
+    bowl filled with water is positioned on the right, with the fork's prongs extending near the bowl's
+    rim. A wooden-handled rubber mallet lies resting on the table in the foreground. The water surface
+    is calm and reflects the window light from the background.
+  init2final_edit_prompt: Edit the given image to show the glass bowl of water as the central focus of
+    the frame. The water surface must be completely smooth, glassy, and still, with absolutely no ripples
+    or waves. The tuning fork and wooden block remain on the left side, appearing stationary and unchanged.
+    The rubber mallet remains lying on the table in the foreground in its original position. The scene
+    lighting and object arrangement are preserved, showing a static state.
+  rationale: The video prompt explicitly states that the tuning fork is stationary and silent, and the
+    mallet remains resting on the table. The camera pans away and then returns to center on the water,
+    but no physical interaction occurs. The primary challenge is for the model to respect the negative
+    constraint (no action) and maintain the conservation of the static state, specifically ensuring the
+    water remains calm despite the camera motion and the presence of objects typically associated with
+    vibration.
+  questions:
+  - id: water_calmness
+    question: Is the surface of the water completely free of ripples or waves?
+    answer_type: yes_no
+    notes_for_judge: The water should be glassy and smooth, as no interaction occurred.
+  - id: water_stillness_visual
+    question: Does the water appear undisturbed and calm?
+    answer_type: yes_no
+    notes_for_judge: Check for lack of motion blur or disturbance patterns.
+  - id: mallet_position
+    question: Is the rubber mallet still lying on the table in the foreground?
+    answer_type: yes_no
+    notes_for_judge: The mallet should not have moved.
+  - id: fork_integrity
+    question: Is the tuning fork visible and stationary in its original setup?
+    answer_type: yes_no
+    notes_for_judge: The fork should not be vibrating or displaced.
+  - id: relative_positions
+    question: Is the relative arrangement of the tuning fork and the water bowl preserved?
+    answer_type: yes_no
+    notes_for_judge: Objects should not have moved relative to each other.
+  - id: water_containment
+    question: Is the water fully contained within the bowl without any splashing?
+    answer_type: yes_no
+    notes_for_judge: No water should be outside the bowl.

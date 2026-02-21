@@ -1,0 +1,71 @@
+id: solar_tracker_geometry_01
+level: 3
+category: relational_state
+tags: []
+variant_of: solar_tracker_geometry
+variation_type: occlusion_method
+variation_description: Replaced camera rotation with a thick desert sandstorm that obscures the view.
+changes:
+  occlusion_method: 'Environmental occlusion: Thick sandstorm blows across the scene.'
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The motorized tracker is active, and the solar panel begins tilting slowly and steadily further
+    down toward the horizon. The sun remains bright and low in the sky. Suddenly, a thick wall of desert
+    sand blows in from the left, completely obscuring the solar panel and the landscape in a brown haze.
+    The wind howls. After a moment, the sandstorm clears rapidly, revealing the scene again. No zoom,
+    no cut, no scene change. STOP.
+  camera_WM: The motorized tracker is active, and the solar panel begins tilting slowly and steadily further
+    down toward the horizon. The sun remains bright and low in the sky. Suddenly, a thick wall of desert
+    sand blows in from the left, completely obscuring the solar panel and the landscape in a brown haze.
+    The wind howls. After a moment, the sandstorm clears rapidly, revealing the scene again. No zoom,
+    no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A large, rectangular solar panel array mounted on a heavy-duty metal framework
+    with a visible gear mechanism and hydraulic piston. The panel is tilted upwards, facing towards the
+    right side of the frame where the sun is setting (or rising) low on the horizon. The terrain is a
+    reddish desert with sand dunes and scattered rocks. The sky is a gradient of purple to orange.
+  init2final_edit_prompt: Edit the given image to show the solar panel tilted significantly lower, with
+    its face pointing more directly towards the horizon line on the right rather than up at the sky. The
+    top edge of the panel should be lower in the frame, and the bottom edge higher or pivoted accordingly,
+    reflecting a downward rotation. The large gear mechanism should appear rotated to match this new angle.
+    Ensure the scene is clear of any thick sandstorm or haze, returning to the clear visibility of the
+    original desert landscape, possibly with a light dusting of fresh sand on the base.
+  rationale: The prompt describes a continuous physical action (tilting down) that persists through a
+    temporary occlusion (sandstorm). The world model must simulate the passage of time and the persistence
+    of the mechanism's motion while the view is blocked. Therefore, in the final frame, the sandstorm
+    must be gone, and the solar panel must be in a different state (tilted lower) than in the initial
+    frame, respecting the 'slow and steady' motion described.
+  questions:
+  - id: panel_visibility
+    question: Is the solar panel clearly visible, with the thick wall of sandstorm removed?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the sandstorm clears rapidly. The final image should not be obscured.
+  - id: panel_tilt_direction
+    question: Is the solar panel tilted more towards the horizon (facing less upwards) than in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the angle of the panel surface relative to the ground. It should be steeper/more
+      vertical or pointing lower than the initial upward slant.
+  - id: top_edge_position
+    question: Is the top edge of the solar panel lower in the frame compared to the initial image?
+    answer_type: yes_no
+    notes_for_judge: As the panel tilts down towards the horizon, the highest point of the panel should
+      descend.
+  - id: gear_consistency
+    question: Does the mechanical connection (gears/struts) still appear attached to the panel in its
+      new position?
+    answer_type: yes_no
+    notes_for_judge: Checks for relational integrity; the panel should not be floating or detached from
+      the base.
+  - id: state_change_occurred
+    question: Has the angle of the solar panel changed relative to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The panel should not be in the exact same position; motion was described.
+  - id: environment_consistency
+    question: Is the background landscape (dunes/horizon) consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The location hasn't changed, only the weather cleared.

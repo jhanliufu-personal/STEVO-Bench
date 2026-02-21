@@ -1,0 +1,68 @@
+id: compass_deflection_06
+level: 3
+category: relational_state
+tags: []
+variant_of: compass_deflection
+variation_type: dynamic_condition
+variation_description: Magnet is held stationary instead of moving.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Magnet position is static.
+  expected_outcome_change: Needle remains static (no change in deflection).
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A hand holds the bar magnet completely stationary near the side of the compass housing. The
+    magnet does not move. The camera rotates right until the magnet completely exits the view, then rotates
+    toward the left smoothly at the same rate until the compass face is back in the center of view. No
+    zoom, no cut, no scene change. STOP.
+  camera_WM: A hand holds the bar magnet completely stationary near the side of the compass housing. The
+    magnet does not move. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up shot of a brass pocket compass resting on a wooden table with its
+    lid open to the left. The compass dial is visible, and the needle has a red tip (North) and a silver
+    tip (South). The red tip is deflected, pointing towards the upper-left (approximately the 10 o'clock
+    position). To the right of the compass, a hand holds a rectangular bar magnet with a red half (left)
+    and a blue half (right). The red end of the magnet is positioned close to the compass housing. A wooden
+    ruler lies in the foreground.
+  init2final_edit_prompt: Edit the given image to show the compass centered in the frame. The red and
+    blue bar magnet remains visible on the right side, held stationary by the hand with the red end facing
+    the compass. The compass needle maintains its exact initial deflection, pointing towards the upper-left
+    (approximately 10 o'clock position). The wooden ruler remains visible in the foreground.
+  rationale: The prompt specifies that the magnet is held completely stationary relative to the compass
+    housing throughout the entire video. Although the camera pans away (occluding the objects) and then
+    returns, the physical arrangement of the magnetic source and the compass does not change. Therefore,
+    the magnetic field acting on the compass needle remains constant. Upon returning to the view, the
+    compass needle must be in the exact same deflected orientation (pointing away from the magnet's north
+    pole) as seen in the initial frame.
+  questions:
+  - id: needle_orientation_consistent
+    question: Is the compass needle pointing in the same direction as it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The needle should remain pointing towards the upper-left (approx 10 o'clock) as the
+      magnet has not moved.
+  - id: needle_direction_absolute
+    question: Is the red tip of the compass needle pointing towards the upper-left (approximately 10 o'clock)?
+    answer_type: yes_no
+    notes_for_judge: It should not be pointing North (12 o'clock) or towards the magnet (3 o'clock).
+  - id: magnet_presence
+    question: Is the bar magnet visible on the right side of the image?
+    answer_type: yes_no
+    notes_for_judge: The magnet should be present as the camera returns to the compass.
+  - id: magnet_orientation
+    question: Is the red end of the magnet closer to the compass than the blue end?
+    answer_type: yes_no
+    notes_for_judge: The magnet orientation should be preserved.
+  - id: needle_magnet_relation
+    question: Is the red tip of the needle pointing away from the red end of the magnet?
+    answer_type: yes_no
+    notes_for_judge: Tests for magnetic repulsion (North repels North). Needle points NW, Magnet is E.
+  - id: lid_state
+    question: Is the compass lid still open?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: ruler_visibility
+    question: Is the wooden ruler visible in the foreground?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

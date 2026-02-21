@@ -1,0 +1,66 @@
+id: pulley_color_wheel_07
+level: 3
+category: relational_state
+tags: []
+variant_of: pulley_color_wheel
+variation_type: combined
+variation_description: Broken belt condition combined with heavy wood dust/fog occlusion.
+changes:
+  occlusion_method: Fog/Smoke (wood dust)
+  dynamic_conditions: Belt is broken
+  expected_outcome_change: The color wheel remains stationary.
+prompts:
+  init_frame_edit_prompt: Edit the image to show the black rubber belt cut in the middle, hanging loosely
+    with a visible gap between the ends, no longer connecting the pulleys.
+  video_WM: A hand turns the crank handle exactly half a rotation clockwise. The broken belt hangs loosely
+    and does not transfer force. Suddenly, a thick cloud of wood dust fills the air, completely obscuring
+    the view of the mechanism. The dust slowly settles and clears. No zoom, no cut, no scene change. STOP.
+  camera_WM: A hand turns the crank handle exactly half a rotation clockwise. The broken belt hangs loosely
+    and does not transfer force. Suddenly, a thick cloud of wood dust fills the air, completely obscuring
+    the view of the mechanism. The dust slowly settles and clears. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A workshop scene showing a wooden hand-crank mechanism clamped to a workbench
+    on the left and a large vertical color wheel on a stand to the right. A person's hand holds the crank
+    handle, which is currently positioned near the top of its rotation cycle. A black flat belt loops
+    over the crank pulley and the large wheel, but the bottom portion of the belt hangs loosely, appearing
+    slack or disconnected. The color wheel features painted segments (green, yellow, orange, red, purple,
+    blue), with the 'Yellow' segment and text currently at the top 12 o'clock position.
+  init2final_edit_prompt: Edit the given image to show the result of turning the crank handle 180 degrees
+    clockwise. Move the wooden crank handle and the person's hand to the bottom of the rotation circle,
+    so the handle points downwards. Keep the large color wheel completely stationary, ensuring the 'Yellow'
+    segment and text remain exactly at the top 12 o'clock position. Maintain the loose appearance of the
+    black belt. Preserve the background, workbench, and lighting exactly as they are.
+  rationale: The prompt explicitly states that the belt is broken and does not transfer force. This means
+    the system is mechanically decoupled. When the crank is turned half a rotation, the crank handle moves
+    to the opposite position (from top to bottom), but the force is not transmitted to the large wheel.
+    Therefore, the color wheel must remain in its initial state (stationary) despite the input action.
+    The occlusion hides the motion, requiring the model to apply the physics of the broken coupling to
+    determine the final static configuration.
+  questions:
+  - id: crank_moved_lower
+    question: Is the crank handle positioned lower in the frame than it was initially?
+    answer_type: yes_no
+    notes_for_judge: The crank was turned 180 degrees from a top position, so it should now be at the
+      bottom.
+  - id: wheel_stationary_yellow
+    question: Is the 'Yellow' segment of the color wheel still at the top 12 o'clock position?
+    answer_type: yes_no
+    notes_for_judge: The belt is broken, so the wheel should not have rotated.
+  - id: wheel_stationary_orientation
+    question: Did the color wheel remain stationary despite the crank turning?
+    answer_type: yes_no
+    notes_for_judge: Check if the orientation of the colors is identical to the initial frame.
+  - id: hand_position_change
+    question: Is the person's hand in a different position corresponding to the turned crank?
+    answer_type: yes_no
+    notes_for_judge: The hand should follow the handle to the bottom position.
+  - id: decoupling_check
+    question: Does the image show the crank handle rotated while the color wheel remained fixed?
+    answer_type: yes_no
+    notes_for_judge: This tests the relational constraint of the broken belt.
+  - id: green_segment_position
+    question: Is the green segment still located to the left of the yellow segment?
+    answer_type: yes_no
+    notes_for_judge: Verifies the wheel did not rotate clockwise.

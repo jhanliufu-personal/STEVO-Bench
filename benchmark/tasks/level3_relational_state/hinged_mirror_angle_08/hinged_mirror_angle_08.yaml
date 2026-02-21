@@ -1,0 +1,64 @@
+id: hinged_mirror_angle_08
+level: 3
+category: relational_state
+tags: []
+variant_of: hinged_mirror_angle
+variation_type: combined
+variation_description: Apple slides away from the hinge while lights turn off.
+changes:
+  occlusion_method: Lights turn off.
+  dynamic_conditions: Apple moves away from hinge.
+  expected_outcome_change: Apple position changes; reflections adjust distance.
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The hinged mirrors remain stationary. The apple begins sliding across the table away from
+    the hinge. The room lights turn off completely, leaving the scene in pitch black darkness. The lights
+    turn back on. No zoom, no cut, no scene change. STOP.
+  camera_WM: The hinged mirrors remain stationary. The apple begins sliding across the table away from
+    the hinge. The room lights turn off completely, leaving the scene in pitch black darkness. The lights
+    turn back on. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up shot of a hinged double mirror standing vertically on a wooden table.
+    A red apple is positioned on the table directly in front of the brass hinge connecting the two mirror
+    panels. The apple is reflected in both the left and right mirrors, and a secondary reflection is visible
+    in the center corner. The background shows a bright room with windows.
+  init2final_edit_prompt: Edit the given image to show the red apple positioned significantly further
+    away from the central brass hinge, closer to the foreground of the table. Update the reflections in
+    both the left and right mirror panels to match this new position, placing the reflected apples further
+    outward from the central hinge line. Ensure the scene is fully illuminated with bright, natural lighting
+    matching the original.
+  rationale: The prompt describes the apple sliding away from the hinge. Geometrically, as an object moves
+    away from the vertex of a corner mirror along the bisector, its primary reflections move away from
+    the hinge line along the mirror surfaces. The lighting toggles off and then back on, so the final
+    frame must be lit, not dark. The mirrors themselves remain stationary, so the background and mirror
+    geometry should be preserved.
+  questions:
+  - id: apple_distance
+    question: Is the real apple positioned further away from the brass hinge than it was in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the distance between the apple and the central hinge on the table surface.
+  - id: reflection_shift
+    question: Do the reflections of the apple in the mirrors appear further outward from the central hinge
+      compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: As the object moves away from the corner, the reflections should recede from the
+      center line.
+  - id: lighting_status
+    question: Is the scene fully illuminated (not pitch black)?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the lights turn back on.
+  - id: mirror_stationary
+    question: Do the mirrors appear to be in the same position and angle as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The mirrors should not have moved.
+  - id: reflection_existence
+    question: Are reflections of the apple still visible in the mirror panels?
+    answer_type: yes_no
+    notes_for_judge: The reflections should persist, just moved.
+  - id: apple_on_table
+    question: Is the apple still resting on the wooden table surface?
+    answer_type: yes_no
+    notes_for_judge: It should slide, not float or disappear.

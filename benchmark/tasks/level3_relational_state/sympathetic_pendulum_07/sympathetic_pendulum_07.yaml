@@ -1,0 +1,64 @@
+id: sympathetic_pendulum_07
+level: 3
+category: relational_state
+tags: []
+variant_of: sympathetic_pendulum
+variation_type: combined
+variation_description: Rigid beam condition combined with lights-off occlusion.
+changes:
+  occlusion_method: Room lights turn off completely.
+  dynamic_conditions: Support bar is rigid steel.
+  expected_outcome_change: Pendulum B remains stationary.
+prompts:
+  init_frame_edit_prompt: Edit the image to replace the curved flexible wooden rod with a thick, straight,
+    rigid steel beam.
+  video_WM: Pendulum A continues its wide, heavy swing. The thick rigid steel beam isolates the mounts,
+    preventing vibrations from traveling. Suddenly, the room lights turn off, plunging the scene into
+    complete darkness for several seconds. The lights turn back on to reveal the scene again. No zoom,
+    no cut, no scene change. STOP.
+  camera_WM: Pendulum A continues its wide, heavy swing. The thick rigid steel beam isolates the mounts,
+    preventing vibrations from traveling. Suddenly, the room lights turn off, plunging the scene into
+    complete darkness for several seconds. The lights turn back on to reveal the scene again. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: 'A workshop scene featuring a horizontal steel I-beam spanning the top. Two
+    pendulums hang from the beam: Pendulum A on the left is a metal rod with a spherical weight, currently
+    swinging and displaced to the left side. Pendulum B on the right is an identical pendulum hanging
+    perfectly vertical and stationary. The background is a dimly lit room with a window on the left and
+    a wooden door in the center.'
+  init2final_edit_prompt: Edit the given image to show Pendulum A displaced to the right side, mirroring
+    its initial angle but in the opposite direction, to depict it mid-swing. Keep Pendulum B hanging perfectly
+    straight down and stationary. Ensure the lighting and background details remain consistent with the
+    initial frame.
+  rationale: The prompt explicitly states that the steel beam is rigid and isolates the mounts, preventing
+    vibrations from traveling. This specific constraint overrides the typical behavior of coupled pendulums
+    (sympathetic resonance). Therefore, energy will not transfer from Pendulum A to Pendulum B. After
+    the lights toggle and time passes, Pendulum A will continue its wide swing (depicted as displaced
+    to the right to show motion), while Pendulum B will remain completely stationary and vertical.
+  questions:
+  - id: pendulum_b_vertical
+    question: Is Pendulum B hanging vertically straight down?
+    answer_type: yes_no
+    notes_for_judge: Pendulum B should remain stationary and vertical as the beam isolates vibrations.
+  - id: pendulum_a_displaced
+    question: Is Pendulum A displaced from the vertical center?
+    answer_type: yes_no
+    notes_for_judge: Pendulum A should continue swinging, so it should be captured at an angle (left or
+      right).
+  - id: relative_displacement
+    question: Is the angle of displacement for Pendulum A significantly larger than that of Pendulum B?
+    answer_type: yes_no
+    notes_for_judge: A should be swinging (large angle), B should be stationary (near zero angle).
+  - id: pendulum_b_stationary
+    question: Does Pendulum B appear to be in the same position as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: B should not have started swinging.
+  - id: decoupling_check
+    question: Is Pendulum B vertical while Pendulum A is angled?
+    answer_type: yes_no
+    notes_for_judge: Checks that the motion of A did not cause B to move.
+  - id: conservation_of_swing
+    question: Does Pendulum A appear to still be active (swinging) rather than stopped?
+    answer_type: yes_no
+    notes_for_judge: The prompt says A continues its swing.

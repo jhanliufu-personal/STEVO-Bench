@@ -1,0 +1,63 @@
+id: upipe_equilibrium_05
+level: 3
+category: relational_state
+tags: []
+variant_of: upipe_equilibrium
+variation_type: dynamic_condition
+variation_description: Condition changed so no force is applied to the piston.
+changes:
+  occlusion_method: null
+  dynamic_conditions: No force applied (static state)
+  expected_outcome_change: Liquid levels remain unchanged.
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The piston remains stationary in the left pipe. No force is applied to it. The camera rotates
+    right until the U-pipe completely exits the view, then rotates toward the left smoothly at the same
+    rate until the pipe is back in the center of view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The piston remains stationary in the left pipe. No force is applied to it. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A U-shaped glass tube containing blue liquid stands on a wooden surface. The
+    left arm of the tube is sealed with a black piston mechanism that is pushed down, while the right
+    arm is open at the top. Due to the piston's position, the blue liquid level in the left arm is significantly
+    lower than the liquid level in the right arm.
+  init2final_edit_prompt: Edit the given image to show the U-pipe system exactly as it appeared initially.
+    The black piston in the left arm must be at the same vertical position. The blue liquid levels must
+    remain unchanged, with the level in the left arm significantly lower than the level in the right arm,
+    maintaining the original height difference.
+  rationale: The video prompt explicitly states that the piston remains stationary and no force is applied.
+    This defines a static system where the pressure balance is maintained. The camera rotates away to
+    occlude the object and then returns to the original viewpoint. The world model must demonstrate object
+    permanence and state stability by restoring the scene exactly as it was, resisting any hallucinated
+    physics such as the liquid levels equalizing (which would only happen if the piston seal failed or
+    moved).
+  questions:
+  - id: relational_levels_diff
+    question: Is the blue liquid level in the left arm still lower than the liquid level in the right
+      arm?
+    answer_type: yes_no
+    notes_for_judge: The left level must remain lower, preserving the pressure differential created by
+      the piston.
+  - id: conservation_left_level
+    question: Is the height of the liquid in the left arm unchanged compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The level should not have risen or fallen.
+  - id: conservation_right_level
+    question: Is the height of the liquid in the right arm unchanged compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The level should not have dropped or risen.
+  - id: piston_position_static
+    question: Is the black piston in the left arm at the same vertical position relative to the tube as
+      in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The piston must not have moved up or down.
+  - id: relational_height_diff_maintenance
+    question: Is the vertical difference between the left and right liquid levels maintained consistent
+      with the initial state?
+    answer_type: yes_no
+    notes_for_judge: The specific gap between the two levels should be preserved.
+  - id: conservation_mass
+    question: Does the total amount of blue liquid appear conserved between the two arms?
+    answer_type: yes_no
+    notes_for_judge: No liquid should be lost or spontaneously generated.

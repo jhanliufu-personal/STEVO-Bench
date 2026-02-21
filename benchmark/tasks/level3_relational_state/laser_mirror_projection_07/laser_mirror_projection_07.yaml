@@ -1,0 +1,69 @@
+id: laser_mirror_projection_07
+level: 3
+category: relational_state
+tags: []
+variant_of: laser_mirror_projection
+variation_type: combined
+variation_description: Motor is stationary (unplugged) and view is blocked by an object.
+changes:
+  occlusion_method: Large opaque board blocks view.
+  dynamic_conditions: Motor is unpowered/stationary.
+  expected_outcome_change: Laser spot remains in the initial position.
+prompts:
+  init_frame_edit_prompt: Edit the image to show the power cable unplugged from the motor base.
+  video_WM: The motorized base remains stationary as it is disconnected from power. The laser pointer
+    and the white screen remain fixed in place. A large opaque black board slides into the view from the
+    right, completely blocking the entire setup from sight. The board remains for a few seconds, then
+    slides back out to the right. No zoom, no cut, no scene change. STOP.
+  camera_WM: The motorized base remains stationary as it is disconnected from power. The laser pointer
+    and the white screen remain fixed in place. A large opaque black board slides into the view from the
+    right, completely blocking the entire setup from sight. The board remains for a few seconds, then
+    slides back out to the right. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A physics lab setup featuring a green laser pointer mounted on a stand on the
+    left, directing a beam towards a central square mirror mounted on a stepper motor. The laser beam
+    reflects off the mirror and projects a bright green spot and a curved green trace onto a white projection
+    screen on the right. The background includes a chalkboard, lab bench, and various cables.
+  init2final_edit_prompt: Edit the given image to show the exact same scene as the original. Ensure the
+    green laser beam path, the orientation of the central mirror on the motor, and the position and shape
+    of the green curve projected on the white screen remain identical to the initial state. The view must
+    be completely clear of any obstructions.
+  rationale: The prompt specifies that the motorized base is disconnected from power and remains stationary,
+    meaning the physical state of the laser, mirror, and projection must not change. Although a board
+    temporarily blocks the view, it slides back out before the end of the video. Therefore, the final
+    frame should be visually identical to the initial frame, testing the model's ability to maintain object
+    permanence and state stability (conservation of configuration) through a period of total occlusion.
+  questions:
+  - id: laser_path_conservation
+    question: Is the green laser beam following the same path from the source to the mirror as in the
+      initial frame?
+    answer_type: yes_no
+    notes_for_judge: The source and mirror are stationary, so the incident beam path must be unchanged.
+  - id: projection_position_conservation
+    question: Is the projected green curve on the white screen in the same position as it was in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: Since the mirror did not rotate, the reflection on the screen must not move.
+  - id: projection_shape_conservation
+    question: Is the shape of the green arc on the screen identical to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The pattern should not distort or change shape.
+  - id: mirror_orientation_conservation
+    question: Is the central mirror assembly oriented at the same angle as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The motor was disconnected and stationary.
+  - id: spot_location_conservation
+    question: Is the bright green spot on the screen located in the same position relative to the screen
+      edges as originally?
+    answer_type: yes_no
+    notes_for_judge: Check for drift in the projected spot.
+  - id: occlusion_removal
+    question: Is the view completely clear of the large opaque black board?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the board slides back out.
+  - id: coupled_system_consistency
+    question: Are the mirror angle and the projected spot position consistent with each other (both unchanged)?
+    answer_type: yes_no
+    notes_for_judge: This checks the relational coupling; neither should have moved.

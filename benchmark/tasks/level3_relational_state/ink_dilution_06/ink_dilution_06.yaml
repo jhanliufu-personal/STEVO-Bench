@@ -1,0 +1,62 @@
+id: ink_dilution_06
+level: 3
+category: relational_state
+tags: []
+variant_of: ink_dilution
+variation_type: dynamic_condition
+variation_description: Changes liquids to Yellow pouring into Blue.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Yellow liquid pouring into Blue liquid.
+  expected_outcome_change: Liquid turns Green instead of paler purple.
+prompts:
+  init_frame_edit_prompt: Edit the image so the liquid in the beaker is blue and the liquid pouring from
+    the pitcher is yellow.
+  video_WM: Yellow liquid is poured into the blue liquid. The total volume of liquid is rising. The pouring
+    continues. The camera rotates right until the beaker completely exits the view, then rotates toward
+    the left smoothly at the same rate until the beaker is back in the center of view. No zoom, no cut,
+    no scene change. STOP.
+  camera_WM: Yellow liquid continues to pour into the blue liquid.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A glass beaker sits on a wooden lab table containing a dark blue liquid. A glass
+    pitcher held above is pouring a stream of yellow liquid into the beaker. The yellow liquid is striking
+    the blue liquid, creating turbulence. In the background, a window and other lab glassware are visible.
+  init2final_edit_prompt: Edit the given image to show the liquid level in the beaker significantly higher
+    than before. Change the color of the liquid in the beaker to a green or teal shade to represent the
+    mixture of blue and yellow. Show the pitcher above with a reduced volume of yellow liquid remaining,
+    while maintaining the stream of liquid pouring into the beaker.
+  rationale: The prompt specifies that pouring continues while the camera pans away and then returns.
+    This implies a continuous transfer of mass from the pitcher to the beaker. Therefore, in the final
+    frame, the beaker must contain a larger volume of liquid, and the pitcher must contain less. Due to
+    the mixing of yellow and blue liquids, the resulting solution in the beaker should appear green or
+    teal (color mixing physics). The camera movement returns to the center, restoring the original composition.
+  questions:
+  - id: beaker_level_rise
+    question: Is the level of liquid in the beaker higher than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The pouring continued during the camera movement, so the volume in the receiving
+      container must increase.
+  - id: color_mixing_green
+    question: Has the color of the liquid in the beaker changed to a green or teal shade?
+    answer_type: yes_no
+    notes_for_judge: Yellow mixed with blue should produce green/teal. The liquid should no longer be
+      pure dark blue.
+  - id: pitcher_level_drop
+    question: Is the amount of yellow liquid remaining in the pitcher less than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: 'Conservation of mass: liquid leaving the pitcher must reduce the amount remaining.'
+  - id: pouring_stream_visible
+    question: Is there a stream of liquid connecting the pitcher to the beaker?
+    answer_type: yes_no
+    notes_for_judge: The prompt states 'The pouring continues', so the action should still be visible.
+  - id: beaker_centered
+    question: Is the beaker positioned in the center of the frame?
+    answer_type: yes_no
+    notes_for_judge: The camera rotates back until the beaker is in the center.
+  - id: color_relation
+    question: Does the liquid in the beaker appear to be a mixture of the initial blue and the poured
+      yellow liquid?
+    answer_type: yes_no
+    notes_for_judge: This checks for relational consistency in color blending.

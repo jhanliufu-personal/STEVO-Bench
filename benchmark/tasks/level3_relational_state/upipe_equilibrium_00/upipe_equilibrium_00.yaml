@@ -1,0 +1,66 @@
+id: upipe_equilibrium_00
+level: 3
+category: relational_state
+tags: []
+variant_of: upipe_equilibrium
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A mechanical arm begins pushing the left piston down into the pipe. The movement is steady
+    and continuous. Camera remains stationary throughout. No zoom, no cut, no scene change. STOP.
+  camera_WM: A mechanical arm begins pushing the left piston down into the pipe. The movement is steady
+    and continuous. Camera remains stationary throughout. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A U-shaped glass tube (U-pipe) sitting on a wooden table in a laboratory setting.
+    The tube is partially filled with a translucent blue liquid. The left arm of the tube is capped with
+    a black piston mechanism that rests on the surface of the liquid. The right arm of the tube is open
+    at the top, and the liquid level is visible, appearing roughly level with the liquid on the left side.
+  init2final_edit_prompt: Edit the given image to show the black piston on the left side pushed significantly
+    further down into the glass tube. Correspondingly, raise the level of the blue liquid in the right
+    vertical section of the tube so it is noticeably higher than the initial level. Ensure the liquid
+    level on the left is lower, directly beneath the lowered piston, maintaining the appearance of constant
+    total volume.
+  rationale: The prompt describes a mechanical action pushing the piston down. In a U-tube hydraulic system,
+    pushing down on one side displaces the incompressible fluid, forcing it to rise on the other side
+    to conserve volume. Therefore, as the left piston descends, the liquid level in the right arm must
+    ascend. The final state should show the piston at a lower position and the right-side liquid level
+    at a higher position relative to the start.
+  questions:
+  - id: piston_position_change
+    question: Is the black piston on the left side positioned lower in the tube than it was in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the vertical position of the black stopper/piston against the tube markings
+      or background.
+  - id: right_liquid_rise
+    question: Is the level of the blue liquid in the right arm of the tube higher than it was in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: The liquid on the right should have risen due to displacement from the left.
+  - id: relative_levels
+    question: Is the liquid level in the right arm now vertically higher than the liquid level in the
+      left arm?
+    answer_type: yes_no
+    notes_for_judge: Initially they were roughly equal; now the left is pushed down and right is pushed
+      up, creating a height difference.
+  - id: coupled_motion
+    question: Did the liquid level on the right rise as the piston on the left moved down?
+    answer_type: yes_no
+    notes_for_judge: Checks for the causal link/inverse relationship between the two sides.
+  - id: volume_conservation
+    question: Does the total amount of blue liquid appear conserved (volume lost on the left corresponds
+      to volume gained on the right)?
+    answer_type: yes_no
+    notes_for_judge: The liquid should not simply disappear or multiply; the rise on the right should
+      look proportional to the drop on the left.
+  - id: tube_integrity
+    question: Does the U-shaped glass tube remain unbroken and structurally consistent?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

@@ -1,0 +1,71 @@
+id: newtons_cradle_05
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: newtons_cradle
+variation_type: dynamic_condition
+variation_description: Ball material changed to inelastic clay.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Balls are made of matte clay (inelastic) instead of metal.
+  expected_outcome_change: The balls will collide with a thud and stop or move slightly as a clump; no
+    bounce/swing on the other side.
+prompts:
+  init_frame_edit_prompt: Edit the image to change the material of the balls from shiny chrome to dull,
+    matte grey clay, implying a soft inelastic material.
+  video_WM: The far-left clay ball is released. It swings toward the remaining four stationary clay balls.
+    The camera rotates right until the cradle completely exits the view, then rotates toward the left
+    smoothly at the same rate until the entire cradle is back in the center of view. No zoom, no cut,
+    no scene change. STOP.
+  camera_WM: The far-left clay ball is released. It swings toward the remaining four stationary clay balls.
+    The material is soft and inelastic. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a Newton's Cradle on a wooden desk featuring a
+    gold metal frame and five grey, textured clay balls suspended by thin strings. The far-left ball is
+    pulled back and held in an elevated position to the left, creating a triangular gap between its strings
+    and the vertical frame, while the other four balls hang vertically in a stationary row at the center.
+    The background includes a blurred study environment with a leather chair and books.
+  init2final_edit_prompt: Edit the given image so that the far-left clay ball has dropped from its elevated
+    position and is now hanging vertically at the bottom, in line with the other four balls. Ensure the
+    far-left ball is touching the second ball, closing the gap between them. All five balls should be
+    clustered together at the bottom center of the cradle. The strings of the far-left ball should be
+    vertical, matching the orientation of the other strings.
+  rationale: The video prompt describes the release of the elevated far-left ball. Due to gravity, it
+    will swing down to collide with the stationary balls. Since the balls are specified as 'clay', the
+    collision will be inelastic; the balls will likely deform and stick together or dissipate energy rather
+    than transferring momentum perfectly like steel balls. The camera rotation away and back provides
+    a duration of time for the collision to occur and the system to settle. By the time the view returns,
+    the far-left ball will definitely be at the bottom, likely resting against the others or swinging
+    slightly as a group.
+  questions:
+  - id: pos_vertical_drop
+    question: Is the far-left clay ball lower in the frame than it was initially?
+    answer_type: yes_no
+    notes_for_judge: The ball starts high; it should be at the bottom in the final frame.
+  - id: pos_horizontal_move
+    question: Has the far-left clay ball moved to the right compared to its starting position?
+    answer_type: yes_no
+    notes_for_judge: It swings from left to center.
+  - id: contact_made
+    question: Is the far-left clay ball now touching or immediately adjacent to the other balls?
+    answer_type: yes_no
+    notes_for_judge: The gap visible in the first frame should be closed.
+  - id: string_orientation
+    question: Are the strings supporting the far-left ball vertical rather than angled?
+    answer_type: yes_no
+    notes_for_judge: In the init frame, the strings form a diagonal/angle. In the final state, they should
+      be vertical like the others.
+  - id: group_alignment
+    question: Are all five balls roughly aligned at the same vertical level?
+    answer_type: yes_no
+    notes_for_judge: The left ball should join the row at the bottom.
+  - id: ball_count_consistency
+    question: Are there still five clay balls visible in the cradle?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: frame_consistency
+    question: Is the gold metal frame of the cradle still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

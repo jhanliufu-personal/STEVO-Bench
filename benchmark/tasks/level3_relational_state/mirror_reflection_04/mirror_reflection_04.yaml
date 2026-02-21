@@ -1,0 +1,72 @@
+id: mirror_reflection_04
+level: 3
+category: relational_state
+tags: []
+variant_of: mirror_reflection
+variation_type: dynamic_condition
+variation_description: The ball is pushed away from the mirror instead of toward it.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Direction of motion reversed (away from mirror).
+  expected_outcome_change: The ball and its reflection move further apart.
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A hand pushes the red ball directly away from the mirror at a steady speed. The ball remains
+    on the surface of the table. The camera rotates right until the real ball completely exits the view,
+    then rotates toward the left smoothly at the same rate until the surface of the mirror is back in
+    the center of view. No zoom, no cut, no scene change. STOP.
+  camera_WM: A hand pushes the red ball directly away from the mirror at a steady speed. The geometric
+    relationship between the object and its reflection is maintained. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up view of a wooden table surface adjacent to a framed mirror. A red
+    billiard ball, labeled with the number 3, sits on the wood very close to the mirror's frame. The mirror
+    reflects the back of the red ball and a background room containing a green pool table. The lighting
+    creates distinct highlights on the ball and the mirror glass.
+  init2final_edit_prompt: Edit the given image to show the red billiard ball positioned significantly
+    further away from the mirror frame on the wooden surface, creating a noticeable gap between the ball
+    and the mirror. Correspondingly, update the reflection in the mirror to show the reflected ball positioned
+    deeper into the virtual room, appearing smaller and further back to match the new position of the
+    real ball. Ensure the ball remains visible on the table surface.
+  rationale: 'The prompt describes a physical action where the ball is pushed away from the mirror. This
+    increases the distance between the object and the mirror plane. According to the laws of optics, the
+    image distance must equal the object distance; therefore, as the real ball moves away from the glass,
+    its reflection must appear to move deeper into the mirror. The camera motion (panning away and returning)
+    serves as an occlusion test, requiring the model to maintain the object''s existence and update its
+    state (position) while it is out of view. The final frame should show the coupled state change: the
+    real ball is further from the frame, and the reflection is further back.'
+  questions:
+  - id: real_ball_dist
+    question: Is the real red ball positioned further away from the mirror frame than it was in the initial
+      image?
+    answer_type: yes_no
+    notes_for_judge: Compare the distance between the physical ball and the wooden frame in both images.
+  - id: reflection_depth
+    question: Does the reflected ball appear deeper in the mirror (further back) compared to the initial
+      reflection?
+    answer_type: yes_no
+    notes_for_judge: The reflection should appear smaller or positioned higher/further into the reflected
+      scene.
+  - id: gap_increase
+    question: Is the visual gap between the real ball and its reflection larger than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: In the initial frame, they are nearly touching. In the final frame, there should
+      be a distinct separation.
+  - id: ball_presence
+    question: Is the red ball still visible on the wooden surface?
+    answer_type: yes_no
+    notes_for_judge: Tests object permanence after the camera pan.
+  - id: reflection_presence
+    question: Is the reflection of the red ball still visible in the mirror?
+    answer_type: yes_no
+    notes_for_judge: The reflection must persist.
+  - id: coupled_motion
+    question: Do both the real ball and the reflected ball show a change in position relative to the mirror
+      frame?
+    answer_type: yes_no
+    notes_for_judge: Checks that the state change is applied to both the object and its coupled reflection.
+  - id: background_consistency
+    question: Is the green pool table still visible in the background reflection?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

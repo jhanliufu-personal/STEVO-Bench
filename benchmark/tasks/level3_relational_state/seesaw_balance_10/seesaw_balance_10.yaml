@@ -1,0 +1,56 @@
+id: seesaw_balance_10
+level: 3
+category: relational_state
+tags: []
+variant_of: seesaw_balance
+variation_type: combined
+variation_description: Adding weight to the already-down left side + Camera moves away.
+changes:
+  occlusion_method: Camera moves physically backward.
+  dynamic_conditions: Second sandbag added to left side.
+  expected_outcome_change: No movement (left side stays down).
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A second 20kg sandbag is placed on top of the existing sandbag on the left seat. The camera
+    moves physically backward, retreating from the playground until the seesaw is too distant to see,
+    then moves forward returning to the original viewpoint. No cut, no scene change. STOP.
+  camera_WM: A second 20kg sandbag is placed on top of the existing sandbag on the left seat. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A wooden playground seesaw with the left side resting on the ground and the
+    right side elevated in the air. On the left seat, there is a single burlap sack labeled '20 KG SAND'.
+    The background shows a park with trees and wood chips on the ground.
+  init2final_edit_prompt: Edit the given image to show a second, identical burlap sandbag stacked directly
+    on top of the existing sandbag on the left seat of the seesaw. Ensure the seesaw remains in its original
+    tilted position, with the left side down on the ground and the right side up in the air.
+  rationale: The video prompt describes adding weight to the side of the seesaw that is already down.
+    Physically, adding more mass to the lower side of a seesaw increases the torque holding it down, so
+    the tilt angle should not change; the left side will remain on the ground. The camera movement (retreating
+    and returning) tests object permanence, ensuring the second bag remains part of the state when the
+    camera returns to the original view.
+  questions:
+  - id: bag_count_increase
+    question: Are there now two sandbags visible on the left seat of the seesaw?
+    answer_type: yes_no
+    notes_for_judge: Check for the presence of a second bag added to the scene.
+  - id: bag_stacking
+    question: Is the new sandbag positioned on top of the original sandbag?
+    answer_type: yes_no
+    notes_for_judge: The prompt specifies the second bag is placed 'on top'.
+  - id: seesaw_orientation_left
+    question: Is the left side of the seesaw still lower than the right side?
+    answer_type: yes_no
+    notes_for_judge: Adding weight to the already-down side should maintain the tilt.
+  - id: seesaw_orientation_right
+    question: Is the right handle of the seesaw vertically higher than the left handle?
+    answer_type: yes_no
+    notes_for_judge: Verifies the relational state of the seesaw arms has not inverted.
+  - id: volume_increase
+    question: Does the total volume of sandbags on the seesaw appear greater than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Tests conservation/addition of matter.
+  - id: ground_contact
+    question: Is the left end of the seesaw still touching or nearly touching the ground?
+    answer_type: yes_no
+    notes_for_judge: The physics dictates the seesaw stays grounded on the left.

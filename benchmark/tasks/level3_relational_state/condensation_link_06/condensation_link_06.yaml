@@ -1,0 +1,70 @@
+id: condensation_link_06
+level: 3
+category: relational_state
+tags: []
+variant_of: condensation_link
+variation_type: dynamic_condition
+variation_description: A lid is placed on the pot, blocking steam.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Pot is covered by a lid; steam is contained.
+  expected_outcome_change: No condensation forms on the glass.
+prompts:
+  init_frame_edit_prompt: Edit the image to place a metal lid securely on top of the pot, covering the
+    water completely so no steam escapes.
+  video_WM: The glass pane is lowered over the covered pot. The metal lid contains the boiling water and
+    prevents steam from rising to the glass. The camera rotates right until the stove completely exits
+    the view, then rotates toward the left smoothly at the same rate until the surface of the glass pane
+    is back in the center of view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The glass pane is lowered over the covered pot. The metal lid contains the boiling water
+    and prevents steam from rising to the glass. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a large stainless steel stock pot with a matching
+    metal lid sitting on a gas stove burner. The pot is centered in the lower foreground. To the left
+    is a dark, reflective vertical surface, possibly an oven door or backsplash. The background features
+    a wooden kitchen counter with a knife block, a toaster, jars, and other kitchen utensils, which are
+    slightly out of focus. The lighting is warm and directional, creating highlights on the metal pot
+    and lid.
+  init2final_edit_prompt: Edit the given image to show the scene viewed through a newly added clear glass
+    pane in the immediate foreground. The glass pane must be perfectly transparent and free of any condensation,
+    fog, steam, or water droplets. The stainless steel pot and its metal lid should be seen clearly and
+    sharply through the glass, appearing exactly as they did initially. The background and lighting remain
+    unchanged.
+  rationale: 'The video prompt describes a scenario where a glass pane is lowered over a pot of boiling
+    water. However, a critical constraint is provided: the metal lid is on the pot and explicitly ''prevents
+    steam from rising to the glass''. This establishes a causal relationship where the containment of
+    the steam by the lid preserves the clarity of the glass pane. Despite the camera rotation and the
+    passage of time, the final state must reflect this constraint. Therefore, the glass pane in the final
+    frame should be clear and transparent, not foggy or covered in condensation, as the steam is trapped
+    inside the pot.'
+  questions:
+  - id: glass_clarity
+    question: Is the foreground glass pane free of condensation or fog?
+    answer_type: yes_no
+    notes_for_judge: The glass should be clear because the lid prevents steam from escaping.
+  - id: pot_visibility
+    question: Is the view of the stainless steel pot sharp and unobstructed by steam?
+    answer_type: yes_no
+    notes_for_judge: The pot should be clearly visible through the glass.
+  - id: lid_presence
+    question: Is the metal lid clearly visible on the pot?
+    answer_type: yes_no
+    notes_for_judge: The lid must be present to contain the steam.
+  - id: no_steam_cloud
+    question: Is the area directly above the pot free of white steam clouds?
+    answer_type: yes_no
+    notes_for_judge: There should be no visible steam in the air or on the glass.
+  - id: transparency_check
+    question: Does the foreground appear transparent rather than opaque or misty?
+    answer_type: yes_no
+    notes_for_judge: The glass pane should not reduce visibility.
+  - id: lid_texture
+    question: Is the texture and shine of the metal lid clearly distinguishable?
+    answer_type: yes_no
+    notes_for_judge: Fog would blur the texture; it should remain sharp.
+  - id: background_consistency
+    question: Is the visibility of the background objects consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The background should not be obscured by new fog.

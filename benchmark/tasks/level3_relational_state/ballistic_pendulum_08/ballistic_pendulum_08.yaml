@@ -1,0 +1,62 @@
+id: ballistic_pendulum_08
+level: 3
+category: relational_state
+tags: []
+variant_of: ballistic_pendulum
+variation_type: combined
+variation_description: Combined lightweight foam block with curtain occlusion.
+changes:
+  occlusion_method: Curtain blocks view.
+  dynamic_conditions: Target block is lightweight styrofoam.
+  expected_outcome_change: Significant/fast swing due to low mass.
+prompts:
+  init_frame_edit_prompt: Edit the image to change the wooden block into a white styrofoam block.
+  video_WM: The metal projectile makes direct contact with the lightweight styrofoam block, embedding
+    itself into the foam. The block is free to swing on its wire suspension. A heavy dark curtain slides
+    into the frame, completely obscuring the block and projectile. The curtain remains for a moment, then
+    slides back out, revealing the scene again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The metal projectile makes direct contact with the lightweight styrofoam block, embedding
+    itself into the foam. The block is free to swing on its wire suspension. A heavy dark curtain slides
+    into the frame, completely obscuring the block and projectile. The curtain remains for a moment, then
+    slides back out, revealing the scene again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A rectangular white styrofoam block suspended by two twisted metal cables. A
+    cylindrical metal projectile is impacting the center of the block's face. A cloud of fine white debris
+    and particles is spraying outwards to the left from the impact point. The background shows an industrial
+    ceiling with pipes and a wall.
+  init2final_edit_prompt: Edit the given image to show the styrofoam block displaced to the right side
+    of the frame, with the suspension cables angled diagonally towards the right. The metal projectile
+    should be fully embedded within the block, leaving only the entry hole or the rear face visible. Remove
+    all flying white dust and debris particles to show clear air around the suspended block.
+  rationale: The video describes a ballistic pendulum scenario where a projectile strikes and embeds into
+    a suspended block. According to the conservation of momentum, the block must swing in the direction
+    of the projectile's travel (to the right). The occlusion by the curtain allows time for the impact
+    debris to settle and for the block to swing to a displaced position. Therefore, the final frame should
+    show the block swung to the right with the projectile embedded and the air clear of dust.
+  questions:
+  - id: block_displacement
+    question: Is the styrofoam block positioned further to the right compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The block should have swung to the right due to the impact.
+  - id: cable_angle
+    question: Do the suspension cables tilt towards the right?
+    answer_type: yes_no
+    notes_for_judge: The cables should align with the displaced block.
+  - id: projectile_embedded
+    question: Is the metal projectile embedded in the styrofoam block?
+    answer_type: yes_no
+    notes_for_judge: The projectile should be inside the block, not flying freely or bouncing off.
+  - id: debris_cleared
+    question: Is the air free of the large cloud of flying debris seen in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The debris should have settled during the occlusion.
+  - id: coupled_motion
+    question: Does the block's position correspond to the direction of the projectile's impact?
+    answer_type: yes_no
+    notes_for_judge: The projectile was moving right, so the block must move right.
+  - id: projectile_visibility
+    question: Is the projectile no longer visible as a separate object flying through the air?
+    answer_type: yes_no
+    notes_for_judge: It should be part of the block system now.

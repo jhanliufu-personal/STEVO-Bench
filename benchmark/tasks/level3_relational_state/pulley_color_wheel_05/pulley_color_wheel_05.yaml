@@ -1,0 +1,68 @@
+id: pulley_color_wheel_05
+level: 3
+category: relational_state
+tags: []
+variant_of: pulley_color_wheel
+variation_type: dynamic_condition
+variation_description: The belt is twisted into a figure-8 (crossed), which reverses the direction of
+  the driven wheel.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Crossed belt configuration
+  expected_outcome_change: The color wheel rotates Counter-Clockwise (reversed) instead of Clockwise.
+prompts:
+  init_frame_edit_prompt: Edit the image to show the black rubber belt twisted into an 'X' shape (figure-8)
+    between the crank pulley and the large wheel.
+  video_WM: A hand turns the crank handle exactly half a rotation clockwise. The crossed belt transfers
+    the motion. The camera rotates right until the crank completely exits the view, then rotates toward
+    the left smoothly at the same rate until the color wheel is back in the center of view. No zoom, no
+    cut, no scene change. STOP.
+  camera_WM: A hand turns the crank handle exactly half a rotation clockwise. The crossed belt transfers
+    the motion. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A workshop scene featuring a large wooden color wheel with 12 painted segments.
+    The top segment is yellow and labeled 'Yellow'. Clockwise from the top, the segments transition through
+    orange, red, purple, blue, and green shades. The wheel is mounted on a wooden stand and connected
+    via a crossed black belt to a smaller hand-cranked pulley on the left. A person's arm and hand are
+    visible holding the crank handle.
+  init2final_edit_prompt: Edit the given image to center the large color wheel horizontally in the frame.
+    Rotate the color wheel counter-clockwise by approximately 30 degrees (one segment width). The yellow
+    segment (labeled 'Yellow') should be shifted to the left of the top vertical position (approximately
+    to 11 o'clock). The orange-yellow segment originally to the right of the top should now be at the
+    highest point (12 o'clock). Crop the left side of the image such that the hand crank assembly is no
+    longer visible or is partially cut off, focusing the view on the centered color wheel.
+  rationale: The user turns the crank 180 degrees clockwise. The crossed belt configuration reverses the
+    direction of transmission, causing the large wheel to rotate counter-clockwise. Due to the significant
+    size difference between the small crank pulley and the large wheel (estimated 1:6 ratio), the large
+    wheel rotates much less than the crank, moving only about 30 degrees (one color segment). The camera
+    pans to center the wheel, which excludes the crank (originally on the far left) from the final view.
+  questions:
+  - id: wheel_direction_yellow
+    question: Is the yellow segment (originally at the top) now positioned to the left of the vertical
+      center?
+    answer_type: yes_no
+    notes_for_judge: The wheel must rotate counter-clockwise due to the crossed belt, moving the top segment
+      to the left.
+  - id: top_segment_orange
+    question: Is the orange or yellow-orange segment located at the very top of the wheel?
+    answer_type: yes_no
+    notes_for_judge: The segment immediately clockwise of Yellow moves to the top position.
+  - id: yellow_not_peak
+    question: Is the yellow segment no longer at the highest point (12 o'clock) of the wheel?
+    answer_type: yes_no
+    notes_for_judge: It should have rotated away from the peak.
+  - id: rotation_magnitude
+    question: Does the rotation of the large wheel appear to be small (less than 90 degrees)?
+    answer_type: yes_no
+    notes_for_judge: The pulley ratio causes a reduction; 180 deg input results in ~30 deg output.
+  - id: green_segment_lower
+    question: Is the green segment on the left side positioned lower than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Counter-clockwise rotation moves the left-side segments downwards.
+  - id: crank_exclusion
+    question: Is the hand crank assembly mostly or completely absent from the view?
+    answer_type: yes_no
+    notes_for_judge: The camera centers the wheel (which was on the right), implying the view shifts right,
+      cropping out the left-side crank.

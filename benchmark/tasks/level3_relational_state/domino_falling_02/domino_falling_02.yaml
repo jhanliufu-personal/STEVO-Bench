@@ -1,0 +1,72 @@
+id: domino_falling_02
+level: 3
+category: relational_state
+tags: []
+variant_of: domino_falling
+variation_type: occlusion_method
+variation_description: Occlusion by lights turning off completely.
+changes:
+  occlusion_method: Room lights turn off, creating total darkness.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: Single continuous shot, no cuts. The finger pushes the first domino forward as interaction
+    continues. Moments after the first domino tips, the room lights turn off completely, plunging the
+    scene into pitch black darkness. The audio of clicking dominoes continues. After several seconds of
+    darkness, the lights turn back on, illuminating the scene again. STOP.
+  camera_WM: Single continuous shot, no cuts. The finger pushes the first domino forward as interaction
+    continues. Moments after the first domino tips, the room lights turn off completely, plunging the
+    scene into pitch black darkness. The audio of clicking dominoes continues. After several seconds of
+    darkness, the lights turn back on, illuminating the scene again. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a wooden table with a long, winding chain of wooden
+    dominoes standing upright. A hand enters from the left, with a finger touching the first domino in
+    the sequence, poised to push it. In the background, there are stacks of books, potted plants including
+    a Monstera, a window with daylight, and a leather chair.
+  init2final_edit_prompt: Edit the given image to show the aftermath of the domino chain falling. Render
+    the dominoes toppled over in a continuous sequence starting from where the finger was positioned,
+    following the winding path. The fallen dominoes should be lying flat or leaning against each other.
+    The hand should be shown in a relaxed post-push position or slightly withdrawn. Ensure the lighting
+    is fully illuminated as in the original scene, and background objects like the books and plants remain
+    unchanged.
+  rationale: The video prompt describes a finger pushing the first domino, initiating a chain reaction.
+    Although the lights go out (occlusion), the audio indicates the dominoes continue to fall. When the
+    lights come back on, the physical state of the world must reflect the passage of time and the causal
+    chain of the domino effect. Therefore, the final frame must show a significant portion of the domino
+    chain toppled over in sequence, starting from the trigger point, while the environment remains otherwise
+    static.
+  questions:
+  - id: domino_state_change
+    question: Are the dominoes near the starting position (where the finger was) toppled over?
+    answer_type: yes_no
+    notes_for_judge: The first few dominoes must be down.
+  - id: chain_reaction_continuity
+    question: Is there a continuous sequence of fallen dominoes extending from the start of the chain?
+    answer_type: yes_no
+    notes_for_judge: The fall should propagate along the line; there shouldn't be a gap of standing dominoes
+      between fallen ones near the start.
+  - id: orientation_change
+    question: Are the affected dominoes lying flat or leaning rather than standing upright?
+    answer_type: yes_no
+    notes_for_judge: Checks for the change in orientation characteristic of fallen dominoes.
+  - id: lighting_restoration
+    question: Is the scene illuminated (not pitch black)?
+    answer_type: yes_no
+    notes_for_judge: The prompt states lights turn back on.
+  - id: background_consistency
+    question: Are the books and plants in the background in the same position as the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Only the dominoes and hand should change.
+  - id: path_consistency
+    question: Do the fallen dominoes follow the same winding path layout as the standing ones in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: The shape of the curve should be preserved even if the dominoes are down.
+  - id: hand_position
+    question: Is the hand still present near the start of the chain?
+    answer_type: yes_no
+    notes_for_judge: The hand should not vanish, though it may have moved slightly.

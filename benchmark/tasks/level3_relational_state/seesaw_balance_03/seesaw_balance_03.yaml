@@ -1,0 +1,69 @@
+id: seesaw_balance_03
+level: 3
+category: relational_state
+tags: []
+variant_of: seesaw_balance
+variation_type: occlusion_method
+variation_description: Thick fog rolls in to obscure the scene.
+changes:
+  occlusion_method: Dense fog obscuring the view.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A person begins lifting the left sandbag and its seat off the ground. The motion continues.
+    Suddenly, a dense, opaque white fog rolls in, completely obscuring the playground and the seesaw from
+    view. The fog swirls for a moment before dissipating rapidly, restoring clear visibility. No zoom,
+    no cut, no scene change. STOP.
+  camera_WM: A person begins lifting the left sandbag and its seat off the ground. The motion continues.
+    Suddenly, a dense, opaque white fog rolls in, completely obscuring the playground and the seesaw from
+    view. The fog swirls for a moment before dissipating rapidly, restoring clear visibility. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A wooden playground seesaw positioned diagonally in the frame. The left seat
+    is resting on the ground and holds a burlap sack labeled '20 KG SAND'. The right seat is elevated
+    high in the air. The fulcrum is located in the center of the beam. The background shows a playground
+    with trees and wood chips on the ground.
+  init2final_edit_prompt: Edit the given image so that the left side of the seesaw, holding the sandbag,
+    is raised significantly off the ground, and the right side of the seesaw is lowered closer to the
+    ground, reflecting a change in the pivot angle. Keep the sandbag on the left seat.
+  rationale: 'The video prompt describes a person lifting the left side of the seesaw. Mechanically, a
+    seesaw is a lever pivoting on a central fulcrum. Lifting the left arm (the load) requires the beam
+    to rotate, which forces the coupled right arm to descend. The fog serves as a transition to mask the
+    animation, but the final state must show the consequence of the lifting action: the left side should
+    be higher than its initial grounded position, and the right side must be lower than its initial elevated
+    position, maintaining the rigid structure of the beam.'
+  questions:
+  - id: seesaw_left_height
+    question: Is the left seat of the seesaw positioned higher off the ground than it was in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: The left side started on the ground. It should now be elevated.
+  - id: seesaw_right_height
+    question: Is the right seat of the seesaw positioned lower than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The right side started high. Due to the pivot, if the left goes up, the right must
+      go down.
+  - id: seesaw_coupling
+    question: Do the two ends of the seesaw show a coupled movement where the left side rising corresponds
+      to the right side lowering?
+    answer_type: yes_no
+    notes_for_judge: Check for the lever relationship; they should not both move up or both move down.
+  - id: sandbag_presence
+    question: Is the sandbag still present on the left seat of the seesaw?
+    answer_type: yes_no
+    notes_for_judge: Object permanence/conservation.
+  - id: sandbag_label_visibility
+    question: Is the text '20 KG SAND' still visible on the bag?
+    answer_type: yes_no
+    notes_for_judge: Checks for texture preservation.
+  - id: pivot_consistency
+    question: Does the central pivot point of the seesaw appear to remain in the same location relative
+      to the ground?
+    answer_type: yes_no
+    notes_for_judge: The seesaw should rotate, not translate the entire structure.
+  - id: beam_rigidity
+    question: Does the seesaw beam appear to remain straight and rigid despite the change in angle?
+    answer_type: yes_no
+    notes_for_judge: The board should not bend or break.

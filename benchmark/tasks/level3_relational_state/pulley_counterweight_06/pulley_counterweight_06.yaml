@@ -1,0 +1,60 @@
+id: pulley_counterweight_06
+level: 3
+category: relational_state
+tags: []
+variant_of: pulley_counterweight
+variation_type: dynamic_condition
+variation_description: The rope snaps, causing the weights to fall.
+changes:
+  occlusion_method: null
+  dynamic_conditions: The rope breaks under tension.
+  expected_outcome_change: Both weights fall to the ground due to gravity.
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The rope suddenly snaps just above the left weight. The tension is instantly released. The
+    camera rotates right until the pulley system completely exits the view, then rotates toward the left
+    smoothly at the same rate until the pulley is back in the center of view. No zoom, no cut, no scene
+    change. STOP.
+  camera_WM: The rope suddenly snaps just above the left weight. The tension is instantly released. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A low-angle close-up of a rustic wooden ceiling with a dark metal pulley attached
+    to a thick wooden beam. A thick, fibrous rope passes over the pulley wheel. Suspended from the rope
+    are two identical bell-shaped metal weights labeled '5KG IRON', hanging at equal heights in a balanced
+    configuration.
+  init2final_edit_prompt: Edit the given image to remove the rope and both hanging weights from the scene.
+    The metal pulley wheel should remain attached to the wooden beam but must appear empty, with no rope
+    passing through it. Fill in the background wooden textures where the weights and rope were previously
+    visible, leaving only the permanent ceiling structure and the bare pulley mechanism.
+  rationale: The prompt states the rope snaps above the left weight. This immediately causes the left
+    weight to fall out of the frame due to gravity. The system loses its balance, and the remaining right
+    weight (5kg) pulls the loose end of the rope up and over the pulley as it falls. Given the duration
+    of the camera movement (panning away and back), the heavy weight would have sufficient time to pull
+    the rope completely through the mechanism. Therefore, upon the camera's return, the pulley should
+    be empty, and both weights should be gone.
+  questions:
+  - id: left_weight_gone
+    question: Is the area previously occupied by the left weight now empty?
+    answer_type: yes_no
+    notes_for_judge: The left weight should have fallen due to the rope snap.
+  - id: right_weight_gone
+    question: Is the area previously occupied by the right weight now empty?
+    answer_type: yes_no
+    notes_for_judge: The right weight should have fallen, pulling the rope with it.
+  - id: rope_cleared
+    question: Is the pulley wheel free of the rope that was previously draped over it?
+    answer_type: yes_no
+    notes_for_judge: The unbalanced weight should pull the rope completely off the pulley.
+  - id: pulley_remains
+    question: Is the metal pulley bracket still attached to the wooden beam?
+    answer_type: yes_no
+    notes_for_judge: The mounting hardware should remain unchanged.
+  - id: background_visible
+    question: Are the wooden ceiling planks visible in the space where the weights used to hang?
+    answer_type: yes_no
+    notes_for_judge: Checks for correct in-painting/occlusion handling.
+  - id: beam_structure_preserved
+    question: Is the structure of the wooden beams identical to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The environment should be static.

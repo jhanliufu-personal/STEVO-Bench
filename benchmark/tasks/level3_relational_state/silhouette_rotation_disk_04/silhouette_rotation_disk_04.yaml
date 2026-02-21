@@ -1,0 +1,76 @@
+id: silhouette_rotation_disk_04
+level: 3
+category: relational_state
+tags: []
+variant_of: silhouette_rotation_disk
+variation_type: dynamic_condition
+variation_description: Disk rotates 180 degrees instead of 90 degrees. Final shadow should be a full circle
+  again.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Rotation angle changed from 90 degrees to 180 degrees
+  expected_outcome_change: Shadow returns to circular shape instead of becoming a line
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The motorized base begins to rotate the flat circular disk slowly and steadily by exactly
+    180 degrees around its vertical axis. The spotlight and screen remain fixed in place. The camera rotates
+    right until the disk completely exits the view, then rotates toward the left smoothly at the same
+    rate until the white screen is back in the center of view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The motorized base begins to rotate the flat circular disk slowly and steadily by exactly
+    180 degrees around its vertical axis. The spotlight and screen remain fixed in place. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A studio setup featuring a large spotlight on a stand on the left, a motorized
+    turntable in the center holding a large, flat, textured circular disk standing vertically, and a white
+    projection screen on the right. The disk is seen edge-on from the camera's perspective, appearing
+    as a thin vertical shape, while its flat face is perpendicular to the light, casting a perfect circular
+    shadow on the screen.
+  init2final_edit_prompt: Edit the given image to shift the camera framing to the right, placing the white
+    projection screen in the center of the image. Position the vertical disk on the left side of the frame,
+    maintaining its edge-on orientation. Ensure the circular shadow remains clearly projected on the now-centered
+    screen. Crop out the spotlight on the far left as it exits the field of view. Maintain the original
+    lighting and object textures.
+  rationale: The disk rotates 180 degrees around its vertical axis. Since the disk is a symmetric flat
+    circle seen edge-on, a 180-degree rotation results in a geometrically identical state (edge-on view,
+    circular shadow). The camera pans right until the disk exits, then pans left until the screen is centered.
+    Since the screen started on the right side of the frame, centering it implies the final view is shifted
+    to the right relative to the initial frame. Consequently, the disk will appear to the left of the
+    center, and the spotlight (originally on the far left) will likely be out of frame.
+  questions:
+  - id: screen_centered
+    question: Is the white projection screen positioned in the center of the image?
+    answer_type: yes_no
+    notes_for_judge: The screen should be the central element, unlike the initial frame where it was on
+      the right.
+  - id: disk_position
+    question: Is the vertical disk positioned to the left of the white screen?
+    answer_type: yes_no
+    notes_for_judge: Due to the camera pan, the disk should shift from the center to the left.
+  - id: shadow_shape
+    question: Is the shadow on the screen a circle?
+    answer_type: yes_no
+    notes_for_judge: The disk rotated 180 degrees, returning to its face-on alignment with the light,
+      so the shadow must be circular.
+  - id: disk_orientation
+    question: Is the disk oriented edge-on, appearing as a thin vertical shape?
+    answer_type: yes_no
+    notes_for_judge: The disk rotated 180 degrees, so it should return to the edge-on profile seen in
+      the initial frame.
+  - id: shadow_disk_relation
+    question: Is the shadow positioned to the right of the disk?
+    answer_type: yes_no
+    notes_for_judge: Checks the preservation of the light-object-shadow relationship.
+  - id: spotlight_exclusion
+    question: Is the spotlight on the far left mostly or completely excluded from the frame?
+    answer_type: yes_no
+    notes_for_judge: The camera panned right to center the screen, so the leftmost object (spotlight)
+      should be cropped out.
+  - id: neg_disk_face
+    question: Is the disk facing the camera, appearing as a full circle?
+    answer_type: yes_no
+    notes_for_judge: The disk should be edge-on, not face-on. Answer should be NO.
+  - id: neg_shadow_line
+    question: Is the shadow on the screen a thin vertical line?
+    answer_type: yes_no
+    notes_for_judge: The shadow should be a circle. Answer should be NO.

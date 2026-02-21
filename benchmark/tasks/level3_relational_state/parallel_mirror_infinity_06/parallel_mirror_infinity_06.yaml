@@ -1,0 +1,76 @@
+id: parallel_mirror_infinity_06
+level: 3
+category: relational_state
+tags: []
+variant_of: parallel_mirror_infinity
+variation_type: dynamic_condition
+variation_description: 'Property changed: Flashlight beam is blue instead of orange.'
+changes:
+  occlusion_method: null
+  dynamic_conditions: Light source color is blue.
+  expected_outcome_change: Reflected beams are blue.
+prompts:
+  init_frame_edit_prompt: Edit the image to change the color of the flashlight beam and its reflections
+    to bright blue.
+  video_WM: The person begins to tilt the blue flashlight 45 degrees toward the ceiling. The mirrors remain
+    perfectly parallel. The camera rotates right until the flashlight and person completely exit the view,
+    then rotates toward the left smoothly at the same rate until the surface of one mirror is back in
+    the center of view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The person begins to tilt the blue flashlight 45 degrees toward the ceiling. The mirrors
+    remain perfectly parallel. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A man stands in the center of a dark, industrial-style room, flanked by two
+    large parallel mirrors on the left and right that create an infinite reflection effect. He is holding
+    a flashlight that emits a bright blue light directly towards the camera, creating a lens flare. The
+    reflections in the mirrors show the man's side profile and the flashlight. The room has a concrete
+    floor and ceiling with pipes.
+  init2final_edit_prompt: Edit the given image to show the man tilting the flashlight upwards at a 45-degree
+    angle towards the ceiling. The beam of blue light should now be directed upwards, illuminating the
+    ceiling, rather than pointing directly at the camera. Crucially, update the infinite reflections in
+    the mirrors on both the left and right to correctly show the flashlight tilted upwards and the beam
+    pointing up, ensuring the reflections match the new pose of the real object. Reduce the lens flare
+    facing the camera since the light is no longer pointed directly at it.
+  rationale: 'The video describes a physical action where the person tilts the flashlight 45 degrees upward.
+    The camera pans right (removing the subject from view) and then rotates left at the same rate, which
+    implies a return to the initial central composition where the subject and mirrors are visible. The
+    primary state change is the new orientation of the flashlight and its beam. This is a coupled system:
+    the reflections in the mirrors must instantaneously and correctly reflect the new physical state of
+    the flashlight (pointing up) when the camera returns. The evaluation focuses on whether the reflections
+    are consistent with the modified reality.'
+  questions:
+  - id: flashlight_tilt_up
+    question: Is the flashlight in the man's hand tilted upwards towards the ceiling?
+    answer_type: yes_no
+    notes_for_judge: Check if the physical object is angled up.
+  - id: beam_direction_ceiling
+    question: Is the beam of blue light directed towards the ceiling?
+    answer_type: yes_no
+    notes_for_judge: The light cone should point up, not at the camera.
+  - id: reflection_consistency_tilt
+    question: Do the reflections in the mirrors show the flashlight tilted upwards?
+    answer_type: yes_no
+    notes_for_judge: The reflections must match the real object's new state. Look at the mirrors on the
+      sides.
+  - id: reflection_coupling_pose
+    question: Is the pose of the person in the reflections consistent with the real person's new pose?
+    answer_type: yes_no
+    notes_for_judge: Check for relational consistency; the reflection should not show the old pose.
+  - id: ceiling_illumination
+    question: Is the ceiling more illuminated by the blue light than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Since the beam points up, the ceiling should catch the light.
+  - id: glare_reduction
+    question: Is the direct lens flare/glare facing the camera reduced compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The light is no longer pointing at the lens.
+  - id: person_visibility
+    question: Is the person visible in the center of the frame?
+    answer_type: yes_no
+    notes_for_judge: Verifies the camera returned to the initial composition.
+  - id: mirror_symmetry_maintained
+    question: Are the reflections in the left and right mirrors symmetric in their depiction of the upward
+      tilt?
+    answer_type: yes_no
+    notes_for_judge: Both sides should show the change.

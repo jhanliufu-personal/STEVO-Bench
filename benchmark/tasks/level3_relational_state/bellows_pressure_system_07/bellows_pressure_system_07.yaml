@@ -1,0 +1,65 @@
+id: bellows_pressure_system_07
+level: 3
+category: relational_state
+tags: []
+variant_of: bellows_pressure_system
+variation_type: combined
+variation_description: Blocking occlusion combined with a disconnected hose.
+changes:
+  occlusion_method: Object blocking (wooden board).
+  dynamic_conditions: Hose disconnected.
+  expected_outcome_change: The balloon remains deflated.
+prompts:
+  init_frame_edit_prompt: Edit the image to show the black rubber hose is disconnected from the metal
+    nozzle of the bellows, lying on the workbench with a visible gap between them.
+  video_WM: A mechanical press begins squeezing the handles of the bellows together at a constant speed.
+    The hose is disconnected from the bellows nozzle. A large wooden board slides into the frame from
+    the right, completely blocking the view of the bellows and balloon. The board remains for a few seconds,
+    then slides back out to the right. No zoom, no cut, no scene change. STOP.
+  camera_WM: A mechanical press begins squeezing the handles of the bellows together at a constant speed.
+    The hose is disconnected from the bellows nozzle. A large wooden board slides into the frame from
+    the right, completely blocking the view of the bellows and balloon. The board remains for a few seconds,
+    then slides back out to the right. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A wooden bellows sits on a workbench, featuring two wooden handles and a leather
+    accordion-style air chamber. A black rubber hose is attached to the metal nozzle of the bellows with
+    a metal hose clamp. The hose loops around on the wooden surface. Various woodworking tools and shavings
+    are visible in the background.
+  init2final_edit_prompt: Edit the given image to show the wooden bellows in a fully compressed state,
+    with the two handles squeezed close together and the leather accordion section folded flat. The black
+    rubber hose must be detached from the metal nozzle, lying on the workbench with a visible gap separating
+    the hose end from the open nozzle. Keep the background tools and workbench surface unchanged.
+  rationale: 'The prompt describes a mechanical action where the bellows handles are squeezed together,
+    which physically compresses the air chamber (the leather accordion section). Additionally, the prompt
+    explicitly states that the hose is disconnected from the nozzle. The occlusion by the wooden board
+    hides the transition, but the final state must reflect the completed actions: the bellows should be
+    closed/compressed, and the hose should be physically separated from the nozzle. The board slides back
+    out, leaving the view clear.'
+  questions:
+  - id: bellows_compressed
+    question: Are the two wooden handles of the bellows significantly closer together than in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: The handles should be squeezed together, reflecting the compression action.
+  - id: hose_detached
+    question: Is the black rubber hose disconnected from the metal nozzle?
+    answer_type: yes_no
+    notes_for_judge: There should be a visible gap or separation between the hose and the nozzle.
+  - id: accordion_folded
+    question: Is the leather accordion section of the bellows compressed or folded flat?
+    answer_type: yes_no
+    notes_for_judge: As the handles come together, the air chamber must collapse.
+  - id: nozzle_visible
+    question: Is the opening of the metal nozzle visible and unobstructed by the hose?
+    answer_type: yes_no
+    notes_for_judge: Since the hose is disconnected, the nozzle tip should be exposed.
+  - id: hose_position
+    question: Is the end of the hose lying on the table separate from the bellows?
+    answer_type: yes_no
+    notes_for_judge: The hose should no longer be attached to the device.
+  - id: background_consistency
+    question: Do the woodworking tools in the background remain in their original positions?
+    answer_type: yes_no
+    notes_for_judge: Only the bellows and hose should change state; the background is static.

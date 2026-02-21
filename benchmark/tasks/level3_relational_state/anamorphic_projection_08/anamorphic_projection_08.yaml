@@ -1,0 +1,59 @@
+id: anamorphic_projection_08
+level: 3
+category: relational_state
+tags: []
+variant_of: anamorphic_projection
+variation_type: combined
+variation_description: Cylinder removed while lights are off.
+changes:
+  occlusion_method: Lights turn off.
+  dynamic_conditions: Cylinder removed during darkness.
+  expected_outcome_change: Cylinder is gone when lights return.
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A hand enters the frame and touches the cylinder. The lights turn off completely, leaving
+    the room in pitch blackness. In the dark, the sound of the cylinder being lifted and moved aside is
+    heard. The lights turn back on, illuminating the table. No zoom, no cut, no scene change. STOP.
+  camera_WM: A hand enters the frame and touches the cylinder. The lights turn off completely, leaving
+    the room in pitch blackness. In the dark, the sound of the cylinder being lifted and moved aside is
+    heard. The lights turn back on, illuminating the table. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A reflective metal cylinder placed centrally on a piece of paper with a distorted,
+    colorful swirling drawing. The cylinder's reflection reveals an undistorted image of a woman's face.
+    The setup rests on a wooden table.
+  init2final_edit_prompt: Edit the given image to remove the reflective metal cylinder from the center
+    of the paper. Reveal the surface of the paper that was previously underneath the cylinder. The reflection
+    of the face must be completely absent. The distorted colorful drawing on the paper must remain visible
+    and unchanged. The wooden table and background should remain the same.
+  rationale: The video prompt describes the cylinder being physically removed from the scene while the
+    lights are off. When the lights return, the cylinder is gone. Because the image of the face is a reflection
+    dependent on the cylindrical mirror (anamorphic projection), removing the cylinder destroys the virtual
+    image of the face. The final state should show only the paper with the distorted drawing and the empty
+    spot where the cylinder stood.
+  questions:
+  - id: cylinder_removed
+    question: Is the reflective metal cylinder absent from the paper?
+    answer_type: yes_no
+    notes_for_judge: The cylinder should be completely removed.
+  - id: reflection_gone
+    question: Is the reflection of the woman's face no longer visible?
+    answer_type: yes_no
+    notes_for_judge: Without the mirror, the face should not exist.
+  - id: drawing_persists
+    question: Is the distorted colorful drawing still visible on the paper?
+    answer_type: yes_no
+    notes_for_judge: The drawing on the paper is physical and should remain.
+  - id: center_visible
+    question: Is the center of the paper, where the cylinder previously stood, now visible?
+    answer_type: yes_no
+    notes_for_judge: The area under the cylinder should be revealed.
+  - id: lighting_restored
+    question: Is the scene illuminated (not pitch black)?
+    answer_type: yes_no
+    notes_for_judge: The prompt states lights turn back on.
+  - id: table_consistency
+    question: Is the wooden table surface still visible and unchanged?
+    answer_type: yes_no
+    notes_for_judge: Background consistency check.

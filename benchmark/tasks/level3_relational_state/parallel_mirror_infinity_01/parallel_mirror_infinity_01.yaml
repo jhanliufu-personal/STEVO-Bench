@@ -1,0 +1,73 @@
+id: parallel_mirror_infinity_01
+level: 3
+category: relational_state
+tags: []
+variant_of: parallel_mirror_infinity
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to a sliding door blocking the view.
+changes:
+  occlusion_method: A large opaque sliding door moves to block the view.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The person begins to tilt the flashlight 45 degrees toward the ceiling. The mirrors remain
+    perfectly parallel. A large opaque sliding door moves from right to left, completely blocking the
+    view of the scene. The door pauses, then slides back to the right to reveal the scene. No zoom, no
+    cut, no scene change. STOP.
+  camera_WM: The person begins to tilt the flashlight 45 degrees toward the ceiling. The mirrors remain
+    perfectly parallel. A large opaque sliding door moves from right to left, completely blocking the
+    view of the scene. The door pauses, then slides back to the right to reveal the scene. No zoom, no
+    cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A man stands in the center of a dimly lit industrial room, positioned between
+    two large parallel mirrors. He is holding a flashlight that emits a bright, warm orange glow, pointing
+    it forward towards the viewer. The mirrors on his left and right create an infinity mirror effect,
+    displaying multiple recursive reflections of the man and the glowing flashlight extending into the
+    distance.
+  init2final_edit_prompt: Edit the given image so that the man in the center is holding the flashlight
+    tilted upwards at a 45-degree angle toward the ceiling. Ensure that all reflections of the man in
+    the mirrors on both the left and right sides also show the flashlight tilted upwards at the same angle,
+    maintaining consistent optical geometry. The light source should now illuminate more of the upper
+    area or ceiling direction. Keep the position of the mirrors, the man's location, and the background
+    unchanged.
+  rationale: The prompt describes the person tilting the flashlight 45 degrees upward. An opaque door
+    occludes the scene and then reveals it. During the occlusion, the action of tilting the flashlight
+    is assumed to be completed and maintained. Upon the door opening, the physical state of the flashlight
+    must be tilted upwards. Crucially, because this is a coupled optical system, the laws of reflection
+    dictate that every reflection in the mirrors must instantaneously update to match the real object's
+    new orientation. Therefore, all reflections must show the flashlight tilted upwards.
+  questions:
+  - id: primary_flashlight_tilt
+    question: Is the flashlight held by the central figure tilted upwards towards the ceiling?
+    answer_type: yes_no
+    notes_for_judge: Compare the angle of the flashlight in the final frame to the initial frame. It should
+      be angled up.
+  - id: reflection_consistency_left
+    question: Do the reflections in the left mirror show the flashlight tilted upwards?
+    answer_type: yes_no
+    notes_for_judge: Check the reflections on the left side; they must match the central figure's action.
+  - id: reflection_consistency_right
+    question: Do the reflections in the right mirror show the flashlight tilted upwards?
+    answer_type: yes_no
+    notes_for_judge: Check the reflections on the right side; they must match the central figure's action.
+  - id: relational_consistency
+    question: Is the orientation of the flashlight in the reflections consistent with the orientation
+      of the real flashlight?
+    answer_type: yes_no
+    notes_for_judge: The reflections should not show the old state (pointing forward) if the real object
+      is pointing up.
+  - id: light_direction
+    question: Does the light beam or glow appear to be directed upwards relative to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The lighting effect should correspond to the new angle.
+  - id: mirror_stability
+    question: Are the mirrors in the same position as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The mirrors should not have moved or rotated.
+  - id: subject_stability
+    question: Is the man standing in the same location as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Only the arm/flashlight angle should change, not the standing position.

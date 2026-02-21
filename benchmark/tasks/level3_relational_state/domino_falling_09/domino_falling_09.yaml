@@ -1,0 +1,69 @@
+id: domino_falling_09
+level: 3
+category: relational_state
+tags: []
+variant_of: domino_falling
+variation_type: combined
+variation_description: Obstacle in path combined with fog occlusion.
+changes:
+  occlusion_method: Thick fog fills the room.
+  dynamic_conditions: A book blocks the domino path.
+  expected_outcome_change: Chain reaction stops at the book.
+prompts:
+  init_frame_edit_prompt: Edit the image to place a thick hardcover book lying flat directly on top of
+    the domino line in the middle of the winding path, effectively blocking the route.
+  video_WM: Single continuous shot, no cuts. The finger pushes the first domino forward. As the chain
+    reaction begins, thick white fog rapidly fills the room, completely obscuring the table and dominoes
+    from view. The fog swirls densely for several seconds. Then the fog clears rapidly, restoring visibility
+    of the table. STOP.
+  camera_WM: Single continuous shot, no cuts. The finger pushes the first domino forward. As the chain
+    reaction begins, thick white fog rapidly fills the room, completely obscuring the table and dominoes
+    from view. The fog swirls densely for several seconds. Then the fog clears rapidly, restoring visibility
+    of the table. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A high-angle shot of a wooden table featuring a long, winding chain of rectangular
+    wooden dominoes standing on edge. The chain curves around a large, thick, leather-bound book lying
+    flat in the center. A hand enters from the left, with a finger positioned touching or just about to
+    push the first domino in the chain. In the background, there is a window, potted plants on the sill,
+    and books on a shelf.
+  init2final_edit_prompt: Edit the given image to show the aftermath of a chain reaction where the dominoes
+    have fallen. Render the wooden dominoes lying flat against the table, toppled over and overlapping
+    one another along the exact same winding path around the book. Ensure the large leather book remains
+    in its original position and state. Keep the background elements like the window and plants unchanged.
+    Remove the hand or show it retracted away from the dominoes.
+  rationale: The video prompt describes a finger pushing the first domino, which initiates a mechanical
+    chain reaction. The subsequent fog occlusion hides the process, but implies a passage of time sufficient
+    for the reaction to propagate. Because dominoes are a coupled system, the push on the first unit causes
+    the sequential fall of the entire chain. Therefore, in the final frame, the dominoes must be toppled
+    (lying flat) while preserving their spatial path, and static objects like the book must remain unchanged.
+  questions:
+  - id: domino_state_change
+    question: Are the wooden dominoes lying flat on the table instead of standing upright?
+    answer_type: yes_no
+    notes_for_judge: Check if the primary state change (standing to fallen) has occurred for the domino
+      chain.
+  - id: path_conservation
+    question: Does the line of fallen dominoes follow the same winding path around the book as the original
+      standing chain?
+    answer_type: yes_no
+    notes_for_judge: The spatial configuration (the curve) should be conserved even though the state (standing/fallen)
+      changed.
+  - id: sequential_overlap
+    question: Do the fallen dominoes overlap one another in a continuous sequence?
+    answer_type: yes_no
+    notes_for_judge: Tests for the relational visual signature of a domino chain reaction (shingling).
+  - id: first_domino_fallen
+    question: Is the first domino (the one originally near the finger) toppled over?
+    answer_type: yes_no
+    notes_for_judge: The starting point of the coupled system must have changed state.
+  - id: book_stationarity
+    question: Is the large leather book in the same position relative to the table as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The book is not part of the coupled chain and should remain static.
+  - id: background_consistency
+    question: Are the background plants and window visible and consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Ensures the environment is stable after the fog clears.

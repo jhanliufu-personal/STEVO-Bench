@@ -1,0 +1,68 @@
+id: newtons_cradle_07
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: newtons_cradle
+variation_type: combined
+variation_description: Two balls released (condition) + Object blocking (occlusion).
+changes:
+  occlusion_method: A person walks in front of the camera, blocking the view.
+  dynamic_conditions: Two balls released instead of one.
+  expected_outcome_change: Two balls swing out on the right.
+prompts:
+  init_frame_edit_prompt: Edit the image so that the TWO leftmost balls are pulled back and elevated together,
+    leaving only three stationary balls in the center.
+  video_WM: The two far-left balls are released simultaneously. They swing toward the remaining three
+    stationary balls. A person walks in front of the camera from left to right, completely blocking the
+    view with their torso, then continues walking until the view is clear. No cut, no scene change. STOP.
+  camera_WM: The two far-left balls are released simultaneously. They swing toward the remaining three
+    stationary balls. A person walks in front of the camera from left to right, completely blocking the
+    view with their torso, then continues walking until the view is clear. No cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up of a Newton's Cradle on a wooden desk. Five metallic spheres are
+    suspended by strings. The far-left sphere is elevated and pulled back to the left, held in position
+    away from the others. The other four spheres are stationary, hanging vertically and touching each
+    other in a cluster. The background shows a blurred room interior with a window and bookshelf.
+  init2final_edit_prompt: Edit the given image to show the result of the momentum transfer. The far-left
+    ball should now be lowered and stationary, touching the central group of balls. The far-right ball
+    should be swung upwards and outwards to the right side, reaching a height similar to the initial height
+    of the left ball. The middle balls should remain stationary and clustered. Ensure the view is clear
+    of any people or obstructions.
+  rationale: The initial frame shows one ball elevated on the left. Although the text prompt mentions
+    releasing 'two' balls, the visual state only supports the release of one immediately. The physical
+    rollout of this state (conservation of momentum) results in the single left ball striking the pack
+    and transferring energy such that the single far-right ball swings outward. The occlusion by the person
+    is a transient event; the final frame should show the clear view of the apparatus after the collision.
+  questions:
+  - id: left_ball_position
+    question: Is the far-left ball now in a lower position than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The ball that was initially raised should have fallen and hit the others.
+  - id: right_ball_position
+    question: Is the far-right ball now elevated and swung out to the right?
+    answer_type: yes_no
+    notes_for_judge: Momentum transfer should cause the ball at the opposite end to swing out.
+  - id: right_ball_separation
+    question: Is the far-right ball separated from the central group of balls?
+    answer_type: yes_no
+    notes_for_judge: It should be in the middle of its outward swing.
+  - id: left_ball_contact
+    question: Is the far-left ball now touching the central group of balls?
+    answer_type: yes_no
+    notes_for_judge: After releasing its energy, the striker ball should come to rest (or near rest) against
+      the pack.
+  - id: middle_ball_stationary
+    question: Is the middle ball (the third one from the left) stationary and part of the central cluster?
+    answer_type: yes_no
+    notes_for_judge: In a standard collision (1 or 2 balls), the center ball in a 5-ball cradle remains
+      part of the stationary group.
+  - id: occlusion_clear
+    question: Is the view clear of the person who walked by?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the person continues walking until the view is clear.
+  - id: ball_count_consistency
+    question: Are there still exactly five balls visible in the apparatus?
+    answer_type: yes_no
+    notes_for_judge: Object permanence check.

@@ -13,3 +13,55 @@ prompts:
     the table. The gravitational force on the falling mass drives the coupled system. STOP.
 camera_control:
   HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A physics lab setup on a wooden table. On the left edge, a silver metal clamp
+    holds a pulley. A white string runs over the pulley, connecting a large silver weight labeled '5KG'
+    hanging vertically off the edge to a white plastic cart labeled '1KG' resting on the table surface.
+    A wooden meter stick and a silver stopwatch lie on the table parallel to the cart's path. The background
+    shows lab stools and classroom furniture.
+  init2final_edit_prompt: Edit the given image to show the final state of the physics experiment. Move
+    the white '1KG' cart to the far left of the table, positioning it directly against or very close to
+    the pulley clamp mechanism. Move the hanging '5KG' weight significantly downwards, extending the vertical
+    portion of the string. Ensure the horizontal portion of the string is shortened corresponding to the
+    cart's movement. Maintain the original background, lighting, and table perspective.
+  rationale: The system is an Atwood machine variant where a 5kg mass pulls a 1kg cart. Upon release,
+    the system accelerates rapidly (approximately 0.8g) due to the high mass ratio and low friction. The
+    cart will traverse the distance to the pulley in a fraction of a second. The described camera motion
+    (panning away and back) takes significantly longer than the physical event. Therefore, by the time
+    the camera returns to the initial view, the cart will have traveled the full distance to the left
+    and stopped at the pulley, and the weight will have dropped correspondingly.
+  questions:
+  - id: cart_moved_left
+    question: Is the 1KG cart positioned further to the left than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The cart should have moved towards the pulley.
+  - id: weight_moved_down
+    question: Is the 5KG weight positioned lower than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The weight falls as the cart moves.
+  - id: cart_pulley_proximity
+    question: Is the distance between the 1KG cart and the pulley clamp significantly reduced?
+    answer_type: yes_no
+    notes_for_judge: The cart moves towards the pulley.
+  - id: string_length_relation
+    question: Is the horizontal segment of the string shorter than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: As the cart moves left, the horizontal string length decreases.
+  - id: cart_ruler_relation
+    question: Has the cart moved to a lower number/position on the meter stick relative to the start?
+    answer_type: yes_no
+    notes_for_judge: Assuming the ruler measures distance from the left/pulley, or simply checking relative
+      displacement along the ruler.
+  - id: coupled_motion
+    question: Does the final state show the cart closer to the pulley and the weight lower, consistent
+      with coupled motion?
+    answer_type: yes_no
+    notes_for_judge: Checks if both objects moved in the correct coupled directions.
+  - id: connectivity
+    question: Does the string still appear to connect the cart and the weight?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: background_consistency
+    question: Are the stopwatch and meter stick still present on the table?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

@@ -1,0 +1,67 @@
+id: solar_tracker_geometry_10
+level: 3
+category: relational_state
+tags: []
+variant_of: solar_tracker_geometry
+variation_type: combined
+variation_description: Panel rotates opposite direction (azimuth change) occluded by zoom.
+changes:
+  occlusion_method: Camera zoom.
+  dynamic_conditions: 'Motion type: Azimuth rotation (spinning) instead of tilting.'
+  expected_outcome_change: Panel rotates on the vertical axis (face changes direction) rather than tilting
+    down.
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The tracker activates its azimuth drive. Instead of tilting down, the entire panel structure
+    begins rotating clockwise on its vertical axis to face a different cardinal direction. The camera
+    zooms out rapidly until the desert landscape swallows the details of the panel, then zooms back in
+    slowly to the original framing. No cut, no scene change. STOP.
+  camera_WM: The tracker activates its azimuth drive. Instead of tilting down, the entire panel structure
+    begins rotating clockwise on its vertical axis to face a different cardinal direction. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+evaluation:
+  init_frame_description: A large, rectangular solar panel array mounted on a heavy mechanical tracker
+    in a desert landscape. The panel is tilted upwards and angled towards the right side of the frame.
+    A large circular gear mechanism is visible at the pivot point. The base is anchored in the reddish
+    sand. The sun is low on the horizon in the background, casting a warm orange glow and long shadows.
+  init2final_edit_prompt: Edit the given image to show the upper solar panel structure rotated on its
+    vertical axis to a new orientation. Keep the base of the tracker and the surrounding desert terrain
+    fixed exactly as they are. Render the panel array and its supporting frame facing a different cardinal
+    direction (rotated clockwise relative to the base), changing the angle of the panels relative to the
+    viewer while maintaining the original lighting and background.
+  rationale: 'The video describes a camera excursion (zoom out and back in) that serves as a temporal
+    occlusion. During this time, the solar tracker performs a mechanical action: rotating on its azimuth
+    (vertical) axis. The final frame returns to the exact original camera framing. Therefore, the static
+    environment (background, ground, tracker base) must remain identical to the initial frame, while the
+    dynamic component (the upper panel structure) must show a clear change in orientation relative to
+    the base. This tests the model''s ability to handle coupled systems where one part moves relative
+    to a fixed anchor.'
+  questions:
+  - id: orientation_change
+    question: Is the solar panel array facing a different direction than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the face of the panel. It should be oriented differently (rotated) compared
+      to the first image.
+  - id: base_stationarity
+    question: Does the base of the tracker appear to be in the same position on the ground as in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: The base is anchored and should not move; only the top rotates.
+  - id: relative_rotation
+    question: Has the relative orientation between the panel structure and its base changed?
+    answer_type: yes_no
+    notes_for_judge: This tests the relational state of the azimuth drive mechanism.
+  - id: background_consistency
+    question: Is the desert landscape and horizon identical to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The camera returns to the original framing, so the background must match.
+  - id: structural_integrity
+    question: Is the panel array still physically connected to the central support mechanism?
+    answer_type: yes_no
+    notes_for_judge: The object should remain a coherent mechanical system.
+  - id: lighting_consistency
+    question: Is the lighting on the rotated panel consistent with the position of the sun in the background?
+    answer_type: yes_no
+    notes_for_judge: Shadows and highlights should respect the new angle of the panel relative to the
+      light source.

@@ -1,0 +1,63 @@
+id: acoustic_vibration_water_06
+level: 3
+category: relational_state
+tags: []
+variant_of: acoustic_vibration_water
+variation_type: dynamic_condition
+variation_description: The water is replaced with solid ice, changing the medium's response to vibration.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Water replaced with solid block of ice
+  expected_outcome_change: No surface movement; ice remains rigid
+prompts:
+  init_frame_edit_prompt: Edit the image to change the water in the bowl into a solid block of ice.
+  video_WM: A rubber mallet strikes the tuning fork, causing it to vibrate with a loud, continuous hum.
+    The fork is positioned inches away from the glass bowl containing solid ice. The camera rotates right
+    until the fork completely exits the view, then rotates toward the left smoothly at the same rate until
+    the surface of the ice is back in the center of view. No zoom, no cut, no scene change. STOP.
+  camera_WM: A rubber mallet strikes the tuning fork, causing it to vibrate with a loud, continuous hum.
+    The fork is positioned inches away from the glass bowl containing solid ice. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A large, rusty metal tuning fork is clamped horizontally to a wooden block on
+    the left side of the table. To the right, a clear glass bowl contains a large, clear cubic block of
+    solid ice. A rubber mallet with a wooden handle lies on the table in the foreground, positioned below
+    the tuning fork. The background features a window with natural light coming through.
+  init2final_edit_prompt: Edit the given image to show the tuning fork tines appearing blurred, indicating
+    strong vibration. The rubber mallet should be removed from its original resting position in the foreground
+    or placed in a different orientation, implying it was picked up and used. The block of ice and the
+    glass bowl must remain solid, intact, and unchanged, with no cracks, shattering, or melting visible.
+  rationale: The video describes a physical interaction where the mallet strikes the tuning fork, imparting
+    energy that causes it to vibrate (visualized as motion blur). The camera rotates away and then returns
+    to the ice. Physically, the acoustic energy transferred through the air from a tuning fork positioned
+    'inches away' is far too weak to shatter a glass bowl or melt/shatter a solid block of ice. Therefore,
+    the correct simulation preserves the structural integrity of the uncoupled objects (ice and bowl)
+    while showing the state change of the coupled objects (vibrating fork, displaced mallet).
+  questions:
+  - id: fork_vibration
+    question: Does the tuning fork appear to be vibrating or show motion blur?
+    answer_type: yes_no
+    notes_for_judge: The fork should look blurred or active due to the 'loud, continuous hum' described.
+  - id: ice_integrity
+    question: Is the block of ice still solid and intact?
+    answer_type: yes_no
+    notes_for_judge: The ice should not be shattered or significantly melted; air-coupled acoustic energy
+      is insufficient to break it.
+  - id: bowl_integrity
+    question: Is the glass bowl unbroken?
+    answer_type: yes_no
+    notes_for_judge: The bowl should remain intact.
+  - id: mallet_moved
+    question: Has the rubber mallet moved from its original resting position?
+    answer_type: yes_no
+    notes_for_judge: The mallet was used to strike the fork, so it should not be in the exact same resting
+      pose as the initial frame.
+  - id: ice_conservation
+    question: Does the total amount of ice appear conserved relative to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Check for conservation of mass; the ice should not have disappeared or melted drastically.
+  - id: uncoupled_stability
+    question: Does the ice appear unaffected by the vibration of the nearby tuning fork?
+    answer_type: yes_no
+    notes_for_judge: Tests the correct physical relationship (lack of strong coupling through air).

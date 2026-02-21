@@ -1,0 +1,65 @@
+id: anamorphic_projection_10
+level: 3
+category: relational_state
+tags: []
+variant_of: anamorphic_projection
+variation_type: combined
+variation_description: Matte cylinder (no reflection) with zoom occlusion.
+changes:
+  occlusion_method: Camera zoom out.
+  dynamic_conditions: Matte surface (no reflection).
+  expected_outcome_change: No face reflection ever appears.
+prompts:
+  init_frame_edit_prompt: Edit the image to change the shiny metal cylinder into a matte gray plastic
+    cylinder with no reflection. Keep the drawing on the paper unchanged.
+  video_WM: A hand begins rotating the flat drawing on the table around the base of the matte gray cylinder.
+    The camera zooms out rapidly until the objects are too small to distinguish, then zooms back in to
+    the original framing. No cut, no scene change. STOP.
+  camera_WM: A hand begins rotating the flat drawing on the table around the base of the matte gray cylinder.
+    STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+evaluation:
+  init_frame_description: A matte gray cylindrical cup sits in the center of a white sheet of paper on
+    a wooden table. The paper features a hand-drawn anamorphic design consisting of swirling colored lines
+    (brown, blue, yellow, green) that encircle the base of the cup. The wood grain of the table runs diagonally.
+  init2final_edit_prompt: Edit the given image to show the white paper with the colored swirl drawing
+    rotated around the central gray cylinder to a new orientation. The position of the colored lines must
+    be rotated relative to the fixed wood grain of the table. Ensure the cylinder remains in the center
+    of the paper and the table background remains stationary. Maintain the original camera framing and
+    the matte texture of the cylinder.
+  rationale: The video prompt describes a hand rotating the paper around the cylinder, followed by a camera
+    zoom out and zoom in. The zoom sequence serves as a temporal transition and occlusion. When the camera
+    returns to the original framing, the primary state change is the rotation of the paper relative to
+    the table. The cylinder acts as the pivot point and remains central. Since the cylinder is matte,
+    no reflection changes occur, and the focus is on the geometric relationship between the drawing and
+    the table.
+  questions:
+  - id: paper_rotation_relative_to_table
+    question: Is the orientation of the colored swirl pattern on the paper different relative to the table's
+      wood grain compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the alignment of specific colored lines with the wood grain or table edges.
+      The pattern should be rotated.
+  - id: cylinder_centered_on_paper
+    question: Is the matte gray cylinder still positioned at the center of the swirl pattern?
+    answer_type: yes_no
+    notes_for_judge: The rotation is around the base, so the cylinder should remain central to the drawing.
+  - id: table_orientation_fixed
+    question: Is the wood grain of the table oriented in the same direction as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The camera returns to the original framing, so the background (table) should not
+      rotate.
+  - id: cylinder_material_consistency
+    question: Does the cylinder surface remain matte gray without showing a mirrored reflection?
+    answer_type: yes_no
+    notes_for_judge: The prompt specifies a matte cylinder; the model should not hallucinate a mirror
+      reflection despite the anamorphic art context.
+  - id: drawing_integrity
+    question: Are the colored lines of the drawing still visible and conserved on the paper?
+    answer_type: yes_no
+    notes_for_judge: The drawing itself should not disappear or change style, only its orientation.
+  - id: paper_table_contact
+    question: Does the paper appear to be lying flat on the table surface?
+    answer_type: yes_no
+    notes_for_judge: The action is a rotation on the surface, not a lifting action.

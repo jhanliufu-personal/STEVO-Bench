@@ -1,0 +1,67 @@
+id: pulley_counterweight_07
+level: 3
+category: relational_state
+tags: []
+variant_of: pulley_counterweight
+variation_type: combined
+variation_description: Right weight is much heavier (gravity driven motion) and occlusion is by fog.
+changes:
+  occlusion_method: Thick fog obscures the view.
+  dynamic_conditions: Right weight is 25KG (vs 5KG left), released from rest.
+  expected_outcome_change: Right weight drops, left weight shoots up rapidly due to mass difference.
+prompts:
+  init_frame_edit_prompt: Edit the image to change the text on the right weight to '25KG' and make the
+    weight appear significantly larger and bulkier than the left weight.
+  video_WM: The weights are released from a stationary holding position. The right weight is significantly
+    heavier than the left weight. Thick white fog rolls in, completely obscuring the view of the pulley
+    system. The fog slowly dissipates to reveal the scene again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The weights are released from a stationary holding position. The right weight is significantly
+    heavier than the left weight. Thick white fog rolls in, completely obscuring the view of the pulley
+    system. The fog slowly dissipates to reveal the scene again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A rustic wooden ceiling with a metal pulley attached to a beam. A rope runs
+    through the pulley, suspending two iron weights. On the left is a smaller weight labeled '5KG IRON'.
+    On the right is a larger weight labeled '25KG IRON'. Both weights are currently suspended at approximately
+    the same height in the middle of the frame.
+  init2final_edit_prompt: Edit the given image to change the vertical positions of the hanging weights.
+    Move the 5kg weight on the left significantly higher, positioning it just below the pulley wheel.
+    Move the 25kg weight on the right significantly lower, positioning it near the bottom edge of the
+    frame or partially cropping it out at the bottom.
+  rationale: The scene depicts a pulley system with unequal masses (5kg vs 25kg). When released, the significantly
+    heavier 25kg weight will accelerate downward due to gravity, pulling the lighter 5kg weight upward.
+    The fog transition implies a passage of time sufficient for the system to move significantly. Therefore,
+    in the final state, the lighter weight must be near the top of the mechanism and the heavier weight
+    must be near the bottom.
+  questions:
+  - id: pulley_relational_height_01
+    question: Is the 5kg weight positioned vertically higher than the 25kg weight?
+    answer_type: yes_no
+    notes_for_judge: In the final state, the lighter weight (5kg) should be pulled up while the heavier
+      weight (25kg) drops, creating a large vertical separation where the 5kg is higher.
+  - id: pulley_5kg_movement_02
+    question: Is the 5kg weight positioned higher in the frame than it was in the initial image?
+    answer_type: yes_no
+    notes_for_judge: The 5kg weight must move upwards.
+  - id: pulley_25kg_movement_03
+    question: Is the 25kg weight positioned lower in the frame than it was in the initial image?
+    answer_type: yes_no
+    notes_for_judge: The 25kg weight must move downwards.
+  - id: pulley_separation_04
+    question: Is the vertical distance between the two weights greater than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Initially they are side-by-side. Finally, they should be far apart vertically.
+  - id: pulley_proximity_05
+    question: Is the 5kg weight closer to the pulley wheel than the 25kg weight is?
+    answer_type: yes_no
+    notes_for_judge: The 5kg weight moves toward the pulley; the 25kg weight moves away from it.
+  - id: scene_consistency_06
+    question: Are the wooden beams and the pulley mount in the same position as the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The environment should remain static.
+  - id: object_identity_07
+    question: Are the labels '5KG IRON' and '25KG IRON' still visible on their respective weights (if
+      the weights are in frame)?
+    answer_type: yes_no
+    notes_for_judge: The weights should not swap identities or textures.

@@ -1,0 +1,70 @@
+id: compass_deflection_00
+level: 3
+category: relational_state
+tags: []
+variant_of: compass_deflection
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A hand begins moving the bar magnet steadily closer to the side of the compass housing. The
+    magnet remains oriented in the same direction. Camera remains stationary throughout, keeping both
+    the magnet and the compass fully visible in the frame. No zoom, no cut, no scene change. STOP.
+  camera_WM: A hand begins moving the bar magnet steadily closer to the side of the compass housing. The
+    magnet remains oriented in the same direction. Camera remains stationary throughout, keeping both
+    the magnet and the compass fully visible in the frame. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a wooden table featuring a brass compass on the
+    left and a bar magnet held by a hand on the right. The compass is open, revealing a needle with a
+    red tip and a silver tip; the needle is currently oriented diagonally, with the red tip pointing roughly
+    toward the upper-left and the silver tip toward the lower-right. To the right, a hand holds a rectangular
+    bar magnet with a red half (left, facing the compass) and a blue half (right). A wooden ruler lies
+    horizontally in the foreground. A window with a white frame is visible in the blurred background.
+  init2final_edit_prompt: Edit the given image to show the bar magnet positioned significantly closer
+    to the compass, with the red end of the magnet now located just near the right edge of the compass
+    housing. Rotate the compass needle so that it aligns horizontally with the magnet, specifically with
+    the silver tip pointing directly towards the red end of the magnet and the red tip pointing directly
+    away to the left. Ensure the wooden ruler, table surface, and background window remain unchanged.
+  rationale: The action involves moving a strong magnet closer to a compass. According to magnetic principles,
+    the red end of a standard bar magnet is the North pole. The compass needle is a lightweight magnet
+    where the red tip is North and the silver tip is South. Since opposite poles attract and like poles
+    repel, the approaching North pole (red magnet end) will attract the South pole (silver needle tip)
+    and repel the North pole (red needle tip). As the magnet gets closer and its field overpowers the
+    Earth's ambient field, the needle will rotate to align itself with the magnet's field lines, pointing
+    the silver tip directly at the magnet.
+  questions:
+  - id: magnet_proximity
+    question: Is the bar magnet closer to the compass housing than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the gap between the red end of the magnet and the brass compass case.
+  - id: needle_alignment_silver
+    question: Is the silver tip of the compass needle pointing towards the red end of the magnet?
+    answer_type: yes_no
+    notes_for_judge: The silver tip (South pole) should be attracted to the red magnet end (North pole).
+  - id: needle_alignment_red
+    question: Is the red tip of the compass needle pointing away from the magnet?
+    answer_type: yes_no
+    notes_for_judge: The red tip (North pole) should be repelled by the red magnet end (North pole).
+  - id: needle_orientation_change
+    question: Is the compass needle oriented more horizontally (pointing left-right) compared to the diagonal
+      orientation in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The needle should align with the axis of the magnet.
+  - id: relative_tip_distance
+    question: Is the silver tip of the needle physically closer to the magnet than the red tip is?
+    answer_type: yes_no
+    notes_for_judge: Verifies the polarity of the alignment.
+  - id: ruler_consistency
+    question: Is the wooden ruler in the foreground in the same position as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: compass_housing_static
+    question: Is the brass compass housing in the same location on the table?
+    answer_type: yes_no
+    notes_for_judge: The housing should not move, only the needle inside.

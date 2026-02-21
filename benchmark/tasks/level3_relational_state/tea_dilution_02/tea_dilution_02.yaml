@@ -1,0 +1,61 @@
+id: tea_dilution_02
+level: 3
+category: relational_state
+tags: []
+variant_of: tea_dilution
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to lights turning off.
+changes:
+  occlusion_method: Room lights turn off completely (pitch black).
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The black concentrate is poured into the water. The pitcher is visibly emptying. The total
+    volume of concentrate is conserved. Suddenly, the lights in the room turn off completely, plunging
+    the scene into total darkness. After a moment, the lights turn back on to reveal the scene. No zoom,
+    no cut, no scene change. STOP.
+  camera_WM: The black concentrate is poured into the water. The pitcher is visibly emptying. The total
+    volume of concentrate is conserved. Suddenly, the lights in the room turn off completely, plunging
+    the scene into total darkness. After a moment, the lights turn back on to reveal the scene. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up shot of a clear glass on a wooden table, partially filled with hot
+    water and emitting steam. A hand holds a speckled ceramic pitcher above the glass, pouring a dark,
+    viscous liquid (concentrate) into the water. The dark liquid is swirling and diffusing within the
+    clear water, creating a cloud-like effect. A window with natural light is visible in the background.
+  init2final_edit_prompt: Edit the given image to show the glass containing a significantly darker, more
+    opaque brownish-black liquid mixture. The liquid level in the glass should be visibly higher than
+    in the original image. The ceramic pitcher should appear emptier, with less liquid remaining inside.
+    Ensure the scene is fully illuminated with bright natural lighting matching the initial frame.
+  rationale: The video prompt describes a pouring action that continues through a period of darkness.
+    Conservation of volume dictates that as the pitcher empties, the glass must fill. The mixing process
+    implies the water will become darker and more opaque. Since the lights turn back on at the end, the
+    final frame must show the scene fully lit, with the accumulated changes in liquid volume and color
+    state.
+  questions:
+  - id: glass_darkness
+    question: Is the liquid in the glass significantly darker than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The water should have turned into a dark mixture.
+  - id: glass_level
+    question: Is the liquid level in the glass higher than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Volume from the pitcher has been added to the glass.
+  - id: pitcher_emptiness
+    question: Does the pitcher appear emptier than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The pitcher has been pouring for some time.
+  - id: lighting_restored
+    question: Is the scene fully illuminated?
+    answer_type: yes_no
+    notes_for_judge: The lights turned back on.
+  - id: relational_conservation
+    question: Does the glass appear fuller and darker while the pitcher appears emptier?
+    answer_type: yes_no
+    notes_for_judge: Checks for coupled state change (conservation).
+  - id: opacity_change
+    question: Is the liquid in the glass more opaque than the initial clear water?
+    answer_type: yes_no
+    notes_for_judge: The mixture should be less transparent than water.

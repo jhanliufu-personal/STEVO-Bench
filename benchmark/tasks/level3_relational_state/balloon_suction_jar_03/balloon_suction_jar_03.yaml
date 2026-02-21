@@ -1,0 +1,61 @@
+id: balloon_suction_jar_03
+level: 3
+category: relational_state
+tags: []
+variant_of: balloon_suction_jar
+variation_type: occlusion_method
+variation_description: Occlusion by zooming out until details are lost.
+changes:
+  occlusion_method: Camera zooms out until the setup is indistinguishable.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The technician activates the vacuum pump, which begins to evacuate the air from the bell jar
+    at a constant rate. The jar remains sealed. The camera zooms out rapidly and continuously until the
+    bell jar and pump become tiny, indistinguishable dots in the distance. The camera then zooms back
+    in to the original framing. No cut, no scene change. STOP.
+  camera_WM: The technician activates the vacuum pump, which begins to evacuate the air from the bell
+    jar at a constant rate. The jar remains sealed. The suction is steady. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+evaluation:
+  init_frame_description: A laboratory setup featuring a clear glass bell jar resting on a wooden table.
+    Inside the jar is a red balloon, partially inflated and tied with a string, resting on the bottom.
+    To the right of the jar is a vacuum pump with cooling fins, a pressure gauge, and a power switch,
+    connected to the bell jar by a beige hose.
+  init2final_edit_prompt: Edit the given image to show the red balloon inside the bell jar significantly
+    expanded in size. The balloon should appear much larger and more inflated, occupying a greater volume
+    of the jar's interior compared to the original state. Ensure the bell jar, vacuum pump, hose, and
+    background remain unchanged.
+  rationale: The prompt states that the vacuum pump is activated and begins evacuating air from the jar.
+    Physically, as the pressure surrounding the balloon decreases, the air trapped inside the balloon
+    expands (Boyle's Law), causing the balloon to grow significantly in size. The camera zoom out and
+    back in signifies a passage of time during which this process occurs. Therefore, when the camera returns
+    to the initial framing, the balloon must be visibly larger than it was at the start.
+  questions:
+  - id: balloon_size_increase
+    question: Is the red balloon significantly larger than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the final balloon size to the initial frame. It should be visibly expanded.
+  - id: balloon_volume_fraction
+    question: Does the balloon occupy a larger proportion of the bell jar's interior volume compared to
+      the start?
+    answer_type: yes_no
+    notes_for_judge: The balloon should fill more of the empty space inside the glass jar.
+  - id: balloon_inflation_state
+    question: Does the balloon appear more inflated or taut relative to its initial state?
+    answer_type: yes_no
+    notes_for_judge: The surface should look expanded due to the pressure difference.
+  - id: jar_integrity
+    question: Is the glass bell jar still intact and in the same position?
+    answer_type: yes_no
+    notes_for_judge: The jar should not be broken or moved.
+  - id: pump_connection
+    question: Is the vacuum pump still connected to the bell jar via the hose?
+    answer_type: yes_no
+    notes_for_judge: The hose connection should remain consistent.
+  - id: balloon_color_consistency
+    question: Is the balloon still red?
+    answer_type: yes_no
+    notes_for_judge: The color of the object should be conserved.

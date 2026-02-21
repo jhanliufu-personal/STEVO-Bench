@@ -1,0 +1,63 @@
+id: billiard_break_09
+level: 3
+category: relational_state
+tags: []
+variant_of: billiard_break
+variation_type: combined
+variation_description: Missed aim combined with smoke occlusion.
+changes:
+  occlusion_method: Smoke fills room.
+  dynamic_conditions: Cue ball aimed to miss.
+  expected_outcome_change: Ball passes rack; rack undisturbed.
+prompts:
+  init_frame_edit_prompt: Edit the image to move the white cue ball to the far right side of the table,
+    so a straight path forward would clearly miss the rack of balls entirely.
+  video_WM: The white cue ball is struck with high force in a straight line parallel to the side cushion,
+    avoiding the stationary triangle. Thick white smoke rapidly fills the room, completely obscuring the
+    table from view. The smoke slowly dissipates until the table is clearly visible again. No zoom, no
+    cut, no scene change. STOP.
+  camera_WM: The white cue ball is struck with high force in a straight line parallel to the side cushion,
+    avoiding the stationary triangle. Thick white smoke rapidly fills the room, completely obscuring the
+    table from view. The smoke slowly dissipates until the table is clearly visible again. No zoom, no
+    cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A green billiard table viewed from a low angle. In the foreground, a full set
+    of colored pool balls is arranged in a tight triangular rack. To the right of the rack, a white cue
+    ball sits on the felt. In the background, there is a second pool table, a fireplace, and overhead
+    green lamps.
+  init2final_edit_prompt: Edit the given image to show the white cue ball moved to the far end of the
+    table near the background cushion, while keeping the triangular rack of colored balls exactly in their
+    original position and tight formation, completely undisturbed. Ensure the scene is clear of smoke
+    and the table is fully visible.
+  rationale: The prompt specifies that the cue ball is struck but travels in a straight line parallel
+    to the side cushion, explicitly avoiding the stationary triangle. Therefore, despite the smoke occlusion,
+    the physical interaction (collision) between the cue ball and the rack never occurs. In the final
+    state, the cue ball should be displaced (having traveled down the table), but the rack of colored
+    balls must remain in its initial, conserved state (unscattered).
+  questions:
+  - id: rack_conserved
+    question: Is the triangular arrangement of the colored balls conserved in the final frame?
+    answer_type: yes_no
+    notes_for_judge: The rack should not be broken; the balls should remain in a triangle.
+  - id: cue_ball_moved
+    question: Is the white cue ball in a new position relative to the rack compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The cue ball must have moved from its starting spot.
+  - id: rack_undisturbed
+    question: Does the group of colored balls appear undisturbed relative to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: They should not be scattered.
+  - id: cue_ball_visible
+    question: Is the white cue ball visible at a different location on the table?
+    answer_type: yes_no
+    notes_for_judge: It should be visible, likely further down the table.
+  - id: smoke_cleared
+    question: Is the table surface visible and free of the thick smoke described in the prompt?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the smoke dissipates.
+  - id: balls_packed
+    question: Are the colored balls still tightly packed together?
+    answer_type: yes_no
+    notes_for_judge: Checks for lack of scattering.

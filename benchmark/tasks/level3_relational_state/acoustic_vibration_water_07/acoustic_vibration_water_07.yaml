@@ -1,0 +1,67 @@
+id: acoustic_vibration_water_07
+level: 3
+category: relational_state
+tags: []
+variant_of: acoustic_vibration_water
+variation_type: combined
+variation_description: Combined lights-off occlusion with a static system (no strike).
+changes:
+  occlusion_method: Lights turn off (pitch black) then on
+  dynamic_conditions: Mallet remains stationary; no vibration
+  expected_outcome_change: No ripples; water remains still
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The rubber mallet remains stationary on the table. The tuning fork sits motionless near the
+    glass. Suddenly, the room lights turn off completely, plunging the scene into pitch blackness. After
+    a few seconds, the lights turn back on to reveal the scene again. No zoom, no cut, no scene change.
+    STOP.
+  camera_WM: The rubber mallet remains stationary on the table. The tuning fork sits motionless near the
+    glass. Suddenly, the room lights turn off completely, plunging the scene into pitch blackness. After
+    a few seconds, the lights turn back on to reveal the scene again. No zoom, no cut, no scene change.
+    STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a physics setup on a dark table. A large, rusty
+    metal tuning fork is clamped horizontally into a rough wooden block on the left. The fork's prongs
+    extend over a clear glass bowl filled with water on the right. A wooden-handled rubber mallet lies
+    on the table in the foreground. The background features a window with daylight, and the water surface
+    is calm with reflections.
+  init2final_edit_prompt: Edit the given image to show the scene fully illuminated again. Ensure the water
+    in the glass bowl remains completely calm, smooth, and undisturbed, with no ripples or waves. Keep
+    the tuning fork, wooden block, and rubber mallet in their exact original positions and orientations.
+    The lighting and shadows should match the initial state, restoring the scene to its original appearance.
+  rationale: The video prompt explicitly states that the mallet and tuning fork remain stationary and
+    motionless throughout the sequence. The only event described is the lights turning off and then back
+    on. Since the tuning fork is not struck, no vibration is generated, and thus no energy is transferred
+    to the water. Therefore, the final state must show the water surface completely calm and all objects
+    in their original positions, conserving the initial static state.
+  questions:
+  - id: global_illumination
+    question: Is the scene fully illuminated and visible?
+    answer_type: yes_no
+    notes_for_judge: The final frame should show the lights back on, not a black screen.
+  - id: water_state_calm
+    question: Is the water surface completely calm and free of ripples?
+    answer_type: yes_no
+    notes_for_judge: Since the fork was not struck, the water should remain undisturbed.
+  - id: mallet_position
+    question: Is the rubber mallet still resting in its original position on the table?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the mallet remains stationary.
+  - id: fork_position
+    question: Is the tuning fork still clamped and positioned exactly as it was initially?
+    answer_type: yes_no
+    notes_for_judge: The fork should not have moved.
+  - id: relative_distance
+    question: Is the relative distance between the tuning fork prongs and the water surface unchanged?
+    answer_type: yes_no
+    notes_for_judge: The configuration of the coupled system should be preserved.
+  - id: water_conservation
+    question: Does the water level appear consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: No water should be lost or splashed out.
+  - id: block_orientation
+    question: Is the wooden block still in its original location and orientation?
+    answer_type: yes_no
+    notes_for_judge: The base of the setup should remain static.

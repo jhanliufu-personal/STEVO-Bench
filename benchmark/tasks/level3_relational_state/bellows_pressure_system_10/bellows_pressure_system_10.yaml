@@ -1,0 +1,70 @@
+id: bellows_pressure_system_10
+level: 3
+category: relational_state
+tags: []
+variant_of: bellows_pressure_system
+variation_type: combined
+variation_description: Original occlusion but with NO action (static state).
+changes:
+  occlusion_method: Camera rotation (original).
+  dynamic_conditions: No force applied (static).
+  expected_outcome_change: No change in state (balloon remains deflated).
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The bellows and balloon sit on the workbench. The handles remain stationary and are not squeezed.
+    The camera rotates right until the bellows completely exit the view, then rotates toward the left
+    smoothly at the same rate until the blue balloon is back in the center of view. No zoom, no cut, no
+    scene change. STOP.
+  camera_WM: The bellows and balloon sit on the workbench. The handles remain stationary and are not squeezed.
+    STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A wooden bellows with leather straps and metal bands sits on a wooden workbench,
+    with its handles in an open, separated position. A black rubber hose connects the nozzle of the bellows
+    to a deflated, crumpled blue balloon lying on the workbench to the right. The background features
+    a tool rack with various woodworking tools.
+  init2final_edit_prompt: Edit the given image so that the blue balloon remains completely deflated, flaccid,
+    and crumpled on the workbench, exactly as it was initially. Ensure the wooden bellows handles remain
+    in the same open, stationary position without being squeezed or brought closer together. The scene
+    should depict a static system with no air transfer and no inflation of the balloon.
+  rationale: The video prompt explicitly states that the bellows handles remain stationary and are not
+    squeezed. In this coupled pneumatic system, the inflation of the balloon is causally dependent on
+    the compression of the bellows to displace air. Since the input mechanism (bellows compression) is
+    inactive, the conservation of air volume implies that the output state (balloon volume) must remain
+    unchanged. Therefore, despite the camera panning away and returning, the balloon must remain completely
+    deflated and flaccid in the final frame.
+  questions:
+  - id: balloon_deflated
+    question: Is the blue balloon still deflated in the final frame?
+    answer_type: yes_no
+    notes_for_judge: The balloon should look flat and crumpled, not round or expanded.
+  - id: balloon_flaccid
+    question: Does the blue balloon appear flaccid rather than taut or inflated?
+    answer_type: yes_no
+    notes_for_judge: ''
+  - id: volume_conserved
+    question: Does the volume of the blue balloon appear unchanged relative to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: It should not have grown in size.
+  - id: shape_crumpled
+    question: Does the balloon retain a crumpled, irregular shape consistent with being empty?
+    answer_type: yes_no
+    notes_for_judge: ''
+  - id: no_expansion
+    question: Is the balloon free of any signs of expansion or inflation?
+    answer_type: yes_no
+    notes_for_judge: ''
+  - id: hose_connected
+    question: Is the black hose still connected to the blue balloon?
+    answer_type: yes_no
+    notes_for_judge: ''
+  - id: bellows_open_if_visible
+    question: If the bellows handles are visible, are they still in an open (separated) position?
+    answer_type: yes_no
+    notes_for_judge: If the bellows are cropped out, answer Yes based on the lack of effect on the balloon,
+      or skip.
+  - id: texture_unstretched
+    question: Does the surface of the balloon appear unstretched (e.g., visible wrinkles or folds)?
+    answer_type: yes_no
+    notes_for_judge: ''

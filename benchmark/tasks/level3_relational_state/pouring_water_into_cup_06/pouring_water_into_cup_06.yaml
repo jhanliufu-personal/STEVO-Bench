@@ -1,0 +1,71 @@
+id: pouring_water_into_cup_06
+level: 3
+category: relational_state
+tags: []
+variant_of: pouring_water_into_cup
+variation_type: dynamic_condition
+variation_description: The pitcher contains very little water, implying the flow will stop naturally.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Pitcher is nearly empty.
+  expected_outcome_change: Pouring stops as water runs out; glass does not fill completely.
+prompts:
+  init_frame_edit_prompt: Edit the image so the pitcher appears nearly empty, with only a small amount
+    of water remaining at the bottom.
+  video_WM: Single continuous shot, no cuts, no zoom, no scene transitions. Camera starts centered on
+    the hand holding the nearly empty pitcher, pouring the remaining water into the glass. The hand continues
+    holding the pitcher in the same tilted position. While the pouring continues, the camera smoothly
+    moves to the right at constant speed until the pitcher, water stream, and glass fully exit the frame
+    to the left. The camera continues moving right across the tabletop for several seconds while the pouring
+    action remains out of view. Then the camera moves left at the same constant speed back to the original
+    viewpoint.
+  camera_WM: A hand holds a nearly empty pitcher tilted, pouring the remaining water into a glass. The
+    hand continues holding the pitcher in the same tilted position. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A close-up shot of a glass pitcher held by a hand, tilted to pour water into
+    a clear glass tumbler sitting on a wooden table. The pitcher contains a moderate amount of water,
+    and a steady stream is flowing into the glass, which is approximately half full. The background shows
+    a blurred window frame with natural light.
+  init2final_edit_prompt: Edit the given image to show the result of continuing to pour water. Significantly
+    increase the water level inside the glass so it is much fuller than in the original image. Correspondingly
+    decrease the water level inside the pitcher so it contains less water. Maintain the positions of the
+    hand, pitcher, and glass, and keep the background and table appearance unchanged.
+  rationale: The prompt describes a scenario where the camera pans away while the pouring action continues,
+    then returns to the original view. During the occlusion, the physical process of pouring transfers
+    water from the pitcher to the glass. According to the conservation of volume, the final state must
+    show the glass containing more water and the pitcher containing less water than in the initial frame,
+    reflecting the duration of the pour.
+  questions:
+  - id: glass_level_increase
+    question: Is the water level in the glass higher than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the water line in the glass between the two frames. It should be higher in
+      the final frame.
+  - id: pitcher_level_decrease
+    question: Is the amount of water remaining in the pitcher less than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Check the water level inside the pitcher. It should be lower due to the pouring action.
+  - id: volume_transfer_logic
+    question: Does the increase in water in the glass correspond to a decrease of water in the pitcher?
+    answer_type: yes_no
+    notes_for_judge: This tests the relational state/conservation. If the glass is fuller, the pitcher
+      must be emptier.
+  - id: glass_fuller_state
+    question: Is the glass fuller relative to its initial state?
+    answer_type: yes_no
+    notes_for_judge: Ordinal check for the state of the glass.
+  - id: pitcher_emptier_state
+    question: Is the pitcher emptier relative to its initial state?
+    answer_type: yes_no
+    notes_for_judge: Ordinal check for the state of the pitcher.
+  - id: glass_position_consistency
+    question: Is the position of the glass on the table consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The glass should not have moved, only filled up.
+  - id: background_consistency
+    question: Is the window background unchanged?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

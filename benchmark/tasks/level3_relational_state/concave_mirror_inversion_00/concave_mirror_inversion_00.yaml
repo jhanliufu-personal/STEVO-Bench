@@ -1,0 +1,62 @@
+id: concave_mirror_inversion_00
+level: 3
+category: relational_state
+tags: []
+variant_of: concave_mirror_inversion
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The candle is moved steadily closer to the silver bowl, passing through the focal point of
+    the curvature. The flame remains lit. Camera remains stationary throughout. No zoom, no cut, no scene
+    change. STOP.
+  camera_WM: The candle is moved steadily closer to the silver bowl, passing through the focal point of
+    the curvature. The flame remains lit. Camera remains stationary throughout. No zoom, no cut, no scene
+    change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up view of a large silver bowl acting as a concave mirror. The bowl
+    reflects the room, showing inverted (upside-down) windows and a small, inverted reflection of a candle
+    flame in the center. A real candle is visible in the background on the right side of the table.
+  init2final_edit_prompt: Edit the given image to show a lit candle positioned in the immediate foreground,
+    very close to the front of the silver bowl. The reflection of this candle inside the bowl must be
+    upright (pointing up) and significantly magnified. The reflection of the background room (windows
+    and walls) must remain inverted (upside down).
+  rationale: The silver bowl functions as a concave mirror. In the initial state, the candle is distant
+    (beyond the focal point), creating a real, inverted image. As the candle moves closer and passes through
+    the focal point (as specified in the prompt), the optical regime changes. Objects inside the focal
+    point create virtual, upright, and magnified images. Therefore, the final state must show the candle's
+    reflection flipped to an upright orientation and enlarged, while the distant background remains inverted.
+  questions:
+  - id: reflection_orientation_flip
+    question: Is the reflection of the candle flame upright (pointing upwards)?
+    answer_type: yes_no
+    notes_for_judge: The candle has passed the focal point, so the reflection must flip from inverted
+      to upright.
+  - id: reflection_magnification
+    question: Is the reflection of the candle flame significantly larger than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Virtual images in concave mirrors (object inside focal point) are magnified.
+  - id: background_inversion_consistency
+    question: Is the reflection of the background room (e.g., windows) still inverted?
+    answer_type: yes_no
+    notes_for_judge: The background did not move, so it remains beyond the focal point and thus inverted.
+  - id: relational_orientation_contrast
+    question: Is the orientation of the candle reflection different from the orientation of the background
+      window reflection (one upright, one inverted)?
+    answer_type: yes_no
+    notes_for_judge: 'This tests the relational state: the close object should be upright, the distant
+      object inverted.'
+  - id: candle_visibility
+    question: Is a real candle visible in the foreground near the bowl?
+    answer_type: yes_no
+    notes_for_judge: The prompt implies the candle moves closer, likely entering the foreground view.
+  - id: flame_presence
+    question: Is the candle flame visible in the reflection?
+    answer_type: yes_no
+    notes_for_judge: Verifies the object is lit as described.

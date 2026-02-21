@@ -1,0 +1,65 @@
+id: ballistic_pendulum_10
+level: 3
+category: relational_state
+tags: []
+variant_of: ballistic_pendulum
+variation_type: combined
+variation_description: Combined heavy concrete block with camera zoom occlusion.
+changes:
+  occlusion_method: Camera zooms out until scene is invisible.
+  dynamic_conditions: Target block is heavy concrete.
+  expected_outcome_change: Minimal swing due to high mass.
+prompts:
+  init_frame_edit_prompt: Edit the image to change the wooden block texture to a rough, gray concrete
+    block.
+  video_WM: The metal projectile makes direct contact with the heavy concrete block, embedding itself
+    into the material. The block is free to swing on its wire suspension. The camera zooms out rapidly
+    until the block and projectile are too small to be seen, then zooms back in to the original framing.
+    No cut, no scene change. STOP.
+  camera_WM: The metal projectile makes direct contact with the heavy concrete block, embedding itself
+    into the material. The block is free to swing on its wire suspension. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+evaluation:
+  init_frame_description: A large, rectangular, porous concrete block is suspended by two braided steel
+    cables in a room with industrial piping on the ceiling. A shiny, cylindrical metal projectile is captured
+    in mid-air, impacting the center of the block's face. A cloud of dust and concrete debris is exploding
+    outwards from the point of contact.
+  init2final_edit_prompt: Edit the given image to show the metal projectile embedded into the face of
+    the concrete block. The projectile should appear stuck in the material, not floating in the air. The
+    concrete block should be displaced slightly backwards or tilted, indicating it has swung in response
+    to the impact. Remove the flying dust and debris to show a clear view of the block and the embedded
+    projectile.
+  rationale: The video describes a ballistic pendulum experiment (inelastic collision). The projectile
+    embeds itself into the block, transferring its momentum to the block. This causes the combined system
+    (block + projectile) to swing backwards or upwards. The camera zoom introduces a time gap, during
+    which the immediate impact dust settles and the block swings away from its equilibrium position. The
+    final frame should show the projectile fixed within the block and the block displaced by the force
+    of the impact.
+  questions:
+  - id: projectile_embedded
+    question: Is the metal projectile embedded in the concrete block rather than flying in the air?
+    answer_type: yes_no
+    notes_for_judge: The projectile should be sticking out of the block or inside the hole, not hovering
+      separately.
+  - id: block_displacement
+    question: Has the concrete block moved, tilted, or swung relative to its initial resting position?
+    answer_type: yes_no
+    notes_for_judge: The block should show signs of reacting to the impact (displacement due to momentum
+      transfer).
+  - id: dust_cleared
+    question: Has the cloud of impact dust and debris dissipated?
+    answer_type: yes_no
+    notes_for_judge: The air should be clearer than in the initial impact frame.
+  - id: coupling_check
+    question: Does the projectile move with the block as a single unit?
+    answer_type: yes_no
+    notes_for_judge: They should be coupled; the projectile should not be left behind or floating independently.
+  - id: cables_attached
+    question: Are the suspension cables still attached to the block?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: background_consistency
+    question: Are the ceiling pipes and background structure consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

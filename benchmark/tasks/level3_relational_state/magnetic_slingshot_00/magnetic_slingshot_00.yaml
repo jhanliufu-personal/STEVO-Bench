@@ -1,0 +1,66 @@
+id: magnetic_slingshot_00
+level: 3
+category: relational_state
+tags: []
+variant_of: magnetic_slingshot
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The first magnetic puck approaches the second stationary puck at high speed. The repulsion
+    between the two North poles is significant. Neither puck is attached to the rail. Camera remains stationary
+    throughout. No zoom, no cut, no scene change. STOP.
+  camera_WM: The first magnetic puck approaches the second stationary puck at high speed. The repulsion
+    between the two North poles is significant. Neither puck is attached to the rail. Camera remains stationary
+    throughout. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: Two cylindrical metallic magnets resting on a clear, inclined acrylic rail labeled
+    'FRICTIONLESS RAIL'. The rail slopes downwards from left to right. The magnets are positioned with
+    their flat circular faces visible, each marked with a red letter 'N'. The upper magnet is positioned
+    higher on the slope to the left, and the lower magnet is positioned further down the slope to the
+    right. In the background, a whiteboard displays physics equations and a diagram of an inclined plane.
+  init2final_edit_prompt: Edit the given image to show the magnets after a repulsive interaction. Move
+    the lower magnet significantly further down the rail to the bottom right, near the end of the track.
+    Move the upper magnet down the rail to a position approximately where the lower magnet was originally
+    located. Ensure the gap between the two magnets is larger than in the original image.
+  rationale: The prompt describes a magnetic repulsion scenario on a frictionless incline. The moving
+    upper magnet approaches the stationary lower magnet. Due to the significant repulsion between the
+    North poles, the magnets will not touch; instead, momentum will be transferred through the magnetic
+    field (acting like a spring). The lower magnet will be propelled rapidly down the rail (gaining the
+    momentum), while the upper magnet will decelerate significantly, likely stopping momentarily near
+    the point of closest approach (roughly the lower magnet's initial position) before gravity eventually
+    pulls it down again. The final state should show the lower magnet far down the track and the upper
+    magnet having advanced to the lower magnet's previous zone, with a widened gap between them.
+  questions:
+  - id: upper_magnet_position
+    question: Is the upper magnet positioned lower on the rail than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The upper magnet should have moved down the slope due to its initial velocity and
+      gravity.
+  - id: lower_magnet_position
+    question: Is the lower magnet positioned further down the rail than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The lower magnet should have been pushed down the rail by the repulsive force.
+  - id: separation_distance
+    question: Is the distance between the two magnets greater than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Due to the 'slingshot' effect, the lower magnet accelerates away, increasing the
+      separation.
+  - id: relative_order
+    question: Is the upper magnet still positioned higher on the rail than the lower magnet?
+    answer_type: yes_no
+    notes_for_judge: The magnets should not pass each other; they repel.
+  - id: rail_text_invariant
+    question: Is the text 'FRICTIONLESS RAIL' still clearly visible and unchanged?
+    answer_type: yes_no
+    notes_for_judge: Background/static elements should not change.
+  - id: magnet_orientation
+    question: Do the magnets maintain their orientation on the rail (cylinders resting on the track)?
+    answer_type: yes_no
+    notes_for_judge: They should slide/roll down the track, not flip into the air randomly.

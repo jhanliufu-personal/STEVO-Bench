@@ -1,0 +1,70 @@
+id: hourglass_accumulation_10
+level: 1
+category: scalar_state
+tags: []
+variant_of: hourglass_accumulation
+variation_type: combined
+variation_description: Combines smoke occlusion with a widened neck for faster flow.
+changes:
+  occlusion_method: Thick grey smoke.
+  dynamic_conditions: Wider neck (faster flow).
+  expected_outcome_change: Faster accumulation of sand.
+prompts:
+  init_frame_edit_prompt: Edit the image to make the neck of the hourglass significantly wider.
+  video_WM: Sand flows rapidly through the widened neck of an hourglass. Thick grey smoke fills the room,
+    completely obscuring the hourglass and filling the frame with opacity. The smoke slowly dissipates,
+    revealing the scene again. No zoom, no cut, no scene change. STOP.
+  camera_WM: Sand flows rapidly through the widened neck of an hourglass. Thick grey smoke fills the room,
+    completely obscuring the hourglass and filling the frame with opacity. The smoke slowly dissipates,
+    revealing the scene again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up shot of a wooden hourglass standing on a scratched wooden desk in
+    a study. The top bulb is approximately half-full of white sand, and a thin stream of sand is falling
+    into the bottom bulb, which contains a small conical pile of sand. In the background, there are bookshelves
+    filled with books, a framed picture, a mask hanging on the wall, and a window providing natural light.
+  init2final_edit_prompt: Edit the given image to show the hourglass with significantly less sand in the
+    top bulb and a much larger, taller pile of sand in the bottom bulb. The sand level in the top bulb
+    should be clearly lower than before, and the bottom pile should be significantly higher, reflecting
+    the rapid transfer of sand. Ensure the background, including the books and window, remains unchanged
+    and that no smoke obscures the view.
+  rationale: 'The video prompt specifies that sand flows ''rapidly'' and that the scene is obscured by
+    smoke for a duration before being revealed again. This implies a significant passage of time or accelerated
+    physics while the view is blocked. Therefore, in the final frame, the state of the hourglass must
+    have advanced: the top bulb must contain noticeably less sand (depletion), and the bottom bulb must
+    contain noticeably more sand (accumulation). The smoke dissipates completely, so the final image should
+    be clear.'
+  questions:
+  - id: top_level_lower
+    question: Is the level of sand in the top bulb lower than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the height of the sand surface in the top bulb. It should be lower.
+  - id: bottom_pile_larger
+    question: Is the pile of sand in the bottom bulb larger than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The volume of sand in the bottom should have increased.
+  - id: sand_transfer_occurred
+    question: Has a significant amount of sand transferred from the top to the bottom section?
+    answer_type: yes_no
+    notes_for_judge: 'Check for mass conservation/flow direction: top less, bottom more.'
+  - id: bottom_pile_taller
+    question: Is the peak of the sand pile in the bottom bulb higher than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Vertical growth of the pile.
+  - id: top_volume_decreased
+    question: Is the volume of sand remaining in the top bulb less than the starting amount?
+    answer_type: yes_no
+    notes_for_judge: Scalar depletion check.
+  - id: visibility_restored
+    question: Is the hourglass clearly visible again, without being obscured by smoke?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the smoke dissipates revealing the scene.
+  - id: background_consistency
+    question: Are the bookshelves and window in the background consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: desk_consistency
+    question: Does the wooden desk surface appear unchanged aside from the hourglass state?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

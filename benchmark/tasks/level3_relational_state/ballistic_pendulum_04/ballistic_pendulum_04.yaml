@@ -1,0 +1,64 @@
+id: ballistic_pendulum_04
+level: 3
+category: relational_state
+tags: []
+variant_of: ballistic_pendulum
+variation_type: dynamic_condition
+variation_description: Block material changed to heavy concrete, implying higher mass and resistance to
+  motion.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Target block is heavy concrete instead of wood (higher mass).
+  expected_outcome_change: The block will swing significantly less or barely move due to increased mass.
+prompts:
+  init_frame_edit_prompt: Edit the image to change the wooden block texture to a rough, gray concrete
+    block.
+  video_WM: The metal projectile makes direct contact with the heavy concrete block, embedding itself
+    into the material. The block is free to swing on its wire suspension. The camera rotates right until
+    the block completely exits the view, then rotates toward the left smoothly at the same rate until
+    the suspension pivot is back in the center of view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The metal projectile makes direct contact with the heavy concrete block, embedding itself
+    into the material. The block is free to swing on its wire suspension. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A heavy, rectangular concrete block is suspended by two wire cables from a ceiling
+    structure with pipes. A cylindrical metal projectile is impacting the center of the block's left face,
+    creating a burst of gray dust and debris. The projectile is partially embedded in the concrete. The
+    block is currently centered under its suspension pivot.
+  init2final_edit_prompt: Edit the given image to show the concrete block displaced to the right side
+    of the frame, swinging slightly upwards. The suspension cables should be taut and angled diagonally
+    towards the right, originating from the same ceiling pivot points. The metal projectile should be
+    fully embedded into the concrete surface, appearing flush or deeply inserted. Remove the floating
+    dust cloud and debris to show a clear view of the aftermath.
+  rationale: The projectile impacts the block, transferring momentum and embedding itself (inelastic collision).
+    This causes the heavy block to swing to the right. The camera pans away and then returns to its exact
+    initial orientation (centering the suspension pivot). Therefore, in the final frame, the block must
+    be visible displaced to the right of the center relative to the fixed pivot, with the cables angled
+    to match this displacement, and the projectile fully embedded.
+  questions:
+  - id: block_displacement
+    question: Is the concrete block positioned to the right of the center of the frame?
+    answer_type: yes_no
+    notes_for_judge: The block should have swung to the right due to the impact.
+  - id: cable_angle
+    question: Are the suspension cables angled diagonally towards the right?
+    answer_type: yes_no
+    notes_for_judge: The cables must connect the fixed pivot to the displaced block.
+  - id: projectile_embedded
+    question: Is the metal projectile fully embedded or flush with the concrete surface?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the projectile embeds itself.
+  - id: dust_cleared
+    question: Is the cloud of impact dust and debris largely gone?
+    answer_type: yes_no
+    notes_for_judge: Time has passed for the camera movement; dust should settle.
+  - id: pivot_centered
+    question: Is the suspension pivot point on the ceiling still roughly centered in the frame?
+    answer_type: yes_no
+    notes_for_judge: The camera returns to the initial view center.
+  - id: momentum_direction
+    question: Does the final state show the block moved in the direction of the projectile's flight (left
+      to right)?
+    answer_type: yes_no
+    notes_for_judge: Conservation of momentum check.

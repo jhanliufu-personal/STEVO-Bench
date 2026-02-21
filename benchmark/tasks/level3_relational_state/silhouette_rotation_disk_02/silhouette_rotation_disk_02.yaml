@@ -1,0 +1,67 @@
+id: silhouette_rotation_disk_02
+level: 3
+category: relational_state
+tags: []
+variant_of: silhouette_rotation_disk
+variation_type: occlusion_method
+variation_description: Occlusion changed to a large opaque board sliding in front of the view.
+changes:
+  occlusion_method: Large opaque board slides in to block view, then slides out
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The motorized base begins to rotate the flat circular disk slowly and steadily by exactly
+    90 degrees around its vertical axis. The spotlight and screen remain fixed in place. A large, opaque
+    black panel slides into the frame from the right, completely blocking the view of the disk and screen.
+    The panel pauses, then slides back out to the right, revealing the scene. No zoom, no cut, no scene
+    change. STOP.
+  camera_WM: The motorized base begins to rotate the flat circular disk slowly and steadily by exactly
+    90 degrees around its vertical axis. The spotlight and screen remain fixed in place. A large, opaque
+    black panel slides into the frame from the right, completely blocking the view of the disk and screen.
+    The panel pauses, then slides back out to the right, revealing the scene. No zoom, no cut, no scene
+    change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A studio photography setup featuring a large spotlight on the left shining towards
+    the right. In the center, a large circular metal disk is mounted vertically on a turntable; it is
+    viewed edge-on by the camera, appearing as a thick vertical line. On the right, a large white diffusion
+    screen displays a distinct, dark, perfect circle shadow cast by the disk.
+  init2final_edit_prompt: Edit the given image to show the central metal disk rotated 90 degrees so its
+    flat circular face is fully visible to the camera. Consequently, change the shadow on the white screen
+    from a large circle to a thin vertical line, reflecting the disk's new edge-on orientation relative
+    to the light source.
+  rationale: The video prompt specifies a 90-degree rotation of the disk. In the initial frame, the disk
+    is edge-on to the camera but face-on to the light source, casting a circular shadow. After rotating
+    90 degrees, the disk becomes face-on to the camera and edge-on to the light source. Physically, a
+    flat disk oriented edge-on to a light source casts a thin linear shadow (corresponding to its thickness)
+    rather than a circle. The final frame must reflect this geometric relationship.
+  questions:
+  - id: disk_orientation
+    question: Is the flat circular face of the central disk now visible to the camera?
+    answer_type: yes_no
+    notes_for_judge: The disk should look like a circle now, not a vertical strip.
+  - id: shadow_shape
+    question: Has the shadow on the white screen changed from a circle to a thin vertical line or narrow
+      rectangle?
+    answer_type: yes_no
+    notes_for_judge: The shadow must be a line/strip, not a circle or oval.
+  - id: shadow_width_relational
+    question: Is the width of the shadow on the screen significantly narrower than the diameter of the
+      disk?
+    answer_type: yes_no
+    notes_for_judge: 'Tests the relationship: edge-on shadow should be much thinner than the face-on disk.'
+  - id: shadow_consistency
+    question: Is the shadow's shape consistent with the disk being oriented edge-on to the light source?
+    answer_type: yes_no
+    notes_for_judge: If the disk faces the camera (perpendicular to light flow), the shadow must be a
+      line.
+  - id: spotlight_invariant
+    question: Is the spotlight on the left still illuminated and in the same position?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: screen_invariant
+    question: Is the white screen on the right still present and in the same position?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

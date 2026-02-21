@@ -1,0 +1,74 @@
+id: acoustic_vibration_water_10
+level: 3
+category: relational_state
+tags: []
+variant_of: acoustic_vibration_water
+variation_type: combined
+variation_description: Combined fog occlusion with high-viscosity oil instead of water.
+changes:
+  occlusion_method: Dense fog fills the room
+  dynamic_conditions: Water replaced with thick motor oil
+  expected_outcome_change: Significantly reduced or slower rippling due to viscosity
+prompts:
+  init_frame_edit_prompt: Edit the image to change the clear water in the bowl to a thick, dark, viscous
+    motor oil.
+  video_WM: A rubber mallet strikes the tuning fork, causing it to vibrate near the bowl of thick oil.
+    Dense white fog rolls in, completely obscuring the view of the experiment. The fog slowly clears to
+    reveal the scene again. No zoom, no cut, no scene change. STOP.
+  camera_WM: A rubber mallet strikes the tuning fork, causing it to vibrate near the bowl of thick oil.
+    Dense white fog rolls in, completely obscuring the view of the experiment. The fog slowly clears to
+    reveal the scene again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up, slightly high-angle shot of a physics demonstration setup. A large
+    metal tuning fork is clamped horizontally to a wooden block on the left. The prongs of the tuning
+    fork extend over a clear glass bowl filled with a dark, thick liquid (oil) positioned on the right.
+    A wooden-handled rubber mallet lies on the dark table surface in the foreground. The background features
+    a window with natural light coming through.
+  init2final_edit_prompt: Edit the given image to show the dark liquid in the bowl with a significantly
+    agitated surface, displaying chaotic ripple patterns and surface disturbance typical of acoustic vibration.
+    Reposition the rubber mallet on the table so it lies in a slightly different orientation or location.
+    Add wisps of lingering white fog or mist around the periphery of the scene, while keeping the tuning
+    fork and bowl clearly visible.
+  rationale: 'The video prompt describes a physical interaction where the mallet strikes the fork, initiating
+    vibration. This vibration is mechanically coupled to the nearby fluid, causing surface agitation (ripples/waves).
+    The fog acts as a temporal occluder; when it clears, the scene should reflect the state shortly after
+    the event: the liquid should be visibly disturbed by the vibration, and the mallet, having been used,
+    should likely be in a different resting position than before. The fog clearing implies some residual
+    mist may remain.'
+  questions:
+  - id: liquid_agitation_increase
+    question: Is the surface of the liquid in the bowl more agitated or disturbed than in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the texture of the liquid surface. The final frame should show more ripples,
+      waves, or chaos due to vibration.
+  - id: liquid_ripple_presence
+    question: Are there visible ripple patterns or surface distortions on the dark liquid?
+    answer_type: yes_no
+    notes_for_judge: Look for concentric rings, chaotic waves, or splashing effects on the oil.
+  - id: mallet_moved
+    question: Is the rubber mallet in a different position or orientation compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The mallet was used to strike the fork, so it should not be in the exact same pixel-perfect
+      resting pose.
+  - id: fog_remnants
+    question: Are there wisps of white fog or mist visible in the scene?
+    answer_type: yes_no
+    notes_for_judge: The prompt mentions fog clearing, so some residue is expected.
+  - id: fork_bowl_relative_pos
+    question: Is the relative position of the tuning fork prongs to the bowl consistent with the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: The clamp and bowl should not have moved relative to each other; only the liquid
+      and mallet change.
+  - id: liquid_conservation
+    question: Does the total amount of liquid in the bowl appear approximately conserved?
+    answer_type: yes_no
+    notes_for_judge: The bowl should not be empty or significantly drained; splashing is fine, but the
+      bulk volume should remain.
+  - id: mallet_visibility
+    question: Is the rubber mallet still visible in the frame?
+    answer_type: yes_no
+    notes_for_judge: The mallet should not disappear completely.

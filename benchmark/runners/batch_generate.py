@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import argparse
+import fnmatch
 import os
 import subprocess
 import sys
@@ -56,7 +57,13 @@ def main() -> int:
     parser = argparse.ArgumentParser(
         description="Batch-generate world-model benchmark GT final frames and questions."
     )
-    parser.add_argument("--tasks_root_dir", help="Root directory containing task subdirectories.")
+    parser.add_argument("--tasks_root", help="Root directory containing task subdirectories.")
+    parser.add_argument(
+        "--pattern",
+        default=None,
+        help="Glob pattern to filter task folder names, e.g. 'pouring_water_into_cup*'. "
+             "If omitted, all valid task dirs under tasks_root are processed.",
+    )
     parser.add_argument(
         "--python_bin",
         nargs="?",
@@ -71,12 +78,13 @@ def main() -> int:
     )
     args = parser.parse_args()
 
-    tasks_root = Path(args.tasks_root_dir).expanduser().resolve()
+    tasks_root = Path(args.tasks_root).expanduser().resolve()
     python_bin = args.python_bin
     num_workers = args.workers
+    pattern = args.pattern
 
     if not tasks_root.is_dir():
-        print(f"Error: TASKS_ROOT_DIR does not exist: {tasks_root}", file=sys.stderr)
+        print(f"Error: tasks_root does not exist: {tasks_root}", file=sys.stderr)
         return 1
 
     if not SCRIPT_PATH.is_file():
@@ -89,6 +97,8 @@ def main() -> int:
 
     print("Running world-model benchmark GT generation")
     print(f"Tasks root: {tasks_root}")
+    if pattern:
+        print(f"Pattern:    {pattern}")
     print(f"Python: {python_bin}")
     print(f"Workers: {num_workers}")
     print("--------------------------------------------")
@@ -107,6 +117,9 @@ def main() -> int:
             continue
 
         valid_tasks.append(task_dir)
+
+    if pattern:
+        valid_tasks = [t for t in valid_tasks if fnmatch.fnmatch(t.name, pattern)]
 
     if not valid_tasks:
         print(f"No valid task directories found under: {tasks_root}", file=sys.stderr)

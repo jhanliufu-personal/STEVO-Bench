@@ -1,0 +1,65 @@
+id: domino_falling_04
+level: 3
+category: relational_state
+tags: []
+variant_of: domino_falling
+variation_type: dynamic_condition
+variation_description: A physical gap in the domino line prevents the chain reaction from completing.
+changes:
+  occlusion_method: null
+  dynamic_conditions: A large gap exists between the 5th and 6th dominoes.
+  expected_outcome_change: The chain reaction stops at the gap; the rest of the dominoes remain standing.
+prompts:
+  init_frame_edit_prompt: Edit the image to remove three dominoes shortly after the start of the line,
+    creating a distinct empty gap between the initial segment and the rest of the winding row.
+  video_WM: Single continuous shot, no cuts or zoom. Camera starts centered on the domino row. The finger
+    pushes the first domino forward. While the dominoes interact, the camera smoothly moves to the right
+    at constant speed until the row exits the frame. The camera continues moving right across the table
+    for several seconds. Then the camera moves left at the same speed back to the original framing. STOP.
+  camera_WM: A finger pushes the first domino forward in a row that has a distinct gap missing several
+    pieces shortly after the start. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, slightly high-angle shot of a wooden table featuring a long, winding
+    row of wooden dominoes standing on their edges. A person's hand is visible on the left, with a finger
+    positioned touching or just about to push the first domino in the sequence. The background includes
+    a window, potted plants, and a stack of books.
+  init2final_edit_prompt: Edit the given image to show the row of dominoes lying flat on the table, as
+    if they have all toppled over in a chain reaction. The fallen dominoes should remain in the same winding
+    pattern as the original standing row. Remove the hand from the first domino, showing it retracted
+    or absent.
+  rationale: The prompt initiates a chain reaction by pushing the first domino. Because the dominoes are
+    physically coupled, this action propagates through the entire row. The camera pans away for several
+    seconds and then returns to the original view. Given the duration of the camera movement, the chain
+    reaction has sufficient time to complete. Therefore, upon returning to the initial framing, the state
+    of the system should have transitioned from an ordered standing state to a disordered fallen state,
+    with the dominoes lying flat along their original path.
+  questions:
+  - id: domino_state_change
+    question: Are the dominoes in the row lying flat on the table instead of standing upright?
+    answer_type: yes_no
+    notes_for_judge: The primary state change is the transition from standing to fallen.
+  - id: first_domino_fallen
+    question: Is the first domino (the one originally near the finger) toppled over?
+    answer_type: yes_no
+    notes_for_judge: Checks if the trigger event occurred.
+  - id: propagation_check
+    question: Is the section of the domino row furthest from the start also lying flat?
+    answer_type: yes_no
+    notes_for_judge: Tests the coupled relationship; the fall should have propagated to the end.
+  - id: path_conservation
+    question: Do the fallen dominoes still follow the original winding path shape?
+    answer_type: yes_no
+    notes_for_judge: The spatial configuration (path) should be conserved even though the state (standing/fallen)
+      changes.
+  - id: hand_retraction
+    question: Is the hand no longer actively pushing the first domino?
+    answer_type: yes_no
+    notes_for_judge: The action was a momentary push; after several seconds, the hand should not be frozen
+      in the push pose.
+  - id: background_consistency
+    question: Are the books and plants in the background unchanged?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check for static objects.

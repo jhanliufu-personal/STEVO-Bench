@@ -1,0 +1,65 @@
+id: domino_falling_08
+level: 3
+category: relational_state
+tags: []
+variant_of: domino_falling
+variation_type: combined
+variation_description: No interaction combined with object blocking occlusion.
+changes:
+  occlusion_method: A large board blocks the view.
+  dynamic_conditions: Finger does not push the domino.
+  expected_outcome_change: No dominoes fall.
+prompts:
+  init_frame_edit_prompt: Edit the image so the finger is hovering slightly above and pulling back from
+    the first domino, clearly not touching it.
+  video_WM: Single continuous shot, no cuts. The finger retracts from the dominoes without touching them.
+    Immediately after, a large black board slides into the foreground from the right, completely blocking
+    the view of the table. The board remains in front of the camera for several seconds. Then the board
+    slides back out to the right, revealing the table again. STOP.
+  camera_WM: Single continuous shot, no cuts. The finger retracts from the dominoes without touching them.
+    Immediately after, a large black board slides into the foreground from the right, completely blocking
+    the view of the table. The board remains in front of the camera for several seconds. Then the board
+    slides back out to the right, revealing the table again. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, slightly high-angle shot of a wooden table. A long, winding chain
+    of wooden dominoes stands upright on the table, curving from the foreground into the background. A
+    human hand enters from the left, with an index finger extended and pointing very close to the first
+    domino in the line, appearing ready to push it. The background features a window, potted plants, and
+    a stack of books.
+  init2final_edit_prompt: Edit the given image to remove the human hand and finger completely from the
+    scene. Ensure that every single domino remains standing upright in its original position and configuration.
+    Do not show any fallen dominoes. Keep the wooden table, the winding shape of the domino line, and
+    the background elements exactly as they were in the original image.
+  rationale: The video prompt explicitly states that the finger retracts *without* touching the dominoes.
+    This negates the causal trigger required for the dominoes to fall. Therefore, despite the passage
+    of time and the occlusion by the board, the physical state of the dominoes must be conserved (inertia);
+    they must remain standing. The only change is the removal of the hand, which retracted before the
+    occlusion.
+  questions:
+  - id: domino_state_01
+    question: Are all the dominoes still standing upright?
+    answer_type: yes_no
+    notes_for_judge: The prompt specifies the finger did not touch them, so none should have fallen.
+  - id: domino_state_02
+    question: Is the first domino (closest to where the finger was) still standing vertically?
+    answer_type: yes_no
+    notes_for_judge: This is the specific point of potential interaction; it must remain standing.
+  - id: domino_configuration_03
+    question: Is the winding pattern of the domino chain identical to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Since they didn't fall, the pattern should not change.
+  - id: hand_removal_04
+    question: Has the hand/finger been removed from the immediate proximity of the dominoes?
+    answer_type: yes_no
+    notes_for_judge: The prompt says the finger retracts.
+  - id: no_fallen_pieces_05
+    question: Is the table surface free of any fallen or flat-lying dominoes?
+    answer_type: yes_no
+    notes_for_judge: Check for failure cases where the model assumes a fall happened.
+  - id: conservation_06
+    question: Does the total number of standing dominoes appear conserved relative to the first frame?
+    answer_type: yes_no
+    notes_for_judge: No dominoes should be lost or fallen.

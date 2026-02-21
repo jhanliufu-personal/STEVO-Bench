@@ -1,0 +1,71 @@
+id: ink_dilution_10
+level: 3
+category: relational_state
+tags: []
+variant_of: ink_dilution
+variation_type: combined
+variation_description: Rapid pouring creates faster change, occluded by camera moving away physically.
+changes:
+  occlusion_method: Camera physically moves backward.
+  dynamic_conditions: Heavy, rapid stream of water.
+  expected_outcome_change: Faster increase in volume and dilution.
+prompts:
+  init_frame_edit_prompt: Edit the image to show a much heavier, wider stream of water pouring from the
+    pitcher, creating more turbulence in the beaker.
+  video_WM: A heavy stream of clear water is poured rapidly into the dark ink, creating turbulence. The
+    total volume of liquid is rising quickly. The pouring continues. The camera moves physically backward
+    away from the bench until the beaker is distant and details are lost, then moves forward returning
+    to the original position. No zoom, no cut, no scene change. STOP.
+  camera_WM: A heavy stream of clear water is poured rapidly into the dark ink, creating turbulence. The
+    total volume of liquid is rising quickly. The pouring continues.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up eye-level shot of a glass beaker on a wooden lab bench. The beaker
+    contains a dark purple liquid (ink) that is being agitated. A clear glass pitcher is held above the
+    beaker, pouring a heavy stream of clear water into it. The liquid in the beaker is turbulent and bubbly
+    where the stream hits. In the background, there is a window with white frames and other blurred lab
+    equipment, including a flask on a stand. There are water droplets on the wooden surface around the
+    beaker.
+  init2final_edit_prompt: Edit the given image to show the beaker containing a significantly higher volume
+    of liquid. The liquid in the beaker should be a much lighter, more transparent shade of purple, indicating
+    dilution with the added water. The clear water stream should continue to pour from the pitcher into
+    the beaker, maintaining the turbulence on the surface. Ensure the camera viewpoint and framing are
+    identical to the original image, with the background lab equipment and window unchanged.
+  rationale: 'The video prompt describes a continuous pouring action while the camera moves away and then
+    returns to the original position. Since the camera returns to the start, the final frame must match
+    the initial viewpoint. The physical process is the addition of clear water to dark ink. This results
+    in two coupled state changes: the total volume of liquid in the beaker increases significantly, and
+    the concentration of the ink decreases, causing the color to become lighter and more transparent (dilution).
+    The pouring is described as continuous, so the stream should likely remain visible.'
+  questions:
+  - id: volume_increase
+    question: Is the level of liquid in the beaker higher than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the liquid height in the beaker between the first and last frames. It should
+      be higher.
+  - id: color_dilution
+    question: Is the liquid in the beaker lighter in color or more transparent than the dark ink in the
+      initial frame?
+    answer_type: yes_no
+    notes_for_judge: The addition of water should dilute the ink, making it paler purple.
+  - id: pouring_stream_presence
+    question: Is the stream of water from the pitcher still visible pouring into the beaker?
+    answer_type: yes_no
+    notes_for_judge: The prompt states pouring continues.
+  - id: camera_return
+    question: Is the beaker approximately the same size and position in the frame as in the initial image?
+    answer_type: yes_no
+    notes_for_judge: The camera moves away and returns, so the final view should match the initial view.
+  - id: background_consistency
+    question: Are the window and background lab equipment still visible in the same relative positions?
+    answer_type: yes_no
+    notes_for_judge: Check for background stability.
+  - id: pitcher_presence
+    question: Is the glass pitcher still positioned above the beaker?
+    answer_type: yes_no
+    notes_for_judge: The pouring source should remain.
+  - id: coupled_state_change
+    question: Does the beaker show both an increase in liquid volume and a decrease in color intensity?
+    answer_type: yes_no
+    notes_for_judge: 'This checks the relational constraint of dilution: more water = lighter color.'

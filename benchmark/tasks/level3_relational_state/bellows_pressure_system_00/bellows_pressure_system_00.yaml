@@ -1,0 +1,66 @@
+id: bellows_pressure_system_00
+level: 3
+category: relational_state
+tags: []
+variant_of: bellows_pressure_system
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A mechanical press begins squeezing the handles of the bellows together at a constant speed.
+    The hose connection is secure. A blue balloon is visible in the view. Camera remains stationary throughout.
+    No zoom, no cut, no scene change. STOP.
+  camera_WM: A mechanical press begins squeezing the handles of the bellows together at a constant speed.
+    The hose connection is secure. A blue balloon is visible in the view. Camera remains stationary throughout.
+    No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A wooden hand bellows rests on a workbench, with its two wooden handles spread
+    apart in an open position and the leather accordion sides expanded. A black rubber hose connects the
+    nozzle of the bellows to a deflated blue balloon lying flat on the table. Woodworking tools like chisels
+    and a hammer are visible in the background.
+  init2final_edit_prompt: Edit the given image to show the wooden bellows in a compressed state, with
+    the two handles squeezed closer together and the leather accordion sides collapsed. Correspondingly,
+    show the blue balloon significantly inflated, appearing round, taut, and larger in volume than its
+    initial flat state. Ensure the black hose remains connected between the bellows and the balloon, and
+    keep the background tools and workbench unchanged.
+  rationale: 'The prompt describes the mechanical action of squeezing the bellows handles. This action
+    reduces the internal volume of the bellows, forcing air out through the nozzle. Because the nozzle
+    is coupled to the balloon via the hose, the displaced air inflates the balloon. The final state must
+    visually reflect this coupled relationship: as the bellows compress (volume loss), the balloon must
+    expand (volume gain).'
+  questions:
+  - id: bellows_handles_position
+    question: Are the wooden handles of the bellows closer together than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Check if the gap between the handles has decreased.
+  - id: balloon_inflation_state
+    question: Is the blue balloon more inflated than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The balloon should look larger, rounder, or fuller compared to the deflated initial
+      state.
+  - id: bellows_accordion_compression
+    question: Is the leather accordion section of the bellows compressed compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The folds should be closer together.
+  - id: balloon_shape_change
+    question: Does the balloon appear rounder and tauter than its initial flat shape?
+    answer_type: yes_no
+    notes_for_judge: Look for signs of internal pressure (smooth surface, 3D volume).
+  - id: coupled_system_behavior
+    question: Does the balloon expand as the bellows compress?
+    answer_type: yes_no
+    notes_for_judge: 'This is a relational check: if the bellows are closed, the balloon must be bigger.'
+  - id: hose_connection_integrity
+    question: Is the black hose still connected to the blue balloon?
+    answer_type: yes_no
+    notes_for_judge: The connection point should remain intact.
+  - id: background_consistency
+    question: Are the background tools (chisels, hammer) in the same position as the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Only the bellows and balloon should change significantly.

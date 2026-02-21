@@ -1,0 +1,64 @@
+id: anamorphic_projection_05
+level: 3
+category: relational_state
+tags: []
+variant_of: anamorphic_projection
+variation_type: dynamic_condition
+variation_description: The cylinder is lifted away, removing the reflection surface.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Cylinder is removed from the scene.
+  expected_outcome_change: No reflection exists; only the distorted drawing on paper is visible.
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A hand grasps the metal cylinder and lifts it vertically off the paper, carrying it out of
+    the frame. The camera rotates right until the drawing completely exits the view, then rotates toward
+    the left smoothly at the same rate until the center of the paper is back in the center of view. No
+    zoom, no cut, no scene change. STOP.
+  camera_WM: A hand grasps the metal cylinder and lifts it vertically off the paper, carrying it out of
+    the frame. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A reflective metal cylinder stands vertically in the center of a white sheet
+    of paper on a wooden table. The paper features a distorted, swirling colorful drawing (anamorphic
+    art). The cylinder's mirrored surface reflects the drawing, optically correcting the distortion to
+    reveal a clear image of a woman's face.
+  init2final_edit_prompt: Edit the given image to remove the metal cylinder from the center of the paper.
+    The final image should show the flat sheet of paper lying on the wooden table with the colorful, distorted
+    swirling lines continuing into the center. The reflection of the woman's face must be completely absent.
+    The area where the cylinder previously stood should now be empty, revealing the surface of the paper
+    and the central convergence of the drawing pattern.
+  rationale: 'The video prompt describes a physical interaction where the central object (the cylindrical
+    mirror) is removed from the scene. The camera temporarily looks away but returns to the original viewpoint.
+    The primary state change is the decoupling of the optical system: without the cylindrical mirror,
+    the reflected image of the face ceases to exist. The final state must show the conservation of the
+    static environment (paper, drawing, table) and the absence of the dynamic object and its dependent
+    reflection.'
+  questions:
+  - id: cylinder_absence
+    question: Is the metal cylinder absent from the center of the paper?
+    answer_type: yes_no
+    notes_for_judge: The object has been removed from the scene.
+  - id: reflection_coupling
+    question: Is the reflection of the woman's face completely absent?
+    answer_type: yes_no
+    notes_for_judge: 'Test of relational state: The face is an optical effect dependent on the cylinder.
+      If the cylinder is gone, the face must be gone.'
+  - id: occlusion_revealed
+    question: Is the central area of the paper, previously occluded by the cylinder, now visible?
+    answer_type: yes_no
+    notes_for_judge: The removal of the object should reveal the background underneath it.
+  - id: drawing_conservation
+    question: Are the distorted colorful lines still visible on the paper?
+    answer_type: yes_no
+    notes_for_judge: The drawing on the paper is a static property and should be conserved.
+  - id: environment_conservation
+    question: Is the wooden table surface still visible in the background?
+    answer_type: yes_no
+    notes_for_judge: The surrounding environment should remain unchanged.
+  - id: agent_absence
+    question: Is the image free of any hands?
+    answer_type: yes_no
+    notes_for_judge: The hand carried the object out of frame and should not be present in the final static
+      shot.

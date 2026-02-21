@@ -1,0 +1,66 @@
+id: tea_dilution_07
+level: 3
+category: relational_state
+tags: []
+variant_of: tea_dilution
+variation_type: combined
+variation_description: Viscous syrup pouring (Condition) + Object blocking (Occlusion).
+changes:
+  occlusion_method: A wooden board blocks the view.
+  dynamic_conditions: Pouring thick, viscous syrup.
+  expected_outcome_change: Syrup piles at bottom; view blocked by board.
+prompts:
+  init_frame_edit_prompt: Edit the image to make the pouring liquid thick, glossy, and viscous like molasses,
+    and show it piling up slightly at the bottom of the glass instead of diffusing into a cloud.
+  video_WM: Thick, viscous molasses is poured into the water. The liquid is heavy and sinks. A large wooden
+    board slides in front of the camera, completely blocking the view, then slides away to reveal the
+    scene. No zoom, no cut, no scene change. STOP.
+  camera_WM: Thick, viscous molasses is poured into the water. The liquid is heavy and sinks. A large
+    wooden board slides in front of the camera, completely blocking the view, then slides away to reveal
+    the scene. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A clear glass cup sits on a wooden table, containing hot water with steam rising
+    from it. A ceramic pitcher is pouring a thick, dark, viscous liquid (molasses) into the glass. The
+    molasses forms a solid, dark stream that sinks through the water and is beginning to coil and pile
+    up at the bottom of the glass, remaining distinct from the clear water.
+  init2final_edit_prompt: Edit the given image to show a significantly larger amount of dark, viscous
+    molasses accumulated at the bottom of the glass. The layer of dark liquid should be much deeper than
+    in the original image, occupying a substantial portion of the lower glass. The overall liquid level
+    in the glass should be higher to account for the added volume of molasses. The dark liquid should
+    remain settled at the bottom, distinct from the clear water above it.
+  rationale: The prompt describes molasses being poured into water, which is a high-density, high-viscosity
+    fluid interaction. During the occlusion by the wooden board, time passes while the pouring action
+    effectively adds more substance to the system. Physically, the molasses will sink and accumulate at
+    the bottom rather than mixing instantly. Therefore, the final state must show a conservation of mass/volume
+    where the added molasses increases the total liquid volume (raising the water level) and settles at
+    the bottom due to density (relational state).
+  questions:
+  - id: molasses_accumulation
+    question: Is the layer of dark molasses at the bottom of the glass significantly deeper than in the
+      initial frame?
+    answer_type: yes_no
+    notes_for_judge: Check for an increase in the volume of the dark substance at the bottom.
+  - id: liquid_level_rise
+    question: Is the total liquid level in the glass higher than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The addition of molasses must displace the water, raising the overall level.
+  - id: density_relation
+    question: Is the dark liquid situated primarily at the bottom of the glass, below the clear water?
+    answer_type: yes_no
+    notes_for_judge: Tests the density relationship; molasses sinks.
+  - id: phase_separation
+    question: Are the dark liquid and the clear water still distinct phases rather than a fully mixed
+      uniform color?
+    answer_type: yes_no
+    notes_for_judge: Molasses is viscous and does not mix instantly; distinct layers should be visible.
+  - id: mass_conservation
+    question: Does the total amount of dark substance in the glass appear greater than in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: Tests if the pouring action during occlusion resulted in accumulation.
+  - id: background_consistency
+    question: Is the wooden table surface still visible and consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

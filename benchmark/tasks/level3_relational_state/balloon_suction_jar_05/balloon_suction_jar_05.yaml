@@ -1,0 +1,63 @@
+id: balloon_suction_jar_05
+level: 3
+category: relational_state
+tags: []
+variant_of: balloon_suction_jar
+variation_type: dynamic_condition
+variation_description: The hose is disconnected, so the pump runs but creates no vacuum in the jar.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Hose disconnected from jar base.
+  expected_outcome_change: No change in balloon size (pump runs, but jar stays at ambient pressure).
+prompts:
+  init_frame_edit_prompt: Edit the image to show the beige rubber hose disconnected from the base of the
+    glass bell jar, with the loose end lying on the table next to it.
+  video_WM: The technician activates the vacuum pump, which begins running loudly. However, the rubber
+    hose is disconnected from the base of the bell jar and lies open on the table. The camera rotates
+    right until the vacuum pump completely exits the view, then rotates toward the left smoothly at the
+    same rate until the balloon inside the jar is back in the center of view. No zoom, no cut, no scene
+    change. STOP.
+  camera_WM: The technician activates the vacuum pump, which begins running loudly. However, the rubber
+    hose is disconnected from the base of the bell jar and lies open on the table. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A clear glass bell jar sits on a wooden table, containing a red balloon tied
+    to a string. The balloon is currently deflated or at normal atmospheric volume. To the right of the
+    jar is a vacuum pump with a pressure gauge and a beige rubber hose connecting the pump to the base
+    of the bell jar.
+  init2final_edit_prompt: Edit the given image to show the beige rubber hose disconnected from the inlet
+    port at the base of the bell jar. The end of the hose should be lying flat on the wooden table surface
+    near the jar, leaving the jar's inlet port open and unconnected. Ensure the red balloon inside the
+    bell jar remains exactly the same size and shape as in the original image, without any expansion or
+    inflation.
+  rationale: The video prompt specifies that although the vacuum pump is activated, the hose is disconnected
+    from the bell jar. Because the coupling between the pump and the jar is broken, the vacuum pump cannot
+    lower the pressure inside the jar. Consequently, the pressure inside the jar remains at atmospheric
+    levels, and the balloon does not expand. The camera movement returns to the initial viewpoint, so
+    the final frame should look like the initial frame but with the hose detached and the balloon unchanged.
+  questions:
+  - id: hose_disconnected
+    question: Is the rubber hose disconnected from the base of the bell jar?
+    answer_type: yes_no
+    notes_for_judge: The hose should not be attached to the glass jar's inlet.
+  - id: hose_on_table
+    question: Is the end of the rubber hose lying on the table surface?
+    answer_type: yes_no
+    notes_for_judge: The hose end should be visible on the table, not connected to the jar.
+  - id: balloon_size_conservation
+    question: Does the red balloon appear to be the same size as it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Since the hose is disconnected, the balloon should not expand.
+  - id: balloon_uninflated
+    question: Does the red balloon remain unexpanded?
+    answer_type: yes_no
+    notes_for_judge: It should look deflated/normal, not taut or large.
+  - id: coupling_failure_check
+    question: Is the physical connection between the vacuum pump and the bell jar broken?
+    answer_type: yes_no
+    notes_for_judge: Check for the gap between the hose and the jar.
+  - id: jar_port_open
+    question: Is the inlet port at the base of the bell jar visible without a hose attached?
+    answer_type: yes_no
+    notes_for_judge: The nipple/port on the glass should be exposed.

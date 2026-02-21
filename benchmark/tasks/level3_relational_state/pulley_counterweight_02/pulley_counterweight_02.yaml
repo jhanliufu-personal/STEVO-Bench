@@ -1,0 +1,66 @@
+id: pulley_counterweight_02
+level: 3
+category: relational_state
+tags: []
+variant_of: pulley_counterweight
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to lights turning off.
+changes:
+  occlusion_method: The lights in the room turn off, creating total darkness.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A hand begins pulling the left weight downward at a constant speed. The rope remains taut
+    across the pulley. The motion continues steadily. Suddenly, all lights in the room turn off, plunging
+    the scene into pitch blackness. After a moment, the lights turn back on to reveal the scene again.
+    No zoom, no cut, no scene change. STOP.
+  camera_WM: A hand begins pulling the left weight downward at a constant speed. The rope remains taut
+    across the pulley. The motion continues steadily. Suddenly, all lights in the room turn off, plunging
+    the scene into pitch blackness. After a moment, the lights turn back on to reveal the scene again.
+    No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A low-angle shot of a rustic wooden ceiling featuring a metal pulley attached
+    to a beam. A thick rope runs over the pulley, supporting two identical bell-shaped weights labeled
+    '5KG IRON'. The weights hang side-by-side at approximately the same height. The background consists
+    of wooden planks and beams.
+  init2final_edit_prompt: Edit the given image so that the left 5kg weight is positioned significantly
+    lower than its original height, and the right 5kg weight is positioned significantly higher, closer
+    to the pulley. The rope on the left side should appear longer, and the rope on the right side should
+    appear shorter, reflecting the displacement of the weights.
+  rationale: 'The video prompt describes a hand pulling the left weight downward. In a fixed pulley system,
+    the rope connects the two weights, creating a coupled relationship: as one side moves down, the other
+    must move up to conserve the rope''s length. The occlusion (lights out) hides the transition, but
+    when the lights return, the state must reflect the consequence of the pulling action: the left weight
+    must be lower and the right weight must be higher than in the initial frame.'
+  questions:
+  - id: pulley_left_down
+    question: Is the left weight vertically lower than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the vertical position of the left weight relative to the background or the
+      bottom of the frame.
+  - id: pulley_right_up
+    question: Is the right weight vertically higher than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the vertical position of the right weight relative to the pulley or the ceiling.
+  - id: pulley_relative_height
+    question: Is the left weight positioned lower than the right weight in the final frame?
+    answer_type: yes_no
+    notes_for_judge: In the initial frame they are roughly equal; the pulling action should create a significant
+      vertical offset where left is lower.
+  - id: rope_length_coupling
+    question: Does the rope length on the left side appear to have increased while the rope length on
+      the right side decreased?
+    answer_type: yes_no
+    notes_for_judge: This tests the coupled nature of the pulley system; the changes should be inverse
+      and corresponding.
+  - id: weights_identity
+    question: Are both weights still recognizable as the '5KG IRON' weights seen in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Ensures object permanence and identity are maintained.
+  - id: rope_tautness
+    question: Does the rope appear taut between the weights and the pulley?
+    answer_type: yes_no
+    notes_for_judge: The rope should not be slack given the weights are hanging.

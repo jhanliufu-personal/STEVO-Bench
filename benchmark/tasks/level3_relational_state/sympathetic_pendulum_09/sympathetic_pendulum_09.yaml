@@ -1,0 +1,64 @@
+id: sympathetic_pendulum_09
+level: 3
+category: relational_state
+tags: []
+variant_of: sympathetic_pendulum
+variation_type: combined
+variation_description: Heavy bob condition combined with thick fog occlusion.
+changes:
+  occlusion_method: Thick fog fills the room.
+  dynamic_conditions: Pendulum B is massive.
+  expected_outcome_change: Pendulum B moves barely or not at all.
+prompts:
+  init_frame_edit_prompt: Edit the image to make the bob of Pendulum B extremely large, dense, and heavy-looking.
+  video_WM: Pendulum A continues its wide, heavy swing. The massive inertia of Pendulum B resists the
+    coupling forces. Thick fog rapidly fills the room, completely obscuring the pendulums from view. The
+    fog slowly clears to reveal the scene again. No zoom, no cut, no scene change. STOP.
+  camera_WM: Pendulum A continues its wide, heavy swing. The massive inertia of Pendulum B resists the
+    coupling forces. Thick fog rapidly fills the room, completely obscuring the pendulums from view. The
+    fog slowly clears to reveal the scene again. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: 'A dimly lit workshop scene featuring a horizontal curved wooden rod or string
+    suspended from the ceiling. Two pendulums hang from this support: on the left, Pendulum A is a lighter
+    object resembling a metal tool or weight attached to a thin rod or string; on the right, Pendulum
+    B is a large, heavy, dark iron ball suspended by a single string. The background contains a window
+    on the left, a wooden door, and various workbench tools.'
+  init2final_edit_prompt: Edit the given image to show Pendulum A tilted to the side, capturing it in
+    the middle of a wide swing. Ensure Pendulum B remains hanging straight down and stationary, unaffected
+    by the motion. The scene should be completely clear of any fog or smoke, with the workshop details
+    visible as in the original view.
+  rationale: The prompt describes a coupled pendulum system with a significant mass mismatch ($m_B \gg
+    m_A$). The 'massive inertia' of Pendulum B means it effectively acts as a fixed support relative to
+    Pendulum A, resisting the coupling forces that would otherwise cause sympathetic motion. After the
+    time elapsed during the fog sequence, Pendulum A (which was swinging widely) should be captured at
+    a point in its trajectory (displaced from vertical), while Pendulum B should remain essentially stationary
+    due to its inertia. The fog is a temporal transition device and should be absent in the final frame.
+  questions:
+  - id: q1_state_A
+    question: Is Pendulum A tilted or displaced from the vertical axis?
+    answer_type: yes_no
+    notes_for_judge: Pendulum A should be captured mid-swing, so it must not be hanging straight down.
+  - id: q2_state_B
+    question: Is Pendulum B hanging vertically?
+    answer_type: yes_no
+    notes_for_judge: Pendulum B should appear stationary and vertical due to its high inertia.
+  - id: q3_relational_displacement
+    question: Is the angular displacement of Pendulum A visibly larger than that of Pendulum B?
+    answer_type: yes_no
+    notes_for_judge: 'This tests the relational constraint: the light object swings while the heavy object
+      resists motion.'
+  - id: q4_relational_stability
+    question: Does Pendulum B appear to remain in its initial equilibrium position despite the motion
+      of Pendulum A?
+    answer_type: yes_no
+    notes_for_judge: Check if B has moved significantly; it should not have.
+  - id: q5_env_fog
+    question: Is the scene free of fog or heavy visual obstruction?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the fog clears.
+  - id: q6_structure_coupling
+    question: Are both pendulums still suspended from the horizontal curved rod?
+    answer_type: yes_no
+    notes_for_judge: The structural integrity of the system should be preserved.

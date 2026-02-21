@@ -1,0 +1,61 @@
+id: tea_dilution_00
+level: 3
+category: relational_state
+tags: []
+variant_of: tea_dilution
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The black concentrate is poured into the water. The pitcher is visibly emptying. The total
+    volume of concentrate is conserved. Camera remains stationary throughout. No zoom, no cut, no scene
+    change. STOP.
+  camera_WM: The black concentrate is poured into the water. The pitcher is visibly emptying. The total
+    volume of concentrate is conserved. Camera remains stationary throughout. No zoom, no cut, no scene
+    change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up shot of a clear glass on a wooden table, containing hot water with
+    dark swirls of liquid beginning to mix. A small, speckled ceramic pitcher is held above the glass,
+    pouring a steady stream of dark black concentrate into the water. Steam is rising from the glass.
+    A window with a white frame is visible in the blurred background.
+  init2final_edit_prompt: Edit the given image to show the result of continuing to pour the liquid. The
+    level of black liquid remaining inside the ceramic pitcher should be visibly lower than in the original
+    image. The liquid level in the glass should be higher than in the original image. The liquid inside
+    the glass should appear significantly darker, more opaque, and more thoroughly mixed with the black
+    concentrate.
+  rationale: The prompt describes a pouring action where a dark concentrate is transferred from a pitcher
+    to a glass of water. Physically, this requires the volume in the source (pitcher) to decrease and
+    the volume in the destination (glass) to increase (conservation of volume). As the dark concentrate
+    mixes with the water, the overall opacity and darkness of the liquid in the glass must increase (diffusion/mixing).
+    The camera is stationary, so the background remains unchanged.
+  questions:
+  - id: pitcher_level_decrease
+    question: Is the level of liquid remaining in the pitcher lower than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Check if the source container is emptying.
+  - id: glass_level_increase
+    question: Is the total liquid level in the glass higher than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Check if the destination container is filling.
+  - id: liquid_darkening
+    question: Is the liquid in the glass darker or more opaque than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Check for mixing/color change.
+  - id: concentrate_accumulation
+    question: Is there a greater amount of dark liquid visible in the glass compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: 'Relational check: accumulation of the poured substance.'
+  - id: background_consistency
+    question: Are the window and table surface in the background unchanged?
+    answer_type: yes_no
+    notes_for_judge: Invariant check.
+  - id: pitcher_presence
+    question: Is the ceramic pitcher still present above the glass?
+    answer_type: yes_no
+    notes_for_judge: Object persistence check.

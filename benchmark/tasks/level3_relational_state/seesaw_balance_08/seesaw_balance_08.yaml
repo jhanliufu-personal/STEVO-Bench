@@ -1,0 +1,58 @@
+id: seesaw_balance_08
+level: 3
+category: relational_state
+tags: []
+variant_of: seesaw_balance
+variation_type: combined
+variation_description: 500 KG bag + Zoom occlusion.
+changes:
+  occlusion_method: Camera zoom out.
+  dynamic_conditions: Sandbag weight 500 KG.
+  expected_outcome_change: No movement.
+prompts:
+  init_frame_edit_prompt: Edit the image to change the text on the sandbag to '500 KG' and make the bag
+    appear larger and fuller.
+  video_WM: A person attempts to lift the left sandbag and its seat with one hand, pulling upwards. The
+    camera zooms out rapidly until the playground is indiscernible, then zooms back in to the original
+    framing. No cut, no scene change. STOP.
+  camera_WM: A person attempts to lift the left sandbag and its seat with one hand, pulling upwards. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+evaluation:
+  init_frame_description: A wooden playground seesaw positioned diagonally in the frame. The left side
+    is weighed down to the ground by a large burlap sack labeled '500 KG SAND'. The right side of the
+    seesaw is elevated high in the air. The background features a park setting with trees and other playground
+    equipment.
+  init2final_edit_prompt: Edit the given image to show the seesaw in the exact same position as the original,
+    with the left side resting on the ground and the right side elevated in the air. Ensure the 500 kg
+    sandbag remains sitting on the left seat, unchanged in position.
+  rationale: 'The video prompt describes a person attempting to lift a 500 kg sandbag with one hand. Physically,
+    500 kg is far too heavy for a human to lift, especially with a single hand and poor leverage. Therefore,
+    despite the attempt, the object will not move. The camera zooms out and back in to the original framing,
+    meaning the final visual state should be identical to the initial state: the seesaw remains tipped
+    to the left with the heavy load on the ground.'
+  questions:
+  - id: seesaw_position_left
+    question: Is the left side of the seesaw still resting on or near the ground?
+    answer_type: yes_no
+    notes_for_judge: The bag is too heavy to be lifted; the left side must remain down.
+  - id: seesaw_position_right
+    question: Is the right side of the seesaw still elevated in the air?
+    answer_type: yes_no
+    notes_for_judge: Since the left side stays down, the right side must stay up.
+  - id: sandbag_location
+    question: Is the sandbag still positioned on the left seat of the seesaw?
+    answer_type: yes_no
+    notes_for_judge: The bag should not have been moved or thrown.
+  - id: relative_height
+    question: Is the left handle of the seesaw lower than the right handle?
+    answer_type: yes_no
+    notes_for_judge: Checks for the correct tilt direction.
+  - id: static_state
+    question: Does the seesaw appear to be in the same tilted configuration as the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The state should be conserved due to the immense weight.
+  - id: text_visibility
+    question: Is the text '500 KG SAND' still visible on the bag?
+    answer_type: yes_no
+    notes_for_judge: Verifies object permanence and lack of excessive distortion.

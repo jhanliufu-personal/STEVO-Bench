@@ -1,0 +1,63 @@
+id: mirror_reflection_03
+level: 3
+category: relational_state
+tags: []
+variant_of: mirror_reflection
+variation_type: occlusion_method
+variation_description: Occlusion changed to thick fog filling the room.
+changes:
+  occlusion_method: Thick fog fills the room, obscuring the view.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A hand pushes the red ball directly toward the mirror at a steady speed. The ball remains
+    on the surface of the table. Thick, opaque white fog rapidly fills the room, completely obscuring
+    the table and mirror from view. The fog then dissipates quickly until the air is clear again. No zoom,
+    no cut, no scene change. STOP.
+  camera_WM: A hand pushes the red ball directly toward the mirror at a steady speed. The ball remains
+    on the surface of the table. Thick, opaque white fog rapidly fills the room, completely obscuring
+    the table and mirror from view. The fog then dissipates quickly until the air is clear again. No zoom,
+    no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up shot of a red billiard ball with the number '3' resting on a wooden
+    surface in front of a framed mirror. The mirror reflects the back of the red ball and a green pool
+    table in the background room. The mirror has a wooden frame.
+  init2final_edit_prompt: Edit the given image to position the red billiard ball significantly closer
+    to the mirror, so it is almost touching the wooden frame. Update the reflection in the mirror to show
+    the red ball correspondingly closer to the bottom edge of the mirror glass, significantly reducing
+    the gap between the real ball and its reflection. Keep the background reflection of the green pool
+    table unchanged. Ensure the scene is clear and free of fog.
+  rationale: The prompt describes a ball being pushed towards a mirror, followed by an occlusion event
+    (fog). Physically, this results in the ball rolling across the surface to a position closer to the
+    mirror frame. Optically, as an object approaches a mirror, its reflection must also appear to move
+    closer to the mirror plane (the glass surface). Therefore, the final state must show the ball closer
+    to the frame and the distance between the real ball and its reflection significantly reduced (converging).
+    The background remains static.
+  questions:
+  - id: ball_closer_to_mirror
+    question: Is the red ball positioned closer to the mirror frame than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the distance between the ball and the wooden frame in both images.
+  - id: reflection_convergence
+    question: Is the gap between the real red ball and its reflection smaller than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: As the ball moves to the mirror, the object and image should appear to converge.
+  - id: reflection_position
+    question: Does the reflection of the red ball appear closer to the bottom edge of the mirror glass?
+    answer_type: yes_no
+    notes_for_judge: The reflection should move 'forward' in the mirror space towards the glass.
+  - id: background_consistency
+    question: Is the green pool table still visible in the background of the reflection?
+    answer_type: yes_no
+    notes_for_judge: The static background should not change.
+  - id: fog_cleared
+    question: Is the image clear of the thick white fog described in the prompt?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the fog dissipates.
+  - id: ball_identity
+    question: Is the object on the table still a red ball?
+    answer_type: yes_no
+    notes_for_judge: Identity conservation.

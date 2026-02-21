@@ -1,0 +1,64 @@
+id: sympathetic_pendulum_08
+level: 3
+category: relational_state
+tags: []
+variant_of: sympathetic_pendulum
+variation_type: combined
+variation_description: Length mismatch condition combined with object blocking occlusion.
+changes:
+  occlusion_method: Large board blocks view.
+  dynamic_conditions: Pendulum B is much shorter.
+  expected_outcome_change: Pendulum B swings very little (off-resonance).
+prompts:
+  init_frame_edit_prompt: Edit the image to shorten the string of Pendulum B so it is half the length
+    of Pendulum A.
+  video_WM: Pendulum A continues its wide, heavy swing. The difference in string lengths creates mismatched
+    natural frequencies. A large opaque wooden board slides into the foreground, completely blocking the
+    view of the pendulums. After a moment, the board slides away to reveal the scene again. No zoom, no
+    cut, no scene change. STOP.
+  camera_WM: Pendulum A continues its wide, heavy swing. The difference in string lengths creates mismatched
+    natural frequencies. A large opaque wooden board slides into the foreground, completely blocking the
+    view of the pendulums. After a moment, the board slides away to reveal the scene again. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A workshop scene featuring two simple pendulums, labeled A and B, suspended
+    from a horizontal, slightly curved wooden rod. The rod itself is suspended by vertical strings at
+    its ends. Pendulum A (left) has a significantly longer string than Pendulum B (right). Both pendulums
+    have spherical metal bobs and are hanging vertically in the center of the frame.
+  init2final_edit_prompt: Edit the given image to show Pendulum A displaced to one side with its string
+    taut at an angle, depicting the apex of a swing. Keep Pendulum B hanging vertically straight down,
+    stationary. Ensure the horizontal wooden rod remains visible at the top. Do not show any occluding
+    board; the view should be clear.
+  rationale: The prompt describes a system of coupled pendulums with mismatched lengths (and thus mismatched
+    natural frequencies). Physics dictates that resonant energy transfer (sympathetic motion) only occurs
+    efficiently when frequencies match. Since the lengths differ, the energy from the swinging Pendulum
+    A will not transfer to Pendulum B. Therefore, after the occlusion, Pendulum A should retain its energy
+    and continue swinging (shown as displacement), while Pendulum B should remain effectively stationary
+    (hanging vertical). The board serves as a temporal occlusion but does not alter the physical outcome.
+  questions:
+  - id: primary_motion_A
+    question: Is Pendulum A positioned at an angle or displaced to the side, indicating it is swinging?
+    answer_type: yes_no
+    notes_for_judge: Pendulum A should not be vertical; it should be captured in the middle of its swing
+      arc.
+  - id: primary_motion_B
+    question: Is Pendulum B hanging vertically straight down?
+    answer_type: yes_no
+    notes_for_judge: Due to mismatched lengths, B should not resonate and should remain stationary.
+  - id: relative_amplitude
+    question: Is the displacement angle of Pendulum A significantly larger than that of Pendulum B?
+    answer_type: yes_no
+    notes_for_judge: A is the driver and retains energy; B should have little to no motion.
+  - id: occlusion_clear
+    question: Is the view of the pendulums clear, without the wooden board blocking them?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the board slides away to reveal the scene.
+  - id: conservation_length
+    question: Does Pendulum A still appear to have a longer string than Pendulum B?
+    answer_type: yes_no
+    notes_for_judge: Physical structure should be preserved.
+  - id: coupling_rod
+    question: Is the horizontal wooden rod visible at the top of the frame?
+    answer_type: yes_no
+    notes_for_judge: The mechanism holding the pendulums must remain.

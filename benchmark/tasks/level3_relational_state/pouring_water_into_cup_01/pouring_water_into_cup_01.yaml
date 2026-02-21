@@ -1,0 +1,74 @@
+id: pouring_water_into_cup_01
+level: 3
+category: relational_state
+tags: []
+variant_of: pouring_water_into_cup
+variation_type: occlusion_method
+variation_description: Occlusion by turning off the lights instead of camera movement.
+changes:
+  occlusion_method: Lights turn off completely (pitch black) then turn back on.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: Single continuous shot, no cuts, no zoom, no scene transitions. Camera remains stationary
+    centered on the hand holding the pitcher, the pouring water stream, and the empty glass. The hand
+    continues holding the pitcher in the same tilted position so that water keeps pouring continuously.
+    Suddenly, the lights in the room turn off completely, plunging the scene into total darkness. The
+    darkness lasts for several seconds while the pouring action continues audibly or implicitly. Then
+    the lights turn back on, revealing the scene again.
+  camera_WM: Single continuous shot, no cuts, no zoom, no scene transitions. Camera remains stationary
+    centered on the hand holding the pitcher, the pouring water stream, and the empty glass. The hand
+    continues holding the pitcher in the same tilted position so that water keeps pouring continuously.
+    Suddenly, the lights in the room turn off completely, plunging the scene into total darkness. The
+    darkness lasts for several seconds while the pouring action continues audibly or implicitly. Then
+    the lights turn back on, revealing the scene again.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a clear glass pitcher held by a hand, pouring
+    water into a clear glass tumbler sitting on a wooden table. The pitcher is tilted, containing a substantial
+    amount of water. A steady stream of water connects the pitcher spout to the glass. The glass is currently
+    empty or has very little water at the bottom. The background shows a blurred window with daylight
+    coming through.
+  init2final_edit_prompt: Edit the given image to show the glass tumbler significantly fuller with water,
+    with the water level rising to near the top. Correspondingly reduce the water level inside the glass
+    pitcher to reflect the volume transferred. Maintain the stream of water pouring from the pitcher into
+    the glass. Ensure the lighting, wooden table texture, and background window remain identical to the
+    original view.
+  rationale: 'The video describes a continuous pouring action that persists through a period of darkness.
+    When the lights return, the physical process of fluid transfer must have progressed. The state of
+    the system is coupled: the volume of water lost by the pitcher must equal the volume gained by the
+    glass (conservation of mass). Therefore, the final frame must depict the glass with a significantly
+    higher water level and the pitcher with a correspondingly lower water level compared to the initial
+    frame.'
+  questions:
+  - id: glass_level_increase
+    question: Is the water level in the glass higher than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the water level in the destination glass between the two frames.
+  - id: pitcher_level_decrease
+    question: Is the water level inside the pitcher lower than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the water level in the source pitcher between the two frames.
+  - id: glass_fuller_state
+    question: Does the glass appear to contain more water now than at the start?
+    answer_type: yes_no
+    notes_for_judge: Check for an increase in the volume of liquid in the recipient container.
+  - id: pitcher_emptier_state
+    question: Does the pitcher appear to contain less water now than at the start?
+    answer_type: yes_no
+    notes_for_judge: Check for a decrease in the volume of liquid in the source container.
+  - id: pouring_stream_visible
+    question: Is the stream of water pouring from the pitcher still visible?
+    answer_type: yes_no
+    notes_for_judge: The action was described as continuous, so the stream should likely persist.
+  - id: table_consistency
+    question: Is the wooden table surface consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check for the environment.
+  - id: background_consistency
+    question: Is the window in the background consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check for the environment.

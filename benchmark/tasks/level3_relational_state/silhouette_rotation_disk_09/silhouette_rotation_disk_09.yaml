@@ -1,0 +1,62 @@
+id: silhouette_rotation_disk_09
+level: 3
+category: relational_state
+tags: []
+variant_of: silhouette_rotation_disk
+variation_type: combined
+variation_description: Fog occlusion combined with NO rotation. State should not change.
+changes:
+  occlusion_method: Fog
+  dynamic_conditions: Motor is stationary (no rotation)
+  expected_outcome_change: Shadow remains a full circle (no change)
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The motorized base remains completely stationary; the disk does not rotate. The spotlight
+    and screen remain fixed in place. Dense white fog rapidly fills the space, becoming thick enough to
+    completely obscure the disk and the screen. The fog then gradually dissipates until the air is clear
+    again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The motorized base remains completely stationary; the disk does not rotate. The spotlight
+    and screen remain fixed in place. Dense white fog rapidly fills the space, becoming thick enough to
+    completely obscure the disk and the screen. The fog then gradually dissipates until the air is clear
+    again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A studio setting with a large, tarnished metal disk standing vertically on its
+    edge on a motorized turntable base. A Fresnel spotlight on a stand to the left shines a bright beam
+    through slightly hazy air, illuminating the disk. To the right, a large white diffusion screen displays
+    a sharp, circular shadow cast by the disk. Cables lie on the floor, and the background is dark.
+  init2final_edit_prompt: Edit the given image to show the scene exactly as it was initially. Ensure the
+    air is clear of any dense fog, restoring full visibility of the metal disk and the white screen. The
+    metal disk must remain in its original position and orientation with the exact same surface texture
+    patterns. The circular shadow on the screen must remain in the same position and size. The spotlight
+    beam should be visible as in the original.
+  rationale: The prompt specifies that the motorized base and disk remain completely stationary and the
+    camera is fixed. A temporary environmental effect (dense fog) obscures the scene and then dissipates.
+    Therefore, the final state must be visually identical to the initial state, testing the model's ability
+    to maintain object permanence (texture, position, shadow geometry) through a full occlusion event.
+  questions:
+  - id: '1'
+    question: Is the metal disk fully visible, without being obscured by dense fog?
+    answer_type: yes_no
+    notes_for_judge: The fog should have dissipated, restoring visibility.
+  - id: '2'
+    question: Does the surface texture and tarnish pattern on the disk match the initial frame exactly?
+    answer_type: yes_no
+    notes_for_judge: The disk should not have rotated; check specific discoloration spots.
+  - id: '3'
+    question: Is the shadow on the white screen circular and in the same position as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Since the disk did not move, the shadow geometry must be conserved.
+  - id: '4'
+    question: Is the spatial relationship between the spotlight, the disk, and the shadow preserved?
+    answer_type: yes_no
+    notes_for_judge: Check for alignment consistency.
+  - id: '5'
+    question: Are the cables on the floor in the same configuration as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check for static environment.
+  - id: '6'
+    question: Does the scene appear to have returned to its initial state after the fog event?
+    answer_type: yes_no
+    notes_for_judge: Global check for state restoration/conservation.

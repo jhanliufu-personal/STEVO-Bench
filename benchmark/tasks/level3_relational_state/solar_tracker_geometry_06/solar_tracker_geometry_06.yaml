@@ -1,0 +1,68 @@
+id: solar_tracker_geometry_06
+level: 3
+category: relational_state
+tags: []
+variant_of: solar_tracker_geometry
+variation_type: dynamic_condition
+variation_description: Simulating a storm warning where the panel must stow vertically (steep angle).
+changes:
+  occlusion_method: null
+  dynamic_conditions: 'Safety mode: Rapid movement to vertical stow position.'
+  expected_outcome_change: Panel tilts rapidly to a steep vertical angle.
+prompts:
+  init_frame_edit_prompt: Edit the image to show dark, threatening storm clouds gathering in the background
+    sky.
+  video_WM: Wind picks up and a storm warning is active. The motorized tracker engages 'stow mode,' moving
+    the panel rapidly to a steep vertical angle to minimize wind resistance. The camera rotates right
+    until the panel completely exits the view, then rotates toward the left smoothly at the same rate
+    until the shadow cast by the panel is back in the center of view. No zoom, no cut, no scene change.
+    STOP.
+  camera_WM: Wind picks up and a storm warning is active. The motorized tracker engages 'stow mode,' moving
+    the panel rapidly to a steep vertical angle to minimize wind resistance. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A large, rectangular solar panel array mounted on a heavy-duty mechanical tracker
+    in a desert environment. The panel is tilted at a diagonal angle (roughly 45 degrees), facing upwards
+    and to the right. The structure features a complex central gear and strut mechanism anchored to a
+    concrete or metal base. The ground consists of reddish sand with scattered rocks. The background is
+    dominated by a dark, dramatic stormy sky with heavy clouds and visible lightning strikes.
+  init2final_edit_prompt: Edit the given image to rotate the large solar panel array into a steep vertical
+    position, making it stand perpendicular to the ground like a wall. Adjust the mechanical arms, gears,
+    and struts of the central tracker to align with and support this new upright orientation. Ensure the
+    panel is no longer tilted diagonally but is fully vertical. Maintain the original desert landscape,
+    the stormy sky, and the lighting conditions exactly as they are, keeping the tracker base centered
+    in the frame.
+  rationale: The video prompt describes a 'stow mode' action where the panel rotates to a vertical angle
+    to resist wind. The camera performs a temporary pan to the right (removing the object from view) and
+    then pans back to the left to re-center the shadow of the panel. Since the tracker base is stationary,
+    centering its shadow effectively returns the camera to the original viewpoint. Therefore, the final
+    frame should show the original scene and composition, but with the solar panel rotated to a steep
+    vertical orientation relative to the ground.
+  questions:
+  - id: panel_visibility
+    question: Is the solar panel array visible in the frame?
+    answer_type: yes_no
+    notes_for_judge: The camera pans away but returns to center the shadow, so the object must be visible
+      again.
+  - id: panel_orientation_vertical
+    question: Is the solar panel oriented in a steep vertical position (perpendicular to the ground)?
+    answer_type: yes_no
+    notes_for_judge: The prompt specifies 'stow mode' moves the panel to a steep vertical angle.
+  - id: panel_angle_change
+    question: Is the angle of the solar panel steeper (more upright) than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the final vertical state to the initial diagonal tilt.
+  - id: camera_centering
+    question: Is the base of the mechanical tracker centered in the view?
+    answer_type: yes_no
+    notes_for_judge: The prompt requires the camera to rotate back until the shadow (cast by the unit)
+      is centered.
+  - id: environment_consistency
+    question: Are the storm clouds and lightning still visible in the background?
+    answer_type: yes_no
+    notes_for_judge: The environment should remain consistent; no scene change occurred.
+  - id: structural_integrity
+    question: Does the solar panel appear physically connected to the central mechanical base?
+    answer_type: yes_no
+    notes_for_judge: The mechanism should look coherent despite the rotation.

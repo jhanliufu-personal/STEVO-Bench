@@ -1,0 +1,64 @@
+id: pulley_color_wheel_10
+level: 3
+category: relational_state
+tags: []
+variant_of: pulley_color_wheel
+variation_type: combined
+variation_description: Loose/slipping belt combined with lights turning off.
+changes:
+  occlusion_method: Lighting change (pitch black)
+  dynamic_conditions: Loose belt (slippage)
+  expected_outcome_change: The color wheel moves very little or not at all due to slippage.
+prompts:
+  init_frame_edit_prompt: Edit the image to show the black rubber belt sagging loosely, hanging down with
+    significant slack between the pulleys.
+  video_WM: A hand turns the crank handle exactly half a rotation clockwise. The belt is loose and slips
+    significantly on the pulleys. Suddenly, the workshop lights turn off, leaving the room in pitch darkness.
+    After a moment, the lights turn back on. No zoom, no cut, no scene change. STOP.
+  camera_WM: A hand turns the crank handle exactly half a rotation clockwise. The belt is loose and slips
+    significantly on the pulleys. Suddenly, the workshop lights turn off, leaving the room in pitch darkness.
+    After a moment, the lights turn back on. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A workshop scene featuring a wooden hand-crank mechanism on the left clamped
+    to a workbench, connected by a black belt to a large multi-colored wooden wheel on the right. The
+    color wheel has 12 segments, with the 'Yellow' segment positioned at the top (12 o'clock). The crank
+    handle is currently held by a hand and is positioned pointing roughly upwards and to the left (approximately
+    10 o'clock position). The background includes a window, a tool rack with chisels, and a wooden workbench.
+  init2final_edit_prompt: Edit the given image to show the wooden crank handle rotated 180 degrees clockwise,
+    so the handle and the hand holding it are now positioned pointing downwards and to the right (approximately
+    at the 4 o'clock position). Crucially, keep the large color wheel on the right in its exact original
+    orientation with the 'Yellow' segment still at the top, reflecting that the belt slipped and did not
+    turn the wheel. Ensure the lighting is bright and normal, identical to the initial state.
+  rationale: The prompt specifies that the crank turns half a rotation (180 degrees) clockwise. However,
+    it also states the belt is loose and slips significantly. In a pulley system with a small driver and
+    a large, heavy driven wheel, significant slippage implies the driver pulley spins inside the belt
+    or the belt slides without transferring enough force to overcome the inertia of the large wheel. Therefore,
+    the crank handle changes position (from ~10 o'clock to ~4 o'clock), but the color wheel remains effectively
+    stationary. The lighting blackout is a transition effect; the final state has the lights back on.
+  questions:
+  - id: crank_moved
+    question: Is the crank handle in a different position compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The crank should have rotated 180 degrees.
+  - id: crank_position_down_right
+    question: Is the crank handle now pointing generally downwards or to the right?
+    answer_type: yes_no
+    notes_for_judge: Initial was up-left (10 o'clock), final should be down-right (4 o'clock).
+  - id: wheel_stationary
+    question: Is the 'Yellow' segment of the color wheel still positioned at the top?
+    answer_type: yes_no
+    notes_for_judge: The belt slipped, so the wheel should not have rotated significantly.
+  - id: wheel_orientation_conserved
+    question: Does the color wheel appear to be in the same orientation as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Tests the 'slippage' constraint; the wheel should not follow the crank.
+  - id: lighting_restored
+    question: Is the scene fully illuminated?
+    answer_type: yes_no
+    notes_for_judge: The prompt says lights turn back on.
+  - id: belt_present
+    question: Is the black belt still visible connecting the two mechanisms?
+    answer_type: yes_no
+    notes_for_judge: Slippage does not imply the belt vanished or fell off, just that it lost traction.

@@ -1,0 +1,71 @@
+id: newtons_cradle_09
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: newtons_cradle
+variation_type: combined
+variation_description: Heavy ball (condition) + Fog (occlusion).
+changes:
+  occlusion_method: Thick fog fills the room.
+  dynamic_conditions: Released ball is much heavier.
+  expected_outcome_change: Heavy ball continues moving; multiple balls scatter or swing.
+prompts:
+  init_frame_edit_prompt: Edit the image so the single ball pulled back on the left is significantly larger
+    (2x diameter) and heavier-looking than the stationary balls.
+  video_WM: The large, heavy far-left ball is released. It swings toward the smaller stationary balls.
+    Suddenly, thick white fog erupts, filling the screen and obscuring the cradle completely. The fog
+    then dissipates rapidly, revealing the scene. No cut, no scene change. STOP.
+  camera_WM: The large, heavy far-left ball is released. It swings toward the smaller stationary balls.
+    Suddenly, thick white fog erupts, filling the screen and obscuring the cradle completely. The fog
+    then dissipates rapidly, revealing the scene. No cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a Newton's cradle on a wooden desk. The cradle
+    has a gold metal frame and wooden base. There are five silver metal balls suspended by strings. The
+    far-left ball is pulled back and raised high to the left, while the other four balls are stationary
+    and touching each other in the center. In the background, there is a window with light coming in on
+    the left, a curtain, and a bookshelf on the right.
+  init2final_edit_prompt: Edit the given image to show the state after the balls have collided. Position
+    the far-left ball hanging straight down, resting against or near the central balls. Position the far-right
+    ball swung upwards and outwards to the right side, reaching a height similar to the initial height
+    of the left ball. Ensure the strings are straight and taut corresponding to these new positions.
+  rationale: The video prompt describes a physical event where the raised left ball is released, swings
+    down, and strikes the stationary balls. Due to the conservation of momentum and energy (Newton's Cradle
+    physics), the momentum from the left ball is transferred through the stationary balls to the ball
+    on the far right. Consequently, the final state must show the left ball at the bottom (having lost
+    its potential energy) and the right ball swung upwards (having gained kinetic and then potential energy).
+    The fog serves as an occlusion transition but dissipates to reveal this physical outcome.
+  questions:
+  - id: left_ball_position_lowered
+    question: Is the far-left ball lower than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The left ball starts high; it should be at the bottom after the swing.
+  - id: right_ball_position_raised
+    question: Is the far-right ball higher than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The right ball starts low; it should swing up after impact.
+  - id: left_ball_contact
+    question: Is the far-left ball now positioned next to the central group of balls?
+    answer_type: yes_no
+    notes_for_judge: It should have swung down to join the pack.
+  - id: right_ball_separation
+    question: Has the far-right ball separated from the central group of balls?
+    answer_type: yes_no
+    notes_for_judge: It should be swinging outward to the right.
+  - id: momentum_transfer_direction
+    question: Does the scene show movement or displacement towards the right side of the cradle?
+    answer_type: yes_no
+    notes_for_judge: The action flows left to right; the right side should show the reaction.
+  - id: left_ball_not_raised
+    question: Is the far-left ball no longer in the raised position shown in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Check that the initial state is not preserved.
+  - id: books_consistency
+    question: Are the books on the right side of the image still in the same position?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: frame_consistency
+    question: Is the gold frame of the Newton's cradle still in the same position?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

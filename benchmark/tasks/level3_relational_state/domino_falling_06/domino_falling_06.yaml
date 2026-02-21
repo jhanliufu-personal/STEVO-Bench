@@ -1,0 +1,70 @@
+id: domino_falling_06
+level: 3
+category: relational_state
+tags: []
+variant_of: domino_falling
+variation_type: dynamic_condition
+variation_description: A heavy object blocks the path of the dominoes.
+changes:
+  occlusion_method: null
+  dynamic_conditions: A heavy book is placed across the domino line halfway through.
+  expected_outcome_change: The chain reaction halts when the dominoes hit the book.
+prompts:
+  init_frame_edit_prompt: Edit the image to place a thick hardcover book lying flat directly on top of
+    the domino line in the middle of the winding path, effectively blocking the route.
+  video_WM: Single continuous shot, no cuts or zoom. Camera starts centered on the domino row. The finger
+    pushes the first domino forward. While the dominoes interact, the camera smoothly moves to the right
+    at constant speed until the row exits the frame. The camera continues moving right across the table
+    for several seconds. Then the camera moves left at the same speed back to the original framing. STOP.
+  camera_WM: A finger pushes the first domino forward in a row that is blocked halfway through by a heavy
+    book lying on the path. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a wooden table surface. A winding row of rectangular
+    wooden dominoes stands upright, curving in an S-shape. A large, thick brown book lies flat in the
+    center of the table, and the domino path winds around it. A human hand enters from the left, with
+    a finger touching the first domino, poised to push it. In the background, there is a window with plants
+    on the sill and a blurred room interior.
+  init2final_edit_prompt: Edit the given image to show the result of the dominoes falling. Render the
+    entire row of wooden dominoes as toppled over, lying flat or leaning against one another in a sequence
+    along the original winding path. The large brown book must remain in its exact original position and
+    orientation. The hand should be removed from the scene or shown in a relaxed state away from the dominoes,
+    implying the action is complete.
+  rationale: The video prompt describes a finger pushing the first domino, which initiates a chain reaction
+    where each coupled domino knocks over the next. The camera pans away for several seconds and then
+    returns to the original view. Given the speed at which dominoes fall and the duration of the camera's
+    absence, the entire visible chain will have had sufficient time to complete its sequence. Therefore,
+    upon the camera's return, the dominoes should be in a fallen state (toppled), while heavy static objects
+    like the book remain unchanged.
+  questions:
+  - id: domino_state_change
+    question: Are the wooden dominoes in the winding row now toppled over instead of standing upright?
+    answer_type: yes_no
+    notes_for_judge: Check if the dominoes have changed from vertical to horizontal/leaning orientation.
+  - id: path_conservation
+    question: Do the fallen dominoes still follow the same winding path around the book as they did when
+      standing?
+    answer_type: yes_no
+    notes_for_judge: The spatial arrangement/curve of the row should be preserved, even though the individual
+      pieces have fallen.
+  - id: book_stationarity
+    question: Is the large brown book in the same position relative to the table as it was in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: The book is a static obstacle and should not move.
+  - id: coupled_interaction
+    question: Do the dominoes appear to be leaning on each other or lying flat, consistent with a chain
+      reaction?
+    answer_type: yes_no
+    notes_for_judge: Tests the coupled nature of the fall; they shouldn't just be scattered randomly.
+  - id: object_conservation
+    question: Does the amount of domino material appear conserved (no dominoes vanished, just changed
+      orientation)?
+    answer_type: yes_no
+    notes_for_judge: The row should look like the same set of objects, just fallen.
+  - id: action_completion
+    question: Is the hand no longer actively pushing the first domino (either removed or relaxed)?
+    answer_type: yes_no
+    notes_for_judge: The initiating action is finished.

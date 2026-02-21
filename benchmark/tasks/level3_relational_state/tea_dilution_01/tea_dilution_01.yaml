@@ -1,0 +1,68 @@
+id: tea_dilution_01
+level: 3
+category: relational_state
+tags: []
+variant_of: tea_dilution
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to a large object blocking the view.
+changes:
+  occlusion_method: A large opaque menu card slides in front of the camera.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The black concentrate is poured into the water. The pitcher is visibly emptying. The total
+    volume of concentrate is conserved. A large opaque menu card slides from the left side of the frame
+    to completely cover the view, pauses, and then slides back to the left until the scene is visible
+    again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The black concentrate is poured into the water. The pitcher is visibly emptying. The total
+    volume of concentrate is conserved. A large opaque menu card slides from the left side of the frame
+    to completely cover the view, pauses, and then slides back to the left until the scene is visible
+    again. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up shot of a clear glass on a wooden table, partially filled with hot
+    water. A small ceramic pitcher is held above it, pouring a dark, viscous liquid (likely coffee or
+    tea concentrate) into the water. Inside the glass, the dark liquid is swirling and diffusing into
+    the clear water, creating distinct dark clouds against the transparency. Steam is rising from the
+    glass. The background shows a window with soft daylight.
+  init2final_edit_prompt: Edit the given image to show the state after more liquid has been poured. The
+    liquid inside the glass should be a significantly darker, more uniform brown color, indicating the
+    concentrate has mixed thoroughly with the water. The liquid level in the glass should be higher than
+    in the original image. The liquid level inside the ceramic pitcher should be visibly lower, showing
+    that a significant amount has been poured out. Ensure the lighting and steam effects remain consistent
+    with the scene.
+  rationale: 'The video prompt describes a pouring action that continues while the view is occluded by
+    a menu card. When the view returns, the physical process of pouring implies coupled state changes:
+    the source container (pitcher) must be emptier, and the destination container (glass) must be fuller.
+    Additionally, the mixing of the dark concentrate with the water is a one-way entropy increase; the
+    liquid in the glass must appear darker and more homogeneous (diluted but uniform) rather than showing
+    the initial distinct separation of clear water and dark swirls.'
+  questions:
+  - id: pitcher_level
+    question: Is the level of liquid inside the pouring pitcher lower than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Check if the source container has less liquid.
+  - id: glass_level
+    question: Is the liquid level in the glass higher than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Check if the destination container has more liquid (conservation of mass).
+  - id: liquid_color_darkness
+    question: Is the liquid in the glass significantly darker overall than the initial clear water?
+    answer_type: yes_no
+    notes_for_judge: The mixture should darken as concentrate is added.
+  - id: liquid_uniformity
+    question: Does the liquid in the glass appear more uniformly mixed compared to the distinct swirls
+      in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Diffusion should lead to a more homogeneous mixture over time.
+  - id: coupled_change
+    question: Do the changes in liquid levels correspond to a transfer from the pitcher to the glass (pitcher
+      lower, glass higher)?
+    answer_type: yes_no
+    notes_for_judge: 'Relational check: one goes down, the other goes up.'
+  - id: occlusion_clear
+    question: Is the view unobstructed by the menu card mentioned in the prompt?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the card slides back to reveal the scene.

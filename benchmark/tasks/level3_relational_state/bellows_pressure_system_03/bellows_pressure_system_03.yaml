@@ -1,0 +1,66 @@
+id: bellows_pressure_system_03
+level: 3
+category: relational_state
+tags: []
+variant_of: bellows_pressure_system
+variation_type: occlusion_method
+variation_description: A cloud of sawdust and steam obscures the view instead of camera rotation.
+changes:
+  occlusion_method: 'Fog/smoke: Thick sawdust cloud fills the air.'
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A mechanical press begins squeezing the handles of the bellows together at a constant speed.
+    The hose connection is secure. A thick cloud of sawdust and steam fills the view, rapidly becoming
+    opaque and completely obscuring the bellows and balloon. The cloud slowly dissipates until the scene
+    is clear again. No zoom, no cut, no scene change. STOP.
+  camera_WM: A mechanical press begins squeezing the handles of the bellows together at a constant speed.
+    The hose connection is secure. A thick cloud of sawdust and steam fills the view, rapidly becoming
+    opaque and completely obscuring the bellows and balloon. The cloud slowly dissipates until the scene
+    is clear again. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A wooden bellows with leather sides sits on a workbench, its handles separated
+    in an open, expanded position. A black rubber hose connects the nozzle of the bellows to a deflated
+    blue balloon lying flat on the table. Wood shavings and tools are visible in the background.
+  init2final_edit_prompt: Edit the given image so that the wooden bellows are compressed, with the two
+    wooden handles squeezed close together and the leather sides folded in. The blue balloon connected
+    to the hose is now inflated, appearing large, round, and taut with air, occupying more space on the
+    table than before.
+  rationale: 'The prompt describes a mechanical press squeezing the bellows handles together. Physically,
+    compressing the bellows reduces the volume of the chamber, forcing the air through the hose and into
+    the attached balloon. Since the system is sealed, the conservation of mass (air) dictates that as
+    the bellows compress, the balloon must inflate. The occlusion hides the process, but the final state
+    must reflect this transfer of air volume: the bellows should be closed and the balloon expanded.'
+  questions:
+  - id: bellows_compressed
+    question: Are the handles of the wooden bellows closer together than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The bellows should be compressed, meaning the handles are squeezed together.
+  - id: balloon_inflated
+    question: Is the blue balloon significantly more inflated than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The balloon should look round and filled with air, not flat.
+  - id: balloon_volume_change
+    question: Does the blue balloon occupy a larger volume of space compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Inflation increases volume.
+  - id: bellows_leather_folded
+    question: Are the leather sides of the bellows more compressed or folded than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Visual evidence of the bellows being squeezed.
+  - id: coupled_state_consistency
+    question: Does the scene show the bellows in a compressed state and the balloon in an inflated state
+      simultaneously?
+    answer_type: yes_no
+    notes_for_judge: Checks for the correct relational state between the two coupled objects.
+  - id: hose_connection
+    question: Is the black hose still connected to both the bellows and the balloon?
+    answer_type: yes_no
+    notes_for_judge: The connection should remain secure as per the prompt.
+  - id: background_consistency
+    question: Are the tools and workbench surface consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

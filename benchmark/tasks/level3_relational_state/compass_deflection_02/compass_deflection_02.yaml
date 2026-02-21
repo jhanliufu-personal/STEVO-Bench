@@ -1,0 +1,72 @@
+id: compass_deflection_02
+level: 3
+category: relational_state
+tags: []
+variant_of: compass_deflection
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to lights turning off.
+changes:
+  occlusion_method: Lights turn off completely (pitch black).
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A hand begins moving the bar magnet steadily closer to the side of the compass housing. The
+    magnet remains oriented in the same direction. Suddenly, all lights in the room turn off, plunging
+    the scene into total darkness. After a brief period, the lights turn back on. No zoom, no cut, no
+    scene change. STOP.
+  camera_WM: A hand begins moving the bar magnet steadily closer to the side of the compass housing. The
+    magnet remains oriented in the same direction. Suddenly, all lights in the room turn off, plunging
+    the scene into total darkness. After a brief period, the lights turn back on. No zoom, no cut, no
+    scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up shot of a brass compass sitting open on a wooden table. The compass
+    needle has a red tip (North) and a white/silver tip (South), currently pointing roughly towards the
+    top-left (North). To the right of the compass, a hand holds a rectangular bar magnet with a red half
+    (North) and a blue half (South). The red end of the magnet is facing the compass. A wooden ruler lies
+    in the foreground.
+  init2final_edit_prompt: Edit the given image to show the hand and bar magnet positioned significantly
+    closer to the compass housing on the right side. Rotate the compass needle counter-clockwise so that
+    the red tip points away from the approaching magnet (towards the left) and the white tip points towards
+    the red end of the magnet. Ensure the scene is fully illuminated with the same lighting as the original
+    view.
+  rationale: 'The video describes a magnet moving closer to a compass. The magnet''s red end (North pole)
+    is facing the compass. According to magnetic principles, like poles repel. Therefore, the approaching
+    North pole of the magnet will repel the North pole (red tip) of the compass needle, causing the needle
+    to rotate counter-clockwise so the red tip points away from the magnet. The blackout represents a
+    passage of time during which this motion and interaction occur. The final frame shows the result:
+    the magnet is closer and the needle has deflected in response.'
+  questions:
+  - id: magnet_proximity
+    question: Is the bar magnet closer to the compass than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the distance between the magnet and the compass housing.
+  - id: needle_rotation_change
+    question: Has the compass needle rotated to a new angle compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The needle should not be in the same position.
+  - id: needle_deflection_direction_red
+    question: Is the red tip of the compass needle pointing further away from the magnet (to the left)
+      than before?
+    answer_type: yes_no
+    notes_for_judge: The red tip should be repelled by the red end of the magnet.
+  - id: needle_deflection_direction_white
+    question: Is the white/silver tip of the compass needle pointing more towards the magnet than before?
+    answer_type: yes_no
+    notes_for_judge: The south pole (white) should be attracted to the north pole (red) of the magnet.
+  - id: coupled_state_consistency
+    question: Does the needle deflection correspond to the closer position of the magnet (i.e., stronger
+      interaction)?
+    answer_type: yes_no
+    notes_for_judge: If the magnet is closer, the needle should be more deflected from North than it was
+      initially.
+  - id: lighting_restored
+    question: Is the scene fully illuminated, similar to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the lights turn back on.
+  - id: ruler_stability
+    question: Is the wooden ruler in the foreground in the same position as the initial frame?
+    answer_type: yes_no
+    notes_for_judge: 'Secondary check: The ruler should not have moved.'

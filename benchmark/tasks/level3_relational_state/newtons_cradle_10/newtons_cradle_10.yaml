@@ -1,0 +1,61 @@
+id: newtons_cradle_10
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: newtons_cradle
+variation_type: combined
+variation_description: Obstacle in path (condition) + Camera zoom (occlusion).
+changes:
+  occlusion_method: Camera zooms out until scene is unclear.
+  dynamic_conditions: A wooden block is placed in the path of the swing.
+  expected_outcome_change: Ball hits the block and bounces back or stops; does not hit the stack of balls.
+prompts:
+  init_frame_edit_prompt: Edit the image to place a rigid wooden block directly in the path of the swinging
+    ball, positioned between the release point and the stationary stack.
+  video_WM: The far-left ball is released. It swings down toward the wooden block in its path. The camera
+    rapidly zooms out until the cradle is a tiny speck indistinguishable in the distance, then zooms back
+    in to the original framing. No cut, no scene change. STOP.
+  camera_WM: The far-left ball is released toward the wooden block placed in its path. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a gold-framed Newton's Cradle on a wooden desk.
+    Five silver metal spheres hang from strings. The far-left sphere is pulled back and raised high to
+    the left, suspended in the air. A rectangular wooden block sits on the cradle's base, positioned directly
+    in the swing path of the raised sphere, between it and the other four stationary spheres. In the background,
+    there are books and a window.
+  init2final_edit_prompt: Edit the given image so that the far-left metal sphere is no longer raised in
+    the air but is hanging down, resting against the left side of the wooden block. Ensure the four spheres
+    on the right remain stationary in their original positions. Maintain the original camera angle, lighting,
+    and background details.
+  rationale: The prompt describes the release of the raised ball. Under gravity, it swings downward. However,
+    the wooden block is placed directly in its trajectory. The ball will collide with the block and come
+    to rest (or bounce slightly) against it. Because the block obstructs the impact, the momentum is not
+    transferred to the other balls, so the typical Newton's Cradle chain reaction does not occur. The
+    camera zoom sequence indicates that time passes, allowing the ball to complete its swing and settle
+    against the obstacle.
+  questions:
+  - id: q1
+    question: Is the far-left sphere lower in height than its initial raised position?
+    answer_type: yes_no
+    notes_for_judge: The ball should have swung down due to gravity.
+  - id: q2
+    question: Is the far-left sphere positioned adjacent to the wooden block?
+    answer_type: yes_no
+    notes_for_judge: The ball should be resting against or near the obstacle in its path.
+  - id: q3
+    question: Has the far-left sphere moved downwards from the top-left area of the frame?
+    answer_type: yes_no
+    notes_for_judge: Checks for downward motion.
+  - id: q4
+    question: Is the far-left sphere visible near the base of the cradle?
+    answer_type: yes_no
+    notes_for_judge: It should be at the bottom of its arc.
+  - id: q5
+    question: Are the four spheres on the right still grouped together?
+    answer_type: yes_no
+    notes_for_judge: The block prevents the collision from scattering the other balls.
+  - id: q6
+    question: Is the far-left sphere no longer suspended in the air?
+    answer_type: yes_no
+    notes_for_judge: It should have fallen.

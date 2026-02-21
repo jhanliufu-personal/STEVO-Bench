@@ -1,0 +1,64 @@
+id: concave_mirror_inversion_07
+level: 3
+category: relational_state
+tags: []
+variant_of: concave_mirror_inversion
+variation_type: combined
+variation_description: Convex surface condition combined with fog occlusion.
+changes:
+  occlusion_method: Thick fog obscures the view instead of camera rotation.
+  dynamic_conditions: Surface is convex instead of concave.
+  expected_outcome_change: Reflection remains upright (convex physics) and scene is obscured by fog.
+prompts:
+  init_frame_edit_prompt: Edit the image to replace the concave silver bowl with a large, perfectly round,
+    convex silver sphere sitting on the table.
+  video_WM: The candle is moved steadily closer to the silver sphere. The flame remains lit. Thick white
+    fog rolls into the room, completely obscuring the table and sphere from view. After a moment, the
+    fog dissipates clearly. No zoom, no cut, no scene change. STOP.
+  camera_WM: The candle is moved steadily closer to the silver sphere. The flame remains lit. Thick white
+    fog rolls into the room, completely obscuring the table and sphere from view. After a moment, the
+    fog dissipates clearly. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up of a large, polished silver sphere resting on a wooden table in the
+    foreground. The sphere acts as a convex mirror, reflecting a distorted, wide-angle view of a rustic
+    room with log walls and windows. In the reflection, a wooden table is visible in the background to
+    the right, holding a lit candle in a candlestick. The real, out-of-focus background of the room also
+    shows this table and candle on the right side.
+  init2final_edit_prompt: Edit the given image to show the lit candle positioned significantly closer
+    to the silver sphere. In the reflection on the sphere's surface, make the candle appear much larger
+    and more prominent, consistent with the object moving closer to a convex mirror. If the real candle
+    is visible in the background, move it closer to the foreground sphere. Ensure the scene is completely
+    clear of any fog or mist. Keep the candle flame lit and the reflection upright.
+  rationale: The video prompt describes the candle moving closer to the sphere while the view is temporarily
+    obscured by fog. Physically, as an object approaches a convex mirror (the sphere), its virtual reflection
+    remains upright but increases in size (magnification increases as distance decreases). Therefore,
+    the final frame must show the candle's reflection significantly larger than in the initial frame.
+    The fog is a temporary occlusion that dissipates by the end, so the final image must be clear.
+  questions:
+  - id: reflection_size_change
+    question: Is the reflection of the candle in the sphere larger than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: 'Primary relational state: As the object moves closer to a convex mirror, the reflection
+      must get larger.'
+  - id: reflection_orientation
+    question: Is the reflection of the candle in the sphere upright?
+    answer_type: yes_no
+    notes_for_judge: 'Physics constraint: Convex mirrors always produce upright images, never inverted.'
+  - id: fog_dissipated
+    question: Is the scene completely free of fog?
+    answer_type: yes_no
+    notes_for_judge: 'State check: The prompt states the fog dissipates.'
+  - id: candle_lit
+    question: Is the candle flame still lit?
+    answer_type: yes_no
+    notes_for_judge: 'Attribute consistency: The prompt explicitly states the flame remains lit.'
+  - id: environment_consistency
+    question: Are the reflected room features (windows, walls) consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: 'Secondary consistency: The room background should not change, only the candle moves.'
+  - id: relative_position
+    question: Does the candle appear closer to the sphere than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: 'Primary state change: The prompt dictates motion closer to the sphere.'

@@ -1,0 +1,73 @@
+id: sympathetic_pendulum_04
+level: 3
+category: relational_state
+tags: []
+variant_of: sympathetic_pendulum
+variation_type: dynamic_condition
+variation_description: The flexible wooden rod is replaced by a rigid steel beam, preventing energy transfer.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Support bar is now rigid steel instead of flexible wood.
+  expected_outcome_change: Pendulum B remains stationary (no energy transfer).
+prompts:
+  init_frame_edit_prompt: Edit the image to replace the curved flexible wooden rod with a thick, straight,
+    rigid steel beam.
+  video_WM: Pendulum A continues its wide, heavy swing. The thick rigid steel beam isolates the mounts,
+    preventing vibrations from traveling between them. The camera rotates right until Pendulum A completely
+    exits the view, then rotates toward the left smoothly at the same rate until Pendulum B is back in
+    the center of view. No zoom, no cut, no scene change. STOP.
+  camera_WM: Pendulum A continues its wide, heavy swing. The thick rigid steel beam isolates the mounts,
+    preventing vibrations from traveling between them. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A wide shot of a workshop interior featuring a horizontal, thick rigid steel
+    I-beam suspended from the ceiling. Two identical pendulums, labeled 'A' (on the left) and 'B' (on
+    the right), hang from the beam by thin white cords ending in heavy metal spheres. The background includes
+    a window on the far left, a wooden door near the center, and various tools and a workbench on the
+    right. The lighting is natural and soft.
+  init2final_edit_prompt: Edit the given image to shift the camera view so that Pendulum B is positioned
+    in the horizontal center of the frame. The background should shift leftwards corresponding to this
+    pan. Pendulum B must be hanging perfectly straight and vertical, showing no signs of movement. Pendulum
+    A should be visible near the left edge of the frame and should be depicted at an angle or blurred
+    to simulate a wide swinging motion. Ensure the steel beam remains rigid and horizontal at the top.
+  rationale: The prompt describes a physical setup with a 'thick rigid steel beam' that isolates the mounts.
+    This explicitly prevents the transfer of vibrations or energy between the pendulums. Therefore, despite
+    Pendulum A's 'wide, heavy swing', there is no sympathetic resonance, and Pendulum B must remain in
+    its initial state of rest (hanging vertically straight). The camera movement first rotates right (pushing
+    A out of view and moving B left), then rotates left to center Pendulum B. Geometrically, centering
+    B (originally on the right) places A (originally on the left) near the left edge of the frame.
+  questions:
+  - id: pendulum_b_centered
+    question: Is Pendulum B positioned in the horizontal center of the frame?
+    answer_type: yes_no
+    notes_for_judge: Check if the right-hand pendulum (B) is now roughly in the middle of the image width.
+  - id: pendulum_b_vertical
+    question: Is Pendulum B hanging vertically straight down?
+    answer_type: yes_no
+    notes_for_judge: Pendulum B should not be swinging; its string should be vertical (perpendicular to
+      the beam).
+  - id: pendulum_b_string_vertical
+    question: Is the string of Pendulum B vertical?
+    answer_type: yes_no
+    notes_for_judge: Verifies the lack of swing angle for B.
+  - id: pendulum_b_stationary
+    question: Does Pendulum B appear to be at rest (not swinging)?
+    answer_type: yes_no
+    notes_for_judge: It should look static and vertical, unlike A.
+  - id: pendulum_a_position
+    question: Is Pendulum A located to the left of Pendulum B?
+    answer_type: yes_no
+    notes_for_judge: A should be on the left edge or left side if visible.
+  - id: pendulum_a_swinging_if_visible
+    question: If Pendulum A is visible, is it angled or displaced (swinging) compared to the vertical
+      Pendulum B?
+    answer_type: yes_no
+    notes_for_judge: If A is not visible, answer YES (as the constraint is not violated). If visible,
+      it must be swinging.
+  - id: background_shift
+    question: Is the wooden door in the background shifted to the left relative to the center of the frame
+      compared to the initial view?
+    answer_type: yes_no
+    notes_for_judge: In the initial frame, the door is roughly central. In the final frame (centered on
+      B), the door should be to the left.

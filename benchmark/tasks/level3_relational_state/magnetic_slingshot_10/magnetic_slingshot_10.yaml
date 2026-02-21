@@ -1,0 +1,68 @@
+id: magnetic_slingshot_10
+level: 3
+category: relational_state
+tags: []
+variant_of: magnetic_slingshot
+variation_type: combined
+variation_description: High friction surface with zoom occlusion.
+changes:
+  occlusion_method: Camera zooms out.
+  dynamic_conditions: High friction surface.
+  expected_outcome_change: Motion is damped; puck likely stops early.
+prompts:
+  init_frame_edit_prompt: Edit the image to change the text 'FRICTIONLESS RAIL' to 'HIGH FRICTION SURFACE'
+    and give the clear rail floor a rough, sandpaper-like texture.
+  video_WM: The first magnetic puck moves along the rail toward the second stationary puck. The surface
+    is rough sandpaper with high friction. The repulsion between the two North poles is present. The camera
+    zooms out until the rail is too small to distinguish details, then zooms back in to the original view.
+    No cut, no scene change. STOP.
+  camera_WM: The first magnetic puck moves along the rail toward the second stationary puck. The surface
+    is rough sandpaper with high friction. The repulsion between the two North poles is present. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+evaluation:
+  init_frame_description: A physics demonstration setup featuring a clear acrylic ramp inclined on a metal
+    table. Inside the ramp is a track lined with a rough, sandy material labeled 'HIGH FRICTION SURFACE'.
+    Two cylindrical metal pucks are positioned on the track. The upper puck is located higher up the slope
+    on the left, with a red 'N' on its face oriented downwards. The lower puck is positioned further down
+    the slope on the right, with a red 'N' on its face oriented upwards towards the first puck. In the
+    background, a whiteboard displays physics equations and diagrams related to motion and energy.
+  init2final_edit_prompt: Edit the given image to show the final state of the magnetic pucks after they
+    have slid down the ramp. Position the upper puck significantly lower on the slope, roughly occupying
+    the area where the lower puck was originally located. Position the lower puck further down the ramp,
+    near the bottom end of the track. Ensure there is a visible gap between the two pucks, indicating
+    they are not touching. Maintain the orientation of the pucks with the red 'N' labels facing each other.
+    Keep the background whiteboard and table unchanged.
+  rationale: The video shows a physics interaction where the upper magnetic puck slides down the ramp
+    toward the stationary lower puck. Due to the orientation of the poles (North facing North), there
+    is a strong repulsive magnetic force. As the upper puck approaches, this force will push the lower
+    puck further down the ramp without the two pucks physically touching. The high friction surface will
+    eventually bring both pucks to a stop again, but at positions lower down the slope than where they
+    started. The camera zoom ensures time has passed for this interaction to complete.
+  questions:
+  - id: upper_puck_moved
+    question: Is the upper magnetic puck positioned lower on the ramp than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the position of the top puck relative to the ramp structure or background
+      markings.
+  - id: lower_puck_moved
+    question: Is the lower magnetic puck positioned closer to the bottom of the ramp than in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: The lower puck should have been pushed down by the repulsive force.
+  - id: separation_gap
+    question: Is there a visible gap between the two pucks?
+    answer_type: yes_no
+    notes_for_judge: Due to magnetic repulsion (N-N), they should not be touching.
+  - id: relative_order
+    question: Is the upper puck still positioned higher on the slope than the lower puck?
+    answer_type: yes_no
+    notes_for_judge: They should not have passed each other.
+  - id: orientation_preserved
+    question: Are the red 'N' labels on the pucks still facing generally towards each other?
+    answer_type: yes_no
+    notes_for_judge: The pucks slide rather than tumble, preserving orientation.
+  - id: background_consistency
+    question: Is the writing on the whiteboard in the background unchanged?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

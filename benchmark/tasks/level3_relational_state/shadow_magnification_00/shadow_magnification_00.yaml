@@ -1,0 +1,63 @@
+id: shadow_magnification_00
+level: 3
+category: relational_state
+tags: []
+variant_of: shadow_magnification
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A mechanical arm begins sliding the dinosaur pedestal slowly toward the spotlight and away
+    from the wall. The light remains fixed. Camera remains stationary throughout. No zoom, no cut, no
+    scene change. STOP.
+  camera_WM: A mechanical arm begins sliding the dinosaur pedestal slowly toward the spotlight and away
+    from the wall. The light remains fixed. Camera remains stationary throughout. No zoom, no cut, no
+    scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A toy T-Rex dinosaur stands on a rectangular wooden pedestal in a dimly lit
+    room. A large studio spotlight on a black stand is positioned on the right side of the frame, illuminating
+    the dinosaur. To the left, a sharp shadow of the dinosaur and pedestal is cast against a plain, textured
+    wall. The beam of light is visible in the air, highlighting dust particles.
+  init2final_edit_prompt: Edit the given image to shift the wooden pedestal and dinosaur to the right,
+    positioning them closer to the spotlight stand. Make the shadow cast on the wall significantly larger
+    and taller than it is in the original image, reflecting the magnification effect of the object moving
+    closer to the light source. Keep the spotlight stand and the background wall stationary.
+  rationale: The video prompt describes the dinosaur pedestal moving toward the spotlight and away from
+    the wall. In optics, as an occluding object moves closer to a point light source and further from
+    the projection screen (the wall), the cast shadow increases in size (magnification). Therefore, the
+    final state must show the dinosaur physically closer to the lamp and the shadow on the wall significantly
+    larger than in the initial frame.
+  questions:
+  - id: shadow_size_increase
+    question: Is the shadow of the dinosaur on the wall larger than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the overall area and height of the shadow. It should be noticeably bigger
+      due to the object moving closer to the light.
+  - id: pedestal_position_shift
+    question: Is the wooden pedestal positioned closer to the spotlight stand than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The pedestal should have moved to the right, reducing the gap between it and the
+      lamp.
+  - id: shadow_height_relational
+    question: Is the top of the shadow's head higher on the wall compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Due to magnification, the shadow should stretch vertically.
+  - id: spotlight_stationary
+    question: Does the spotlight stand appear to be in the same position as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The light source is fixed; only the object moves.
+  - id: shadow_shape_consistency
+    question: Does the enlarged shadow still resemble the shape of the dinosaur?
+    answer_type: yes_no
+    notes_for_judge: The shadow should not disappear or become a shapeless blob; it should remain a projection
+      of the T-Rex.
+  - id: wall_distance_increase
+    question: Is the distance between the pedestal and the left wall greater than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The object moves away from the wall (to the right).

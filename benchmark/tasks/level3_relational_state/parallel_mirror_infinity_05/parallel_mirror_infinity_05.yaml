@@ -1,0 +1,72 @@
+id: parallel_mirror_infinity_05
+level: 3
+category: relational_state
+tags: []
+variant_of: parallel_mirror_infinity
+variation_type: dynamic_condition
+variation_description: Action changed from tilting flashlight up to tilting it down.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Flashlight tilted toward floor instead of ceiling.
+  expected_outcome_change: Reflections shift downward toward the floor instead of upward.
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The person begins to tilt the flashlight 45 degrees toward the floor. The mirrors remain perfectly
+    parallel. The camera rotates right until the flashlight and person completely exit the view, then
+    rotates toward the left smoothly at the same rate until the surface of one mirror is back in the center
+    of view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The person begins to tilt the flashlight 45 degrees toward the floor. The mirrors remain
+    perfectly parallel. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A wide shot of a person standing in the center of a dimly lit industrial room,
+    positioned between two large parallel mirrors that create an infinite reflection effect. The person
+    is holding a flashlight emitting a bright orange light, pointing it roughly forward or slightly upward.
+    The reflections of the person and the flashlight recede infinitely into the mirrors on both the left
+    and right sides. The room has a concrete floor and industrial pipes on the back wall.
+  init2final_edit_prompt: Edit the given image so that the person is holding the flashlight pointing downwards
+    at a 45-degree angle towards the floor. The beam of light should be directed at the ground near the
+    person's feet. Crucially, update all visible reflections of the person in the mirrors on both the
+    left and right sides so that the reflected flashlights also appear tilted downwards at the same angle,
+    maintaining consistent physical geometry and symmetry in the infinite mirror effect. The person's
+    arm position should adjust naturally to this new pose.
+  rationale: 'The prompt describes an action (tilting the flashlight) that occurs while the camera pans
+    away and then returns. The core challenge is the coupled state update: when the real flashlight tilts,
+    every reflected instance of the flashlight in the mirrors must also tilt correspondingly. This tests
+    the model''s understanding of relational constraints (mirror symmetry) and object permanence across
+    a camera move. We assume the camera returns to the initial central composition to allow verification
+    of the reflection consistency.'
+  questions:
+  - id: primary_flashlight_direction
+    question: Is the flashlight held by the central person pointing downwards towards the floor?
+    answer_type: yes_no
+    notes_for_judge: Check if the main light source is directed down.
+  - id: primary_reflection_consistency
+    question: Do the reflections of the flashlight in the mirrors also point downwards?
+    answer_type: yes_no
+    notes_for_judge: The reflections must match the real object's state.
+  - id: primary_beam_target
+    question: Is the beam of light illuminating the floor area?
+    answer_type: yes_no
+    notes_for_judge: The light should hit the ground.
+  - id: primary_relational_pose
+    question: Is the pose of the person in the reflections consistent with the pose of the central person?
+    answer_type: yes_no
+    notes_for_judge: If the person's arm is down, the reflected arms must be down.
+  - id: primary_infinite_update
+    question: Do the distant reflections in the infinite sequence also show the flashlight tilted down?
+    answer_type: yes_no
+    notes_for_judge: The change should propagate through the reflections.
+  - id: primary_arm_position
+    question: Is the person's arm extended downwards rather than forwards?
+    answer_type: yes_no
+    notes_for_judge: Check the physical limb position.
+  - id: secondary_mirror_parallelism
+    question: Does the infinite reflection effect still appear straight and parallel?
+    answer_type: yes_no
+    notes_for_judge: The mirrors should not have moved.
+  - id: secondary_person_location
+    question: Is the person still standing in the center of the frame?
+    answer_type: yes_no
+    notes_for_judge: The camera returns to the center view.

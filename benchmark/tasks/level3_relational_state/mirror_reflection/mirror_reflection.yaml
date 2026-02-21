@@ -13,3 +13,46 @@ prompts:
     the object and its reflection is maintained. STOP.
 camera_control:
   HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A red billiard ball with the number 3 is resting on a wooden surface in the
+    foreground. Behind the ball stands a framed vertical mirror. The mirror reflects the back of the red
+    ball and shows a green pool table in the background room.
+  init2final_edit_prompt: Edit the given image to show the red billiard ball positioned significantly
+    closer to the wooden frame of the mirror. Correspondingly, update the reflection in the mirror so
+    that the reflected ball appears closer to the bottom edge of the mirror glass, reducing the visual
+    gap between the real ball and its reflection. Ensure the background reflection of the pool table remains
+    consistent.
+  rationale: The prompt describes the ball being pushed toward the mirror. Physically, as an object approaches
+    a flat mirror, its virtual image also approaches the mirror surface. Therefore, in the final frame,
+    the real ball must be closer to the mirror frame, and the reflected ball must appear closer to the
+    front of the mirror (the bottom edge of the glass), reducing the distance between the object and its
+    image. The camera rotation returns to the center, restoring the original perspective.
+  questions:
+  - id: ball_closer_to_mirror
+    question: Is the real red ball positioned closer to the wooden frame of the mirror than it was in
+      the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The ball should have moved 'up' in the image perspective, closer to the base of the
+      mirror.
+  - id: reflection_closer_to_edge
+    question: Is the reflection of the red ball closer to the bottom edge of the mirror glass than in
+      the initial frame?
+    answer_type: yes_no
+    notes_for_judge: As the object gets closer to the mirror, the reflection must also get closer to the
+      mirror surface.
+  - id: gap_reduced
+    question: Is the distance between the real ball and its reflection smaller than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: 'This tests the coupled relationship: object distance + image distance decreases.'
+  - id: ball_on_surface
+    question: Is the red ball still resting on the wooden surface?
+    answer_type: yes_no
+    notes_for_judge: Checks that the ball hasn't floated or disappeared.
+  - id: background_consistency
+    question: Is the green pool table still visible in the mirror reflection?
+    answer_type: yes_no
+    notes_for_judge: The background environment should persist.
+  - id: reflection_alignment
+    question: Is the reflected ball horizontally aligned with the real ball?
+    answer_type: yes_no
+    notes_for_judge: Tests basic mirror physics consistency.

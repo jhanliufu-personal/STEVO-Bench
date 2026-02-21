@@ -1,0 +1,68 @@
+id: pulley_counterweight_03
+level: 3
+category: relational_state
+tags: []
+variant_of: pulley_counterweight
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to camera zooming out.
+changes:
+  occlusion_method: Camera zooms out until details are lost.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A hand begins pulling the left weight downward at a constant speed. The rope remains taut
+    across the pulley. The motion continues steadily. The camera zooms out rapidly until the pulley system
+    is just a tiny speck in the distance, indistinguishable from the background. The camera zooms back
+    in to the original framing. No cut, no scene change. STOP.
+  camera_WM: A hand begins pulling the left weight downward at a constant speed. The rope remains taut
+    across the pulley. The motion continues steadily. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+evaluation:
+  init_frame_description: A close-up low-angle shot of a rustic pulley system mounted to a wooden beam.
+    A dark metal pulley wheel holds a thick, textured rope. Suspended from either end of the rope are
+    two identical iron weights, shaped like bells and labeled '5KG IRON'. In this initial state, the two
+    weights hang at approximately the same height, level with each other. The background consists of wooden
+    ceiling planks and a window letting in bright light.
+  init2final_edit_prompt: Edit the given image to show the left iron weight positioned significantly lower
+    than it was originally, and the right iron weight positioned significantly higher than it was originally.
+    The rope segment connected to the left weight should appear longer, and the rope segment connected
+    to the right weight should appear shorter. The left weight must be vertically lower than the right
+    weight.
+  rationale: 'The prompt describes a pulley system where the left weight is pulled downward. Because the
+    weights are coupled by a rope of fixed length over a pulley, the downward motion of the left weight
+    necessitates an equal upward motion of the right weight. The camera zoom obscures the duration of
+    the action, but upon returning to the original framing, the accumulated displacement must be visible:
+    the left weight must be lower and the right weight must be higher than in the initial state.'
+  questions:
+  - id: pulley_relational_height
+    question: Is the left weight positioned vertically lower than the right weight?
+    answer_type: yes_no
+    notes_for_judge: In the initial frame they are level. After pulling the left one down, it must be
+      lower than the right one.
+  - id: right_weight_up
+    question: Is the right weight closer to the pulley than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Coupled motion requires the right weight to rise as the left descends.
+  - id: left_weight_down
+    question: Is the left weight further from the pulley than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Direct consequence of the pulling action.
+  - id: rope_length_relation
+    question: Is the visible length of rope above the left weight longer than the visible length of rope
+      above the right weight?
+    answer_type: yes_no
+    notes_for_judge: Checks the redistribution of the rope length.
+  - id: rope_tautness
+    question: Does the rope appear taut between the pulley and the weights?
+    answer_type: yes_no
+    notes_for_judge: The prompt specifies the rope remains taut.
+  - id: conservation_weights
+    question: Are both '5KG IRON' weights still present and attached to the rope?
+    answer_type: yes_no
+    notes_for_judge: Object persistence check.
+  - id: inverse_motion
+    question: Did the right weight move upwards corresponding to the left weight moving downwards?
+    answer_type: yes_no
+    notes_for_judge: 'Relational check: if left is down, right must be up.'

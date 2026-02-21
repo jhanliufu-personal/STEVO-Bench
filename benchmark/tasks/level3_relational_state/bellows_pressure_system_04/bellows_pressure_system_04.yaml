@@ -1,0 +1,63 @@
+id: bellows_pressure_system_04
+level: 3
+category: relational_state
+tags: []
+variant_of: bellows_pressure_system
+variation_type: dynamic_condition
+variation_description: The hose is disconnected from the bellows, so squeezing should not inflate the
+  balloon.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Hose disconnected from bellows outlet.
+  expected_outcome_change: The balloon remains deflated despite the bellows being squeezed.
+prompts:
+  init_frame_edit_prompt: Edit the image to show the black rubber hose is disconnected from the metal
+    nozzle of the bellows, lying on the workbench with a visible gap between them.
+  video_WM: A mechanical press begins squeezing the handles of the bellows together at a constant speed.
+    The hose is disconnected from the bellows nozzle. The camera rotates right until the bellows completely
+    exit the view, then rotates toward the left smoothly at the same rate until the blue balloon is back
+    in the center of view. No zoom, no cut, no scene change. STOP.
+  camera_WM: A mechanical press begins squeezing the handles of the bellows together at a constant speed.
+    The hose is disconnected from the bellows nozzle. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A high-angle shot of a wooden workbench showing a wooden bellows on the left
+    and a deflated blue balloon on the right. The bellows has leather sides and a metal nozzle. A black
+    rubber hose is attached to the blue balloon, but the other end of the hose (equipped with a metal
+    hose clamp) is lying on the table, clearly disconnected from the bellows nozzle. Wood shavings and
+    tools are visible in the background.
+  init2final_edit_prompt: Edit the given image to shift the composition so the blue balloon is positioned
+    in the center of the frame. The blue balloon must appear completely deflated, flat, and wrinkled,
+    identical to its state in the original view. The black hose should be visible lying on the wooden
+    surface. The wooden bellows should be largely or entirely cropped out of the left side of the image.
+  rationale: The video prompt specifies that the hose is disconnected from the bellows nozzle. Although
+    the bellows are squeezed, the air will escape into the room rather than entering the hose. Therefore,
+    the balloon is physically uncoupled from the pressure source and must remain completely deflated.
+    The camera motion pans right (removing bellows from view) and then back left to center the balloon,
+    so the final frame should focus on the uninflated balloon with the bellows likely out of frame.
+  questions:
+  - id: balloon_state_deflated
+    question: Is the blue balloon completely deflated?
+    answer_type: yes_no
+    notes_for_judge: The balloon should remain flat and wrinkled since the hose is disconnected.
+  - id: balloon_volume_conserved
+    question: Does the balloon appear to have the same flat volume as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: It should not have inflated at all.
+  - id: balloon_texture_wrinkled
+    question: Is the texture of the balloon still wrinkled and collapsed?
+    answer_type: yes_no
+    notes_for_judge: Inflation would smooth out the wrinkles.
+  - id: balloon_position_centered
+    question: Is the blue balloon positioned in the center of the frame?
+    answer_type: yes_no
+    notes_for_judge: The camera prompt specifies centering the balloon.
+  - id: hose_visibility
+    question: Is the black hose visible on the table?
+    answer_type: yes_no
+    notes_for_judge: The hose should still be present.
+  - id: no_inflation_check
+    question: Is the balloon free of any signs of expansion or inflation?
+    answer_type: yes_no
+    notes_for_judge: Double check for any partial inflation.

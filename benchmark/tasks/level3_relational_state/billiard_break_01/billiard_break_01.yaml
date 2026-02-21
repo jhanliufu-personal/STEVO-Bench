@@ -1,0 +1,73 @@
+id: billiard_break_01
+level: 3
+category: relational_state
+tags: []
+variant_of: billiard_break
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to lights turning off (pitch black).
+changes:
+  occlusion_method: Room lights turn off completely, creating total darkness, then turn back on.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The white cue ball is struck with high force, causing it to slide rapidly toward the center
+    of the stationary triangle. The table is level and the balls are perfectly spherical. Suddenly, the
+    room lights turn off completely, plunging the scene into pitch black darkness. After a duration equal
+    to the ball's travel time, the lights turn back on, revealing the table again. No zoom, no cut, no
+    scene change. STOP.
+  camera_WM: The white cue ball is struck with high force, causing it to slide rapidly toward the center
+    of the stationary triangle. The table is level and the balls are perfectly spherical. Suddenly, the
+    room lights turn off completely, plunging the scene into pitch black darkness. After a duration equal
+    to the ball's travel time, the lights turn back on, revealing the table again. No zoom, no cut, no
+    scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A pool table with green felt is shown in a dimly lit room. In the foreground,
+    a white cue ball sits on the table. Further back, a standard set of 15 colored billiard balls is arranged
+    in a tight triangular rack formation. The background features a fireplace, a second pool table, wall-mounted
+    cues, and overhead lights with green shades.
+  init2final_edit_prompt: Edit the given image to show the aftermath of a break shot. The white cue ball
+    should be moved from the foreground to the area where the rack of balls was. The triangular formation
+    of colored balls should be broken and scattered across the table surface, no longer in a neat triangle.
+    The cue ball should be visible near or among the scattered colored balls.
+  rationale: The prompt describes a high-force break shot where the cue ball travels toward the rack.
+    The occlusion (darkness) lasts for the duration of the ball's travel. When the lights turn back on,
+    the cue ball has reached the rack. Due to the conservation of momentum and the high force specified,
+    the impact would instantaneously scatter the stationary balls. Therefore, the final state must show
+    the cue ball at the impact site and the rack disrupted or scattering, rather than the initial static
+    configuration.
+  questions:
+  - id: cue_ball_moved
+    question: Is the white cue ball in a different position than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The cue ball should have moved from the foreground toward the rack.
+  - id: rack_broken
+    question: Is the triangular formation of the colored balls broken or scattered?
+    answer_type: yes_no
+    notes_for_judge: The balls should no longer be in a perfect triangle.
+  - id: cue_ball_proximity
+    question: Is the white cue ball closer to the colored balls than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: It should be near or among them after the collision.
+  - id: start_pos_empty
+    question: Is the initial foreground position of the cue ball empty?
+    answer_type: yes_no
+    notes_for_judge: The ball must have left its starting spot.
+  - id: scatter_area
+    question: Do the colored balls occupy a larger area on the table than the initial tight triangle?
+    answer_type: yes_no
+    notes_for_judge: Scattering increases the area occupied by the balls.
+  - id: relative_positions
+    question: Have the relative positions of the colored balls changed compared to the initial rack?
+    answer_type: yes_no
+    notes_for_judge: They should not be touching in the same order.
+  - id: background_consistency
+    question: Is the fireplace in the background still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: table_surface
+    question: Is the green felt surface of the table still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

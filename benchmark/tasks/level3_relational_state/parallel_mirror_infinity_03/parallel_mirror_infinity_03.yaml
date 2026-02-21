@@ -1,0 +1,67 @@
+id: parallel_mirror_infinity_03
+level: 3
+category: relational_state
+tags: []
+variant_of: parallel_mirror_infinity
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to camera physically moving away.
+changes:
+  occlusion_method: Camera moves backward until scene is unresolved, then returns.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The person begins to tilt the flashlight 45 degrees toward the ceiling. The mirrors remain
+    perfectly parallel. The camera moves backward rapidly, retreating from the mirrors until the scene
+    is too distant to resolve, then moves forward to return to the original viewpoint. No cut, no scene
+    change. STOP.
+  camera_WM: The person begins to tilt the flashlight 45 degrees toward the ceiling. The mirrors remain
+    perfectly parallel. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A man stands in a dimly lit industrial room between two large parallel mirrors,
+    holding a flashlight that emits a bright warm light directly forward. The mirrors create an infinite
+    regression of reflections on both the left and right sides, repeating the image of the man and the
+    flashlight into the distance. The floor is concrete, and pipes run along the back wall.
+  init2final_edit_prompt: Edit the given image so that the man is tilting the flashlight upwards at a
+    45-degree angle towards the ceiling. Ensure the beam of light is directed upwards. Crucially, update
+    every reflection in the mirrors on both the left and right sides to show the flashlight tilted upwards,
+    ensuring that the pose in all reflections is consistent with the real person's new pose. Keep the
+    camera viewpoint, mirror positions, and background details identical to the original image.
+  rationale: 'The video prompt specifies that the person tilts the flashlight up and the camera performs
+    a movement that returns exactly to the starting point. Therefore, the final frame must show the original
+    composition and background, but with the person''s pose changed. The core physical constraint is the
+    optical coupling of the mirrors: if the real object (flashlight) changes orientation, every single
+    reflection in the infinite regression must update simultaneously and consistently to reflect this
+    change. Conservation of geometric relationships in optics is the key relational state being tested.'
+  questions:
+  - id: flashlight_tilt_real
+    question: Is the flashlight held by the central person tilted upwards towards the ceiling?
+    answer_type: yes_no
+    notes_for_judge: The prompt specifies a 45-degree tilt upward.
+  - id: reflection_coupling_left
+    question: Do the reflections in the left mirror show the flashlight tilted upwards?
+    answer_type: yes_no
+    notes_for_judge: Reflections must match the state of the real object.
+  - id: reflection_coupling_right
+    question: Do the reflections in the right mirror show the flashlight tilted upwards?
+    answer_type: yes_no
+    notes_for_judge: Reflections must match the state of the real object.
+  - id: reflection_consistency
+    question: Is the orientation of the flashlight consistent between the real person and the reflected
+      figures?
+    answer_type: yes_no
+    notes_for_judge: Check for relational consistency; they should all be tilting up.
+  - id: infinite_regression_update
+    question: Does the change in flashlight pose propagate to the deeper/distant reflections?
+    answer_type: yes_no
+    notes_for_judge: The change should not be limited to just the first reflection.
+  - id: camera_return
+    question: Is the camera framing and viewpoint identical to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The camera moved away and returned, so the view should be the same.
+  - id: background_stability
+    question: Are the pipes and walls in the background in the same position as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Static objects should not move.

@@ -1,0 +1,63 @@
+id: upipe_equilibrium_08
+level: 3
+category: relational_state
+tags: []
+variant_of: upipe_equilibrium
+variation_type: combined
+variation_description: No force applied (condition) and view blocked by object (occlusion).
+changes:
+  occlusion_method: Object blocking
+  dynamic_conditions: No force applied
+  expected_outcome_change: Liquid levels remain unchanged.
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The piston remains stationary in the left pipe with no force applied. A large cardboard box
+    is placed in front of the camera, blocking the view of the U-pipe completely. The box is then removed.
+    No cut, no scene change. STOP.
+  camera_WM: The piston remains stationary in the left pipe with no force applied. A large cardboard box
+    is placed in front of the camera, blocking the view of the U-pipe completely. The box is then removed.
+    No cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A U-shaped glass tube (U-pipe) sitting on a wooden surface, filled with a clear
+    blue liquid. The left arm of the tube is sealed with a black piston mechanism containing a plunger,
+    and the liquid level in this arm is significantly lower than in the right arm. The right arm is open
+    at the top, with a higher liquid column. The background shows blurred laboratory equipment.
+  init2final_edit_prompt: Edit the given image to show the U-pipe with the blue liquid levels exactly
+    as they were originally. The liquid level in the left arm must remain significantly lower than the
+    liquid level in the right arm. The black piston must remain in the same position in the left arm.
+    The view of the U-pipe should be completely unobstructed and clear.
+  rationale: The video prompt explicitly states that the piston remains stationary. In a coupled hydraulic
+    system like a U-pipe, the liquid configuration is determined by the boundary conditions and volume
+    conservation. Since the piston (the boundary on the left) is constrained to be stationary, the volume
+    of the trapped air and liquid cannot change. Therefore, the liquid levels must remain exactly as they
+    are in the initial frame (uneven), despite the temporary occlusion. The model must preserve this specific
+    relational state and not hallucinate a relaxation to equal levels.
+  questions:
+  - id: relational_level_diff
+    question: Is the liquid level in the left arm lower than the liquid level in the right arm?
+    answer_type: yes_no
+    notes_for_judge: The primary relational state is the uneven liquid levels caused by the piston.
+  - id: piston_position_persistence
+    question: Is the black piston positioned at the same height in the left arm as it was in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: The prompt specifies the piston remains stationary.
+  - id: liquid_level_persistence
+    question: Is the vertical difference between the left and right liquid levels preserved relative to
+      the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The system is static; the degree of inequality should not change.
+  - id: right_arm_higher
+    question: Is the liquid level in the right arm higher than the liquid level in the left arm?
+    answer_type: yes_no
+    notes_for_judge: Redundant check for the correct direction of the inequality.
+  - id: conservation_volume
+    question: Does the total amount of blue liquid appear conserved between the two containers?
+    answer_type: yes_no
+    notes_for_judge: Check for mass conservation.
+  - id: occlusion_removed
+    question: Is the U-pipe completely visible without being blocked by a cardboard box?
+    answer_type: yes_no
+    notes_for_judge: Verifies the box was removed as per the prompt.

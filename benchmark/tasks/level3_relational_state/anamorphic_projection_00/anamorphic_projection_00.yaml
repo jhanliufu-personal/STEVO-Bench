@@ -1,0 +1,63 @@
+id: anamorphic_projection_00
+level: 3
+category: relational_state
+tags: []
+variant_of: anamorphic_projection
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A hand begins rotating the flat drawing on the table around the base of the cylindrical mirror.
+    The mirror remains stationary. Camera remains stationary throughout, keeping the drawing and mirror
+    fully in view. No zoom, no cut, no scene change. STOP.
+  camera_WM: A hand begins rotating the flat drawing on the table around the base of the cylindrical mirror.
+    The mirror remains stationary. Camera remains stationary throughout, keeping the drawing and mirror
+    fully in view. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A silver cylindrical mirror stands vertically in the center of a white sheet
+    of paper on a wooden table. The paper features a distorted, colorful anamorphic drawing of curved
+    lines. The reflection in the cylindrical mirror corrects the distortion, revealing a clear, centered
+    image of a woman's face looking straight at the camera.
+  init2final_edit_prompt: Edit the given image to show a hand holding and rotating the sheet of paper
+    on the table. The paper should appear rotated around the base of the cylinder (e.g., by 45 to 90 degrees).
+    The reflection in the stationary cylindrical mirror must be updated to correspond to this rotation;
+    the woman's face should appear rotated to the side, shifted off-center, or partially replaced by other
+    lines, rather than looking straight forward. Keep the cylinder and table stationary.
+  rationale: 'The video depicts a coupled physical system: an anamorphic projection and a cylindrical
+    mirror decoder. Rotating the paper (the source) around the stationary mirror changes the portion of
+    the drawing reflected toward the stationary camera. Consequently, the reflected image (the face) must
+    rotate around the cylinder''s surface or shift out of view, maintaining the geometric relationship
+    between the drawing and its reflection. The mirror itself must remain fixed relative to the table.'
+  questions:
+  - id: action_hand_visible
+    question: Is a hand visible interacting with the paper?
+    answer_type: yes_no
+    notes_for_judge: Check for the presence of a hand performing the rotation.
+  - id: state_paper_rotation
+    question: Is the orientation of the drawing on the paper different from the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The swirl pattern should be rotated relative to the table.
+  - id: coupled_reflection_change
+    question: Is the reflection in the mirror different from the initial centered face?
+    answer_type: yes_no
+    notes_for_judge: If the paper rotates, the reflection must change. It should not be the identical
+      static face.
+  - id: coupled_reflection_direction
+    question: Does the face in the reflection appear rotated to the side or shifted off-center?
+    answer_type: yes_no
+    notes_for_judge: The reflection should show the face moving away from the center view, consistent
+      with the paper's rotation.
+  - id: constraint_mirror_stationary
+    question: Is the cylindrical mirror standing in the same position on the table?
+    answer_type: yes_no
+    notes_for_judge: The mirror should not move; only the paper rotates.
+  - id: invariant_table
+    question: Is the wooden table surface stationary and consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The background environment should not change.

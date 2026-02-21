@@ -1,0 +1,65 @@
+id: upipe_equilibrium_10
+level: 3
+category: relational_state
+tags: []
+variant_of: upipe_equilibrium
+variation_type: combined
+variation_description: Right side capped (condition) and lights turn off (occlusion).
+changes:
+  occlusion_method: Lighting change (lights off)
+  dynamic_conditions: Right tube is sealed/capped
+  expected_outcome_change: Liquid rises less due to air resistance.
+prompts:
+  init_frame_edit_prompt: Edit the image to add a black rubber stopper sealing the top opening of the
+    right glass tube, matching the style of the left one.
+  video_WM: A mechanical arm begins pushing the left piston down into the pipe. Suddenly, the lights go
+    out, leaving the room in pitch darkness. The lights turn back on. No cut, no scene change. STOP.
+  camera_WM: A mechanical arm begins pushing the left piston down into the pipe. Suddenly, the lights
+    go out, leaving the room in pitch darkness. The lights turn back on. No cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A U-shaped glass tube (U-pipe) sitting on a wooden table in a laboratory setting.
+    The tube is partially filled with a clear blue liquid. Two black pistons (stoppers with plungers)
+    are inserted into the vertical arms of the tube. In this initial state, the liquid levels in both
+    arms are equal, and the pistons are positioned at the same height.
+  init2final_edit_prompt: Edit the given image to show the left black piston pushed significantly further
+    down into the tube, with the blue liquid level in the left arm lowered correspondingly. Simultaneously,
+    show the right black piston raised higher up in the tube, with the blue liquid level in the right
+    arm raised to a higher level than the left side, reflecting the displacement of the fluid.
+  rationale: 'The scenario describes a hydraulic system. When the left piston is pushed down, it displaces
+    the incompressible blue liquid. Due to the conservation of volume and the connected nature of the
+    U-tube, the liquid must move to the right arm, pushing the right piston upwards. The ''lights out''
+    period acts as a temporal occlusion for the duration of the movement, so the final state should show
+    the completed displacement: left side lower, right side higher.'
+  questions:
+  - id: left_piston_lowered
+    question: Is the left black piston lower in the tube than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the vertical position of the left piston relative to the tube markings or
+      table.
+  - id: right_piston_raised
+    question: Is the right black piston higher in the tube than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The right piston should have moved up in response to the left one moving down.
+  - id: liquid_level_differential
+    question: Is the blue liquid level in the right arm now higher than the liquid level in the left arm?
+    answer_type: yes_no
+    notes_for_judge: In the initial frame they were equal; now there should be a clear difference.
+  - id: left_liquid_drop
+    question: Has the blue liquid level in the left arm dropped relative to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The liquid follows the piston down.
+  - id: right_liquid_rise
+    question: Has the blue liquid level in the right arm risen relative to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The liquid should be displaced into this arm.
+  - id: piston_asymmetry
+    question: Are the two pistons now at clearly different heights?
+    answer_type: yes_no
+    notes_for_judge: They started equal; they should now be unequal.
+  - id: volume_conservation
+    question: Does the total amount of blue liquid appear approximately conserved (not significantly emptied
+      or multiplied)?
+    answer_type: yes_no
+    notes_for_judge: The rise on the right should roughly visually balance the drop on the left.

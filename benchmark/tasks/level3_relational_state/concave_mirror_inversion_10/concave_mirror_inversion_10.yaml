@@ -1,0 +1,63 @@
+id: concave_mirror_inversion_10
+level: 3
+category: relational_state
+tags: []
+variant_of: concave_mirror_inversion
+variation_type: combined
+variation_description: Candle moving away condition combined with zoom occlusion.
+changes:
+  occlusion_method: Camera zooms out until scene is unclear instead of rotation.
+  dynamic_conditions: Candle moves away from the bowl instead of closer.
+  expected_outcome_change: Reflection remains inverted and gets smaller.
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The candle is moved steadily backward, away from the silver bowl. The flame remains lit. The
+    camera zooms out rapidly until the bowl and candle are indistinguishable dots in the distance, then
+    zooms back in to the original framing. No cut, no scene change. STOP.
+  camera_WM: The candle is moved steadily backward, away from the silver bowl. The flame remains lit.
+    STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+evaluation:
+  init_frame_description: A close-up view of a large silver bowl in the foreground with a reflective concave
+    interior. Inside the bowl, a reflection of a candle flame is visible. In the blurred background, a
+    wooden room is visible with a table and a real lit candle standing on it to the right. Windows and
+    wooden furniture are present in the background.
+  init2final_edit_prompt: Edit the given image to move the real candle in the background significantly
+    further away from the foreground bowl, making it appear smaller and deeper in the room. Correspondingly,
+    make the reflection of the candle flame inside the silver bowl smaller to consistent with the increased
+    distance of the object. Ensure the flame remains lit in both the object and reflection. Keep the bowl,
+    table, and room environment in the same position and framing as the original.
+  rationale: 'The video describes a continuous action where the candle moves away from the mirror while
+    the camera performs a zoom-out and zoom-in maneuver. The camera returns to the original framing, so
+    the static environment (bowl, table, room) should appear unchanged in position. However, the state
+    of the candle has changed: it is now further away. According to the optics of concave mirrors, as
+    an object moves further away (beyond the center of curvature), its inverted reflection becomes smaller.
+    The final frame must depict this coupled change: a more distant real candle and a smaller reflection.'
+  questions:
+  - id: candle_distance
+    question: Is the real candle in the background positioned further away than it was in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: The candle should appear smaller or placed deeper into the background scene.
+  - id: reflection_size
+    question: Is the reflection of the candle flame in the bowl smaller than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Due to the object moving away from the concave mirror, the reflection should shrink.
+  - id: reflection_presence
+    question: Is the reflection of the candle flame still visible in the bowl?
+    answer_type: yes_no
+    notes_for_judge: The flame remains lit, so a reflection must exist.
+  - id: coupled_change
+    question: Do the real candle and its reflection both appear to have receded or shrunk relative to
+      the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Checks for consistency between the object and its reflection.
+  - id: bowl_position
+    question: Is the silver bowl in the foreground in the same position as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The camera returns to the original framing.
+  - id: background_stability
+    question: Are the windows and furniture in the background in the same position as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Only the candle moves; the room is static.

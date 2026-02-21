@@ -1,0 +1,65 @@
+id: seesaw_balance_04
+level: 3
+category: relational_state
+tags: []
+variant_of: seesaw_balance
+variation_type: dynamic_condition
+variation_description: A heavy rock is added to the right seat. When the left sandbag is lifted, the right
+  side should drop.
+changes:
+  occlusion_method: null
+  dynamic_conditions: A heavy rock is placed on the raised right seat.
+  expected_outcome_change: The right side of the seesaw drops down as the left is lifted.
+prompts:
+  init_frame_edit_prompt: Edit the image to place a large, heavy grey rock resting on the raised right
+    seat of the seesaw.
+  video_WM: A person lifts the sandbag and left seat upward, releasing the weight from that side. The
+    camera rotates right until the see-saw completely exits the view, then rotates toward the left smoothly
+    at the same rate until the center pivot is back in the center of view. No zoom, no cut, no scene change.
+    STOP.
+  camera_WM: A person lifts the sandbag and left seat upward, releasing the weight from that side. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A playground seesaw with a wooden beam. On the left seat, which is resting on
+    the ground, sits a burlap sack labeled '20 KG SAND'. On the right seat, which is elevated in the air,
+    sits a large grey rock. The seesaw pivots on a central wooden fulcrum. The background shows trees
+    and a park setting.
+  init2final_edit_prompt: Edit the given image to show the seesaw tipped in the opposite direction. Remove
+    the sandbag from the left seat, leaving that seat empty and raised high in the air. Position the right
+    side of the seesaw, which still holds the rock, down so it is resting on or near the ground. Ensure
+    the beam remains straight and pivots correctly around the center.
+  rationale: 'The video prompt describes lifting the left side and ''releasing the weight,'' which implies
+    removing the sandbag or its downward force. In a coupled lever system, removing the weight from the
+    lower side (left) causes the counterweight (rock) on the upper side (right) to drop due to gravity.
+    The final state must show the seesaw inverted: the unweighted left side rises, and the weighted right
+    side falls.'
+  questions:
+  - id: seesaw_tilt_direction
+    question: Is the left seat of the seesaw higher than the right seat?
+    answer_type: yes_no
+    notes_for_judge: Check the relative height of the two ends of the beam.
+  - id: rock_position_change
+    question: Is the rock on the right side lower than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The right side should have dropped.
+  - id: sandbag_removal
+    question: Is the sandbag absent from the left seat?
+    answer_type: yes_no
+    notes_for_judge: The prompt implies the weight is released/removed.
+  - id: left_seat_elevation
+    question: Is the left seat clearly raised off the ground?
+    answer_type: yes_no
+    notes_for_judge: It should be up in the air.
+  - id: right_seat_ground
+    question: Is the right end of the seesaw closer to the ground than the left end?
+    answer_type: yes_no
+    notes_for_judge: Relational check of the tilt.
+  - id: rock_conservation
+    question: Is the rock still visible on the right seat?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: slope_direction
+    question: Does the seesaw beam slope downwards from left to right?
+    answer_type: yes_no
+    notes_for_judge: Check the angle of the beam.

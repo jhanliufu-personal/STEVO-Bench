@@ -1,0 +1,64 @@
+id: bellows_pressure_system_01
+level: 3
+category: relational_state
+tags: []
+variant_of: bellows_pressure_system
+variation_type: occlusion_method
+variation_description: A large wooden board slides in front of the camera instead of the camera rotating.
+changes:
+  occlusion_method: 'Object blocking: A wooden board slides into view, blocking the scene.'
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A mechanical press begins squeezing the handles of the bellows together at a constant speed.
+    The hose connection is secure. A large wooden board slides into the frame from the right, completely
+    blocking the view of the bellows and balloon. The board remains for a few seconds, then slides back
+    out to the right. No zoom, no cut, no scene change. STOP.
+  camera_WM: A mechanical press begins squeezing the handles of the bellows together at a constant speed.
+    The hose connection is secure. A large wooden board slides into the frame from the right, completely
+    blocking the view of the bellows and balloon. The board remains for a few seconds, then slides back
+    out to the right. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A wooden workbench surface featuring a vintage wooden bellows with leather accordion
+    sides and two handles. A black rubber hose connects the nozzle of the bellows to a blue, deflated
+    balloon lying on the table. In the background, various woodworking tools like chisels and a hammer
+    are visible.
+  init2final_edit_prompt: Edit the given image so that the wooden bellows are compressed, with the two
+    handles squeezed close together and the leather accordion section collapsed. The blue balloon connected
+    to the hose must be inflated, appearing expanded, round, and taut compared to its initial flat state.
+    Keep the hose connections secure and the background tools and workbench unchanged.
+  rationale: The prompt describes a mechanical action squeezing the bellows. Physically, this action forces
+    air out of the bellows chamber, through the hose, and into the balloon. Therefore, the final state
+    must show the bellows in a compressed state (handles together) and the balloon in an inflated state
+    (expanded volume) due to the conservation of air mass moving from one container to the other. The
+    occlusion hides the transition, but the causal relationship between the bellows compression and balloon
+    inflation must be evident in the final frame.
+  questions:
+  - id: bellows_compressed
+    question: Are the handles of the wooden bellows closer together than they were in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Check if the angle between the handles has decreased, indicating compression.
+  - id: balloon_inflated
+    question: Is the blue balloon larger and more inflated than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The balloon should look rounder and occupy more volume, not flat.
+  - id: coupled_state_change
+    question: Does the image show the bellows being compressed while the balloon is expanded?
+    answer_type: yes_no
+    notes_for_judge: 'This tests the relational link: air leaves bellows -> enters balloon.'
+  - id: bellows_accordion_collapsed
+    question: Is the leather accordion section of the bellows more collapsed/folded than in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: The pleats should be tighter together.
+  - id: hose_connection_maintained
+    question: Is the black hose still connected to both the bellows and the balloon?
+    answer_type: yes_no
+    notes_for_judge: The system integrity should be preserved.
+  - id: background_consistency
+    question: Are the chisels and hammer in the background in the same position as the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

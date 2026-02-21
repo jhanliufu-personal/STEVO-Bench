@@ -1,0 +1,64 @@
+id: concave_mirror_inversion_09
+level: 3
+category: relational_state
+tags: []
+variant_of: concave_mirror_inversion
+variation_type: combined
+variation_description: Flat mirror condition combined with lights off occlusion.
+changes:
+  occlusion_method: Lights turn off instead of camera rotation.
+  dynamic_conditions: Surface is a flat mirror.
+  expected_outcome_change: Reflection remains upright and symmetric.
+prompts:
+  init_frame_edit_prompt: Edit the image to replace the concave silver bowl with a flat, vertical silver
+    mirror standing on the table.
+  video_WM: The candle is moved steadily closer to the flat mirror. The flame remains lit. The room lights
+    are abruptly turned off, resulting in pitch darkness. After a few seconds, the lights turn back on.
+    No zoom, no cut, no scene change. STOP.
+  camera_WM: The candle is moved steadily closer to the flat mirror. The flame remains lit. The room lights
+    are abruptly turned off, resulting in pitch darkness. After a few seconds, the lights turn back on.
+    No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A square mirror with a ridged silver frame stands on a wooden table in a rustic
+    room with wooden walls. The mirror reflects a lit white candle standing on the table, as well as the
+    curved reflection of the table's edge and a wooden chair in the background. The room is warmly lit.
+  init2final_edit_prompt: Edit the given image to show the reflection of the candle appearing significantly
+    larger and positioned closer to the bottom edge of the mirror frame. Ensure the candle flame remains
+    lit and upright. The room should be fully illuminated with warm lighting, matching the brightness
+    of the original scene, as if the lights have been turned back on.
+  rationale: The prompt specifies that the candle moves closer to a 'flat mirror'. In a flat mirror, as
+    an object approaches the surface, its virtual image appears to move closer to the mirror plane and
+    subtends a larger visual angle (appears larger) to a fixed observer. The 'lights off' and 'lights
+    on' sequence indicates a temporary change in illumination, but the final state restores the original
+    lighting conditions. Therefore, the final image should show the scene fully lit with the candle reflection
+    enlarged and shifted downwards towards the frame.
+  questions:
+  - id: reflection_size
+    question: Is the reflection of the candle larger than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The candle moved closer to the mirror, so its reflection should appear larger due
+      to perspective.
+  - id: reflection_position
+    question: Is the base of the reflected candle closer to the bottom edge of the mirror frame than in
+      the initial frame?
+    answer_type: yes_no
+    notes_for_judge: As the object moves closer to the mirror, the reflection should appear closer to
+      the mirror's surface (the frame).
+  - id: lighting_restored
+    question: Is the room fully illuminated (not pitch black)?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the lights turn back on.
+  - id: candle_lit
+    question: Is the candle flame visible and lit?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the flame remains lit.
+  - id: reflection_upright
+    question: Is the reflection of the candle upright?
+    answer_type: yes_no
+    notes_for_judge: For a flat mirror (or concave inside focal point), the image remains upright.
+  - id: camera_static
+    question: Is the mirror frame in the same position within the image as the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The prompt specifies 'No zoom, no cut'.

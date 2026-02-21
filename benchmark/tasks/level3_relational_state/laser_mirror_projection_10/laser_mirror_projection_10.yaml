@@ -1,0 +1,68 @@
+id: laser_mirror_projection_10
+level: 3
+category: relational_state
+tags: []
+variant_of: laser_mirror_projection
+variation_type: combined
+variation_description: Mirror starts at a different angle and view is blocked by a curtain.
+changes:
+  occlusion_method: A dark curtain is pulled across the view.
+  dynamic_conditions: Mirror starts at a 45-degree offset.
+  expected_outcome_change: The laser arc starts from a different position on the screen.
+prompts:
+  init_frame_edit_prompt: Edit the image to rotate the mirror holder 45 degrees to the left.
+  video_WM: The motorized base begins to rotate the mirror slowly clockwise from its new starting angle.
+    The laser pointer and the white screen remain fixed in place. A dark curtain is pulled across the
+    frame, completely blocking the view of the experiment. The curtain is then pulled back to reveal the
+    setup. No zoom, no cut, no scene change. STOP.
+  camera_WM: The motorized base begins to rotate the mirror slowly clockwise from its new starting angle.
+    The laser pointer and the white screen remain fixed in place. A dark curtain is pulled across the
+    frame, completely blocking the view of the experiment. The curtain is then pulled back to reveal the
+    setup. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A physics lab setup featuring a green laser pointer mounted on a stand on the
+    left, a mirror mounted on a motorized rotary stage in the center, and a white projection screen on
+    the right. A bright green laser beam travels from the pointer, reflects off the mirror, and forms
+    a bright green spot on the screen.
+  init2final_edit_prompt: Edit the given image to shift the green laser spot on the white screen horizontally
+    to the right of its original position. Adjust the path of the reflected green laser beam so that it
+    connects the central mirror to the new spot location, while keeping the incoming beam from the laser
+    pointer unchanged. Ensure the mirror mount appears slightly rotated clockwise to align with the new
+    reflection angle.
+  rationale: The prompt specifies that the motorized base rotates the mirror slowly clockwise. According
+    to the laws of reflection, rotating a mirror by an angle theta deflects the reflected beam by 2-theta
+    in the same direction of rotation. A clockwise rotation (viewed from above) will cause the reflected
+    beam to sweep to the right relative to the setup. Therefore, the laser spot on the screen will move
+    to the right. The curtain acts as a temporary occluder and is removed, leaving the scene visible again
+    with the updated state.
+  questions:
+  - id: spot_position_change
+    question: Is the green laser spot on the screen positioned further to the right compared to the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the horizontal position of the green dot on the white screen. It should be
+      closer to the right edge of the screen than in the first image.
+  - id: beam_connectivity
+    question: Does the green laser beam form a continuous connected path from the laser pointer to the
+      mirror and then to the spot on the screen?
+    answer_type: yes_no
+    notes_for_judge: Check for a coherent line representing the laser beam. It should not be broken or
+      disconnected at the mirror.
+  - id: beam_angle_change
+    question: Is the angle of the reflected beam (from mirror to screen) different from the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The beam segment between the mirror and screen should point more towards the right.
+  - id: laser_pointer_consistency
+    question: Is the laser pointer stand on the left in the same position as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The source of the laser should not have moved.
+  - id: screen_consistency
+    question: Is the white projection screen in the same position as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The screen itself should be stationary.
+  - id: curtain_removed
+    question: Is the view free of the dark curtain mentioned in the prompt?
+    answer_type: yes_no
+    notes_for_judge: The final image should show the lab setup clearly, not a dark cloth.

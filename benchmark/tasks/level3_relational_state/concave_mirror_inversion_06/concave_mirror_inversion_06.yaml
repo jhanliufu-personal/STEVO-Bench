@@ -1,0 +1,63 @@
+id: concave_mirror_inversion_06
+level: 3
+category: relational_state
+tags: []
+variant_of: concave_mirror_inversion
+variation_type: dynamic_condition
+variation_description: Candle remains stationary instead of moving.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Candle does not move relative to the bowl.
+  expected_outcome_change: No change in reflection state.
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The candle sits stationary in front of the silver bowl. The flame flickers gently. The camera
+    rotates right until the candle completely exits the view, then rotates toward the left smoothly at
+    the same rate until the interior of the silver bowl is back in the center of view. No zoom, no cut,
+    no scene change. STOP.
+  camera_WM: The candle sits stationary in front of the silver bowl. The flame flickers gently. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up view of a large silver bowl in the foreground. Inside the bowl's
+    reflective interior, a small, upright reflection of a candle flame is visible in the center. In the
+    background, a rustic wooden room is visible, with a window on the left and a real candle standing
+    on a table to the right.
+  init2final_edit_prompt: Edit the given image to show the large silver bowl centered in the foreground.
+    The interior of the bowl must display a clear reflection of a candle flame in its center. In the background,
+    a wooden room is visible with a window on the left and a separate candle on a table to the right.
+    The scene should look identical to the initial state, preserving the position of the bowl, the reflection,
+    and the background objects.
+  rationale: The camera rotates away from the scene until the objects are occluded, and then rotates back
+    to the exact initial orientation. Since the prompt states the candle and bowl are stationary, the
+    physical state of the scene is conserved. The reflection in the bowl is a coupled state dependent
+    on the relative positions of the bowl, the light source, and the camera. Because the camera returns
+    to the original viewpoint and the objects have not moved, the final frame must be visually identical
+    to the initial frame, with the reflection returning to the exact same position on the bowl's surface.
+  questions:
+  - id: bowl_centered
+    question: Is the silver bowl centered in the frame?
+    answer_type: yes_no
+    notes_for_judge: The camera returns to the initial view, so the bowl should be centered.
+  - id: reflection_visible
+    question: Is the reflection of the candle flame visible inside the silver bowl?
+    answer_type: yes_no
+    notes_for_judge: The reflection must persist as the objects are stationary.
+  - id: reflection_position
+    question: Is the reflection of the flame positioned in the center of the bowl's interior?
+    answer_type: yes_no
+    notes_for_judge: The reflection position depends on the camera angle; since the camera returns to
+      the start, the reflection must return to the center.
+  - id: background_candle_visible
+    question: Is the background candle visible on the right side of the frame?
+    answer_type: yes_no
+    notes_for_judge: The background object should persist and be visible in its original location.
+  - id: relative_position_background
+    question: Is the relative position of the background candle to the silver bowl consistent with the
+      initial frame?
+    answer_type: yes_no
+    notes_for_judge: Check for spatial consistency between foreground and background.
+  - id: reflection_orientation
+    question: Does the reflection of the flame appear upright?
+    answer_type: yes_no
+    notes_for_judge: The initial reflection is upright (virtual image); this state should be preserved.

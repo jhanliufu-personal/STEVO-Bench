@@ -1,0 +1,72 @@
+id: hinged_mirror_angle_01
+level: 3
+category: relational_state
+tags: []
+variant_of: hinged_mirror_angle
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to a large board sliding in front of the
+  scene.
+changes:
+  occlusion_method: A large opaque wooden board slides into view, blocking the scene completely, then
+    slides away.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A mechanical arm grabs the edge of one mirror and begins slowly closing the hinge, decreasing
+    the angle between the two mirrors. The apple remains stationary. A large opaque wooden board slides
+    into the foreground, completely blocking the view of the mirrors and apple. The board remains for
+    a moment, then slides away to reveal the scene again. No zoom, no cut, no scene change. STOP.
+  camera_WM: A mechanical arm grabs the edge of one mirror and begins slowly closing the hinge, decreasing
+    the angle between the two mirrors. The apple remains stationary. A large opaque wooden board slides
+    into the foreground, completely blocking the view of the mirrors and apple. The board remains for
+    a moment, then slides away to reveal the scene again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: Two rectangular mirrors connected by a vertical brass hinge standing on a wooden
+    table. The mirrors are angled open, forming a corner. A red apple sits on the table directly in front
+    of the hinge. Reflections of the apple are visible in the mirror panels. The background shows a room
+    with windows and white walls.
+  init2final_edit_prompt: Edit the given image to show the two mirrors folded inward significantly, creating
+    a much smaller, acute angle between them. The vertical hinge stays fixed in the center, but the left
+    and right mirror panels should be rotated forward so the opening between them is narrower. The apple
+    remains stationary in the same spot on the table. The reflections in the mirrors should be updated
+    to correspond to this new, tighter angle.
+  rationale: 'The video prompt describes an action where the hinge is closed, decreasing the angle between
+    the mirrors. An occlusion blocks the view during the process. When the view is restored, the physical
+    state of the mirrors must reflect this change: the angle must be more acute (closer to closed) than
+    the initial obtuse/right angle. The apple is explicitly stated to remain stationary. The reflections
+    would physically change due to the new angle, but the primary visual change is the geometry of the
+    mirrors.'
+  questions:
+  - id: angle_decreased
+    question: Is the angle between the two mirror panels smaller (more acute) than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the V-shape of the mirrors. It should be narrower/tighter in the final frame.
+  - id: opening_narrower
+    question: Is the distance between the outer vertical edges of the mirrors smaller than in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: As the mirrors fold in, the gap between the far left and far right edges decreases.
+  - id: mirrors_folded_in
+    question: Do the mirror panels appear to be rotated inward relative to the hinge compared to the start?
+    answer_type: yes_no
+    notes_for_judge: Check for the geometric rotation of the panels around the central hinge.
+  - id: apple_stationary
+    question: Is the apple in the same position on the table relative to the hinge?
+    answer_type: yes_no
+    notes_for_judge: The apple should not have moved.
+  - id: reflections_changed
+    question: Are the reflections of the apple in the mirrors different (shifted, multiplied, or angled
+      differently) compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Changing the mirror angle must change the appearance/position of the reflections.
+  - id: hinge_present
+    question: Is the central brass hinge still visible and vertical?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: enclosure_tighter
+    question: Do the mirrors enclose the apple more tightly than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: 'Relational check: the space around the apple defined by the mirrors should be reduced.'

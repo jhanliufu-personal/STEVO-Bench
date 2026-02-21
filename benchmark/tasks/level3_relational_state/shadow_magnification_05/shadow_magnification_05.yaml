@@ -1,0 +1,68 @@
+id: shadow_magnification_05
+level: 3
+category: relational_state
+tags: []
+variant_of: shadow_magnification
+variation_type: dynamic_condition
+variation_description: The dinosaur remains stationary (no mechanical arm).
+changes:
+  occlusion_method: null
+  dynamic_conditions: Object is stationary.
+  expected_outcome_change: Shadow size remains unchanged.
+prompts:
+  init_frame_edit_prompt: Edit the image to remove the mechanical arm or slider track under the pedestal,
+    making it look like a simple wooden block resting on the floor.
+  video_WM: The dinosaur pedestal remains completely stationary on the floor. The light remains fixed.
+    The camera rotates right until the dinosaur completely exits the view, then rotates toward the left
+    smoothly at the same rate until the wall is back in the center of view. No zoom, no cut, no scene
+    change. STOP.
+  camera_WM: The dinosaur pedestal remains completely stationary on the floor. The light remains fixed.
+    STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A toy T-Rex dinosaur standing on a rustic wooden block pedestal in a dark room.
+    A studio spotlight on a stand is positioned on the right, shining a beam of light towards the dinosaur.
+    A sharp, magnified shadow of the dinosaur is cast on the white wall to the left. Dust particles are
+    visible in the light beam.
+  init2final_edit_prompt: Edit the given image to show the scene exactly as it appeared initially. The
+    toy dinosaur should be standing on the wooden block in the same pose, facing right. The shadow on
+    the wall to the left must be visible and match the dinosaur's shape. The spotlight on the right should
+    remain in the same position. The relative positions of the dinosaur, the block, the light, and the
+    shadow should be identical to the original configuration.
+  rationale: The video prompt describes a camera movement where the camera rotates to the right (removing
+    the dinosaur from view) and then rotates back to the left to restore the original framing. The prompt
+    explicitly states that the pedestal and light remain fixed. Since the scene is static and the camera
+    returns to the starting viewpoint, the final frame should be visually identical to the initial frame.
+    This tests object permanence and the conservation of the relationship between the object, the light
+    source, and the cast shadow after a period of occlusion.
+  questions:
+  - id: permanence_dino
+    question: Is the toy dinosaur visible on the wooden block?
+    answer_type: yes_no
+    notes_for_judge: Tests object permanence after the object exited the frame and the camera returned.
+  - id: permanence_shadow
+    question: Is the shadow of the dinosaur visible on the wall?
+    answer_type: yes_no
+    notes_for_judge: Tests if the shadow persists along with the object.
+  - id: relation_shadow_object
+    question: Is the shadow positioned to the left of the dinosaur?
+    answer_type: yes_no
+    notes_for_judge: Tests if the spatial relationship between object and shadow is preserved.
+  - id: relation_shadow_shape
+    question: Does the shape of the shadow correspond to the shape of the dinosaur?
+    answer_type: yes_no
+    notes_for_judge: Tests the coupled state of the object and its projection.
+  - id: permanence_light
+    question: Is the spotlight fixture visible on the right side of the frame?
+    answer_type: yes_no
+    notes_for_judge: Tests permanence of the light source.
+  - id: state_pose
+    question: Is the dinosaur standing in the same pose (facing right, mouth open) as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Tests conservation of the object's static state.
+  - id: spatial_consistency
+    question: Is the wooden block positioned on the floor in the same location relative to the wall as
+      initially?
+    answer_type: yes_no
+    notes_for_judge: Tests spatial consistency of the environment.

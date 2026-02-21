@@ -1,0 +1,63 @@
+id: seesaw_balance_07
+level: 3
+category: relational_state
+tags: []
+variant_of: seesaw_balance
+variation_type: combined
+variation_description: Heavy rock on right + Truck blocking view.
+changes:
+  occlusion_method: Truck blocking view.
+  dynamic_conditions: Heavy rock on right seat.
+  expected_outcome_change: Right side drops down.
+prompts:
+  init_frame_edit_prompt: Edit the image to place a large, heavy grey rock resting on the raised right
+    seat of the seesaw.
+  video_WM: A person lifts the sandbag and left seat upward, releasing the weight from that side. A large
+    maintenance truck drives slowly from the right, passing between the camera and the seesaw, completely
+    blocking the view. The truck continues driving until it has cleared the frame, revealing the scene
+    again. No zoom, no cut, no scene change. STOP.
+  camera_WM: A person lifts the sandbag and left seat upward, releasing the weight from that side. A large
+    maintenance truck drives slowly from the right, passing between the camera and the seesaw, completely
+    blocking the view. The truck continues driving until it has cleared the frame, revealing the scene
+    again. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A playground seesaw with a wooden beam. On the left side, the seat is lowered
+    to the ground, and a burlap sack labeled '20 KG SAND' sits on it. On the right side, the seat is raised
+    high in the air, and a large, rough grey rock sits on it. The background features trees and playground
+    equipment.
+  init2final_edit_prompt: Edit the given image so that the seesaw is tilted in the opposite direction.
+    The right side with the large rock should be lowered, resting on or near the ground. The left side
+    with the sandbag should be raised high in the air. Maintain the position of the fulcrum and the background
+    environment.
+  rationale: The prompt describes an action where the left side of the seesaw (with the sandbag) is lifted,
+    releasing the downward force on that side. Given the physics of the system, once the left side is
+    raised or the weight is relieved, the heavy rock on the right side will cause the seesaw to tip, dropping
+    the right side to the ground. The truck occlusion masks the transition, and the final state reveals
+    the seesaw in this new equilibrium (right down, left up).
+  questions:
+  - id: seesaw_tilt_direction
+    question: Is the right side of the seesaw lower than the left side?
+    answer_type: yes_no
+    notes_for_judge: The seesaw should have tipped so the rock side is down.
+  - id: rock_ground_contact
+    question: Is the right seat with the rock resting on or near the ground?
+    answer_type: yes_no
+    notes_for_judge: The heavy rock should pull the right side down.
+  - id: left_seat_elevation
+    question: Is the left seat raised in the air?
+    answer_type: yes_no
+    notes_for_judge: The left side should be up.
+  - id: relative_height_objects
+    question: Is the sandbag positioned higher than the rock?
+    answer_type: yes_no
+    notes_for_judge: Sandbag (left) should be up, Rock (right) should be down.
+  - id: state_inversion
+    question: Has the tilt of the seesaw inverted compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Initial was left-down; final should be right-down.
+  - id: rock_height_change
+    question: Is the rock lower than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The rock started high and should end low.

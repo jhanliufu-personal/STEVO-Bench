@@ -1,0 +1,65 @@
+id: condensation_link_00
+level: 3
+category: relational_state
+tags: []
+variant_of: condensation_link
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The glass pane is lowered until it is directly in the path of the rising steam. The water
+    continues to boil and produce vapor. Camera remains stationary throughout. No zoom, no cut, no scene
+    change. STOP.
+  camera_WM: The glass pane is lowered until it is directly in the path of the rising steam. The water
+    continues to boil and produce vapor. Camera remains stationary throughout. No zoom, no cut, no scene
+    change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up shot of a stainless steel pot on a gas stove with water boiling vigorously
+    inside. Steam is rising from the pot. A hand enters from the right, holding a rectangular piece of
+    clear glass. The glass already has some condensation and water droplets on it, positioned above the
+    pot but at a distance from the rim. The background shows a wooden kitchen counter and a window.
+  init2final_edit_prompt: Edit the given image to position the glass pane significantly lower, placing
+    it directly above the rim of the pot in the main path of the steam. Increase the amount of condensation,
+    fog, and water droplets on the glass surface to reflect the accumulation of steam. Ensure the water
+    in the pot remains boiling with bubbles visible.
+  rationale: The prompt specifies lowering the glass into the path of the rising steam while the water
+    continues to boil. Physically, this brings the cold surface of the glass closer to the heat source
+    and the vapor stream. Consequently, the glass should appear lower in the frame (closer to the pot),
+    and the rate of condensation should increase, resulting in more droplets or a foggier surface on the
+    glass. The boiling state of the water is a continuous process that persists.
+  questions:
+  - id: glass_position_lower
+    question: Is the glass pane positioned lower relative to the pot rim than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the vertical distance between the bottom edge of the glass and the top edge
+      of the pot.
+  - id: condensation_increase
+    question: Does the glass pane show a higher density of condensation or water droplets compared to
+      the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Look for more droplets, larger droplets, or increased opacity due to fogging on the
+      glass.
+  - id: boiling_persistence
+    question: Is the water in the pot still boiling with visible bubbles or turbulence?
+    answer_type: yes_no
+    notes_for_judge: The water state should remain active boiling.
+  - id: hand_position
+    question: Is the hand holding the glass positioned lower in the frame corresponding to the movement
+      of the glass?
+    answer_type: yes_no
+    notes_for_judge: The hand is coupled to the glass; if the glass lowers, the hand must lower.
+  - id: steam_interaction
+    question: Does the steam or vapor appear to be interacting with or obstructed by the lowered glass
+      pane?
+    answer_type: yes_no
+    notes_for_judge: The glass should now be blocking the direct upward path of the steam.
+  - id: background_consistency
+    question: Are the wooden cabinets and window in the background preserved?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

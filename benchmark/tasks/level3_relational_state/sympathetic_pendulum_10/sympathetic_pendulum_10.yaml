@@ -1,0 +1,65 @@
+id: sympathetic_pendulum_10
+level: 3
+category: relational_state
+tags: []
+variant_of: sympathetic_pendulum
+variation_type: combined
+variation_description: Rigid beam condition combined with camera zoom occlusion.
+changes:
+  occlusion_method: Camera zooms out.
+  dynamic_conditions: Support bar is rigid steel.
+  expected_outcome_change: Pendulum B remains stationary.
+prompts:
+  init_frame_edit_prompt: Edit the image to replace the curved flexible wooden rod with a thick, straight,
+    rigid steel beam.
+  video_WM: Pendulum A continues its wide, heavy swing. The thick rigid steel beam isolates the mounts,
+    preventing vibrations from traveling. The camera zooms out rapidly until the pendulums are indistinguishable
+    specs in the distance, then zooms back in smoothly to the original framing. No cut, no scene change.
+    STOP.
+  camera_WM: Pendulum A continues its wide, heavy swing. The thick rigid steel beam isolates the mounts,
+    preventing vibrations from traveling. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+evaluation:
+  init_frame_description: 'A workshop interior featuring a horizontal steel I-beam suspended from the
+    ceiling. Two pendulums hang from the beam: Pendulum A on the left and Pendulum B on the right. Pendulum
+    A is displaced significantly to the left, with its string taut at an angle, indicating a swing. Pendulum
+    B hangs vertically straight down, with its bob stationary. The background is a dimly lit room with
+    a window on the left and tools in the background.'
+  init2final_edit_prompt: Edit the given image so that Pendulum A is positioned at an angle (swung to
+    the side) to reflect continued motion, while Pendulum B remains hanging perfectly straight and vertical.
+    Ensure the steel beam and the background workshop environment remain unchanged.
+  rationale: The prompt explicitly states that the steel beam is rigid and isolates the mounts, preventing
+    vibrations from traveling. This describes a system with no mechanical coupling between the pendulums.
+    Therefore, the phenomenon of sympathetic resonance (where energy transfers from the swinging pendulum
+    to the stationary one) will NOT occur. Pendulum A will continue to swing due to conservation of energy
+    (minus negligible friction), and Pendulum B will remain stationary at its equilibrium position. The
+    camera zoom is a temporal transition that allows time to pass, but the physical state of B remaining
+    stationary is the key invariant.
+  questions:
+  - id: pendulum_b_vertical
+    question: Is Pendulum B hanging vertically straight down?
+    answer_type: yes_no
+    notes_for_judge: Pendulum B should remain stationary and vertical as the beam prevents energy transfer.
+  - id: pendulum_a_angled
+    question: Is Pendulum A positioned at an angle (not vertical)?
+    answer_type: yes_no
+    notes_for_judge: Pendulum A should continue swinging, so it should be captured at some point in its
+      arc, likely not perfectly vertical.
+  - id: amplitude_comparison
+    question: Does Pendulum A have a significantly larger displacement angle than Pendulum B?
+    answer_type: yes_no
+    notes_for_judge: A should be swinging (large angle) and B should be stationary (zero angle).
+  - id: string_b_straight
+    question: Is the string of Pendulum B taut and vertical?
+    answer_type: yes_no
+    notes_for_judge: Checks that B has not started swinging.
+  - id: beam_stability
+    question: Does the steel beam appear straight and unchanged?
+    answer_type: yes_no
+    notes_for_judge: The beam is rigid and should not bend or move.
+  - id: conservation_of_state
+    question: Is the relative state of the two pendulums (A moving, B stationary) preserved from the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: Tests the lack of coupling/interaction.

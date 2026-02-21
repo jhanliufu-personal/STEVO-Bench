@@ -1,0 +1,66 @@
+id: bellows_pressure_system_05
+level: 3
+category: relational_state
+tags: []
+variant_of: bellows_pressure_system
+variation_type: dynamic_condition
+variation_description: The system starts in the final state (inflated/compressed) and reverses (pulling
+  apart), causing deflation.
+changes:
+  occlusion_method: null
+  dynamic_conditions: 'Initial state: Bellows compressed, balloon inflated. Action: Handles pulled apart.'
+  expected_outcome_change: The balloon deflates as air is sucked back into the expanding bellows.
+prompts:
+  init_frame_edit_prompt: Edit the image to show the wooden handles of the bellows pressed fully together,
+    and the blue balloon fully inflated into a large spherical shape.
+  video_WM: A mechanical press begins pulling the handles of the bellows apart, expanding the chamber
+    at a constant speed. The hose connection is secure. The camera rotates right until the bellows completely
+    exit the view, then rotates toward the left smoothly at the same rate until the blue balloon is back
+    in the center of view. No zoom, no cut, no scene change. STOP.
+  camera_WM: A mechanical press begins pulling the handles of the bellows apart, expanding the chamber
+    at a constant speed. The hose connection is secure. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A wooden workbench surface featuring a pair of wooden bellows on the left side
+    and a large, inflated blue balloon on the right. The bellows are in a compressed state with handles
+    close together. A black rubber hose connects the nozzle of the bellows to the neck of the balloon,
+    secured with metal hose clamps. Various woodworking tools, including chisels and a hammer, are visible
+    in the background.
+  init2final_edit_prompt: Edit the given image to show the blue balloon positioned in the center of the
+    frame. The balloon should appear significantly deflated, smaller in volume, and wrinkled, with a less
+    taut surface, indicating air has been drawn out of it. The background should shift to match the new
+    centered perspective of the balloon.
+  rationale: The mechanical action pulls the bellows handles apart, expanding the internal chamber. This
+    increase in volume creates a pressure drop (suction) inside the bellows. Since the balloon is connected
+    to the bellows via a sealed hose, air is drawn from the higher-pressure balloon into the expanding
+    bellows to equalize pressure. Consequently, the balloon must deflate and shrink. The camera motion
+    pans right and then back left to center the balloon, meaning time passes during which this deflation
+    occurs. The final frame should show the balloon centered and in a deflated state due to the conservation
+    of air mass within the coupled system.
+  questions:
+  - id: balloon_centered
+    question: Is the blue balloon positioned in the horizontal center of the frame?
+    answer_type: yes_no
+    notes_for_judge: The camera prompt explicitly asks to center the balloon.
+  - id: balloon_deflated_size
+    question: Is the blue balloon smaller in volume than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: 'Primary physics check: suction from bellows should shrink the balloon.'
+  - id: balloon_wrinkled
+    question: Does the surface of the blue balloon appear wrinkled or less taut compared to the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: Deflation causes loss of surface tension and wrinkling.
+  - id: balloon_shape_change
+    question: Is the blue balloon less spherical and more shriveled than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Checks for shape change consistent with air loss.
+  - id: hose_connection
+    question: Is the black hose still connected to the blue balloon?
+    answer_type: yes_no
+    notes_for_judge: 'Secondary consistency check: the connection is secure.'
+  - id: background_consistency
+    question: Is the wooden workbench surface visible beneath the balloon?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

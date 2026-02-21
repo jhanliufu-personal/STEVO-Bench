@@ -1,0 +1,66 @@
+id: syringe_hydraulic_03
+level: 3
+category: relational_state
+tags: []
+variant_of: syringe_hydraulic
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to thick sterilization steam filling the
+  view.
+changes:
+  occlusion_method: Thick white steam fills the frame.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A mechanical finger begins pressing the plunger of the left syringe. The two syringes are
+    connected. The pressing continues at a constant rate. Thick white sterilization steam begins to billow
+    across the tray, quickly becoming dense enough to completely obscure the syringes. The steam then
+    dissipates, clearing the view. No zoom, no cut, no scene change. STOP.
+  camera_WM: A mechanical finger begins pressing the plunger of the left syringe. The two syringes are
+    connected. The pressing continues at a constant rate. Thick white sterilization steam begins to billow
+    across the tray, quickly becoming dense enough to completely obscure the syringes. The steam then
+    dissipates, clearing the view. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: Two large plastic syringes connected by a clear tube filled with red liquid,
+    resting on a metal tray lined with a white cloth. The left syringe is partially filled with red liquid
+    (blood-like substance) and its plunger is pulled back. The right syringe is empty and its plunger
+    is fully depressed. The connecting tube loops between the nozzles of the two syringes.
+  init2final_edit_prompt: Edit the given image to show the result of a hydraulic transfer. Depress the
+    plunger of the left syringe significantly towards the nozzle, reducing the volume of red liquid inside
+    it. Correspondingly, extend the plunger of the right syringe outwards and fill the right syringe with
+    the red liquid transferred from the left one. Ensure the total volume of red liquid appears conserved,
+    with the amount gained in the right syringe matching the amount lost from the left. Ensure the view
+    is clear and free of any steam or fog.
+  rationale: The scenario describes a closed hydraulic system. When the left plunger is pressed, the incompressible
+    liquid is forced through the tube into the right syringe. This physical coupling necessitates that
+    as the volume in the left syringe decreases, the volume in the right syringe increases by the same
+    amount, and the right plunger extends. The steam occlusion covers the duration of this action, so
+    the final frame must show the completed or progressed state of this transfer with the steam dissipated.
+  questions:
+  - id: left_plunger_pos
+    question: Is the plunger of the left syringe pushed further in relative to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The left plunger should be closer to the nozzle.
+  - id: left_liquid_vol
+    question: Is the volume of red liquid in the left syringe lower than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: There should be less red liquid on the left side.
+  - id: right_plunger_pos
+    question: Is the plunger of the right syringe extended further out relative to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The right plunger must move out to accommodate the incoming fluid.
+  - id: right_liquid_presence
+    question: Does the right syringe now contain a significant amount of red liquid?
+    answer_type: yes_no
+    notes_for_judge: The right syringe was initially empty; it should now have liquid.
+  - id: conservation_check
+    question: Does the amount of liquid gained in the right syringe appear roughly equal to the amount
+      lost from the left syringe?
+    answer_type: yes_no
+    notes_for_judge: Check for conservation of mass/volume in the hydraulic transfer.
+  - id: steam_cleared
+    question: Is the view clear of the white steam mentioned in the prompt?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the steam dissipates.

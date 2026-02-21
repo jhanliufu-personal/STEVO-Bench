@@ -22,16 +22,53 @@ Output layout (mirrors existing convention):
 """
 
 import argparse
+import collections
+import fnmatch
 import json
 import sys
+import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 from threading import Lock
 from typing import Dict, List, Optional, Tuple
 
+from filelock import FileLock
+
 import yaml
 
 from generation.world_models import WorldModelRunner, build_runner
+
+
+# ---------------------------------------------------------------------------
+# RPM limiter
+# ---------------------------------------------------------------------------
+
+class RpmLimiter:
+    """Sliding-window rate limiter. Thread-safe.
+
+    Tracks the start time of every request in the last 60 seconds.
+    acquire() blocks until the number of requests in that window is
+    below rpm, then stamps the current time and returns.
+    """
+
+    def __init__(self, rpm: int) -> None:
+        self.rpm = rpm
+        self._timestamps: collections.deque = collections.deque()
+        self._lock = Lock()
+
+    def acquire(self) -> None:
+        while True:
+            with self._lock:
+                now = time.monotonic()
+                # Evict timestamps older than 60 s
+                while self._timestamps and now - self._timestamps[0] >= 60.0:
+                    self._timestamps.popleft()
+                if len(self._timestamps) < self.rpm:
+                    self._timestamps.append(now)
+                    return
+                # Sleep until the oldest slot expires
+                wait = 60.0 - (now - self._timestamps[0])
+            time.sleep(max(wait, 0.1))
 
 
 # ---------------------------------------------------------------------------
@@ -73,13 +110,20 @@ def discover_tasks(tasks_root: Path) -> List[Tuple[str, dict, Optional[Path]]]:
 # ---------------------------------------------------------------------------
 
 def _update_map(map_path: Path, task_id: str, filename: str, lock: Lock) -> None:
-    """Atomically add/update one entry in the JSON output map."""
-    with lock:
-        data: dict = {}
-        if map_path.exists():
-            data = json.loads(map_path.read_text(encoding="utf-8"))
-        data[task_id] = filename
-        map_path.write_text(json.dumps(data, indent=4), encoding="utf-8")
+    """Atomically add/update one entry in the JSON output map.
+
+    Uses both a threading.Lock (intra-process) and a FileLock on disk
+    (cross-process), so concurrent runs against the same output folder
+    from separate terminals are safe.
+    """
+    lock_path = map_path.with_suffix(".lock")
+    with lock:                          # serialise threads within this process
+        with FileLock(str(lock_path)):  # serialise across processes
+            data: dict = {}
+            if map_path.exists():
+                data = json.loads(map_path.read_text(encoding="utf-8"))
+            data[task_id] = filename
+            map_path.write_text(json.dumps(data, indent=4), encoding="utf-8")
 
 
 # ---------------------------------------------------------------------------
@@ -131,11 +175,13 @@ def run_model(
     run_name: str,
     workers: int,
     overwrite: bool,
+    rpm_limit: Optional[int],
 ) -> Dict[str, bool]:
     """Run all tasks through one model. Returns {task_id: success}."""
     out_dir.mkdir(parents=True, exist_ok=True)
     map_path = out_dir / f"{runner.name}_output_map_{run_name}.json"
     map_lock = Lock()
+    limiter = RpmLimiter(rpm_limit) if rpm_limit else None
 
     # Build work queue — skip tasks that are already done unless --overwrite
     work_queue: List[Tuple[str, dict, Optional[Path], Path]] = []
@@ -147,11 +193,15 @@ def run_model(
         work_queue.append((task_id, task, init_frame, out_path))
 
     print(f"\n[{runner.name}] {len(work_queue)} task(s) to generate → {out_dir}")
+    if limiter:
+        print(f"[{runner.name}] RPM limit: {rpm_limit} requests/min")
 
     results: Dict[str, bool] = {}
 
     def do_one(item: Tuple) -> Tuple[str, bool]:
         task_id, task, init_frame, out_path = item
+        if limiter:
+            limiter.acquire()
         ok = _run_one(runner, task_id, task, init_frame, out_path)
         if ok:
             _update_map(map_path, task_id, out_path.name, map_lock)
@@ -198,6 +248,11 @@ def main() -> int:
     parser.add_argument(
         "--tasks_root", default="benchmark/tasks/",
         help="Root directory of task YAML folders (default: benchmark/tasks/).",
+    )
+    parser.add_argument(
+        "--pattern", default=None, metavar="GLOB",
+        help="Glob pattern to filter task IDs, e.g. 'pouring_water_into_cup*'. "
+             "If omitted, all tasks under tasks_root are processed.",
     )
     parser.add_argument(
         "--output_root", default="outputs/",
@@ -259,6 +314,12 @@ def main() -> int:
         print(f"[ERROR] No tasks found under: {tasks_root}", file=sys.stderr)
         return 1
 
+    if args.pattern:
+        tasks = [(tid, t, f) for tid, t, f in tasks if fnmatch.fnmatch(tid, args.pattern)]
+        if not tasks:
+            print(f"[ERROR] No tasks match pattern '{args.pattern}'", file=sys.stderr)
+            return 1
+
     print(f"Discovered {len(tasks)} task(s) under {tasks_root}")
 
     output_root = Path(args.output_root).expanduser().resolve()
@@ -276,6 +337,7 @@ def main() -> int:
             run_name=args.run_name,
             workers=args.workers,
             overwrite=args.overwrite,
+            rpm_limit=models_config[model_name].get("rpm_limit") or None,
         )
         failed = [tid for tid, ok in results.items() if not ok]
         if failed:

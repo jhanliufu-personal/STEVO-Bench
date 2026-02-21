@@ -14,3 +14,48 @@ prompts:
     onto the screen. STOP.
 camera_control:
   HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A physics lab setup on a dark table. On the left, a black laser pointer mounted
+    on a stand emits a green beam. In the center, a square mirror is mounted on a motorized rotation stage.
+    The green laser beam travels from the pointer to the mirror and reflects onto a white projection screen
+    on the right. A bright green laser dot is visible on the screen, with a faint curved green trace extending
+    to the left. The background includes a blackboard and lab equipment.
+  init2final_edit_prompt: Edit the given image to move the bright green laser dot on the white screen
+    horizontally to the right, further away from the center of the screen. Re-draw the green laser beam
+    connecting the central mirror to this new dot position, ensuring the beam appears straight. The mirror
+    mount in the center should appear unchanged. Do not change the position of the laser pointer on the
+    left or the white screen on the right.
+  rationale: The motorized base rotates the mirror clockwise. According to the law of reflection, a clockwise
+    rotation of the mirror (when viewed from above) causes the reflected beam to sweep to the right across
+    the projection screen. The camera pans away and then returns to center the screen; I assume the final
+    framing is effectively identical to the initial view (or centered on the screen in a way that preserves
+    the relative positions) to allow for direct comparison. The primary state change is the displacement
+    of the laser dot to the right.
+  questions:
+  - id: dot_position_right
+    question: Is the green laser dot on the screen positioned further to the right than it was in the
+      initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the horizontal position of the dot on the white screen surface.
+  - id: beam_connection
+    question: Does the green laser beam connect the central mirror to the new position of the laser dot?
+    answer_type: yes_no
+    notes_for_judge: The beam should be a straight line terminating at the dot.
+  - id: beam_angle_change
+    question: Is the angle of the reflected beam (from mirror to screen) more open towards the right compared
+      to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The beam should point more towards the right side of the image.
+  - id: screen_presence
+    question: Is the white projection screen visible in the frame?
+    answer_type: yes_no
+    notes_for_judge: The screen should remain the target of the laser.
+  - id: laser_source_consistency
+    question: Is the laser pointer (or its beam source) on the left side of the setup still in its original
+      position?
+    answer_type: yes_no
+    notes_for_judge: The source should not move, only the mirror rotates.
+  - id: dot_on_screen
+    question: Is the green laser dot contained within the boundaries of the white screen?
+    answer_type: yes_no
+    notes_for_judge: The dot should not float in the air.

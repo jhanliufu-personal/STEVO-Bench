@@ -1,0 +1,73 @@
+id: solar_tracker_geometry_02
+level: 3
+category: relational_state
+tags: []
+variant_of: solar_tracker_geometry
+variation_type: occlusion_method
+variation_description: Replaced camera rotation with a large supply truck driving in front of the camera.
+changes:
+  occlusion_method: 'Object blocking: A large desert supply truck drives into the foreground.'
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The motorized tracker is active, and the solar panel begins tilting slowly and steadily further
+    down toward the horizon. The sun remains bright and low in the sky. A large, dusty supply truck drives
+    slowly into the frame from the right, stopping directly in front of the camera and completely blocking
+    the view of the solar array. The truck engine idles, then the truck drives forward and exits the frame
+    to the left, revealing the scene again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The motorized tracker is active, and the solar panel begins tilting slowly and steadily further
+    down toward the horizon. The sun remains bright and low in the sky. A large, dusty supply truck drives
+    slowly into the frame from the right, stopping directly in front of the camera and completely blocking
+    the view of the solar array. The truck engine idles, then the truck drives forward and exits the frame
+    to the left, revealing the scene again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A large, rectangular solar panel array mounted on a heavy-duty mechanical tracker
+    structure in a desert landscape. The tracker includes a prominent circular gear mechanism and support
+    struts on a metal base anchored in the sand. The panel is angled upwards and to the left, facing a
+    low sun near the horizon. The terrain consists of reddish sand and scattered rocks.
+  init2final_edit_prompt: Edit the given image to show the solar panel array tilted significantly further
+    down, with its face angled more directly toward the horizon line. Adjust the rotation of the central
+    gear mechanism and the extension of the support struts to mechanically correspond to this new, lower
+    tilt angle. Ensure the scene is completely clear of any trucks or vehicles. Preserve the original
+    background landscape, rocks, and sun position.
+  rationale: 'The prompt describes a continuous physical action (the panel tilting) occurring while the
+    view is temporarily occluded by a passing truck. The world model must simulate the evolution of the
+    solar tracker''s state (changing angle) during the period of invisibility. The final frame must show
+    the result of this motion: the panel should be at a different, lower angle than the start, and the
+    mechanical linkage (gears/struts) must have moved correspondingly to support this new position. The
+    truck is a transient occluder and must not be present in the final frame.'
+  questions:
+  - id: panel_visibility
+    question: Is the solar panel array fully visible and unblocked in the final frame?
+    answer_type: yes_no
+    notes_for_judge: Check for the absence of the truck or other occluders.
+  - id: truck_absence
+    question: Is the supply truck completely absent from the scene?
+    answer_type: yes_no
+    notes_for_judge: The truck should have exited the frame.
+  - id: tilt_change_direction
+    question: Is the solar panel tilted further down toward the horizon compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the angle of the panel relative to the ground/horizon. It should be 'flatter'
+      or facing more directly at the horizon line.
+  - id: mechanical_coupling
+    question: Do the central gear and support struts appear mechanically consistent with the new panel
+      angle?
+    answer_type: yes_no
+    notes_for_judge: The mechanism should look like it rotated or extended to support the new position,
+      not detached or broken.
+  - id: relative_orientation
+    question: Is the orientation of the panel changed relative to the stationary base?
+    answer_type: yes_no
+    notes_for_judge: The base should stay put, the panel should move.
+  - id: background_consistency
+    question: Is the position of the sun relative to the horizon consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The sun should not have moved significantly or disappeared.
+  - id: terrain_consistency
+    question: Are the rocks and sand patterns in the foreground consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The environment should remain stable.

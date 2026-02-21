@@ -1,0 +1,71 @@
+id: pouring_water_into_cup_04
+level: 3
+category: relational_state
+tags: []
+variant_of: pouring_water_into_cup
+variation_type: dynamic_condition
+variation_description: The liquid is changed to thick honey, which flows much slower than water.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Liquid is high-viscosity honey instead of water.
+  expected_outcome_change: Glass fills significantly less/slower than with water.
+prompts:
+  init_frame_edit_prompt: Edit the image so the pitcher contains thick, golden honey instead of water,
+    and the pouring stream looks viscous and syrupy.
+  video_WM: Single continuous shot, no cuts, no zoom, no scene transitions. Camera starts centered on
+    the hand holding the pitcher, which is pouring a thick stream of golden honey into the empty glass.
+    The hand continues holding the pitcher in the same tilted position so that the honey keeps pouring
+    continuously. While the pouring continues, the camera smoothly moves to the right at constant speed
+    until the pitcher, honey stream, and glass fully exit the frame to the left. The camera continues
+    moving right across the tabletop for several seconds while the pouring action remains out of view.
+    Then the camera moves left at the same constant speed back to the original viewpoint.
+  camera_WM: A hand holds a pitcher tilted to pour thick golden honey into a glass. The hand continues
+    holding the pitcher in the same tilted position so that the honey keeps pouring continuously. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A close-up shot of a glass pitcher held by a hand, tilted to pour a thick stream
+    of golden honey into a clear glass tumbler on a wooden table. The pitcher is partially full of honey.
+    The glass contains a small amount of honey at the bottom, forming a mound. The background features
+    a bright window with blurred daylight.
+  init2final_edit_prompt: Edit the given image to show the glass containing significantly more honey,
+    with the liquid level much higher than before. The pitcher should contain less honey, with its internal
+    level noticeably lower. The thick stream of honey should remain flowing from the pitcher into the
+    glass, connecting the two containers.
+  rationale: The video prompt describes a continuous pouring action that persists while the camera pans
+    away and then returns. During the occlusion, the physical process of pouring continues, which dictates
+    a transfer of mass from the source (pitcher) to the destination (glass). Therefore, in the final frame,
+    the glass must contain a visibly larger volume of honey, and the pitcher must contain a correspondingly
+    smaller volume, satisfying the conservation of mass for the coupled system. The stream remains active
+    as the action was described as continuous.
+  questions:
+  - id: glass_volume_increase
+    question: Is the level of honey in the glass higher than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The glass should be fuller due to continuous pouring.
+  - id: pitcher_volume_decrease
+    question: Is the level of honey remaining in the pitcher lower than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The pitcher should be emptier as honey has been transferred to the glass.
+  - id: coupled_mass_transfer
+    question: Does the scene show a coupled state change where the pitcher is emptier and the glass is
+      fuller?
+    answer_type: yes_no
+    notes_for_judge: Tests the relational constraint of mass transfer.
+  - id: stream_continuity
+    question: Is the stream of honey still flowing from the pitcher into the glass?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the pouring continues.
+  - id: pitcher_tilt
+    question: Is the pitcher still held in a tilted pouring position?
+    answer_type: yes_no
+    notes_for_judge: The hand position is maintained throughout.
+  - id: table_consistency
+    question: Is the wooden table texture consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: background_consistency
+    question: Is the background window appearance consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

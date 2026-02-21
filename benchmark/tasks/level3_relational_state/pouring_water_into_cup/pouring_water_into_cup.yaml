@@ -3,8 +3,8 @@ level: 3
 category: relational_state
 tags: []
 prompts:
-  image_gen_prompt: A hand holds a pitcher tilted above an empty clear glass on a table. A stream of
-    water is just beginning to pour from the pitcher's spout into the glass.
+  image_gen_prompt: A hand holds a clear glass pitcher tilted above an empty clear glass on a table. A stream of water
+    is just beginning to pour from the pitcher's spout into the glass. The pitcher is near full, and the glass is near empty.
   video_WM: Single continuous shot, no cuts, no zoom, no scene transitions. Camera starts centered on
     the hand holding the pitcher, the pouring water stream, and the empty glass. The hand continues holding
     the pitcher in the same tilted position so that water keeps pouring continuously. While the pouring
@@ -18,3 +18,47 @@ prompts:
 camera_control:
   HY-WorldPlay: s-3, right-30, left-30
   Genie: null
+evaluation:
+  init_frame_description: A close-up view of a hand holding a blue and white ceramic pitcher, tilted downwards.
+    A few drops or a thin stream of water are just beginning to fall from the spout. Below the pitcher
+    sits a clear, empty glass tumbler on a rustic wooden table. The background shows a window with white
+    curtains and wooden paneling.
+  init2final_edit_prompt: Edit the given image to show the clear glass tumbler filled with a significant
+    amount of water. The water level should be clearly visible, occupying a large portion of the glass.
+    Maintain the position of the hand and the tilted pitcher exactly as they are. Ensure the wooden table
+    and background remain unchanged.
+  rationale: 'The video prompt describes a continuous pouring action that persists while the camera pans
+    away and then returns to the original view. Because the pouring action is maintained throughout the
+    occlusion, the state of the system must evolve: water flows from the pitcher into the glass. Upon
+    the camera''s return, the conservation of mass and the duration of the action dictate that the glass
+    must no longer be empty but should contain a substantial volume of water.'
+  questions:
+  - id: q1
+    question: Is the water level in the glass higher than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the fluid level in the final frame to the empty/near-empty state in the initial
+      frame.
+  - id: q2
+    question: Does the glass contain a significant amount of liquid compared to the initial empty state?
+    answer_type: yes_no
+    notes_for_judge: The glass should be partially or mostly full.
+  - id: q3
+    question: Is the volume of empty space within the glass reduced compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: As water fills the glass, the air/empty space must decrease.
+  - id: q4
+    question: Is the state of the glass consistent with water having been poured into it from the pitcher?
+    answer_type: yes_no
+    notes_for_judge: Checks for the causal relationship between the pitcher's action and the glass's state.
+  - id: q5
+    question: Is the hand still holding the pitcher in a position above the glass?
+    answer_type: yes_no
+    notes_for_judge: Invariant check.
+  - id: q6
+    question: Are the window and curtains in the background consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Invariant check.
+  - id: q7
+    question: Does the liquid in the glass appear clear, consistent with water?
+    answer_type: yes_no
+    notes_for_judge: Quality check.

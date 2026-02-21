@@ -1,0 +1,66 @@
+id: syringe_hydraulic_00
+level: 3
+category: relational_state
+tags: []
+variant_of: syringe_hydraulic
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A mechanical finger begins pressing the plunger of the left syringe. The two syringes are
+    connected. The pressing continues at a constant rate. Camera remains stationary throughout. No zoom,
+    no cut, no scene change. STOP.
+  camera_WM: A mechanical finger begins pressing the plunger of the left syringe. The two syringes are
+    connected. The pressing continues at a constant rate. Camera remains stationary throughout. No zoom,
+    no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: Two large plastic syringes lying on a metal tray lined with a white cloth. The
+    left syringe is partially filled with a red liquid, and its plunger is pulled back to around the 50ml
+    mark. The right syringe is empty, with its plunger fully depressed. A clear flexible plastic tube
+    connects the nozzles of the two syringes, and the tube is filled with the same red liquid.
+  init2final_edit_prompt: Edit the given image to show the plunger of the left syringe pushed significantly
+    further into the barrel, with the level of red liquid inside it lowered. Correspondingly, show the
+    plunger of the right syringe extended further out of its barrel, with the barrel now containing the
+    red liquid that was transferred from the left syringe. Maintain the connection tube filled with red
+    liquid.
+  rationale: The setup represents a closed hydraulic system. As the mechanical finger presses the plunger
+    of the left syringe, the incompressible red liquid is forced out of the left barrel, through the connecting
+    tube, and into the right barrel. Because the system is sealed, the volume of liquid lost from the
+    left syringe must equal the volume gained in the right syringe. Consequently, the plunger of the right
+    syringe must move outwards to accommodate the incoming fluid. The final state should show the left
+    plunger depressed, the left liquid level lower, the right plunger extended, and the right syringe
+    partially filled with red liquid.
+  questions:
+  - id: left_plunger_pos
+    question: Is the plunger of the left syringe pushed further into the barrel compared to the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: Check if the left plunger has moved to the right/inward.
+  - id: left_liquid_vol
+    question: Is the amount of red liquid in the left syringe reduced compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The red column in the left syringe should be shorter.
+  - id: right_plunger_coupled
+    question: Has the plunger of the right syringe moved outwards relative to its initial fully depressed
+      position?
+    answer_type: yes_no
+    notes_for_judge: This tests the coupled mechanical response; the right plunger should be extended.
+  - id: right_liquid_transfer
+    question: Is there now red liquid visible inside the barrel of the right syringe?
+    answer_type: yes_no
+    notes_for_judge: Liquid should have transferred from left to right.
+  - id: conservation_check
+    question: Does the increase in liquid in the right syringe correspond to the decrease in the left
+      syringe?
+    answer_type: yes_no
+    notes_for_judge: Tests conservation of mass/volume in the hydraulic system.
+  - id: tube_integrity
+    question: Is the tube connecting the two syringes still intact and filled with red liquid?
+    answer_type: yes_no
+    notes_for_judge: Invariant check.

@@ -1,0 +1,64 @@
+id: compass_deflection_03
+level: 3
+category: relational_state
+tags: []
+variant_of: compass_deflection
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to zooming out.
+changes:
+  occlusion_method: Camera zooms out until details are lost.
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A hand begins moving the bar magnet steadily closer to the side of the compass housing. The
+    magnet remains oriented in the same direction. The camera zooms out rapidly until the compass and
+    magnet are too small to distinguish details, then zooms back in to the original framing. No cut, no
+    scene change. STOP.
+  camera_WM: A hand begins moving the bar magnet steadily closer to the side of the compass housing. The
+    magnet remains oriented in the same direction. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+evaluation:
+  init_frame_description: A close-up, slightly high-angle shot of a wooden table. On the left is a brass
+    compass with its lid open; the needle has a red tip (North) and a silver/white tip (South), currently
+    pointing roughly towards the top of the frame. On the right, a hand holds a rectangular bar magnet
+    with the red (North) pole facing the compass and the blue (South) pole facing away. A wooden ruler
+    lies horizontally in the foreground.
+  init2final_edit_prompt: Edit the given image to show the hand and bar magnet positioned significantly
+    closer to the compass housing on the left. The red end of the magnet should be near the side of the
+    compass. Rotate the compass needle so that its silver tip points directly towards the red end of the
+    magnet, and the red tip points away from the magnet, aligning with the magnetic field. Keep the background,
+    table surface, and ruler unchanged.
+  rationale: The prompt describes the magnet moving closer to the compass. As the distance decreases,
+    the magnetic field strength at the compass increases. Since the red (North) pole of the magnet is
+    facing the compass, it will attract the South (silver) pole of the compass needle and repel the North
+    (red) pole. Therefore, the final state must show the magnet physically closer and the needle rotated
+    such that the silver end points towards the magnet and the red end points away.
+  questions:
+  - id: magnet_proximity
+    question: Is the red end of the bar magnet closer to the compass than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The magnet should have moved from the right side towards the center/left.
+  - id: needle_rotation_silver
+    question: Is the silver/white tip of the compass needle pointing towards the red end of the magnet?
+    answer_type: yes_no
+    notes_for_judge: 'Magnetic attraction: South pole (silver) of needle attracts to North pole (red)
+      of magnet.'
+  - id: needle_rotation_red
+    question: Is the red tip of the compass needle pointing away from the red end of the magnet?
+    answer_type: yes_no
+    notes_for_judge: 'Magnetic repulsion: North pole (red) of needle repels from North pole (red) of magnet.'
+  - id: needle_orientation_change
+    question: Has the compass needle rotated counter-clockwise relative to its initial position?
+    answer_type: yes_no
+    notes_for_judge: Initially points roughly Up/North; should rotate to point Left/West (red tip) and
+      Right/East (silver tip).
+  - id: magnet_orientation_conserved
+    question: Is the red pole of the magnet still facing the compass?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the magnet remains oriented in the same direction.
+  - id: ruler_stability
+    question: Is the wooden ruler in the foreground in the same position as the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

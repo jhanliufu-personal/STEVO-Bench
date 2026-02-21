@@ -1,0 +1,60 @@
+id: ink_dilution_00
+level: 3
+category: relational_state
+tags: []
+variant_of: ink_dilution
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The clear water is poured into the dark ink. The total volume of liquid is rising. The pouring
+    continues. Camera remains stationary throughout. No zoom, no cut, no scene change. STOP.
+  camera_WM: The clear water is poured into the dark ink. The total volume of liquid is rising. The pouring
+    continues. Camera remains stationary throughout. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A glass beaker sits on a wooden lab table, partially filled with a dark purple
+    liquid (ink). A glass pitcher is positioned above it, tilted, pouring a stream of clear water into
+    the beaker. The impact of the water is creating turbulence and mixing in the dark liquid. In the background,
+    there is a window and other laboratory glassware.
+  init2final_edit_prompt: Edit the given image to show the state after pouring has continued for some
+    time. The liquid level in the bottom beaker should be significantly higher than in the original image.
+    The color of the liquid in the bottom beaker should be a lighter, more transparent purple, indicating
+    dilution. The upper pitcher should contain less water than before. The stream of water should still
+    be visible pouring from the pitcher into the beaker.
+  rationale: 'The video prompt describes a continuous pouring action. Physically, this results in three
+    coupled changes: the volume in the receiving beaker increases (level rises), the volume in the source
+    pitcher decreases, and the concentration of the ink decreases (color becomes lighter/diluted). The
+    final frame captures this ongoing process with the accumulated changes in state.'
+  questions:
+  - id: dilution_color_change
+    question: Is the liquid in the bottom beaker lighter in color or more transparent than the dark liquid
+      in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Check for signs of dilution (lighter purple vs dark/black).
+  - id: volume_increase_receiver
+    question: Is the liquid level in the bottom beaker clearly higher than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The level must rise as water is added.
+  - id: volume_decrease_source
+    question: Is the water level in the top pitcher lower than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Conservation of mass; source must deplete as receiver fills.
+  - id: action_continuity
+    question: Is the stream of water still visible connecting the pitcher to the beaker?
+    answer_type: yes_no
+    notes_for_judge: The prompt states 'pouring continues'.
+  - id: mixing_appearance
+    question: Does the liquid in the bottom beaker appear to be a mixture (e.g., uniform lighter color
+      or swirling mix) rather than separated layers?
+    answer_type: yes_no
+    notes_for_judge: Water poured into ink mixes; it should not sit perfectly on top like oil.
+  - id: background_consistency
+    question: Are the window and other lab equipment in the background unchanged?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

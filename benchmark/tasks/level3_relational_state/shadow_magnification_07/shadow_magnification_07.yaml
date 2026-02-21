@@ -1,0 +1,69 @@
+id: shadow_magnification_07
+level: 3
+category: relational_state
+tags: []
+variant_of: shadow_magnification
+variation_type: combined
+variation_description: Dinosaur moves toward wall + Lights turn off/on.
+changes:
+  occlusion_method: Spotlight turns off completely, then on.
+  dynamic_conditions: Object moves toward wall (away from light).
+  expected_outcome_change: Shadow shrinks.
+prompts:
+  init_frame_edit_prompt: Edit the image to position the dinosaur pedestal much closer to the spotlight
+    initially, leaving a large gap between the pedestal and the wall.
+  video_WM: A mechanical arm begins sliding the dinosaur pedestal slowly toward the wall and away from
+    the spotlight. The light remains fixed. Suddenly, the spotlight turns off, plunging the room into
+    absolute darkness. After a few seconds, the spotlight turns back on. No zoom, no cut, no scene change.
+    STOP.
+  camera_WM: A mechanical arm begins sliding the dinosaur pedestal slowly toward the wall and away from
+    the spotlight. The light remains fixed. Suddenly, the spotlight turns off, plunging the room into
+    absolute darkness. After a few seconds, the spotlight turns back on. No zoom, no cut, no scene change.
+    STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A toy T-Rex dinosaur stands on a tall, rectangular wooden pedestal in a dark
+    room. A bright stage spotlight on a stand is positioned on the right side of the frame, shining a
+    beam of light towards the left. This light casts a large, somewhat soft shadow of the dinosaur onto
+    the wall on the left side of the image. Dust motes are visible in the volumetric light beam.
+  init2final_edit_prompt: Edit the given image to move the wooden pedestal and dinosaur to the left, positioning
+    them closer to the wall. Correspondingly, render the shadow cast on the wall to be significantly smaller
+    in size and sharper in definition than in the original image, reflecting the object's closer proximity
+    to the projection surface. Ensure the spotlight on the right remains turned on and in its original
+    fixed position.
+  rationale: The prompt describes the object moving toward the wall (the projection surface) and away
+    from the light source. According to the laws of optics, as an object moves closer to the surface it
+    is projecting a shadow onto, the shadow becomes smaller (less magnification) and sharper (reduced
+    penumbra). The blackout is a temporary event, so the final frame must show the light turned back on.
+    The primary evaluation target is the correct physical relationship between the object's position and
+    the size/sharpness of its shadow.
+  questions:
+  - id: shadow_size_relational
+    question: Is the shadow cast by the dinosaur smaller than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The object moved closer to the wall, so the shadow must be smaller (less magnified).
+  - id: shadow_sharpness_relational
+    question: Are the edges of the dinosaur's shadow sharper and more defined than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Proximity to the projection surface reduces penumbra blur.
+  - id: object_position_change
+    question: Is the wooden pedestal positioned closer to the left edge of the frame than it was initially?
+    answer_type: yes_no
+    notes_for_judge: The prompt specifies movement toward the wall (left).
+  - id: object_shadow_gap
+    question: Is the distance between the dinosaur and its shadow smaller than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: As the object approaches the wall, the gap between object and shadow decreases.
+  - id: light_state_final
+    question: Is the spotlight illuminated in the final frame?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the light turns back on.
+  - id: light_position_fixed
+    question: Is the spotlight fixture in the same position as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the light remains fixed.
+  - id: dino_orientation
+    question: Is the dinosaur still facing towards the right (towards the light)?
+    answer_type: yes_no
+    notes_for_judge: The prompt describes sliding, not rotating.

@@ -14,3 +14,48 @@ prompts:
     in the mirror's reflection is maintained. STOP.
 camera_control:
   HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A vertical cylindrical metal mirror stands in the center of a sheet of paper
+    resting on a wooden table. The paper features a distorted, colorful drawing of curved lines (anamorphic
+    art). The reflection in the cylindrical mirror corrects the distortion, revealing a coherent image
+    of a woman's face looking forward.
+  init2final_edit_prompt: Edit the given image to show the paper drawing rotated around the stationary
+    mirror base. The pattern of curved lines on the paper must appear shifted to a new orientation. Crucially,
+    the reflection in the cylindrical mirror must no longer show the coherent face of the woman; instead,
+    it should display abstract colored streaks corresponding to the rotated lines now facing the mirror.
+    Keep the mirror cylinder stationary and centered in the view.
+  rationale: The video prompt describes a hand rotating the anamorphic drawing around the stationary mirror
+    while the camera looks away and returns. Anamorphic illusions rely on a specific, precise alignment
+    between the drawing, the mirror, and the viewer to form a coherent image. Since the drawing has been
+    rotated relative to the stationary mirror and camera, the alignment is broken. Therefore, the reflection
+    will no longer show the face, but rather the abstract, distorted lines that have rotated into the
+    mirror's field of view.
+  questions:
+  - id: reflection_change
+    question: Is the reflection in the mirror different from the coherent face seen in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The face should be gone or significantly distorted/shifted.
+  - id: face_gone
+    question: Is the woman's face no longer visible in the center of the mirror's reflection?
+    answer_type: yes_no
+    notes_for_judge: The reflection should now show streaks or abstract patterns.
+  - id: reflection_content
+    question: Does the reflection in the mirror primarily consist of abstract streaks or distorted lines?
+    answer_type: yes_no
+    notes_for_judge: Because the alignment is broken, the reflection should revert to the raw distorted
+      lines.
+  - id: paper_rotation
+    question: Does the pattern of lines on the paper appear shifted or rotated compared to the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: The drawing on the table should look different due to rotation.
+  - id: mirror_position
+    question: Is the cylindrical mirror still positioned in the center of the frame?
+    answer_type: yes_no
+    notes_for_judge: The mirror itself is stationary.
+  - id: color_conservation
+    question: Do the colors visible in the mirror's reflection match the color palette of the drawing
+      on the paper?
+    answer_type: yes_no
+    notes_for_judge: The reflection should still come from the paper, so colors (blue, brown, etc.) should
+      be consistent.

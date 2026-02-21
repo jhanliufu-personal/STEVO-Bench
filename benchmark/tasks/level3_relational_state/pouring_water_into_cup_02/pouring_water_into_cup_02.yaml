@@ -1,0 +1,77 @@
+id: pouring_water_into_cup_02
+level: 3
+category: relational_state
+tags: []
+variant_of: pouring_water_into_cup
+variation_type: occlusion_method
+variation_description: Occlusion by a large menu board sliding in front of the camera.
+changes:
+  occlusion_method: A large opaque object slides in to block the view.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: Single continuous shot, no cuts, no zoom, no scene transitions. Camera remains stationary
+    centered on the hand holding the pitcher, the pouring water stream, and the empty glass. The hand
+    continues holding the pitcher in the same tilted position so that water keeps pouring continuously.
+    A large, opaque menu board slides into the frame from the right, completely blocking the view of the
+    pitcher and glass. The board remains in place for several seconds. Then the board slides back to the
+    right, revealing the scene again.
+  camera_WM: Single continuous shot, no cuts, no zoom, no scene transitions. Camera remains stationary
+    centered on the hand holding the pitcher, the pouring water stream, and the empty glass. The hand
+    continues holding the pitcher in the same tilted position so that water keeps pouring continuously.
+    A large, opaque menu board slides into the frame from the right, completely blocking the view of the
+    pitcher and glass. The board remains in place for several seconds. Then the board slides back to the
+    right, revealing the scene again.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a hand holding a clear glass pitcher tilted to
+    pour water into a clear glass tumbler sitting on a wooden table. A steady stream of water connects
+    the pitcher's spout to the glass. The glass contains a small amount of water (less than 20% full),
+    and the pitcher is approximately half full. The background features a blurred window with natural
+    daylight.
+  init2final_edit_prompt: Edit the given image to show the glass tumbler filled with significantly more
+    water than before. Correspondingly reduce the water level inside the glass pitcher to reflect the
+    volume transferred to the glass. Maintain the stream of water flowing from the pitcher into the glass,
+    and keep the hand and pitcher in the same tilted position.
+  rationale: The video prompt describes a continuous pouring action that persists throughout an occlusion
+    event lasting several seconds. Because the action is continuous and the system is coupled (source
+    to destination), the final state must reflect the accumulation of water in the glass and the depletion
+    of water from the pitcher. The conservation of volume dictates that the increase in the glass level
+    must correspond to a decrease in the pitcher level. The menu board slides away, so it should not be
+    present in the final frame.
+  questions:
+  - id: glass_level_increase
+    question: Is the water level in the glass higher than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the water height in the glass between the two frames.
+  - id: pitcher_level_decrease
+    question: Is the water level in the pitcher lower than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Check if the volume of water in the source container has decreased.
+  - id: coupled_state_change
+    question: Does the glass appear significantly fuller than at the start?
+    answer_type: yes_no
+    notes_for_judge: The glass should have much more water after several seconds of pouring.
+  - id: source_depletion
+    question: Does the pitcher appear emptier than at the start?
+    answer_type: yes_no
+    notes_for_judge: The source must lose water as the destination gains it.
+  - id: stream_persistence
+    question: Is the stream of water from the pitcher to the glass still visible?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the water 'keeps pouring continuously'.
+  - id: occluder_absence
+    question: Is the menu board absent from the final view?
+    answer_type: yes_no
+    notes_for_judge: The board slides back, revealing the scene.
+  - id: hand_presence
+    question: Is the hand still visible holding the pitcher?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: table_consistency
+    question: Is the wooden table surface still visible beneath the glass?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

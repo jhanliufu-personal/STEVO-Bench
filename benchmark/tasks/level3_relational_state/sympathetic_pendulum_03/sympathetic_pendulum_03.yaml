@@ -1,0 +1,63 @@
+id: sympathetic_pendulum_03
+level: 3
+category: relational_state
+tags: []
+variant_of: sympathetic_pendulum
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to camera zooming out.
+changes:
+  occlusion_method: Camera zooms out until details are lost.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: Pendulum A continues its wide, heavy swing. The flexible bar allows small vibrations to travel
+    between the two mounts. The camera zooms out rapidly until the pendulums are indistinguishable specs
+    in the distance, then zooms back in smoothly to the original framing. No cut, no scene change. STOP.
+  camera_WM: Pendulum A continues its wide, heavy swing. The flexible support bar couples the energy between
+    the two pendulum systems. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+evaluation:
+  init_frame_description: A workshop scene showing two metal pendulums, labeled A and B, suspended from
+    a flexible, downward-curved wooden bar. Pendulum A (on the left) is displaced significantly to the
+    left, with its string taut at an angle, indicating it is at the peak of a swing. Pendulum B (on the
+    right) hangs perfectly vertically, indicating it is stationary. The background is a dimly lit room
+    with a window on the left and a workbench with tools in the background.
+  init2final_edit_prompt: Edit the given image to show the system at a later point in time. Position Pendulum
+    A swinging to the right side of the frame, opposite to its initial position. Position Pendulum B slightly
+    tilted or displaced from the vertical center, indicating it has started to swing due to sympathetic
+    resonance. Keep the wooden bar curved and the background workshop environment exactly the same.
+  rationale: This task involves a coupled pendulum system. The initial frame shows Pendulum A with high
+    potential energy (displaced) and Pendulum B with zero energy (stationary). As Pendulum A swings, the
+    flexible connecting bar transmits forces to Pendulum B. Over time (represented by the camera zoom
+    sequence), energy transfers from A to B, causing B to start swinging (sympathetic motion). In the
+    final frame, Pendulum B must no longer be stationary/vertical, and Pendulum A should be captured at
+    a different point in its swing trajectory.
+  questions:
+  - id: pendulum_b_motion
+    question: Is Pendulum B displaced from its initial vertical resting position?
+    answer_type: yes_no
+    notes_for_judge: Pendulum B starts vertical. Due to coupling, it must start swinging. Any tilt or
+      displacement counts as Yes.
+  - id: pendulum_b_tilt
+    question: Is the string of Pendulum B no longer hanging perfectly straight down?
+    answer_type: yes_no
+    notes_for_judge: Checks for sympathetic resonance activation.
+  - id: pendulum_a_swinging
+    question: Is Pendulum A displaced from the center vertical line?
+    answer_type: yes_no
+    notes_for_judge: The prompt states A continues its wide swing, so it should be captured at an angle
+      (left or right), not hanging dead center.
+  - id: bar_curvature
+    question: Is the wooden bar connecting the pendulums still curved downwards?
+    answer_type: yes_no
+    notes_for_judge: The flexibility of the bar is the coupling mechanism and should be preserved.
+  - id: pendulum_relative_state
+    question: Are both pendulums currently displaced from their vertical equilibrium positions?
+    answer_type: yes_no
+    notes_for_judge: In a coupled system with A driving, both should show displacement after a short time.
+  - id: background_consistency
+    question: Is the window on the left side still visible?
+    answer_type: yes_no
+    notes_for_judge: Ensures the camera returned to the original framing.

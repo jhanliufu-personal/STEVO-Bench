@@ -1,0 +1,70 @@
+id: billiard_break_03
+level: 3
+category: relational_state
+tags: []
+variant_of: billiard_break
+variation_type: occlusion_method
+variation_description: Occlusion changed to thick smoke filling the room.
+changes:
+  occlusion_method: Thick smoke fills the room, obscuring the table.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The white cue ball is struck with high force, causing it to slide rapidly toward the center
+    of the stationary triangle. The table is level and the balls are perfectly spherical. Thick white
+    smoke rapidly fills the room, completely obscuring the table from view. The smoke slowly dissipates
+    until the table is clearly visible again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The white cue ball is struck with high force, causing it to slide rapidly toward the center
+    of the stationary triangle. The table is level and the balls are perfectly spherical. Thick white
+    smoke rapidly fills the room, completely obscuring the table from view. The smoke slowly dissipates
+    until the table is clearly visible again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A view of a pool table from behind the racked balls. In the immediate foreground,
+    fifteen colored billiard balls are arranged in a tight triangular formation on the green felt. Further
+    down the table, a single white cue ball is positioned near the center. The background features a wood-paneled
+    room with a fireplace, a second pool table, and a three-shade overhead lamp illuminating the main
+    table.
+  init2final_edit_prompt: Edit the given image to show the aftermath of a pool break shot. The triangular
+    formation of colored balls in the foreground must be completely broken, with the balls scattered and
+    distributed widely across the green felt surface in random positions. The white cue ball should be
+    in a different position on the table. Ensure the room background, fireplace, and lighting remain identical
+    to the original image, and that the air is clear of any smoke.
+  rationale: 'The prompt describes a high-force break shot followed by a period of occlusion by smoke.
+    Physically, the kinetic energy from the cue ball is transferred to the stationary rack, causing an
+    elastic collision that scatters the balls (increasing entropy). Although the trajectory is obscured,
+    the final state must reflect the conservation of momentum and energy: the ordered triangle must become
+    a disordered distribution of balls. The smoke dissipates completely, restoring visibility to the static
+    environment.'
+  questions:
+  - id: rack_broken
+    question: Is the initial triangular formation of the colored balls completely broken?
+    answer_type: yes_no
+    notes_for_judge: The balls should no longer be in a tight triangle.
+  - id: balls_scattered
+    question: Are the colored balls distributed across a wider area of the table compared to the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: Check for scattering/dispersal of the objects.
+  - id: cue_ball_moved
+    question: Is the white cue ball in a different position than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The cue ball must have moved due to the shot.
+  - id: relative_separation
+    question: Is there visible green felt between most of the colored balls that were previously touching?
+    answer_type: yes_no
+    notes_for_judge: Tests the relational change from packed to loose.
+  - id: background_consistency
+    question: Do the fireplace and wood paneling in the background appear unchanged?
+    answer_type: yes_no
+    notes_for_judge: The environment should be static.
+  - id: lighting_consistency
+    question: Is the overhead three-shade lamp still in the same position and state?
+    answer_type: yes_no
+    notes_for_judge: Lighting fixtures should not move.
+  - id: smoke_cleared
+    question: Is the table clearly visible without significant obstruction by smoke?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the smoke dissipates until the table is clearly visible.

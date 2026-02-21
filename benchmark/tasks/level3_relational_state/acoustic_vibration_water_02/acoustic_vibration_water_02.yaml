@@ -1,0 +1,69 @@
+id: acoustic_vibration_water_02
+level: 3
+category: relational_state
+tags: []
+variant_of: acoustic_vibration_water
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to a physical screen sliding in front of
+  the setup.
+changes:
+  occlusion_method: Opaque screen blocks view
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A rubber mallet strikes the tuning fork, causing it to vibrate with a loud, continuous hum.
+    The fork is positioned inches away from the glass. A large opaque black screen slides in from the
+    right, completely blocking the view of the fork and bowl. The screen then slides back out to the right,
+    revealing the setup again. No zoom, no cut, no scene change. STOP.
+  camera_WM: A rubber mallet strikes the tuning fork, causing it to vibrate with a loud, continuous hum.
+    The fork is positioned inches away from the glass. A large opaque black screen slides in from the
+    right, completely blocking the view of the fork and bowl. The screen then slides back out to the right,
+    revealing the setup again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up shot of a physics experiment setup on a dark table. A large, rusty
+    metal tuning fork is clamped horizontally to a wooden block on the left. The fork's two tines extend
+    towards the right, hovering slightly above and near the rim of a clear glass bowl filled with water.
+    A wooden-handled rubber mallet rests on the table in the foreground, lying parallel to the fork. The
+    background shows a window with natural light.
+  init2final_edit_prompt: Edit the given image to show the tuning fork vibrating, rendering the tines
+    with significant motion blur to indicate rapid oscillation. Remove the rubber mallet from its original
+    position on the table, as it has been picked up. Keep the water surface in the glass bowl completely
+    calm and flat, ensuring no ripples or splashes appear since the fork does not touch the water. Maintain
+    the original lighting and the positions of the wooden block and glass bowl.
+  rationale: The prompt describes a mallet striking the tuning fork, causing it to vibrate with a 'loud,
+    continuous hum'. In the visual domain, this vibration is represented by motion blur on the fork's
+    tines. Crucially, the prompt specifies the fork is 'inches away' from the glass and does not mention
+    it touching the water. Therefore, despite the vibration, the physical coupling is insufficient to
+    disturb the water surface (testing the model's ability to respect spatial constraints over common
+    tropes like 'splashing tuning forks'). The mallet, having been used to strike the fork, would no longer
+    be in its initial resting position.
+  questions:
+  - id: fork_vibration_blur
+    question: Do the tines of the tuning fork appear blurry due to vibration?
+    answer_type: yes_no
+    notes_for_judge: The tines should look indistinct or motion-blurred compared to the sharp initial
+      frame.
+  - id: water_calmness
+    question: Is the water surface in the bowl calm and free of ripples?
+    answer_type: yes_no
+    notes_for_judge: Since the fork does not touch the water, the surface should remain undisturbed. If
+      there are ripples, answer NO.
+  - id: mallet_displacement
+    question: Is the rubber mallet absent from its original position on the table?
+    answer_type: yes_no
+    notes_for_judge: The mallet was used to strike the fork and should not be in the exact starting pose.
+  - id: spatial_relationship_bowl_block
+    question: Is the position of the glass bowl relative to the wooden block unchanged?
+    answer_type: yes_no
+    notes_for_judge: The static setup components should not move relative to each other.
+  - id: water_conservation
+    question: Does the total amount of water in the bowl appear conserved?
+    answer_type: yes_no
+    notes_for_judge: No water should be lost or added.
+  - id: fork_clamped_state
+    question: Is the tuning fork still clamped to the wooden block?
+    answer_type: yes_no
+    notes_for_judge: The structural integrity of the clamp setup should be preserved.

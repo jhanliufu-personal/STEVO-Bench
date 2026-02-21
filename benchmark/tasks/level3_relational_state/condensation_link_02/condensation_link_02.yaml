@@ -1,0 +1,66 @@
+id: condensation_link_02
+level: 3
+category: relational_state
+tags: []
+variant_of: condensation_link
+variation_type: occlusion_method
+variation_description: Occlusion changed to a person walking in front of the camera.
+changes:
+  occlusion_method: A chef in a white apron walks between the camera and the stove, blocking the view.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The glass pane is lowered until it is directly in the path of the rising steam. The water
+    continues to boil and produce vapor. A chef wearing a white apron walks into the frame from the right,
+    completely blocking the view of the stove and glass. The chef pauses briefly, then continues walking
+    to the left, revealing the scene again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The glass pane is lowered until it is directly in the path of the rising steam. The water
+    continues to boil and produce vapor. A chef wearing a white apron walks into the frame from the right,
+    completely blocking the view of the stove and glass. The chef pauses briefly, then continues walking
+    to the left, revealing the scene again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a stainless steel pot on a gas stove burner. The
+    water inside is boiling vigorously with visible bubbles and steam rising. A person's hand (entering
+    from the right) holds a rectangular pane of glass horizontally above the pot. The glass pane already
+    has a layer of small condensation droplets on it. The background features blurred wooden kitchen cabinetry.
+  init2final_edit_prompt: Edit the given image to position the glass pane lower, closer to the rim of
+    the pot. Significantly increase the density and size of the water droplets on the glass pane to make
+    it look much wetter and more opaque due to heavy condensation. Ensure the water in the pot appears
+    to be boiling with bubbles and steam rising. The scene should be clear of any people or obstructions
+    other than the hand holding the glass.
+  rationale: The prompt describes a physical interaction where the glass is lowered into the steam and
+    held there while a chef (occluder) passes. The primary state change is the accumulation of condensation
+    on the glass surface due to the coupled interaction between the rising steam and the cooler glass.
+    During the occlusion, the condensation process continues, so the final frame must show the glass significantly
+    wetter (more/larger droplets) than the initial frame. The glass should also be physically lower as
+    per the instruction. The chef is a temporary occluder and must not be present in the final frame.
+  questions:
+  - id: condensation_increase
+    question: Does the glass pane show a significantly higher density of water droplets than in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the amount of water on the glass. It should be much wetter/foggier.
+  - id: droplet_size
+    question: Do the water droplets on the glass appear larger or more coalesced compared to the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: Prolonged exposure to steam causes droplets to grow and merge.
+  - id: glass_position
+    question: Is the glass pane positioned lower (closer to the pot) than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The prompt explicitly states the glass is lowered.
+  - id: boiling_continuity
+    question: Is the water in the pot still visible and boiling (agitated/bubbling)?
+    answer_type: yes_no
+    notes_for_judge: The process generating the steam must continue.
+  - id: occlusion_clearance
+    question: Is the view of the stove and glass unobstructed by the chef?
+    answer_type: yes_no
+    notes_for_judge: The chef walks in and then continues walking left, revealing the scene.
+  - id: steam_presence
+    question: Is there visible steam or vapor rising from the pot?
+    answer_type: yes_no
+    notes_for_judge: Steam is the coupling mechanism and should still be present.

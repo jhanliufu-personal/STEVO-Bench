@@ -1,0 +1,68 @@
+id: pulley_color_wheel_09
+level: 3
+category: relational_state
+tags: []
+variant_of: pulley_color_wheel
+variation_type: combined
+variation_description: Rapid multiple rotations combined with camera zoom occlusion.
+changes:
+  occlusion_method: Camera zoom out
+  dynamic_conditions: 3 full rotations (increased magnitude)
+  expected_outcome_change: The color wheel rotates significantly further than the original.
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A hand turns the crank handle three full rotations clockwise rapidly. The rubber belt is taut
+    and moves without slipping. The camera zooms out rapidly until the mechanism becomes a blurry spot
+    in the distance. The camera then zooms back in to the original framing. No cut, no scene change. STOP.
+  camera_WM: A hand turns the crank handle three full rotations clockwise rapidly. The rubber belt is
+    taut and moves without slipping. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+evaluation:
+  init_frame_description: A wooden workbench scene featuring a mechanical setup. On the left, a wooden
+    hand-crank mechanism is clamped to the bench, with a person's hands holding the handle near the top
+    of its rotation. On the right, a large wooden wheel is mounted vertically, divided into 12 colored
+    segments forming a color spectrum (Yellow at the top, followed clockwise by orange, red, purple, blue,
+    green). A black rubber belt connects a small pulley on the crank shaft to the circumference of the
+    large color wheel. The background shows a workshop with tools on a pegboard and a window.
+  init2final_edit_prompt: Edit the given image to show the large color wheel rotated clockwise by approximately
+    180 degrees. The segment labeled 'Yellow' should now be positioned at the bottom of the wheel (around
+    the 6 o'clock position), and the dark blue or purple segments should be at the top. The crank handle
+    and the person's hands should remain in their original position. The black belt should remain taut
+    and connected between the pulleys.
+  rationale: The prompt specifies three full rotations of the crank handle. Since the crank completes
+    integer rotations, the handle returns to its initial position. The mechanism is a reduction drive
+    with a small driver pulley and a large driven wheel. Visually, the diameter ratio appears to be approximately
+    1:6. Therefore, 3 rotations of the small pulley will cause the large wheel to rotate approximately
+    0.5 times (180 degrees). The belt is uncrossed, so the clockwise rotation of the crank (top moving
+    right) causes a clockwise rotation of the large wheel. The camera zooms out and back in, returning
+    to the original framing, so the viewpoint is unchanged.
+  questions:
+  - id: wheel_rotation_yellow_pos
+    question: Is the 'Yellow' segment positioned in the bottom half of the wheel?
+    answer_type: yes_no
+    notes_for_judge: Due to the reduction ratio (approx 1:6), 3 crank turns result in ~180 degree rotation,
+      moving Yellow from top to bottom.
+  - id: wheel_rotation_change
+    question: Is the 'Yellow' segment no longer at the 12 o'clock position?
+    answer_type: yes_no
+    notes_for_judge: The wheel must rotate significantly, so the initial state (Yellow at top) is no longer
+      valid.
+  - id: wheel_colors_top
+    question: Are the blue or purple segments now closer to the top of the wheel than the yellow segment?
+    answer_type: yes_no
+    notes_for_judge: With a ~180 degree rotation, the colors opposite yellow (blue/purple) move to the
+      top.
+  - id: rotation_direction
+    question: Did the color wheel rotate in a clockwise direction (e.g., Yellow moved to the right/down)?
+    answer_type: yes_no
+    notes_for_judge: The belt configuration drives the wheel in the same direction as the crank.
+  - id: crank_position_consistency
+    question: Is the crank handle in approximately the same position as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The prompt specifies 'three full rotations', meaning the handle returns to its starting
+      angle.
+  - id: belt_integrity
+    question: Is the belt still connecting the crank pulley and the large wheel?
+    answer_type: yes_no
+    notes_for_judge: The belt should remain taut and connected.

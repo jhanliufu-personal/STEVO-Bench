@@ -14,3 +14,47 @@ prompts:
     corridor is maintained. STOP.
 camera_control:
   HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A person stands in the center of a dimly lit industrial room, holding a flashlight
+    with a bright orange beam pointing directly forward toward the camera. Two large rectangular mirrors
+    stand on the left and right sides of the person, angled to create an infinity mirror effect. The reflections
+    in the mirrors show the person's side profile and the flashlight beam. The background consists of
+    a concrete wall with pipes and conduits.
+  init2final_edit_prompt: Edit the given image to show the person tilting the flashlight approximately
+    45 degrees upward toward the ceiling. The beam of light should point diagonally upwards instead of
+    forwards. Ensure that all visible reflections of the person in the mirrors on the left and right are
+    updated to show the flashlight tilted upward at the same angle, maintaining consistent geometry between
+    the real object and its reflections.
+  rationale: The user prompt specifies that the person tilts the flashlight 45 degrees upward. The camera
+    rotates away (pan right) and then returns (pan left) to view the mirrors. The primary state change
+    is the orientation of the flashlight and the light beam. Crucially, because the scene involves mirrors,
+    the reflections must be coupled to the real object; if the real flashlight tilts up, the reflections
+    must also show the flashlight tilted up. The mirrors themselves are described as remaining parallel
+    (stationary), so the environment geometry should not change.
+  questions:
+  - id: flashlight_tilt_up
+    question: Is the flashlight pointing upward toward the ceiling?
+    answer_type: yes_no
+    notes_for_judge: The flashlight should be tilted roughly 45 degrees up, not pointing straight at the
+      camera.
+  - id: reflection_consistency
+    question: Do the reflections of the person in the mirrors show the flashlight tilted upward?
+    answer_type: yes_no
+    notes_for_judge: Check the mirrors on the sides. The reflections must match the new state of the flashlight.
+  - id: beam_direction
+    question: Is the beam of light directed diagonally upwards?
+    answer_type: yes_no
+    notes_for_judge: The light cone should be visible pointing up.
+  - id: reflection_coupling
+    question: Is the angle of the flashlight in the reflections consistent with the angle of the real
+      flashlight?
+    answer_type: yes_no
+    notes_for_judge: They should both be tilted up.
+  - id: mirror_presence
+    question: Are the mirrors still visible on the sides of the frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: person_visibility
+    question: Is the person (or their reflection) visible in the final frame?
+    answer_type: yes_no
+    notes_for_judge: The camera should have returned to show the subject.

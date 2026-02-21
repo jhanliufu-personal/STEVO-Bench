@@ -1,0 +1,62 @@
+id: tea_dilution_03
+level: 3
+category: relational_state
+tags: []
+variant_of: tea_dilution
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to extreme camera zoom out.
+changes:
+  occlusion_method: Camera zooms out until scene is indistinguishable.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The black concentrate is poured into the water. The pitcher is visibly emptying. The total
+    volume of concentrate is conserved. The camera zooms out rapidly until the glass and pitcher are indistinguishable
+    dots in the distance, then zooms back in smoothly to the original framing. No cut, no scene change.
+    STOP.
+  camera_WM: The black concentrate is poured into the water. The pitcher is visibly emptying. The total
+    volume of concentrate is conserved. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+evaluation:
+  init_frame_description: A close-up shot of a clear glass on a wooden table, partially filled with clear
+    water and dark swirling liquid. A speckled ceramic pitcher is positioned above the glass, tilting
+    to pour a dark, viscous stream of concentrate into the water. Steam or mist rises from the glass.
+    The background shows a blurred window and wall.
+  init2final_edit_prompt: Edit the given image to show the state after more liquid has been poured. The
+    liquid level inside the ceramic pitcher should be visibly lower. The liquid level in the glass should
+    be correspondingly higher. The liquid inside the glass should appear significantly darker and more
+    opaque, showing that the black concentrate has mixed thoroughly with the clear water.
+  rationale: The video prompt describes a continuous pouring action interrupted by a camera zoom-out and
+    zoom-in (temporal occlusion). During the time the camera is zoomed out, the pouring process continues.
+    According to conservation of mass, the volume lost from the pitcher must be gained by the glass. Therefore,
+    the final frame must show the pitcher with a lower liquid level and the glass with a higher liquid
+    level. Additionally, the mixing of the black concentrate with the water will turn the liquid in the
+    glass darker and more opaque compared to the initial clear state.
+  questions:
+  - id: pitcher_level_lower
+    question: Is the level of liquid remaining in the pitcher lower than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The pitcher is the source; its content must decrease.
+  - id: glass_level_higher
+    question: Is the liquid level in the glass higher than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The glass is the destination; its content must increase.
+  - id: liquid_darker
+    question: Is the liquid in the glass significantly darker or more opaque than the mostly clear water
+      in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Tests the mixing of the black concentrate with the water.
+  - id: conservation_relation
+    question: Does the scene show a coupled change where the pitcher is emptier and the glass is fuller?
+    answer_type: yes_no
+    notes_for_judge: Tests the relational constraint of conservation of volume between the two containers.
+  - id: pitcher_presence
+    question: Is the ceramic pitcher still present and positioned above the glass?
+    answer_type: yes_no
+    notes_for_judge: Verifies object persistence after the camera zoom maneuver.
+  - id: table_consistency
+    question: Is the wooden table surface visible and consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Checks background consistency.

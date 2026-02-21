@@ -1,0 +1,64 @@
+id: acoustic_vibration_water_09
+level: 3
+category: relational_state
+tags: []
+variant_of: acoustic_vibration_water
+variation_type: combined
+variation_description: Combined zoom occlusion with an empty bowl (no medium).
+changes:
+  occlusion_method: Camera zoom out
+  dynamic_conditions: Bowl is empty (no water)
+  expected_outcome_change: No ripples (no liquid to react)
+prompts:
+  init_frame_edit_prompt: Edit the image to remove the water from the glass bowl, leaving it empty.
+  video_WM: A rubber mallet strikes the tuning fork, causing it to vibrate near the empty glass bowl.
+    The camera zooms out until the objects are barely visible, then zooms back in to the initial close-up
+    view. No cut, no scene change. STOP.
+  camera_WM: A rubber mallet strikes the tuning fork, causing it to vibrate near the empty glass bowl.
+    STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+evaluation:
+  init_frame_description: A close-up, high-angle shot of a physics experiment setup on a dark table. A
+    large metal tuning fork is clamped horizontally to a wooden block on the left, with its prongs extending
+    to the right over a clear, empty glass bowl. A wooden-handled rubber mallet lies on the table in the
+    bottom right corner. In the background, a window with blinds is visible.
+  init2final_edit_prompt: Edit the given image to show the rubber mallet in a different position or orientation
+    on the table, or removed from the frame, to reflect that it was picked up and used. Apply a subtle
+    motion blur to the prongs of the tuning fork to indicate vibration. Ensure the glass bowl remains
+    completely empty and clear, with no water or liquid inside. Keep the wooden block, clamp, and bowl
+    in their original positions and maintain the exact original camera viewpoint and lighting.
+  rationale: The video describes a mallet striking the tuning fork, which requires the mallet to be moved
+    from its initial resting position. Since the camera zooms out and then back in to the initial view
+    without a cut, the mallet is unlikely to return to its exact original pixel-perfect pose, so its position
+    should change. The tuning fork is described as vibrating, which is visually represented by motion
+    blur. Crucially, the prompt specifies an 'empty glass bowl'; therefore, despite the vibration, there
+    should be no water, ripples, or splashing, testing the model's ability to adhere to the specific state
+    constraints (empty) rather than hallucinating common associations (water resonance). The camera returns
+    to the start, so static objects must remain aligned.
+  questions:
+  - id: mallet_moved
+    question: Is the rubber mallet in a different position or orientation compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The mallet must have moved to strike the fork. It should not be in the exact same
+      resting pose.
+  - id: bowl_empty_conservation
+    question: Is the glass bowl still empty, containing no liquid?
+    answer_type: yes_no
+    notes_for_judge: The prompt specifies an empty bowl; no water should appear.
+  - id: no_splashes
+    question: Is the scene free of any water splashes or ripples?
+    answer_type: yes_no
+    notes_for_judge: Since the bowl is empty, there should be no fluid dynamics visible.
+  - id: fork_bowl_relation
+    question: Is the tuning fork still positioned with its prongs extending over the glass bowl?
+    answer_type: yes_no
+    notes_for_judge: Checks for spatial consistency of the setup.
+  - id: block_bowl_relation
+    question: Is the relative position between the wooden block and the glass bowl preserved?
+    answer_type: yes_no
+    notes_for_judge: Checks for static scene consistency after camera movement.
+  - id: clamp_block_connection
+    question: Is the C-clamp still securely attaching the tuning fork to the wooden block?
+    answer_type: yes_no
+    notes_for_judge: Checks for mechanical consistency.

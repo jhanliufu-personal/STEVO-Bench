@@ -1,0 +1,66 @@
+id: balloon_suction_jar_08
+level: 3
+category: relational_state
+tags: []
+variant_of: balloon_suction_jar
+variation_type: combined
+variation_description: Compressor mode (balloon shrinks) with object blocking occlusion.
+changes:
+  occlusion_method: Large cardboard box blocks view.
+  dynamic_conditions: Pump configured as compressor (air in).
+  expected_outcome_change: Balloon shrinks.
+prompts:
+  init_frame_edit_prompt: Edit the image to change the text on the pump label to read 'COMPRESSOR'.
+  video_WM: The technician activates the compressor, pumping air forcefully INTO the sealed bell jar.
+    A large cardboard box is moved into the frame, completely blocking the view of the experiment. The
+    compressor continues to run while the view is blocked. The box is then removed to reveal the setup
+    again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The technician activates the compressor, pumping air forcefully INTO the sealed bell jar.
+    A large cardboard box is moved into the frame, completely blocking the view of the experiment. The
+    compressor continues to run while the view is blocked. The box is then removed to reveal the setup
+    again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A glass bell jar sits on a wooden table, containing an inflated red balloon
+    tied to a string. A beige hose connects the base of the bell jar to a silver and black machine labeled
+    'COMPRESSOR' which has a pressure gauge on top.
+  init2final_edit_prompt: Edit the given image to show the red balloon inside the bell jar significantly
+    smaller and shriveled. The balloon should appear compressed with a reduced volume compared to the
+    original state. Maintain the position and appearance of the bell jar, hose, table, and compressor
+    machine exactly as they are.
+  rationale: The video prompt explicitly states that air is pumped 'INTO' the sealed bell jar. This action
+    increases the air pressure inside the jar surrounding the balloon. As the external pressure on the
+    balloon increases, the gas inside the balloon is compressed (Boyle's Law), causing the balloon to
+    decrease in volume and shrivel. The occlusion hides the transition, so the final frame reveals the
+    static result of the balloon having shrunk due to the increased pressure.
+  questions:
+  - id: balloon_shrunk
+    question: Is the red balloon smaller than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The prompt specifies pumping air INTO the jar, increasing pressure, which compresses
+      the balloon.
+  - id: balloon_volume_reduced
+    question: Does the red balloon occupy less volume inside the jar compared to the start?
+    answer_type: yes_no
+    notes_for_judge: Check for a reduction in the spatial footprint of the balloon.
+  - id: balloon_shriveled
+    question: Does the balloon appear compressed or shriveled?
+    answer_type: yes_no
+    notes_for_judge: The surface should likely look less taut or simply smaller.
+  - id: gap_increased
+    question: Is the empty space between the balloon and the jar walls larger than before?
+    answer_type: yes_no
+    notes_for_judge: As the balloon shrinks, the surrounding empty space increases.
+  - id: jar_intact
+    question: Is the glass bell jar still intact?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: compressor_position
+    question: Is the compressor machine still in the same position relative to the jar?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: balloon_visible
+    question: Is the red balloon still visible inside the jar?
+    answer_type: yes_no
+    notes_for_judge: It should not disappear, just shrink.

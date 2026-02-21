@@ -1,0 +1,66 @@
+id: ink_dilution_01
+level: 3
+category: relational_state
+tags: []
+variant_of: ink_dilution
+variation_type: occlusion_method
+variation_description: Replaces camera rotation with a large opaque object blocking the view.
+changes:
+  occlusion_method: A large opaque lab notebook moves in front of the lens.
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics (dilution and volume increase)
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The clear water is poured into the dark ink. The total volume of liquid is rising. The pouring
+    continues. A large opaque lab notebook moves into the frame from the right, completely blocking the
+    view of the beaker. It pauses briefly, then moves back out to the right. No zoom, no cut, no scene
+    change. STOP.
+  camera_WM: The clear water is poured into the dark ink. The total volume of liquid is rising. The pouring
+    continues. A large opaque lab notebook moves into the frame from the right, completely blocking the
+    view of the beaker. It pauses briefly, then moves back out to the right. No zoom, no cut, no scene
+    change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A glass beaker sits on a wooden lab bench, partially filled with dark purple
+    ink. A glass pitcher is positioned above and to the right, pouring a stream of clear water into the
+    beaker. The impact of the water creates a turbulent, lighter-colored mixing zone within the dark liquid.
+    The background is slightly out of focus, showing a window and other laboratory glassware.
+  init2final_edit_prompt: Edit the given image to show the liquid level in the central beaker significantly
+    higher than in the original view. Modify the liquid's color to be a lighter, paler purple to represent
+    dilution. Maintain the stream of water pouring from the pitcher. Ensure the beaker is fully visible
+    and not obscured by any foreground objects. Keep the background and lighting consistent.
+  rationale: 'The video prompt describes a continuous pouring action that persists while the view is temporarily
+    blocked by a notebook. Physically, adding clear water to a dark solution must result in two coupled
+    changes: the total volume (and thus liquid level) must increase, and the concentration of the pigment
+    must decrease (making the color lighter and more transparent). The final frame must reflect this coupled
+    state change after the occlusion is removed.'
+  questions:
+  - id: volume_increase
+    question: Is the level of liquid in the beaker higher than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Check for a vertical increase in the liquid line.
+  - id: color_dilution
+    question: Is the purple liquid lighter or more transparent than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The addition of water should dilute the ink, reducing saturation.
+  - id: volume_color_relation
+    question: Does the beaker contain a larger volume of lighter-colored liquid compared to the start?
+    answer_type: yes_no
+    notes_for_judge: 'Tests the coupled relationship: more volume = lighter color.'
+  - id: occlusion_cleared
+    question: Is the beaker fully visible, without being blocked by a notebook?
+    answer_type: yes_no
+    notes_for_judge: The notebook should have moved out of frame.
+  - id: pouring_continuity
+    question: Is the pitcher still pouring water into the beaker?
+    answer_type: yes_no
+    notes_for_judge: The prompt states 'pouring continues'.
+  - id: background_consistency
+    question: Are the window and background lab equipment consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: pitcher_presence
+    question: Is the glass pitcher still visible in the upper right area?
+    answer_type: yes_no
+    notes_for_judge: Object persistence.

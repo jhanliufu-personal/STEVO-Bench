@@ -1,0 +1,66 @@
+id: upipe_equilibrium_09
+level: 3
+category: relational_state
+tags: []
+variant_of: upipe_equilibrium
+variation_type: combined
+variation_description: Piston pushed vigorously (condition) and camera physically moves away (occlusion).
+changes:
+  occlusion_method: Camera moves away
+  dynamic_conditions: Increased velocity/force
+  expected_outcome_change: Liquid level on the right rises faster/higher.
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A mechanical arm pushes the left piston down vigorously and rapidly. The camera physically
+    moves backward away from the bench until the U-pipe is too small to see clearly, then moves back to
+    the original position. No cut, no scene change. STOP.
+  camera_WM: A mechanical arm pushes the left piston down vigorously and rapidly. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A U-shaped glass tube (U-pipe) sits on a wooden table, partially filled with
+    a bright blue liquid. The left arm of the tube is fitted with a black piston and stopper mechanism
+    inserted into the top. The right arm is open to the air. The liquid levels in both arms are visible
+    and appear roughly balanced. The background features blurred laboratory equipment and a window.
+  init2final_edit_prompt: Edit the given image so that the black piston in the left arm of the U-tube
+    is pushed significantly lower into the tube. Consequently, lower the level of the blue liquid in the
+    left arm to be immediately beneath the depressed piston, and raise the level of the blue liquid in
+    the right arm to a significantly higher position, reflecting the displacement of fluid from the left
+    side. Ensure the total volume of liquid appears conserved.
+  rationale: The video prompt describes a mechanical action where the piston on the left is pushed down.
+    According to the physics of communicating vessels and the incompressibility of the liquid, pushing
+    the piston down on one side must displace the liquid, causing the level on the left to drop and the
+    level on the right to rise correspondingly. The camera movement away and back serves as a temporal
+    transition/occlusion; when the camera returns to the original position, the physical state of the
+    U-pipe should reflect the completed action (piston down, fluid displaced).
+  questions:
+  - id: piston_position
+    question: Is the black piston in the left arm positioned lower than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the vertical position of the black stopper/piston mechanism.
+  - id: left_liquid_level
+    question: Is the blue liquid level in the left arm lower than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The liquid should have been pushed down by the piston.
+  - id: right_liquid_level
+    question: Is the blue liquid level in the right arm higher than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The liquid should have risen due to displacement.
+  - id: relative_levels
+    question: Is the liquid level in the right arm now higher than the liquid level in the left arm?
+    answer_type: yes_no
+    notes_for_judge: Initially they were roughly equal; now the right should be significantly higher than
+      the left.
+  - id: conservation_check
+    question: Does the rise in the liquid level on the right appear roughly proportional to the drop in
+      the liquid level on the left?
+    answer_type: yes_no
+    notes_for_judge: Tests conservation of volume/relational consistency.
+  - id: object_permanence
+    question: Is the U-shaped tube still present and sitting on the wooden table?
+    answer_type: yes_no
+    notes_for_judge: Basic consistency check.
+  - id: liquid_containment
+    question: Is the blue liquid still contained within the glass tube?
+    answer_type: yes_no
+    notes_for_judge: The liquid should not be spilling or floating outside.

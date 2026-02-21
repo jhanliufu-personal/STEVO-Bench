@@ -3,7 +3,7 @@ level: 3
 category: relational_state
 relational_type: tension_coupling
 prompts:
-  image_gen_prompt: A single pulley mounted to a ceiling. A rope passes through it, with a 5kg iron weight
+  image_gen_prompt: Generate an image that shows a single pulley mounted to a ceiling. A rope passes through it, with a 5kg iron weight
     hanging from each end. The weights are currently at the same height.
   video_WM: A hand begins pulling the left weight downward at a constant speed. The rope remains taut
     across the pulley. The motion continues steadily. The camera rotates right until the pulley system
@@ -13,3 +13,53 @@ prompts:
     STOP.
 camera_control:
   HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A rustic workshop interior featuring a single fixed metal pulley suspended from
+    a wooden beam. A thick rope runs over the pulley, connecting two identical cylindrical iron weights
+    labeled '5 KG IRON'. In this initial state, the two weights hang at approximately the same height
+    above the concrete floor. The background includes a workbench with tools, a window with natural light,
+    and wooden structural elements.
+  init2final_edit_prompt: Edit the given image to show the left iron weight positioned significantly lower
+    than its original height and the right iron weight positioned significantly higher than its original
+    height. The left weight must be clearly lower than the right weight. Maintain the appearance of the
+    taut rope connecting them through the pulley, ensuring the rope length appears conserved (one side
+    shortens as the other lengthens).
+  rationale: The video prompt describes a hand pulling the left weight downward. In a fixed pulley system
+    with a fixed-length rope, pulling one side down mechanically forces the other side up by an equal
+    distance. The camera rotates away and then returns to the original view. Therefore, the final frame
+    must depict the system in a new state where the left weight is displaced downward and the right weight
+    is displaced upward relative to their initial equilibrium positions.
+  questions:
+  - id: left_weight_lower
+    question: Is the left weight positioned lower than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the vertical position of the left weight relative to background landmarks
+      (e.g., the workbench or wall) between the initial and final frames.
+  - id: right_weight_higher
+    question: Is the right weight positioned higher than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the vertical position of the right weight relative to the pulley or beam
+      between the initial and final frames.
+  - id: relative_height_diff
+    question: Is the left weight now positioned lower than the right weight?
+    answer_type: yes_no
+    notes_for_judge: In the initial frame they are level. In the final frame, the left should be lower
+      than the right.
+  - id: coupled_motion
+    question: Do the weights appear to have moved in opposite directions (one up, one down)?
+    answer_type: yes_no
+    notes_for_judge: Check if the displacement of the left weight (down) corresponds to a displacement
+      of the right weight (up).
+  - id: rope_tautness
+    question: Does the rope appear taut between the weights and the pulley?
+    answer_type: yes_no
+    notes_for_judge: The rope should not be slack or broken.
+  - id: vertical_separation
+    question: Is the vertical distance between the two weights greater than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Initially, the distance is near zero (level). Finally, there should be a significant
+      vertical gap.
+  - id: object_persistence
+    question: Are both '5 KG IRON' weights still visible and recognizable?
+    answer_type: yes_no
+    notes_for_judge: Ensure the objects haven't morphed into something else.

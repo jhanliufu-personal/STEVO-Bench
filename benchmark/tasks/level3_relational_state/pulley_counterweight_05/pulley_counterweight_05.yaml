@@ -1,0 +1,68 @@
+id: pulley_counterweight_05
+level: 3
+category: relational_state
+tags: []
+variant_of: pulley_counterweight
+variation_type: dynamic_condition
+variation_description: The left weight is lifted upward instead of pulled downward.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Hand lifts the left weight upward.
+  expected_outcome_change: The left weight goes up, causing slack or allowing the right weight to drop.
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A hand begins lifting the left weight upward at a constant speed. The rope tension shifts.
+    The motion continues steadily. The camera rotates right until the pulley system completely exits the
+    view, then rotates toward the left smoothly at the same rate until the pulley is back in the center
+    of view. No zoom, no cut, no scene change. STOP.
+  camera_WM: A hand begins lifting the left weight upward at a constant speed. The rope tension shifts.
+    The motion continues steadily. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A rustic wooden interior showing a ceiling beam with a metal pulley attached.
+    A thick rope runs through the pulley, supporting two identical bell-shaped iron weights labeled '5KG
+    IRON'. The weights hang at the same height, balanced in the center of the frame. The background features
+    wooden walls and a window on the right side.
+  init2final_edit_prompt: Edit the given image to show a hand holding the left iron weight and positioning
+    it significantly higher than its original location. Position the right iron weight significantly lower
+    than its original location, hanging further down near the bottom of the frame. Adjust the ropes so
+    the segment connecting the pulley to the left weight is shorter, and the segment connecting the pulley
+    to the right weight is longer, reflecting the shift in position.
+  rationale: The video describes a camera movement that pans away and then returns to the original viewing
+    angle, meaning the final frame has the same perspective as the initial frame. During the time the
+    camera is looking away, the hand lifts the left weight. In a pulley system, lifting one weight supports
+    its mass and creates slack, causing the unsupported counterweight (the right weight) to pull the rope
+    and descend. Therefore, the final state must show the left weight raised and the right weight lowered
+    due to the mechanical coupling.
+  questions:
+  - id: pulley_relational_height_01
+    question: Is the left weight positioned higher than the right weight?
+    answer_type: yes_no
+    notes_for_judge: In the initial frame they are equal. After lifting the left, the left should be high
+      and right should be low.
+  - id: pulley_relational_height_02
+    question: Is the right weight positioned lower than the left weight?
+    answer_type: yes_no
+    notes_for_judge: Checks the inverse relationship of the weights.
+  - id: left_weight_change
+    question: Is the left weight higher than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The prompt explicitly states the left weight is lifted.
+  - id: right_weight_change
+    question: Is the right weight lower than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Due to the pulley coupling, lifting the left weight allows the right weight to drop.
+  - id: rope_length_comparison
+    question: Is the visible length of rope on the left side shorter than the visible length of rope on
+      the right side?
+    answer_type: yes_no
+    notes_for_judge: The rope length must correspond to the position of the weights.
+  - id: hand_visibility
+    question: Is a hand visible interacting with the left weight?
+    answer_type: yes_no
+    notes_for_judge: The prompt states a hand lifts the weight.
+  - id: camera_return
+    question: Is the pulley system centered in the frame?
+    answer_type: yes_no
+    notes_for_judge: The camera rotates away and then back to the center.

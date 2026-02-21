@@ -1,0 +1,69 @@
+id: concave_mirror_inversion_01
+level: 3
+category: relational_state
+tags: []
+variant_of: concave_mirror_inversion
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to a large object blocking the view.
+changes:
+  occlusion_method: A large wooden tray is lifted to block the view instead of camera rotation.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The candle is moved steadily closer to the silver bowl, passing through the focal point of
+    the curvature. The flame remains lit. A large wooden serving tray is lifted into the frame, completely
+    blocking the view of the bowl and candle for several seconds, then is lowered out of view. No zoom,
+    no cut, no scene change. STOP.
+  camera_WM: The candle is moved steadily closer to the silver bowl, passing through the focal point of
+    the curvature. The flame remains lit. A large wooden serving tray is lifted into the frame, completely
+    blocking the view of the bowl and candle for several seconds, then is lowered out of view. No zoom,
+    no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up view of a large silver bowl with a reflective concave interior sitting
+    on a wooden table. In the background, slightly out of focus, is a lit candle on a candlestick. A small
+    reflection of the candle is visible in the center of the bowl's interior surface. The room has wooden
+    walls and warm lighting.
+  init2final_edit_prompt: Edit the given image to place the lit candle on the table immediately in front
+    of the silver bowl, much closer than in the original view. Render the reflection of the candle inside
+    the bowl as significantly larger, magnified, and upright, depicting the optical characteristics of
+    a concave mirror when an object is placed within its focal length. Ensure the wooden serving tray
+    is not visible.
+  rationale: The video prompt describes the candle moving closer to the concave mirror (the bowl) and
+    passing through the focal point. Optically, when an object moves from outside the focal point (far)
+    to inside the focal point (near) of a concave mirror, the reflection transitions from a real, inverted
+    image to a virtual, upright, and magnified image. The occlusion by the tray covers the moment of transition
+    (the 'flip'). In the final frame, the candle is close (inside the focal length), so the reflection
+    must be upright and magnified.
+  questions:
+  - id: candle_proximity
+    question: Is the physical candle positioned closer to the silver bowl than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The candle should have moved from the background to the immediate foreground near
+      the bowl.
+  - id: reflection_magnification
+    question: Is the reflection of the candle in the bowl significantly larger than the reflection in
+      the initial frame?
+    answer_type: yes_no
+    notes_for_judge: As the object moves inside the focal point, the reflection should become a magnified
+      virtual image.
+  - id: reflection_orientation
+    question: Does the reflection of the candle flame appear upright in the bowl?
+    answer_type: yes_no
+    notes_for_judge: Inside the focal point of a concave mirror, the image is upright. Initially (far
+      away), it would have been inverted.
+  - id: tray_visibility
+    question: Is the view of the bowl and candle unobstructed by the wooden tray?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the tray is lowered out of view at the end.
+  - id: flame_persistence
+    question: Is the candle flame still lit?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the flame remains lit.
+  - id: optical_consistency
+    question: Is the size of the reflection consistent with the candle being very close to the concave
+      surface?
+    answer_type: yes_no
+    notes_for_judge: The reflection should be large/magnified due to proximity to the concave mirror.

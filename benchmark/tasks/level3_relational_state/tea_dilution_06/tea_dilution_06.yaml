@@ -1,0 +1,59 @@
+id: tea_dilution_06
+level: 3
+category: relational_state
+tags: []
+variant_of: tea_dilution
+variation_type: dynamic_condition
+variation_description: Pitcher is upright and not pouring.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Pitcher is held upright; no liquid is flowing.
+  expected_outcome_change: No state change; water remains clear.
+prompts:
+  init_frame_edit_prompt: Edit the image to remove the pouring stream completely and tilt the pitcher
+    back to an upright position next to the glass. The water in the glass should be clear with no concentrate
+    in it.
+  video_WM: A pitcher of black concentrate sits next to a glass of water. No pouring occurs. The camera
+    rotates right until both containers completely exit the view, then rotates toward the left smoothly
+    at the same rate until the glass is back in the center of view. No zoom, no cut, no scene change.
+    STOP.
+  camera_WM: A pitcher of black concentrate sits next to a glass of water. No pouring occurs. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A clear glass filled with hot water, emitting visible steam, sits on a wooden
+    table. To the right of the glass is a small, earth-toned ceramic pitcher with a handle. The background
+    shows a window sill and a blurred view outside.
+  init2final_edit_prompt: Edit the given image to show the scene exactly as it was initially. The glass
+    must still contain clear, colorless water at the same fill level. The small ceramic pitcher must remain
+    sitting to the right of the glass. Ensure no dark liquid has been mixed into the water. The steam
+    may have shifted or dissipated, but the objects and liquids remain in their original states.
+  rationale: The video prompt explicitly states that 'No pouring occurs' despite the camera panning away
+    and back. This is a test of object permanence and the inhibition of likely priors (pitcher next to
+    glass often implies pouring). The world model must conserve the state of the clear water and the position
+    of the pitcher through the occlusion, ensuring no interaction happens when none is prompted.
+  questions:
+  - id: water_clarity
+    question: Is the water in the glass still clear and colorless?
+    answer_type: yes_no
+    notes_for_judge: The water should not have turned dark or brown.
+  - id: water_level_conservation
+    question: Does the water level in the glass appear approximately the same as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The level should not have risen, as no liquid was added.
+  - id: pitcher_presence
+    question: Is the ceramic pitcher still visible to the right of the glass?
+    answer_type: yes_no
+    notes_for_judge: The pitcher must return to view.
+  - id: relative_position
+    question: Is the relative position of the pitcher to the glass consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: They should be side-by-side on the table.
+  - id: no_mixing_evidence
+    question: Does the liquid in the glass appear unmixed and free of dark concentrate?
+    answer_type: yes_no
+    notes_for_judge: Check for lack of diffusion or color change.
+  - id: glass_centering
+    question: Is the glass of water positioned near the center of the view?
+    answer_type: yes_no
+    notes_for_judge: The prompt specifies the camera returns until the glass is back in the center.

@@ -1,0 +1,68 @@
+id: billiard_break_00
+level: 3
+category: relational_state
+tags: []
+variant_of: billiard_break
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The white cue ball is struck with high force, causing it to slide rapidly toward the center
+    of the stationary triangle. The table is level and the balls are perfectly spherical. Camera remains
+    stationary throughout. No zoom, no cut, no scene change. STOP.
+  camera_WM: The white cue ball is struck with high force, causing it to slide rapidly toward the center
+    of the stationary triangle. The table is level and the balls are perfectly spherical. Camera remains
+    stationary throughout. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A green pool table viewed from the foot end. In the immediate foreground, a
+    set of 15 billiard balls is arranged in a tight triangular rack with the apex ball facing away from
+    the camera. In the background, at the far end of the table, a white cue ball sits on the felt. The
+    room features wood paneling, a fireplace on the right, a cue rack on the left, and a three-shade light
+    fixture hanging above the table.
+  init2final_edit_prompt: Edit the given image to show the aftermath of a pool break shot. The triangular
+    formation of colored balls in the foreground must be completely scattered, with the balls dispersed
+    randomly across the green felt surface in different directions. The white cue ball must be moved from
+    its distant background position to a new location on the table, potentially amidst the scattered balls.
+    The background room, fireplace, and lighting must remain exactly unchanged.
+  rationale: The prompt describes a break shot, which is a high-energy collision event. The cue ball travels
+    from the head of the table (background) to the foot (foreground), striking the stationary rack. Upon
+    impact, the conservation of momentum and energy transfer causes the tightly packed object balls to
+    scatter rapidly in all directions across the table surface. The final state represents a transition
+    from a highly ordered state (the rack) to a disordered state (scattered balls), while the static environment
+    remains constant.
+  questions:
+  - id: formation_broken
+    question: Is the initial triangular formation of the colored balls completely broken apart?
+    answer_type: yes_no
+    notes_for_judge: The balls should no longer be in a tight triangle.
+  - id: balls_scattered
+    question: Are the colored object balls distributed over a wider area of the table than in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: Check for spatial dispersion/scattering.
+  - id: cue_ball_moved
+    question: Has the white cue ball moved from its original position in the background?
+    answer_type: yes_no
+    notes_for_judge: The cue ball should not be in the starting spot.
+  - id: cue_ball_visible
+    question: Is the white cue ball visible on the table surface?
+    answer_type: yes_no
+    notes_for_judge: It should still be on the table, just in a new spot.
+  - id: separation
+    question: Is there visible green felt space between most of the colored balls?
+    answer_type: yes_no
+    notes_for_judge: Balls should be separated, not touching in a cluster.
+  - id: background_invariant
+    question: Are the fireplace and wall paneling in the background unchanged?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: ball_conservation
+    question: Does the scene still contain approximately the same set of colored billiard balls?
+    answer_type: yes_no
+    notes_for_judge: Balls should not disappear or multiply significantly.

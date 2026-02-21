@@ -1,0 +1,67 @@
+id: syringe_hydraulic_04
+level: 3
+category: relational_state
+tags: []
+variant_of: syringe_hydraulic
+variation_type: dynamic_condition
+variation_description: The tubing connecting the syringes is disconnected, breaking the hydraulic link.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Tubing is detached from the right syringe.
+  expected_outcome_change: Right plunger does not move; fluid spills onto tray instead of transferring.
+prompts:
+  init_frame_edit_prompt: Edit the image to show the plastic tubing disconnected from the right syringe,
+    with the open end lying loose on the metal tray.
+  video_WM: A mechanical finger begins pressing the plunger of the left syringe. The tubing connecting
+    the syringes is detached at one end, lying open on the tray. The pressing continues at a constant
+    rate. The camera rotates right until both syringes completely exit the view, then rotates toward the
+    left smoothly at the same rate until the right syringe is back in the center of view. No zoom, no
+    cut, no scene change. STOP.
+  camera_WM: A mechanical finger begins pressing the plunger of the left syringe. The tubing connecting
+    the syringes is detached at one end, lying open on the tray. The pressing continues at a constant
+    rate.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A metal medical tray lined with a white cloth or paper. Two syringes are present.
+    The left syringe is large (approx 50ml), filled with red liquid, and has its plunger extended. A clear
+    plastic tube is connected to the left syringe's nozzle. The tube is coiled on the tray, and its other
+    end is detached, lying open on the white liner near the center of the tray. To the right, a smaller
+    clear syringe lies flat, completely empty, with its plunger fully depressed (at the 0ml mark). A small
+    red cap or connector piece is lying loose on the tray between the tubing and the right syringe.
+  init2final_edit_prompt: Edit the image to show a pool of red liquid spilled onto the white cloth liner,
+    originating from the open end of the detached tubing. The right syringe must remain completely empty
+    with its plunger fully depressed. If the left syringe is visible, show its plunger pressed further
+    in with less red liquid inside.
+  rationale: The video prompt describes a mechanical finger pressing the plunger of the left syringe.
+    Crucially, the tubing connected to this syringe is detached at the other end, breaking the hydraulic
+    circuit. Therefore, the red liquid will be ejected from the open tube end onto the tray, creating
+    a spill. Because the right syringe is not connected to the tubing, it will not receive any liquid,
+    and its plunger will not move. The camera motion temporarily hides the syringes but returns to focus
+    on the right syringe; the physical state must reflect the accumulated spill and the unchanged state
+    of the uncoupled right syringe.
+  questions:
+  - id: q1_spill_presence
+    question: Is there a pool of red liquid on the white cloth that was not present in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Check for a new red stain or puddle on the tray liner near the tube end.
+  - id: q2_right_syringe_empty
+    question: Is the right syringe still completely empty of red liquid?
+    answer_type: yes_no
+    notes_for_judge: The right syringe should not fill because the tube is detached.
+  - id: q3_right_plunger_static
+    question: Is the plunger of the right syringe still fully depressed?
+    answer_type: yes_no
+    notes_for_judge: The plunger should not move as there is no hydraulic pressure transmitted to it.
+  - id: q4_liquid_location
+    question: Does the red liquid appear on the tray surface rather than inside the right syringe?
+    answer_type: yes_no
+    notes_for_judge: Verifies the liquid went to the correct location (tray) based on the open tube.
+  - id: q5_tube_detached
+    question: Is the tubing still detached from the right syringe?
+    answer_type: yes_no
+    notes_for_judge: The tube should not spontaneously attach.
+  - id: q6_spill_volume
+    question: Is the amount of red liquid on the tray greater than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: There should be more liquid on the tray due to the pressing action.

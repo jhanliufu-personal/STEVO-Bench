@@ -1,0 +1,66 @@
+id: parallel_mirror_infinity_08
+level: 3
+category: relational_state
+tags: []
+variant_of: parallel_mirror_infinity
+variation_type: combined
+variation_description: Flashlight tilts down (condition) + Lights go out (occlusion).
+changes:
+  occlusion_method: Lights turn off completely.
+  dynamic_conditions: Flashlight tilts toward floor.
+  expected_outcome_change: Reflections shift downward.
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The person begins to tilt the flashlight 45 degrees toward the floor. The mirrors remain perfectly
+    parallel. The lights in the room turn off completely, leaving the scene in pitch blackness. The lights
+    turn back on. No zoom, no cut, no scene change. STOP.
+  camera_WM: The person begins to tilt the flashlight 45 degrees toward the floor. The mirrors remain
+    perfectly parallel. The lights in the room turn off completely, leaving the scene in pitch blackness.
+    The lights turn back on. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A person stands in the center of a dimly lit industrial room, holding a glowing
+    flashlight pointing directly forward at the camera. Two large rectangular mirrors are positioned on
+    the left and right, parallel to each other, creating an infinite reflection effect (infinity mirror).
+    The reflections show the person and the flashlight repeating into the distance on both sides. The
+    flashlight emits a warm orange-yellow glow.
+  init2final_edit_prompt: Edit the given image to change the person's pose so they are holding the flashlight
+    tilted downwards at a 45-degree angle pointing toward the floor. Ensure the beam of light from the
+    flashlight is directed at the ground. Crucially, update all reflections in the mirrors on both the
+    left and right sides to show the person and flashlight in this new downward-tilted position, maintaining
+    accurate perspective and mirror symmetry for the infinite regression. The scene should be fully illuminated
+    as in the original image.
+  rationale: 'The video prompt describes the person tilting the flashlight downward. Although the lights
+    turn off and then back on, the final state is illuminated, revealing the result of the physical action.
+    The core physical constraint is the coupling between the real object and its reflections: as the real
+    person changes pose, every reflection in the infinite mirror setup must update simultaneously to reflect
+    the new angle. The final image must show the flashlight tilted down in both reality and all reflections.'
+  questions:
+  - id: flashlight_tilt_real
+    question: Is the flashlight held by the central person now pointing downwards towards the floor?
+    answer_type: yes_no
+    notes_for_judge: Check the main subject's hand/flashlight orientation.
+  - id: reflection_coupling_left
+    question: Do the reflections in the left mirror show the flashlight in a tilted position corresponding
+      to the real person's pose?
+    answer_type: yes_no
+    notes_for_judge: The reflection must match the new state of the object.
+  - id: reflection_coupling_right
+    question: Do the reflections in the right mirror show the flashlight in a tilted position corresponding
+      to the real person's pose?
+    answer_type: yes_no
+    notes_for_judge: The reflection must match the new state of the object.
+  - id: deep_reflection_consistency
+    question: Are the deeper background reflections consistent with the foreground person's new downward-tilted
+      pose?
+    answer_type: yes_no
+    notes_for_judge: In an infinity mirror, all iterations should show the change.
+  - id: lighting_state
+    question: Is the room illuminated (i.e., not pitch black)?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the lights turn back on.
+  - id: mirror_symmetry_maintained
+    question: Is the infinite mirror effect preserved with the updated pose visible in the layers?
+    answer_type: yes_no
+    notes_for_judge: The mirrors should not disappear; they should just show the new content.

@@ -1,0 +1,63 @@
+id: seesaw_balance_02
+level: 3
+category: relational_state
+tags: []
+variant_of: seesaw_balance
+variation_type: occlusion_method
+variation_description: Camera zooms out until the scene is indiscernible, then zooms back in.
+changes:
+  occlusion_method: Camera zoom out.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A person begins lifting the left sandbag and its seat off the ground. The motion continues.
+    The camera zooms out rapidly and continuously until the playground is just a tiny, indiscernible dot
+    in the distance. Then, the camera zooms back in smoothly to the exact original framing. No cut, no
+    scene change. STOP.
+  camera_WM: A person begins lifting the left sandbag and its seat off the ground. The motion continues.
+    STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+evaluation:
+  init_frame_description: A playground scene featuring a wooden seesaw. On the left seat, which is resting
+    on the ground, there is a burlap sack labeled '20 KG SAND'. The seesaw beam is tilted upwards from
+    left to right. The right seat is empty and elevated in the air. The ground is covered in wood chips,
+    and trees are visible in the background.
+  init2final_edit_prompt: Edit the given image to show the seesaw tilted in the opposite direction. The
+    left seat with the sandbag should be raised high in the air, and the right seat should be lowered
+    down near the ground.
+  rationale: The prompt describes a person lifting the left side of the seesaw (the side with the sandbag).
+    The phrase 'the motion continues' implies that this lifting action is sustained or completed during
+    the camera's zoom-out and zoom-in sequence. Due to the mechanical coupling of the seesaw, lifting
+    the left side must cause the right side to descend. Therefore, in the final frame, the left seat should
+    be elevated and the right seat should be lowered, reversing the initial state.
+  questions:
+  - id: left_seat_height_change
+    question: Is the left seat with the sandbag higher than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The left side started on the ground and should be lifted.
+  - id: right_seat_height_change
+    question: Is the right seat lower than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The right side started in the air and should move down as the left side is lifted.
+  - id: sandbag_ground_contact
+    question: Is the sandbag lifted off the ground?
+    answer_type: yes_no
+    notes_for_judge: The sandbag should no longer be resting on the wood chips.
+  - id: seesaw_slope_inversion
+    question: Does the seesaw beam now slope downwards from left to right?
+    answer_type: yes_no
+    notes_for_judge: Initially it sloped upwards; the action should invert this slope.
+  - id: relative_seat_position
+    question: Is the left seat higher than the right seat in the final frame?
+    answer_type: yes_no
+    notes_for_judge: Checks the final relative configuration of the coupled objects.
+  - id: sandbag_conservation
+    question: Is the '20 KG SAND' bag still present on the left seat?
+    answer_type: yes_no
+    notes_for_judge: Tests object permanence/conservation.
+  - id: background_consistency
+    question: Are the trees and background elements consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary check for environment stability.

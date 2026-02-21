@@ -1,0 +1,65 @@
+id: tea_dilution_05
+level: 3
+category: relational_state
+tags: []
+variant_of: tea_dilution
+variation_type: dynamic_condition
+variation_description: Liquid changed to high-viscosity syrup.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Pouring thick, viscous syrup instead of thin liquid.
+  expected_outcome_change: The liquid should pile up at the bottom and diffuse very slowly, rather than
+    swirling rapidly.
+prompts:
+  init_frame_edit_prompt: Edit the image to make the pouring liquid thick, glossy, and viscous like molasses,
+    and show it piling up slightly at the bottom of the glass instead of diffusing into a cloud.
+  video_WM: Thick, viscous molasses is poured into the water. The liquid is heavy and sinks without immediate
+    mixing. The camera rotates right until both containers completely exit the view, then rotates toward
+    the left smoothly at the same rate until the glass is back in the center of view. No zoom, no cut,
+    no scene change. STOP.
+  camera_WM: Thick, viscous molasses is poured into the water. The liquid is heavy and sinks without immediate
+    mixing. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A clear glass sits on a wooden table, partially filled with clear water. A ceramic
+    pitcher is pouring a thick, dark, viscous liquid (molasses) into the glass. The molasses forms a coherent,
+    dark stream that sinks through the water and coils into a pile at the bottom of the glass, remaining
+    distinct from the water. Steam rises from the glass.
+  init2final_edit_prompt: Edit the given image to show a significantly larger amount of dark, viscous
+    molasses accumulated at the bottom of the glass. The pile of coiled molasses should occupy more volume
+    in the lower part of the glass than before. The overall liquid level in the glass should be slightly
+    higher to reflect the added volume. Keep the molasses distinct from the water, showing it settled
+    at the bottom rather than mixed.
+  rationale: The video prompt describes a continuous pouring action while the camera pans away and then
+    returns. During the time the glass is out of view, more molasses is poured into it. Due to the physical
+    properties described (heavy, viscous, sinks without mixing), the molasses accumulates at the bottom.
+    Therefore, upon the camera's return, the glass must contain a larger volume of molasses coiled at
+    the bottom, and the water level must rise correspondingly due to displacement.
+  questions:
+  - id: molasses_accumulation
+    question: Is the amount of dark molasses at the bottom of the glass greater than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the volume of the dark pile at the bottom; it should be larger.
+  - id: liquid_level_displacement
+    question: Is the total level of liquid in the glass higher than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Adding volume (molasses) must displace the water upwards.
+  - id: viscosity_separation
+    question: Does the dark liquid remain mostly distinct and settled at the bottom relative to the clear
+      water?
+    answer_type: yes_no
+    notes_for_judge: Tests the 'sinks without immediate mixing' constraint.
+  - id: camera_return
+    question: Is the glass positioned in the center of the frame?
+    answer_type: yes_no
+    notes_for_judge: The camera rotates back to the center.
+  - id: table_consistency
+    question: Is the wooden table surface still visible beneath the glass?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: stream_presence
+    question: Is the stream of molasses either still pouring or has the accumulation clearly increased?
+    answer_type: yes_no
+    notes_for_judge: Allows for the pour to be ongoing or just finished, as long as the state change (more
+      molasses) is evident.

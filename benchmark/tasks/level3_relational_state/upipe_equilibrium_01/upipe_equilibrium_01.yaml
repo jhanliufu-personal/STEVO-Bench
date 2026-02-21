@@ -1,0 +1,68 @@
+id: upipe_equilibrium_01
+level: 3
+category: relational_state
+tags: []
+variant_of: upipe_equilibrium
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to a large object blocking the view.
+changes:
+  occlusion_method: Object blocking (large lab notebook)
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A mechanical arm begins pushing the left piston down into the pipe. The movement is steady
+    and continuous. A large opaque lab notebook slides from the right to cover the entire view, blocking
+    the U-pipe completely. After a moment, the notebook slides back to the right, revealing the U-pipe
+    again. No cut, no scene change. STOP.
+  camera_WM: A mechanical arm begins pushing the left piston down into the pipe. The movement is steady
+    and continuous. A large opaque lab notebook slides from the right to cover the entire view, blocking
+    the U-pipe completely. After a moment, the notebook slides back to the right, revealing the U-pipe
+    again. No cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A U-shaped glass tube (U-pipe) sits on a wooden table, partially filled with
+    a clear blue liquid. The left arm of the tube is sealed with a black piston mechanism consisting of
+    a stopper and a plunger handle. The right arm of the tube is open at the top. The liquid levels in
+    both arms are approximately equal. The background features blurred laboratory equipment and a window.
+  init2final_edit_prompt: Edit the given image to show the black piston on the left side pushed significantly
+    further down into the glass tube. Lower the level of the blue liquid in the left arm to be immediately
+    beneath the lowered piston. Raise the level of the blue liquid in the right arm significantly, making
+    it much higher than the level in the left arm, to represent the displacement of the fluid. Ensure
+    the rise in the right arm corresponds volumetrically to the drop in the left arm.
+  rationale: The prompt describes a mechanical action pushing the left piston down. In a communicating
+    vessel system filled with incompressible liquid, pushing the liquid down on one side must cause it
+    to rise on the other side to conserve volume. During the occlusion, the piston moves down, displacing
+    fluid from the left arm to the right arm. When revealed, the left liquid level must be lower (matching
+    the piston) and the right liquid level must be significantly higher.
+  questions:
+  - id: piston_lowered
+    question: Is the black piston on the left side positioned lower than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the position of the black stopper/plunger relative to the tube markings or
+      the table.
+  - id: right_level_rise
+    question: Is the blue liquid level in the right arm higher than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The liquid on the right should have risen due to displacement from the left.
+  - id: relative_levels
+    question: Is the liquid level in the right arm now clearly higher than the liquid level in the left
+      arm?
+    answer_type: yes_no
+    notes_for_judge: Initially they were equal; now the left should be pushed down and the right pushed
+      up.
+  - id: volume_conservation
+    question: Does the rise in the right arm's liquid level appear roughly proportional to the drop in
+      the left arm's liquid level?
+    answer_type: yes_no
+    notes_for_judge: Check for conservation of volume; the amount lost on the left should equal the amount
+      gained on the right.
+  - id: occlusion_cleared
+    question: Is the U-pipe fully visible and unobstructed by the lab notebook?
+    answer_type: yes_no
+    notes_for_judge: The notebook should have slid back to reveal the pipe.
+  - id: liquid_color_consistency
+    question: Is the liquid in the right arm still the same blue color as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Basic consistency check.

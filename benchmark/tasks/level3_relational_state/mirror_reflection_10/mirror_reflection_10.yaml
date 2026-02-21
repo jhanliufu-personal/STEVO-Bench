@@ -1,0 +1,75 @@
+id: mirror_reflection_10
+level: 3
+category: relational_state
+tags: []
+variant_of: mirror_reflection
+variation_type: combined
+variation_description: Cube pushed away from mirror + Camera physically moves backward.
+changes:
+  occlusion_method: Camera moves physically backward (dolly out) then returns.
+  dynamic_conditions: Object is a cube; Direction is away from mirror.
+  expected_outcome_change: Cube slides further away from mirror.
+prompts:
+  init_frame_edit_prompt: Edit the image to replace the red billiard ball with a red cube of the same
+    size and material.
+  video_WM: A hand pushes the red cube directly away from the mirror at a steady speed. The cube slides
+    on the table surface. The camera physically moves backward, retreating from the table until the objects
+    are too far to see clearly. The camera then moves forward, returning to the original position. No
+    zoom, no cut, no scene change. STOP.
+  camera_WM: A hand pushes the red cube directly away from the mirror at a steady speed. The cube slides
+    on the table surface. The geometric relationship between the object and its reflection is maintained.
+    STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A red cube rests on a wooden table surface in front of a wooden-framed mirror.
+    The mirror reflects the back of the red cube and a green pool table located in the room behind the
+    camera. The cube is positioned relatively close to the mirror frame.
+  init2final_edit_prompt: Edit the given image to move the red cube significantly further away from the
+    mirror, positioning it closer to the bottom edge of the frame (the foreground). Ensure the reflection
+    of the cube in the mirror is updated to appear deeper inside the reflected room, making the visual
+    gap between the real cube and its reflection much larger than in the original image.
+  rationale: The video prompt describes a hand pushing the cube directly away from the mirror. Physically,
+    this moves the object closer to the camera (the viewer). According to the laws of optics, as an object
+    moves away from a plane mirror, its reflection moves deeper into the virtual space behind the mirror.
+    Therefore, the final state must show the real cube closer to the foreground and the reflected cube
+    further in the background, resulting in an increased distance between the object and its reflection.
+    The camera movement (retreat and return) ensures the final viewpoint matches the initial one, isolating
+    the change to the object's position.
+  questions:
+  - id: cube_position_relative_to_mirror
+    question: Is the real red cube positioned further away from the mirror frame than it was in the initial
+      image?
+    answer_type: yes_no
+    notes_for_judge: The cube should have moved towards the camera, increasing the distance from the mirror
+      base.
+  - id: reflection_object_separation
+    question: Is the distance between the real red cube and its reflection in the mirror greater than
+      in the initial image?
+    answer_type: yes_no
+    notes_for_judge: 'This is the key relational check: as the object moves away from the mirror, the
+      separation between object and reflection must increase.'
+  - id: cube_foreground_position
+    question: Is the real red cube closer to the bottom edge of the image (the foreground) compared to
+      the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Moving 'away from the mirror' in this perspective means moving towards the camera/viewer.
+  - id: reflection_depth
+    question: Does the reflection of the red cube appear to be further back (deeper) in the mirror compared
+      to the initial reflection?
+    answer_type: yes_no
+    notes_for_judge: The virtual image moves away from the mirror surface as the real object moves away.
+  - id: mirror_symmetry_check
+    question: Are the real cube and its reflection aligned such that they still appear to be on the same
+      line perpendicular to the mirror?
+    answer_type: yes_no
+    notes_for_judge: The push was 'directly away', so lateral alignment should be preserved.
+  - id: background_consistency
+    question: Is the reflection of the pool table still visible and consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The background environment should not change.
+  - id: camera_return_check
+    question: Is the framing of the mirror and table consistent with the initial image (indicating the
+      camera returned to the start)?
+    answer_type: yes_no
+    notes_for_judge: The camera should have returned to the original position.

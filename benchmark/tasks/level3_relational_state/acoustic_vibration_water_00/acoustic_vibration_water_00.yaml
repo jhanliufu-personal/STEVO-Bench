@@ -1,0 +1,63 @@
+id: acoustic_vibration_water_00
+level: 3
+category: relational_state
+tags: []
+variant_of: acoustic_vibration_water
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A rubber mallet strikes the tuning fork, causing it to vibrate with a loud, continuous hum.
+    The fork is positioned inches away from the glass. The surface of the water inside the glass is visible.
+    Camera remains stationary throughout, keeping the tuning fork, the glass, and the water surface fully
+    in view. No zoom, no cut, no scene change. STOP.
+  camera_WM: A rubber mallet strikes the tuning fork, causing it to vibrate with a loud, continuous hum.
+    The fork is positioned inches away from the glass. The surface of the water inside the glass is visible.
+    Camera remains stationary throughout, keeping the tuning fork, the glass, and the water surface fully
+    in view. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A metal tuning fork is clamped horizontally to a wooden block on the left, with
+    its prongs pointing towards a clear glass bowl filled with water on the right. A rubber mallet lies
+    on the dark table surface in the foreground. The water surface is calm and flat. The tuning fork prongs
+    are sharp and in focus.
+  init2final_edit_prompt: Edit the given image to show the tuning fork vibrating, making the prongs appear
+    blurry and indistinct. The surface of the water in the glass bowl should show visible ripples or concentric
+    wave patterns. The rubber mallet should be positioned differently on the table, or oriented differently,
+    indicating it has been moved.
+  rationale: The prompt describes a mallet striking a tuning fork, which causes it to vibrate. In the
+    final state, the tuning fork's prongs should appear blurry due to the rapid oscillation. Because the
+    fork is clamped to a block resting on the same table as the water bowl, the mechanical vibrations
+    will transfer through the table, causing the coupled water surface to ripple (standing waves or Faraday
+    ripples). The mallet must have moved to perform the strike, so its final position should be different
+    from the initial state. The water volume should be conserved.
+  questions:
+  - id: fork_vibration_blur
+    question: Do the prongs of the tuning fork appear blurry or indistinct compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Check for motion blur on the fork tips indicating vibration.
+  - id: water_ripples
+    question: Is the surface of the water in the bowl disturbed with ripples or waves?
+    answer_type: yes_no
+    notes_for_judge: The water should no longer be perfectly calm; look for texture or concentric lines.
+  - id: mallet_moved
+    question: Is the rubber mallet in a different position or orientation than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The mallet must have moved to strike the fork.
+  - id: water_conservation
+    question: Does the bowl still appear to contain approximately the same amount of water?
+    answer_type: yes_no
+    notes_for_judge: Water should not have disappeared or significantly increased.
+  - id: spatial_separation
+    question: Is the tuning fork still positioned without touching the water?
+    answer_type: yes_no
+    notes_for_judge: The prompt specifies the fork is 'inches away', so they should not be touching.
+  - id: bowl_stationary
+    question: Is the glass bowl in the same location on the table relative to the wooden block?
+    answer_type: yes_no
+    notes_for_judge: The objects should not slide around the table, only vibrate.

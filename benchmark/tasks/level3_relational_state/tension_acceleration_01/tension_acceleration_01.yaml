@@ -1,0 +1,72 @@
+id: tension_acceleration_01
+level: 3
+category: relational_state
+tags: []
+variant_of: tension_acceleration
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to a large object blocking the view.
+changes:
+  occlusion_method: A large opaque whiteboard rolls in front of the view and then rolls away.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The suspended 5kg weight is released from a stationary state. The string is taut and the cart's
+    wheels are frictionless. A large opaque whiteboard rolls into the frame from the right, completely
+    blocking the view of the experiment, then rolls back to the right to reveal the scene again. No zoom,
+    no cut, no scene change. STOP.
+  camera_WM: The suspended 5kg weight is released from a stationary state. The string is taut and the
+    cart's wheels are frictionless. A large opaque whiteboard rolls into the frame from the right, completely
+    blocking the view of the experiment, then rolls back to the right to reveal the scene again. No zoom,
+    no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A physics lab setup on a wooden table. A plastic cart labeled '1KG' with black
+    wheels sits on the table surface, connected by a white string to a hanging metal weight labeled '5KG'.
+    The string runs over a metal pulley clamped to the left edge of the table. A wooden meter stick and
+    a silver stopwatch lie on the table near the cart. In the background, there are lab stools and other
+    tables.
+  init2final_edit_prompt: Edit the given image to show the '1KG' plastic cart positioned at the far left
+    end of its track, touching or immediately adjacent to the metal pulley clamp. Correspondingly, show
+    the hanging '5KG' weight positioned significantly lower in the frame, reflecting the distance the
+    cart has traveled. Ensure the string remains taut and connected between the cart and the weight.
+  rationale: The 5kg hanging mass is significantly heavier than the 1kg cart. Upon release, the system
+    will experience high acceleration (approx 0.8g) towards the left. Given the short distance to the
+    pulley and the likely duration of the whiteboard occlusion (several seconds), the cart will traverse
+    the entire available distance and stop at the pulley clamp. The hanging weight will drop by a corresponding
+    distance. The final state should show the system at this limit configuration.
+  questions:
+  - id: cart_position_left
+    question: Is the 1KG cart positioned closer to the pulley than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The cart must move to the left due to the tension from the falling weight.
+  - id: weight_position_lower
+    question: Is the 5KG hanging weight lower than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The weight must fall to pull the cart.
+  - id: string_horizontal_length
+    question: Is the horizontal segment of the string (between pulley and cart) shorter than in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: As the cart approaches the pulley, the horizontal string length decreases.
+  - id: string_vertical_length
+    question: Is the vertical segment of the string (holding the weight) longer than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: As the weight drops, the vertical string length increases.
+  - id: coupled_motion
+    question: Did the cart move left AND the weight move down?
+    answer_type: yes_no
+    notes_for_judge: Checks for the coupled nature of the system.
+  - id: stopwatch_static
+    question: Is the stopwatch in the same position on the table?
+    answer_type: yes_no
+    notes_for_judge: The stopwatch is not connected to the system and should not move.
+  - id: meter_stick_static
+    question: Is the wooden meter stick in the same position?
+    answer_type: yes_no
+    notes_for_judge: The meter stick is a static reference object.
+  - id: cart_orientation
+    question: Is the cart still upright on its wheels?
+    answer_type: yes_no
+    notes_for_judge: The cart should roll, not flip over arbitrarily.

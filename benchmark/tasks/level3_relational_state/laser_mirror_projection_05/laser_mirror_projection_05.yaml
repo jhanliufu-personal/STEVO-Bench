@@ -1,0 +1,67 @@
+id: laser_mirror_projection_05
+level: 3
+category: relational_state
+tags: []
+variant_of: laser_mirror_projection
+variation_type: dynamic_condition
+variation_description: Motor is disconnected, so no rotation occurs.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Motor is unpowered/stationary.
+  expected_outcome_change: Laser spot remains in the initial position (no movement).
+prompts:
+  init_frame_edit_prompt: Edit the image to show the power cable unplugged from the motor base, lying
+    on the table.
+  video_WM: The motorized base remains stationary as it is disconnected from power. The laser pointer
+    and the white screen remain fixed in place. The camera rotates right until the mirror and laser completely
+    exit the view, then rotates toward the left smoothly at the same rate until the white screen is back
+    in the center of view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The motorized base remains stationary as it is disconnected from power. The laser pointer
+    and the white screen remain fixed in place. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A physics experiment setup on a wooden table featuring a green laser pointer
+    on a stand (left), a central rotating mirror assembly mounted on a stepper motor (center), and a white
+    projection screen (right). A green laser beam travels from the pointer to the mirror and reflects
+    onto the screen, creating a bright green curved arc trace, indicating the mirror is spinning. The
+    background includes a blackboard and other lab equipment.
+  init2final_edit_prompt: Edit the given image to show the system in a static state where the mirror has
+    stopped spinning. Remove the curved green laser arc on the white screen and replace it with a single
+    bright green laser dot located somewhere along the original path of the arc. Ensure the green laser
+    beam traveling from the pointer to the central mirror remains visible. Keep the laser pointer, the
+    motorized base, the white screen, and the background classroom environment exactly unchanged. The
+    final image should look identical to the original except for the laser reflection changing from a
+    curve to a single point.
+  rationale: The prompt specifies that the motorized base is disconnected from power and remains stationary.
+    Physically, this means the mirror stops rotating. The curved arc in the initial frame is a time-integrated
+    effect of the spinning mirror; once the mirror stops, the laser reflection becomes a single stationary
+    point. The laser pointer itself remains fixed and powered (only the base is disconnected), so the
+    beam persists. The camera movement pans away and returns to the initial view, so the final frame should
+    have the same framing as the initial frame but with the updated physical state (dot instead of arc).
+  questions:
+  - id: laser_state_change_arc
+    question: Is the curved green laser arc on the screen no longer visible?
+    answer_type: yes_no
+    notes_for_judge: The arc should be gone because the mirror stopped spinning.
+  - id: laser_state_change_dot
+    question: Is there a single green laser dot visible on the white screen?
+    answer_type: yes_no
+    notes_for_judge: The reflection should now be a single point.
+  - id: laser_beam_persistence
+    question: Is the green laser beam from the pointer to the mirror still visible?
+    answer_type: yes_no
+    notes_for_judge: The laser pointer itself was not turned off, only the motor.
+  - id: dot_position_consistency
+    question: Is the single laser dot located along the path where the arc was previously?
+    answer_type: yes_no
+    notes_for_judge: The mirror stops at an arbitrary angle, but the reflection must lie on the original
+      scan plane.
+  - id: screen_position_invariant
+    question: Is the white screen in the same position relative to the background as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The screen is fixed in place.
+  - id: pointer_position_invariant
+    question: Is the laser pointer in the same position as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The pointer is fixed in place.

@@ -1,0 +1,73 @@
+id: magnetic_slingshot_06
+level: 3
+category: relational_state
+tags: []
+variant_of: magnetic_slingshot
+variation_type: dynamic_condition
+variation_description: Changed the rail surface from frictionless to high-friction sandpaper.
+changes:
+  occlusion_method: null
+  dynamic_conditions: High friction surface opposes motion.
+  expected_outcome_change: Moving puck slows down significantly, potentially stopping before interaction.
+prompts:
+  init_frame_edit_prompt: Edit the image to change the text 'FRICTIONLESS RAIL' to 'HIGH FRICTION SURFACE'
+    and give the clear rail floor a rough, sandpaper-like texture.
+  video_WM: The first magnetic puck moves along the rail toward the second stationary puck. The rail surface
+    is rough and provides significant friction. The repulsion between the two North poles is present.
+    The camera rotates right until the rail completely exits the view, then rotates toward the left smoothly
+    at the same rate until the center-point of the rail is back in the center of view. No zoom, no cut,
+    no scene change. STOP.
+  camera_WM: The first magnetic puck moves along the rail toward the second stationary puck. The rail
+    surface is rough and provides significant friction. The repulsion between the two North poles is present.
+    STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A clear plastic inclined rail filled with a rough, sandy high-friction surface.
+    Two cylindrical metal pucks are placed on the sand. The upper puck is positioned near the top left
+    of the incline, and the lower puck is near the middle. Both pucks have a red letter 'N' visible on
+    their flat circular faces, which face the camera. A whiteboard with physics equations and a diagram
+    is in the background.
+  init2final_edit_prompt: Edit the given image to show the result of the magnetic interaction. Move the
+    upper magnetic puck down the inclined rail to a position near the middle, roughly where the lower
+    puck was initially located. Move the lower magnetic puck significantly further down the rail, positioning
+    it near the bottom edge of the incline. Ensure both pucks remain resting on the sandy surface and
+    maintain the same camera angle and framing.
+  rationale: The video prompt describes a sequence where the camera pans away and then returns to the
+    original view, covering a period of time in which the physical interaction occurs. During this time,
+    the upper magnetic puck rolls down the incline due to gravity. As it approaches the stationary lower
+    puck, the magnetic repulsion between their North poles transfers momentum to the lower puck (a magnetic
+    slingshot effect). Consequently, the upper puck slows down or stops near the middle of the rail, while
+    the lower puck is propelled further down the slope, overcoming the friction. The final state should
+    show both pucks shifted down the incline, with the lower puck having moved further than the upper
+    one.
+  questions:
+  - id: top_puck_moved_down
+    question: Is the upper magnetic puck located lower on the rail than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the position of the top puck relative to the top edge of the rail or background
+      markers.
+  - id: bottom_puck_moved_down
+    question: Is the lower magnetic puck located further down the rail than its starting position?
+    answer_type: yes_no
+    notes_for_judge: The bottom puck should have been pushed down by the interaction.
+  - id: relative_order_preserved
+    question: Is the lower puck still positioned further down the slope than the upper puck?
+    answer_type: yes_no
+    notes_for_judge: The order of the pucks should not swap; the top one pushes the bottom one.
+  - id: separation_exists
+    question: Is there a visible gap between the two pucks?
+    answer_type: yes_no
+    notes_for_judge: Due to magnetic repulsion, they should not be touching.
+  - id: top_puck_not_at_bottom
+    question: Is the upper puck positioned higher up the rail than the very bottom edge?
+    answer_type: yes_no
+    notes_for_judge: The top puck should have slowed/stopped near the middle, not fallen off the end immediately.
+  - id: bottom_puck_near_end
+    question: Is the lower puck closer to the bottom end of the rail than the upper puck is?
+    answer_type: yes_no
+    notes_for_judge: Verifies the relational displacement.
+  - id: background_consistency
+    question: Are the whiteboard equations in the background still visible and unchanged?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

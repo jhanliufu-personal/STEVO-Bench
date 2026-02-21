@@ -1,0 +1,71 @@
+id: mirror_reflection_07
+level: 3
+category: relational_state
+tags: []
+variant_of: mirror_reflection
+variation_type: combined
+variation_description: Ball pushed away from mirror + Lights turn off occlusion.
+changes:
+  occlusion_method: Lights turn off completely.
+  dynamic_conditions: Direction of motion reversed (away from mirror).
+  expected_outcome_change: The ball and its reflection move further apart.
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A hand pushes the red ball directly away from the mirror at a steady speed. The ball remains
+    on the surface of the table. Suddenly, the lights in the room turn off completely, plunging the scene
+    into total darkness. After a few seconds, the lights turn back on. No zoom, no cut, no scene change.
+    STOP.
+  camera_WM: A hand pushes the red ball directly away from the mirror at a steady speed. The ball remains
+    on the surface of the table. Suddenly, the lights in the room turn off completely, plunging the scene
+    into total darkness. After a few seconds, the lights turn back on. No zoom, no cut, no scene change.
+    STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up view of a red billiard ball with the number 3 in a white circle resting
+    on a wooden surface. Behind the ball is a framed mirror reflecting the back of the red ball and a
+    pool table in the background. The real ball is positioned very close to the wooden frame of the mirror.
+  init2final_edit_prompt: Edit the given image to move the real red billiard ball significantly further
+    away from the mirror frame, positioning it closer to the bottom edge of the image. Correspondingly,
+    move the reflection of the red ball further back into the reflected depth of the mirror. Ensure the
+    distance between the real ball and its reflection is noticeably wider than in the original image.
+    The scene should remain fully illuminated with the ball resting on the wooden surface.
+  rationale: The prompt describes a physical action where the ball is pushed away from the mirror. According
+    to the laws of optics, as an object moves away from a mirror, its reflection appears to recede deeper
+    into the mirror. Therefore, the final state must show the real ball closer to the camera and the reflected
+    ball further 'inside' the mirror, resulting in a larger visual separation between the two. The blackout
+    period implies time has passed, allowing for significant displacement, but the final state requires
+    the lights to be back on.
+  questions:
+  - id: ball_position_real
+    question: Is the real red ball positioned further away from the mirror frame than it was in the initial
+      image?
+    answer_type: yes_no
+    notes_for_judge: The ball should be closer to the bottom of the image/viewer.
+  - id: reflection_position_depth
+    question: Does the reflection of the red ball appear further back inside the mirror than in the initial
+      image?
+    answer_type: yes_no
+    notes_for_judge: The reflection should move 'up' or deeper into the reflected scene.
+  - id: separation_increase
+    question: Is the distance between the real red ball and its reflection larger than in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: This tests the coupled relationship; as object distance increases, image distance
+      increases, widening the gap.
+  - id: lighting_check
+    question: Is the scene fully illuminated?
+    answer_type: yes_no
+    notes_for_judge: The prompt states lights turn back on.
+  - id: ball_identity
+    question: Is the red billiard ball still visible on the wooden surface?
+    answer_type: yes_no
+    notes_for_judge: Checks object permanence.
+  - id: reflection_existence
+    question: Is the reflection of the red ball still visible in the mirror?
+    answer_type: yes_no
+    notes_for_judge: Checks consistency of the mirror property.
+  - id: alignment_consistency
+    question: Is the reflection horizontally aligned with the real ball?
+    answer_type: yes_no
+    notes_for_judge: The push was 'directly away', so lateral alignment should be preserved.

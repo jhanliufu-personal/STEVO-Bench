@@ -65,7 +65,7 @@ class VeoRunner(WorldModelRunner):
                 image=image,
                 config=types.GenerateVideosConfig(
                     number_of_videos=1,
-                    aspect_ratio="9:16",
+                    aspect_ratio="16:9",
                     resolution="720p"
                 ),
             )
@@ -82,21 +82,26 @@ class VeoRunner(WorldModelRunner):
                     )
                     return False
 
-            # videos = operation.response.generated_videos
-            # if not videos:
-            #     print(f"[{self.name}] No videos returned for task {task_id}")
-            #     return False
-
-            # output_path.parent.mkdir(parents=True, exist_ok=True)
-            # client.files.download(
-            #     file=videos[0].video # , download_path=str(output_path)
-            # )
-
-            generated_video = operation.response.generated_videos[0]
-            if not generated_video:
-                print(f"[{self.name}] No videos returned for task {task_id}")
+            # Check for an API-level error (content policy rejection, bad params, etc.)
+            if operation.error:
+                print(
+                    f"[{self.name}] Generation failed for {task_id}: {operation.error}"
+                )
                 return False
 
+            videos = (
+                operation.response.generated_videos
+                if operation.response
+                else None
+            )
+            if not videos:
+                print(
+                    f"[{self.name}] No videos returned for {task_id} "
+                    f"(response: {operation.response})"
+                )
+                return False
+
+            generated_video = videos[0]
             client.files.download(file=generated_video.video)
             generated_video.video.save(str(output_path))
 

@@ -1,0 +1,66 @@
+id: silhouette_rotation_disk_01
+level: 3
+category: relational_state
+tags: []
+variant_of: silhouette_rotation_disk
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to lights turning off completely.
+changes:
+  occlusion_method: Lights turn off (pitch black) then turn back on
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The motorized base begins to rotate the flat circular disk slowly and steadily by exactly
+    90 degrees around its vertical axis. The spotlight and screen remain fixed in place. Suddenly, the
+    spotlight turns off completely, plunging the room into absolute darkness. After a brief pause, the
+    spotlight turns back on to illuminate the scene again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The motorized base begins to rotate the flat circular disk slowly and steadily by exactly
+    90 degrees around its vertical axis. The spotlight and screen remain fixed in place. Suddenly, the
+    spotlight turns off completely, plunging the room into absolute darkness. After a brief pause, the
+    spotlight turns back on to illuminate the scene again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A studio setting featuring a large, flat, circular metal disk mounted vertically
+    on a motorized turntable in the center. To the left, a spotlight is illuminated, pointing towards
+    the disk. To the right, a large white diffusion screen captures the shadow of the disk. In this initial
+    state, the disk is oriented edge-on to the camera (appearing as a thin vertical line), which means
+    its flat face is perpendicular to the light beam, casting a perfect circular shadow on the screen.
+  init2final_edit_prompt: Edit the given image to show the central metal disk rotated 90 degrees so that
+    its flat circular face is fully visible to the camera. Correspondingly, change the shadow on the white
+    screen from a large circle to a thin vertical line or narrow rectangular strip, representing the edge
+    profile of the disk. Ensure the spotlight is on and the scene is illuminated.
+  rationale: The prompt specifies a rotation of exactly 90 degrees. Geometrically, the disk starts edge-on
+    to the camera and face-on to the light source (hence the circular shadow). A 90-degree rotation around
+    the vertical axis places the disk face-on to the camera and edge-on to the light source. Therefore,
+    the visual state must show the full circle of the disk and a shadow that has collapsed into a thin
+    vertical strip. The blackout event is a distractor testing state permanence; the final frame must
+    show the scene illuminated again with the completed rotation.
+  questions:
+  - id: disk_orientation_face
+    question: Is the flat circular face of the disk now visible to the camera?
+    answer_type: yes_no
+    notes_for_judge: The disk should look like a circle, not a thin line.
+  - id: shadow_shape_change
+    question: Is the shadow on the screen now a thin vertical strip or line?
+    answer_type: yes_no
+    notes_for_judge: The shadow should no longer be a circle.
+  - id: shadow_width_reduction
+    question: Is the shadow significantly narrower than the circular shadow in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Checks for the reduction in shadow width due to the disk's edge profile.
+  - id: geometric_coupling
+    question: Is the relationship between the disk's orientation and the shadow shape consistent (face-on
+      disk to camera coupled with edge-on shadow)?
+    answer_type: yes_no
+    notes_for_judge: If the disk faces the camera, the light (from the side) hits its edge, creating a
+      thin shadow.
+  - id: light_state
+    question: Is the spotlight illuminated?
+    answer_type: yes_no
+    notes_for_judge: The scene should not be dark.
+  - id: disk_rotation_occurred
+    question: Does the disk appear to have rotated approximately 90 degrees from its starting position?
+    answer_type: yes_no
+    notes_for_judge: Compare with the initial edge-on view.

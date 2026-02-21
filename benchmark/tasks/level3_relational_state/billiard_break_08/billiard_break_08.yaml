@@ -1,0 +1,65 @@
+id: billiard_break_08
+level: 3
+category: relational_state
+tags: []
+variant_of: billiard_break
+variation_type: combined
+variation_description: Obstacle block combined with person blocking view.
+changes:
+  occlusion_method: Person walks in front of camera.
+  dynamic_conditions: Cinder block obstructs path.
+  expected_outcome_change: Ball hits block; rack undisturbed.
+prompts:
+  init_frame_edit_prompt: Edit the image to place a large, heavy cinder block on the table, positioned
+    directly between the cue ball and the rack of balls.
+  video_WM: The white cue ball is struck with high force toward the rack, but its path is obstructed by
+    a heavy cinder block. A person wearing a dark coat walks directly in front of the camera, completely
+    blocking the view of the table. The person pauses briefly, then walks away to reveal the table again.
+    No zoom, no cut, no scene change. STOP.
+  camera_WM: The white cue ball is struck with high force toward the rack, but its path is obstructed
+    by a heavy cinder block. A person wearing a dark coat walks directly in front of the camera, completely
+    blocking the view of the table. The person pauses briefly, then walks away to reveal the table again.
+    No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A green felt billiard table viewed from behind the rack. In the foreground,
+    a full set of colored billiard balls is arranged in a tight triangular rack. In the middle of the
+    table, a large gray cinder block stands upright. At the far end of the table, behind the cinder block,
+    a white cue ball is positioned on the felt.
+  init2final_edit_prompt: Edit the given image to show the aftermath of the shot where the cue ball was
+    blocked. Keep the triangular rack of colored billiard balls in the foreground completely undisturbed
+    and tightly packed in their original formation. Maintain the gray cinder block in the center of the
+    table in its original upright position. Reposition the white cue ball to a random location behind
+    the block or remove it to imply a deflection, ensuring that no colored balls have been scattered.
+  rationale: The prompt describes a cue ball struck towards the rack, but the path is blocked by a heavy
+    cinder block. Physically, the cue ball will collide with the block and bounce off, failing to reach
+    the rack of balls. The cinder block is too heavy to be knocked into the rack with sufficient force
+    to break it. Therefore, the primary relational state to preserve is that the obstacle protects the
+    target. The final frame must show the rack of balls completely intact and unscattered, distinguishing
+    this from a standard billiard break.
+  questions:
+  - id: rack_intact
+    question: Is the triangular rack of colored balls still tightly packed together?
+    answer_type: yes_no
+    notes_for_judge: The rack should not be broken; the balls should remain in a triangle.
+  - id: balls_undisturbed
+    question: Are the colored billiard balls still in their original formation?
+    answer_type: yes_no
+    notes_for_judge: The block prevents the break, so the formation must be unchanged.
+  - id: no_scatter
+    question: Is the green felt area around the rack free of scattered balls?
+    answer_type: yes_no
+    notes_for_judge: If the rack broke, balls would be scattered. They should not be.
+  - id: block_position
+    question: Is the cinder block still upright in the center of the table?
+    answer_type: yes_no
+    notes_for_judge: The block is heavy and should not move significantly.
+  - id: block_shielding
+    question: Does the scene show that the rack of balls was protected from the impact?
+    answer_type: yes_no
+    notes_for_judge: 'Interpretive question: does the outcome reflect the presence of the shield?'
+  - id: cue_ball_deflected
+    question: Is the white cue ball the only ball that appears to have changed position (or is missing)?
+    answer_type: yes_no
+    notes_for_judge: The colored balls must be static; only the cue ball moves.

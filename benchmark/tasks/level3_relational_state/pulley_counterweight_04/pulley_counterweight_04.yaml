@@ -1,0 +1,62 @@
+id: pulley_counterweight_04
+level: 3
+category: relational_state
+tags: []
+variant_of: pulley_counterweight
+variation_type: dynamic_condition
+variation_description: The force is applied to the right weight instead of the left weight.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Hand pulls the right weight down instead of the left.
+  expected_outcome_change: The right weight moves down and the left weight moves up (opposite of original).
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A hand begins pulling the right weight downward at a constant speed. The rope remains taut
+    across the pulley. The motion continues steadily. The camera rotates right until the pulley system
+    completely exits the view, then rotates toward the left smoothly at the same rate until the pulley
+    is back in the center of view. No zoom, no cut, no scene change. STOP.
+  camera_WM: A hand begins pulling the right weight downward at a constant speed. The rope remains taut
+    across the pulley. The motion continues steadily. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A low-angle shot of a rustic wooden ceiling beam with a metal pulley attached.
+    A thick rope runs over the pulley, supporting two identical cast-iron weights labeled '5KG IRON'.
+    The weights hang at approximately the same height, balanced in the center of the frame. The background
+    shows wooden rafters and a window on the right.
+  init2final_edit_prompt: Edit the given image so that the weight on the right is positioned significantly
+    lower than the weight on the left. The left weight should be raised closer to the pulley, while the
+    right weight hangs lower down, reflecting the rope being pulled. Ensure the rope remains taut and
+    connected over the pulley. Maintain the original camera angle and lighting.
+  rationale: 'The video describes a coupled physical system where a rope connects two weights over a fixed
+    pulley. As the right weight is pulled downward, the fixed length of the rope forces the left weight
+    to move upward by an equal distance. The camera rotation introduces a period of occlusion, during
+    which this motion continues. When the camera returns to the initial view, the state must reflect this
+    accumulated change: the right weight must be lower and the left weight must be higher than their starting
+    positions, breaking the initial symmetry.'
+  questions:
+  - id: relational_height_diff
+    question: Is the weight on the right positioned lower than the weight on the left?
+    answer_type: yes_no
+    notes_for_judge: In the initial frame, they are at the same height. The action pulls the right one
+      down, so it must be lower than the left one in the final frame.
+  - id: left_weight_rise
+    question: Is the left weight closer to the pulley than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: 'Coupled motion: pulling the right side down must pull the left side up.'
+  - id: right_weight_fall
+    question: Is the right weight lower than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Direct consequence of the pulling action.
+  - id: rope_tautness
+    question: Does the rope appear taut between the weights and the pulley?
+    answer_type: yes_no
+    notes_for_judge: 'Physics constraint: the rope supports the weights.'
+  - id: offset_magnitude
+    question: Is the vertical distance between the two weights greater than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Initially zero offset; finally non-zero offset.
+  - id: pulley_integrity
+    question: Is the pulley still attached to the wooden beam?
+    answer_type: yes_no
+    notes_for_judge: Invariant check.

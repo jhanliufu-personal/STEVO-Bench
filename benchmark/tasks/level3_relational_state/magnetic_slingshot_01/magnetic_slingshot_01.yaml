@@ -1,0 +1,65 @@
+id: magnetic_slingshot_01
+level: 3
+category: relational_state
+tags: []
+variant_of: magnetic_slingshot
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to an opaque object blocking the view.
+changes:
+  occlusion_method: A large opaque screen moves in front of the camera.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The first magnetic puck approaches the second stationary puck at high speed. The repulsion
+    between the two North poles is significant. Neither puck is attached to the rail. Suddenly, a large
+    opaque black screen slides in from the right, completely covering the rail and pucks from view. After
+    a moment, the screen slides back out to the right. No zoom, no cut, no scene change. STOP.
+  camera_WM: The first magnetic puck approaches the second stationary puck at high speed. The repulsion
+    between the two North poles is significant. Neither puck is attached to the rail. Suddenly, a large
+    opaque black screen slides in from the right, completely covering the rail and pucks from view. After
+    a moment, the screen slides back out to the right. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: Two cylindrical metallic pucks with red 'N' markings on their top faces are
+    positioned inside a clear acrylic inclined rail labeled 'FRICTIONLESS RAIL'. The rail is set against
+    a background of a whiteboard with physics equations. The upper puck is positioned higher up the slope
+    on the left, and the lower puck is positioned further down the slope on the right.
+  init2final_edit_prompt: Edit the given image to show the aftermath of the magnetic interaction. Move
+    the upper puck down the incline to approximately the position originally occupied by the lower puck.
+    Move the lower puck significantly further down the rail towards the bottom-right edge, creating a
+    much larger gap between the two pucks than in the original image. Ensure no opaque screen is visible.
+  rationale: The upper puck moves down the incline and interacts with the stationary lower puck via magnetic
+    repulsion (North-North poles). This acts as a collision where momentum is transferred from the moving
+    upper puck to the stationary lower puck. Consequently, the lower puck accelerates rapidly down the
+    rail, while the upper puck slows down significantly (likely stopping momentarily or moving slowly
+    near the point of interaction). The final state should show the upper puck lower down the track and
+    the lower puck much further down, with an increased distance between them.
+  questions:
+  - id: top_puck_moved_down
+    question: Is the upper puck positioned lower on the rail than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The upper puck should have slid down due to gravity and initial velocity.
+  - id: bottom_puck_moved_down
+    question: Is the lower puck positioned further down the rail than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The lower puck should have been repelled and moved down the slope.
+  - id: separation_increased
+    question: Is the distance between the two pucks significantly larger than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Due to the transfer of momentum and repulsion, the lead puck moves away faster, increasing
+      the gap.
+  - id: relative_order_preserved
+    question: Is the lower puck still positioned further down the slope than the upper puck?
+    answer_type: yes_no
+    notes_for_judge: The pucks repel and do not pass through each other; their relative order on the track
+      must remain the same.
+  - id: screen_removed
+    question: Is the view of the rail clear of any large opaque black screen?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the screen slides back out.
+  - id: puck_orientation
+    question: Are the red 'N' markings still visible on the top faces of the pucks?
+    answer_type: yes_no
+    notes_for_judge: The pucks slide and should not flip over.

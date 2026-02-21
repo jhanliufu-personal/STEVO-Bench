@@ -1,0 +1,70 @@
+id: magnetic_slingshot_05
+level: 3
+category: relational_state
+tags: []
+variant_of: magnetic_slingshot
+variation_type: dynamic_condition
+variation_description: Changed the moving object to a wooden block, removing magnetic interaction.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Moving object is wood, not magnetic. No field interaction.
+  expected_outcome_change: Direct physical collision occurs instead of contactless repulsion.
+prompts:
+  init_frame_edit_prompt: Edit the image to remove the red 'N' from the upper moving puck and change its
+    material to a light-colored wood texture.
+  video_WM: A wooden puck approaches a stationary magnetic puck at high speed. There are no magnetic forces
+    acting between the wood and the magnet. Neither puck is attached to the rail. The camera rotates right
+    until the rail completely exits the view, then rotates toward the left smoothly at the same rate until
+    the center-point of the rail is back in the center of view. No zoom, no cut, no scene change. STOP.
+  camera_WM: A wooden puck approaches a stationary magnetic puck at high speed. There are no magnetic
+    forces acting between the wood and the magnet. Neither puck is attached to the rail. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A physics demonstration setup featuring a clear acrylic inclined plane labeled
+    'FRICTIONLESS RAIL'. A cylindrical wooden puck is positioned on the upper portion of the rail. A cylindrical
+    metal puck with a red 'N' label is positioned further down the rail. In the background, a whiteboard
+    displays physics diagrams and equations.
+  init2final_edit_prompt: Edit the given image to show the aftermath of a collision on the inclined rail.
+    Position the wooden puck lower down the slope than its original location, roughly where the metal
+    puck was initially. Position the metal magnetic puck significantly further down the rail, near the
+    bottom edge or completely off the rail, to indicate it has been struck and propelled downward. Ensure
+    the background, whiteboard, and rail structure remain unchanged.
+  rationale: The prompt specifies the wooden puck approaches the stationary magnet at high speed. Upon
+    collision, momentum is transferred to the magnetic puck (which is likely heavier but on a frictionless
+    incline), causing it to slide rapidly down the rail. The wooden puck will either slow significantly,
+    stop, or bounce momentarily before gravity pulls it back down. During the camera occlusion, enough
+    time passes for the magnetic puck to travel far down the rail and for the wooden puck to settle at
+    a position lower than its starting point. Therefore, both objects must be displaced downward, with
+    the magnetic puck having traveled the furthest.
+  questions:
+  - id: wood_displacement
+    question: Is the wooden puck positioned lower on the rail than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The wood must have moved down to collide with the magnet and then continued or settled
+      lower due to gravity.
+  - id: magnet_displacement
+    question: Is the metal magnetic puck positioned further down the rail than in the initial frame, or
+      absent from the view?
+    answer_type: yes_no
+    notes_for_judge: The collision propels the magnet down the frictionless rail.
+  - id: relative_separation
+    question: Has the distance between the wooden puck and the metal puck increased compared to the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: The magnet should be propelled away faster than the wood follows, increasing the
+      gap.
+  - id: relative_order
+    question: Is the wooden puck still positioned higher up the slope than the metal puck (if the metal
+      puck is visible)?
+    answer_type: yes_no
+    notes_for_judge: The wood hits the magnet from behind; the magnet moves forward. The order (Wood ->
+      Magnet -> Bottom) should be preserved.
+  - id: wood_vs_magnet_start
+    question: Is the wooden puck now located at or below the position where the metal puck started?
+    answer_type: yes_no
+    notes_for_judge: To cause the collision, the wood must have reached the magnet's original position.
+  - id: rail_text_consistency
+    question: Is the text 'FRICTIONLESS RAIL' still visible and unchanged on the side of the apparatus?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

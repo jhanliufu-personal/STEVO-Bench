@@ -1,0 +1,72 @@
+id: pouring_water_into_cup_09
+level: 3
+category: relational_state
+tags: []
+variant_of: pouring_water_into_cup
+variation_type: combined
+variation_description: Pouring from nearly empty pitcher (runs out) with steam occlusion.
+changes:
+  occlusion_method: Thick steam fills view.
+  dynamic_conditions: Pitcher is nearly empty.
+  expected_outcome_change: Water stops flowing naturally; glass partially filled.
+prompts:
+  init_frame_edit_prompt: Edit the image so the pitcher appears nearly empty, with only a small amount
+    of water remaining.
+  video_WM: Single continuous shot, no cuts, no zoom, no scene transitions. Camera remains stationary
+    centered on the hand holding the nearly empty pitcher, pouring the remaining water. The hand continues
+    holding the pitcher in the same tilted position. Suddenly, thick white steam rapidly fills the frame,
+    completely obscuring the pitcher and glass. The steam swirls for several seconds. Then the steam dissipates,
+    clearing the view to reveal the scene again.
+  camera_WM: Single continuous shot, no cuts, no zoom, no scene transitions. Camera remains stationary
+    centered on the hand holding the nearly empty pitcher, pouring the remaining water. The hand continues
+    holding the pitcher in the same tilted position. Suddenly, thick white steam rapidly fills the frame,
+    completely obscuring the pitcher and glass. The steam swirls for several seconds. Then the steam dissipates,
+    clearing the view to reveal the scene again.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A close-up shot of a hand holding a clear glass pitcher, tilted to pour water
+    into a clear drinking glass sitting on a wooden table. A stream of water connects the pitcher spout
+    to the water in the glass. The glass is partially filled, roughly half to two-thirds full. The pitcher
+    contains a visible amount of water but is tilted significantly. The background shows a blurred window
+    frame.
+  init2final_edit_prompt: Edit the given image to show the aftermath of pouring more water. The water
+    level in the drinking glass should be significantly higher, making the glass appear fuller or nearly
+    full. The water level in the glass pitcher should be significantly lower or completely empty. If the
+    pitcher is empty, remove the active water stream; otherwise, reduce the volume of water remaining
+    in the pitcher. Maintain the position of the hand, the pitcher, and the glass on the table.
+  rationale: The video prompt establishes a continuous pouring action that is occluded by steam for several
+    seconds. During this time, the physical process of pouring continues. Conservation of mass dictates
+    that as water leaves the pitcher, it accumulates in the glass. Therefore, in the final frame, the
+    pitcher must contain less water (or be empty) and the glass must contain more water. The steam is
+    a visual distractor that passes, revealing the updated state of the coupled liquid system.
+  questions:
+  - id: glass_level_increase
+    question: Is the water level in the drinking glass higher than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the final water line in the glass to the initial frame. It must be higher.
+  - id: pitcher_level_decrease
+    question: Is the amount of water remaining in the pitcher less than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The pitcher should be emptier or completely empty.
+  - id: conservation_transfer
+    question: Does the change in water levels reflect a transfer of liquid from the pitcher to the glass?
+    answer_type: yes_no
+    notes_for_judge: Check if the glass gained water while the pitcher lost water (coupled state change).
+  - id: glass_fullness_relative
+    question: Is the drinking glass fuller relative to its capacity than it was initially?
+    answer_type: yes_no
+    notes_for_judge: The glass should appear more filled.
+  - id: pitcher_emptiness_relative
+    question: Is the pitcher significantly emptier relative to the initial state?
+    answer_type: yes_no
+    notes_for_judge: The water level in the source container must have dropped.
+  - id: background_consistency
+    question: Are the wooden table and window background preserved?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: hand_presence
+    question: Is the hand holding the pitcher still visible in the frame?
+    answer_type: yes_no
+    notes_for_judge: The prompt implies the hand continues holding the pitcher.

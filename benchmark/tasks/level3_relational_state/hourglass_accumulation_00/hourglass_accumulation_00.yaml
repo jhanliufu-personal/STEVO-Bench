@@ -1,0 +1,61 @@
+id: hourglass_accumulation_00
+level: 1
+category: scalar_state
+tags: []
+variant_of: hourglass_accumulation
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: An hourglass with sand in the top bulb stands in the center of view. Camera remains stationary
+    throughout. No zoom, no cut, no scene change. STOP.
+  camera_WM: An hourglass with sand in the top bulb stands in the center of view. Camera remains stationary
+    throughout. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A wooden hourglass stands on a scratched wooden desk in a study. The top glass
+    bulb contains a significant amount of white sand, with a visible surface level. A thin stream of sand
+    is trickling down through the neck into the bottom bulb. The bottom bulb contains a conical pile of
+    sand that has already accumulated. The background features blurred bookshelves filled with books and
+    a window providing natural light.
+  init2final_edit_prompt: Edit the given image so that the top bulb of the hourglass contains a noticeably
+    lower level of sand and the bottom bulb contains a larger, taller pile of accumulated sand.
+  rationale: The prompt specifies a stationary camera view of an hourglass with sand in the top bulb.
+    As the video progresses, the physical process of granular flow driven by gravity will continue. This
+    results in a continuous scalar change where the volume of sand in the upper reservoir decreases (lowering
+    the level) and the volume in the lower reservoir increases (raising the height of the pile). The surrounding
+    environment and camera angle remain invariant.
+  questions:
+  - id: top_level_lower
+    question: Is the level of sand in the top bulb lower than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the surface line of the sand in the top bulb against the initial image.
+  - id: bottom_pile_larger
+    question: Is the pile of sand in the bottom bulb larger than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Look for an increase in the volume or height of the bottom pile.
+  - id: top_empty_space
+    question: Is there more empty space visible in the top bulb compared to the start?
+    answer_type: yes_no
+    notes_for_judge: As sand drains, the empty volume at the top of the bulb increases.
+  - id: bottom_pile_taller
+    question: Has the peak of the sand pile in the bottom bulb grown taller?
+    answer_type: yes_no
+    notes_for_judge: The accumulation of sand should raise the height of the cone.
+  - id: mass_transfer
+    question: Does the bottom bulb contain more sand than it did initially?
+    answer_type: yes_no
+    notes_for_judge: Direct consequence of the flow.
+  - id: invariant_books
+    question: Are the books in the background shelves unchanged?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: invariant_position
+    question: Is the hourglass standing in the same position on the desk?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

@@ -1,0 +1,67 @@
+id: bellows_pressure_system_02
+level: 3
+category: relational_state
+tags: []
+variant_of: bellows_pressure_system
+variation_type: occlusion_method
+variation_description: The workshop lights turn off completely instead of the camera rotating.
+changes:
+  occlusion_method: 'Lighting change: Lights turn off, scene goes pitch black.'
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A mechanical press begins squeezing the handles of the bellows together at a constant speed.
+    The hose connection is secure. Suddenly, the workshop lights turn off, plunging the scene into complete
+    darkness. After a few seconds, the lights turn back on to reveal the scene again. No zoom, no cut,
+    no scene change. STOP.
+  camera_WM: A mechanical press begins squeezing the handles of the bellows together at a constant speed.
+    The hose connection is secure. Suddenly, the workshop lights turn off, plunging the scene into complete
+    darkness. After a few seconds, the lights turn back on to reveal the scene again. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A wooden bellows with leather accordion sides sits on a workbench covered in
+    wood shavings. The bellows handles are spread apart, indicating the chamber is full of air. A black
+    rubber hose connects the nozzle of the bellows to a deflated blue balloon lying flat on the table.
+    Various woodworking tools are visible in the background.
+  init2final_edit_prompt: Edit the given image to show the bellows compressed and the balloon inflated.
+    Bring the two wooden handles of the bellows closer together, collapsing the leather accordion chamber
+    between them. Make the blue balloon significantly larger, rounder, and taut, as if filled with the
+    air from the bellows. Ensure the hose remains connected to both the bellows and the balloon, and keep
+    the background workbench and tools unchanged.
+  rationale: The video prompt describes a mechanical press squeezing the bellows handles together. This
+    physical action reduces the volume of the bellows chamber, forcing air through the hose and into the
+    attached balloon. During the period of darkness (occlusion), this process continues. Therefore, in
+    the final frame, the bellows must appear compressed (handles closer, chamber collapsed) and the balloon
+    must appear inflated (larger volume) to satisfy the conservation of air mass within the coupled system.
+  questions:
+  - id: bellows_compressed
+    question: Are the wooden handles of the bellows closer together than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Check if the gap between the handles has decreased.
+  - id: bellows_chamber_collapsed
+    question: Is the leather accordion section of the bellows more collapsed or folded than in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: The chamber volume should be visibly reduced.
+  - id: balloon_inflated
+    question: Is the blue balloon larger and rounder than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The balloon should look inflated, not flat.
+  - id: balloon_volume_increase
+    question: Does the blue balloon appear to contain more air than it did initially?
+    answer_type: yes_no
+    notes_for_judge: Compare the apparent volume of the balloon.
+  - id: coupled_state_change
+    question: Does the scene show a coupled change where the bellows is smaller and the balloon is larger?
+    answer_type: yes_no
+    notes_for_judge: 'Both conditions must be true: bellows compressed AND balloon inflated.'
+  - id: hose_connection
+    question: Is the black hose still connected to both the bellows and the balloon?
+    answer_type: yes_no
+    notes_for_judge: The connection points should remain intact.
+  - id: background_consistency
+    question: Are the tools and wood shavings on the workbench in the same positions as the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Background elements should not change.

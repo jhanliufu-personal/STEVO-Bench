@@ -1,0 +1,64 @@
+id: magnetic_slingshot_09
+level: 3
+category: relational_state
+tags: []
+variant_of: magnetic_slingshot
+variation_type: combined
+variation_description: Wooden puck (non-magnetic) with lights off occlusion.
+changes:
+  occlusion_method: Lights turn off.
+  dynamic_conditions: No magnetic repulsion (wood on magnet).
+  expected_outcome_change: Physical collision.
+prompts:
+  init_frame_edit_prompt: Edit the image to remove the red 'N' from the upper moving puck and change its
+    material to a light-colored wood texture.
+  video_WM: A wooden puck approaches a stationary magnetic puck at high speed. There is no magnetic repulsion.
+    Suddenly, the room lights turn off, leaving the scene in pitch darkness. After a moment, the lights
+    turn back on. No zoom, no cut, no scene change. STOP.
+  camera_WM: A wooden puck approaches a stationary magnetic puck at high speed. There is no magnetic repulsion.
+    Suddenly, the room lights turn off, leaving the scene in pitch darkness. After a moment, the lights
+    turn back on. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A clear acrylic inclined plane labeled 'FRICTIONLESS RAIL' is positioned on
+    a metallic surface. Inside the rail channel, a cylindrical wooden puck is located on the upper left
+    section of the slope. Further down the slope to the right, a cylindrical metal puck with a large red
+    'N' printed on its top face is stationary. In the background, a whiteboard displays handwritten physics
+    diagrams and equations related to inclined planes and energy conservation.
+  init2final_edit_prompt: Edit the given image to show the aftermath of a collision on the ramp. Move
+    the metal puck with the red 'N' significantly further down the inclined rail, positioning it near
+    the bottom right end of the track. Move the wooden puck down the slope to a position roughly where
+    the metal puck was originally located, lower than its starting point. Ensure the scene is fully illuminated
+    with the lights on, and keep the background whiteboard and rail structure unchanged.
+  rationale: The video prompt describes a wooden puck sliding down to hit a stationary metal puck. Since
+    wood is non-magnetic, this is a standard mechanical collision. During the blackout, the wooden puck
+    travels down, strikes the metal puck, and transfers momentum. When the lights return, the metal puck
+    must have been propelled further down the ramp by the impact, and the wooden puck must be located
+    lower than its starting position (having traveled to the collision point).
+  questions:
+  - id: metal_puck_moved
+    question: Is the metal puck positioned further down the ramp than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The metal puck should have moved towards the bottom right due to the collision.
+  - id: wooden_puck_moved
+    question: Is the wooden puck positioned lower on the ramp than its starting position?
+    answer_type: yes_no
+    notes_for_judge: The wooden puck must have traveled down to hit the metal puck.
+  - id: relative_order
+    question: Is the metal puck still closer to the bottom of the ramp than the wooden puck?
+    answer_type: yes_no
+    notes_for_judge: The metal puck was lower initially and gets pushed further down; the wooden puck
+      cannot pass through it.
+  - id: lighting_restored
+    question: Does the scene appear fully illuminated (lights on)?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the lights turn back on.
+  - id: whiteboard_invariant
+    question: Are the physics equations on the background whiteboard unchanged?
+    answer_type: yes_no
+    notes_for_judge: Background should be static.
+  - id: rail_label_visible
+    question: Is the text 'FRICTIONLESS RAIL' still visible on the side of the apparatus?
+    answer_type: yes_no
+    notes_for_judge: Static object attribute.

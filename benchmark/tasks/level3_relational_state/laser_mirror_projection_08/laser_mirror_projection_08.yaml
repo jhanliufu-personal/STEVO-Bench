@@ -1,0 +1,75 @@
+id: laser_mirror_projection_08
+level: 3
+category: relational_state
+tags: []
+variant_of: laser_mirror_projection
+variation_type: combined
+variation_description: Motor rotates counter-clockwise and scene is occluded by fog.
+changes:
+  occlusion_method: Thick fog.
+  dynamic_conditions: Motor rotates counter-clockwise.
+  expected_outcome_change: Laser spot moves in the opposite direction.
+prompts:
+  init_frame_edit_prompt: Edit the image to add a label reading 'REVERSE' on the black motor controller
+    box.
+  video_WM: The motorized base begins to rotate the mirror slowly counter-clockwise. The laser pointer
+    and the white screen remain fixed in place. Suddenly, thick white fog pumps into the room, becoming
+    so dense that the equipment and the screen are completely obscured. After a moment, the fog clears
+    rapidly, revealing the scene again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The motorized base begins to rotate the mirror slowly counter-clockwise. The laser pointer
+    and the white screen remain fixed in place. Suddenly, thick white fog pumps into the room, becoming
+    so dense that the equipment and the screen are completely obscured. After a moment, the fog clears
+    rapidly, revealing the scene again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A physics lab setup featuring a green laser pointer mounted on a stand on the
+    left, directing a beam towards a central mirror mounted on a motorized rotating base labeled 'REVERSE'.
+    The beam reflects off the mirror and strikes a white projection screen on the right, creating a bright
+    green spot. A faint curved green trace is visible on the screen extending upwards and to the left
+    from the current spot. The background includes a chalkboard and lab equipment.
+  init2final_edit_prompt: Edit the given image to move the bright green laser spot on the white screen
+    to a new position that is to the left and higher than its original location, placing it along the
+    path of the faint curved trace visible in the original image. Redraw the reflected green laser beam
+    as a straight line connecting the central mirror to this new spot position. Ensure the incoming laser
+    beam from the source to the mirror remains exactly unchanged. The scene must appear clear with no
+    fog or obstruction.
+  rationale: The video prompt describes the mirror rotating counter-clockwise. In this optical setup,
+    a counter-clockwise rotation of the mirror (viewed from the top) causes the reflected beam to sweep
+    counter-clockwise in the horizontal plane. Given the geometry (laser on left, screen on right), a
+    counter-clockwise sweep moves the beam towards the background (the chalkboard), which corresponds
+    to the laser spot moving to the left and upwards on the projection screen (following the visible trace).
+    The fog obscures the transition, but the final state must show the accumulated displacement of the
+    laser spot in this direction.
+  questions:
+  - id: spot_moved
+    question: Is the bright green laser spot on the screen in a different position than in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: The spot should have moved from its original location.
+  - id: spot_direction_left
+    question: Is the new laser spot positioned to the left of the original spot's location on the screen?
+    answer_type: yes_no
+    notes_for_judge: Counter-clockwise mirror rotation sweeps the beam towards the background/left.
+  - id: spot_direction_up
+    question: Is the new laser spot positioned higher than the original spot's location?
+    answer_type: yes_no
+    notes_for_judge: The beam follows the curved trace visible in the init frame, which goes up and left.
+  - id: beam_connectivity
+    question: Does the green laser beam form a continuous straight line from the mirror to the new spot
+      position?
+    answer_type: yes_no
+    notes_for_judge: Light travels in straight lines; the beam must connect the reflector to the projection.
+  - id: source_beam_invariant
+    question: Is the segment of the laser beam between the laser pointer and the mirror unchanged?
+    answer_type: yes_no
+    notes_for_judge: The laser source and mirror base are fixed; only the reflection angle changes.
+  - id: fog_cleared
+    question: Is the scene completely free of fog or visual obstruction?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the fog clears rapidly.
+  - id: equipment_stationary
+    question: Are the laser pointer stand and the white screen in the same positions as in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: Only the mirror rotates; static equipment should not move.

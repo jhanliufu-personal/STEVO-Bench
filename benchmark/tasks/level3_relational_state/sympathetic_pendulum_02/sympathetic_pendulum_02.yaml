@@ -1,0 +1,62 @@
+id: sympathetic_pendulum_02
+level: 3
+category: relational_state
+tags: []
+variant_of: sympathetic_pendulum
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to a large board blocking the view.
+changes:
+  occlusion_method: A large wooden board moves into the foreground, blocking the view.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: Pendulum A continues its wide, heavy swing. The flexible bar allows small vibrations to travel
+    between the two mounts. A large opaque wooden board slides into the foreground, completely blocking
+    the view of the pendulums. After a moment, the board slides away to reveal the scene again. No zoom,
+    no cut, no scene change. STOP.
+  camera_WM: Pendulum A continues its wide, heavy swing. The flexible bar allows small vibrations to travel
+    between the two mounts. A large opaque wooden board slides into the foreground, completely blocking
+    the view of the pendulums. After a moment, the board slides away to reveal the scene again. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: Two pendulums hanging from a bowed, flexible horizontal wooden rod in a workshop
+    setting. The left pendulum (labeled A) has a flat, rigid-looking arm and a spherical bob; it is captured
+    mid-swing, angled significantly to the left. The right pendulum (labeled B) hangs by a thin string
+    with a spherical bob and is currently hanging straight down (vertical), appearing stationary. The
+    background is a dimly lit room with tools and a window.
+  init2final_edit_prompt: Edit the given image to show the right pendulum (B) swinging, with its string
+    angled away from the vertical position, indicating it has started to move. Keep the left pendulum
+    (A) in a swinging position, angled away from the center.
+  rationale: The video prompt describes a coupled pendulum system where the motion of the swinging pendulum
+    (A) transmits vibrations through the flexible connecting rod to the stationary pendulum (B). This
+    physical phenomenon, known as sympathetic resonance, causes energy to transfer from A to B. Therefore,
+    after the occlusion, the previously stationary pendulum (B) must be swinging (displaced from vertical)
+    as it absorbs energy from the system.
+  questions:
+  - id: pendulum_b_motion
+    question: Is the pendulum on the right (B) now angled away from the vertical position?
+    answer_type: yes_no
+    notes_for_judge: In the initial frame, B is vertical. In the final frame, it should be swinging (angled)
+      due to energy transfer.
+  - id: pendulum_b_displacement
+    question: Does the right pendulum appear to be swinging rather than hanging statically?
+    answer_type: yes_no
+    notes_for_judge: Check for displacement or motion blur indicating swing.
+  - id: coupled_motion
+    question: Are both pendulums now displaced from the vertical center line?
+    answer_type: yes_no
+    notes_for_judge: A should continue swinging, and B should have started swinging.
+  - id: pendulum_a_continuation
+    question: Is the left pendulum (A) still in a swinging position (not hanging dead center)?
+    answer_type: yes_no
+    notes_for_judge: The prompt states A continues its swing.
+  - id: rod_integrity
+    question: Is the horizontal wooden rod still connecting both pendulums?
+    answer_type: yes_no
+    notes_for_judge: The structure should remain intact.
+  - id: conservation_of_components
+    question: Are there still exactly two pendulums hanging from the rod?
+    answer_type: yes_no
+    notes_for_judge: No objects should disappear or appear.

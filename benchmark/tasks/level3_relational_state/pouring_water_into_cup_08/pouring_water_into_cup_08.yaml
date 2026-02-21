@@ -1,0 +1,73 @@
+id: pouring_water_into_cup_08
+level: 3
+category: relational_state
+tags: []
+variant_of: pouring_water_into_cup
+variation_type: combined
+variation_description: Pouring into a full glass (spill) with blocking object occlusion.
+changes:
+  occlusion_method: Large opaque object blocks view.
+  dynamic_conditions: Target glass is already full.
+  expected_outcome_change: Water spills over table.
+prompts:
+  init_frame_edit_prompt: Edit the image so the glass on the table is already filled to the brim with
+    water.
+  video_WM: Single continuous shot, no cuts, no zoom, no scene transitions. Camera remains stationary
+    centered on the hand holding the pitcher, pouring water into the already full glass. The hand continues
+    holding the pitcher in the same tilted position. A large, opaque menu board slides into the frame
+    from the right, completely blocking the view of the pitcher and glass. The board remains in place
+    for several seconds. Then the board slides back to the right, revealing the scene again.
+  camera_WM: Single continuous shot, no cuts, no zoom, no scene transitions. Camera remains stationary
+    centered on the hand holding the pitcher, pouring water into the already full glass. The hand continues
+    holding the pitcher in the same tilted position. A large, opaque menu board slides into the frame
+    from the right, completely blocking the view of the pitcher and glass. The board remains in place
+    for several seconds. Then the board slides back to the right, revealing the scene again.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A close-up shot of a hand holding a clear glass pitcher tilted forward, pouring
+    water into a clear drinking glass sitting on a wooden table. The pitcher is about half full of water.
+    The glass on the table is nearly full, with the water level close to the rim. A stream of water connects
+    the pitcher spout to the water in the glass. The background shows a blurred window with daylight coming
+    through.
+  init2final_edit_prompt: Edit the given image to show the result of continuous pouring into an already
+    full glass. The water level inside the tilted pitcher must be significantly lower than in the original
+    image. The glass on the table must remain filled to the brim. Crucially, add a visible puddle of spilled
+    water on the wooden table surface surrounding the base of the glass to depict the overflow. Maintain
+    the hand and pitcher in the same tilted position with the water stream flowing into the overflowing
+    glass.
+  rationale: The prompt specifies that water is being poured into a glass that is already full, and this
+    action continues while the view is occluded. Physically, since the glass cannot hold more liquid,
+    the water flowing from the pitcher must overflow onto the table. Therefore, the final state must show
+    a depleted pitcher (conservation of mass) and a wet table surface (consequence of overflow), while
+    the glass remains full to capacity.
+  questions:
+  - id: pitcher_level_decrease
+    question: Is the water level in the pitcher lower than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The pitcher is the source; its volume must decrease as pouring continues.
+  - id: table_wetness_overflow
+    question: Is there visible water spilled on the table around the glass?
+    answer_type: yes_no
+    notes_for_judge: Since the glass was already full, the continuous pouring must result in overflow
+      onto the surface.
+  - id: glass_fullness_maintained
+    question: Does the glass appear to be filled to the brim?
+    answer_type: yes_no
+    notes_for_judge: The glass was full initially and continues to receive water, so it should remain
+      at maximum capacity.
+  - id: conservation_flow
+    question: Does the scene show a relationship where the pitcher has lost water and the table has gained
+      water?
+    answer_type: yes_no
+    notes_for_judge: 'This tests the coupled state change: source depletion leads to environmental accumulation
+      (overflow).'
+  - id: hand_position_continuity
+    question: Is the hand still holding the pitcher in a tilted, pouring position?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the hand continues holding the pitcher in the same position.
+  - id: background_consistency
+    question: Are the window and background elements consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

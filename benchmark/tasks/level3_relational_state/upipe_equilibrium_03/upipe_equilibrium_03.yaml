@@ -1,0 +1,76 @@
+id: upipe_equilibrium_03
+level: 3
+category: relational_state
+tags: []
+variant_of: upipe_equilibrium
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to lights turning off.
+changes:
+  occlusion_method: Lighting change (lights off)
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A mechanical arm begins pushing the left piston down into the pipe. The movement is steady
+    and continuous. Suddenly, the lab lights turn off, plunging the scene into total darkness. After a
+    few seconds, the lights turn back on. No cut, no scene change. STOP.
+  camera_WM: A mechanical arm begins pushing the left piston down into the pipe. The movement is steady
+    and continuous. Suddenly, the lab lights turn off, plunging the scene into total darkness. After a
+    few seconds, the lights turn back on. No cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A U-shaped glass tube (U-pipe) sits on a wooden table in a laboratory setting.
+    The tube is partially filled with a clear blue liquid. The left arm of the tube is fitted with a black
+    piston mechanism inserted into the opening, resting on the liquid surface. The right arm of the tube
+    is open at the top. The liquid levels in both arms are approximately equal. In the background, blurred
+    laboratory equipment is visible.
+  init2final_edit_prompt: Edit the given image to show the black piston on the left side pushed significantly
+    further down into the glass tube. Lower the level of the blue liquid in the left arm to be directly
+    beneath the lowered piston. Correspondingly, raise the level of the blue liquid in the right arm so
+    that it is higher than it was in the original image, reflecting the displacement of the fluid. Ensure
+    the total volume of blue liquid appears conserved, with the rise on the right matching the drop on
+    the left.
+  rationale: The prompt describes a force pushing the piston in the left arm downward. In a hydraulic
+    system with an incompressible fluid (the blue liquid), pushing the piston down displaces the fluid
+    from the left arm to the right arm. Therefore, the liquid level in the left arm must drop (moving
+    with the piston), and the liquid level in the right arm must rise by a corresponding volume. The lights
+    turning off and on acts as a time skip, allowing the state change to occur without requiring the model
+    to render the continuous motion in the final frame.
+  questions:
+  - id: piston_position
+    question: Is the black piston on the left side positioned lower in the tube than it was in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the vertical position of the piston handle and stopper relative to the tube's
+      rim or the background.
+  - id: right_liquid_rise
+    question: Is the blue liquid level in the right arm higher than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The liquid on the right should have risen due to displacement from the left.
+  - id: left_liquid_drop
+    question: Is the blue liquid level in the left arm lower than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The liquid on the left should be pushed down by the piston.
+  - id: relative_levels
+    question: Is the liquid level in the right arm now clearly higher than the liquid level in the left
+      arm?
+    answer_type: yes_no
+    notes_for_judge: Initially they were roughly equal. Now the right should be higher than the left due
+      to the piston's pressure.
+  - id: conservation_volume
+    question: Does the total amount of blue liquid appear approximately conserved (the rise on the right
+      compensates for the drop on the left)?
+    answer_type: yes_no
+    notes_for_judge: Check if the volume looks consistent; it shouldn't look like liquid was added or
+      removed, just moved.
+  - id: piston_liquid_contact
+    question: Is the blue liquid in the left arm still in contact with (or directly beneath) the bottom
+      of the piston?
+    answer_type: yes_no
+    notes_for_judge: The piston pushes the liquid; there should not be a large air gap introduced between
+      the piston and the liquid.
+  - id: background_consistency
+    question: Are the blurred laboratory equipment and window in the background unchanged?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

@@ -1,0 +1,73 @@
+id: domino_falling_00
+level: 3
+category: relational_state
+tags: []
+variant_of: domino_falling
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: Single continuous shot, no cuts or zoom. Camera is centered on the domino row. The finger
+    pushes the first domino forward. Camera remains stationary throughout.
+  camera_WM: Single continuous shot, no cuts or zoom. Camera is centered on the domino row. The finger
+    pushes the first domino forward. Camera remains stationary throughout.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a wooden table featuring a long, winding line
+    of wooden dominoes standing upright. A human hand enters from the left foreground, with an index finger
+    touching the first domino in the sequence, poised to push. The background is slightly out of focus,
+    showing a stack of books, potted plants, a window, and a chair in a domestic living room setting.
+  init2final_edit_prompt: Edit the given image to show the result of the finger pushing the first domino.
+    The first domino and a long continuous sequence of the following dominoes in the winding line have
+    fallen over. The toppled dominoes are lying flat on the table, overlapping one another in the direction
+    of the path. The finger has completed the push. The background, table, and any dominoes at the far
+    end of the chain that have not yet been reached by the wave remain unchanged.
+  rationale: The video prompt describes a finger pushing the first domino. This action initiates a chain
+    reaction (coupled state change) where momentum is transferred from one object to the next. As the
+    rollout progresses, the first domino falls, hitting the second, which hits the third, and so on. The
+    final state must show a continuous sequence of fallen dominoes starting from the interaction point,
+    preserving the relational constraint that a domino cannot fall unless the previous one hits it (assuming
+    no external interference).
+  questions:
+  - id: domino_01
+    question: Is the first domino, which was touched by the finger, now toppled over?
+    answer_type: yes_no
+    notes_for_judge: The first domino must be down.
+  - id: domino_02
+    question: Is there a continuous sequence of fallen dominoes starting from the first one?
+    answer_type: yes_no
+    notes_for_judge: Checks for the chain reaction; there should not be standing dominoes in between fallen
+      ones near the start.
+  - id: domino_03
+    question: Do the fallen dominoes lie in the direction of the winding path established in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: They should fall along the line, not randomly sideways.
+  - id: domino_04
+    question: Do the fallen dominoes overlap each other?
+    answer_type: yes_no
+    notes_for_judge: Standard domino fall physics implies overlapping/shingling.
+  - id: domino_05
+    question: Is the finger position consistent with having moved forward to complete the push?
+    answer_type: yes_no
+    notes_for_judge: The finger should not be hovering behind the starting point.
+  - id: domino_06
+    question: If any dominoes are still standing, are they located further down the chain from the starting
+      point?
+    answer_type: yes_no
+    notes_for_judge: If the wave hasn't finished, the end of the chain should be standing, not the beginning.
+  - id: domino_07
+    question: Are the books and plants in the background unchanged?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: domino_08
+    question: Does the total number of visible dominoes (standing plus fallen) appear conserved relative
+      to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Dominoes should not vanish or appear.

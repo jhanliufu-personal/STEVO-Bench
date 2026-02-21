@@ -1,0 +1,64 @@
+id: hourglass_accumulation_07
+level: 1
+category: scalar_state
+tags: []
+variant_of: hourglass_accumulation
+variation_type: combined
+variation_description: Combines object blocking with a finished hourglass state.
+changes:
+  occlusion_method: Book blocking view.
+  dynamic_conditions: Top bulb empty.
+  expected_outcome_change: No change (static).
+prompts:
+  init_frame_edit_prompt: Edit the image so that the top bulb of the hourglass is completely empty and
+    all the white sand is settled in the bottom bulb.
+  video_WM: An hourglass stands on the table with all sand settled in the bottom bulb. A large leather-bound
+    book slides from the right into the foreground, completely blocking the view of the hourglass. The
+    book pauses for a moment, then slides back out to the right, revealing the hourglass again. No zoom,
+    no cut, no scene change. STOP.
+  camera_WM: An hourglass stands on the table with all sand settled in the bottom bulb. A large leather-bound
+    book slides from the right into the foreground, completely blocking the view of the hourglass. The
+    book pauses for a moment, then slides back out to the right, revealing the hourglass again. No zoom,
+    no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up shot of a wooden hourglass on a desk. The top bulb is partially filled
+    with white sand, and a stream of sand is actively falling into the bottom bulb. The bottom bulb contains
+    a conical pile of accumulated sand. In the background, there are bookshelves filled with books and
+    a window providing natural light.
+  init2final_edit_prompt: Edit the given image to show the hourglass after some time has passed. The sand
+    level in the top bulb should be significantly lower, and the pile of sand in the bottom bulb should
+    be noticeably taller and larger in volume. Ensure the hourglass remains in the same position and the
+    lighting is consistent.
+  rationale: The initial image shows an hourglass with sand actively flowing from the top to the bottom
+    bulb. The video prompt describes an occlusion event where a book blocks the view, pauses, and then
+    reveals the hourglass again. This sequence implies the passage of time. During this interval, the
+    physical process of the hourglass (sand flowing) must continue. Therefore, in the final state, the
+    top bulb must contain less sand and the bottom bulb must contain more sand than in the initial frame.
+  questions:
+  - id: top_bulb_level
+    question: Is the sand level in the top bulb lower than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the height of the sand in the upper glass bulb. It should be lower due to
+      sand flowing out.
+  - id: bottom_bulb_pile
+    question: Is the pile of sand in the bottom bulb taller than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the height/size of the sand cone in the lower glass bulb. It should be larger.
+  - id: sand_volume_bottom
+    question: Is there a greater volume of sand in the bottom bulb compared to the start?
+    answer_type: yes_no
+    notes_for_judge: The amount of sand in the bottom should have increased.
+  - id: sand_volume_top
+    question: Is there less sand remaining in the top bulb compared to the start?
+    answer_type: yes_no
+    notes_for_judge: The amount of sand in the top should have decreased.
+  - id: hourglass_visibility
+    question: Is the hourglass visible and unoccluded?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the book slides back out, revealing the hourglass.
+  - id: book_absence
+    question: Is the large leather-bound book absent from the foreground?
+    answer_type: yes_no
+    notes_for_judge: The book should have slid out of the frame.

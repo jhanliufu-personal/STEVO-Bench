@@ -1,0 +1,62 @@
+id: sympathetic_pendulum_05
+level: 3
+category: relational_state
+tags: []
+variant_of: sympathetic_pendulum
+variation_type: dynamic_condition
+variation_description: Pendulum B is shortened significantly, destroying the resonant frequency match.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Pendulum B string length is halved (frequency mismatch).
+  expected_outcome_change: Pendulum B swings very little or chaotically (off-resonance).
+prompts:
+  init_frame_edit_prompt: Edit the image to shorten the string of Pendulum B so it is half the length
+    of Pendulum A.
+  video_WM: Pendulum A continues its wide, heavy swing. The significant difference in string lengths creates
+    a mismatch in natural frequencies between the two systems. The camera rotates right until Pendulum
+    A completely exits the view, then rotates toward the left smoothly at the same rate until Pendulum
+    B is back in the center of view. No zoom, no cut, no scene change. STOP.
+  camera_WM: Pendulum A continues its wide, heavy swing. The significant difference in string lengths
+    creates a mismatch in natural frequencies between the two systems. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: 'A workshop interior showing a horizontal wooden rod suspended by strings from
+    the ceiling. Two pendulums hang from this rod: Pendulum A on the left has a long string and a metal
+    spherical bob, while Pendulum B on the right has a significantly shorter string and a similar metal
+    bob. The background is a dimly lit room with a window on the left and various tools.'
+  init2final_edit_prompt: Edit the given image to show Pendulum B centered in the frame, hanging vertically
+    and appearing stationary. Pendulum A, visible on the left side, should appear in the middle of a swing,
+    showing displacement from the vertical or motion blur. The visual state should reflect that Pendulum
+    B has not picked up the swinging motion of Pendulum A.
+  rationale: The prompt specifies a significant difference in string lengths between the two pendulums.
+    In physics, coupled pendulums only exchange energy efficiently (resonate) if their natural frequencies
+    (determined by length) are matched. Since the lengths are mismatched, Pendulum B will not resonate
+    with Pendulum A. Therefore, while Pendulum A continues its wide swing, Pendulum B should remain essentially
+    stationary or have negligible amplitude, rather than swinging sympathetically. The camera motion serves
+    to pass time and re-center on Pendulum B, but the key physical state is the lack of energy transfer.
+  questions:
+  - id: q1_relative_motion
+    question: Is the swing amplitude of Pendulum A visibly larger than that of Pendulum B?
+    answer_type: yes_no
+    notes_for_judge: Pendulum A should be swinging (displaced/blurred), while B should be mostly vertical.
+  - id: q2_b_vertical
+    question: Is Pendulum B hanging substantially vertical?
+    answer_type: yes_no
+    notes_for_judge: B should not be at the peak of a swing; it should be near equilibrium.
+  - id: q3_a_motion
+    question: Does Pendulum A appear to be in motion (displaced or blurred)?
+    answer_type: yes_no
+    notes_for_judge: A is the driver and should still be swinging.
+  - id: q4_resonance_check
+    question: Does Pendulum B appear stationary relative to the swinging Pendulum A?
+    answer_type: yes_no
+    notes_for_judge: Test for lack of resonance. B should not be swinging widely.
+  - id: q5_framing_center
+    question: Is Pendulum B positioned near the horizontal center of the frame?
+    answer_type: yes_no
+    notes_for_judge: The camera instruction explicitly asks to center on B.
+  - id: q6_string_tension
+    question: Are the strings of both pendulums taut?
+    answer_type: yes_no
+    notes_for_judge: Basic physics consistency check.

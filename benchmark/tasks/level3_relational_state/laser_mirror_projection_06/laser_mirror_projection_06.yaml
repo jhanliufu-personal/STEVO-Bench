@@ -1,0 +1,69 @@
+id: laser_mirror_projection_06
+level: 3
+category: relational_state
+tags: []
+variant_of: laser_mirror_projection
+variation_type: dynamic_condition
+variation_description: Motor rotation speed increased significantly.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Motor rotates at high speed.
+  expected_outcome_change: Laser spot travels a much greater distance along the arc.
+prompts:
+  init_frame_edit_prompt: Edit the image to show the voltage dial on the motor controller turned fully
+    clockwise to the 'MAX' position.
+  video_WM: The motorized base begins to rotate the mirror rapidly clockwise. The laser pointer and the
+    white screen remain fixed in place. The camera rotates right until the mirror and laser completely
+    exit the view, then rotates toward the left smoothly at the same rate until the white screen is back
+    in the center of view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The motorized base begins to rotate the mirror rapidly clockwise. The laser pointer and the
+    white screen remain fixed in place. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A physics lab setup on a black table. On the left, a green laser pointer is
+    mounted on a stand. In the center, a square mirror is mounted on a motorized rotating base. On the
+    right, a white projection screen stands in front of a blackboard. A green laser beam travels from
+    the pointer, hits the mirror, and reflects onto the screen, forming a curved green arc ending in a
+    bright spot.
+  init2final_edit_prompt: Edit the given image to simulate a camera pan to the right, placing the white
+    projection screen in the center of the frame. Remove the laser pointer and the motorized mirror stand
+    from the left side, as they would be out of view. Extend the background on the right side consistent
+    with the classroom environment (blackboard and desk). On the white screen, replace the partial green
+    arc with a complete, continuous bright green elliptical or circular laser trace to simulate the visual
+    effect of rapid rotation.
+  rationale: The prompt specifies that the mirror begins to rotate 'rapidly'. Physically, a rapidly rotating
+    mirror reflecting a fixed laser beam will trace a path (a conic section) that appears as a continuous
+    closed loop (a circle or ellipse) on the screen due to the persistence of vision. The camera movement
+    involves panning right until the laser and mirror exit the view, then adjusting to center the screen.
+    Therefore, the final frame should show the white screen centered, with the laser generation hardware
+    out of frame to the left, and the projection on the screen transformed from a partial arc/dot into
+    a full, continuous laser ring.
+  questions:
+  - id: screen_centered
+    question: Is the white projection screen positioned in the center of the frame?
+    answer_type: yes_no
+    notes_for_judge: The camera should have panned to center the screen.
+  - id: laser_trace_continuity
+    question: Does the green laser projection on the screen appear as a continuous closed loop (circle
+      or ellipse)?
+    answer_type: yes_no
+    notes_for_judge: Rapid rotation creates a persistence of vision effect, forming a solid ring.
+  - id: hardware_exclusion
+    question: Are the laser pointer and the mirror base mostly or entirely absent from the view?
+    answer_type: yes_no
+    notes_for_judge: The camera panned right, leaving the generation hardware (originally on the left)
+      out of frame.
+  - id: trace_completeness
+    question: Is the laser trace significantly longer and more complete than the partial arc in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: It should look like a full shape, not a segment.
+  - id: trace_solidity
+    question: Does the laser pattern look like a solid line rather than a single moving dot?
+    answer_type: yes_no
+    notes_for_judge: Tests for the 'rapid' aspect of the rotation.
+  - id: screen_content_focus
+    question: Is the view focused primarily on the projection screen rather than the laser source?
+    answer_type: yes_no
+    notes_for_judge: Checks the final camera composition.

@@ -1,0 +1,67 @@
+id: compass_deflection_05
+level: 3
+category: relational_state
+tags: []
+variant_of: compass_deflection
+variation_type: dynamic_condition
+variation_description: Magnet moves away from the compass instead of closer.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Magnet moves away, reducing field strength.
+  expected_outcome_change: Needle returns toward North (deflection decreases).
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A hand begins moving the bar magnet steadily away from the side of the compass housing. The
+    magnet remains oriented in the same direction. The camera rotates right until the magnet completely
+    exits the view, then rotates toward the left smoothly at the same rate until the compass face is back
+    in the center of view. No zoom, no cut, no scene change. STOP.
+  camera_WM: A hand begins moving the bar magnet steadily away from the side of the compass housing. The
+    magnet remains oriented in the same direction. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: 'A close-up, slightly high-angle shot of a brass compass with an open lid resting
+    on a wooden table. A wooden ruler is visible in the foreground. To the right, a hand holds a rectangular
+    bar magnet with a red (North) and blue (South) end. The red end of the magnet is held close to the
+    compass housing. The compass needle is deflected by the magnet: the silver/white tip of the needle
+    points directly towards the red end of the magnet (right), and the red tip of the needle points away
+    (left).'
+  init2final_edit_prompt: Edit the given image to completely remove the hand and the red-and-blue bar
+    magnet from the scene, filling the space with the underlying wooden table texture. Rotate the compass
+    needle inside the housing so that it points in a significantly different direction (for example, pointing
+    diagonally towards the top-left or vertically) to simulate it returning to magnetic north after the
+    magnet is removed. Keep the compass housing, lid, and wooden ruler in their original positions.
+  rationale: The video describes a physics interaction where a strong magnetic influence (the bar magnet)
+    is moved away from a compass. In the initial state, the compass needle is magnetically coupled to
+    the bar magnet, causing a strong deflection (alignment with the magnet). As the magnet is removed
+    and exits the view, this coupling is broken, and the needle must rotate to align with the Earth's
+    ambient magnetic field (conservation of angular momentum/restoring force). The camera motion pans
+    away and back, implying time has passed for the magnet to be fully removed and the needle to settle
+    in a new, natural orientation.
+  questions:
+  - id: magnet_removed
+    question: Is the red and blue bar magnet no longer visible in the frame?
+    answer_type: yes_no
+    notes_for_judge: The magnet should be completely removed.
+  - id: needle_rotation_change
+    question: Is the compass needle pointing in a different direction compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The needle should have rotated to a new angle since the deflecting magnet is gone.
+  - id: needle_deflection_broken
+    question: Is the silver/white tip of the needle no longer pointing directly at the right edge of the
+      frame?
+    answer_type: yes_no
+    notes_for_judge: In the initial frame, the needle is pulled horizontally to the right. In the final
+      frame, it should point elsewhere (e.g., North).
+  - id: hand_removed
+    question: Is the hand holding the magnet absent from the image?
+    answer_type: yes_no
+    notes_for_judge: The hand should be gone along with the magnet.
+  - id: ruler_consistency
+    question: Is the wooden ruler still visible in the foreground?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: compass_position
+    question: Is the brass compass housing still located in the center of the view?
+    answer_type: yes_no
+    notes_for_judge: The camera returns to the compass, so it should be centered.

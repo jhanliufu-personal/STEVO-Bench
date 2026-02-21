@@ -1,0 +1,63 @@
+id: balloon_suction_jar_06
+level: 3
+category: relational_state
+tags: []
+variant_of: balloon_suction_jar
+variation_type: dynamic_condition
+variation_description: The pump acts as a compressor, pushing air IN instead of pulling it OUT.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Pump configured to push air in (compressor).
+  expected_outcome_change: Balloon shrinks/compresses (opposite of original).
+prompts:
+  init_frame_edit_prompt: Edit the image to change the text on the pump label to read 'COMPRESSOR' and
+    adjust the gauge needle to point towards the high-pressure red zone.
+  video_WM: The technician activates the device, which is configured as a compressor to pump air INTO
+    the sealed bell jar, increasing the internal pressure. The camera rotates right until the pump completely
+    exits the view, then rotates toward the left smoothly at the same rate until the balloon inside the
+    jar is back in the center of view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The technician activates the device, which is configured as a compressor to pump air INTO
+    the sealed bell jar, increasing the internal pressure. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A clear glass bell jar sits on a wooden table, containing an inflated red balloon
+    tied to a string. A beige hose connects the base of the jar to a vacuum pump/compressor machine on
+    the right. The machine has a pressure gauge, a black control box with an 'OFF' switch, and a finned
+    metal casing. The background shows a classroom or laboratory setting.
+  init2final_edit_prompt: Edit the given image to show the red balloon inside the bell jar significantly
+    smaller and shriveled, as if compressed by high air pressure. Ensure the balloon occupies less volume
+    than in the original state. Keep the glass bell jar, the hose, the compressor machine, and the background
+    unchanged. Maintain the original camera viewpoint and framing.
+  rationale: The prompt specifies that the device is configured as a compressor pumping air INTO the jar,
+    thereby increasing the internal pressure. According to Boyle's Law, increasing the pressure surrounding
+    a sealed flexible object (the balloon) will cause its volume to decrease. Therefore, the balloon must
+    shrink and shrivel. The camera rotates away and then returns to center the balloon, implying the final
+    view is framed similarly to the initial view but with the physical state of the balloon altered by
+    the pressure change.
+  questions:
+  - id: balloon_shrunk
+    question: Is the red balloon smaller than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The balloon should shrink due to increased pressure.
+  - id: balloon_shriveled
+    question: Does the red balloon appear shriveled or compressed?
+    answer_type: yes_no
+    notes_for_judge: High pressure causes the smooth surface to wrinkle or the overall shape to compress.
+  - id: volume_decrease
+    question: Does the red balloon occupy less volume within the jar compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the relative size of the balloon to the jar.
+  - id: not_expanded
+    question: Is the balloon smaller rather than larger?
+    answer_type: yes_no
+    notes_for_judge: 'Crucial check: The balloon should NOT expand (which would happen in a vacuum); it
+      must shrink (compressor).'
+  - id: jar_intact
+    question: Is the glass bell jar still intact and visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: pump_presence
+    question: Is the compressor machine still visible on the right side?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check; the camera returns to the view.

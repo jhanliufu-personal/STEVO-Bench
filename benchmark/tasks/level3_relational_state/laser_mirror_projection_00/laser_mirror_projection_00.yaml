@@ -1,0 +1,66 @@
+id: laser_mirror_projection_00
+level: 3
+category: relational_state
+tags: []
+variant_of: laser_mirror_projection
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The motorized base begins to rotate the mirror slowly clockwise. The laser pointer and the
+    white screen remain fixed in place. Camera remains stationary throughout, keeping the mirror, laser
+    pointer, and white screen fully in view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The motorized base begins to rotate the mirror slowly clockwise. The laser pointer and the
+    white screen remain fixed in place. Camera remains stationary throughout, keeping the mirror, laser
+    pointer, and white screen fully in view. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A physics lab setup featuring a green laser pointer mounted on a stand on the
+    left, a square mirror mounted on a motorized rotational stage in the center, and a white projection
+    screen on the right. A bright green laser beam travels from the pointer to the mirror, reflects off
+    the mirror, and hits the screen, creating a bright green spot. A faint curved green trace is visible
+    on the screen above the current beam path.
+  init2final_edit_prompt: Edit the given image to show the laser spot on the white screen shifted to a
+    new horizontal position, distinct from its original location. Re-draw the reflected green laser beam
+    as a straight line connecting the central mirror to this new spot position. Ensure the laser pointer
+    and the beam segment from the pointer to the mirror remain exactly in their original positions. Slightly
+    rotate the appearance of the mirror holder to be consistent with the new reflection angle.
+  rationale: The motorized base rotates the mirror, which changes the angle of incidence of the laser
+    beam. According to the law of reflection, this causes the reflected beam to change direction, sweeping
+    the laser spot to a new position on the screen. The laser source and the incident beam path (from
+    source to mirror) remain stationary, while the reflected beam and the spot on the screen move in a
+    coupled relationship.
+  questions:
+  - id: spot_position_change
+    question: Is the bright green laser spot on the screen in a different horizontal position than in
+      the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The spot must have moved along the screen due to the mirror rotation.
+  - id: beam_mirror_spot_connection
+    question: Does the reflected laser beam form a straight line connecting the central mirror to the
+      new laser spot position?
+    answer_type: yes_no
+    notes_for_judge: Checks the relational constraint that the beam must go from the reflector to the
+      target.
+  - id: incident_beam_conservation
+    question: Is the laser beam segment from the source (left) to the mirror (center) in the same position
+      as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The source is fixed, so the incident beam should not move.
+  - id: reflected_beam_angle_change
+    question: Has the angle of the reflected beam changed relative to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The beam path from mirror to screen must change to point to the new spot.
+  - id: beam_origin_mirror
+    question: Does the reflected beam appear to originate from the surface of the mirror?
+    answer_type: yes_no
+    notes_for_judge: Checks physical continuity.
+  - id: screen_stationary
+    question: Is the white projection screen in the same position as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The screen itself should not move, only the projection on it.

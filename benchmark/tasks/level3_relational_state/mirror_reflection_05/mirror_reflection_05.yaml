@@ -1,0 +1,71 @@
+id: mirror_reflection_05
+level: 3
+category: relational_state
+tags: []
+variant_of: mirror_reflection
+variation_type: dynamic_condition
+variation_description: The ball is pushed parallel to the mirror surface.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Direction of motion changed to parallel (left to right).
+  expected_outcome_change: The ball and reflection move in the same direction (parallel), distance to
+    mirror remains constant.
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A hand pushes the red ball parallel to the face of the mirror, moving it from the left side
+    of the table toward the right at a steady speed. The ball remains on the surface of the table. The
+    camera rotates right until the real ball completely exits the view, then rotates toward the left smoothly
+    at the same rate until the surface of the mirror is back in the center of view. No zoom, no cut, no
+    scene change. STOP.
+  camera_WM: A hand pushes the red ball parallel to the face of the mirror, moving it from the left side
+    of the table toward the right at a steady speed. The geometric relationship between the object and
+    its reflection is maintained. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A vertical rectangular mirror with a wooden frame stands on a wooden surface.
+    In the foreground, a red billiard ball with the number '3' sits on the table, slightly to the right
+    of the frame's horizontal center. The mirror reflects the back of the red ball and a background scene
+    containing a pool table with green felt and dark wood.
+  init2final_edit_prompt: Edit the given image to move the red billiard ball and its reflection to the
+    right side of the scene. The real ball should be positioned on the wooden surface significantly to
+    the right of its original position. The reflection of the ball in the mirror must also be shifted
+    to the right, maintaining horizontal alignment and perspective consistency with the real ball. The
+    background inside the mirror (the pool table) and the mirror frame itself must remain unchanged.
+  rationale: The camera pans to the right and then returns to its original position. During this time,
+    the ball is pushed continuously to the right. Although the ball may have temporarily exited the view
+    (likely the left edge due to the camera panning right faster than the ball moved right), the return
+    of the camera to the initial viewpoint means the ball should be visible again, but displaced significantly
+    to the right of its starting position. The reflection must update to match this new position, while
+    the static environment (mirror frame, reflected room background) remains unchanged.
+  questions:
+  - id: ball_position_right
+    question: Is the red billiard ball positioned further to the right than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the horizontal position of the real ball on the table.
+  - id: reflection_position_right
+    question: Is the reflection of the red ball shifted to the right within the mirror compared to the
+      initial frame?
+    answer_type: yes_no
+    notes_for_judge: Check if the reflection has moved to the right side of the mirror glass.
+  - id: reflection_coupling
+    question: Are the real ball and its reflection both positioned on the right side of the image?
+    answer_type: yes_no
+    notes_for_judge: Tests the coupled relationship; both should move in the same direction.
+  - id: ball_identity
+    question: Is the object on the table still a red billiard ball?
+    answer_type: yes_no
+    notes_for_judge: Verifies object permanence/identity.
+  - id: background_static
+    question: Is the position of the reflected pool table unchanged relative to the mirror frame?
+    answer_type: yes_no
+    notes_for_judge: The camera returned to the start, and the room didn't move, so the background reflection
+      should be static.
+  - id: camera_return
+    question: Is the mirror frame centered in the view, matching the initial perspective?
+    answer_type: yes_no
+    notes_for_judge: Verifies the camera returned to the initial pose.
+  - id: ball_visible
+    question: Is the red ball visible in the frame?
+    answer_type: yes_no
+    notes_for_judge: The ball should have reappeared after the camera panned back.

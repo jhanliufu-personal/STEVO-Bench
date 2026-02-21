@@ -1,0 +1,66 @@
+id: sympathetic_pendulum_01
+level: 3
+category: relational_state
+tags: []
+variant_of: sympathetic_pendulum
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to lights turning off.
+changes:
+  occlusion_method: Room lights turn off completely then back on.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: Pendulum A continues its wide, heavy swing. The flexible bar allows small vibrations to travel
+    between the two mounts. Suddenly, the room lights turn off, plunging the scene into complete darkness
+    for several seconds. The lights turn back on to reveal the scene again. No zoom, no cut, no scene
+    change. STOP.
+  camera_WM: Pendulum A continues its wide, heavy swing. The flexible bar allows small vibrations to travel
+    between the two mounts. Suddenly, the room lights turn off, plunging the scene into complete darkness
+    for several seconds. The lights turn back on to reveal the scene again. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: 'A workshop scene featuring a coupled pendulum system. A horizontal flexible
+    wooden rod is suspended by strings at both ends. Two pendulums hang from this rod: Pendulum A on the
+    left and Pendulum B on the right. Pendulum A is a metal rod with a spherical weight and is captured
+    mid-swing, angled significantly to the left. Pendulum B is identical in construction but is hanging
+    perfectly vertical and stationary. The background is a dimly lit workshop with a window on the left
+    and tools in the background.'
+  init2final_edit_prompt: Edit the given image to show the state of the coupled pendulums after energy
+    has transferred between them. Pendulum B must now be shown swinging, angled noticeably to the side
+    (displaced from the vertical center), instead of hanging straight down. Pendulum A should remain angled
+    to the side, indicating it is still swinging. Maintain the workshop background and the horizontal
+    wooden rod structure exactly as they are.
+  rationale: This is a coupled (sympathetic) pendulum system. Initially, Pendulum A has high energy (swinging)
+    and Pendulum B has zero energy (stationary). Over time, energy transfers from A to B through the flexible
+    connecting rod. After the period of darkness (several seconds), Pendulum B must have picked up energy
+    and started swinging. Therefore, the key visual change is that Pendulum B is no longer vertical but
+    is displaced to the side. Pendulum A continues to swing, likely with slightly reduced amplitude as
+    it shares energy.
+  questions:
+  - id: pendulum_b_motion
+    question: Is Pendulum B displaced from the vertical position?
+    answer_type: yes_no
+    notes_for_judge: In the initial frame, B is vertical. In the final frame, B should be angled/swinging
+      due to energy transfer.
+  - id: pendulum_b_swinging
+    question: Does Pendulum B appear to be swinging (angled or blurred) rather than stationary?
+    answer_type: yes_no
+    notes_for_judge: Tests for the onset of sympathetic motion.
+  - id: pendulum_a_swinging
+    question: Is Pendulum A still displaced from the vertical (swinging)?
+    answer_type: yes_no
+    notes_for_judge: Pendulum A should not have stopped completely in just a few seconds.
+  - id: coupled_motion
+    question: Are both pendulums now showing displacement from the vertical?
+    answer_type: yes_no
+    notes_for_judge: Tests the coupled state where both share energy.
+  - id: rod_integrity
+    question: Is the horizontal wooden rod still intact and supporting both pendulums?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: background_consistency
+    question: Is the workshop background (window, tools) preserved?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

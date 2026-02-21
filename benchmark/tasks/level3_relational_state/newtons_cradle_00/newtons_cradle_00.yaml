@@ -1,0 +1,65 @@
+id: newtons_cradle_00
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: newtons_cradle
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The far-left ball is released. It swings toward the remaining four stationary balls. Camera
+    remains stationary throughout. The entire cradle remains in the center of view. No zoom, no cut, no
+    scene change. STOP.
+  camera_WM: The far-left ball is released. It swings toward the remaining four stationary balls. Camera
+    remains stationary throughout. The entire cradle remains in the center of view. No zoom, no cut, no
+    scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a Newton's Cradle on a wooden desk. The cradle
+    has a gold frame and wooden base. There are five silver balls suspended by strings. The far-left ball
+    is currently pulled back and raised high to the left, holding a position of potential energy. The
+    other four balls are hanging vertically, stationary and touching each other in the center. The background
+    features a blurred office setting with a window and bookshelf.
+  init2final_edit_prompt: Edit the given image so that the far-left ball has swung down from its raised
+    position and is now located at the bottom, touching the other four balls in the center. The far-left
+    ball should be at the same height as the others, and its strings should be vertical, indicating it
+    has completed its downward swing.
+  rationale: The prompt describes the release of a suspended object (the far-left ball) in a gravity field.
+    Physically, the ball must accelerate downwards and to the right due to gravity and tension in the
+    strings. The rollout will depict the conversion of potential energy into kinetic energy as the ball
+    traverses a circular arc towards the stationary pack. By the final frame, the ball should have moved
+    significantly lower and closer to the center, likely reaching the bottom of its swing.
+  questions:
+  - id: pos_vertical_change
+    question: Is the far-left ball lower in the final frame than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The ball starts high; it must fall due to gravity.
+  - id: pos_horizontal_change
+    question: Has the far-left ball moved to the right compared to its starting position?
+    answer_type: yes_no
+    notes_for_judge: It swings toward the center (rightward).
+  - id: pos_proximity
+    question: Is the far-left ball closer to the central group of balls than it was initially?
+    answer_type: yes_no
+    notes_for_judge: It swings toward the stationary balls.
+  - id: string_orientation
+    question: Are the strings supporting the far-left ball closer to vertical than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Initially angled; at the bottom of the swing, they are vertical.
+  - id: state_change_raised
+    question: Is the far-left ball no longer held in the high, raised position?
+    answer_type: yes_no
+    notes_for_judge: Checks if the 'release' action occurred.
+  - id: consistency_base
+    question: Is the wooden base of the Newton's Cradle in the same position?
+    answer_type: yes_no
+    notes_for_judge: The base should be stationary.
+  - id: consistency_count
+    question: Are there still five balls visible in the assembly?
+    answer_type: yes_no
+    notes_for_judge: Object permanence.

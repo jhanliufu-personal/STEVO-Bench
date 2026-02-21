@@ -1,0 +1,64 @@
+id: pulley_counterweight_08
+level: 3
+category: relational_state
+tags: []
+variant_of: pulley_counterweight
+variation_type: combined
+variation_description: Left weight is much heavier and camera moves away for occlusion.
+changes:
+  occlusion_method: Camera physically moves backward away from the scene.
+  dynamic_conditions: Left weight is 25KG (vs 5KG right), released from rest.
+  expected_outcome_change: Left weight drops, right weight shoots up.
+prompts:
+  init_frame_edit_prompt: Edit the image to change the text on the left weight to '25KG' and make the
+    weight appear significantly larger and bulkier than the right weight.
+  video_WM: The weights are released from a stationary holding position. The left weight is significantly
+    heavier than the right weight. The camera moves backward continuously until the pulley system is too
+    distant to see clearly. The camera moves forward to return to the original viewpoint. No cut, no scene
+    change. STOP.
+  camera_WM: The weights are released from a stationary holding position. The left weight is significantly
+    heavier than the right weight. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A low-angle shot of a rustic wooden ceiling with a metal pulley mounted to a
+    beam. A thick rope runs through the pulley. Suspended on the left side is a large, heavy iron weight
+    labeled '25KG IRON'. Suspended on the right side is a smaller iron weight labeled '5KG IRON'. The
+    weights hang at roughly similar heights, with the 25kg weight positioned slightly lower than the 5kg
+    weight.
+  init2final_edit_prompt: Edit the given image to reflect the movement of the weights. Position the large
+    '25KG IRON' weight significantly lower in the frame, extending the length of the rope on the left
+    side. Position the small '5KG IRON' weight significantly higher, much closer to the pulley wheel,
+    shortening the length of the rope on the right side. Maintain the original camera angle, lighting,
+    and background details.
+  rationale: The prompt describes an Atwood machine (pulley system) where the weights are released. Since
+    the 25kg weight is significantly heavier than the 5kg weight, the net force will cause the 25kg weight
+    to accelerate downward and the 5kg weight to accelerate upward. The camera excursion (moving backward
+    and then returning) implies a duration of time has passed. Therefore, in the final frame, the heavy
+    weight must be lower and the light weight must be higher than they were initially.
+  questions:
+  - id: q1_left_weight_descend
+    question: Is the '25KG IRON' weight positioned lower in the frame than it was in the initial image?
+    answer_type: yes_no
+    notes_for_judge: The heavier weight must move down due to gravity.
+  - id: q2_right_weight_ascend
+    question: Is the '5KG IRON' weight positioned higher in the frame than it was in the initial image?
+    answer_type: yes_no
+    notes_for_judge: The lighter weight must be pulled up by the heavier counterweight.
+  - id: q3_rope_length_right
+    question: Is the visible length of rope supporting the right weight shorter than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: As the weight rises towards the pulley, the rope segment must shorten.
+  - id: q4_rope_length_left
+    question: Is the visible length of rope supporting the left weight longer than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: As the weight falls, the rope segment must lengthen.
+  - id: q5_separation_increase
+    question: Is the vertical distance between the two weights greater than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Initially they are close in height; as they move in opposite directions, the gap
+      widens.
+  - id: q6_pulley_static
+    question: Does the pulley wheel assembly remain attached to the beam in the same position?
+    answer_type: yes_no
+    notes_for_judge: The mounting point is fixed; only the ropes and weights move.

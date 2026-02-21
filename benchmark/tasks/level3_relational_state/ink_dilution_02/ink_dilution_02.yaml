@@ -1,0 +1,68 @@
+id: ink_dilution_02
+level: 3
+category: relational_state
+tags: []
+variant_of: ink_dilution
+variation_type: occlusion_method
+variation_description: Replaces camera rotation with the room lights turning off.
+changes:
+  occlusion_method: Room lights turn off completely, creating darkness.
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics (dilution and volume increase)
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The clear water is poured into the dark ink. The total volume of liquid is rising. The pouring
+    continues. Suddenly the lab lights turn off, plunging the scene into complete darkness. After a moment,
+    the lights turn back on. No zoom, no cut, no scene change. STOP.
+  camera_WM: The clear water is poured into the dark ink. The total volume of liquid is rising. The pouring
+    continues. Suddenly the lab lights turn off, plunging the scene into complete darkness. After a moment,
+    the lights turn back on. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up shot of a glass beaker on a wooden lab table containing dark purple
+    ink. A glass pitcher is positioned above and to the right, pouring a stream of clear water into the
+    beaker. The mixture shows turbulent swirls of lighter purple where the water hits the ink. The background
+    features a window with natural light and blurred lab equipment.
+  init2final_edit_prompt: Edit the given image to show the liquid level in the beaker significantly higher
+    than it was initially. Change the color of the liquid in the beaker to a much lighter, more translucent
+    purple to simulate dilution. Reduce the water level inside the glass pitcher to reflect the volume
+    transferred to the beaker. Maintain the original lighting conditions and background details.
+  rationale: 'The video prompt describes a continuous pouring action that is interrupted by a period of
+    darkness. During the time the lights are off (and potentially while they are on before/after), water
+    continues to flow from the pitcher into the beaker. Physically, this results in two coupled state
+    changes: the volume of liquid in the beaker increases (raising the level), and the concentration of
+    the ink decreases (making the color lighter and more transparent). Conversely, the source pitcher
+    must contain less water due to conservation of mass.'
+  questions:
+  - id: beaker_level_rise
+    question: Is the level of liquid in the beaker higher than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The liquid level must have risen due to the pouring action.
+  - id: color_dilution
+    question: Is the purple liquid in the beaker lighter in color than the dark ink in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Adding clear water to dark ink must dilute the color, making it paler.
+  - id: transparency_increase
+    question: Does the liquid in the beaker appear more translucent or transparent compared to the initial
+      opaque ink?
+    answer_type: yes_no
+    notes_for_judge: Dilution increases transparency.
+  - id: pitcher_depletion
+    question: Is the amount of water visible in the source pitcher less than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Conservation of mass requires the source to lose volume as the destination gains
+      it.
+  - id: volume_conservation_relation
+    question: Does the increase in the beaker's liquid level correspond to a decrease in the pitcher's
+      water level?
+    answer_type: yes_no
+    notes_for_judge: Checks for coupled state change; one fills as the other empties.
+  - id: background_consistency
+    question: Are the window and lab equipment in the background in the same position as the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: lighting_restoration
+    question: Is the scene illuminated similarly to the initial frame (not pitch black)?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the lights turn back on.

@@ -1,0 +1,61 @@
+id: mirror_reflection_06
+level: 3
+category: relational_state
+tags: []
+variant_of: mirror_reflection
+variation_type: dynamic_condition
+variation_description: Object changed to a cube (sliding dynamics instead of rolling).
+changes:
+  occlusion_method: null
+  dynamic_conditions: Object shape changed to cube (sliding friction).
+  expected_outcome_change: Object slides instead of rolls; reflection shows sliding cube.
+prompts:
+  init_frame_edit_prompt: Edit the image to replace the red billiard ball with a red cube of the same
+    size and material.
+  video_WM: A hand pushes the red cube directly toward the mirror at a steady speed. The cube slides along
+    the surface of the table without tumbling. The camera rotates right until the real cube completely
+    exits the view, then rotates toward the left smoothly at the same rate until the surface of the mirror
+    is back in the center of view. No zoom, no cut, no scene change. STOP.
+  camera_WM: A hand pushes the red cube directly toward the mirror at a steady speed. The cube slides
+    along the surface of the table without tumbling. The geometric relationship between the object and
+    its reflection is maintained. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A red cubic block resting on a wooden table surface in front of a wooden-framed
+    mirror. The mirror reflects the red block and a green pool table in the background.
+  init2final_edit_prompt: Edit the given image to move the red cube closer to the bottom edge of the mirror
+    frame. Ensure the reflection of the red cube inside the mirror is also moved closer to the mirror
+    surface, significantly reducing the gap between the real cube and its reflection.
+  rationale: 'The video prompt describes a physical action where the cube is pushed towards the mirror.
+    Although the camera pans away and then returns, the final state must show the consequences of this
+    action: the cube is physically closer to the mirror. Physics dictates that as an object approaches
+    a mirror, its reflection also approaches the surface from the other side. Therefore, the final image
+    must show a reduced distance between the real object and its reflection compared to the initial frame.'
+  questions:
+  - id: primary_position_change
+    question: Is the real red cube positioned closer to the mirror frame than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the distance between the cube and the wooden frame in both images.
+  - id: relational_gap_reduction
+    question: Is the distance between the real red cube and its reflection smaller than in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: As the object moves closer to the mirror, the gap between the object and the reflection
+      must shrink.
+  - id: reflection_existence
+    question: Is the reflection of the red cube still visible in the mirror?
+    answer_type: yes_no
+    notes_for_judge: The reflection must persist.
+  - id: reflection_alignment
+    question: Is the reflection of the red cube horizontally aligned with the real red cube?
+    answer_type: yes_no
+    notes_for_judge: The reflection should be directly behind the object relative to the mirror plane.
+  - id: background_consistency
+    question: Is the green pool table still visible in the mirror reflection?
+    answer_type: yes_no
+    notes_for_judge: Background elements should remain consistent.
+  - id: surface_contact
+    question: Is the red cube still resting on the wooden table surface?
+    answer_type: yes_no
+    notes_for_judge: The cube should slide, not float.

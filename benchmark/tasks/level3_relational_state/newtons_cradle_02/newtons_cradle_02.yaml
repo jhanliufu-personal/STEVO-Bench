@@ -1,0 +1,69 @@
+id: newtons_cradle_02
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: newtons_cradle
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to the room lights turning off.
+changes:
+  occlusion_method: Room lights turn off, creating pitch blackness.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The far-left ball is released. It swings toward the remaining four stationary balls. Suddenly,
+    the room lights turn off completely, plunging the scene into darkness. After a moment, the lights
+    turn back on, revealing the cradle again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The far-left ball is released. It swings toward the remaining four stationary balls. Suddenly,
+    the room lights turn off completely, plunging the scene into darkness. After a moment, the lights
+    turn back on, revealing the cradle again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up view of a Newton's Cradle on a wooden desk with a gold frame and
+    five silver balls. The far-left ball is pulled back and raised high to the left, suspended by taut
+    strings, while the other four balls hang stationary in a vertical line at the center. The background
+    includes a blurred window, curtain, and bookshelf.
+  init2final_edit_prompt: Edit the given image to show the physical result of the leftmost ball swinging
+    down and striking the others. The leftmost ball should now be hanging vertically, joining the group
+    of balls in the center. The rightmost ball should be swung out to the right and raised in the air,
+    displaced from the group, mirroring the original height of the left ball. Keep the camera angle, desk,
+    and background identical.
+  rationale: The prompt describes the release of the raised left ball. According to the physics of a Newton's
+    Cradle (conservation of momentum and energy), the left ball will swing down, strike the stationary
+    pack, and come to a near stop. The momentum will transfer through the middle balls, causing the rightmost
+    ball to swing outward and upward. The lighting change (off then on) serves as a transition, so the
+    final frame reveals this new state where the left ball is down and the right ball is up.
+  questions:
+  - id: left_ball_position_vertical
+    question: Is the leftmost ball lower than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The left ball starts raised; it should fall to the center.
+  - id: left_ball_position_horizontal
+    question: Has the leftmost ball moved to the right, closer to the central group?
+    answer_type: yes_no
+    notes_for_judge: It should swing in to hit the others.
+  - id: right_ball_motion
+    question: Has the rightmost ball moved away from the central group of balls?
+    answer_type: yes_no
+    notes_for_judge: Momentum transfer should cause the right ball to pop out.
+  - id: right_ball_height
+    question: Is the rightmost ball higher than its initial resting position?
+    answer_type: yes_no
+    notes_for_judge: It should swing upwards.
+  - id: momentum_transfer_state
+    question: Is the rightmost ball now separated from the middle balls?
+    answer_type: yes_no
+    notes_for_judge: It should be swinging out into the air.
+  - id: left_ball_stopped
+    question: Is the leftmost ball now adjacent to the middle balls?
+    answer_type: yes_no
+    notes_for_judge: After impact, the left ball stops near the pack.
+  - id: desk_consistency
+    question: Is the wooden desk surface still visible and unchanged?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: frame_consistency
+    question: Is the gold frame of the cradle in the same position?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

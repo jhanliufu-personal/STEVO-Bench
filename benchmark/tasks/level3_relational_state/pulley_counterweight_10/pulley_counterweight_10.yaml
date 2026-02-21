@@ -1,0 +1,61 @@
+id: pulley_counterweight_10
+level: 3
+category: relational_state
+tags: []
+variant_of: pulley_counterweight
+variation_type: combined
+variation_description: Rope is cut with scissors and lights turn off.
+changes:
+  occlusion_method: Lights turn off.
+  dynamic_conditions: Rope is cut.
+  expected_outcome_change: Weights fall.
+prompts:
+  init_frame_edit_prompt: Edit the image to show a pair of open scissors positioned around the rope above
+    the left weight.
+  video_WM: The scissors close, severing the rope above the left weight. The lights in the room immediately
+    turn off, leaving the scene in total darkness. The lights turn back on to reveal the scene again.
+    No zoom, no cut, no scene change. STOP.
+  camera_WM: The scissors close, severing the rope above the left weight. The lights in the room immediately
+    turn off, leaving the scene in total darkness. The lights turn back on to reveal the scene again.
+    No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A rustic interior scene featuring a metal pulley mounted to a wooden ceiling
+    beam. A thick rope runs through the pulley, suspending two 5kg iron weights, one on the left and one
+    on the right. A pair of large, open scissors is positioned around the rope above the left weight,
+    ready to cut it.
+  init2final_edit_prompt: Edit the given image to show the scissors closed. Remove both the left and right
+    5kg weights and the rope from the pulley, leaving the pulley empty attached to the beam. The scene
+    should look as if the weights have fallen out of view.
+  rationale: The scissors cut the rope holding the left weight, causing it to detach and fall immediately
+    due to gravity. This breaks the balance of the pulley system. The right weight, which is still attached
+    to the rope but now has no counterweight on the other side, will free-fall, pulling the remaining
+    rope rapidly over the pulley and down to the right. By the time the lights turn back on, both weights
+    and the rope will have fallen out of the frame.
+  questions:
+  - id: scissors_state
+    question: Are the scissors closed?
+    answer_type: yes_no
+    notes_for_judge: Check if the blades of the scissors have come together.
+  - id: left_weight_fall
+    question: Is the left weight missing or significantly lower than its initial position?
+    answer_type: yes_no
+    notes_for_judge: The weight should have fallen after the rope was cut.
+  - id: right_weight_fall
+    question: Is the right weight missing or significantly lower than its initial position?
+    answer_type: yes_no
+    notes_for_judge: The right weight should fall because the counterweight (left weight) is removed,
+      pulling the rope with it.
+  - id: rope_gone
+    question: Is the rope missing from the pulley or no longer supporting the weights?
+    answer_type: yes_no
+    notes_for_judge: The rope should have been pulled over the pulley by the falling right weight.
+  - id: system_cleared
+    question: Does the pulley appear empty or devoid of the suspended load?
+    answer_type: yes_no
+    notes_for_judge: Since both weights fall, the pulley should no longer support the balanced system.
+  - id: rope_severed
+    question: Does the rope appear severed or disconnected on the left side?
+    answer_type: yes_no
+    notes_for_judge: The cut action must be reflected in the state of the rope.

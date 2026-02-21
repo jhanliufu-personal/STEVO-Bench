@@ -1,0 +1,71 @@
+id: newtons_cradle_01
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: newtons_cradle
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to a large object sliding in front of the
+  view.
+changes:
+  occlusion_method: A large leather portfolio slides into view, blocking the scene.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The far-left ball is released. It swings toward the remaining four stationary balls. A large
+    leather portfolio slides from the right foreground to the left, completely blocking the view of the
+    cradle. Then, the portfolio slides back to the right until the cradle is fully visible again. No zoom,
+    no cut, no scene change. STOP.
+  camera_WM: The far-left ball is released. It swings toward the remaining four stationary balls. A large
+    leather portfolio slides from the right foreground to the left, completely blocking the view of the
+    cradle. Then, the portfolio slides back to the right until the cradle is fully visible again. No zoom,
+    no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a Newton's Cradle on a wooden desk. The device
+    consists of five metallic spheres suspended by strings from a metal frame. The far-left sphere is
+    pulled back and raised to the left, creating a significant gap between it and the other four spheres,
+    which are hanging vertically and touching each other in a central cluster. The background features
+    a blurred green wall, a bookshelf, and a leather chair, with warm natural lighting coming from the
+    left.
+  init2final_edit_prompt: Edit the given image so that the far-left metal ball is hanging vertically and
+    touching the left side of the central group of balls. Simultaneously, displace the far-right metal
+    ball so that it is swung out to the right side and raised in the air, mirroring the height the left
+    ball had initially. Ensure the three middle balls remain hanging vertically in the center.
+  rationale: The video depicts the release of the raised left ball, which converts potential energy into
+    kinetic energy. Upon impact with the stationary cluster, momentum is transferred through the middle
+    balls to the far-right ball, causing it to swing outward and upward. The occlusion by the leather
+    portfolio is a temporary event that passes; once the view is clear, the physical state of the system
+    should reflect the post-collision dynamics where the left ball has come to rest (or is part of the
+    swing cycle) and the right ball is in motion or raised, effectively mirroring the initial state.
+  questions:
+  - id: left_ball_pos
+    question: Is the far-left ball lower than its initial raised position?
+    answer_type: yes_no
+    notes_for_judge: The ball was originally held up; it should now be down or swinging, but not held
+      in the starting position.
+  - id: left_ball_contact
+    question: Is the far-left ball now closer to the central group than it was initially?
+    answer_type: yes_no
+    notes_for_judge: It should have swung in to hit the pack.
+  - id: right_ball_motion
+    question: Has the far-right ball moved from its initial stationary position?
+    answer_type: yes_no
+    notes_for_judge: Momentum transfer should cause the right ball to move.
+  - id: right_ball_separation
+    question: Is the far-right ball separated from the central cluster of balls?
+    answer_type: yes_no
+    notes_for_judge: It should be swinging out to the right.
+  - id: right_ball_height
+    question: Is the far-right ball higher than the three middle balls?
+    answer_type: yes_no
+    notes_for_judge: It should swing up.
+  - id: occlusion_clear
+    question: Is the view of the Newton's Cradle unobstructed by the leather portfolio?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the portfolio slides back until the cradle is fully visible.
+  - id: middle_balls_stability
+    question: Are the three middle balls still grouped together in the center?
+    answer_type: yes_no
+    notes_for_judge: In a Newton's Cradle, the middle balls remain largely stationary.

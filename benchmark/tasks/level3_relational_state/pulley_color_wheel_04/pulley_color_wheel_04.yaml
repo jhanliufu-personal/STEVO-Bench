@@ -1,0 +1,63 @@
+id: pulley_color_wheel_04
+level: 3
+category: relational_state
+tags: []
+variant_of: pulley_color_wheel
+variation_type: dynamic_condition
+variation_description: The rubber belt is cut/broken, so turning the crank will not rotate the color wheel.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Belt is broken (severed linkage)
+  expected_outcome_change: The color wheel remains stationary despite crank rotation.
+prompts:
+  init_frame_edit_prompt: Edit the image to show the black rubber belt cut in the middle, hanging loosely
+    with a visible gap between the ends, no longer connecting the pulleys.
+  video_WM: A hand turns the crank handle exactly half a rotation clockwise. The broken belt hangs loosely
+    and does not transfer force. The camera rotates right until the crank completely exits the view, then
+    rotates toward the left smoothly at the same rate until the color wheel is back in the center of view.
+    No zoom, no cut, no scene change. STOP.
+  camera_WM: A hand turns the crank handle exactly half a rotation clockwise. The broken belt hangs loosely
+    and does not transfer force. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: 'A workshop scene showing a wooden hand-crank mechanism on the left clamped
+    to a workbench, connected by a black rubber belt to a large wooden color wheel on the right. The color
+    wheel is divided into colored segments: Yellow is at the top (12 o''clock), followed clockwise by
+    orange, red, purple, blue, and green. A person''s hands are holding the wooden crank handle on the
+    left. The belt connects the small pulley on the crank to the center of the color wheel but appears
+    slack and loose at the bottom.'
+  init2final_edit_prompt: Edit the given image to show the final state where the color wheel remains exactly
+    in its original orientation with the 'Yellow' segment at the top, because the belt is broken and transfers
+    no force. The crank handle should be rotated 180 degrees clockwise from its starting position. Ensure
+    the color wheel has not rotated at all.
+  rationale: The prompt explicitly states that the belt is broken and does not transfer force. Therefore,
+    the physical coupling between the crank and the wheel is severed. Even though the hand turns the crank
+    half a rotation, the color wheel must remain stationary due to the lack of force transfer. The camera
+    movement described (panning away and back) serves to obscure the crank during the action, but the
+    final state of the wheel must be identical to the initial state (conservation of position due to decoupling).
+  questions:
+  - id: wheel_orientation_yellow
+    question: Is the yellow segment of the color wheel still at the top (12 o'clock) position?
+    answer_type: yes_no
+    notes_for_judge: The wheel should not move because the belt is broken.
+  - id: wheel_orientation_green
+    question: Is the green segment still located to the immediate left of the yellow segment?
+    answer_type: yes_no
+    notes_for_judge: Verifies the wheel did not rotate.
+  - id: wheel_stationary
+    question: Did the color wheel remain in its original position without rotating?
+    answer_type: yes_no
+    notes_for_judge: Primary test of the 'broken belt' constraint.
+  - id: belt_slackness
+    question: Does the belt appear loose or slack, consistent with being broken?
+    answer_type: yes_no
+    notes_for_judge: Checks if the visual attribute of the belt is maintained.
+  - id: no_rotation_transfer
+    question: Is the text 'Yellow' on the wheel still upright and at the top?
+    answer_type: yes_no
+    notes_for_judge: Specific visual marker check.
+  - id: relative_position_orange
+    question: Is the orange segment still to the right of the yellow segment?
+    answer_type: yes_no
+    notes_for_judge: Spatial consistency check.

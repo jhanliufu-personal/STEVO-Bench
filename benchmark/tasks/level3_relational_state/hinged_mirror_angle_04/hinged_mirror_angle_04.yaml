@@ -1,0 +1,66 @@
+id: hinged_mirror_angle_04
+level: 3
+category: relational_state
+tags: []
+variant_of: hinged_mirror_angle
+variation_type: dynamic_condition
+variation_description: 'The dynamic action is reversed: the mirrors open (angle increases) instead of
+  closing.'
+changes:
+  occlusion_method: null
+  dynamic_conditions: Hinge opens (angle increases) instead of closing.
+  expected_outcome_change: Number of reflections decreases instead of increases.
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A mechanical arm grabs the edge of one mirror and begins slowly pushing the hinge open, increasing
+    the angle between the two mirrors. The apple remains stationary. The camera rotates right until the
+    mirrors completely exit the view, then rotates toward the left smoothly at the same rate until the
+    intersection of the two mirrors is back in the center of view. No zoom, no cut, no scene change. STOP.
+  camera_WM: A mechanical arm grabs the edge of one mirror and begins slowly pushing the hinge open, increasing
+    the angle between the two mirrors. The apple remains stationary. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A red apple sits on a wooden table in the foreground. Behind it, two rectangular
+    mirrors are joined by a vertical brass hinge in the center, forming a V-shape (corner) that opens
+    towards the camera. The mirrors reflect the apple and the surrounding room, including a window and
+    a radiator. The hinge is centered in the frame.
+  init2final_edit_prompt: Edit the given image to show a mechanical arm gripping the outer edge of one
+    of the mirrors. The angle between the two mirrors must be significantly wider (more open/obtuse) than
+    in the original image, making the mirror assembly appear flatter. The red apple must remain in the
+    exact same position on the table. Update the reflections in the mirrors to correspond to the new,
+    wider angle of the glass panes. Ensure the brass hinge remains in the center of the frame.
+  rationale: 'The video involves a camera panning away and then returning to the original viewpoint. During
+    the time the mirrors are out of frame (occluded), a mechanical arm acts on the system to push the
+    mirrors open. Therefore, in the final frame, the camera angle is identical to the start (hinge centered),
+    but the physical state of the mirrors has changed: they are angled wider apart, and a mechanical arm
+    is now visible holding the new position. The apple remains stationary throughout.'
+  questions:
+  - id: mirror_angle_change
+    question: Is the angle between the two mirrors wider (more open) than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the V-shape of the mirrors. It should be more obtuse (flatter) in the final
+      frame.
+  - id: mechanical_arm_presence
+    question: Is a mechanical arm visible interacting with one of the mirrors?
+    answer_type: yes_no
+    notes_for_judge: The prompt describes an arm grabbing and pushing the mirror; it should be visible
+      in the final state.
+  - id: reflection_update
+    question: Do the reflections in the mirrors appear different from the initial frame, consistent with
+      the mirrors having moved?
+    answer_type: yes_no
+    notes_for_judge: If the mirrors moved, the reflections of the room and apple must shift. They should
+      not be identical pixel-matches to the first frame.
+  - id: apple_position_consistency
+    question: Is the real red apple in the same position on the table relative to the hinge?
+    answer_type: yes_no
+    notes_for_judge: The apple should not have moved.
+  - id: hinge_centering
+    question: Is the vertical brass hinge positioned in the horizontal center of the image?
+    answer_type: yes_no
+    notes_for_judge: The camera rotates back to center the intersection.
+  - id: mirror_openness
+    question: Do the mirrors appear less folded (closer to a flat plane) than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Rephrasing of the angle question to ensure robustness.

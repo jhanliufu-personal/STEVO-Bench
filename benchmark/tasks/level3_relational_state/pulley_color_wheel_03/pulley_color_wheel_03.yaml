@@ -1,0 +1,74 @@
+id: pulley_color_wheel_03
+level: 3
+category: relational_state
+tags: []
+variant_of: pulley_color_wheel
+variation_type: occlusion_method
+variation_description: The camera zooms out rapidly until the mechanism is too small to see details.
+changes:
+  occlusion_method: Camera zoom out
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A hand turns the crank handle exactly half a rotation clockwise. The rubber belt is taut and
+    moves without slipping. The camera zooms out rapidly and significantly until the workbench and mechanism
+    become tiny distant specks, losing all detail. The camera then zooms back in smoothly to the original
+    framing. No cut, no scene change. STOP.
+  camera_WM: A hand turns the crank handle exactly half a rotation clockwise. The rubber belt is taut
+    and moves without slipping. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+evaluation:
+  init_frame_description: A workshop scene featuring a wooden mechanical setup clamped to a workbench.
+    On the left, a hand holds the handle of a hand-cranked pulley system; the handle is currently pointing
+    upwards and to the left (approximately the 10 or 11 o'clock position). A black rubber belt connects
+    this smaller crank pulley to a large wooden color wheel on the right. The color wheel is divided into
+    12 painted segments (Yellow, Orange, Red, Violet, Blue, Green, etc.). The 'Yellow' segment is currently
+    at the top (12 o'clock) position. The background shows a window, a pegboard with tools (chisels, wrenches),
+    and wood shavings on the bench.
+  init2final_edit_prompt: Edit the given image to show the state of the mechanism after the crank has
+    been turned exactly half a rotation clockwise. The hand and crank handle should now be positioned
+    pointing towards the bottom-right (approximately the 4 or 5 o'clock position), opposite to their starting
+    point. The large color wheel should be rotated slightly clockwise, so that the 'Yellow' segment is
+    shifted to the right (around the 1 o'clock position) and the yellow-green segment to its left is now
+    at the top center. Ensure the belt remains taut and the background tools and environment remain unchanged.
+  rationale: The prompt specifies a half-rotation (180 degrees) of the crank clockwise. Mechanically,
+    the belt couples the crank to the wheel, so the wheel must also rotate clockwise. Since the crank
+    pulley is significantly smaller than the color wheel (visually estimated ratio between 1:4 and 1:8),
+    the wheel will rotate a much smaller angle than the crank (likely 20-45 degrees). This means the 'Yellow'
+    label will move from the top to the right, and the segment previously to its left will move to the
+    top. The camera returns to the original framing, so the view is identical.
+  questions:
+  - id: crank_position
+    question: Is the crank handle pointing generally downwards or to the bottom-right?
+    answer_type: yes_no
+    notes_for_judge: The handle started pointing top-left. After a 180-degree turn, it must be bottom-right.
+  - id: wheel_rotation_direction
+    question: Is the 'Yellow' segment of the wheel positioned to the right of the top center?
+    answer_type: yes_no
+    notes_for_judge: Clockwise rotation of the crank pulls the top of the belt right, rotating the wheel
+      clockwise. Yellow starts at top, so it must move right.
+  - id: wheel_segment_change
+    question: Is the green or yellow-green segment closer to the top vertical position than it was initially?
+    answer_type: yes_no
+    notes_for_judge: As the wheel turns clockwise, the segment to the left of Yellow (Green/Yellow-Green)
+      moves up into the top position.
+  - id: rotation_magnitude_comparison
+    question: Does the color wheel appear to have rotated significantly less than 180 degrees?
+    answer_type: yes_no
+    notes_for_judge: The wheel is much larger than the crank pulley, so the gear ratio dictates a smaller
+      rotation for the wheel compared to the crank's half-turn.
+  - id: belt_integrity
+    question: Is the black belt still connected to both the crank and the wheel?
+    answer_type: yes_no
+    notes_for_judge: The belt should not disappear or break.
+  - id: background_consistency
+    question: Are the tools on the pegboard in the background unchanged?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: crank_hand_presence
+    question: Is the hand still holding the crank handle?
+    answer_type: yes_no
+    notes_for_judge: The prompt implies the hand performs the action; typically the hand remains on the
+      handle in the final frame unless specified otherwise.

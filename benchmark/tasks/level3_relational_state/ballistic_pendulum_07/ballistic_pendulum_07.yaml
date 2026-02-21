@@ -1,0 +1,67 @@
+id: ballistic_pendulum_07
+level: 3
+category: relational_state
+tags: []
+variant_of: ballistic_pendulum
+variation_type: combined
+variation_description: Combined heavy concrete block with lights-off occlusion.
+changes:
+  occlusion_method: Lights turn off completely.
+  dynamic_conditions: Target block is heavy concrete.
+  expected_outcome_change: Minimal swing due to high mass.
+prompts:
+  init_frame_edit_prompt: Edit the image to change the wooden block texture to a rough, gray concrete
+    block.
+  video_WM: The metal projectile makes direct contact with the heavy concrete block, embedding itself
+    into the material. The block is free to swing on its wire suspension. Suddenly, the lights in the
+    room turn off completely, plunging the scene into total darkness. After a duration, the lights turn
+    back on to reveal the scene again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The metal projectile makes direct contact with the heavy concrete block, embedding itself
+    into the material. The block is free to swing on its wire suspension. Suddenly, the lights in the
+    room turn off completely, plunging the scene into total darkness. After a duration, the lights turn
+    back on to reveal the scene again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A heavy, rectangular concrete block is suspended by two steel wire cables from
+    a ceiling beam in an industrial room. A cylindrical metal projectile is impacting the front-left face
+    of the block, partially embedded. A cloud of concrete dust and debris is exploding outwards from the
+    impact point. The background features white walls with electrical conduits and pipes.
+  init2final_edit_prompt: Edit the given image to show the concrete block swung to the right and slightly
+    upwards, displaced from its original center position. The metal projectile must remain firmly embedded
+    in the concrete block at the impact site. The suspension cables should be taut and angled to the right,
+    aligning with the block's new position. Remove the flying dust and debris to show a clear view of
+    the block and projectile.
+  rationale: The scenario depicts a ballistic pendulum where a projectile undergoes an inelastic collision
+    with a suspended block. Upon impact, the projectile embeds itself in the block, transferring momentum.
+    This causes the coupled system (block + projectile) to swing in the direction of the projectile's
+    velocity (to the right). The period of darkness allows the dust to settle and the block to swing to
+    a displaced position. The final state should show the block displaced from the center with the projectile
+    still attached, illustrating the conservation of momentum and the physical coupling of the two objects.
+  questions:
+  - id: block_displacement
+    question: Is the concrete block positioned further to the right relative to the ceiling beam than
+      it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The block should have swung to the right due to the impact momentum.
+  - id: projectile_embedded
+    question: Is the metal projectile still visible and attached to the concrete block?
+    answer_type: yes_no
+    notes_for_judge: The projectile should remain embedded in the block (coupled motion).
+  - id: cable_angle
+    question: Are the suspension cables angled to the right, consistent with the block's new position?
+    answer_type: yes_no
+    notes_for_judge: The wires must connect the fixed ceiling points to the displaced block.
+  - id: dust_settled
+    question: Has the cloud of flying dust and debris been removed or significantly reduced?
+    answer_type: yes_no
+    notes_for_judge: Time has passed, so the immediate impact debris should settle.
+  - id: block_integrity
+    question: Is the concrete block largely intact (except for the impact hole) rather than shattered?
+    answer_type: yes_no
+    notes_for_judge: The prompt describes embedding, not destruction.
+  - id: coupling_consistency
+    question: Does the projectile appear to have moved along with the block?
+    answer_type: yes_no
+    notes_for_judge: The projectile should not be floating in the original spot; it must be attached to
+      the displaced block.

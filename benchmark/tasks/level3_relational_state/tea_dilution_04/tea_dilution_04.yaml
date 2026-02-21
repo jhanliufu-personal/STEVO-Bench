@@ -1,0 +1,63 @@
+id: tea_dilution_04
+level: 3
+category: relational_state
+tags: []
+variant_of: tea_dilution
+variation_type: dynamic_condition
+variation_description: Liquid changed from water-soluble concentrate to immiscible oil.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Pouring golden oil instead of black concentrate. Liquids are immiscible.
+  expected_outcome_change: The liquid should form distinct bubbles or layers rather than mixing/diffusing
+    into a uniform color.
+prompts:
+  init_frame_edit_prompt: Edit the image to change the dark liquid in the pitcher and the stream to a
+    golden yellow oil, and remove the dark swirling cloud in the water, replacing it with distinct golden
+    oil bubbles.
+  video_WM: Golden oil is poured into the water. The liquids are immiscible and do not mix. The camera
+    rotates right until both containers completely exit the view, then rotates toward the left smoothly
+    at the same rate until the glass is back in the center of view. No zoom, no cut, no scene change.
+    STOP.
+  camera_WM: Golden oil is poured into the water. The liquids are immiscible and do not mix. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A clear glass sitting on a wooden table, partially filled with clear water and
+    distinct golden oil bubbles. A ceramic pitcher is positioned above, pouring a stream of golden oil
+    into the glass. Steam rises from the glass, and a window is visible in the blurred background.
+  init2final_edit_prompt: Edit the given image to show a significantly larger quantity of golden oil bubbles
+    suspended within the water in the glass. The oil should remain as distinct globules and not mix with
+    the water. The total liquid level in the glass should be slightly higher to account for the added
+    volume. Maintain the original background, lighting, and the appearance of the glass container.
+  rationale: The video prompt describes oil being poured into water, followed by a camera pan away and
+    back. During the time the camera is looking away, the pouring action continues or concludes, resulting
+    in a net accumulation of oil within the glass. Because the liquids are immiscible, the added oil increases
+    the number of suspended bubbles or the volume of the oil layer rather than changing the water's color
+    uniformly. The final frame must reflect this increased volume and the distinct separation of fluids.
+  questions:
+  - id: oil_accumulation
+    question: Is the amount of golden oil visible inside the glass greater than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the density or number of golden bubbles/globules. There should be more in
+      the final frame.
+  - id: immiscibility_check
+    question: Do the golden oil and the clear water remain visually distinct without blending into a uniform
+      color?
+    answer_type: yes_no
+    notes_for_judge: The liquids should not mix; distinct bubbles or layers should be visible.
+  - id: bubble_density
+    question: Is the density of oil bubbles within the water higher than it was initially?
+    answer_type: yes_no
+    notes_for_judge: Look for a more crowded appearance of the golden globules.
+  - id: volume_conservation
+    question: Is the total liquid level in the glass at least as high as it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Adding liquid should not lower the level.
+  - id: container_consistency
+    question: Is the glass container the same shape and type as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: background_consistency
+    question: Is the wooden table surface still visible beneath the glass?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

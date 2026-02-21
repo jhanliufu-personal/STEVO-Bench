@@ -1,0 +1,69 @@
+id: magnetic_slingshot_03
+level: 3
+category: relational_state
+tags: []
+variant_of: magnetic_slingshot
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to camera zooming out.
+changes:
+  occlusion_method: Camera zooms out until details are lost.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The first magnetic puck approaches the second stationary puck at high speed. The repulsion
+    between the two North poles is significant. Neither puck is attached to the rail. The camera zooms
+    out rapidly until the rail appears as a tiny speck in the distance, obscuring all motion details.
+    Then, the camera zooms back in to the exact original framing. No cut, no scene change. STOP.
+  camera_WM: The first magnetic puck approaches the second stationary puck at high speed. The repulsion
+    between the two North poles is significant. Neither puck is attached to the rail. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+evaluation:
+  init_frame_description: A photo of a physics experiment setup showing a clear acrylic inclined rail
+    labeled 'FRICTIONLESS RAIL' on a metallic table. Two cylindrical metal pucks are resting on the rail.
+    The upper puck is near the top left, featuring a red 'N' on its face oriented towards the bottom right.
+    The lower puck is near the center, featuring a red 'N' on its face oriented towards the top left.
+    A whiteboard with handwritten physics equations and diagrams is visible in the background.
+  init2final_edit_prompt: Edit the given image to show the upper metal puck positioned lower down the
+    inclined rail, occupying the space roughly where the lower puck was originally located. Remove the
+    lower metal puck from the image entirely, as if it has slid off the bottom right edge of the rail.
+    Maintain the background, the rail, and the table appearance exactly as they are.
+  rationale: The video describes a magnetic collision on a frictionless incline where the upper puck approaches
+    the stationary lower puck. Due to the repulsive magnetic force between the facing North poles, momentum
+    is transferred from the moving upper puck to the stationary lower puck. The lower puck accelerates
+    rapidly down the slope and, given the high speed and limited rail length, exits the frame. The upper
+    puck slows down due to the interaction but continues to slide down the slope due to gravity, ending
+    up lower than its starting position.
+  questions:
+  - id: puck1_position
+    question: Is the upper puck now positioned lower on the rail than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The upper puck should have moved down the slope.
+  - id: puck2_exit
+    question: Has the lower puck moved further down the rail or exited the frame entirely?
+    answer_type: yes_no
+    notes_for_judge: The lower puck should be gone or at the very bottom edge.
+  - id: relative_displacement
+    question: Did the lower puck move further down-slope relative to its starting position than the upper
+      puck did?
+    answer_type: yes_no
+    notes_for_judge: The lower puck gains velocity and shoots off; the upper puck slows down, so the lower
+      one travels further.
+  - id: occupancy_change
+    question: Is the position originally occupied by the lower puck now either empty or occupied by the
+      upper puck?
+    answer_type: yes_no
+    notes_for_judge: The lower puck must vacate its spot.
+  - id: separation_increase
+    question: Has the distance between the two pucks increased (or has one exited the frame)?
+    answer_type: yes_no
+    notes_for_judge: Repulsion causes separation.
+  - id: puck1_visible
+    question: Is the upper puck still visible on the rail?
+    answer_type: yes_no
+    notes_for_judge: The upper puck should not have exited yet, as it slows down during interaction.
+  - id: rail_clearance
+    question: Is the top section of the rail (where the first puck started) now empty?
+    answer_type: yes_no
+    notes_for_judge: The first puck must have moved down.

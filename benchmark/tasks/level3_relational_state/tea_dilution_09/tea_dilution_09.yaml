@@ -1,0 +1,64 @@
+id: tea_dilution_09
+level: 3
+category: relational_state
+tags: []
+variant_of: tea_dilution
+variation_type: combined
+variation_description: High turbulence/hot liquid (Condition) + Steam/Fog (Occlusion).
+changes:
+  occlusion_method: Thick steam fills the view.
+  dynamic_conditions: Rapid pouring of boiling liquid causing turbulence.
+  expected_outcome_change: Faster mixing due to turbulence.
+prompts:
+  init_frame_edit_prompt: Edit the image to show a much wider, more aggressive stream of black liquid
+    splashing into the water, creating surface agitation.
+  video_WM: Boiling black concentrate is poured rapidly into the water, creating high turbulence. Thick
+    white steam rises and completely fills the frame, obscuring the entire view. The steam eventually
+    dissipates to reveal the glass. No zoom, no cut, no scene change. STOP.
+  camera_WM: Boiling black concentrate is poured rapidly into the water, creating high turbulence. Thick
+    white steam rises and completely fills the frame, obscuring the entire view. The steam eventually
+    dissipates to reveal the glass. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A clear glass sits on a wooden table, partially filled with clear water. A ceramic
+    pitcher is pouring a dark, black liquid into the glass. The dark liquid is crashing into the water,
+    creating a turbulent, swirling cloud of brown and black within the clear water. Steam is rising from
+    the hot liquid, and the background shows a blurred window.
+  init2final_edit_prompt: Edit the given image to show the glass filled with a uniform dark brown liquid,
+    representing the fully mixed state of the water and the poured concentrate. The liquid level in the
+    glass must be significantly higher than in the original image. The distinct swirling separation between
+    clear water and dark liquid should be replaced by a consistent dark color throughout the glass. Ensure
+    the glass is clearly visible and not obscured by steam.
+  rationale: 'The video prompt describes a process where boiling concentrate is added to water. This implies
+    two physical changes: the total volume of liquid in the glass must increase (conservation of mass),
+    and the clear water and black concentrate will mix to form a uniform dark liquid (diffusion/mixing).
+    The prompt explicitly states that the steam, which initially obscures the view, eventually dissipates.
+    Therefore, the final frame must show the aftermath: a fuller glass with mixed dark liquid, clearly
+    visible without the steam obstruction.'
+  questions:
+  - id: volume_increase
+    question: Is the liquid level in the glass higher than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The pouring action adds volume, so the final level must be higher.
+  - id: mixing_color
+    question: Has the liquid in the glass become a uniform dark color, rather than showing clear water?
+    answer_type: yes_no
+    notes_for_judge: The black concentrate should mix with the water to create a dark solution.
+  - id: visibility_steam
+    question: Is the glass clearly visible, without being obscured by a thick cloud of steam?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the steam dissipates to reveal the glass.
+  - id: turbulence_settled
+    question: Does the liquid appear to be a mixed solution rather than two separate swirling fluids?
+    answer_type: yes_no
+    notes_for_judge: The initial frame shows separation/turbulence; the final should show a mixed state.
+  - id: conservation_darkness
+    question: Does the final liquid retain the dark characteristic of the poured concentrate?
+    answer_type: yes_no
+    notes_for_judge: The liquid should not revert to clear water; it must show the presence of the added
+      substance.
+  - id: container_integrity
+    question: Is the glass cup still standing upright and intact?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

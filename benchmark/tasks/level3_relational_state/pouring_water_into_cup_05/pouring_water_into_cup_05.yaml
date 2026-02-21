@@ -1,0 +1,66 @@
+id: pouring_water_into_cup_05
+level: 3
+category: relational_state
+tags: []
+variant_of: pouring_water_into_cup
+variation_type: dynamic_condition
+variation_description: The glass is already full at the start, implying an overflow.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Target glass is already full to the brim.
+  expected_outcome_change: Water spills over the table instead of filling the glass.
+prompts:
+  init_frame_edit_prompt: Edit the image so the glass on the table is already filled to the brim with
+    water.
+  video_WM: Single continuous shot, no cuts, no zoom, no scene transitions. Camera starts centered on
+    the hand holding the pitcher, pouring water into an already full glass. The hand continues holding
+    the pitcher in the same tilted position so that water keeps pouring continuously. While the pouring
+    continues, the camera smoothly moves to the right at constant speed until the pitcher, water stream,
+    and glass fully exit the frame to the left. The camera continues moving right across the tabletop
+    for several seconds while the pouring action remains out of view. Then the camera moves left at the
+    same constant speed back to the original viewpoint.
+  camera_WM: A hand holds a pitcher tilted to pour water into an already full glass. The hand continues
+    holding the pitcher in the same tilted position so that water keeps pouring continuously. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A close-up shot of a clear glass pitcher held by a hand, tilted in preparation
+    to pour. The pitcher contains water, with the water level clearly visible. Below the pitcher is a
+    clear, empty glass tumbler resting on a wooden table. A window with a blurred outdoor view is in the
+    background.
+  init2final_edit_prompt: Edit the given image to show a stream of water actively pouring from the pitcher
+    into the glass. The glass should be completely filled with water, with a visible puddle of water spilled
+    on the wooden table around its base to indicate overflow. Significantly lower the water level inside
+    the pitcher to reflect the volume poured out, while keeping the hand and pitcher in the same position.
+  rationale: The initial image shows an empty glass, despite the text prompt describing it as 'already
+    full'. The simulation must respect the visual ground truth of the initial frame (empty glass) while
+    executing the prompt's action (continuous pouring). Since the pouring continues for several seconds
+    while the camera pans away and back, the glass will fill up and eventually overflow, creating a spill
+    on the table. The water level in the pitcher must decrease corresponding to the amount poured (conservation
+    of mass). The final frame returns to the original view, so the pouring stream should be visible again.
+  questions:
+  - id: glass_filled
+    question: Is the glass tumbler significantly fuller than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The glass starts empty in the image. After pouring, it should be full.
+  - id: pitcher_level_drop
+    question: Is the water level inside the pitcher lower than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: 'Conservation of mass: water leaving the pitcher must lower its level.'
+  - id: overflow_spill
+    question: Is there a puddle of water on the table around the glass?
+    answer_type: yes_no
+    notes_for_judge: The pouring lasts several seconds, which is enough to overfill the glass.
+  - id: pouring_stream_visible
+    question: Is there a visible stream of water connecting the pitcher to the glass?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the hand continues holding the pitcher so water keeps pouring continuously.
+  - id: coupled_conservation
+    question: Does the pitcher contain less water while the glass contains more water?
+    answer_type: yes_no
+    notes_for_judge: Checks for the correct relational change between the two containers.
+  - id: glass_fullness
+    question: Does the glass appear to be completely full or overflowing?
+    answer_type: yes_no
+    notes_for_judge: Given the duration, the glass should reach capacity.

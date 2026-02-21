@@ -1,0 +1,67 @@
+id: ink_dilution_05
+level: 3
+category: relational_state
+tags: []
+variant_of: ink_dilution
+variation_type: dynamic_condition
+variation_description: The pouring action is stopped initially.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Pitcher is held steady, no liquid flows.
+  expected_outcome_change: No change in volume or color.
+prompts:
+  init_frame_edit_prompt: Edit the image to remove the stream of water pouring from the pitcher. The pitcher
+    remains tilted above the beaker, but no liquid is flowing.
+  video_WM: A pitcher is held tilted over a beaker of dark ink, but no liquid is flowing. The camera rotates
+    right until the beaker completely exits the view, then rotates toward the left smoothly at the same
+    rate until the beaker is back in the center of view. No zoom, no cut, no scene change. STOP.
+  camera_WM: A pitcher is held tilted over a beaker of dark ink, but no liquid is flowing.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A clear glass beaker filled with dark purple ink sits on a wooden laboratory
+    table. Above and to the right, a clear glass pitcher filled with water is held in a tilted position,
+    with the spout pointing towards the beaker, but no water is pouring. A window is visible in the background.
+  init2final_edit_prompt: Edit the given image to show the exact same scene as the original. The beaker
+    should still contain the same amount of dark purple liquid, and the pitcher should still contain the
+    same amount of clear water, held in the same tilted position above the beaker. Ensure no water has
+    been poured, the ink is not diluted, and the water level in the pitcher has not decreased. The scene
+    should appear static and unchanged.
+  rationale: The video prompt explicitly states that although the pitcher is tilted, 'no liquid is flowing'
+    at the start. It then describes camera movement (rotating away and back) without commanding any physical
+    action such as 'pour', 'mix', or 'add water'. In the absence of an explicit action command, the correct
+    physical simulation is for the state to remain static. The model must demonstrate object permanence
+    and state conservation by NOT hallucinating a pouring event or dilution simply because the pitcher
+    is tilted. The final state should be identical to the initial state.
+  questions:
+  - id: conservation_separation
+    question: Is the separation between the water in the pitcher and the ink in the beaker maintained
+      (no mixing)?
+    answer_type: yes_no
+    notes_for_judge: The water and ink should remain in their respective containers without a connecting
+      stream or mixing.
+  - id: conservation_pitcher_vol
+    question: Does the amount of water in the pitcher appear conserved relative to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The water level in the pitcher should not have decreased.
+  - id: conservation_beaker_vol
+    question: Does the volume of liquid in the beaker appear unchanged (not increased)?
+    answer_type: yes_no
+    notes_for_judge: The level of the purple liquid should be the same as in the initial frame.
+  - id: ink_concentration
+    question: Is the liquid in the beaker still dark purple (undiluted)?
+    answer_type: yes_no
+    notes_for_judge: The color intensity should not fade or become lighter, which would indicate water
+      was added.
+  - id: no_flow_stream
+    question: Is the space between the pitcher spout and the beaker free of a flowing liquid stream?
+    answer_type: yes_no
+    notes_for_judge: There should be no water pouring.
+  - id: pitcher_position
+    question: Is the pitcher still positioned above the beaker in a tilted orientation?
+    answer_type: yes_no
+    notes_for_judge: The pitcher should not have disappeared or moved significantly.
+  - id: background_consistency
+    question: Is the window in the background still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

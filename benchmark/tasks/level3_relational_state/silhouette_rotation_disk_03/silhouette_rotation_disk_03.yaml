@@ -1,0 +1,66 @@
+id: silhouette_rotation_disk_03
+level: 3
+category: relational_state
+tags: []
+variant_of: silhouette_rotation_disk
+variation_type: occlusion_method
+variation_description: Occlusion changed to thick fog filling the room.
+changes:
+  occlusion_method: Thick fog fills the room obscuring the view, then dissipates
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The motorized base begins to rotate the flat circular disk slowly and steadily by exactly
+    90 degrees around its vertical axis. The spotlight and screen remain fixed in place. Dense white fog
+    rapidly fills the space, becoming thick enough to completely obscure the disk and the screen. The
+    fog then gradually dissipates until the air is clear again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The motorized base begins to rotate the flat circular disk slowly and steadily by exactly
+    90 degrees around its vertical axis. The spotlight and screen remain fixed in place. Dense white fog
+    rapidly fills the space, becoming thick enough to completely obscure the disk and the screen. The
+    fog then gradually dissipates until the air is clear again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A studio setup with a spotlight on the left, a white screen on the right, and
+    a motorized turntable in the center holding a large, flat, circular metal disk. The disk is oriented
+    edge-on to the camera and face-on to the light, appearing as a thick vertical strip. It casts a sharp,
+    perfect circular shadow onto the white screen.
+  init2final_edit_prompt: Edit the given image to show the central metal disk rotated 90 degrees so that
+    its flat circular face is facing directly towards the camera, appearing as a large circle. Correspondingly,
+    change the shadow on the white screen from a circle to a thin vertical line, representing the shadow
+    of the disk's edge. Ensure the scene is clear and free of fog.
+  rationale: The prompt specifies a 90-degree rotation of the disk. In the initial frame, the disk is
+    edge-to-camera and face-to-light (casting a circular shadow). Rotating it 90 degrees makes it face-to-camera
+    (appearing as a circle) and edge-to-light (casting a thin line shadow). The fog occlusion forces the
+    model to calculate this geometric state change without showing the motion.
+  questions:
+  - id: disk_orientation_change
+    question: Is the flat circular face of the disk now visible to the camera?
+    answer_type: yes_no
+    notes_for_judge: The disk should look like a circle, not a vertical line.
+  - id: shadow_shape_change
+    question: Is the shadow on the screen a thin vertical line or narrow rectangle?
+    answer_type: yes_no
+    notes_for_judge: The shadow should no longer be a circle.
+  - id: shadow_width_reduction
+    question: Is the shadow on the screen significantly narrower than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare to the large circle in the init frame.
+  - id: inverse_relationship_width
+    question: Is the visible width of the disk now wider than the width of its shadow?
+    answer_type: yes_no
+    notes_for_judge: In the final state, the disk is seen face-on (wide) and the shadow is edge-on (thin).
+      Initially, it was the reverse.
+  - id: shadow_circle_gone
+    question: Is the large circular shadow absent from the screen?
+    answer_type: yes_no
+    notes_for_judge: The circular shadow must be replaced by the line shadow.
+  - id: light_source_consistency
+    question: Does the spotlight remain in its original position on the left?
+    answer_type: yes_no
+    notes_for_judge: The light source should not move.
+  - id: fog_cleared
+    question: Is the view of the disk and screen clear and unobstructed by fog?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the fog dissipates.

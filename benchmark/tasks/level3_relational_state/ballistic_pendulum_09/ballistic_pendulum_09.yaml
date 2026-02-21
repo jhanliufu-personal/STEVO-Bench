@@ -1,0 +1,67 @@
+id: ballistic_pendulum_09
+level: 3
+category: relational_state
+tags: []
+variant_of: ballistic_pendulum
+variation_type: combined
+variation_description: Combined rubber ball projectile with fog occlusion.
+changes:
+  occlusion_method: Fog blocks view.
+  dynamic_conditions: Projectile is a rubber ball (elastic collision).
+  expected_outcome_change: Projectile bounces off; block swings.
+prompts:
+  init_frame_edit_prompt: Edit the image to change the metal projectile to a bright red rubber ball.
+  video_WM: The red rubber ball makes direct contact with the wooden block, poised to bounce off rather
+    than embed. The block is free to swing on its wire suspension. Dense white fog rapidly fills the room,
+    reducing visibility to zero and completely hiding the apparatus. The fog then dissipates, clearing
+    the view to reveal the scene again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The red rubber ball makes direct contact with the wooden block, poised to bounce off rather
+    than embed. The block is free to swing on its wire suspension. Dense white fog rapidly fills the room,
+    reducing visibility to zero and completely hiding the apparatus. The fog then dissipates, clearing
+    the view to reveal the scene again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A large, dark, rectangular wooden block suspended by two braided steel cables.
+    A red rubber ball is captured in the moment of impacting the left face of the block. An explosion
+    of wood splinters and dust surrounds the contact point. The background features a blurred industrial
+    ceiling with pipes and conduit.
+  init2final_edit_prompt: Edit the given image to show the aftermath of the collision. Remove the red
+    ball from the surface of the wooden block; it should be separated and moved to the left or out of
+    the frame entirely. Show the wooden block displaced to the right, swinging on its suspension cables.
+    Clear away the airborne dust and flying wood splinters to reveal the texture of the wood. Ensure the
+    cables are angled consistent with the block's movement to the right.
+  rationale: The prompt describes an elastic collision where the ball bounces off the suspended block.
+    The fog acts as a temporal occlusion, allowing time for the physics of the interaction to play out.
+    Conservation of momentum dictates that the block will swing to the right while the ball rebounds to
+    the left. The final state must show the two objects separated (relational state change) and the block
+    displaced from its initial resting position, with the transient impact debris having settled.
+  questions:
+  - id: separation_check
+    question: Is the red ball no longer touching the wooden block?
+    answer_type: yes_no
+    notes_for_judge: The ball must have bounced off, creating a gap between the objects.
+  - id: block_displacement
+    question: Is the wooden block displaced to the right relative to its position in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The block should have swung to the right due to the transfer of momentum.
+  - id: debris_cleared
+    question: Has the cloud of dust and flying splinters from the impact dissipated?
+    answer_type: yes_no
+    notes_for_judge: Time has passed during the fog, so transient debris should be gone.
+  - id: relative_position
+    question: Is the red ball positioned to the left of the block or absent from the frame?
+    answer_type: yes_no
+    notes_for_judge: The ball rebounds (moves left) while the block moves right.
+  - id: no_embedding
+    question: Is the ball separate from the wood rather than embedded inside it?
+    answer_type: yes_no
+    notes_for_judge: The prompt explicitly states the ball bounces off rather than embeds.
+  - id: cable_integrity
+    question: Are the suspension cables still attached to the block?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: clear_view
+    question: Is the view of the wooden block clear of fog?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the fog dissipates.

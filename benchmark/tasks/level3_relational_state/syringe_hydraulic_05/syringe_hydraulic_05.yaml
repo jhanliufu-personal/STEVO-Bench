@@ -1,0 +1,64 @@
+id: syringe_hydraulic_05
+level: 3
+category: relational_state
+tags: []
+variant_of: syringe_hydraulic
+variation_type: dynamic_condition
+variation_description: A surgical clamp pinches the tubing, preventing fluid flow.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Tubing is tightly clamped shut.
+  expected_outcome_change: Right plunger does not move; left plunger encounters resistance or tubing bulges.
+prompts:
+  init_frame_edit_prompt: Edit the image to add a metal surgical clamp tightly pinching the middle of
+    the plastic tubing, closing it off.
+  video_WM: A mechanical finger begins pressing the plunger of the left syringe. A metal surgical clamp
+    tightly pinches the connecting tubing, blocking the flow. The pressing continues at a constant rate.
+    The camera rotates right until both syringes completely exit the view, then rotates toward the left
+    smoothly at the same rate until the right syringe is back in the center of view. No zoom, no cut,
+    no scene change. STOP.
+  camera_WM: A mechanical finger begins pressing the plunger of the left syringe. A metal surgical clamp
+    tightly pinches the connecting tubing, blocking the flow. The pressing continues at a constant rate.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A high-angle shot of a metal tray containing two syringes connected by clear
+    plastic tubing. The left syringe is larger (50ml scale), filled with red liquid to approximately the
+    40ml mark, and has its plunger extended. The right syringe is smaller, completely empty, and has its
+    plunger fully depressed. A metal hemostat (surgical clamp) is tightly clamped onto the middle of the
+    connecting tubing, pinching it closed. The background shows a blurry window sill.
+  init2final_edit_prompt: Edit the image to center the view on the right syringe. Ensure the right syringe
+    remains completely empty with its plunger fully depressed. Keep the red liquid confined entirely to
+    the left syringe and the tubing section before the clamp, with no red liquid visible in the right
+    syringe or the tubing connected to it. Maintain the presence of the clamp on the tubing.
+  rationale: 'The prompt describes a hydraulic system where the flow path is blocked by a clamp. Although
+    a mechanical finger applies force to the left plunger, the incompressible nature of the liquid combined
+    with the blockage prevents any fluid transfer. Therefore, the physical state must remain static: the
+    left plunger cannot advance significantly, and the right syringe must remain empty. The camera motion
+    temporarily occludes the scene but returns to focus on the right syringe, which should show no change
+    in its liquid level or plunger position.'
+  questions:
+  - id: right_syringe_empty
+    question: Is the right syringe still completely empty?
+    answer_type: yes_no
+    notes_for_judge: The right syringe should contain no red liquid.
+  - id: right_plunger_position
+    question: Is the plunger of the right syringe still fully depressed?
+    answer_type: yes_no
+    notes_for_judge: It should not have moved outwards.
+  - id: liquid_confinement
+    question: Is the red liquid confined to the left syringe and the tubing before the clamp?
+    answer_type: yes_no
+    notes_for_judge: No red liquid should have passed the clamp.
+  - id: left_syringe_conservation
+    question: Does the amount of red liquid in the left syringe appear approximately unchanged?
+    answer_type: yes_no
+    notes_for_judge: Since flow was blocked, the source volume should be conserved.
+  - id: clamp_presence
+    question: Is the clamp still visible on the tubing?
+    answer_type: yes_no
+    notes_for_judge: The clamp is the constraint causing the lack of flow.
+  - id: tubing_clarity
+    question: Is the section of tubing connected to the right syringe clear of red liquid?
+    answer_type: yes_no
+    notes_for_judge: The liquid should not pass the clamp.

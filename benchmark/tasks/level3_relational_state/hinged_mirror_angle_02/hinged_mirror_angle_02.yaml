@@ -1,0 +1,61 @@
+id: hinged_mirror_angle_02
+level: 3
+category: relational_state
+tags: []
+variant_of: hinged_mirror_angle
+variation_type: occlusion_method
+variation_description: Occlusion changed to lights turning off completely.
+changes:
+  occlusion_method: Room lights turn off to pitch black, then turn back on.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A mechanical arm grabs the edge of one mirror and begins slowly closing the hinge, decreasing
+    the angle between the two mirrors. The apple remains stationary. The room lights turn off completely,
+    plunging the scene into total darkness. After a duration, the lights turn back on. No zoom, no cut,
+    no scene change. STOP.
+  camera_WM: A mechanical arm grabs the edge of one mirror and begins slowly closing the hinge, decreasing
+    the angle between the two mirrors. The apple remains stationary. The room lights turn off completely,
+    plunging the scene into total darkness. After a duration, the lights turn back on. No zoom, no cut,
+    no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: Two rectangular mirrors connected by a vertical brass hinge standing on a wooden
+    table. A red apple sits on the table in front of the hinge. The mirrors are angled open, reflecting
+    the apple and the background room which includes windows and a door.
+  init2final_edit_prompt: Edit the given image to show the two mirrors folded significantly closer together,
+    forming a narrower, more acute angle. Include a mechanical arm gripping the outer edge of one mirror,
+    holding it in this closed position. Update the reflections on the mirror surfaces to correspond to
+    the new, tighter angle. Keep the red apple stationary on the table in its original position.
+  rationale: The prompt describes a physical manipulation where the angle between the mirrors is decreased
+    by a mechanical arm. The lighting change (off then on) serves as a transition period, meaning the
+    final frame shows the result of this action under normal lighting. The key state changes are the presence
+    of the mechanical arm, the reduced angle between the mirrors (closing the V-shape), and the consequent
+    shift in the reflections, while the physical apple remains static.
+  questions:
+  - id: mirror_angle_decreased
+    question: Is the angle between the two mirrors smaller than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The mirrors should look like they have been folded inward, forming a tighter V-shape.
+  - id: mechanical_arm_presence
+    question: Is a mechanical arm visible holding or touching one of the mirrors?
+    answer_type: yes_no
+    notes_for_judge: The prompt specifies a mechanical arm grabs the mirror.
+  - id: mirror_configuration_closed
+    question: Do the mirrors appear more closed relative to each other compared to the starting image?
+    answer_type: yes_no
+    notes_for_judge: Check if the opening between the outer edges appears narrower or the angle sharper.
+  - id: reflection_consistency
+    question: Are reflections of the apple visible in the mirrors?
+    answer_type: yes_no
+    notes_for_judge: Mirrors must still function as mirrors; reflections should exist.
+  - id: apple_stationary
+    question: Is the physical red apple in the same position on the table as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The apple should not have moved, only the mirrors.
+  - id: lighting_restored
+    question: Is the scene illuminated (not pitch black)?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the lights turn back on.

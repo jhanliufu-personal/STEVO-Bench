@@ -1,0 +1,70 @@
+id: compass_deflection_07
+level: 3
+category: relational_state
+tags: []
+variant_of: compass_deflection
+variation_type: combined
+variation_description: Wooden block used (no magnetism) + occlusion by object blocking.
+changes:
+  occlusion_method: A large opaque clipboard blocks the view.
+  dynamic_conditions: Object is non-magnetic wood.
+  expected_outcome_change: No needle deflection.
+prompts:
+  init_frame_edit_prompt: Edit the image to replace the blue and red bar magnet with a plain rectangular
+    wooden block of the same size and shape.
+  video_WM: A hand begins moving the wooden block steadily closer to the side of the compass housing.
+    A large opaque clipboard is moved directly in front of the camera lens, completely blocking the view.
+    The clipboard remains for a moment and then is removed to reveal the scene again. No zoom, no cut,
+    no scene change. STOP.
+  camera_WM: A hand begins moving the wooden block steadily closer to the side of the compass housing.
+    A large opaque clipboard is moved directly in front of the camera lens, completely blocking the view.
+    The clipboard remains for a moment and then is removed to reveal the scene again. No zoom, no cut,
+    no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up, high-angle shot of a wooden table surface. On the left, a brass
+    pocket compass with its lid flipped open sits on the table; its needle is settled pointing towards
+    the lower-left. To the right, a hand holds a rectangular wooden block. A wooden ruler lies horizontally
+    in the foreground.
+  init2final_edit_prompt: Edit the given image to show the wooden block positioned significantly closer
+    to the side of the compass housing, reducing the gap between them. Rotate the compass needle to a
+    clearly different angle compared to the original image, simulating a magnetic deflection caused by
+    the block's proximity. Ensure the hand is still holding the block in its new position. Keep the ruler,
+    table surface, and compass housing stationary.
+  rationale: The task involves moving an object near a compass. Although the object appears to be a wooden
+    block, the task ID 'compass_deflection' and the Level 3 focus on coupled systems imply a hidden magnetic
+    interaction (e.g., a magnet inside the block). Therefore, the rollout must demonstrate a causal relationship
+    where the proximity of the block causes the compass needle to deflect (rotate) from its initial bearing.
+    The occlusion by the clipboard covers the transition, so the final frame must depict the block in
+    a closer position and the needle in a new, deflected orientation.
+  questions:
+  - id: block_position_change
+    question: Is the wooden block closer to the compass housing than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the gap between the block and the compass in the initial and final frames.
+  - id: needle_rotation_change
+    question: Has the compass needle rotated to a different orientation compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The needle should point in a different direction, indicating deflection.
+  - id: needle_orientation_diff
+    question: Is the direction the compass needle points clearly different from the start?
+    answer_type: yes_no
+    notes_for_judge: Check for a visible change in the needle's angle.
+  - id: block_proximity
+    question: Is the gap between the wooden block and the compass smaller than before?
+    answer_type: yes_no
+    notes_for_judge: The block should have moved towards the compass.
+  - id: coupled_state_change
+    question: Did the compass needle change position in response to the block moving?
+    answer_type: yes_no
+    notes_for_judge: This checks for the coupled interaction; both the block moving and needle rotating
+      must be true.
+  - id: ruler_stationary
+    question: Is the wooden ruler in the foreground in the same position as the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: compass_housing_stationary
+    question: Is the brass compass housing in the same location on the table?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check; only the needle should move.

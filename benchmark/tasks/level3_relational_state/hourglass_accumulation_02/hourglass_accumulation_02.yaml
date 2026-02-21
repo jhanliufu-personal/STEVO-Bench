@@ -1,0 +1,61 @@
+id: hourglass_accumulation_02
+level: 1
+category: scalar_state
+tags: []
+variant_of: hourglass_accumulation
+variation_type: occlusion_method
+variation_description: Replaces camera rotation with the lights turning off completely.
+changes:
+  occlusion_method: Room lights turn off, creating pitch darkness.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: Sand flows into the bottom of an hourglass. Suddenly, the room lights turn off, plunging the
+    scene into complete pitch darkness where nothing is visible. After a few seconds, the lights turn
+    back on, illuminating the scene exactly as before. No zoom, no cut, no scene change. STOP.
+  camera_WM: Sand flows into the bottom of an hourglass. Suddenly, the room lights turn off, plunging
+    the scene into complete pitch darkness where nothing is visible. After a few seconds, the lights turn
+    back on, illuminating the scene exactly as before. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up shot of a wooden hourglass on a desk in a library or study. The top
+    bulb contains a significant amount of white sand, and a stream of sand is actively falling into the
+    bottom bulb, forming a conical pile. The background features bookshelves filled with books, a window
+    providing natural light, and stacks of old books on the desk.
+  init2final_edit_prompt: Edit the given image to show the hourglass with a noticeably larger and taller
+    pile of white sand in the bottom bulb. Correspondingly, lower the level of sand in the top bulb to
+    show that volume has transferred down. Maintain the thin stream of falling sand connecting the top
+    and bottom. Keep the lighting bright and natural as in the original image, and ensure all background
+    books, the window, and desk objects remain exactly unchanged.
+  rationale: The video prompt describes a continuous physical process (sand flowing) that persists even
+    when the scene is visually occluded by darkness. The world model must simulate the passage of time
+    during the blackout. Therefore, when the lights turn back on, the final frame must show a progressed
+    state where more sand has accumulated in the bottom bulb and less remains in the top bulb compared
+    to the initial frame.
+  questions:
+  - id: bottom_pile_growth
+    question: Is the pile of sand in the bottom bulb taller than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the height of the sand cone in the bottom bulb. It should be higher.
+  - id: bottom_volume_increase
+    question: Does the bottom bulb contain a larger volume of sand than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The pile should be wider or taller, indicating accumulation.
+  - id: top_level_decrease
+    question: Is the sand level in the top bulb lower than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The top level must have dropped due to sand flowing out.
+  - id: top_volume_decrease
+    question: Is there less sand remaining in the top bulb compared to the start?
+    answer_type: yes_no
+    notes_for_judge: Check for depletion in the top reservoir.
+  - id: lighting_restored
+    question: Is the scene fully illuminated, matching the brightness of the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The lights should be back on; the image should not be dark.
+  - id: background_consistency
+    question: Are the books and background objects in the same position as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Static objects should not have moved.

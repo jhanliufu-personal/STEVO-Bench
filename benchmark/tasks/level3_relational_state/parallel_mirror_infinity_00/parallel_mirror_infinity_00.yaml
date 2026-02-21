@@ -1,0 +1,61 @@
+id: parallel_mirror_infinity_00
+level: 3
+category: relational_state
+tags: []
+variant_of: parallel_mirror_infinity
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The person begins to tilt the flashlight 45 degrees toward the ceiling. The mirrors remain
+    perfectly parallel. Camera remains stationary throughout. No zoom, no cut, no scene change. STOP.
+  camera_WM: The person begins to tilt the flashlight 45 degrees toward the ceiling. The mirrors remain
+    perfectly parallel. Camera remains stationary throughout. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A man stands in a dimly lit industrial room holding a glowing orange flashlight.
+    He is positioned between two large, parallel rectangular mirrors mounted on wheeled wooden frames.
+    The mirrors create an infinity mirror effect, showing an infinite regression of the man and the light
+    source receding into the distance on both the left and right sides. The man is facing the camera,
+    and the flashlight is currently held roughly horizontal, pointing towards the viewer or slightly down.
+  init2final_edit_prompt: Edit the given image so that the man is holding the flashlight tilted upwards
+    at a 45-degree angle towards the ceiling. The light source and its glare should be directed upwards.
+    Update the reflections in the mirrors on both the left and right sides to show the flashlight tilted
+    upwards, matching the real man's pose. Ensure that the recursive reflections deep inside the mirrors
+    also display this upward tilt of the flashlight. Keep the mirror positions, the room, and the man's
+    standing position otherwise unchanged.
+  rationale: 'The prompt specifies a physical action: tilting the flashlight upwards. In a scene dominated
+    by mirrors, the primary state change is relational; the reflections must update to match the new orientation
+    of the real object. Because light travels effectively instantaneously, all reflections (including
+    the deep recursive ones in the infinity effect) must show the flashlight tilted upwards simultaneously.
+    The mirrors themselves remain stationary, preserving the tunnel effect.'
+  questions:
+  - id: flashlight_tilt_real
+    question: Is the flashlight held by the man tilted upwards?
+    answer_type: yes_no
+    notes_for_judge: Check the real object in the center.
+  - id: flashlight_tilt_reflection_left
+    question: Does the reflection of the flashlight in the left mirror appear tilted upwards?
+    answer_type: yes_no
+    notes_for_judge: Check the first reflection on the left.
+  - id: flashlight_tilt_reflection_right
+    question: Does the reflection of the flashlight in the right mirror appear tilted upwards?
+    answer_type: yes_no
+    notes_for_judge: Check the first reflection on the right.
+  - id: reflection_consistency
+    question: Is the orientation of the flashlight consistent between the real person and their reflections?
+    answer_type: yes_no
+    notes_for_judge: The reflections should mirror the real action (tilting up).
+  - id: recursive_reflections
+    question: Do the deeper, recursive reflections in the background also show the flashlight tilted upwards?
+    answer_type: yes_no
+    notes_for_judge: The change should propagate down the 'tunnel' of mirrors.
+  - id: mirror_parallelism
+    question: Is the infinite tunnel effect of the mirrors preserved?
+    answer_type: yes_no
+    notes_for_judge: The mirrors should not have moved; the recursive depth should still be visible.

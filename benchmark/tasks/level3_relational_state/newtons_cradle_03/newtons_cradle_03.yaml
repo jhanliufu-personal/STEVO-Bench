@@ -1,0 +1,71 @@
+id: newtons_cradle_03
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: newtons_cradle
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to thick fog filling the room.
+changes:
+  occlusion_method: Thick white fog fills the view.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The far-left ball is released. It swings toward the remaining four stationary balls. Thick
+    white fog rapidly fills the frame, obscuring the cradle entirely. The fog then clears up, revealing
+    the desk again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The far-left ball is released. It swings toward the remaining four stationary balls. Thick
+    white fog rapidly fills the frame, obscuring the cradle entirely. The fog then clears up, revealing
+    the desk again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up view of a Newton's Cradle on a wooden desk. The device features a
+    gold frame and five silver metal balls suspended by strings. The ball on the far left is currently
+    raised high and pulled back to the left, while the other four balls are resting stationary in a line
+    at the center. The background includes a dark leather chair on the left and a bookshelf with books
+    on the right. Sunlight illuminates the scene from the left.
+  init2final_edit_prompt: Edit the given image to show the state after momentum transfer. Position the
+    far-left ball so it is hanging vertically, resting against the central group of balls. Position the
+    far-right ball so it is swung outwards and upwards to the right, separated from the pack and reaching
+    a height similar to the initial height of the left ball. Keep the three middle balls stationary in
+    the center. Ensure the background, desk, and lighting remain unchanged.
+  rationale: The prompt describes the release of the raised left ball in a Newton's Cradle. According
+    to the physics of conservation of momentum and energy, when the left ball strikes the stationary pack,
+    its momentum is transferred through the middle balls to the ball on the far right. As a result, the
+    left ball comes to a stop (or near stop) at the bottom, and the right ball swings outward. The fog
+    acts as an occlusion for the impact event, and the final frame reveals the consequent state where
+    the right ball is raised.
+  questions:
+  - id: left_ball_lowered
+    question: Is the ball on the far left lower than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The left ball should have dropped from its raised position to hit the pack.
+  - id: left_ball_position
+    question: Is the far-left ball now positioned next to the central group of balls?
+    answer_type: yes_no
+    notes_for_judge: It should be resting against or very close to the middle balls, not pulled back.
+  - id: right_ball_moved
+    question: Has the ball on the far right moved away from the central pack?
+    answer_type: yes_no
+    notes_for_judge: Momentum transfer should cause the right ball to swing out.
+  - id: right_ball_raised
+    question: Is the far-right ball now raised above the height of the stationary balls?
+    answer_type: yes_no
+    notes_for_judge: It should be swinging upwards.
+  - id: right_ball_direction
+    question: Is the far-right ball positioned further to the right than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: It should be swinging out to the right.
+  - id: middle_balls_stationary
+    question: Are the three middle balls still grouped together in the center?
+    answer_type: yes_no
+    notes_for_judge: The middle balls should remain largely stationary in a Newton's Cradle.
+  - id: background_consistency_chair
+    question: Is the leather chair still visible on the left side?
+    answer_type: yes_no
+    notes_for_judge: Check for background consistency.
+  - id: background_consistency_books
+    question: Are the books on the shelf still visible on the right?
+    answer_type: yes_no
+    notes_for_judge: Check for background consistency.

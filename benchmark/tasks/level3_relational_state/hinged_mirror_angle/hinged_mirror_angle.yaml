@@ -13,3 +13,43 @@ prompts:
     place. The reflective geometry is active. STOP.
 camera_control:
   HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: Two rectangular mirrors joined by a vertical brass hinge standing on a wooden
+    table. The mirrors are angled open, creating an obtuse or near-90-degree angle. A red apple sits on
+    the table directly in front of the hinge. Reflections of the apple are visible in both mirror panels.
+    The background shows a room with windows and white walls.
+  init2final_edit_prompt: Edit the given image to show the two mirrors folded closer together, creating
+    a significantly narrower, acute angle at the central hinge. The outer vertical edges of the mirrors
+    should be positioned closer to the central apple. Ensure the apple remains stationary in the center
+    of the table. The reflections in the mirrors should update to reflect the new, sharper angle.
+  rationale: The video prompt describes an action where the hinge is closed, decreasing the angle between
+    the mirrors. Although the camera pans away and then returns, the physical state of the mirrors must
+    persist and evolve according to the action. Therefore, in the final frame, the mirrors must be in
+    a more closed configuration (narrower angle) relative to the stationary apple.
+  questions:
+  - id: mirror_angle_decreased
+    question: Is the angle between the two mirrors visibly smaller (more acute) than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the V-shape of the mirrors. It should be narrower in the final frame.
+  - id: mirror_edges_closer_to_apple
+    question: Are the outer vertical edges of the mirrors closer to the apple than they were initially?
+    answer_type: yes_no
+    notes_for_judge: As the mirrors fold in, the tips of the V should be closer to the object inside the
+      V.
+  - id: overall_width_narrower
+    question: Does the total width occupied by the mirror assembly appear narrower than in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: Closing the hinge reduces the projected width of the assembly.
+  - id: apple_position_conserved
+    question: Is the apple still positioned on the table directly in front of the central hinge?
+    answer_type: yes_no
+    notes_for_judge: The apple is stationary; its relative position to the hinge axis should be constant.
+  - id: reflections_visible
+    question: Are reflections of the apple still visible within the mirror panels?
+    answer_type: yes_no
+    notes_for_judge: Mirrors should still function as mirrors.
+  - id: hinge_vertical
+    question: Is the central brass hinge still oriented vertically?
+    answer_type: yes_no
+    notes_for_judge: The movement is a horizontal closing; the hinge axis should remain vertical.

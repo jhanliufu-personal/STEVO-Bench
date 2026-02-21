@@ -1,0 +1,68 @@
+id: laser_mirror_projection_09
+level: 3
+category: relational_state
+tags: []
+variant_of: laser_mirror_projection
+variation_type: combined
+variation_description: Motor rotates rapidly and camera zooms out.
+changes:
+  occlusion_method: Camera zoom out.
+  dynamic_conditions: Motor rotates at high speed.
+  expected_outcome_change: Laser spot travels a much greater distance.
+prompts:
+  init_frame_edit_prompt: Edit the image to show the voltage dial on the motor controller turned fully
+    clockwise to the 'MAX' position.
+  video_WM: The motorized base begins to rotate the mirror rapidly clockwise. The laser pointer and the
+    white screen remain fixed in place. The camera zooms out rapidly until the entire lab setup is a tiny,
+    indistinguishable speck in the distance. The camera then zooms back in to the original framing. No
+    cut, no scene change. STOP.
+  camera_WM: The motorized base begins to rotate the mirror rapidly clockwise. The laser pointer and the
+    white screen remain fixed in place. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+evaluation:
+  init_frame_description: A physics lab setup on a dark table. On the left, a black laser pointer mounted
+    on a metal stand emits a green laser beam. In the center, a square mirror is mounted on a silver motorized
+    rotational stage. On the right, a white projection screen displays a bright green laser spot and a
+    curved green trace. The laser beam travels from the pointer, reflects off the mirror, and hits the
+    screen.
+  init2final_edit_prompt: Edit the given image to show the reflected laser beam pointing in a different
+    direction. The green beam should still originate from the laser pointer and hit the central mirror,
+    but the reflected segment should strike a different location on the white screen. Rotate the central
+    mirror mount visually to align with the new reflection path. Keep the background, table, and equipment
+    placement otherwise unchanged.
+  rationale: The video prompt describes the mirror rotating rapidly while the camera zooms out and back
+    in. The rotation of the mirror changes the angle of incidence and reflection for the laser beam. Because
+    the rotation is rapid and the camera view is interrupted by the zoom, the final state captures the
+    system at a new, arbitrary angle of reflection. The physical coupling (laser -> mirror -> screen)
+    remains invariant, but the specific state (beam angle and spot position) changes.
+  questions:
+  - id: spot_position_change
+    question: Is the green laser spot on the white screen in a different position than in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: The spot should have moved due to the mirror rotation.
+  - id: beam_angle_change
+    question: Is the angle of the reflected laser beam different from the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The beam segment from mirror to screen should be at a new angle.
+  - id: coupling_source_mirror
+    question: Does the laser beam connect the laser pointer on the left to the central mirror?
+    answer_type: yes_no
+    notes_for_judge: Check for connectivity between source and reflector.
+  - id: coupling_mirror_screen
+    question: Does the laser beam connect the central mirror to the projection screen?
+    answer_type: yes_no
+    notes_for_judge: Check for connectivity between reflector and target.
+  - id: reflection_physics
+    question: Does the laser beam appear to bend specifically at the mirror surface?
+    answer_type: yes_no
+    notes_for_judge: The path should be linear segments meeting at the mirror.
+  - id: beam_linearity
+    question: Is the path of the laser beam straight on both sides of the mirror?
+    answer_type: yes_no
+    notes_for_judge: Light travels in straight lines.
+  - id: screen_visibility
+    question: Is the white projection screen still visible on the right?
+    answer_type: yes_no
+    notes_for_judge: Object permanence check.

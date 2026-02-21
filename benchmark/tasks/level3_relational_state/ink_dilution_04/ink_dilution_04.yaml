@@ -1,0 +1,62 @@
+id: ink_dilution_04
+level: 3
+category: relational_state
+tags: []
+variant_of: ink_dilution
+variation_type: dynamic_condition
+variation_description: 'Reverses the mixing process: pouring dark ink into clear water.'
+changes:
+  occlusion_method: null
+  dynamic_conditions: Beaker contains clear water, pitcher pours dark ink.
+  expected_outcome_change: Liquid darkens instead of lightening.
+prompts:
+  init_frame_edit_prompt: Edit the image so the beaker contains clear water and the pitcher is pouring
+    a dark purple liquid.
+  video_WM: Dark ink is poured into the clear water. The total volume of liquid is rising. The pouring
+    continues. The camera rotates right until the beaker completely exits the view, then rotates toward
+    the left smoothly at the same rate until the beaker is back in the center of view. No zoom, no cut,
+    no scene change. STOP.
+  camera_WM: Dark ink continues to pour into the clear water.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A clear glass beaker sits on a wooden table in a laboratory setting, partially
+    filled with clear water. A glass pitcher held from the top right is pouring a stream of dark purple
+    ink into the beaker. The ink creates a swirling, cloud-like formation as it hits the water. In the
+    background, there is a window with white frames and some blurred laboratory equipment.
+  init2final_edit_prompt: Edit the given image to show the liquid level in the beaker significantly higher
+    than before. The liquid inside the beaker should be a much darker, more uniform purple color, indicating
+    that more ink has been poured and mixed. The glass pitcher should still be positioned above the beaker,
+    pouring a stream of dark purple liquid into it. Keep the beaker centered in the frame and the background
+    details identical.
+  rationale: The video prompt describes a continuous pouring action while the camera pans away and then
+    returns. During the occlusion caused by the camera rotation, the pouring action adds more mass and
+    volume to the beaker. Therefore, when the beaker comes back into view, the liquid level must be higher
+    (conservation of volume) and the color must be darker due to the increased concentration of ink (mixing).
+    The camera returns to the original angle, so the perspective remains the same.
+  questions:
+  - id: ink_dilution_04_q1
+    question: Is the level of the liquid in the beaker higher than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the meniscus level against the beaker markings or relative to the beaker
+      rim.
+  - id: ink_dilution_04_q2
+    question: Is the liquid in the beaker darker or more saturated with purple than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The ink has continued to pour, so the concentration should increase.
+  - id: ink_dilution_04_q3
+    question: Does the beaker contain a greater total volume of liquid compared to the start?
+    answer_type: yes_no
+    notes_for_judge: This infers volume from the visual liquid level.
+  - id: ink_dilution_04_q4
+    question: Is the pitcher still visible and pouring liquid into the beaker?
+    answer_type: yes_no
+    notes_for_judge: The prompt states 'The pouring continues'.
+  - id: ink_dilution_04_q5
+    question: Is the beaker positioned in the center of the frame?
+    answer_type: yes_no
+    notes_for_judge: The camera rotates back to the center.
+  - id: ink_dilution_04_q6
+    question: Are the window and wooden table texture consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Check for background stability.

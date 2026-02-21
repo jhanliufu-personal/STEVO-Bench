@@ -1,0 +1,66 @@
+id: concave_mirror_inversion_05
+level: 3
+category: relational_state
+tags: []
+variant_of: concave_mirror_inversion
+variation_type: dynamic_condition
+variation_description: Mirror surface changed from concave bowl to flat mirror.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Surface is now a flat mirror instead of a concave bowl.
+  expected_outcome_change: Reflection remains upright and symmetric; no inversion or magnification effects.
+prompts:
+  init_frame_edit_prompt: Edit the image to replace the concave silver bowl with a flat, vertical silver
+    mirror standing on the table.
+  video_WM: The candle is moved steadily closer to the flat mirror. The flame remains lit. The camera
+    rotates right until the mirror completely exits the view, then rotates toward the left smoothly at
+    the same rate until the mirror is back in the center of view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The candle is moved steadily closer to the flat mirror. The flame remains lit. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A rectangular silver-framed mirror stands vertically on a wooden table in a
+    rustic room with wooden walls. A white candle in a silver holder sits on the table in front of the
+    mirror, with its flame lit. The reflection of the candle and the candle holder is clearly visible
+    in the mirror. The background shows wooden chairs, another table, and a window.
+  init2final_edit_prompt: Edit the given image to position the candle and its holder significantly closer
+    to the mirror frame. Ensure the reflection of the candle in the mirror also appears closer to the
+    mirror's surface, reducing the visual gap between the real candle and its reflection. Keep the candle
+    lit and maintain the original background and camera perspective.
+  rationale: The camera performs a panning motion away from and then back to the mirror, returning to
+    the initial viewpoint. During this time, the candle is moved physically closer to the flat mirror.
+    Physics dictates that for a flat mirror, the virtual image is located the same distance behind the
+    mirror as the object is in front. Therefore, as the object distance decreases, the image distance
+    decreases, and the visual separation between the real candle and its reflection must shrink.
+  questions:
+  - id: candle_proximity_real
+    question: Is the real candle positioned closer to the mirror frame than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the position of the candle holder base relative to the bottom of the mirror
+      frame.
+  - id: reflection_proximity_relational
+    question: Does the gap between the real candle and its reflection appear smaller than in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: 'This tests the coupled relationship: as the object moves closer, the reflection
+      must also move closer, reducing the total distance between them.'
+  - id: reflection_existence
+    question: Is the reflection of the candle still visible in the mirror?
+    answer_type: yes_no
+    notes_for_judge: The reflection should persist.
+  - id: flame_state
+    question: Is the candle flame still lit?
+    answer_type: yes_no
+    notes_for_judge: The prompt specifies the flame remains lit.
+  - id: camera_return
+    question: Is the mirror positioned centrally in the frame, similar to the initial view?
+    answer_type: yes_no
+    notes_for_judge: The camera rotates back to the center.
+  - id: background_consistency
+    question: Are the wooden chairs and window in the background unchanged?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: reflection_orientation
+    question: Is the reflection of the candle upright?
+    answer_type: yes_no
+    notes_for_judge: Flat mirrors produce upright virtual images.

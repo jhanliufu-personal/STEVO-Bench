@@ -1,0 +1,69 @@
+id: shadow_magnification_06
+level: 3
+category: relational_state
+tags: []
+variant_of: shadow_magnification
+variation_type: dynamic_condition
+variation_description: The light moves toward the dinosaur instead of the dinosaur moving.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Light source moves toward the static object.
+  expected_outcome_change: Shadow grows (potentially faster or differently distorted).
+prompts:
+  init_frame_edit_prompt: Edit the image to place the spotlight on a motorized slider track or dolly,
+    implying it can move.
+  video_WM: The spotlight begins sliding along its track toward the stationary dinosaur pedestal. The
+    dinosaur remains fixed. The camera rotates right until the dinosaur completely exits the view, then
+    rotates toward the left smoothly at the same rate until the wall is back in the center of view. No
+    zoom, no cut, no scene change. STOP.
+  camera_WM: The spotlight begins sliding along its track toward the stationary dinosaur pedestal. The
+    dinosaur remains fixed. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A toy T-Rex dinosaur standing on a wooden pedestal. To the right, a large studio
+    spotlight on a wheeled stand is illuminated and pointing at the dinosaur. To the left, a distinct
+    shadow of the dinosaur is cast onto a plain white wall.
+  init2final_edit_prompt: Edit the given image to make the cast shadow of the dinosaur on the wall significantly
+    larger and taller. Ensure the dinosaur and the wooden pedestal remain the same size and in the same
+    position.
+  rationale: The video prompt describes the spotlight moving closer to the stationary dinosaur. According
+    to the physics of light projection, as the distance between a light source and an object decreases
+    (while the distance from the object to the projection surface remains constant), the magnification
+    of the shadow increases. Therefore, the final frame must show a significantly larger shadow on the
+    wall. The camera movement temporarily occludes the scene but returns to the original view of the wall,
+    revealing this state change.
+  questions:
+  - id: shadow_size_increase
+    question: Is the shadow of the dinosaur on the wall larger than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the overall area and height of the shadow.
+  - id: shadow_dino_ratio
+    question: Is the ratio of the shadow's height to the dinosaur's height larger than in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: The shadow should have grown relative to the static dinosaur.
+  - id: shadow_height_rel
+    question: Is the top edge of the shadow higher on the wall than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Check the vertical extent of the shadow.
+  - id: shadow_magnification
+    question: Does the shadow appear more magnified compared to the initial view?
+    answer_type: yes_no
+    notes_for_judge: ''
+  - id: dino_presence
+    question: Is the toy dinosaur still visible on the pedestal?
+    answer_type: yes_no
+    notes_for_judge: ''
+  - id: pedestal_stability
+    question: Is the wooden pedestal in the same position relative to the wall?
+    answer_type: yes_no
+    notes_for_judge: ''
+  - id: shadow_correspondence
+    question: Does the shadow shape still generally correspond to the dinosaur?
+    answer_type: yes_no
+    notes_for_judge: ''
+  - id: dino_orientation
+    question: Is the dinosaur still facing the same direction (right)?
+    answer_type: yes_no
+    notes_for_judge: ''

@@ -1,0 +1,72 @@
+id: pulley_color_wheel_00
+level: 3
+category: relational_state
+tags: []
+variant_of: pulley_color_wheel
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A hand turns the crank handle exactly half a rotation clockwise. The rubber belt is taut and
+    moves without slipping. The crank and the color wheel are both visible in the frame. Camera remains
+    stationary throughout. No zoom, no cut, no scene change. STOP.
+  camera_WM: A hand turns the crank handle exactly half a rotation clockwise. The rubber belt is taut
+    and moves without slipping. The crank and the color wheel are both visible in the frame. Camera remains
+    stationary throughout. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A workshop scene featuring a mechanical setup clamped to a wooden workbench.
+    On the left, a small wooden pulley with a crank handle is operated by a person's hand; the handle
+    is currently positioned in the upper-left quadrant (roughly 10 or 11 o'clock). A black rubber belt
+    connects this small driver pulley to a large wooden color wheel on the right. The color wheel is divided
+    into 12 colored segments, with the segment labeled 'Yellow' positioned exactly at the top vertical
+    center (12 o'clock). The belt is taut connecting the two components.
+  init2final_edit_prompt: Edit the given image to show the result of rotating the crank handle 180 degrees
+    clockwise. The person's hand and the wooden crank handle should be repositioned to the bottom-right
+    quadrant (approximately 4 or 5 o'clock). The large color wheel should be rotated slightly clockwise,
+    shifting the 'Yellow' segment from the top position to the right (approximately the 1 o'clock position),
+    causing the yellow-green segment to move into the top position. Ensure the belt remains taut and connected.
+  rationale: The user specifies a half-rotation (180 degrees) of the crank handle. This is a coupled belt-drive
+    system. As the crank (driver) turns clockwise, it pulls the top section of the belt to the right,
+    causing the large color wheel (driven) to also rotate clockwise. Due to the large difference in diameter
+    between the small crank pulley and the large color wheel (roughly a 1:6 ratio), the color wheel will
+    rotate a much smaller angular distance than the crank. While the crank turns 180 degrees, the wheel
+    will likely turn only about 30 degrees (shifting by one color segment). The hand must follow the crank
+    to its new position.
+  questions:
+  - id: crank_position_lower
+    question: Is the crank handle now positioned lower than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The crank started high (10-11 o'clock) and rotated 180 degrees to a low position
+      (4-5 o'clock).
+  - id: crank_position_right
+    question: Is the crank handle now pointing towards the right side of the image?
+    answer_type: yes_no
+    notes_for_judge: It should have moved from left-leaning to right-leaning.
+  - id: wheel_rotation_direction
+    question: Has the 'Yellow' segment on the color wheel moved to the right of the top center position?
+    answer_type: yes_no
+    notes_for_judge: Clockwise rotation moves the top segment to the right.
+  - id: wheel_rotation_magnitude
+    question: Did the color wheel rotate by a significantly smaller angle than the crank handle?
+    answer_type: yes_no
+    notes_for_judge: The crank rotated 180 degrees; the wheel should rotate much less (approx 30 degrees)
+      due to the gear ratio.
+  - id: coupled_motion_consistency
+    question: Did the color wheel rotate in the same clockwise direction as the crank handle?
+    answer_type: yes_no
+    notes_for_judge: In a non-crossed belt drive, pulleys rotate in the same direction.
+  - id: segment_tracking
+    question: Is the yellow-green segment (originally to the left of Yellow) now closer to the top 12
+      o'clock position?
+    answer_type: yes_no
+    notes_for_judge: As the wheel turns clockwise, the segment to the left moves up into the top spot.
+  - id: belt_integrity
+    question: Does the belt appear to remain connected and taut between the two pulleys?
+    answer_type: yes_no
+    notes_for_judge: The system should not break.

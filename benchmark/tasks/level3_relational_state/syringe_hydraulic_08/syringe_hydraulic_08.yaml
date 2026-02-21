@@ -1,0 +1,69 @@
+id: syringe_hydraulic_08
+level: 3
+category: relational_state
+tags: []
+variant_of: syringe_hydraulic
+variation_type: combined
+variation_description: Tubing is clamped (condition) and lights go out (occlusion).
+changes:
+  occlusion_method: Lights turn off.
+  dynamic_conditions: Tubing clamped.
+  expected_outcome_change: No movement on right plunger.
+prompts:
+  init_frame_edit_prompt: Edit the image to add a metal surgical clamp tightly pinching the middle of
+    the plastic tubing, closing it off.
+  video_WM: A mechanical finger begins pressing the plunger of the left syringe. A metal clamp blocks
+    the tubing. The pressing continues at a constant rate. Suddenly, the lights in the room turn off completely,
+    plunging the scene into total darkness. After a moment, the lights turn back on, illuminating the
+    tray again. No zoom, no cut, no scene change. STOP.
+  camera_WM: A mechanical finger begins pressing the plunger of the left syringe. A metal clamp blocks
+    the tubing. The pressing continues at a constant rate. Suddenly, the lights in the room turn off completely,
+    plunging the scene into total darkness. After a moment, the lights turn back on, illuminating the
+    tray again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A metal tray containing two plastic syringes connected by clear tubing. The
+    left syringe is filled with red liquid up to approximately the 40-50ml mark, with its plunger extended.
+    The right syringe is empty with its plunger fully depressed. A metal hemostat clamp is tightly clamped
+    onto the middle of the tubing, pinching it closed.
+  init2final_edit_prompt: Edit the given image to show the state of the syringes after an attempted transfer
+    is blocked. Keep the red fluid level in the left syringe unchanged at its initial volume. Keep the
+    right syringe empty. Ensure the metal clamp remains clamped on the tubing. Do not move the plungers
+    significantly.
+  rationale: The video prompt specifies that a clamp blocks the tubing while a finger presses the plunger.
+    Since the liquid is incompressible and the path is blocked by the clamp, the fluid cannot flow from
+    the left syringe to the right syringe. Therefore, the plunger on the left cannot advance significantly,
+    and the fluid remains in the left syringe. The final state should look physically identical to the
+    initial state regarding fluid distribution, respecting the constraint imposed by the clamp.
+  questions:
+  - id: fluid_retention_left
+    question: Is the red fluid still primarily contained within the left syringe?
+    answer_type: yes_no
+    notes_for_judge: The clamp prevents flow, so the fluid should not leave the left syringe.
+  - id: empty_right_syringe
+    question: Does the right syringe remain empty?
+    answer_type: yes_no
+    notes_for_judge: No fluid should transfer due to the blockage.
+  - id: plunger_position_left
+    question: Is the plunger of the left syringe still extended roughly to the same degree as in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: Since the fluid cannot exit, the plunger cannot be pushed in significantly.
+  - id: clamp_presence
+    question: Is the metal clamp still visible on the tubing?
+    answer_type: yes_no
+    notes_for_judge: The clamp is the constraint mechanism and should remain.
+  - id: relative_volume
+    question: Is the volume of fluid in the left syringe significantly greater than the volume in the
+      right syringe?
+    answer_type: yes_no
+    notes_for_judge: Checks that the mass balance has not shifted.
+  - id: tubing_integrity
+    question: Does the tubing appear to remain connected to both syringes?
+    answer_type: yes_no
+    notes_for_judge: Unless the model simulates bursting (unlikely), the system should remain coupled.
+  - id: no_flow_constraint
+    question: Does the scene show that the fluid transfer was prevented?
+    answer_type: yes_no
+    notes_for_judge: General check for the outcome of the constraint.

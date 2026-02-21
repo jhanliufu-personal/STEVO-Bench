@@ -1,0 +1,69 @@
+id: magnetic_slingshot_04
+level: 3
+category: relational_state
+tags: []
+variant_of: magnetic_slingshot
+variation_type: dynamic_condition
+variation_description: Changed the stationary magnet pole to South, creating attraction instead of repulsion.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Opposite poles (N facing S) create magnetic attraction.
+  expected_outcome_change: Pucks accelerate toward each other and stick/collide instead of repelling.
+prompts:
+  init_frame_edit_prompt: Edit the image to change the red letter 'N' on the lower stationary puck to
+    a red letter 'S'.
+  video_WM: The first magnetic puck approaches the second stationary puck at high speed. The moving puck
+    presents a North pole, while the stationary puck presents a South pole. Neither puck is attached to
+    the rail. The camera rotates right until the rail completely exits the view, then rotates toward the
+    left smoothly at the same rate until the center-point of the rail is back in the center of view. No
+    zoom, no cut, no scene change. STOP.
+  camera_WM: The first magnetic puck approaches the second stationary puck at high speed. The moving puck
+    presents a North pole, while the stationary puck presents a South pole. Neither puck is attached to
+    the rail. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A physics demonstration setup showing a clear acrylic inclined rail labeled
+    'FRICTIONLESS RAIL' descending from left to right. Two cylindrical metallic pucks rest on the rail.
+    The upper puck is positioned higher on the slope and displays a red letter 'N' on its downward-facing
+    circular face. The lower puck is positioned further down and displays a red letter 'S' on its upward-facing
+    circular face. A whiteboard with handwritten physics equations serves as the background.
+  init2final_edit_prompt: Edit the given image to show the two metallic pucks joined together in contact,
+    positioned further down the inclined rail to the right. The two pucks should form a single connected
+    unit with no gap between them. The red letters 'N' and 'S' should be removed or hidden, as the faces
+    bearing them are now pressed against each other inside the contact zone. Maintain the original camera
+    angle, lighting, and background details.
+  rationale: The prompt describes a moving North pole approaching a stationary South pole. Since opposite
+    magnetic poles attract, the pucks will pull together and stick upon contact (inelastic collision)
+    rather than bouncing. Because the 'N' and 'S' labels are on the faces pointing toward each other,
+    these labels will be occluded when the pucks join. The momentum of the initial high-speed puck combined
+    with gravity will carry the coupled pair further down the rail by the time the camera returns.
+  questions:
+  - id: contact_check
+    question: Are the two metallic pucks touching each other?
+    answer_type: yes_no
+    notes_for_judge: The pucks should be stuck together due to magnetic attraction.
+  - id: gap_elimination
+    question: Is the gap between the two pucks eliminated?
+    answer_type: yes_no
+    notes_for_judge: They should form a single contiguous unit.
+  - id: n_occlusion
+    question: Is the red letter 'N' no longer visible?
+    answer_type: yes_no
+    notes_for_judge: The face with the 'N' is now pressed against the other puck, hiding it.
+  - id: s_occlusion
+    question: Is the red letter 'S' no longer visible?
+    answer_type: yes_no
+    notes_for_judge: The face with the 'S' is now pressed against the other puck, hiding it.
+  - id: position_change
+    question: Is the pair of pucks located further down the rail than the top puck was initially?
+    answer_type: yes_no
+    notes_for_judge: Momentum carries the combined mass down the slope.
+  - id: rail_consistency
+    question: Is the text 'FRICTIONLESS RAIL' still visible and legible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: background_consistency
+    question: Are the physics equations on the whiteboard still visible in the background?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

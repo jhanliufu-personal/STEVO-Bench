@@ -1,0 +1,69 @@
+id: upipe_equilibrium_06
+level: 3
+category: relational_state
+tags: []
+variant_of: upipe_equilibrium
+variation_type: dynamic_condition
+variation_description: The right side of the U-pipe is sealed with a stopper, creating a closed system
+  that resists change.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Right tube is sealed/capped (closed system)
+  expected_outcome_change: Liquid rises significantly less on the right due to air compression resistance.
+prompts:
+  init_frame_edit_prompt: Edit the image to add a black rubber stopper sealing the top opening of the
+    right glass tube, matching the style of the left one.
+  video_WM: A mechanical arm begins pushing the left piston down into the pipe. The movement is steady.
+    The camera rotates right until the U-pipe completely exits the view, then rotates toward the left
+    smoothly at the same rate until the pipe is back in the center of view. No zoom, no cut, no scene
+    change. STOP.
+  camera_WM: A mechanical arm begins pushing the left piston down into the pipe. The movement is steady.
+    STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A U-shaped glass tube (U-pipe) resting on a wooden table, filled with a clear
+    blue liquid. The tube has two vertical arms of equal height. Each arm is sealed at the top with a
+    black rubber stopper or piston. The level of the blue liquid is identical in both the left and right
+    arms, indicating a state of equilibrium. The background shows blurred laboratory equipment, including
+    a metal stand and a white instrument.
+  init2final_edit_prompt: Edit the given image to show a mechanical arm pressing down on the left black
+    stopper. Move the left stopper significantly downwards into the glass tube. Lower the blue liquid
+    level in the left arm to correspond with the stopper's new position. Raise the blue liquid level in
+    the right arm significantly higher than its original level. Move the right black stopper upwards,
+    positioned higher than the left stopper, as if pushed up by the rising liquid. Ensure the liquid level
+    on the right is clearly higher than the liquid level on the left.
+  rationale: The video prompt describes a mechanical arm pushing the left piston down while the camera
+    pans away and then returns. This action exerts pressure on the liquid in the left arm. Because the
+    liquid is incompressible and the system is coupled (communicating vessels), the downward displacement
+    of fluid on the left must result in an upward displacement of fluid on the right. Consequently, the
+    right piston must move upward to accommodate the rising fluid. The final state should show the left
+    side depressed and the right side elevated, maintaining the total volume of liquid but changing the
+    relative levels.
+  questions:
+  - id: relational_liquid_levels
+    question: Is the blue liquid level in the right arm higher than the liquid level in the left arm?
+    answer_type: yes_no
+    notes_for_judge: 'Tests the relational outcome of the hydraulic action: pushing one side down raises
+      the other.'
+  - id: relational_stopper_position
+    question: Is the black stopper on the left positioned lower than the black stopper on the right?
+    answer_type: yes_no
+    notes_for_judge: Tests the relative positions of the coupled pistons.
+  - id: left_level_change
+    question: Is the liquid level in the left arm lower than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Verifies the primary state change on the active side.
+  - id: right_level_change
+    question: Is the liquid level in the right arm higher than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Verifies the reactive state change on the passive side.
+  - id: volume_conservation
+    question: Does the rise in the right arm's liquid level appear roughly proportional to the drop in
+      the left arm's level?
+    answer_type: yes_no
+    notes_for_judge: Checks for conservation of volume in the coupled system.
+  - id: mechanical_arm_visible
+    question: Is a mechanical arm or device visible pressing on the left stopper?
+    answer_type: yes_no
+    notes_for_judge: Checks for the presence of the agent causing the change.

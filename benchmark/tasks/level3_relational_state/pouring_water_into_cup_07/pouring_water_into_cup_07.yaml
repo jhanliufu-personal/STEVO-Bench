@@ -1,0 +1,67 @@
+id: pouring_water_into_cup_07
+level: 3
+category: relational_state
+tags: []
+variant_of: pouring_water_into_cup
+variation_type: combined
+variation_description: Pouring honey (slow flow) with lights-off occlusion.
+changes:
+  occlusion_method: Lights turn off completely.
+  dynamic_conditions: Liquid is high-viscosity honey.
+  expected_outcome_change: Glass fills slowly; scene is dark during process.
+prompts:
+  init_frame_edit_prompt: Edit the image so the pitcher contains thick, golden honey instead of water.
+  video_WM: Single continuous shot, no cuts, no zoom, no scene transitions. Camera remains stationary
+    centered on the hand holding the pitcher, pouring a thick stream of golden honey into the glass. The
+    hand continues holding the pitcher in the same tilted position. Suddenly, the lights in the room turn
+    off completely, plunging the scene into total darkness. The darkness lasts for several seconds. Then
+    the lights turn back on, revealing the scene again.
+  camera_WM: Single continuous shot, no cuts, no zoom, no scene transitions. Camera remains stationary
+    centered on the hand holding the pitcher, pouring a thick stream of golden honey into the glass. The
+    hand continues holding the pitcher in the same tilted position. Suddenly, the lights in the room turn
+    off completely, plunging the scene into total darkness. The darkness lasts for several seconds. Then
+    the lights turn back on, revealing the scene again.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A close-up shot of a glass pitcher held by a hand, tilted to pour a thick stream
+    of golden honey into a clear glass tumbler sitting on a wooden table. The pitcher is partially filled
+    with honey, and the glass has a small amount of honey at the bottom where the stream is landing. The
+    background shows a window with natural daylight.
+  init2final_edit_prompt: Edit the given image to show the glass tumbler significantly fuller with honey,
+    raising the liquid level much higher than in the original view. Correspondingly, reduce the amount
+    of honey inside the tilted pitcher to show a lower level, reflecting the volume transferred to the
+    glass. Keep the thick stream of honey flowing continuously from the pitcher into the glass. Ensure
+    the lighting and scene composition remain identical to the start.
+  rationale: 'The prompt describes a continuous pouring action that persists through a period of darkness.
+    Since the hand maintains the tilted position, the honey continues to flow. When the lights turn back
+    on, the physical state must reflect the elapsed time: the glass must contain more honey, and the pitcher
+    must contain less honey, adhering to the conservation of mass. The stream should remain visible as
+    the pouring action was not stopped.'
+  questions:
+  - id: glass_level_increase
+    question: Is the level of honey in the glass tumbler higher than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the height of the honey in the glass between the first and last frame.
+  - id: pitcher_level_decrease
+    question: Is the level of honey remaining in the pitcher lower than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Check if the volume of honey in the source container has decreased.
+  - id: conservation_relation
+    question: Does the scene show a transfer of honey where the glass is fuller and the pitcher is emptier?
+    answer_type: yes_no
+    notes_for_judge: 'This tests the coupled relationship: one fills as the other empties.'
+  - id: stream_persistence
+    question: Is the stream of honey still flowing from the pitcher into the glass?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the hand continues holding the pitcher in the tilted position,
+      implying continuous flow.
+  - id: glass_position_static
+    question: Is the glass tumbler in the same position on the table as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The camera and object placement should remain stationary.
+  - id: lighting_restored
+    question: Is the scene illuminated with bright daylight similar to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the lights turn back on, revealing the scene.

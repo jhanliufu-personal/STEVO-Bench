@@ -1,0 +1,72 @@
+id: pulley_color_wheel_06
+level: 3
+category: relational_state
+tags: []
+variant_of: pulley_color_wheel
+variation_type: dynamic_condition
+variation_description: The crank is turned Counter-Clockwise instead of Clockwise.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Input direction reversed (CCW)
+  expected_outcome_change: The color wheel rotates Counter-Clockwise.
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A hand turns the crank handle exactly half a rotation counter-clockwise. The rubber belt is
+    taut and moves without slipping. The camera rotates right until the crank completely exits the view,
+    then rotates toward the left smoothly at the same rate until the color wheel is back in the center
+    of view. No zoom, no cut, no scene change. STOP.
+  camera_WM: A hand turns the crank handle exactly half a rotation counter-clockwise. The rubber belt
+    is taut and moves without slipping. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A workshop scene featuring a wooden mechanical setup clamped to a workbench.
+    On the left, a small wooden hand-crank mechanism with a handle held by a person's hand. On the right,
+    a large vertical wooden wheel with a segmented color face divided into 12 sections (Yellow at the
+    top, followed clockwise by orange, red, purple, blue, green shades). A black rubber belt connects
+    the small pulley on the crank to the circumference of the large color wheel. The background includes
+    a window and a pegboard with tools.
+  init2final_edit_prompt: Edit the given image to show the result of the mechanism turning. Rotate the
+    large color wheel counter-clockwise by approximately 30 degrees (one color segment). The 'Yellow'
+    segment, originally at the top, should be shifted to the left (roughly to the 11 o'clock position).
+    The orange segment, originally to the right of the top, should now be at the top vertical position
+    (12 o'clock). If the crank handle is visible, rotate it 180 degrees to the opposite side. Ensure the
+    belt remains taut and connected.
+  rationale: The prompt specifies a half-rotation (180 degrees) of the crank in a counter-clockwise direction.
+    The belt system is an open loop, meaning the driven wheel (the color wheel) will also rotate counter-clockwise.
+    Based on the visual estimate of the pulley-to-wheel radius ratio (approximately 1:6 to 1:8), the large
+    wheel will rotate significantly less than the crank—roughly 20-30 degrees. Since the color wheel has
+    12 segments (30 degrees each), this rotation corresponds to shifting the pattern by about one segment
+    counter-clockwise. Consequently, the 'Yellow' segment at the top will move to the left, and the orange
+    segment will move up to take the top position. The camera motion described serves as a distractor
+    (pan right, then pan left) and implies a return to a view where the wheel is central; for the purpose
+    of state evaluation, we assume the final framing captures the updated state of the wheel.
+  questions:
+  - id: wheel_rotation_direction
+    question: Did the color wheel rotate counter-clockwise relative to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Check if the top 'Yellow' segment has moved to the left.
+  - id: segment_position_yellow
+    question: Is the 'Yellow' segment now located to the left of the top vertical position?
+    answer_type: yes_no
+    notes_for_judge: In the initial frame, Yellow is at 12 o'clock. It should move towards 11 o'clock.
+  - id: segment_position_orange
+    question: Is the orange segment (or the segment originally to the right of Yellow) now at or near
+      the top vertical position?
+    answer_type: yes_no
+    notes_for_judge: The wheel rotates CCW, bringing the right-side segment up to the top.
+  - id: rotation_magnitude
+    question: Does the color wheel appear to have rotated by a small amount (less than 45 degrees) rather
+      than a full half-turn?
+    answer_type: yes_no
+    notes_for_judge: The gear ratio dictates a small rotation for the large wheel despite the crank turning
+      180 degrees.
+  - id: coupled_motion
+    question: Is the rotation of the color wheel consistent with the belt drive mechanism (turning in
+      the same direction as the crank)?
+    answer_type: yes_no
+    notes_for_judge: Both should be CCW (open belt).
+  - id: belt_integrity
+    question: Is the black belt still connected to both the crank pulley and the color wheel?
+    answer_type: yes_no
+    notes_for_judge: The belt should not disappear or break.

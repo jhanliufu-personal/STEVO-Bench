@@ -1,0 +1,75 @@
+id: hinged_mirror_angle_07
+level: 3
+category: relational_state
+tags: []
+variant_of: hinged_mirror_angle
+variation_type: combined
+variation_description: Mirrors open (increase angle) while occluded by a falling curtain.
+changes:
+  occlusion_method: Thick curtain falls to block view.
+  dynamic_conditions: Hinge opens (angle increases).
+  expected_outcome_change: Number of reflections decreases.
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A mechanical arm grabs the edge of one mirror and begins slowly pushing the hinge open, increasing
+    the angle between the two mirrors. The apple remains stationary. A thick velvet curtain falls from
+    above, completely obscuring the mirrors and apple. The curtain lifts back up to reveal the scene.
+    No zoom, no cut, no scene change. STOP.
+  camera_WM: A mechanical arm grabs the edge of one mirror and begins slowly pushing the hinge open, increasing
+    the angle between the two mirrors. The apple remains stationary. A thick velvet curtain falls from
+    above, completely obscuring the mirrors and apple. The curtain lifts back up to reveal the scene.
+    No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A pair of rectangular mirrors joined by a vertical brass hinge, standing on
+    a wooden table. The mirrors are angled towards each other, forming a corner shape (roughly 90-100
+    degrees). A red apple sits on the table in front of the hinge. Reflections of the apple are visible
+    in both the left and right mirrors, and a compound reflection is visible near the center hinge. The
+    background shows white walls and windows.
+  init2final_edit_prompt: Edit the given image to show the two mirrors opened to a significantly wider
+    angle, making the overall shape flatter and more obtuse than the initial corner configuration. The
+    brass hinge should remain in the center, but the left and right mirror panels should be rotated outwards
+    away from the apple. The red apple must remain stationary in its original position. The reflections
+    of the apple in the mirrors should be shifted outwards, further away from the central hinge, consistent
+    with the new mirror angles. Ensure the background and table remain consistent.
+  rationale: 'The prompt describes an action where the angle between the mirrors is increased (opened).
+    The curtain occlusion hides the motion, but the final state must show the consequences of this action:
+    the mirrors are now at a wider, more obtuse angle relative to each other. According to the laws of
+    optics, as the mirrors rotate outwards (away from the apple), the virtual images (reflections) of
+    the stationary apple will appear to move further apart and further away from the central hinge line.
+    The apple itself does not move.'
+  questions:
+  - id: mirror_angle_change
+    question: Is the angle between the two mirrors wider (more open) than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the geometry of the mirrors. They should form a flatter shape (obtuse angle)
+      compared to the initial acute/right angle.
+  - id: reflection_separation
+    question: Are the reflections of the apple in the mirrors further apart from each other than in the
+      initial frame?
+    answer_type: yes_no
+    notes_for_judge: As the mirrors open, the reflections should move outwards, increasing the visual
+      gap between the left reflection and the right reflection.
+  - id: reflection_position_relative_to_hinge
+    question: Do the reflections of the apple appear further from the central brass hinge than they were
+      initially?
+    answer_type: yes_no
+    notes_for_judge: With the mirrors opening, the reflection points shift away from the center.
+  - id: apple_stationary
+    question: Is the real red apple in the same position on the table as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The apple should not have moved; only the mirrors moved.
+  - id: mirror_orientation
+    question: Do the mirror panels appear to be rotated more towards the background plane compared to
+      the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Opening the hinge means the panels rotate back.
+  - id: hinge_integrity
+    question: Is the brass hinge still connecting the two mirrors in the center?
+    answer_type: yes_no
+    notes_for_judge: The mechanism should remain intact.
+  - id: background_consistency
+    question: Are the windows and walls in the background consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

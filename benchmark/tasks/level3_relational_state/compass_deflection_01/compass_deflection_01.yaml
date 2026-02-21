@@ -1,0 +1,68 @@
+id: compass_deflection_01
+level: 3
+category: relational_state
+tags: []
+variant_of: compass_deflection
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to an object blocking the view.
+changes:
+  occlusion_method: A large opaque clipboard blocks the camera view.
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A hand begins moving the bar magnet steadily closer to the side of the compass housing. The
+    magnet remains oriented in the same direction. A large opaque clipboard is moved directly in front
+    of the camera lens, completely blocking the view. The clipboard remains for a moment and then is removed
+    to reveal the scene again. No zoom, no cut, no scene change. STOP.
+  camera_WM: A hand begins moving the bar magnet steadily closer to the side of the compass housing. The
+    magnet remains oriented in the same direction. A large opaque clipboard is moved directly in front
+    of the camera lens, completely blocking the view. The clipboard remains for a moment and then is removed
+    to reveal the scene again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A brass compass is open on a wooden table. The compass needle has a red tip
+    and a white tip. A hand holds a red and blue bar magnet on the right side of the frame. The red end
+    of the magnet is facing the compass. The white tip of the compass needle is pointing generally towards
+    the magnet.
+  init2final_edit_prompt: Edit the given image to show the hand holding the bar magnet significantly closer
+    to the compass housing. The red end of the magnet should be positioned near the side of the compass.
+    Ensure the compass needle is oriented so that the white tip points directly towards the red end of
+    the magnet, indicating magnetic attraction, while the red tip points away. Keep the background, table,
+    and lighting consistent.
+  rationale: The prompt describes a magnet moving closer to a compass during an occlusion. Physically,
+    the red end of a magnet (North pole) attracts the South pole of a compass needle (typically the white
+    or silver tip) and repels the North pole (red tip). As the magnet moves closer, the magnetic field
+    strength increases, causing the needle to align more strictly with the magnet's field. The final state
+    must show the magnet physically closer and the needle maintaining or sharpening its alignment with
+    the white tip pointing at the magnet's red face.
+  questions:
+  - id: magnet_proximity
+    question: Is the bar magnet closer to the compass housing than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the distance between the magnet and the compass in both frames. It should
+      be noticeably smaller in the final frame.
+  - id: needle_orientation_white
+    question: Is the white tip of the compass needle pointing towards the red end of the magnet?
+    answer_type: yes_no
+    notes_for_judge: Checks for correct magnetic polarity (South pole of needle attracted to North pole
+      of magnet).
+  - id: needle_orientation_red
+    question: Is the red tip of the compass needle pointing away from the red end of the magnet?
+    answer_type: yes_no
+    notes_for_judge: Checks for correct magnetic polarity (North pole of needle repelled by North pole
+      of magnet).
+  - id: coupled_behavior
+    question: Does the compass needle appear aligned with the position of the magnet?
+    answer_type: yes_no
+    notes_for_judge: The needle should not be pointing in a random direction; it should be coupled to
+      the magnet's location.
+  - id: occlusion_removed
+    question: Is the view free of the clipboard occlusion mentioned in the prompt?
+    answer_type: yes_no
+    notes_for_judge: The final frame should show the scene revealed again.
+  - id: object_permanence
+    question: Is the brass compass housing still present on the wooden table?
+    answer_type: yes_no
+    notes_for_judge: Basic consistency check.

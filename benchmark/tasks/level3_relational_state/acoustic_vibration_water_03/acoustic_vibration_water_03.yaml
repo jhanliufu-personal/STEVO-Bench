@@ -1,0 +1,62 @@
+id: acoustic_vibration_water_03
+level: 3
+category: relational_state
+tags: []
+variant_of: acoustic_vibration_water
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to an extreme camera zoom out.
+changes:
+  occlusion_method: Camera zoom out
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A rubber mallet strikes the tuning fork, causing it to vibrate with a loud, continuous hum.
+    The fork is positioned inches away from the glass. The camera zooms out rapidly until the bowl and
+    fork appear as indistinguishable dots in the distance, then zooms back in to the original framing.
+    No cut, no scene change. STOP.
+  camera_WM: A rubber mallet strikes the tuning fork, causing it to vibrate with a loud, continuous hum.
+    The fork is positioned inches away from the glass. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+evaluation:
+  init_frame_description: A close-up shot of a large, rusty tuning fork clamped horizontally to a wooden
+    block on a dark table. Next to the fork is a clear glass bowl filled with water. A wooden-handled
+    rubber mallet lies on the table in the foreground. The water surface is calm and smooth.
+  init2final_edit_prompt: Edit the given image to show the tuning fork vibrating, with the tines appearing
+    blurred and fuzzy due to motion. Add visible ripples and agitation to the surface of the water in
+    the glass bowl, indicating vibration transfer. Remove the rubber mallet from its original position
+    on the table, or place it elsewhere, to imply it was handled. Maintain the original camera angle,
+    lighting, and the position of the wooden block and glass bowl.
+  rationale: The prompt describes a physical interaction where the mallet strikes the tuning fork, initiating
+    a state of vibration. Although the camera zooms out and back in, the 'continuous hum' implies the
+    vibration persists upon return. Visually, a vibrating tuning fork exhibits motion blur at the tines.
+    Because the system is coupled (likely through the table or air resonance) and the hum is 'loud', the
+    water in the nearby bowl should react with surface ripples (Faraday waves) or agitation, demonstrating
+    the relational transfer of energy. The mallet, having been used for the strike, would logically not
+    be in its exact original resting pose.
+  questions:
+  - id: fork_blur
+    question: Do the tines of the tuning fork appear blurred or fuzzy compared to the sharp initial frame?
+    answer_type: yes_no
+    notes_for_judge: Look for motion blur on the tips of the fork.
+  - id: water_ripples
+    question: Is the surface of the water in the bowl disturbed with ripples or waves?
+    answer_type: yes_no
+    notes_for_judge: The water should no longer be perfectly smooth/glassy.
+  - id: mallet_moved
+    question: Is the rubber mallet absent or in a different position compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: It should not be lying in the exact same spot/orientation.
+  - id: reflection_distortion
+    question: Are the reflections on the water surface distorted, indicating surface movement?
+    answer_type: yes_no
+    notes_for_judge: Check if the clear reflections from the first frame are broken up.
+  - id: block_invariant
+    question: Is the wooden block clamping the fork still in its original position?
+    answer_type: yes_no
+    notes_for_judge: The static setup should not move.
+  - id: bowl_invariant
+    question: Is the glass bowl still positioned in the same location relative to the block?
+    answer_type: yes_no
+    notes_for_judge: The bowl itself should not slide across the table.

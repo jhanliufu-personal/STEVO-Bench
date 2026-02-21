@@ -1,0 +1,74 @@
+id: solar_tracker_geometry_03
+level: 3
+category: relational_state
+tags: []
+variant_of: solar_tracker_geometry
+variation_type: occlusion_method
+variation_description: Replaced camera rotation with a drastic zoom out that renders details invisible.
+changes:
+  occlusion_method: 'Camera zoom: Zooms out until the panel is indistinguishable.'
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The motorized tracker is active, and the solar panel begins tilting slowly and steadily further
+    down toward the horizon. The sun remains bright and low in the sky. The camera rapidly zooms out,
+    pulling back high into the sky until the solar panel is nothing more than a speck in the vast desert
+    dunes, indistinguishable from the sand. The camera then zooms back in smoothly to the original framing.
+    No cut, no scene change. STOP.
+  camera_WM: The motorized tracker is active, and the solar panel begins tilting slowly and steadily further
+    down toward the horizon. The sun remains bright and low in the sky. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+evaluation:
+  init_frame_description: A large, rectangular solar panel array is mounted on a heavy industrial metal
+    tracker in a desert environment. The tracker features a large circular gear mechanism and hydraulic
+    or mechanical struts connected to a base anchored in the sand. The panel is currently tilted upwards
+    at a steep angle. The sun is low on the horizon to the right, casting a warm orange glow over the
+    sand dunes. Dust is visible in the air near the base of the structure.
+  init2final_edit_prompt: Edit the given image to show the solar panel tilted significantly lower towards
+    the right horizon. Rotate the panel around its central pivot so that the top-left edge is lower and
+    the face of the panel is angled more directly at the low sun. Adjust the orientation of the central
+    gear and the extension of the supporting struts to physically correspond to this new, lower tilt angle.
+    Ensure the camera framing, background sand dunes, sun position, and lighting remain exactly the same
+    as in the original image.
+  rationale: The video prompt describes a sequence where the camera zooms out to a great distance and
+    then returns to the exact original framing. During this camera movement, the solar panel physically
+    tilts downwards to track the sun. Therefore, the final frame should be identical to the initial frame
+    in terms of viewpoint, background, and lighting, but the solar panel itself must be in a different
+    state (rotated downwards) with its mechanical supports adjusted to match the new angle.
+  questions:
+  - id: panel_tilt_change
+    question: Is the solar panel tilted closer to the horizon line compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The panel should have rotated downwards, reducing its angle relative to the ground/horizon.
+  - id: top_edge_height
+    question: Is the highest point of the solar panel vertically lower in the frame than it was initially?
+    answer_type: yes_no
+    notes_for_judge: As the panel tilts down towards the horizon, its highest edge should descend.
+  - id: mechanical_coupling
+    question: Do the mechanical struts and gears appear to be in a configuration that supports the panel's
+      new angle?
+    answer_type: yes_no
+    notes_for_judge: 'Check for relational consistency: the mechanism should look like it moved with the
+      panel, not detached or broken.'
+  - id: pivot_constraint
+    question: Is the solar panel still attached to the central pivot mechanism on the base?
+    answer_type: yes_no
+    notes_for_judge: The panel should rotate around the pivot, not float away or detach.
+  - id: sun_position_consistency
+    question: Is the position of the sun relative to the horizon consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The sun should not have moved significantly; the camera returned to the original
+      view.
+  - id: camera_framing_return
+    question: Is the scale and position of the tracker base relative to the frame edges consistent with
+      the initial image?
+    answer_type: yes_no
+    notes_for_judge: The camera zoomed back in to the original framing, so the base should be in the same
+      spot.
+  - id: panel_orientation_sun
+    question: Is the face of the solar panel angled more directly towards the sun than in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: The action is tracking the sun; the alignment should improve.

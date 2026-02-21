@@ -1,0 +1,69 @@
+id: concave_mirror_inversion_04
+level: 3
+category: relational_state
+tags: []
+variant_of: concave_mirror_inversion
+variation_type: dynamic_condition
+variation_description: Mirror surface changed from concave bowl to convex sphere.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Surface is now a convex sphere instead of a concave bowl.
+  expected_outcome_change: Reflection remains upright and virtual regardless of distance; no inversion
+    occurs.
+prompts:
+  init_frame_edit_prompt: Edit the image to replace the concave silver bowl with a large, perfectly round,
+    convex silver sphere sitting on the table.
+  video_WM: The candle is moved steadily closer to the silver sphere. The flame remains lit. The camera
+    rotates right until the sphere completely exits the view, then rotates toward the left smoothly at
+    the same rate until the silver sphere is back in the center of view. No zoom, no cut, no scene change.
+    STOP.
+  camera_WM: The candle is moved steadily closer to the silver sphere. The flame remains lit. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A large, polished silver sphere rests on a wooden table in a rustic wooden room.
+    The sphere acts as a convex mirror, reflecting the room's interior, including ceiling beams, a window
+    with bright daylight, wooden furniture, and a lit candle in a holder sitting on the table in the foreground.
+    The candle is positioned at a moderate distance from the sphere.
+  init2final_edit_prompt: Edit the given image to position the lit candle and its holder significantly
+    closer to the silver sphere on the table. Correspondingly, update the reflection on the sphere's surface
+    to show the candle's reflection as larger and closer to the viewer, consistent with the optics of
+    a convex mirror when an object approaches it. Keep the camera angle, lighting, and the static background
+    reflections (room, window, furniture) unchanged.
+  rationale: 'The video prompt describes a sequence where the camera pans away and then returns to the
+    original view. During this interval (and while visible), the candle is moved physically closer to
+    the sphere. Therefore, in the final frame, the camera angle is identical to the initial frame, but
+    the state of the scene has changed: the candle is closer to the sphere. Physically, as an object moves
+    closer to a convex mirror (the sphere), its reflection becomes larger and appears to move closer to
+    the surface of the mirror. The evaluation checks for this coupled change between the real object and
+    its reflection.'
+  questions:
+  - id: candle_proximity
+    question: Is the physical candle holder positioned closer to the silver sphere than it was in the
+      initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the distance between the base of the candle holder and the bottom of the
+      sphere on the table.
+  - id: reflection_size_change
+    question: Does the reflection of the candle in the sphere appear larger than it did in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: In a convex mirror, as an object gets closer, its reflection gets larger.
+  - id: reflection_coupling
+    question: Is the position of the reflected candle consistent with the new position of the real candle?
+    answer_type: yes_no
+    notes_for_judge: The reflection should be aligned with the real object relative to the center of the
+      sphere.
+  - id: camera_return
+    question: Is the silver sphere centered in the view, similar to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The camera should have returned to its starting orientation.
+  - id: background_consistency
+    question: Are the reflections of the static room elements (windows, walls) unchanged in position relative
+      to the sphere's surface?
+    answer_type: yes_no
+    notes_for_judge: Only the candle moved; the room and camera position relative to the room are constant.
+  - id: flame_persistence
+    question: Is the candle flame still lit in the final frame?
+    answer_type: yes_no
+    notes_for_judge: The prompt specifies the flame remains lit.

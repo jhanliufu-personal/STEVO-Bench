@@ -1,0 +1,64 @@
+id: domino_falling_10
+level: 3
+category: relational_state
+tags: []
+variant_of: domino_falling
+variation_type: combined
+variation_description: Gap in the row combined with camera zoom occlusion.
+changes:
+  occlusion_method: Camera zooms out until details are lost.
+  dynamic_conditions: A gap exists in the domino row.
+  expected_outcome_change: Chain reaction stops at the gap.
+prompts:
+  init_frame_edit_prompt: Edit the image to remove three dominoes shortly after the start of the line,
+    creating a distinct empty gap between the initial segment and the rest of the winding row.
+  video_WM: Single continuous shot, no cuts. The finger pushes the first domino forward. While the dominoes
+    interact, the camera smoothly zooms out rapidly until the table becomes a tiny speck in the distance,
+    making the dominoes invisible. The camera holds this distant view for several seconds. Then the camera
+    zooms back in smoothly to the original framing. STOP.
+  camera_WM: A finger pushes the first domino forward in a row that has a distinct gap missing several
+    pieces shortly after the start. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, slightly high-angle shot of a wooden table. A long, winding chain
+    of rectangular wooden dominoes stands upright, curving from the left foreground into the background.
+    A human hand enters from the left, with an index finger touching the first domino, poised to push
+    it. The background features a window with daylight, potted plants on the sill, and a stack of books.
+  init2final_edit_prompt: Edit the given image to show the dominoes after they have toppled over. Change
+    the standing wooden blocks to be lying flat against the table surface, following the exact same winding
+    path as the original setup. The dominoes should appear to have fallen in a chain reaction starting
+    from the left. The hand should be removed or relaxed, no longer pushing an upright block.
+  rationale: 'The prompt describes a finger pushing the first domino, which initiates a coupled chain
+    reaction where each domino knocks over the next. The camera zooms out and holds for several seconds,
+    which acts as a temporal occlusion during which the chain reaction propagates. When the camera zooms
+    back in to the original framing, the state of the system must reflect this causal chain: the standing
+    dominoes should now be lying flat along the path, conserving the mass and number of blocks but changing
+    their orientation due to the interaction.'
+  questions:
+  - id: dominoes_fallen_start
+    question: Are the dominoes at the starting position (left side) lying flat on the table?
+    answer_type: yes_no
+    notes_for_judge: The first domino was pushed, so it and its immediate neighbors must be down.
+  - id: dominoes_fallen_majority
+    question: Do the majority of the visible dominoes appear to be toppled over rather than standing upright?
+    answer_type: yes_no
+    notes_for_judge: Given the 'several seconds' duration, the chain reaction should have propagated significantly.
+  - id: path_conservation
+    question: Do the fallen dominoes still follow the original winding path configuration?
+    answer_type: yes_no
+    notes_for_judge: The spatial layout of the chain should be preserved, just the vertical state changes.
+  - id: sequential_state
+    question: Is the state of the dominoes consistent with a chain reaction (e.g., no isolated standing
+      dominoes in the middle of a fallen segment)?
+    answer_type: yes_no
+    notes_for_judge: Tests the coupled nature of the system; they fall in sequence.
+  - id: hand_state
+    question: Is the finger no longer pushing a standing domino?
+    answer_type: yes_no
+    notes_for_judge: The action has completed.
+  - id: background_invariance
+    question: Are the background objects (plants, books, window) unchanged?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

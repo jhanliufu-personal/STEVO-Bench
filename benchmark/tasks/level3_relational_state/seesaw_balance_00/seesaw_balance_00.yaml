@@ -1,0 +1,58 @@
+id: seesaw_balance_00
+level: 3
+category: relational_state
+tags: []
+variant_of: seesaw_balance
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A person begins lifting the left sandbag and its seat off the ground. The motion continues.
+    Camera remains stationary throughout. No zoom, no cut, no scene change. STOP.
+  camera_WM: A person begins lifting the left sandbag and its seat off the ground. The motion continues.
+    Camera remains stationary throughout. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A wooden seesaw in a playground setting with a wood chip ground surface. The
+    seesaw is tilted such that the left seat is resting on the ground, and the right seat is elevated
+    in the air. A burlap sack labeled '20 KG SAND' sits on the left seat. The background features trees
+    and playground structures.
+  init2final_edit_prompt: 'Edit the given image to show the seesaw tilted in the opposite direction or
+    towards horizontal: the left seat with the sandbag should be lifted clearly off the ground into the
+    air, and the right seat should be lowered closer to the ground.'
+  rationale: The prompt describes a lifting action applied to the left side of the seesaw. Because the
+    seesaw is a rigid beam coupled at a central pivot, lifting the left side mechanically forces the right
+    side to move downwards. The final state must reflect this coupled motion, with the left side elevated
+    and the right side lowered relative to the initial state.
+  questions:
+  - id: seesaw_left_up
+    question: Is the left seat (with the sandbag) higher off the ground than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the vertical distance between the left seat and the ground to the initial
+      image.
+  - id: seesaw_right_down
+    question: Is the right seat lower than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The right side should have moved downwards as the left side moved up.
+  - id: seesaw_coupled_motion
+    question: Does the change in the seesaw's position show a coupled rotation (left side up, right side
+      down)?
+    answer_type: yes_no
+    notes_for_judge: Check if the movement is consistent with pivoting around the center.
+  - id: sandbag_presence
+    question: Is the sandbag still visible on the left seat?
+    answer_type: yes_no
+    notes_for_judge: The object should persist during the motion.
+  - id: beam_rigidity
+    question: Does the main beam of the seesaw remain straight?
+    answer_type: yes_no
+    notes_for_judge: The beam should not bend; it is a rigid body.
+  - id: left_seat_airborne
+    question: Is the left seat no longer touching the ground?
+    answer_type: yes_no
+    notes_for_judge: The prompt specifies it is lifted off the ground.

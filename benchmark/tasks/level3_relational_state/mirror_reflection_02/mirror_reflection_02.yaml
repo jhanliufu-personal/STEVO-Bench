@@ -1,0 +1,71 @@
+id: mirror_reflection_02
+level: 3
+category: relational_state
+tags: []
+variant_of: mirror_reflection
+variation_type: occlusion_method
+variation_description: Occlusion changed to a person walking in front of the camera.
+changes:
+  occlusion_method: A person walks between the camera and the table, blocking the view.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A hand pushes the red ball directly toward the mirror at a steady speed. The ball remains
+    on the surface of the table. A person wearing a dark coat walks slowly from the right side of the
+    frame to the left, passing between the camera and the table, completely blocking the view of the mirror
+    and the ball. The person exits the frame to the left. No zoom, no cut, no scene change. STOP.
+  camera_WM: A hand pushes the red ball directly toward the mirror at a steady speed. The ball remains
+    on the surface of the table. A person wearing a dark coat walks slowly from the right side of the
+    frame to the left, passing between the camera and the table, completely blocking the view of the mirror
+    and the ball. The person exits the frame to the left. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a wooden table surface. In the foreground, a red
+    billiard ball with the number '3' in a white circle sits on the table. Behind the ball is a rectangular
+    mirror with a wooden frame. The mirror reflects the back side of the red ball (where no number is
+    visible) and a green pool table in the background. The ball is positioned a few inches away from the
+    base of the mirror.
+  init2final_edit_prompt: Edit the given image to show the red billiard ball positioned significantly
+    closer to the wooden frame of the mirror. The reflection of the red ball inside the mirror must also
+    appear closer to the bottom edge of the mirror glass, reducing the visual gap between the real ball
+    and its reflection. Ensure the reflection maintains the correct vertical alignment and perspective
+    relative to the new position of the real ball. The background reflection of the pool table should
+    remain consistent.
+  rationale: The video prompt describes a physical action where the ball is pushed towards the mirror.
+    According to the laws of optics, as an object moves closer to a plane mirror, its virtual image also
+    moves closer to the mirror's surface. Therefore, in the final state, the distance between the real
+    ball and the mirror frame must be reduced, and the distance between the reflected ball and the mirror
+    surface must be correspondingly reduced. The occlusion by the person is temporary; once they exit,
+    the view is clear again, revealing the new state of the coupled system (ball and reflection).
+  questions:
+  - id: ball_closer_to_mirror
+    question: Is the real red ball positioned closer to the mirror frame than it was in the initial image?
+    answer_type: yes_no
+    notes_for_judge: Compare the distance between the bottom of the real ball and the wooden frame in
+      the init vs final image.
+  - id: reflection_closer_to_edge
+    question: Is the reflection of the red ball closer to the bottom edge of the mirror glass than in
+      the initial image?
+    answer_type: yes_no
+    notes_for_judge: The reflected ball should have moved 'down' in the mirror glass towards the real
+      ball.
+  - id: gap_reduced
+    question: Is the visual gap between the real ball and its reflection smaller than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: This tests the coupled relationship; as the object approaches the mirror, the image
+      approaches the object.
+  - id: reflection_alignment
+    question: Is the reflection of the ball still horizontally aligned with the real ball?
+    answer_type: yes_no
+    notes_for_judge: Checks for mirror symmetry conservation; the reflection should not drift left or
+      right independently.
+  - id: occluder_gone
+    question: Is the view clear of the person who walked by?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the person exits the frame.
+  - id: background_invariant
+    question: Is the green pool table still visible in the background reflection?
+    answer_type: yes_no
+    notes_for_judge: The background environment should persist.

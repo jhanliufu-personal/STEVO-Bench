@@ -1,0 +1,70 @@
+id: laser_mirror_projection_04
+level: 3
+category: relational_state
+tags: []
+variant_of: laser_mirror_projection
+variation_type: dynamic_condition
+variation_description: Mirror rotation direction reversed.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Motor rotates counter-clockwise instead of clockwise.
+  expected_outcome_change: Laser spot moves in the opposite direction.
+prompts:
+  init_frame_edit_prompt: Edit the image to add a label reading 'REVERSE' on the black motor controller
+    box.
+  video_WM: The motorized base begins to rotate the mirror slowly counter-clockwise. The laser pointer
+    and the white screen remain fixed in place. The camera rotates right until the mirror and laser completely
+    exit the view, then rotates toward the left smoothly at the same rate until the white screen is back
+    in the center of view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The motorized base begins to rotate the mirror slowly counter-clockwise. The laser pointer
+    and the white screen remain fixed in place. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A physics lab setup featuring a green laser pointer mounted on a stand on the
+    left, a square mirror mounted on a motorized rotation stage in the center, and a white projection
+    screen on the right. A green laser beam travels from the pointer to the mirror and reflects onto the
+    screen, creating a bright green dot and a visible curved trace on the screen surface.
+  init2final_edit_prompt: Edit the given image to frame the white projection screen in the center of the
+    view. Crop out the left side of the image so the laser pointer is no longer visible. Move the bright
+    green laser dot on the screen to the left of its original position.
+  rationale: The mirror rotates counter-clockwise (as viewed from the top). By the law of reflection,
+    a counter-clockwise rotation of the mirror causes the reflected ray to sweep counter-clockwise. In
+    this setup, where the laser originates from the left and reflects towards a screen in the background-right,
+    a counter-clockwise sweep corresponds to the laser dot moving to the left across the screen surface.
+    The camera motion pans right and then centers the screen, resulting in a final framing that is shifted
+    to the right relative to the initial view, likely excluding the stationary laser pointer on the far
+    left.
+  questions:
+  - id: dot_position_shift
+    question: Is the green laser dot on the screen positioned to the left of its location in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: The mirror rotation causes the beam to sweep left. Compare the dot's position relative
+      to the screen edges or markings.
+  - id: screen_centering
+    question: Is the white projection screen centered in the final frame?
+    answer_type: yes_no
+    notes_for_judge: The prompt explicitly states the camera rotates until the screen is back in the center.
+  - id: laser_pointer_exclusion
+    question: Is the laser pointer source (originally on the far left) excluded or cropped out of the
+      final view?
+    answer_type: yes_no
+    notes_for_judge: Since the screen (originally on the right) is now centered, the view has shifted
+      right, likely removing the leftmost objects.
+  - id: dot_visibility
+    question: Is the green laser dot still visible on the white screen?
+    answer_type: yes_no
+    notes_for_judge: The dot should not disappear; it just moves.
+  - id: mirror_presence
+    question: Is the mirror assembly (or part of it) still visible in the frame?
+    answer_type: yes_no
+    notes_for_judge: The mirror is central, so even with the shift, part of the apparatus should likely
+      remain visible, though this is secondary to the dot.
+  - id: relative_motion_consistency
+    question: Did the laser dot move in the opposite direction to the apparent movement of the screen
+      background during the camera pan?
+    answer_type: yes_no
+    notes_for_judge: 'This is a complex check: if the camera pans to center the screen, the screen moves
+      ''left'' in the view. The dot moves ''left'' on the screen. This question checks if the dot''s position
+      *on the screen* changed, not just its pixel position.'

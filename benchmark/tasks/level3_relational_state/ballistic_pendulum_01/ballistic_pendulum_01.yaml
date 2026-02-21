@@ -1,0 +1,63 @@
+id: ballistic_pendulum_01
+level: 3
+category: relational_state
+tags: []
+variant_of: ballistic_pendulum
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to lights turning off.
+changes:
+  occlusion_method: Lights turn off completely (pitch black), then turn back on.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The metal projectile makes direct contact with the wooden block, embedding itself into the
+    wood. The block is free to swing on its wire suspension. Suddenly, the lights in the room turn off
+    completely, plunging the scene into total darkness. After a duration similar to a camera pan, the
+    lights turn back on to reveal the scene again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The metal projectile makes direct contact with the wooden block, embedding itself into the
+    wood. The block is free to swing on its wire suspension. Suddenly, the lights in the room turn off
+    completely, plunging the scene into total darkness. After a duration similar to a camera pan, the
+    lights turn back on to reveal the scene again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A large, rectangular, weathered wooden block is suspended by two braided metal
+    cables from a ceiling structure with pipes. A shiny, cylindrical metal projectile is visible in mid-air
+    to the left of the block, blurring slightly as it moves horizontally towards the center of the block's
+    face. Dust particles are suspended in the air around the potential impact zone.
+  init2final_edit_prompt: Edit the given image to show the wooden block displaced significantly to the
+    right and slightly upwards. The suspension cables must be angled diagonally to the right, connecting
+    the ceiling to the new position of the block. Remove the flying metal projectile from the air and
+    render an impact mark or the rear of the embedded projectile on the left face of the wooden block.
+  rationale: The video prompt describes a ballistic pendulum scenario where a projectile impacts and embeds
+    into a suspended block. This is an inelastic collision where momentum is transferred from the projectile
+    to the block. Consequently, the block must swing in the direction of the projectile's travel (to the
+    right) and upwards against gravity. The 'lights off' period acts as a temporal skip, allowing the
+    system to evolve to a state where the block has swung away from its equilibrium position. The final
+    frame should show the block displaced and the projectile embedded.
+  questions:
+  - id: block_position_x
+    question: Is the wooden block positioned further to the right than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The block should have swung to the right due to the impact.
+  - id: cable_angle
+    question: Are the suspension cables angled towards the right relative to the ceiling?
+    answer_type: yes_no
+    notes_for_judge: The cables should no longer be vertical; they must point to the displaced block.
+  - id: projectile_embedded
+    question: Is the metal projectile no longer visible floating in the air to the left of the block?
+    answer_type: yes_no
+    notes_for_judge: The projectile should be embedded in the wood.
+  - id: block_position_y
+    question: Is the wooden block positioned higher vertically than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: As a pendulum swings, it rises. The block should be higher.
+  - id: impact_evidence
+    question: Is there a visible impact hole or embedded object on the left face of the wooden block?
+    answer_type: yes_no
+    notes_for_judge: Evidence of the collision should be visible on the wood.
+  - id: background_consistency
+    question: Do the ceiling pipes and background structure remain static relative to the frame borders?
+    answer_type: yes_no
+    notes_for_judge: The camera does not move, only the lights toggle.

@@ -1,0 +1,69 @@
+id: domino_falling_07
+level: 3
+category: relational_state
+tags: []
+variant_of: domino_falling
+variation_type: combined
+variation_description: Gap in the row combined with lighting occlusion.
+changes:
+  occlusion_method: Room lights turn off completely.
+  dynamic_conditions: A gap exists in the domino row.
+  expected_outcome_change: Chain reaction stops at the gap.
+prompts:
+  init_frame_edit_prompt: Edit the image to remove three dominoes shortly after the start of the line,
+    creating a distinct empty gap between the initial segment and the rest of the winding row.
+  video_WM: Single continuous shot, no cuts. The finger pushes the first domino forward. Moments later,
+    the room lights turn off completely, plunging the scene into pitch black darkness. After several seconds
+    of darkness, the lights turn back on, illuminating the scene again. STOP.
+  camera_WM: Single continuous shot, no cuts. The finger pushes the first domino forward. Moments later,
+    the room lights turn off completely, plunging the scene into pitch black darkness. After several seconds
+    of darkness, the lights turn back on, illuminating the scene again. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A close-up view of a wooden table with a long, winding chain of wooden dominoes
+    standing upright. A person's hand is visible on the left, with a finger touching the first domino,
+    poised to push it. The background features a window, potted plants, and a stack of books.
+  init2final_edit_prompt: Edit the given image so that the chain of dominoes has toppled over and is lying
+    flat on the table, following the original winding path. The hand should be withdrawn or relaxed, no
+    longer applying force. The lighting should be bright and fully illuminated, matching the initial daylight
+    conditions.
+  rationale: The prompt initiates a causal chain reaction by pushing the first domino. The dominoes form
+    a coupled system where the state of one affects the next. Although the scene goes dark, the physical
+    process of the chain reaction continues during the occlusion. After several seconds, enough time has
+    passed for the wave of falling dominoes to propagate through the chain. Therefore, when the lights
+    return, the dominoes should be lying flat, preserving the path of the original setup.
+  questions:
+  - id: dominoes_fallen
+    question: Are the dominoes lying flat on the table instead of standing upright?
+    answer_type: yes_no
+    notes_for_judge: The primary state change is the transition from standing to fallen due to the chain
+      reaction.
+  - id: first_domino_toppled
+    question: Is the first domino, which was being touched by the finger, now toppled over?
+    answer_type: yes_no
+    notes_for_judge: This confirms the initiation of the action.
+  - id: path_conservation
+    question: Does the arrangement of the fallen dominoes follow the same winding path as the standing
+      ones in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Tests relational consistency; the spatial layout must be conserved even after the
+      state change.
+  - id: lighting_restored
+    question: Is the scene fully illuminated, similar to the brightness of the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The prompt specifies the lights turn back on.
+  - id: hand_state
+    question: Is the hand no longer actively pushing the domino?
+    answer_type: yes_no
+    notes_for_judge: The action has completed, so the hand should be relaxed or withdrawn.
+  - id: chain_reaction_consistency
+    question: Do the dominoes appear to have fallen in a sequential direction away from the initial push?
+    answer_type: yes_no
+    notes_for_judge: Tests the relational physics of the coupled system.
+  - id: background_stability
+    question: Are the background objects, such as the plants and books, in the same position as in the
+      initial frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

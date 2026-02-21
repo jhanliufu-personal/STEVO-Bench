@@ -1,0 +1,61 @@
+id: balloon_suction_jar_07
+level: 3
+category: relational_state
+tags: []
+variant_of: balloon_suction_jar
+variation_type: combined
+variation_description: Pump is off (no physics) and occlusion is via darkness.
+changes:
+  occlusion_method: Lights turn off.
+  dynamic_conditions: Pump is OFF.
+  expected_outcome_change: No change in balloon size.
+prompts:
+  init_frame_edit_prompt: Edit the image to flip the black power switch on the pump to the 'OFF' position
+    (O).
+  video_WM: The vacuum pump is connected to the sealed bell jar, but the power switch is in the OFF position.
+    The system remains completely idle. Suddenly, the room lights turn off, leaving the scene in pitch
+    blackness. After a duration, the lights turn back on. No zoom, no cut, no scene change. STOP.
+  camera_WM: The vacuum pump is connected to the sealed bell jar, but the power switch is in the OFF position.
+    The system remains completely idle. Suddenly, the room lights turn off, leaving the scene in pitch
+    blackness. After a duration, the lights turn back on. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A laboratory setup on a wooden table featuring a glass bell jar on the left
+    containing an inflated red balloon. A hose connects the bell jar to a vacuum pump on the right. The
+    pump has a silver metal casing with cooling fins, a pressure gauge on top, and a black power switch
+    on the side which is in the OFF position.
+  init2final_edit_prompt: Edit the given image to show the scene exactly as it was initially. The red
+    balloon inside the bell jar must retain its original size, shape, and position. The vacuum pump switch
+    must remain in the OFF position. Ensure the lighting and camera angle are identical to the original
+    view.
+  rationale: The prompt specifies that the system remains completely idle with the pump switch in the
+    OFF position. The lighting change (lights off then on) serves as a passage of time but does not affect
+    the physical state of the apparatus. Since the pump is never activated, the air pressure inside the
+    bell jar remains constant. Consequently, the balloon does not expand or contract, preserving its initial
+    volume and shape relative to the jar. The final state is visually identical to the initial state.
+  questions:
+  - id: balloon_size_conservation
+    question: Is the red balloon approximately the same size as it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The balloon should not have expanded or shrunk.
+  - id: switch_position_static
+    question: Is the vacuum pump switch still in the OFF position?
+    answer_type: yes_no
+    notes_for_judge: The switch should not have moved.
+  - id: volume_ratio_preservation
+    question: Does the balloon occupy the same proportion of the bell jar's volume as it did initially?
+    answer_type: yes_no
+    notes_for_judge: Tests the relationship between the object and its container.
+  - id: no_expansion_check
+    question: Does the balloon appear unexpanded relative to the initial state?
+    answer_type: yes_no
+    notes_for_judge: The balloon should not look larger or stretched.
+  - id: relative_position_static
+    question: Is the position of the balloon relative to the base of the jar unchanged?
+    answer_type: yes_no
+    notes_for_judge: It should still be resting on the bottom in the same spot.
+  - id: system_state_consistency
+    question: Is the overall state of the system consistent with the pump remaining idle?
+    answer_type: yes_no
+    notes_for_judge: Checks for lack of change in a coupled system where no force was applied.

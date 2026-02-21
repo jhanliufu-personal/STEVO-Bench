@@ -1,0 +1,66 @@
+id: hourglass_accumulation_05
+level: 1
+category: scalar_state
+tags: []
+variant_of: hourglass_accumulation
+variation_type: dynamic_condition
+variation_description: The hourglass is lying on its side, preventing flow.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Hourglass is horizontal.
+  expected_outcome_change: No accumulation; sand remains settled on the side of the bulbs.
+prompts:
+  init_frame_edit_prompt: Edit the image so the hourglass is lying horizontally on its side on the table.
+  video_WM: An hourglass lies on its side on the table. The camera rotates right until the hourglass completely
+    exits the view, then rotates toward the left smoothly at the same rate until the hourglass is back
+    in the center of view. No zoom, no cut, no scene change. STOP.
+  camera_WM: An hourglass lies on its side on the table. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A wooden hourglass lying horizontally on its side on a distressed wooden table.
+    The hourglass has hexagonal wooden end-caps and three turned spindles connecting them. Inside the
+    glass bulbs, sand is settled at the bottom (relative to gravity) of both the left and right chambers,
+    with no sand flowing through the horizontal neck. To the left of the hourglass, there is a brass scale
+    and a stack of books. In the background, a window with a wooden frame is visible, along with bookshelves
+    filled with books.
+  init2final_edit_prompt: Edit the given image to restore the scene exactly as it appears in the original
+    frame. Ensure the hourglass remains lying on its side with the wooden end-caps oriented vertically.
+    Keep the sand distribution inside the glass bulbs exactly the same, with the sand settled at the bottom
+    of the horizontal bulbs and no sand flowing through the neck. Maintain the position of the brass scale,
+    books, and the window background unchanged.
+  rationale: The hourglass is resting on its side, meaning the channel connecting the two bulbs is horizontal.
+    In this orientation, gravity acts perpendicular to the direction of flow, so the sand remains static
+    in the bulbs and does not flow or accumulate. The camera pans away and then returns to the original
+    position. Since no physical interaction occurs to upright the hourglass, the final state must be identical
+    to the initial state, testing the model's ability to maintain a static scalar state (sand volume)
+    and object permanence during occlusion.
+  questions:
+  - id: hourglass_orientation
+    question: Is the hourglass still lying on its side?
+    answer_type: yes_no
+    notes_for_judge: The hourglass should not be standing vertically.
+  - id: sand_conservation_left
+    question: Is the amount of sand in the left bulb approximately the same as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Sand should not have emptied or filled significantly since it is not flowing.
+  - id: sand_conservation_right
+    question: Is the amount of sand in the right bulb approximately the same as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Sand should not have emptied or filled significantly.
+  - id: no_flow
+    question: Does the sand appear static, without a stream flowing through the neck?
+    answer_type: yes_no
+    notes_for_judge: Since the hourglass is horizontal, there should be no active flow.
+  - id: position_permanence
+    question: Is the hourglass in the same location on the table as it was initially?
+    answer_type: yes_no
+    notes_for_judge: The object should not have slid or teleported.
+  - id: scale_visibility
+    question: Is the brass scale still visible to the left of the hourglass?
+    answer_type: yes_no
+    notes_for_judge: Secondary object permanence check.
+  - id: background_consistency
+    question: Is the window in the background still visible and unchanged?
+    answer_type: yes_no
+    notes_for_judge: Secondary scene consistency check.

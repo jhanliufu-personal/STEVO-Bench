@@ -1,0 +1,63 @@
+id: ballistic_pendulum_05
+level: 3
+category: relational_state
+tags: []
+variant_of: ballistic_pendulum
+variation_type: dynamic_condition
+variation_description: Block material changed to lightweight styrofoam, implying lower mass.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Target block is lightweight styrofoam instead of wood (lower mass).
+  expected_outcome_change: The block will swing much higher and faster due to decreased mass.
+prompts:
+  init_frame_edit_prompt: Edit the image to change the wooden block into a white styrofoam block.
+  video_WM: The metal projectile makes direct contact with the lightweight styrofoam block, embedding
+    itself into the foam. The block is free to swing on its wire suspension. The camera rotates right
+    until the block completely exits the view, then rotates toward the left smoothly at the same rate
+    until the suspension pivot is back in the center of view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The metal projectile makes direct contact with the lightweight styrofoam block, embedding
+    itself into the foam. The block is free to swing on its wire suspension. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A rectangular white styrofoam block is suspended by two braided metal cables.
+    A cylindrical metal projectile is making contact with the center of the block's front face, creating
+    a burst of white dust and debris at the impact point.
+  init2final_edit_prompt: Edit the given image to show the aftermath of the impact where the metal projectile
+    has fully embedded itself into the styrofoam block. The protruding metal cylinder should be gone or
+    significantly recessed, leaving a visible entry hole or crater in the center of the white block. The
+    cloud of impact dust should be cleared. The block should remain suspended by the cables, potentially
+    appearing tilted or displaced to the side.
+  rationale: 'The video depicts an inelastic collision where the projectile embeds into the block. Momentum
+    is conserved, transferring from the projectile to the block, which causes the combined system to swing
+    as a pendulum. During the camera''s rotation away and back, the projectile fully enters the foam,
+    the initial impact debris settles, and the block swings away from its resting position. The final
+    frame should show the coupled state: the projectile inside the block and the block displaced or showing
+    signs of the impact.'
+  questions:
+  - id: projectile_embedded
+    question: Is the metal projectile embedded deeper into the block than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The projectile should be inside the block, not sticking out as much.
+  - id: protrusion_reduced
+    question: Is the visible length of the protruding part of the projectile reduced compared to the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: It should be flush or deep inside.
+  - id: impact_hole
+    question: Is there a visible hole or impact crater in the center of the styrofoam block?
+    answer_type: yes_no
+    notes_for_judge: The entry point should be visible.
+  - id: debris_cleared
+    question: Has the cloud of impact dust and debris cleared?
+    answer_type: yes_no
+    notes_for_judge: Time has passed for dust to settle.
+  - id: block_integrity
+    question: Is the block still suspended by the cables as a single main object?
+    answer_type: yes_no
+    notes_for_judge: It should not be shattered into unconnected pieces.
+  - id: coupled_state
+    question: Does the projectile appear to be physically coupled with (inside) the block rather than
+      separate?
+    answer_type: yes_no
+    notes_for_judge: Tests the relational state of the two objects.

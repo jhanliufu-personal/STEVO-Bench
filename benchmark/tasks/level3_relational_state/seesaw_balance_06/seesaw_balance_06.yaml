@@ -1,0 +1,65 @@
+id: seesaw_balance_06
+level: 3
+category: relational_state
+tags: []
+variant_of: seesaw_balance
+variation_type: dynamic_condition
+variation_description: Instead of lifting the left, a person pushes down on the raised right side.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Force applied to the right side (downward) instead of left side (upward).
+  expected_outcome_change: The seesaw tips; right side goes down, left side goes up.
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A heavy adult grabs the handle of the raised right seat and hangs their full body weight on
+    it, pulling it down. The camera rotates right until the see-saw completely exits the view, then rotates
+    toward the left smoothly at the same rate until the center pivot is back in the center of view. No
+    zoom, no cut, no scene change. STOP.
+  camera_WM: A heavy adult grabs the handle of the raised right seat and hangs their full body weight
+    on it, pulling it down. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: 'A wooden playground seesaw situated on wood chips with trees in the background.
+    The seesaw is unbalanced: the left seat is resting on the ground and holds a burlap sack labeled ''20
+    KG SAND''. The right seat is elevated high in the air and is empty. The central pivot mechanism is
+    visible in the middle of the beam.'
+  init2final_edit_prompt: Edit the given image to show the seesaw tipped in the opposite direction. The
+    right seat should be lowered to the ground, with a person visible holding it down or sitting on it.
+    The left seat, still carrying the '20 KG SAND' sack, should be raised high in the air. Maintain the
+    original background and lighting.
+  rationale: The video prompt describes a heavy adult pulling the right side of the seesaw down with their
+    full body weight. Since a heavy adult weighs significantly more than the 20kg sandbag on the left,
+    the seesaw will tip clockwise. The right side will descend to the ground, and due to the rigid coupling
+    of the beam, the left side with the sandbag will be lifted into the air. The camera pans away and
+    returns to the same centered view of the pivot, revealing this new state.
+  questions:
+  - id: seesaw_orientation_1
+    question: Is the left seat of the seesaw higher than the right seat?
+    answer_type: yes_no
+    notes_for_judge: In the final state, the left side (with sand) should be up and the right side (with
+      the person) should be down.
+  - id: sandbag_height_1
+    question: Is the sandbag raised higher than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The sandbag starts on the ground; it should be in the air in the final frame.
+  - id: right_seat_position_1
+    question: Is the right seat closer to the ground than the left seat?
+    answer_type: yes_no
+    notes_for_judge: The right side is pulled down, so it should be the lower side.
+  - id: sandbag_presence_1
+    question: Is the '20 KG SAND' sack still visible on the left seat?
+    answer_type: yes_no
+    notes_for_judge: The sack should remain on the seat as it is lifted.
+  - id: pivot_relation_1
+    question: Is the left seat positioned higher than the central pivot point?
+    answer_type: yes_no
+    notes_for_judge: Since the left side goes up, it must be above the pivot.
+  - id: right_seat_change_1
+    question: Is the right seat lower than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The right seat starts high and ends low.
+  - id: coupled_motion_1
+    question: Does the seesaw slope downwards from left to right?
+    answer_type: yes_no
+    notes_for_judge: Visual check of the beam's angle.

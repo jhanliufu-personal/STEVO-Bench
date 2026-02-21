@@ -1,0 +1,64 @@
+id: billiard_break_06
+level: 3
+category: relational_state
+tags: []
+variant_of: billiard_break
+variation_type: dynamic_condition
+variation_description: Cue ball position changed to ensure a miss.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Cue ball is positioned to the side, aiming parallel to the rack rather than at it.
+  expected_outcome_change: The cue ball passes the rack without touching it; the rack remains undisturbed.
+prompts:
+  init_frame_edit_prompt: Edit the image to move the white cue ball to the far right side of the table,
+    so a straight path forward would clearly miss the rack of balls entirely.
+  video_WM: The white cue ball is struck with high force in a straight line parallel to the side cushion,
+    on a trajectory that avoids the stationary triangle. The camera rotates right until the table completely
+    exits the view, then rotates toward the left smoothly at the same rate until the center of the table
+    is back in the center of view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The white cue ball is struck with high force in a straight line parallel to the side cushion,
+    on a trajectory that avoids the stationary triangle. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A green billiard table viewed from one end. In the foreground, a set of 15 colored
+    billiard balls is arranged in a tight triangular rack (solids and stripes). To the right of the triangle,
+    a white cue ball sits on the felt. In the background, there is a second pool table, wood paneled walls,
+    a fireplace, and hanging green lamps.
+  init2final_edit_prompt: Edit the given image to show the white cue ball in a different position on the
+    table surface, likely further down the table or having rebounded, while keeping the triangle of colored
+    balls exactly in their original, undisturbed racked formation. Do not change the camera angle or background.
+  rationale: The video prompt describes the cue ball being struck on a trajectory that explicitly avoids
+    the stationary triangle of balls. The camera pans away and then returns to the exact initial viewpoint.
+    Therefore, in the final frame, the static environment (background, table) and the undisturbed object
+    (the rack of balls) must appear identical to the initial frame (conservation of state for non-interacting
+    objects). The cue ball, however, is a dynamic object that was subjected to force; it must have moved
+    from its starting coordinates to a new location on the table.
+  questions:
+  - id: rack_undisturbed
+    question: Is the triangular formation of the colored balls completely undisturbed compared to the
+      initial frame?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the trajectory avoids the triangle, so the balls must remain racked.
+  - id: cue_ball_moved
+    question: Is the white cue ball in a different position relative to the rack than it was in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: The cue ball was struck with force, so it should not be in the exact starting spot.
+  - id: rack_shape_conserved
+    question: Does the group of colored balls retain its tight triangular shape?
+    answer_type: yes_no
+    notes_for_judge: Checks for unwanted physics hallucinations where the rack breaks without collision.
+  - id: cue_ball_displacement
+    question: Is the white cue ball no longer sitting statically to the immediate right of the triangle?
+    answer_type: yes_no
+    notes_for_judge: Verifies the primary state change (motion of the cue ball).
+  - id: background_consistency
+    question: Are the background elements (fireplace, lamps, second table) consistent with the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: table_surface_consistency
+    question: Is the green felt surface visible and consistent in appearance with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

@@ -1,0 +1,68 @@
+id: newtons_cradle_08
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: newtons_cradle
+variation_type: combined
+variation_description: Clay balls (condition) + Lights off (occlusion).
+changes:
+  occlusion_method: Lights turn off.
+  dynamic_conditions: Inelastic clay material.
+  expected_outcome_change: No bounce/swing; balls stop on impact.
+prompts:
+  init_frame_edit_prompt: Edit the image to change the material of the balls from shiny chrome to dull,
+    matte grey clay, implying a soft inelastic material.
+  video_WM: The far-left clay ball is released. It swings toward the remaining stationary clay balls.
+    The room lights cut out completely, creating total darkness. After a moment, the lights switch back
+    on. No cut, no scene change. STOP.
+  camera_WM: The far-left clay ball is released. It swings toward the remaining stationary clay balls.
+    The room lights cut out completely, creating total darkness. After a moment, the lights switch back
+    on. No cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a Newton's Cradle on a wooden desk. The apparatus
+    features a brass frame and five textured, grey clay balls suspended by strings. The far-left ball
+    is pulled back and held in a raised position to the left, creating a significant gap between it and
+    the four stationary balls hanging in the center. The background is a dimly lit study with a leather
+    chair and books.
+  init2final_edit_prompt: Edit the given image to show the state after the left ball has swung down and
+    struck the others. Place the far-left clay ball at the bottom, hanging vertically and touching the
+    central group of balls. Move the far-right clay ball so it is swinging outwards and upwards to the
+    right, reaching a height similar to the initial height of the left ball, mirroring the action. Ensure
+    the lighting and background remain identical to the original.
+  rationale: 'The prompt describes the release of the raised left ball in a Newton''s Cradle setup. Physically,
+    the ball will swing down under gravity and strike the stationary line of balls. Due to the conservation
+    of momentum and energy characteristic of a Newton''s Cradle (even with hardened clay/ceramic balls),
+    the momentum will transfer through the stationary balls, causing the far-right ball to swing outwards
+    to the right. The ''blackout'' period covers the duration of the swing, so the final frame should
+    show the result of this collision: the left ball down and the right ball displaced.'
+  questions:
+  - id: left_ball_height
+    question: Is the far-left ball lower than its initial raised position?
+    answer_type: yes_no
+    notes_for_judge: The left ball should have swung down from the top-left.
+  - id: left_ball_gap
+    question: Has the gap between the far-left ball and the central group of balls closed?
+    answer_type: yes_no
+    notes_for_judge: The left ball should now be adjacent to the others.
+  - id: left_ball_string
+    question: Is the string supporting the far-left ball now vertical or nearly vertical?
+    answer_type: yes_no
+    notes_for_judge: It should no longer be angled to the left.
+  - id: right_ball_motion
+    question: Has the far-right ball moved from its initial stationary position?
+    answer_type: yes_no
+    notes_for_judge: Momentum transfer should cause the right ball to move.
+  - id: right_ball_direction
+    question: Is the far-right ball positioned further to the right than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: It should swing outwards.
+  - id: state_change
+    question: Is the configuration of the balls different from the initial state?
+    answer_type: yes_no
+    notes_for_judge: The system should not look static/unchanged.
+  - id: left_ball_contact
+    question: Is the far-left ball now touching (or very close to) the ball next to it?
+    answer_type: yes_no
+    notes_for_judge: It should have joined the line.

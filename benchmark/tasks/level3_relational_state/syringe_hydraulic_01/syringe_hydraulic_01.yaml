@@ -1,0 +1,72 @@
+id: syringe_hydraulic_01
+level: 3
+category: relational_state
+tags: []
+variant_of: syringe_hydraulic
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to a medical clipboard blocking the view.
+changes:
+  occlusion_method: A large opaque medical clipboard moves in front of the camera.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A mechanical finger begins pressing the plunger of the left syringe. The two syringes are
+    connected. The pressing continues at a constant rate. A large opaque medical clipboard moves into
+    the foreground, completely blocking the view of the tray. It pauses briefly, then moves away to reveal
+    the tray again. No zoom, no cut, no scene change. STOP.
+  camera_WM: A mechanical finger begins pressing the plunger of the left syringe. The two syringes are
+    connected. The pressing continues at a constant rate. A large opaque medical clipboard moves into
+    the foreground, completely blocking the view of the tray. It pauses briefly, then moves away to reveal
+    the tray again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: Two large plastic syringes lying on a metal tray lined with a white cloth. The
+    left syringe is filled with red liquid, and its plunger is extended to approximately the 50ml mark.
+    The right syringe is mostly empty, with its plunger fully pushed in. A clear flexible tube filled
+    with red liquid connects the nozzles of the two syringes.
+  init2final_edit_prompt: Edit the given image so that the plunger of the left syringe is pushed significantly
+    further into the barrel, leaving much less red liquid inside. Correspondingly, edit the right syringe
+    so that its plunger is pulled out/extended significantly, and its barrel is filled with the red liquid
+    transferred from the left syringe. Keep the tubing connected and filled with red liquid.
+  rationale: 'The prompt describes a hydraulic system where the left syringe is compressed. Because the
+    system is connected and filled with incompressible fluid, pressing the left plunger forces the red
+    liquid through the tube and into the right syringe. This hydraulic pressure forces the right plunger
+    to extend. The final state must show the conservation of volume: the left syringe should be emptier
+    (plunger in) and the right syringe should be fuller (plunger out).'
+  questions:
+  - id: left_plunger_position
+    question: Is the plunger of the left syringe pushed further into the barrel compared to the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: The left plunger should be depressed (moved to the right/inward) relative to the
+      starting position.
+  - id: right_plunger_position
+    question: Is the plunger of the right syringe extended further out of the barrel compared to the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: The right plunger should be pushed out (moved to the right/outward) to accommodate
+      the fluid.
+  - id: fluid_transfer_right
+    question: Does the right syringe contain significantly more red liquid than it did in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: Initially empty, it should now contain red liquid.
+  - id: fluid_transfer_left
+    question: Does the left syringe contain less red liquid than it did in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The volume of red liquid in the left syringe should have decreased.
+  - id: coupled_motion
+    question: Do the changes in the two syringes correspond to a transfer of fluid from left to right
+      (left plunger in, right plunger out)?
+    answer_type: yes_no
+    notes_for_judge: Check for the coupled inverse relationship of the plungers.
+  - id: tube_integrity
+    question: Is the tubing still connected to both syringes?
+    answer_type: yes_no
+    notes_for_judge: The connection must be maintained.
+  - id: tube_content
+    question: Is the connecting tube still filled with red liquid?
+    answer_type: yes_no
+    notes_for_judge: The fluid path should remain continuous.

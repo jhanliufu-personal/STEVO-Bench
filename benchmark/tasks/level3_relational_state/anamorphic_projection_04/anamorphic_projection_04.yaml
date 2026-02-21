@@ -1,0 +1,63 @@
+id: anamorphic_projection_04
+level: 3
+category: relational_state
+tags: []
+variant_of: anamorphic_projection
+variation_type: dynamic_condition
+variation_description: The drawing is not rotated; the scene remains static.
+changes:
+  occlusion_method: null
+  dynamic_conditions: No external force applied; drawing remains stationary.
+  expected_outcome_change: The reflection in the mirror does not change/rotate.
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The distorted drawing and the cylindrical mirror sit completely motionless on the table. No
+    hand enters the frame. The camera rotates right until the drawing completely exits the view, then
+    rotates toward the left smoothly at the same rate until the surface of the cylindrical mirror is back
+    in the center of view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The distorted drawing and the cylindrical mirror sit completely motionless on the table.
+    No hand enters the frame. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A shiny metal cylindrical mirror stands vertically in the center of a sheet
+    of white paper on a wooden table. The paper features a distorted, swirl-like drawing of colored lines.
+    The reflection in the cylindrical mirror optically corrects this distortion, showing a clear, undistorted
+    face of a woman with dark hair looking directly forward.
+  init2final_edit_prompt: Edit the given image to look identical to the original view. Ensure the cylindrical
+    mirror is centered in the frame and clearly reflects the woman's face. Ensure the distorted colored
+    drawing on the paper surrounds the base of the mirror exactly as before, and the wooden table background
+    remains unchanged.
+  rationale: The video prompt describes a static scene where the camera pans away (rotating right until
+    the drawing exits the view) and then pans back (rotating left at the same rate) to the original position.
+    Since the scene is motionless and the camera returns to center the mirror without zooming or cutting,
+    the final frame should be visually identical to the initial frame. The primary challenge is maintaining
+    the relational consistency between the distorted drawing and the corrected reflection (the anamorphic
+    projection) after the objects have been temporarily occluded by the camera movement.
+  questions:
+  - id: anamorphic_reflection_presence
+    question: Is the reflection of the woman's face still visible inside the cylindrical mirror?
+    answer_type: yes_no
+    notes_for_judge: Checks if the key relational state (the optical reflection) is preserved after the
+      camera return.
+  - id: drawing_presence
+    question: Are the distorted colored lines of the drawing still visible on the paper around the mirror?
+    answer_type: yes_no
+    notes_for_judge: Checks for object permanence of the drawing after occlusion.
+  - id: mirror_centering
+    question: Is the cylindrical mirror positioned in the center of the frame?
+    answer_type: yes_no
+    notes_for_judge: Verifies the camera returned to the specified position.
+  - id: relational_position
+    question: Is the cylindrical mirror still placed directly on top of the distorted drawing?
+    answer_type: yes_no
+    notes_for_judge: Checks if the spatial relationship between the two coupled objects is maintained.
+  - id: reflection_consistency
+    question: Does the face in the reflection appear upright and undistorted relative to the drawing?
+    answer_type: yes_no
+    notes_for_judge: Checks if the physics of the anamorphic projection are maintained (the coupling between
+      the curved mirror and the flat drawing).
+  - id: background_consistency
+    question: Is the wooden table surface visible in the background?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check for the environment.

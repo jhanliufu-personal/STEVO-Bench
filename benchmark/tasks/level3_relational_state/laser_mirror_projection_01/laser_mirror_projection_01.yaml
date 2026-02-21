@@ -1,0 +1,66 @@
+id: laser_mirror_projection_01
+level: 3
+category: relational_state
+tags: []
+variant_of: laser_mirror_projection
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to a physical object blocking the view.
+changes:
+  occlusion_method: Large opaque board slides in front of the camera.
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics (spot moves along the same arc).
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The motorized base begins to rotate the mirror slowly clockwise. The laser pointer and the
+    white screen remain fixed in place. A large opaque black board slides into the view from the right,
+    completely blocking the entire setup from sight. The board remains for a few seconds, then slides
+    back out to the right. No zoom, no cut, no scene change. STOP.
+  camera_WM: The motorized base begins to rotate the mirror slowly clockwise. The laser pointer and the
+    white screen remain fixed in place. A large opaque black board slides into the view from the right,
+    completely blocking the entire setup from sight. The board remains for a few seconds, then slides
+    back out to the right. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A physics laboratory setup featuring a green laser pointer on the left, a square
+    mirror mounted on a motorized rotation stage in the center, and a white projection screen on the right.
+    A bright green laser beam travels from the laser source to the mirror and reflects onto the screen,
+    creating a bright green spot. A curved green arc is visible on the screen, ending at the current spot
+    position.
+  init2final_edit_prompt: Edit the given image to show the laser spot moved to a new position further
+    to the right on the white screen. Update the green laser beam connecting the central mirror to the
+    screen so that it points in a straight line to the new spot location. Rotate the mirror holder and
+    mirror slightly clockwise around the vertical axis to align with this change.
+  rationale: The video prompt describes the mirror rotating clockwise while the view is occluded. In this
+    optical setup, with the laser coming from the left and reflecting to the screen at the back, a clockwise
+    rotation of the mirror (viewed from above) causes the reflected beam to sweep to the right. Therefore,
+    when the occlusion is removed, the laser spot should appear shifted to the right on the screen, and
+    the mirror mount should appear rotated.
+  questions:
+  - id: spot_position_right
+    question: Is the green laser spot on the screen located to the right of its position in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the horizontal position of the bright green dot on the white screen between
+      the two frames.
+  - id: beam_connection
+    question: Does the green laser beam in the air connect the mirror directly to the new laser spot position?
+    answer_type: yes_no
+    notes_for_judge: Check for a continuous straight line from the mirror to the spot.
+  - id: mirror_rotation
+    question: Does the mirror mount appear rotated compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The mirror holder orientation should change to reflect the rotation.
+  - id: laser_source_fixed
+    question: Is the laser pointer source on the left still in the same position?
+    answer_type: yes_no
+    notes_for_judge: The laser source should not move.
+  - id: screen_fixed
+    question: Is the white projection screen still in the same position?
+    answer_type: yes_no
+    notes_for_judge: The screen itself should not move.
+  - id: spot_visible
+    question: Is the laser spot still visible on the white screen?
+    answer_type: yes_no
+    notes_for_judge: The spot should not disappear or go off-screen unless the rotation was extreme (assume
+      it stays on screen).

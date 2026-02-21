@@ -1,0 +1,70 @@
+id: billiard_break_02
+level: 3
+category: relational_state
+tags: []
+variant_of: billiard_break
+variation_type: occlusion_method
+variation_description: Occlusion changed to a person walking in front of the camera.
+changes:
+  occlusion_method: A person walks between the camera and table, blocking the view.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The white cue ball is struck with high force, causing it to slide rapidly toward the center
+    of the stationary triangle. The table is level and the balls are perfectly spherical. A person wearing
+    a dark coat walks directly in front of the camera, completely blocking the view of the table. The
+    person pauses briefly, then walks away to reveal the table again. No zoom, no cut, no scene change.
+    STOP.
+  camera_WM: The white cue ball is struck with high force, causing it to slide rapidly toward the center
+    of the stationary triangle. The table is level and the balls are perfectly spherical. A person wearing
+    a dark coat walks directly in front of the camera, completely blocking the view of the table. The
+    person pauses briefly, then walks away to reveal the table again. No zoom, no cut, no scene change.
+    STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A green pool table with a set of billiard balls arranged in a tight triangular
+    rack in the foreground. A single white cue ball is positioned further back on the table near the far
+    rail. The background features a fireplace, a cue rack, and overhead lighting.
+  init2final_edit_prompt: Edit the given image to show the aftermath of a pool break shot. The triangular
+    rack of colored balls in the foreground must be completely broken, with the balls scattered and spread
+    out across the green felt in random positions. The white cue ball must be moved from its original
+    background position to a new location on the table, appearing as if it has just impacted the group.
+    Ensure the balls are separated and no longer form a neat triangle.
+  rationale: 'The prompt describes a break shot, which is a high-energy collision event. The cue ball
+    transfers momentum to the stationary rack, causing an irreversible transition from an ordered state
+    (the triangle) to a disordered state (scattered balls). The occlusion hides the actual movement, but
+    the final state must reflect the physical consequence of the collision: the balls must be dispersed
+    across the table, and the cue ball must have changed position significantly.'
+  questions:
+  - id: rack_scattered
+    question: Is the triangular formation of the colored balls completely broken and scattered?
+    answer_type: yes_no
+    notes_for_judge: The balls should no longer be in a tight triangle shape.
+  - id: balls_separated
+    question: Are there visible gaps between the colored balls that were previously touching in the rack?
+    answer_type: yes_no
+    notes_for_judge: The balls should be spread out, not clumped together.
+  - id: cue_ball_moved
+    question: Has the white cue ball moved from its original position in the background?
+    answer_type: yes_no
+    notes_for_judge: The white ball should not be in the exact same spot near the far rail.
+  - id: entropy_increase
+    question: Are the colored balls distributed over a larger area of the table surface than in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: The spatial footprint of the group of balls should be larger.
+  - id: coupled_change
+    question: Does the scene show both the cue ball moved and the rack scattered, consistent with a collision?
+    answer_type: yes_no
+    notes_for_judge: Both elements must change; if the rack is scattered but the cue ball is still, it
+      is physically inconsistent.
+  - id: background_consistency
+    question: Is the fireplace in the background still visible and unchanged?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: lighting_consistency
+    question: Are the three overhead lamps still present and illuminated?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

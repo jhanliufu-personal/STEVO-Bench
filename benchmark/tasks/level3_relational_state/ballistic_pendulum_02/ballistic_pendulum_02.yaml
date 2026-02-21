@@ -1,0 +1,66 @@
+id: ballistic_pendulum_02
+level: 3
+category: relational_state
+tags: []
+variant_of: ballistic_pendulum
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to a curtain blocking the view.
+changes:
+  occlusion_method: A heavy curtain slides in to block the view, then slides away.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The metal projectile makes direct contact with the wooden block, embedding itself into the
+    wood. The block is free to swing on its wire suspension. A heavy dark curtain slides into the frame
+    from the right, completely obscuring the block and projectile. The curtain remains for a moment, then
+    slides back out to the right, revealing the scene again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The metal projectile makes direct contact with the wooden block, embedding itself into the
+    wood. The block is free to swing on its wire suspension. A heavy dark curtain slides into the frame
+    from the right, completely obscuring the block and projectile. The curtain remains for a moment, then
+    slides back out to the right, revealing the scene again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A large, dark, textured wooden block is suspended by two braided steel cables
+    in an industrial setting with pipes on the ceiling. A shiny cylindrical metal projectile is visible
+    in the air on the left side, flying towards the block's face. A cloud of dust or debris is visible
+    at the point where the projectile is about to impact or has just impacted the wood.
+  init2final_edit_prompt: Edit the given image to show the aftermath of the impact. Remove the metal projectile
+    from the air and remove the dust cloud. Shift the wooden block to the right and slightly upwards to
+    simulate it swinging. Angle the two suspension cables to the right so they remain attached to the
+    displaced block and the ceiling.
+  rationale: The video prompt describes a ballistic pendulum experiment. The projectile undergoes an inelastic
+    collision with the wooden block, embedding itself inside. According to the conservation of momentum,
+    the transfer of momentum from the projectile to the block causes the block to swing upwards and to
+    the right (the direction of the projectile's travel). The curtain occlusion hides the dynamic impact
+    and swing, but the final revealed state should show the block displaced from its equilibrium position
+    and the projectile no longer visible (as it is inside the wood).
+  questions:
+  - id: projectile_embedded
+    question: Is the metal projectile no longer visible in the air?
+    answer_type: yes_no
+    notes_for_judge: The projectile should be embedded in the wood, so it should not be visible as a separate
+      object.
+  - id: block_displacement_x
+    question: Is the wooden block positioned to the right of its initial central location?
+    answer_type: yes_no
+    notes_for_judge: Due to momentum transfer, the block must swing in the direction of the projectile's
+      flight (to the right).
+  - id: cable_angle
+    question: Do the suspension cables slant towards the right?
+    answer_type: yes_no
+    notes_for_judge: The cables must align with the block's new displaced position, angling away from
+      the vertical.
+  - id: block_displacement_y
+    question: Is the wooden block at a higher vertical position than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: As the pendulum swings to the side, it must also rise in height.
+  - id: curtain_reveal
+    question: Is the view clear of the dark curtain mentioned in the prompt?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the curtain slides back out, revealing the scene.
+  - id: dust_settled
+    question: Is the impact dust cloud removed or significantly dissipated?
+    answer_type: yes_no
+    notes_for_judge: Time has passed during the occlusion, so the initial impact dust should have settled.

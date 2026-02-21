@@ -1,0 +1,66 @@
+id: compass_deflection_04
+level: 3
+category: relational_state
+tags: []
+variant_of: compass_deflection
+variation_type: dynamic_condition
+variation_description: Magnet replaced with a non-magnetic wooden block.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Object is non-magnetic wood instead of a magnet.
+  expected_outcome_change: No needle deflection (state remains unchanged).
+prompts:
+  init_frame_edit_prompt: Edit the image to replace the blue and red bar magnet with a plain rectangular
+    wooden block of the same size and shape.
+  video_WM: A hand begins moving the wooden block steadily closer to the side of the compass housing.
+    The camera rotates right until the block completely exits the view, then rotates toward the left smoothly
+    at the same rate until the compass face is back in the center of view. No zoom, no cut, no scene change.
+    STOP.
+  camera_WM: A hand begins moving the wooden block steadily closer to the side of the compass housing.
+    STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A brass compass with an open lid sits on a wooden table, with its needle pointing
+    towards the 'N' (North) marking. A wooden ruler lies in the foreground. A hand holds a rectangular
+    wooden block to the right of the compass.
+  init2final_edit_prompt: Edit the given image to center the brass compass horizontally in the frame.
+    The compass needle must remain pointing exactly towards the 'N' mark, maintaining the same orientation
+    relative to the compass housing as in the original image, with no deflection. Position the wooden
+    block closer to the right side of the compass housing than in the initial view. Maintain the wooden
+    table texture and lighting.
+  rationale: The video involves moving a wooden block near a compass. Since wood is a non-magnetic material,
+    it does not interact with the magnetic field of the compass needle. Therefore, the conservation of
+    the needle's angular momentum relative to the Earth's magnetic field (and thus the compass housing,
+    assuming the housing doesn't rotate) is the key constraint; the needle must not deflect. The camera
+    pans right until the block exits, then pans left to center the compass, meaning the final frame will
+    show the compass centered and the block visible and closer, but the needle must remain in its original
+    orientation.
+  questions:
+  - id: compass_centered
+    question: Is the brass compass positioned in the center of the frame?
+    answer_type: yes_no
+    notes_for_judge: The prompt explicitly asks for the camera to rotate until the compass face is back
+      in the center.
+  - id: needle_orientation_invariant
+    question: Is the orientation of the compass needle relative to the compass housing the same as in
+      the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Wood is non-magnetic; the needle should not move relative to the markings.
+  - id: needle_pointing_n
+    question: Does the compass needle still point towards the 'N' marking on the dial?
+    answer_type: yes_no
+    notes_for_judge: Check for consistency with the initial state; no deflection should occur.
+  - id: block_closer
+    question: Is the wooden block positioned closer to the compass housing than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The prompt describes the hand moving the block steadily closer.
+  - id: block_relative_position
+    question: Is the wooden block located to the right of the compass?
+    answer_type: yes_no
+    notes_for_judge: The block started on the right and the camera movements (pan right then pan left)
+      preserve this relative arrangement.
+  - id: no_magnetic_interaction
+    question: Does the needle appear undeflected despite the closer proximity of the block?
+    answer_type: yes_no
+    notes_for_judge: This tests the physical relationship (or lack thereof) between wood and magnets.

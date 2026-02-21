@@ -7,17 +7,24 @@ Handles three situations:
 2. Init frame exists but from different task (variant) -> Edit using init_frame_edit_prompt
 3. Init frame exists and matches current task -> Skip unless --overwrite
 
-Usage:
+Usage (single task):
   python benchmark/runners/generate_init_frame.py \
     --task_path benchmark/tasks/level1_scalar_state/ice_on_burner_01 \
     --model imagen-3.0-generate-001 \
     --overwrite
+
+Usage (pattern — runs for all matching task folders):
+  python benchmark/runners/generate_init_frame.py \
+    --pattern "pouring_water_into_cup*" \
+    --tasks_root benchmark/tasks/ \
+    --model imagen-3.0-generate-001
 """
 
 import os
 import argparse
+import fnmatch
 from pathlib import Path
-from typing import Optional, Tuple
+from typing import List, Optional, Tuple
 
 from utils import resolve_task_paths, load_yaml, call_nanobanana
 
@@ -46,31 +53,20 @@ def find_existing_init_frame(task_dir: Path) -> Optional[Tuple[Path, str]]:
     return frame_path, base_name
 
 
-def main() -> None:
-    parser = argparse.ArgumentParser(
-        description="Generate initial frame for a task (handles variants)"
-    )
-    parser.add_argument(
-        "--task_path",
-        required=True,
-        type=str,
-        help="Task folder path OR task YAML path."
-    )
-    parser.add_argument(
-        "--model",
-        default="gemini-3-pro-image-preview",
-        type=str,
-        help="Image generation model"
-    )
-    parser.add_argument(
-        "--overwrite",
-        action="store_true",
-        help="Overwrite output image if it already exists."
-    )
-    args = parser.parse_args()
+def _find_pattern_tasks(pattern: str, tasks_root: str) -> List[Path]:
+    """Return task dirs under tasks_root whose folder name matches pattern."""
+    root = Path(tasks_root).expanduser().resolve()
+    results = []
+    for d in sorted(root.rglob("*")):
+        if d.is_dir() and fnmatch.fnmatch(d.name, pattern):
+            if (d / f"{d.name}.yaml").exists():
+                results.append(d)
+    return results
 
-    # Load task spec
-    task_dir, task_yaml_path, folder_name, _ = resolve_task_paths(Path(args.task_path))
+
+def _run_single(task_path: Path, model: str, overwrite: bool) -> bool:
+    """Run init frame generation for a single task. Returns True on success."""
+    task_dir, task_yaml_path, folder_name, _ = resolve_task_paths(task_path)
     task = load_yaml(task_yaml_path)
 
     task_id = task.get("id", folder_name)
@@ -108,7 +104,7 @@ def main() -> None:
                     print("-> Frame already has correct name, keeping as-is")
 
                 print("[OK] Init frame ready (no changes)")
-                return
+                return True
 
             # Call image editing model
             api_key = os.environ.get("GOOGLE_API_KEY", "").strip()
@@ -119,26 +115,30 @@ def main() -> None:
 
             result = call_nanobanana(
                 api_key=api_key,
-                model=args.model,
+                model=model,
                 prompt=init_frame_edit,
                 input_image=existing_path,
                 output_path=output_path,
                 overwrite=True,  # Always generate for variants
             )
 
-            if result:
+            if result and output_path.exists():
                 print(f"[OK] Generated edited init frame: {output_path.name}")
                 # Clean up old frame if different
                 if existing_path != output_path:
                     existing_path.unlink()
                     print(f"-> Removed old frame: {existing_path.name}")
+                return True
+            else:
+                print(f"[FAIL] No image returned by model — init frame was NOT saved: {output_path.name}")
+                return False
 
         # Situation 3: Frame already exists for this task
         else:
-            if not args.overwrite:
+            if not overwrite:
                 print(f"Init frame already exists: {existing_path.name}")
                 print("-> Use --overwrite to regenerate")
-                return
+                return True
 
             print(f"Init frame exists, but --overwrite is set")
             print(f"-> Regenerating init frame for: {task_id}")
@@ -146,7 +146,7 @@ def main() -> None:
             # Fall through to Situation 1 logic below
 
     # Situation 1: Generate from scratch
-    if not existing_frame or (existing_frame and args.overwrite):
+    if not existing_frame or (existing_frame and overwrite):
         init_gen_prompt = prompts_block.get("image_gen_prompt", "").strip()
 
         if not init_gen_prompt:
@@ -163,14 +163,81 @@ def main() -> None:
 
         result = call_nanobanana(
             api_key=api_key,
-            model=args.model,
+            model=model,
             prompt=init_gen_prompt,
             output_path=output_path,
-            overwrite=args.overwrite,
+            overwrite=overwrite,
         )
 
-        if result:
-            print(f" Generated init frame: {output_path.name}")
+        if result and output_path.exists():
+            print(f"[OK] Generated init frame: {output_path.name}")
+            return True
+        else:
+            print(f"[FAIL] No image returned by model — init frame was NOT saved: {output_path.name}")
+            return False
+
+    return True
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(
+        description="Generate initial frame for a task (handles variants)"
+    )
+    group = parser.add_mutually_exclusive_group(required=True)
+    group.add_argument(
+        "--task_path",
+        type=str,
+        help="Task folder path OR task YAML path (single task).",
+    )
+    group.add_argument(
+        "--pattern",
+        type=str,
+        help="Glob pattern matching task folder names, e.g. 'pouring_water_into_cup*'.",
+    )
+    parser.add_argument(
+        "--tasks_root",
+        default="benchmark/tasks/",
+        type=str,
+        help="Root directory to search when --pattern is used (default: benchmark/tasks/).",
+    )
+    parser.add_argument(
+        "--model",
+        default="gemini-3-pro-image-preview",
+        type=str,
+        help="Image generation model",
+    )
+    parser.add_argument(
+        "--overwrite",
+        action="store_true",
+        help="Overwrite output image if it already exists.",
+    )
+    args = parser.parse_args()
+
+    if args.task_path:
+        ok = _run_single(Path(args.task_path), args.model, args.overwrite)
+        if not ok:
+            raise SystemExit(1)
+    else:
+        tasks = _find_pattern_tasks(args.pattern, args.tasks_root)
+        if not tasks:
+            print(f"No tasks found matching pattern '{args.pattern}' under {args.tasks_root}")
+            raise SystemExit(1)
+        print(f"Found {len(tasks)} task(s) matching '{args.pattern}'")
+        failed = []
+        for task_dir in tasks:
+            print(f"\n--- {task_dir.name} ---")
+            try:
+                ok = _run_single(task_dir, args.model, args.overwrite)
+            except Exception as e:
+                print(f"[ERROR] {task_dir.name}: {e}")
+                ok = False
+            if not ok:
+                failed.append(task_dir.name)
+        print(f"\n{'=' * 40}")
+        print(f"Done: {len(tasks) - len(failed)}/{len(tasks)} succeeded.")
+        if failed:
+            print(f"Failed ({len(failed)}): {', '.join(failed)}")
+            raise SystemExit(1)
 
 
 if __name__ == "__main__":

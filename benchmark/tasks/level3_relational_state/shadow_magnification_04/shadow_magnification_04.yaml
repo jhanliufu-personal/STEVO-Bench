@@ -1,0 +1,73 @@
+id: shadow_magnification_04
+level: 3
+category: relational_state
+tags: []
+variant_of: shadow_magnification
+variation_type: dynamic_condition
+variation_description: The dinosaur moves toward the wall instead of the light.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Object moves away from light source (toward wall).
+  expected_outcome_change: Shadow shrinks instead of growing.
+prompts:
+  init_frame_edit_prompt: Edit the image to position the dinosaur pedestal much closer to the spotlight
+    initially, leaving a large gap between the pedestal and the wall.
+  video_WM: A mechanical arm begins sliding the dinosaur pedestal slowly toward the wall and away from
+    the spotlight. The light remains fixed. The camera rotates right until the dinosaur completely exits
+    the view, then rotates toward the left smoothly at the same rate until the wall is back in the center
+    of view. No zoom, no cut, no scene change. STOP.
+  camera_WM: A mechanical arm begins sliding the dinosaur pedestal slowly toward the wall and away from
+    the spotlight. The light remains fixed. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A toy Tyrannosaurus Rex stands on a wooden pedestal in a studio setting. A large
+    spotlight fixture on a stand is positioned on the right side of the frame, illuminating the dinosaur.
+    The light casts a large, somewhat soft shadow of the dinosaur onto the plain white wall in the background.
+    The shadow is significantly larger than the toy itself, indicating a substantial distance between
+    the toy and the wall.
+  init2final_edit_prompt: Edit the given image to show the dinosaur and its pedestal positioned significantly
+    closer to the back wall and further to the left, increasing the distance from the light source. Consequently,
+    render the cast shadow on the wall much smaller, sharper, and darker than in the original image, ensuring
+    the shadow's size is closer to the actual size of the dinosaur toy to reflect the reduced projection
+    distance.
+  rationale: The video prompt describes the dinosaur moving toward the wall (the projection surface) and
+    away from the spotlight (the light source). According to the laws of optics, as an object moves closer
+    to the surface it casts a shadow on and further from the point light source, the resulting shadow
+    becomes smaller and its edges become sharper (reduced penumbra). The camera rotation serves to break
+    visual continuity, requiring the model to maintain the object's state and calculate the new lighting
+    physics upon return. The final frame must show the dinosaur closer to the wall with a correspondingly
+    smaller and sharper shadow.
+  questions:
+  - id: shadow_size_reduction
+    question: Is the shadow on the wall smaller relative to the dinosaur than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The shadow should be significantly smaller because the object moved closer to the
+      wall.
+  - id: shadow_sharpness_increase
+    question: Are the edges of the cast shadow sharper and more defined than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Moving closer to the projection surface reduces the penumbra, making the shadow sharper.
+  - id: shadow_dino_ratio
+    question: Is the ratio of the shadow's height to the dinosaur's height smaller than in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: This is a relational check. The shadow size should approach the object size as distance
+      to the wall decreases.
+  - id: dino_wall_proximity
+    question: Does the dinosaur pedestal appear closer to the back wall than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The object itself should be visually closer to the background.
+  - id: shadow_position_consistency
+    question: Is the shadow still projected on the wall behind the dinosaur?
+    answer_type: yes_no
+    notes_for_judge: The shadow should not disappear or move to the floor; it should remain on the wall.
+  - id: light_source_stability
+    question: Does the spotlight fixture appear to remain in the same position on the right side?
+    answer_type: yes_no
+    notes_for_judge: The light source itself should not move; only the dinosaur moves.
+  - id: shadow_orientation
+    question: Is the shadow oriented to the left of the dinosaur, consistent with the light source on
+      the right?
+    answer_type: yes_no
+    notes_for_judge: The geometry of the light setup must be preserved.

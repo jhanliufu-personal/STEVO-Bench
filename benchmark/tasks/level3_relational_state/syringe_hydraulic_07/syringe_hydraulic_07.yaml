@@ -1,0 +1,64 @@
+id: syringe_hydraulic_07
+level: 3
+category: relational_state
+tags: []
+variant_of: syringe_hydraulic
+variation_type: combined
+variation_description: Tubing is disconnected (condition) and view is blocked by clipboard (occlusion).
+changes:
+  occlusion_method: Clipboard blocks view.
+  dynamic_conditions: Tubing disconnected.
+  expected_outcome_change: Right plunger does not move; fluid leaks.
+prompts:
+  init_frame_edit_prompt: Edit the image to show the plastic tubing disconnected from the right syringe,
+    with the open end lying loose on the metal tray.
+  video_WM: A mechanical finger begins pressing the plunger of the left syringe. The tubing connecting
+    the syringes is detached at one end. The pressing continues at a constant rate. A large opaque medical
+    clipboard moves into the foreground, completely blocking the view of the tray. It pauses briefly,
+    then moves away to reveal the tray again. No zoom, no cut, no scene change. STOP.
+  camera_WM: A mechanical finger begins pressing the plunger of the left syringe. The tubing connecting
+    the syringes is detached at one end. The pressing continues at a constant rate. A large opaque medical
+    clipboard moves into the foreground, completely blocking the view of the tray. It pauses briefly,
+    then moves away to reveal the tray again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A metal medical tray containing two syringes connected by clear plastic tubing.
+    The left syringe is large (50ml), filled with red liquid, and has its plunger pulled back (extended).
+    The right syringe is smaller, empty, and has its plunger fully pushed in. The tray is lined with a
+    white cloth or paper.
+  init2final_edit_prompt: Edit the given image to show the plunger of the large left syringe pushed significantly
+    further into the barrel, with the level of red liquid inside reduced correspondingly. Add a visible
+    pool of red liquid spilled onto the white cloth lining the tray near the tubing, indicating a leak.
+    Ensure the small right syringe remains completely empty with its plunger fully depressed. Do not change
+    the background or the position of the tray.
+  rationale: The prompt specifies that the tubing connecting the syringes is detached at one end. This
+    breaks the hydraulic coupling between the two syringes. When the left plunger is pressed, the red
+    liquid will be expelled from the open system (leaking onto the tray) rather than transferring into
+    the right syringe. Therefore, the final state must show a decrease in volume in the left syringe,
+    a spill on the tray, and no change in the right syringe (it remains empty).
+  questions:
+  - id: left_plunger_position
+    question: Is the plunger of the large left syringe pushed in further than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the handle position of the left syringe to the initial image.
+  - id: left_liquid_volume
+    question: Is the amount of red liquid inside the left syringe barrel less than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The red column should be shorter.
+  - id: spill_presence
+    question: Is there a pool of red liquid visible on the tray or cloth that was not there initially?
+    answer_type: yes_no
+    notes_for_judge: Since the tube is detached, the liquid must spill onto the tray.
+  - id: right_syringe_empty
+    question: Does the small right syringe remain empty (no red liquid inside)?
+    answer_type: yes_no
+    notes_for_judge: The hydraulic link is broken, so no transfer should occur.
+  - id: right_plunger_static
+    question: Is the plunger of the right syringe still fully depressed (unchanged position)?
+    answer_type: yes_no
+    notes_for_judge: It should not have moved outwards.
+  - id: conservation_location
+    question: Is the displaced red liquid located on the tray rather than inside the right syringe?
+    answer_type: yes_no
+    notes_for_judge: Checks that the liquid went to the spill, not the other container.

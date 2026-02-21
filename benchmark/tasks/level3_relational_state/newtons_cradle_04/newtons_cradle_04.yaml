@@ -1,0 +1,69 @@
+id: newtons_cradle_04
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: newtons_cradle
+variation_type: dynamic_condition
+variation_description: Two balls are released instead of one.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Two balls are pulled back instead of one.
+  expected_outcome_change: Two balls on the opposite side will swing out instead of one.
+prompts:
+  init_frame_edit_prompt: Edit the image so that the TWO leftmost balls are pulled back and elevated together,
+    leaving only three stationary balls in the center.
+  video_WM: The two far-left balls are released simultaneously. They swing toward the remaining three
+    stationary balls. The camera rotates right until the cradle completely exits the view, then rotates
+    toward the left smoothly at the same rate until the entire cradle is back in the center of view. No
+    zoom, no cut, no scene change. STOP.
+  camera_WM: The two far-left balls are released simultaneously to impact the stationary line of balls.
+    Elastic collision laws apply. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A high-quality render of a Newton's Cradle on a wooden desk. Five metallic spheres
+    are suspended by strings from a gold frame. The two spheres on the far left are elevated and pulled
+    back to the left, ready to swing. The three spheres on the right are hanging vertically, stationary,
+    and touching each other in the center. The background includes a blurred bookshelf and a window with
+    a curtain.
+  init2final_edit_prompt: Edit the given image to show the state of the Newton's Cradle after the momentum
+    has transferred. Position the two leftmost balls so they are hanging vertically, touching the central
+    ball. Position the two rightmost balls so they are swung up and to the right, elevated to a height
+    similar to the initial height of the left balls. Ensure the strings align with the new ball positions.
+    Keep the camera angle, lighting, and background identical.
+  rationale: 'The prompt describes the release of the two leftmost balls. In a Newton''s Cradle, when
+    two balls strike a stationary pack, conservation of momentum and energy causes two balls on the opposite
+    side to swing out. The camera movement (panning away and returning) covers the duration of the swing
+    and collision. When the camera returns to the center, the visual state should reflect this transfer
+    of momentum: the left balls should be down (having transferred their energy) and the right balls should
+    be swinging up or situated to the right.'
+  questions:
+  - id: q1
+    question: Are the two leftmost balls lower in height than they were in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: In the initial frame, they are raised. In the final frame, they should have swung
+      down.
+  - id: q2
+    question: Have the two leftmost balls moved towards the center of the cradle?
+    answer_type: yes_no
+    notes_for_judge: They should move from the left (raised) position to the center (impact) position.
+  - id: q3
+    question: Are the two rightmost balls higher in height than they were in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Momentum transfer should cause the rightmost balls to swing up.
+  - id: q4
+    question: Have the two rightmost balls moved further to the right?
+    answer_type: yes_no
+    notes_for_judge: They should swing outward, away from the center.
+  - id: q5
+    question: Is there a visible gap between the middle ball and the two rightmost balls?
+    answer_type: yes_no
+    notes_for_judge: The rightmost balls should separate from the pack.
+  - id: q6
+    question: Are the two leftmost balls now touching (or very close to) the middle ball?
+    answer_type: yes_no
+    notes_for_judge: After impact, the striker balls stop or slow down significantly near the center.
+  - id: q7
+    question: Is the middle ball still positioned roughly in the center of the frame?
+    answer_type: yes_no
+    notes_for_judge: The middle ball in a 5-ball cradle primarily transfers energy and moves very little.

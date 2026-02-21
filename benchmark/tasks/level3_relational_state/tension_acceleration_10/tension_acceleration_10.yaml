@@ -1,0 +1,67 @@
+id: tension_acceleration_10
+level: 3
+category: relational_state
+tags: []
+variant_of: tension_acceleration
+variation_type: combined
+variation_description: Camera zoom occlusion combined with a slack string.
+changes:
+  occlusion_method: Camera zooms out until details are lost, then zooms back in.
+  dynamic_conditions: String is slack (not taut).
+  expected_outcome_change: Delayed movement; the weight falls a distance before the string tightens to
+    pull the cart.
+prompts:
+  init_frame_edit_prompt: Edit the image so the string connecting the cart and pulley is loose and drooping
+    significantly, not taut.
+  video_WM: The suspended 5kg weight is released. The string connecting it to the cart is currently slack
+    and loose. The camera zooms out rapidly until the table is just a small shape in the distance, then
+    zooms back in to the original framing. No cut, no scene change. STOP.
+  camera_WM: The suspended 5kg weight is released. The string connecting it to the cart is currently slack
+    and loose. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+evaluation:
+  init_frame_description: A physics lab setup on a wooden table. A plastic cart labeled '1KG' is on the
+    right side of the table. A metal pulley is clamped to the left edge of the table. A white string connects
+    the cart to a suspended metal weight labeled '5KG' hanging below the pulley. The string is currently
+    slack and curved downwards. A stopwatch and a wooden meter stick are lying on the table near the cart.
+  init2final_edit_prompt: Edit the given image to show the plastic cart positioned significantly to the
+    left, much closer to the pulley clamp. Straighten the string connecting the cart and the pulley so
+    it appears taut and under tension, removing the slack curve. Lower the position of the suspended 5kg
+    weight so it hangs further down from the pulley. Keep the stopwatch, meter stick, and background environment
+    unchanged.
+  rationale: When the 5kg weight is released, it will initially fall freely until the slack in the string
+    is taken up. Once the string becomes taut, the tension will accelerate the system. Since the hanging
+    mass (5kg) is much larger than the cart mass (1kg), the system will accelerate rapidly (at nearly
+    1g). During the time elapsed for the camera zoom out and zoom in, the weight will have dropped significantly,
+    pulling the cart across the table towards the pulley. The final state should show the string taut,
+    the weight lower, and the cart displaced to the left.
+  questions:
+  - id: string_tension
+    question: Is the string connecting the cart and the pulley straight and taut?
+    answer_type: yes_no
+    notes_for_judge: The string should no longer be slack/curved.
+  - id: cart_displacement
+    question: Is the plastic cart closer to the pulley than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The cart must have moved to the left.
+  - id: weight_position
+    question: Is the suspended 5kg weight lower than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The weight falls, pulling the cart.
+  - id: slack_removal
+    question: Has the downward curve or slack in the string disappeared?
+    answer_type: yes_no
+    notes_for_judge: Tension straightens the string.
+  - id: cart_direction
+    question: Is the cart positioned to the left of its original starting point?
+    answer_type: yes_no
+    notes_for_judge: Motion is towards the pulley (left).
+  - id: coupled_motion
+    question: Do the cart and weight show coupled movement (cart moves left as weight moves down)?
+    answer_type: yes_no
+    notes_for_judge: Check for consistency in the direction of motion for both objects.
+  - id: stopwatch_presence
+    question: Is the stopwatch still visible on the table?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

@@ -1,0 +1,63 @@
+id: upipe_equilibrium_07
+level: 3
+category: relational_state
+tags: []
+variant_of: upipe_equilibrium
+variation_type: combined
+variation_description: Piston is pulled up (condition) and scene is obscured by fog (occlusion).
+changes:
+  occlusion_method: Fog/Smoke
+  dynamic_conditions: Force direction reversed (pulling up)
+  expected_outcome_change: Liquid level on the right side drops.
+prompts:
+  init_frame_edit_prompt: Edit the image to show the black piston pushed significantly further down into
+    the left tube, so it is roughly level with the liquid in the right tube.
+  video_WM: A mechanical arm begins pulling the left piston upward out of the pipe. Thick white chemical
+    fog fills the room, obscuring the U-pipe completely. The fog slowly dissipates, revealing the pipe
+    again. No cut, no scene change. STOP.
+  camera_WM: A mechanical arm begins pulling the left piston upward out of the pipe. Thick white chemical
+    fog fills the room, obscuring the U-pipe completely. The fog slowly dissipates, revealing the pipe
+    again. No cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A glass U-tube sitting on a wooden table. The tube is partially filled with
+    a blue liquid. A black piston mechanism is inserted into the left arm of the tube, pressing the liquid
+    level down significantly. Consequently, the liquid level in the right arm is much higher than in the
+    left arm. The background shows blurred laboratory equipment.
+  init2final_edit_prompt: 'Edit the given image to remove the black piston mechanism from the left arm
+    of the U-tube completely. Adjust the blue liquid levels in the tube to represent a state of equilibrium:
+    raise the liquid level in the left arm and lower the liquid level in the right arm so that both sides
+    are at approximately the same height. Ensure the final equalized height is roughly the average of
+    the two initial heights, preserving the total volume of the blue liquid.'
+  rationale: The video prompt describes removing the piston that was exerting pressure on the left side
+    of the U-tube. Once the piston is removed, both arms of the tube are open to the same atmospheric
+    pressure. According to the principle of communicating vessels, the liquid will flow from the higher
+    side (right) to the lower side (left) until the levels equalize. The fog serves as a transition effect
+    to mask the motion, but the final state must show the static equilibrium with equal levels.
+  questions:
+  - id: piston_removed
+    question: Is the black piston mechanism removed from the inside of the left tube arm?
+    answer_type: yes_no
+    notes_for_judge: The piston should be gone or clearly pulled out of the liquid/tube.
+  - id: left_level_rise
+    question: Is the blue liquid level in the left arm higher than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The level must rise as the suppressing pressure is removed.
+  - id: right_level_fall
+    question: Is the blue liquid level in the right arm lower than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The level must fall to supply liquid to the left side.
+  - id: levels_equalized
+    question: Are the liquid levels in the left and right arms approximately at the same height?
+    answer_type: yes_no
+    notes_for_judge: Communicating vessels principle requires equal heights when open to atmosphere.
+  - id: volume_conservation
+    question: Does the total volume of blue liquid appear conserved (the rise in the left corresponds
+      to the drop in the right)?
+    answer_type: yes_no
+    notes_for_judge: The final level should be roughly the average of the initial high and low levels.
+  - id: fog_cleared
+    question: Is the view of the U-tube clear of the thick white fog mentioned in the prompt?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the fog dissipates, revealing the pipe again.

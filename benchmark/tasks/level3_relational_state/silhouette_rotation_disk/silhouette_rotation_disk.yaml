@@ -3,9 +3,10 @@ level: 3
 category: relational_state
 relational_type: geometric_coupling
 prompts:
-  image_gen_prompt: A bright, stationary spotlight shines on a large white screen. Between them sits a
-    solid, flat, circular metal disk standing vertically on its thin edge on a motorized rotating base.
-    The current shadow cast on the screen is a large, perfect full circle.
+  image_gen_prompt: Generate an image that shows the following:A bright, stationary spotlight shines on
+    a large white screen. Between them sits a solid, flat, circular metal disk standing vertically on
+    its thin edge on a motorized rotating base. The current shadow cast on the screen is a large, perfect
+    full circle.
   video_WM: The motorized base begins to rotate the flat circular disk slowly and steadily by exactly
     90 degrees around its vertical axis. The spotlight and screen remain fixed in place. The camera rotates
     right until the disk completely exits the view, then rotates toward the left smoothly at the same
@@ -14,3 +15,47 @@ prompts:
     the fixed light source and the screen. The geometric projection is maintained. STOP.
 camera_control:
   HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A studio photography setup featuring a large spotlight on the left, a motorized
+    turntable in the center holding a large vertical circular disk, and a white diffusion screen on the
+    right. The spotlight is on, casting light from left to right. The disk is currently oriented edge-on
+    to the camera, appearing as a thin vertical strip with a textured edge. Because the disk's flat face
+    is perpendicular to the light beam, it casts a distinct, perfect circular shadow onto the white screen.
+  init2final_edit_prompt: Edit the given image to show the central disk rotated 90 degrees. The disk should
+    now face the camera directly, appearing as a large, textured circular object instead of a thin edge.
+    Correspondingly, the shadow on the white screen should change from a large circle to a thin vertical
+    line or narrow rectangular strip, reflecting that the disk is now edge-on to the spotlight.
+  rationale: 'The initial image establishes the geometry: the disk is edge-on to the camera but face-on
+    to the light source (indicated by the circular shadow). The prompt requires a 90-degree rotation of
+    the disk. This action inverts the geometric relationships: the disk becomes face-on to the camera
+    (appearing as a circle) and edge-on to the light source. Consequently, the shadow cast on the screen
+    must change from a circle to a thin line (the profile of the disk). The camera motion provides occlusion
+    and duration but returns to show the screen and disk, allowing verification of this coupled state
+    change.'
+  questions:
+  - id: disk_orientation_face
+    question: Does the disk now appear as a full circle facing the camera, rather than a thin edge?
+    answer_type: yes_no
+    notes_for_judge: The disk should have rotated 90 degrees to face the viewer.
+  - id: shadow_shape_line
+    question: Is the shadow on the white screen a thin vertical line or narrow strip?
+    answer_type: yes_no
+    notes_for_judge: Since the disk is now edge-on to the light, the shadow must be a line, not a circle.
+  - id: shadow_circle_gone
+    question: Is the large circular shadow absent from the screen?
+    answer_type: yes_no
+    notes_for_judge: The circular shadow should be replaced by the line shadow.
+  - id: coupled_state_consistency
+    question: Is the relationship between the disk's visible face and the shadow's shape consistent with
+      a 90-degree rotation?
+    answer_type: yes_no
+    notes_for_judge: 'Check for consistency: Face-on disk to camera implies Edge-on disk to light (assuming
+      light/camera are approx 90 deg apart or setup implies it), resulting in a line shadow.'
+  - id: disk_texture_visible
+    question: Is the surface texture of the disk's face visible?
+    answer_type: yes_no
+    notes_for_judge: The face of the disk should now be revealed.
+  - id: screen_visible
+    question: Is the white screen still visible in the frame?
+    answer_type: yes_no
+    notes_for_judge: The screen must be visible to verify the shadow state.

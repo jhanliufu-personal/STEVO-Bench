@@ -13,3 +13,49 @@ prompts:
     STOP.
 camera_control:
   HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up shot of a clear glass on a wooden table, partially filled with clear
+    water and swirling dark brown liquid. A small ceramic pitcher held by a hand is pouring a stream of
+    the dark liquid into the glass. Steam is rising from the glass. In the background, a window with white
+    frames is visible.
+  init2final_edit_prompt: Edit the given image to show the result of the pouring action continuing for
+    some time. The glass should be filled with a significantly larger amount of dark liquid, making the
+    liquid level higher and the color much darker and more opaque than in the original image. The ceramic
+    pitcher should appear to contain less liquid or be tilted further as if emptying. The swirling patterns
+    in the glass should look more diffused and blended due to the increased volume of concentrate.
+  rationale: The video prompt describes a continuous pouring action where concentrate is transferred from
+    the pitcher to the glass, constrained by conservation of volume. The camera pans away and then returns
+    to the original view. During the time the objects were out of frame, the pouring continued. Therefore,
+    in the final frame, the pitcher must contain less liquid (source depletion), and the glass must contain
+    more liquid (destination accumulation), with the mixture in the glass becoming darker and the level
+    rising.
+  questions:
+  - id: glass_level_rise
+    question: Is the liquid level in the glass higher than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The glass receives liquid, so the level must rise.
+  - id: mixture_darker
+    question: Is the liquid in the glass darker or more opaque than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: More black concentrate has been added, so the mixture must be darker.
+  - id: pitcher_emptier
+    question: Does the pitcher appear to contain less liquid than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Conservation of mass requires the source to deplete as the destination fills.
+  - id: pitcher_presence
+    question: Is the ceramic pitcher still visible in the frame?
+    answer_type: yes_no
+    notes_for_judge: The camera returns to the center view; the pitcher should still be there (even if
+      empty or finishing).
+  - id: background_consistency
+    question: Is the window in the background still visible?
+    answer_type: yes_no
+    notes_for_judge: The camera returns to the original angle.
+  - id: table_consistency
+    question: Is the wooden table surface still visible?
+    answer_type: yes_no
+    notes_for_judge: The environment should remain stable.
+  - id: conservation_logic
+    question: Does the scene show the glass fuller relative to the pitcher being emptier?
+    answer_type: yes_no
+    notes_for_judge: 'This tests the relational state change: mass transfer from A to B.'

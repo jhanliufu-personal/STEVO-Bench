@@ -1,0 +1,66 @@
+id: silhouette_rotation_disk_00
+level: 3
+category: relational_state
+tags: []
+variant_of: silhouette_rotation_disk
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The motorized base begins to rotate the flat circular disk slowly and steadily by exactly
+    90 degrees around its vertical axis. The spotlight and screen remain fixed in place. Camera remains
+    stationary throughout. No zoom, no cut, no scene change. STOP.
+  camera_WM: The motorized base begins to rotate the flat circular disk slowly and steadily by exactly
+    90 degrees around its vertical axis. The spotlight and screen remain fixed in place. Camera remains
+    stationary throughout. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A studio photography setup featuring a large, flat, circular metal disk standing
+    vertically on its edge on a motorized turntable. A spotlight positioned to the left illuminates the
+    flat face of the disk, which is perpendicular to the camera's view. Consequently, the disk appears
+    as a thin vertical sliver to the camera, but casts a large, perfect circular shadow onto the white
+    diffusion screen in the background.
+  init2final_edit_prompt: Edit the given image to show the metal disk rotated 90 degrees so that its flat
+    circular face is directly facing the camera. Change the shadow on the white background screen to be
+    a thin vertical line or narrow rectangular strip, representing the silhouette of the disk's edge,
+    instead of a large circle. Ensure the spotlight and studio equipment remain in their original positions.
+  rationale: 'The initial image establishes a specific geometric relationship: the camera sees the disk
+    edge-on, while the light sees it face-on (creating a circular shadow). A 90-degree rotation around
+    the vertical axis inverts this relationship. The disk''s face will turn to align with the camera plane
+    (becoming a visible circle), and its thin edge will align with the light source (causing the shadow
+    to collapse into a thin vertical line). The evaluation tests whether the world model correctly simulates
+    this coupled change in perspective and projection.'
+  questions:
+  - id: disk_orientation_face
+    question: Is the flat circular face of the disk now visible to the camera?
+    answer_type: yes_no
+    notes_for_judge: The disk should look like a circle or oval, not a thin line.
+  - id: shadow_shape_line
+    question: Is the shadow on the screen now a thin vertical strip or line?
+    answer_type: yes_no
+    notes_for_judge: The shadow should represent the edge of the disk, so it must be narrow.
+  - id: shadow_width_change
+    question: Is the shadow on the screen significantly narrower than the disk's visible face?
+    answer_type: yes_no
+    notes_for_judge: 'Relational check: The object is now wide (face), so the shadow must be thin (edge).'
+  - id: shadow_geometry_consistency
+    question: Does the shadow shape correspond to the profile of the disk's edge?
+    answer_type: yes_no
+    notes_for_judge: Since the light hits the edge, the shadow should be a line/rectangle.
+  - id: disk_rotation_occurred
+    question: Does the disk appear to have rotated approximately 90 degrees from its starting position?
+    answer_type: yes_no
+    notes_for_judge: From edge-on to face-on.
+  - id: spotlight_consistency
+    question: Is the spotlight still positioned to the left of the frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: screen_consistency
+    question: Is the white background screen still present behind the disk?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

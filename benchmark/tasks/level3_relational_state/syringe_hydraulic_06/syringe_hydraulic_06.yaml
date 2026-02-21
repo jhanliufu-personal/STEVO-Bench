@@ -1,0 +1,67 @@
+id: syringe_hydraulic_06
+level: 3
+category: relational_state
+tags: []
+variant_of: syringe_hydraulic
+variation_type: dynamic_condition
+variation_description: The liquid in the syringe is frozen solid.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Liquid is frozen solid.
+  expected_outcome_change: No movement possible; mechanical finger may stall or slip.
+prompts:
+  init_frame_edit_prompt: Edit the image to make the red liquid inside the left syringe look frozen solid,
+    with frost on the outside of the syringe barrel.
+  video_WM: A mechanical finger attempts to press the plunger of the left syringe. The red substance inside
+    is frozen solid. The finger applies constant force. The camera rotates right until both syringes completely
+    exit the view, then rotates toward the left smoothly at the same rate until the right syringe is back
+    in the center of view. No zoom, no cut, no scene change. STOP.
+  camera_WM: A mechanical finger attempts to press the plunger of the left syringe. The red substance
+    inside is frozen solid. The finger applies constant force.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: Two plastic syringes lying on a metal tray, connected nozzle-to-nozzle by a
+    clear flexible tube. The left syringe is large and contains a red substance that appears frozen solid,
+    exhibiting a cracked, frosty texture; its plunger is pulled back (extended). The right syringe is
+    connected to the other end of the tube, contains a small amount of liquid red substance, and its plunger
+    is pushed in (depressed). The background shows a white surface and a window.
+  init2final_edit_prompt: Edit the given image to shift the camera view so that the right syringe is positioned
+    in the center of the frame. Ensure that the plungers of both syringes remain in their exact original
+    positions and the red substance levels are unchanged. The red substance in the left syringe must retain
+    its frozen, cracked texture, and the right syringe must remain with its plunger depressed and liquid
+    level low, reflecting that no movement occurred.
+  rationale: The prompt specifies that the red substance in the left syringe is frozen solid. Solids are
+    incompressible and cannot flow through the narrow tubing. Therefore, when the mechanical finger attempts
+    to press the plunger, the frozen block provides resistance and prevents any displacement of material.
+    Because no material flows through the tube, no pressure is transferred to the right syringe, and the
+    right plunger remains stationary. The final state is physically identical to the initial state in
+    terms of object configuration, with only the camera framing changed to center the right syringe.
+  questions:
+  - id: camera_centering
+    question: Is the right syringe positioned in the center of the view?
+    answer_type: yes_no
+    notes_for_judge: Check if the framing has shifted to center the right syringe as requested.
+  - id: right_plunger_static
+    question: Is the plunger of the right syringe still in its initial depressed (pushed-in) position?
+    answer_type: yes_no
+    notes_for_judge: Since the fluid is frozen, the hydraulic force should not transfer, and the right
+      plunger should not move.
+  - id: right_liquid_level
+    question: Does the amount of red liquid in the right syringe appear unchanged relative to the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: No liquid should enter the right syringe.
+  - id: left_substance_texture
+    question: Does the red substance in the left syringe still appear frozen or textured?
+    answer_type: yes_no
+    notes_for_judge: The frozen state is a key constraint preventing flow.
+  - id: left_plunger_static
+    question: Is the plunger of the left syringe still in the same extended position as in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: The frozen block prevents the plunger from being pushed in.
+  - id: tube_connection
+    question: Are the two syringes still connected by the clear tube?
+    answer_type: yes_no
+    notes_for_judge: Verifying object permanence and structural integrity.

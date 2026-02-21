@@ -1,0 +1,67 @@
+id: condensation_link_09
+level: 3
+category: relational_state
+tags: []
+variant_of: condensation_link
+variation_type: combined
+variation_description: Water is barely simmering (low steam) and occlusion is zoom out.
+changes:
+  occlusion_method: Camera zooms out until details are lost.
+  dynamic_conditions: Water is simmering gently (low heat), producing very faint steam.
+  expected_outcome_change: Condensation forms much slower than original.
+prompts:
+  init_frame_edit_prompt: Edit the image to reduce the boiling intensity. Show only small, gentle bubbles
+    and very faint, wispy steam instead of a rolling boil.
+  video_WM: The glass pane is held over a pot of gently simmering water. Faint wisps of vapor rise slowly
+    toward the glass. The camera zooms out continuously until the pot and glass are too small to distinguish
+    details, then zooms back in to the original framing. No cut, no scene change. STOP.
+  camera_WM: The glass pane is held over a pot of gently simmering water. Faint wisps of vapor rise slowly
+    toward the glass. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a stainless steel pot on a gas stove filled with
+    boiling water, with visible bubbles and agitation on the water surface. A hand enters from the right,
+    holding a rectangular pane of clear glass horizontally directly above the rising steam. The glass
+    pane already has a layer of condensation droplets and some vertical streaks of water. The background
+    is a blurred kitchen interior with wooden cabinets and a tiled backsplash.
+  init2final_edit_prompt: Edit the given image to show a significant increase in condensation on the rectangular
+    glass pane. The glass surface should be more densely covered with water droplets, and existing droplets
+    should appear larger or merged into more pronounced vertical streaks, reflecting the accumulation
+    of steam over time. The water in the pot must remain boiling with visible bubbles. Maintain the original
+    camera angle, framing, and the position of the hand holding the glass.
+  rationale: The video prompt describes a continuous shot where the camera zooms out and then returns
+    to the original framing. This implies a passage of time during which the physical process of boiling
+    and condensation continues uninterrupted. Since the water is simmering, it constantly releases steam.
+    This steam rises and hits the cooler glass surface held above it. Over the duration of the zoom-out
+    and zoom-in, the primary state change is the accumulation of mass (water) on the glass pane due to
+    this coupling. The final frame must therefore show the glass with more accumulated moisture (denser
+    droplets, more fogging, or longer streaks) than the initial frame, while the pot continues to boil.
+  questions:
+  - id: condensation_increase
+    question: Is the density of water droplets on the glass pane visibly higher than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the glass surface texture. There should be more droplets or a wetter appearance.
+  - id: droplet_coalescence
+    question: Do the water droplets on the glass appear larger or more coalesced into streaks compared
+      to the initial view?
+    answer_type: yes_no
+    notes_for_judge: Look for larger beads of water or more defined run-off streaks indicating accumulation.
+  - id: glass_opacity
+    question: Is the glass pane more obscured or fogged by moisture than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The background seen through the glass should be slightly less distinct due to increased
+      condensation.
+  - id: source_maintenance
+    question: Is the water in the pot still boiling or simmering?
+    answer_type: yes_no
+    notes_for_judge: The water surface should still show bubbles or turbulence, maintaining the source
+      of the steam.
+  - id: coupling_geometry
+    question: Is the glass pane still positioned directly above the pot?
+    answer_type: yes_no
+    notes_for_judge: The relational geometry required for the condensation process must be preserved.
+  - id: hand_presence
+    question: Is the hand still visible holding the glass pane?
+    answer_type: yes_no
+    notes_for_judge: The agent holding the object must persist.

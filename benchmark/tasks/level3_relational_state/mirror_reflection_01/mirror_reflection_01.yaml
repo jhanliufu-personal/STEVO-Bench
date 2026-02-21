@@ -1,0 +1,69 @@
+id: mirror_reflection_01
+level: 3
+category: relational_state
+tags: []
+variant_of: mirror_reflection
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to lights turning off completely.
+changes:
+  occlusion_method: Lights turn off completely (pitch black) then turn back on.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A hand pushes the red ball directly toward the mirror at a steady speed. The ball remains
+    on the surface of the table. Suddenly, the lights in the room turn off completely, plunging the scene
+    into total darkness. After a duration equal to the previous camera movement, the lights turn back
+    on, revealing the scene again. No zoom, no cut, no scene change. STOP.
+  camera_WM: A hand pushes the red ball directly toward the mirror at a steady speed. The ball remains
+    on the surface of the table. Suddenly, the lights in the room turn off completely, plunging the scene
+    into total darkness. After a duration equal to the previous camera movement, the lights turn back
+    on, revealing the scene again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a red billiard ball (number 3) resting on a wooden
+    table surface. Behind the ball stands a vertical mirror with a wooden frame. The mirror reflects the
+    red ball near the bottom edge of the glass and shows a blurred background of a room containing a green
+    pool table.
+  init2final_edit_prompt: Edit the given image to move the red billiard ball significantly closer to the
+    mirror frame on the wooden surface. Correspondingly, move the reflection of the red ball in the mirror
+    closer to the bottom edge of the glass, so that the gap between the real ball and its reflection is
+    reduced. Ensure the ball remains red and on the table, and the background reflection of the pool table
+    remains visible.
+  rationale: The prompt describes a physical action where the ball is pushed towards the mirror, followed
+    by a period of darkness and a return to light. This implies a state change where the ball has traveled
+    closer to the mirror plane. According to the laws of optics, as an object moves closer to a mirror,
+    its reflection must also appear to move closer to the mirror's surface (the virtual image moves towards
+    the plane). Therefore, the final frame must show both the real ball and its reflection converged closer
+    to the dividing frame, reducing the visual distance between them.
+  questions:
+  - id: ball_closer_to_mirror
+    question: Is the real red ball positioned closer to the mirror frame than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the distance between the ball and the wooden frame in both images.
+  - id: reflection_closer_to_edge
+    question: Is the reflection of the red ball closer to the bottom edge of the mirror glass than in
+      the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The reflected ball should have moved 'down' or 'forward' in the mirror to be closer
+      to the frame.
+  - id: gap_reduction
+    question: Is the vertical distance between the real ball and its reflection smaller than in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: This tests the coupled relationship; as the object approaches the mirror, the gap
+      between object and reflection must shrink.
+  - id: reflection_alignment
+    question: Is the reflection of the red ball still horizontally aligned with the real red ball?
+    answer_type: yes_no
+    notes_for_judge: Tests the symmetry constraint; the reflection should not drift left or right relative
+      to the object.
+  - id: ball_on_surface
+    question: Is the red ball still resting on the wooden table surface?
+    answer_type: yes_no
+    notes_for_judge: The ball should not be floating or embedded in the table.
+  - id: background_invariant
+    question: Is the green pool table still visible in the background of the mirror reflection?
+    answer_type: yes_no
+    notes_for_judge: The background environment should remain consistent.

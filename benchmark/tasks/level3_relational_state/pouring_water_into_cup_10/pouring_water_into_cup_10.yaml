@@ -1,0 +1,73 @@
+id: pouring_water_into_cup_10
+level: 3
+category: relational_state
+tags: []
+variant_of: pouring_water_into_cup
+variation_type: combined
+variation_description: Camera physically moves away (dolly out) while pitcher is tilted very steeply (fast
+  pour).
+changes:
+  occlusion_method: Camera moves backward until scene is indistinct.
+  dynamic_conditions: Pitcher tilted at steep vertical angle (high flow rate).
+  expected_outcome_change: Glass fills and overflows very quickly.
+prompts:
+  init_frame_edit_prompt: Edit the image so the pitcher is tilted at a much steeper, almost vertical angle,
+    indicating a very fast pour.
+  video_WM: Single continuous shot, no cuts, no zoom, no scene transitions. Camera starts centered on
+    the hand holding the pitcher at a steep vertical angle, pouring a heavy, fast stream of water into
+    the glass. The hand maintains this steep angle. The camera smoothly moves backward, pulling away from
+    the table until the glass and pitcher become too small to distinguish details. The camera continues
+    holding this distant view for a moment. Then the camera moves forward, returning smoothly to the original
+    close-up viewpoint.
+  camera_WM: A hand holds a pitcher at a steep vertical angle, pouring a heavy, fast stream of water into
+    a glass. The hand maintains this steep angle. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A close-up view of a clear glass pitcher pouring water into a clear glass tumbler
+    resting on a wooden table. The pitcher is positioned at the top left, tilted downwards, releasing
+    a stream of water. The glass is partially filled with water, showing turbulence and bubbles from the
+    active pour. The background features a blurred window with natural light coming through.
+  init2final_edit_prompt: Edit the given image to show the glass tumbler filled with significantly more
+    water, with the water level much higher than in the original state, potentially near the brim. Correspondingly,
+    reduce the water level inside the pitcher to show that a significant volume has been poured out. Maintain
+    the stream of water flowing from the pitcher into the glass, and keep the background and table appearance
+    unchanged.
+  rationale: 'The video prompt describes a continuous heavy, fast stream of water being poured while the
+    camera moves away and then returns. This camera movement implies a significant passage of time during
+    which the pouring action is maintained. Consequently, the physical state must evolve according to
+    conservation of volume: the water level in the receiving glass must rise significantly (accumulating
+    the flow), and the water level in the source pitcher must drop correspondingly. The final frame returns
+    to the initial viewpoint, so the visual composition remains the same, but the distribution of water
+    between the two containers must reflect the transfer that occurred during the camera''s excursion.'
+  questions:
+  - id: glass_level_increase
+    question: Is the water level in the glass higher than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the height of the water in the glass tumbler between the two frames.
+  - id: pitcher_level_decrease
+    question: Is the amount of water remaining in the pitcher less than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Check if the water level inside the source pitcher has gone down.
+  - id: glass_fuller_state
+    question: Does the glass appear significantly fuller than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The glass should contain more water volume.
+  - id: pitcher_emptier_state
+    question: Does the pitcher appear emptier than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The pitcher should contain less water volume.
+  - id: coupled_change
+    question: Do the changes show water transferring from the pitcher to the glass (pitcher level down,
+      glass level up)?
+    answer_type: yes_no
+    notes_for_judge: 'Both conditions must be met: pitcher has less water AND glass has more water.'
+  - id: stream_presence
+    question: Is there still a stream of water flowing from the pitcher to the glass?
+    answer_type: yes_no
+    notes_for_judge: The prompt implies the pouring angle is maintained.
+  - id: background_consistency
+    question: Are the wooden table and background window consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary check for scene stability.

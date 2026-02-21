@@ -1,0 +1,67 @@
+id: domino_falling_01
+level: 3
+category: relational_state
+tags: []
+variant_of: domino_falling
+variation_type: occlusion_method
+variation_description: Occlusion by a large object passing in front instead of camera panning.
+changes:
+  occlusion_method: A large black board moves into the foreground, blocking the view.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: Single continuous shot, no cuts. The finger pushes the first domino forward as interaction
+    continues. While the dominoes interact, a large black board slides into the foreground from the right,
+    completely blocking the view of the table and dominoes. The board remains in front of the camera for
+    several seconds. Then the board slides back out to the right, revealing the table again. STOP.
+  camera_WM: Single continuous shot, no cuts. The finger pushes the first domino forward as interaction
+    continues. While the dominoes interact, a large black board slides into the foreground from the right,
+    completely blocking the view of the table and dominoes. The board remains in front of the camera for
+    several seconds. Then the board slides back out to the right, revealing the table again. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A wooden table featuring a long, winding chain of standing wooden dominoes.
+    In the immediate foreground, a hand with a pointing finger is positioned just behind the first domino,
+    ready to push it. The background includes a window, potted plants, a stack of books, and a leather
+    chair.
+  init2final_edit_prompt: Edit the given image to show the dominoes toppled over along the winding path.
+    The dominoes should be lying flat on the table, following the original curve of the setup, indicating
+    a completed or progressed chain reaction. The hand should be relaxed or withdrawn after the push.
+    Ensure the background objects like the books, plants, and chair remain unchanged.
+  rationale: The prompt describes the initiation of a domino chain reaction followed by a period of occlusion.
+    Physics dictates that once the first domino is pushed, the kinetic energy transfers to subsequent
+    dominoes, causing a sequential fall. Even though the view is blocked by the board for several seconds,
+    the chain reaction continues unobserved. Therefore, when the view is restored, the dominoes should
+    be seen in a toppled state along the original path, reflecting the causal progression that occurred
+    during the occlusion.
+  questions:
+  - id: dominoes_toppled_foreground
+    question: Are the dominoes in the immediate foreground (closest to where the finger was) toppled over?
+    answer_type: yes_no
+    notes_for_judge: The first few dominoes must be fallen as the action was initiated.
+  - id: propagation_along_path
+    question: Does the trail of fallen dominoes follow the same winding path as the standing dominoes
+      in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The spatial configuration of the chain must be preserved even if the state (standing
+      vs fallen) changes.
+  - id: chain_reaction_progress
+    question: Are the dominoes further along the chain (in the middle or background sections) also toppled?
+    answer_type: yes_no
+    notes_for_judge: Since the occlusion lasted several seconds, the reaction should have propagated significantly.
+  - id: coupled_state_consistency
+    question: Is the state of the dominoes consistent, such that if a later domino is fallen, the preceding
+      ones are also fallen?
+    answer_type: yes_no
+    notes_for_judge: Dominoes cannot fall spontaneously; the chain must be continuous from the start.
+  - id: occlusion_removed
+    question: Is the view of the table clear of the large black board mentioned in the prompt?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the board slides back out, revealing the table.
+  - id: background_stability
+    question: Are the books and plants in the background in the same position as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Only the dominoes and hand should change state.

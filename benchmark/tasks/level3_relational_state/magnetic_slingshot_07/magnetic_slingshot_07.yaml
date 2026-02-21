@@ -1,0 +1,72 @@
+id: magnetic_slingshot_07
+level: 3
+category: relational_state
+tags: []
+variant_of: magnetic_slingshot
+variation_type: combined
+variation_description: Combined magnetic attraction with fog occlusion.
+changes:
+  occlusion_method: Thick fog fills the scene.
+  dynamic_conditions: Opposite poles (N facing S) create attraction.
+  expected_outcome_change: Pucks collide/stick.
+prompts:
+  init_frame_edit_prompt: Edit the image to change the red letter 'N' on the lower stationary puck to
+    a red letter 'S'.
+  video_WM: The first magnetic puck approaches the second stationary puck. The moving puck presents a
+    North pole, while the stationary puck presents a South pole. Suddenly, thick white fog fills the rail
+    enclosure, completely obscuring the pucks. After a moment, the fog clears. No zoom, no cut, no scene
+    change. STOP.
+  camera_WM: The first magnetic puck approaches the second stationary puck. The moving puck presents a
+    North pole, while the stationary puck presents a South pole. Suddenly, thick white fog fills the rail
+    enclosure, completely obscuring the pucks. After a moment, the fog clears. No zoom, no cut, no scene
+    change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: Two metallic cylindrical pucks are placed on a clear plastic inclined rail labeled
+    'FRICTIONLESS RAIL'. The upper puck is oriented on its edge or with a flat face pointing down the
+    slope, labeled with a large red 'N'. The lower puck is positioned further down the slope, lying flat
+    on its base, with a large red 'S' labeled on its top face. A whiteboard with handwritten physics equations
+    is visible in the background.
+  init2final_edit_prompt: Edit the image to show the result of the magnetic interaction. Move both pucks
+    to a new position further down the inclined rail. The two pucks must be in direct physical contact,
+    stuck together as a single unit due to magnetic attraction. The upper puck should be pressed against
+    the lower puck. Ensure the red 'N' label is no longer visible, as it is occluded by the contact between
+    the pucks. The red 'S' label should remain visible on the top face of the lower puck. Maintain the
+    background whiteboard and the 'FRICTIONLESS RAIL' text on the enclosure exactly as they are.
+  rationale: The video prompt describes a North pole approaching a South pole. Opposite magnetic poles
+    attract, so the moving upper puck will accelerate towards the stationary lower puck and stick to it
+    upon contact (inelastic collision). Because the rail is frictionless and inclined, the combined mass
+    of the two pucks will continue to slide down the slope due to gravity and the initial momentum. Therefore,
+    in the final frame, the pucks should be touching each other and located further down the rail than
+    the initial position of the second puck. The 'N' face, being the interacting pole, will likely be
+    obscured by the contact.
+  questions:
+  - id: pucks_contact
+    question: Are the two magnetic pucks in direct contact with each other?
+    answer_type: yes_no
+    notes_for_judge: The pucks should be stuck together due to magnetic attraction.
+  - id: gap_eliminated
+    question: Has the gap between the two pucks been eliminated?
+    answer_type: yes_no
+    notes_for_judge: In the initial frame there is a gap; in the final frame they should be touching.
+  - id: position_down_slope
+    question: Is the pair of pucks located further down the rail than the lower puck was initially?
+    answer_type: yes_no
+    notes_for_judge: The combined system should slide down due to gravity and momentum.
+  - id: N_label_occluded
+    question: Is the red 'N' label hidden or occluded in the final frame?
+    answer_type: yes_no
+    notes_for_judge: The 'N' face is the interacting pole and should be covered by the other puck.
+  - id: S_label_visible
+    question: Is the red 'S' label still visible on the lower puck?
+    answer_type: yes_no
+    notes_for_judge: The 'S' is on the top face and should remain visible.
+  - id: relative_order
+    question: Is the puck that was originally higher still positioned uphill relative to the other puck?
+    answer_type: yes_no
+    notes_for_judge: They should stick in the order they collided (Upper hits Lower).
+  - id: no_repulsion
+    question: Do the pucks appear to be together rather than separated by a large distance?
+    answer_type: yes_no
+    notes_for_judge: Tests for correct attraction vs repulsion dynamics.

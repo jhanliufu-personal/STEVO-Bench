@@ -1,0 +1,69 @@
+id: solar_tracker_geometry_07
+level: 3
+category: relational_state
+tags: []
+variant_of: solar_tracker_geometry
+variation_type: combined
+variation_description: Night setting (panel goes to sleep/horizontal) occluded by sandstorm.
+changes:
+  occlusion_method: 'Environmental occlusion: Sandstorm.'
+  dynamic_conditions: 'Night mode: Panel returns to neutral horizontal rest position.'
+  expected_outcome_change: Panel becomes horizontal.
+prompts:
+  init_frame_edit_prompt: Edit the image to make the scene look like twilight, with the sun having just
+    set and the sky turning deep blue.
+  video_WM: The sun has set and the system enters sleep mode. The panel begins tilting upward to a neutral
+    horizontal rest position. Suddenly, a night sandstorm sweeps across the dunes, completely blocking
+    the view with blowing dust. The storm rages for several seconds, then clears to reveal the scene again.
+    No zoom, no cut, no scene change. STOP.
+  camera_WM: The sun has set and the system enters sleep mode. The panel begins tilting upward to a neutral
+    horizontal rest position. Suddenly, a night sandstorm sweeps across the dunes, completely blocking
+    the view with blowing dust. The storm rages for several seconds, then clears to reveal the scene again.
+    No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A large, rectangular solar panel array mounted on a mechanical tracker in a
+    desert environment. The panel is tilted at a steep angle towards the left horizon. A large circular
+    gear mechanism and hydraulic struts support the panel. The ground is sandy with scattered rocks. The
+    sky shows a twilight gradient from deep blue to a faint orange sunset on the horizon.
+  init2final_edit_prompt: Edit the given image so that the solar panel array is rotated into a flat, horizontal
+    position, with its surface parallel to the ground and facing directly upward toward the sky. Adjust
+    the orientation of the large gear and the extension of the hydraulic struts to physically correspond
+    to this new horizontal angle. Ensure the air is clear and visibility is restored to match the initial
+    twilight atmosphere, with no sandstorm obscuring the view.
+  rationale: The prompt describes a mechanical state change where the solar tracker moves to a 'sleep'
+    or 'stow' position, which is explicitly defined as a 'neutral horizontal rest position'. This implies
+    the panel rotates from its initial diagonal tilt to be parallel with the ground (facing zenith). The
+    sandstorm acts as a temporal occlusion, hiding the motion, but the prompt states the storm clears,
+    so the final frame must show the completed mechanical transformation in clear visibility. The key
+    relational constraints are the coupling between the panel angle and the supporting gear/strut mechanism.
+  questions:
+  - id: panel_orientation_horizontal
+    question: Is the solar panel array now oriented horizontally, parallel to the ground?
+    answer_type: yes_no
+    notes_for_judge: The panel should no longer be tilted towards the horizon but should be flat.
+  - id: panel_facing_zenith
+    question: Does the flat surface of the solar panel face directly upwards towards the sky?
+    answer_type: yes_no
+    notes_for_judge: In the initial frame it faces the horizon; in the final it must face the sky.
+  - id: change_in_tilt
+    question: Is the angle of the panel significantly flatter than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the steep initial angle to the final state.
+  - id: mechanism_coupling
+    question: Is the mechanical gear or support structure rotated/adjusted to match the new panel angle?
+    answer_type: yes_no
+    notes_for_judge: The support structure is physically coupled to the panel and must move with it.
+  - id: visibility_restored
+    question: Is the scene clear of the obscuring sandstorm mentioned in the prompt?
+    answer_type: yes_no
+    notes_for_judge: The prompt says the storm clears; the view should not be blocked by dust.
+  - id: ground_consistency
+    question: Are the rocks and ground features in the foreground consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The camera did not move, so static ground features should remain.
+  - id: sky_consistency
+    question: Is the sky gradient (twilight colors) consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Time has passed but the general lighting environment (dusk) should be recognizable.

@@ -1,0 +1,65 @@
+id: anamorphic_projection_06
+level: 3
+category: relational_state
+tags: []
+variant_of: anamorphic_projection
+variation_type: dynamic_condition
+variation_description: The cylinder is matte gray instead of reflective chrome.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Cylinder surface is non-reflective.
+  expected_outcome_change: No face appears on the cylinder; it remains a plain gray object while the paper
+    rotates.
+prompts:
+  init_frame_edit_prompt: Edit the image to change the shiny metal cylinder into a matte gray plastic
+    cylinder with no reflection. Keep the drawing on the paper unchanged.
+  video_WM: A hand begins rotating the flat drawing on the table around the base of the matte gray cylinder.
+    The cylinder remains stationary. The camera rotates right until the drawing completely exits the view,
+    then rotates toward the left smoothly at the same rate until the cylinder is back in the center of
+    view. No zoom, no cut, no scene change. STOP.
+  camera_WM: A hand begins rotating the flat drawing on the table around the base of the matte gray cylinder.
+    The cylinder remains stationary. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A matte gray cylindrical cup sits in the center of a white sheet of paper on
+    a wooden table. The paper features a distorted, colorful, swirling drawing consisting of concentric
+    lines in blue, red, yellow, green, and black. The wood grain of the table is visible and runs horizontally
+    across the frame.
+  init2final_edit_prompt: Edit the given image so that the white paper with the colorful swirling drawing
+    is rotated to a different angle around the stationary gray cup. The cup and the wooden table must
+    remain in their original positions and orientation, but the pattern on the paper must be shifted rotationally
+    relative to the table and cup.
+  rationale: The video describes a camera movement that pans away from the scene and then returns to the
+    original viewpoint. During the time the object is out of view (or while the camera is moving), a hand
+    rotates the paper around the base of the stationary cylinder. Therefore, in the final frame, the camera
+    framing, the cylinder, and the table remain in their initial states, but the paper has a new rotational
+    orientation relative to the table and cylinder.
+  questions:
+  - id: camera_return
+    question: Is the matte gray cylinder positioned in the center of the frame, similar to the initial
+      view?
+    answer_type: yes_no
+    notes_for_judge: The camera should return to the initial framing.
+  - id: paper_rotation_primary
+    question: Is the colorful swirling drawing on the paper rotated to a different angle compared to the
+      initial frame?
+    answer_type: yes_no
+    notes_for_judge: The paper should have been rotated around the cylinder.
+  - id: paper_table_relation
+    question: Is the orientation of the drawing's lines changed relative to the wood grain of the table?
+    answer_type: yes_no
+    notes_for_judge: Check if the pattern has shifted relative to the static table texture.
+  - id: cylinder_stationarity
+    question: Does the cylinder appear to be in the same position on the table as it was initially?
+    answer_type: yes_no
+    notes_for_judge: The cylinder should not have moved; only the paper rotates.
+  - id: drawing_conservation
+    question: Are the colors and general pattern of the drawing preserved in the final frame?
+    answer_type: yes_no
+    notes_for_judge: The drawing itself should not change, only its orientation.
+  - id: paper_cylinder_relation
+    question: Is the paper's pattern oriented differently around the base of the cylinder than in the
+      starting image?
+    answer_type: yes_no
+    notes_for_judge: The relative rotation between paper and cylinder must change.

@@ -1,0 +1,66 @@
+id: silhouette_rotation_disk_07
+level: 3
+category: relational_state
+tags: []
+variant_of: silhouette_rotation_disk
+variation_type: combined
+variation_description: Lights off occlusion combined with 180 degree rotation.
+changes:
+  occlusion_method: Lights turn off then on
+  dynamic_conditions: Rotation angle changed to 180 degrees
+  expected_outcome_change: Shadow returns to circular shape
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The motorized base begins to rotate the flat circular disk slowly and steadily by exactly
+    180 degrees around its vertical axis. The spotlight and screen remain fixed in place. Suddenly, the
+    spotlight turns off completely, plunging the room into absolute darkness. After a brief pause, the
+    spotlight turns back on to illuminate the scene again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The motorized base begins to rotate the flat circular disk slowly and steadily by exactly
+    180 degrees around its vertical axis. The spotlight and screen remain fixed in place. Suddenly, the
+    spotlight turns off completely, plunging the room into absolute darkness. After a brief pause, the
+    spotlight turns back on to illuminate the scene again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A studio setup featuring a large, flat, circular metal disk mounted vertically
+    on a motorized turntable in the center. To the left, a large professional spotlight on a stand is
+    illuminated, casting a bright beam of light onto the disk. To the right, a white diffusion screen
+    captures the shadow of the disk, which appears as a solid dark circle. The background is a dark studio
+    environment.
+  init2final_edit_prompt: Edit the given image to show the metal disk rotated 180 degrees around its vertical
+    axis. The disk should still appear as a vertical circle in the center, presenting its reverse side
+    to the camera (which appears as a similar metallic surface). The spotlight on the left must be turned
+    ON and emitting bright light. The shadow on the white screen to the right must remain a solid circle,
+    consistent with the flat face of the disk being perpendicular to the light beam. Ensure the scene
+    is fully illuminated.
+  rationale: The video prompt describes a 180-degree rotation of the disk and a lighting cycle (on-off-on).
+    In the final state, the rotation is complete, meaning the disk has flipped to face the opposite direction.
+    Since the disk is flat, a 180-degree rotation returns it to a face-on orientation relative to the
+    light, so the shadow remains circular (unlike a 90-degree rotation which would cast a linear shadow).
+    The lighting returns to the 'on' state, so the scene is illuminated.
+  questions:
+  - id: light_state
+    question: Is the spotlight turned on and emitting light?
+    answer_type: yes_no
+    notes_for_judge: Check if the light fixture is illuminated and casting light.
+  - id: shadow_shape_circular
+    question: Is the shadow cast on the screen circular?
+    answer_type: yes_no
+    notes_for_judge: A 180-degree rotation presents the flat face to the light, resulting in a circular
+      shadow. A 90-degree rotation would result in a thin line.
+  - id: shadow_width_relation
+    question: Is the width of the shadow approximately equal to the width of the disk?
+    answer_type: yes_no
+    notes_for_judge: Tests if the projection corresponds to the face-on orientation.
+  - id: disk_orientation
+    question: Is the disk oriented with its flat face visible to the camera (rather than edge-on)?
+    answer_type: yes_no
+    notes_for_judge: At 180 degrees, the face is visible. At 90 degrees, it would be edge-on.
+  - id: scene_illumination
+    question: Is the scene brightly illuminated?
+    answer_type: yes_no
+    notes_for_judge: The prompt specifies the light turns back on.
+  - id: shadow_consistency
+    question: Is the shadow shape consistent with the orientation of the disk relative to the light source?
+    answer_type: yes_no
+    notes_for_judge: If the disk is face-on, shadow is circle. If disk is edge-on, shadow is line.

@@ -1,0 +1,65 @@
+id: billiard_break_10
+level: 3
+category: relational_state
+tags: []
+variant_of: billiard_break
+variation_type: combined
+variation_description: Frozen table conditions combined with camera zoom occlusion.
+changes:
+  occlusion_method: Camera zooms out until details are lost, then zooms in.
+  dynamic_conditions: Balls encased in ice, table frozen (low friction but different collision properties).
+  expected_outcome_change: Balls slide easily but collision might shatter ice or sound different; dynamics
+    governed by sliding ice blocks.
+prompts:
+  init_frame_edit_prompt: Edit the image so the balls look encased in blocks of ice and the table surface
+    is covered in frost.
+  video_WM: The ice-encased cue ball is struck, sliding across the frozen table toward the frozen rack.
+    The camera zooms out continuously until the table appears as a tiny distant object, then zooms back
+    in smoothly until the table fills the original view. No cut, no scene change. STOP.
+  camera_WM: The ice-encased cue ball is struck, sliding across the frozen table toward the frozen rack.
+    STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+evaluation:
+  init_frame_description: A pool table with a frosted, frozen blue-green felt surface. In the foreground,
+    a white cue ball is encased in a clear cubic block of ice. Further down the table, a standard rack
+    of 15 object balls is arranged in a tight triangle, with each ball also encased in its own individual
+    ice cube. The background shows a dimly lit room with wood paneling, a fireplace, a second pool table,
+    and green hanging lamps.
+  init2final_edit_prompt: Edit the given image to show the aftermath of a pool break. Scatter the triangular
+    arrangement of ice-encased object balls across the table surface so they are no longer in a tight
+    formation. Move the ice-encased cue ball away from its starting position, placing it closer to the
+    center or among the scattered object balls. Ensure all balls remain inside their ice blocks. Maintain
+    the original camera angle, lighting, and frozen table texture.
+  rationale: The video prompt describes the cue ball being struck and sliding toward the rack, followed
+    by a camera zoom out and back in. During the interval where the camera is zoomed out, the cue ball
+    physically traverses the table and collides with the rack of ice cubes. Due to the transfer of momentum
+    (conservation of momentum), the stationary rack must break apart, and the individual ice cubes must
+    scatter across the table. When the camera returns to the original view, the static triangular formation
+    must be replaced by a disordered arrangement of sliding cubes, and the cue ball must be displaced
+    from its origin.
+  questions:
+  - id: rack_broken
+    question: Is the initial triangular formation of the object balls broken?
+    answer_type: yes_no
+    notes_for_judge: The tight triangle should be disrupted.
+  - id: balls_scattered
+    question: Are the ice-encased object balls scattered across the table relative to their starting position?
+    answer_type: yes_no
+    notes_for_judge: They should be spread out, not touching in a group.
+  - id: cue_ball_moved
+    question: Has the ice-encased cue ball moved from its initial position in the foreground?
+    answer_type: yes_no
+    notes_for_judge: The cue ball must not be in the exact starting spot.
+  - id: relative_separation
+    question: Is the average distance between the object balls larger than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Checks for expansion of the system.
+  - id: ice_consistency
+    question: Do the balls appear to still be encased in ice blocks?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: background_stability
+    question: Are the background elements (fireplace, lamps) consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

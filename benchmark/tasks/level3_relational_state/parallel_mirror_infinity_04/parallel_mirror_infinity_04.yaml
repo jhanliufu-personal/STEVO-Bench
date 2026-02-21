@@ -1,0 +1,66 @@
+id: parallel_mirror_infinity_04
+level: 3
+category: relational_state
+tags: []
+variant_of: parallel_mirror_infinity
+variation_type: dynamic_condition
+variation_description: Action changed from tilting the flashlight to turning it off.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Flashlight is switched off instead of tilted.
+  expected_outcome_change: The reflections disappear/go dark instead of shifting upward.
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The person switches the flashlight off. The mirrors remain perfectly parallel. The camera
+    rotates right until the flashlight and person completely exit the view, then rotates toward the left
+    smoothly at the same rate until the surface of one mirror is back in the center of view. No zoom,
+    no cut, no scene change. STOP.
+  camera_WM: The person switches the flashlight off. The mirrors remain perfectly parallel. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A man stands in a dimly lit industrial room between two large parallel mirrors.
+    He holds a flashlight that is switched on, emitting a bright orange light. The mirrors create an infinite
+    reflection effect (mise en abyme), showing repeating reflections of the man and the bright orange
+    light receding into the distance on both the left and right sides. The room has concrete floors and
+    pipes on the back wall.
+  init2final_edit_prompt: Edit the given image to switch the flashlight off. Remove the bright orange
+    light source from the flashlight held by the person. Remove the corresponding bright orange lights,
+    flares, and glow from all the infinite reflections in the mirrors on both sides. The scene should
+    now be lit only by the dim ambient lighting, making the room appear significantly darker. The person
+    and the repeating reflections of the person should remain visible but unlit by the flashlight.
+  rationale: The primary action is the flashlight being switched off. This is a state change that must
+    be conserved across the camera movement. Because the mirrors are optically coupled to the real scene,
+    the 'off' state of the flashlight must be reflected in all mirror images simultaneously. The camera
+    rotates away (occlusion) and then returns to the mirror surface. Upon return, the model must recall
+    that the light was turned off and render the reflections without the bright orange glow, while maintaining
+    the parallel mirror geometry (infinite tunnel effect).
+  questions:
+  - id: flashlight_state_real
+    question: Is the flashlight held by the person switched off?
+    answer_type: yes_no
+    notes_for_judge: Check the real person's hand. The bright orange source should be gone.
+  - id: flashlight_state_reflection
+    question: Do the reflections in the mirrors show the flashlight as being off?
+    answer_type: yes_no
+    notes_for_judge: Check the reflections in the mirrors. They should not show a bright light.
+  - id: coupling_consistency
+    question: Are the reflections consistent with the real flashlight's state (both off)?
+    answer_type: yes_no
+    notes_for_judge: The real object and its reflections must match state.
+  - id: ambient_light_change
+    question: Is the overall scene darker than the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Turning off the main light source should darken the room.
+  - id: glare_removal
+    question: Is the bright orange glare/lens flare from the initial frame removed?
+    answer_type: yes_no
+    notes_for_judge: No orange bloom should be visible.
+  - id: geometry_preservation
+    question: Is the infinite corridor of reflections still visible?
+    answer_type: yes_no
+    notes_for_judge: The mirrors should still be parallel, creating the tunnel effect, even if dark.
+  - id: person_visibility
+    question: Is the person (or their reflection) still visible in the frame?
+    answer_type: yes_no
+    notes_for_judge: The person should not disappear, just be unlit.

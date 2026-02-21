@@ -1,0 +1,63 @@
+id: parallel_mirror_infinity_02
+level: 3
+category: relational_state
+tags: []
+variant_of: parallel_mirror_infinity
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to lights turning off completely.
+changes:
+  occlusion_method: Room lights and flashlight turn off, creating total darkness.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The person begins to tilt the flashlight 45 degrees toward the ceiling. The mirrors remain
+    perfectly parallel. Suddenly, all lights in the room go out, plunging the scene into total darkness.
+    After a moment, the lights turn back on. No zoom, no cut, no scene change. STOP.
+  camera_WM: The person begins to tilt the flashlight 45 degrees toward the ceiling. The mirrors remain
+    perfectly parallel. Suddenly, all lights in the room go out, plunging the scene into total darkness.
+    After a moment, the lights turn back on. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A wide shot of a man standing in an industrial room between two large parallel
+    mirrors. He is holding a flashlight that emits a bright orange glow, pointing it generally forward.
+    The mirrors create an infinite reflection effect (mise en abyme), showing repeated reflections of
+    the man and the glowing flashlight extending into the distance on both the left and right sides. The
+    room has a concrete floor and dim ambient lighting.
+  init2final_edit_prompt: Edit the given image to show the person holding the flashlight tilted upwards
+    at a 45-degree angle toward the ceiling. Ensure that all reflections of the person in the mirrors
+    on both the left and right sides are updated to show the flashlight tilted upwards at the same angle,
+    maintaining consistent geometric perspective in the infinite corridor of reflections.
+  rationale: The video prompt describes a sequence where the person changes their pose (tilting the flashlight)
+    followed by a temporary blackout. The final state occurs after the lights have turned back on. Therefore,
+    the final frame must show the scene fully illuminated again, but with the flashlight in its new upward-tilted
+    position. Crucially, because the mirrors are coupled to the reality of the scene, the infinite reflections
+    must all update to reflect this new angle, demonstrating that the world model understands the relational
+    constraint of mirror reflection.
+  questions:
+  - id: flashlight_tilt_main
+    question: Is the flashlight held by the central figure tilted upwards toward the ceiling?
+    answer_type: yes_no
+    notes_for_judge: The flashlight should no longer be pointing forward/horizontal, but angled up.
+  - id: reflection_consistency_tilt
+    question: Do the reflections in the mirrors show the flashlight tilted upwards?
+    answer_type: yes_no
+    notes_for_judge: Check the reflections on the left or right; they must match the new pose.
+  - id: relational_coupling
+    question: Is the orientation of the flashlight in the reflections consistent with the orientation
+      of the real flashlight?
+    answer_type: yes_no
+    notes_for_judge: 'This tests the coupled state: if the real one is up, the reflections must be up.'
+  - id: lighting_restored
+    question: Is the scene illuminated (not pitch black)?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the lights turn back on before the video stops.
+  - id: mirror_geometry_preserved
+    question: Is the infinite corridor effect of the parallel mirrors still visible?
+    answer_type: yes_no
+    notes_for_judge: The mirrors should not disappear or lose their reflective property.
+  - id: flashlight_on
+    question: Is the flashlight still emitting light?
+    answer_type: yes_no
+    notes_for_judge: The prompt implies the flashlight itself remains on, only the room lights toggled.

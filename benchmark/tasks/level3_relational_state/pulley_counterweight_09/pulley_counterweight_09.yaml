@@ -1,0 +1,70 @@
+id: pulley_counterweight_09
+level: 3
+category: relational_state
+tags: []
+variant_of: pulley_counterweight
+variation_type: combined
+variation_description: Weights are balanced and released (no hand pulling), occluded by a person walking
+  by.
+changes:
+  occlusion_method: A person walks in the foreground, blocking the view.
+  dynamic_conditions: Weights are released without external force (balanced 5kg each).
+  expected_outcome_change: No motion (equilibrium) instead of motion.
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The weights are released from a holding position and hang freely. Both weights are 5kg. A
+    person walks slowly across the foreground from left to right, completely blocking the line of sight
+    to the pulley. The person exits the frame to reveal the scene again. No zoom, no cut, no scene change.
+    STOP.
+  camera_WM: The weights are released from a holding position and hang freely. Both weights are 5kg. A
+    person walks slowly across the foreground from left to right, completely blocking the line of sight
+    to the pulley. The person exits the frame to reveal the scene again. No zoom, no cut, no scene change.
+    STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A low-angle shot of a rustic wooden interior showing a metal pulley mounted
+    to a ceiling beam. A thick rope runs over the pulley wheel, supporting two identical dark iron weights.
+    Each weight is bell-shaped and embossed with the text '5KG IRON'. The weights hang side-by-side at
+    approximately the same vertical height, appearing balanced. The background features wooden rafters
+    and a bright window.
+  init2final_edit_prompt: Edit the given image to show the scene exactly as it was initially, with no
+    people or obstructions visible. Ensure the two 5kg weights remain hanging at the exact same vertical
+    heights as in the original image, preserving their balanced configuration relative to each other.
+    Keep the wooden beams, pulley, rope, and background window unchanged.
+  rationale: The video prompt establishes an Atwood machine configuration with equal masses (5kg and 5kg).
+    According to Newton's laws, a pulley system with equal masses on both sides has a net force of zero.
+    Since the weights are released from a holding position (rest), their acceleration is zero, and they
+    will remain in static equilibrium. The person walking by serves as a temporary occlusion to test object
+    permanence and state maintenance. Upon the person's exit, the scene must return to the initial state
+    with the weights balanced and stationary.
+  questions:
+  - id: balanced_height
+    question: Do the two weights remain at approximately the same height relative to each other, as seen
+      in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Since masses are equal (5kg each), they should not move relative to each other.
+  - id: left_weight_pos
+    question: Is the vertical position of the left weight unchanged compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The system is in equilibrium; the weight should not fall or rise.
+  - id: right_weight_pos
+    question: Is the vertical position of the right weight unchanged compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The system is in equilibrium; the weight should not fall or rise.
+  - id: person_gone
+    question: Is the person mentioned in the prompt absent from the final frame?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the person exits the frame.
+  - id: rope_integrity
+    question: Does the rope still appear to connect both weights over the pulley?
+    answer_type: yes_no
+    notes_for_judge: Checks for structural consistency after occlusion.
+  - id: text_legibility
+    question: Is the text '5KG' still visible on the weights?
+    answer_type: yes_no
+    notes_for_judge: Checks for detail preservation.
+  - id: no_movement
+    question: Does the system appear static, with neither weight having pulled the other up?
+    answer_type: yes_no
+    notes_for_judge: Tests understanding of equal masses balancing.

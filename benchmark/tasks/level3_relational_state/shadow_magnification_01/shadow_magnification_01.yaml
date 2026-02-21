@@ -1,0 +1,69 @@
+id: shadow_magnification_01
+level: 3
+category: relational_state
+tags: []
+variant_of: shadow_magnification
+variation_type: occlusion_method
+variation_description: Replaces camera rotation with the spotlight turning off and on.
+changes:
+  occlusion_method: Spotlight turns off completely (pitch black), then turns back on.
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics (shadow grows), but observed through lighting change.
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A mechanical arm begins sliding the dinosaur pedestal slowly toward the spotlight and away
+    from the wall. The light remains fixed. Suddenly, the spotlight turns off, plunging the room into
+    absolute darkness. After a few seconds, the spotlight turns back on. No zoom, no cut, no scene change.
+    STOP.
+  camera_WM: A mechanical arm begins sliding the dinosaur pedestal slowly toward the spotlight and away
+    from the wall. The light remains fixed. Suddenly, the spotlight turns off, plunging the room into
+    absolute darkness. After a few seconds, the spotlight turns back on. No zoom, no cut, no scene change.
+    STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A toy T-Rex dinosaur standing on a rustic wooden pedestal in a dimly lit room.
+    To the right, a black stage spotlight on a stand is turned on, shining a visible beam of light with
+    dust motes towards the left. This light casts a sharp, dark shadow of the dinosaur onto the plain
+    grey wall on the left side of the image.
+  init2final_edit_prompt: Edit the given image to move the wooden pedestal and dinosaur to the right,
+    positioning them significantly closer to the spotlight. Render the shadow on the left wall much larger
+    and taller than in the original image, reflecting the optical magnification caused by the object's
+    closer proximity to the light source. Ensure the spotlight remains on with a visible beam, and keep
+    the background wall and spotlight stand fixed in their original locations.
+  rationale: The prompt describes the pedestal moving toward the light source and away from the projection
+    surface (the wall). Physically, as an object approaches a point light source, the shadow it casts
+    becomes larger (magnification). The blackout serves as a temporal gap during which this motion occurs
+    or completes. Therefore, in the final frame, the pedestal must be spatially closer to the light, and
+    the shadow must be relationally larger compared to the initial state.
+  questions:
+  - id: shadow_size_relational
+    question: Is the shadow of the dinosaur on the wall larger than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The shadow should be magnified because the object moved closer to the light source.
+  - id: pedestal_position
+    question: Is the wooden pedestal positioned closer to the spotlight than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The pedestal should have moved to the right.
+  - id: light_state
+    question: Is the spotlight turned on?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the light turns back on.
+  - id: wall_distance
+    question: Is the distance between the pedestal and the left wall greater than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Moving toward the light (right) means moving away from the wall (left).
+  - id: shadow_magnification_ratio
+    question: Does the shadow appear significantly taller relative to the dinosaur itself compared to
+      the first frame?
+    answer_type: yes_no
+    notes_for_judge: Tests the change in ratio/magnification.
+  - id: object_consistency
+    question: Is the dinosaur still standing upright on the pedestal?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: background_stability
+    question: Are the spotlight stand and the background wall in the same positions as in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: Only the pedestal moves; the environment is static.

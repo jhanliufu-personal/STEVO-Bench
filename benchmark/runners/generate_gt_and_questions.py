@@ -27,18 +27,25 @@ evaluation:
     video_prompt_sha256: ...
     task_yaml_sha256_before: ...
 
-Usage:
-  python scripts/augment_task_yaml_with_eval.py \
-    --task_yaml benchmark/tasks/.../task_0001.yaml \
+Usage (single task):
+  python benchmark/runners/generate_gt_and_questions.py \
+    --task_path benchmark/tasks/.../task_0001 \
     --model gemini-2.5-flash \
     --temperature 0.2
 
+Usage (pattern — runs for all matching task folders):
+  python benchmark/runners/generate_gt_and_questions.py \
+    --pattern "pouring_water_into_cup*" \
+    --tasks_root benchmark/tasks/ \
+    --model gemini-2.5-flash
+
 Env:
-  export GEMINI_API_KEY="..."
+  export GOOGLE_API_KEY="..."
 """
 
 import argparse
 # import datetime as dt
+import fnmatch
 import os
 from pathlib import Path
 from typing import Any, Dict, List, Tuple
@@ -466,31 +473,26 @@ def upsert_evaluation_block(
 
 
 # -----------------------------
-# Main
+# Pattern helper
 # -----------------------------
 
-def main() -> None:
-    parser = argparse.ArgumentParser()
-    parser.add_argument(
-        "--task_path",
-        required=True,
-        type=str,
-        help=(
-            "Path to the task folder OR to the task YAML. "
-            "Folder convention: <task_dir>/<task_dir_name>.yaml and "
-            "<task_dir>/<task_dir_name>_init_frame.png"
-        ),
-    )
-    parser.add_argument("--model", default="gemini-3-pro-preview", type=str)
-    parser.add_argument("--temperature", default=0.2, type=float)
-    parser.add_argument(
-        "--overwrite",
-        action="store_true",
-        help="Overwrite evaluation fields if already present. (Default: always overwrite these keys)",
-    )
-    args = parser.parse_args()
+def _find_pattern_tasks(pattern: str, tasks_root: str) -> List[Path]:
+    """Return task dirs under tasks_root whose folder name matches pattern."""
+    root = Path(tasks_root).expanduser().resolve()
+    results = []
+    for d in sorted(root.rglob("*")):
+        if d.is_dir() and fnmatch.fnmatch(d.name, pattern):
+            if (d / f"{d.name}.yaml").exists():
+                results.append(d)
+    return results
 
-    task_path = Path(args.task_path).resolve()
+
+# -----------------------------
+# Per-task runner
+# -----------------------------
+
+def _run_single(task_path: Path, model: str, temperature: float, overwrite: bool, api_key: str) -> bool:
+    """Run GT generation for a single task. Returns True on success."""
     _, task_yaml_path, _, initial_frame_path = resolve_task_paths(task_path)
 
     # # Hash YAML before modification
@@ -499,9 +501,9 @@ def main() -> None:
 
     task = load_yaml(task_yaml_path)
 
-    if task.get('evaluation') is not None and not args.overwrite:
-        print("Evaluation block already exists and --overwrite is not set. Returning.")
-        return
+    if task.get('evaluation') is not None and not overwrite:
+        print("Evaluation block already exists and --overwrite is not set. Skipping.")
+        return True
 
     task_id, video_prompt = get_task_fields(task, task_yaml_path)
 
@@ -512,25 +514,21 @@ def main() -> None:
     else:
         print("Warning: Task level not found in YAML, using generic guidance")
 
-    api_key = os.environ.get("GOOGLE_API_KEY", "").strip()
-    if not api_key:
-        raise RuntimeError("Missing GOOGLE_API_KEY environment variable.")
-
     gen = call_gemini(
         api_key=api_key,
-        model=args.model,
+        model=model,
         initial_frame_path=initial_frame_path,
         task_id=task_id,
         video_prompt=video_prompt,
-        temperature=args.temperature,
+        temperature=temperature,
         level=task_level,
     )
 
     upsert_evaluation_block(
         task,
         gen,
-        # model=args.model,
-        # temperature=args.temperature,
+        # model=model,
+        # temperature=temperature,
         # initial_frame_sha=sha256_file(initial_frame_path),
         # video_prompt_sha=sha256_text(video_prompt),
         # task_yaml_sha_before=task_yaml_sha_before,
@@ -538,7 +536,75 @@ def main() -> None:
 
     # Write back into the YAML file
     dump_yaml(task_yaml_path, task)
-    print(f"Updated task YAML with evaluation block: {task_yaml_path}")
+    print(f"[OK] Updated task YAML with evaluation block: {task_yaml_path.name}")
+    return True
+
+
+# -----------------------------
+# Main
+# -----------------------------
+
+def main() -> None:
+    parser = argparse.ArgumentParser()
+    group = parser.add_mutually_exclusive_group(required=True)
+    group.add_argument(
+        "--task_path",
+        type=str,
+        help=(
+            "Path to the task folder OR to the task YAML (single task). "
+            "Folder convention: <task_dir>/<task_dir_name>.yaml and "
+            "<task_dir>/<task_dir_name>_init_frame.png"
+        ),
+    )
+    group.add_argument(
+        "--pattern",
+        type=str,
+        help="Glob pattern matching task folder names, e.g. 'pouring_water_into_cup*'.",
+    )
+    parser.add_argument(
+        "--tasks_root",
+        default="benchmark/tasks/",
+        type=str,
+        help="Root directory to search when --pattern is used (default: benchmark/tasks/).",
+    )
+    parser.add_argument("--model", default="gemini-3-pro-preview", type=str)
+    parser.add_argument("--temperature", default=0.2, type=float)
+    parser.add_argument(
+        "--overwrite",
+        action="store_true",
+        help="Overwrite evaluation fields if already present.",
+    )
+    args = parser.parse_args()
+
+    api_key = os.environ.get("GOOGLE_API_KEY", "").strip()
+    if not api_key:
+        raise RuntimeError("Missing GOOGLE_API_KEY environment variable.")
+
+    if args.task_path:
+        ok = _run_single(Path(args.task_path), args.model, args.temperature, args.overwrite, api_key)
+        if not ok:
+            raise SystemExit(1)
+    else:
+        tasks = _find_pattern_tasks(args.pattern, args.tasks_root)
+        if not tasks:
+            print(f"No tasks found matching pattern '{args.pattern}' under {args.tasks_root}")
+            raise SystemExit(1)
+        print(f"Found {len(tasks)} task(s) matching '{args.pattern}'")
+        failed = []
+        for task_dir in tasks:
+            print(f"\n--- {task_dir.name} ---")
+            try:
+                ok = _run_single(task_dir, args.model, args.temperature, args.overwrite, api_key)
+            except Exception as e:
+                print(f"[ERROR] {task_dir.name}: {e}")
+                ok = False
+            if not ok:
+                failed.append(task_dir.name)
+        print(f"\n{'=' * 40}")
+        print(f"Done: {len(tasks) - len(failed)}/{len(tasks)} succeeded.")
+        if failed:
+            print(f"Failed ({len(failed)}): {', '.join(failed)}")
+            raise SystemExit(1)
 
 
 if __name__ == "__main__":

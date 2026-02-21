@@ -1,0 +1,65 @@
+id: sympathetic_pendulum_06
+level: 3
+category: relational_state
+tags: []
+variant_of: sympathetic_pendulum
+variation_type: dynamic_condition
+variation_description: Pendulum B has a massive heavy bob, increasing inertia significantly.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Pendulum B bob is extremely heavy/massive.
+  expected_outcome_change: Pendulum B moves barely or not at all (high inertia).
+prompts:
+  init_frame_edit_prompt: Edit the image to make the bob of Pendulum B extremely large, dense, and heavy-looking,
+    like a cannonball.
+  video_WM: Pendulum A continues its wide, heavy swing. The massive inertia of Pendulum B's heavy bob
+    resists the weak coupling forces from the flexible bar. The camera rotates right until Pendulum A
+    completely exits the view, then rotates toward the left smoothly at the same rate until Pendulum B
+    is back in the center of view. No zoom, no cut, no scene change. STOP.
+  camera_WM: Pendulum A continues its wide, heavy swing. The massive inertia of Pendulum B's heavy bob
+    resists the weak coupling forces from the flexible bar. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A workshop scene featuring two pendulums hanging from a curved, flexible wooden
+    bar spanning the top. On the left, Pendulum A is a thin metal rod with a small weight, angled as if
+    swinging. On the right, Pendulum B is a large, heavy, rusty iron ball hanging vertically on a string.
+    A window is visible on the far left, and a white wall with tools is on the right.
+  init2final_edit_prompt: Edit the given image so that the large rusty iron ball (Pendulum B) is centered
+    in the frame. The ball should hang vertically and appear stationary. The thin pendulum (A) and the
+    window on the left should not be visible. The background should consist of the white wall and workshop
+    details originally located on the right side.
+  rationale: The camera rotates to center the view on Pendulum B, which causes the swinging Pendulum A
+    to exit the frame to the left. Physically, the massive inertia of the heavy iron ball (Pendulum B)
+    resists the weak coupling forces transmitted through the flexible bar from Pendulum A. Therefore,
+    Pendulum B remains effectively stationary and hangs vertically in the final frame, rather than swinging
+    sympathetically.
+  questions:
+  - id: cam_center
+    question: Is the large rusty iron ball centered in the frame?
+    answer_type: yes_no
+    notes_for_judge: The ball should be in the middle of the image horizontally.
+  - id: obj_absence
+    question: Is the thin pendulum (Pendulum A) absent from the view?
+    answer_type: yes_no
+    notes_for_judge: Pendulum A should have exited the frame.
+  - id: phys_vertical
+    question: Does the iron ball hang vertically?
+    answer_type: yes_no
+    notes_for_judge: The string should be vertical, indicating no significant swinging motion.
+  - id: phys_stationary
+    question: Does the iron ball appear stationary rather than blurred or angled in a swing?
+    answer_type: yes_no
+    notes_for_judge: Due to inertia, it should not be swinging.
+  - id: env_window
+    question: Is the window on the left side of the room absent from the view?
+    answer_type: yes_no
+    notes_for_judge: The camera pan removes the left side of the room.
+  - id: env_bar
+    question: Is the wooden bar visible at the top of the frame?
+    answer_type: yes_no
+    notes_for_judge: The bar supports the pendulum and should still be in view.
+  - id: env_background
+    question: Is the background behind the ball consistent with the white wall from the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The view centers on the right side of the original room.

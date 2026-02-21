@@ -1,0 +1,61 @@
+id: ballistic_pendulum_00
+level: 3
+category: relational_state
+tags: []
+variant_of: ballistic_pendulum
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A metal projectile travels toward a wooden block suspended on a wire. The block is free to
+    swing. Camera remains stationary throughout.
+  camera_WM: A metal projectile travels toward a wooden block suspended on a wire. The block is free to
+    swing. Camera remains stationary throughout.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A large, rectangular, dark wooden block is suspended by two braided steel cables
+    from a metal structure above. The block hangs in the center of the frame. To the left of the block,
+    a shiny, cylindrical metal projectile is visible in mid-air, traveling horizontally towards the left
+    face of the block. A faint cloud of dust or debris is visible near the impact zone. The background
+    consists of an industrial interior with white walls, metal conduits, and pipes.
+  init2final_edit_prompt: Edit the given image to show the aftermath of the collision. Remove the metal
+    projectile from the air, as it is now embedded in the wood. Shift the wooden block significantly to
+    the right and slightly upwards. Change the orientation of the suspension cables so they are angled
+    diagonally to the right, following the block's displacement. Add a visible entry hole or splintered
+    damage to the left face of the wooden block where the projectile struck.
+  rationale: The scene depicts a ballistic pendulum experiment. Upon impact, the projectile will embed
+    itself into the wooden block (inelastic collision). Conservation of momentum dictates that the block
+    will absorb the projectile's momentum and swing to the right and upwards along the arc defined by
+    the suspension cables. The cables will no longer be vertical but will be taut and angled towards the
+    right. The projectile itself will no longer be visible in the air.
+  questions:
+  - id: projectile_embedded
+    question: Is the metal projectile no longer visible as a separate object flying in the air?
+    answer_type: yes_no
+    notes_for_judge: The projectile should be embedded in the block, so it should not be floating in the
+      air.
+  - id: block_displacement
+    question: Has the wooden block moved to the right relative to the background features?
+    answer_type: yes_no
+    notes_for_judge: Compare the block's position against the stationary pipes/conduits in the background.
+  - id: cable_angle
+    question: Are the suspension cables angled to the right instead of hanging vertically?
+    answer_type: yes_no
+    notes_for_judge: The cables must pivot to support the displaced block.
+  - id: impact_damage
+    question: Is there a visible entry hole or damage on the left face of the wooden block?
+    answer_type: yes_no
+    notes_for_judge: There should be evidence of where the projectile entered.
+  - id: coupled_motion
+    question: Does the displacement of the block correspond to the direction the projectile was traveling?
+    answer_type: yes_no
+    notes_for_judge: Projectile moved right, block should move right.
+  - id: background_stability
+    question: Are the background pipes and conduits in the same position as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The camera is stationary.

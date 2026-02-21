@@ -1,0 +1,77 @@
+id: pulley_color_wheel_08
+level: 3
+category: relational_state
+tags: []
+variant_of: pulley_color_wheel
+variation_type: combined
+variation_description: Counter-clockwise rotation combined with object blocking occlusion.
+changes:
+  occlusion_method: Object blocking (plywood board)
+  dynamic_conditions: Input direction reversed (CCW)
+  expected_outcome_change: The color wheel rotates Counter-Clockwise.
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A hand turns the crank handle exactly half a rotation counter-clockwise. The rubber belt is
+    taut and moves without slipping. A large plywood board slides from the right into the foreground,
+    completely blocking the view of the mechanism. The board remains for a moment, then slides back out
+    to the right. No zoom, no cut, no scene change. STOP.
+  camera_WM: A hand turns the crank handle exactly half a rotation counter-clockwise. The rubber belt
+    is taut and moves without slipping. A large plywood board slides from the right into the foreground,
+    completely blocking the view of the mechanism. The board remains for a moment, then slides back out
+    to the right. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A workshop scene showing a wooden mechanical setup clamped to a workbench. On
+    the left, a small wooden pulley with a crank handle is gripped by a person's hand; the handle is currently
+    pointing upwards and to the left (approximately the 10 o'clock position). A black rubber belt connects
+    this small pulley to a much larger wooden disk on the right. The large disk is a color wheel divided
+    into 12 distinct colored segments. The segment labeled 'Yellow' is at the top vertical position (12
+    o'clock). To the right of the Yellow segment are orange hues, and to the left are green hues. The
+    workbench surface is covered in wood shavings. In the background, tools hang on a pegboard.
+  init2final_edit_prompt: Edit the given image to show the result of the crank handle being turned exactly
+    half a rotation counter-clockwise. The crank handle and the hand gripping it should be moved to point
+    downwards and to the right (approximately the 4 o'clock position). The large color wheel should be
+    rotated counter-clockwise by one segment, such that the segment labeled 'Yellow' is shifted to the
+    left (approximately the 11 o'clock position) and the yellow-orange segment is now at the top vertical
+    position. Ensure the belt remains taut and connected, and the background details like the wood shavings
+    remain unchanged.
+  rationale: 'The user turns the crank handle 180 degrees (half a rotation) counter-clockwise. Since the
+    belt is uncrossed, the large wheel also rotates counter-clockwise. Visually, the diameter of the large
+    wheel is approximately 6 times that of the small pulley, implying a gear ratio of roughly 6:1. Therefore,
+    a 180-degree input rotation results in approximately a 30-degree output rotation (180/6). Since the
+    color wheel has 12 segments, 30 degrees corresponds to exactly one segment. Thus, the wheel rotates
+    one segment counter-clockwise: the ''Yellow'' segment moves left to the 11 o''clock position, and
+    the adjacent yellow-orange segment moves up to the 12 o''clock position. The occlusion board enters
+    and leaves, so the final view is unobstructed.'
+  questions:
+  - id: crank_position
+    question: Is the crank handle pointing generally downwards and to the right (around the 4 o'clock
+      position)?
+    answer_type: yes_no
+    notes_for_judge: The crank started at 10 o'clock and rotated 180 degrees CCW.
+  - id: wheel_rotation_direction
+    question: Is the segment labeled 'Yellow' now positioned to the left of the top vertical center?
+    answer_type: yes_no
+    notes_for_judge: The wheel rotates CCW, moving the top segment to the left.
+  - id: wheel_rotation_magnitude
+    question: Is the yellow-orange segment (originally to the right of Yellow) now at or near the top
+      vertical position?
+    answer_type: yes_no
+    notes_for_judge: Due to the estimated 6:1 ratio, the wheel rotates ~30 degrees (one segment).
+  - id: green_segment_position
+    question: Is the green segment (on the left side) lower than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: CCW rotation moves the left side of the wheel downwards.
+  - id: red_segment_position
+    question: Is the red segment (on the right side) higher than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: CCW rotation moves the right side of the wheel upwards.
+  - id: hand_position
+    question: Is the hand visible and gripping the handle in its new lower-right position?
+    answer_type: yes_no
+    notes_for_judge: The hand must follow the crank handle.
+  - id: shavings_consistency
+    question: Are the wood shavings on the workbench still present and in the same arrangement?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

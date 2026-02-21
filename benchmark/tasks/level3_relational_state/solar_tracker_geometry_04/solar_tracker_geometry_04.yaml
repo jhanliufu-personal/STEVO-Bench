@@ -1,0 +1,67 @@
+id: solar_tracker_geometry_04
+level: 3
+category: relational_state
+tags: []
+variant_of: solar_tracker_geometry
+variation_type: dynamic_condition
+variation_description: The tracker gears are rusted and jammed, implying no movement.
+changes:
+  occlusion_method: null
+  dynamic_conditions: 'Mechanism failure: Gears are rusted and jammed.'
+  expected_outcome_change: No state change (panel remains at original angle).
+prompts:
+  init_frame_edit_prompt: Edit the image to make the mechanical gears of the tracker look heavily rusted,
+    corroded, and jammed with sand.
+  video_WM: The solar panel stands in the desert. The motor hums with a straining sound, but the rusted
+    gears are jammed solid with sand and do not turn. The sun remains bright and low in the sky. The camera
+    rotates right until the panel completely exits the view, then rotates toward the left smoothly at
+    the same rate until the shadow cast by the panel is back in the center of view. No zoom, no cut, no
+    scene change. STOP.
+  camera_WM: The solar panel stands in the desert. The motor hums with a straining sound, but the rusted
+    gears are jammed solid with sand and do not turn. The sun remains bright and low in the sky. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A large, rectangular solar panel mounted on a rusted mechanical tracker in a
+    desert environment. The panel is tilted at a steep angle, facing towards the upper right. A large,
+    circular gear mechanism with visible rust is attached to the side of the mount. The base is anchored
+    in orange sand. The sun is low on the horizon on the right side, casting a warm glow and long shadows.
+    The sky is a gradient of purple to orange.
+  init2final_edit_prompt: Edit the given image to show the exact same scene with no changes to the object's
+    pose. The solar panel must remain in the identical tilted position and orientation as the initial
+    view. The rusted gears and mechanical base must appear exactly as they were, with no rotation or movement.
+    The shadow cast by the structure on the sand must remain in the same position relative to the base.
+    The sun position and lighting should be identical to the original.
+  rationale: The video prompt explicitly states that the gears are jammed solid and do not turn, despite
+    the motor sound. Therefore, the physical state of the solar panel (its tilt, rotation, and configuration)
+    must remain strictly conserved. The camera rotates away and then returns to center the shadow; since
+    the object has not moved, the shadow has not moved relative to the ground, and the final view should
+    be geometrically identical to the initial frame. This task tests the model's ability to maintain state
+    stability and object permanence (conservation of pose) during occlusion when constraints prevent motion.
+  questions:
+  - id: panel_orientation_conserved
+    question: Is the relative orientation between the solar panel and its base identical to the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: The panel should not have moved; the angle should be exactly the same.
+  - id: gear_position_static
+    question: Is the position of the rusted gear mechanism relative to the support frame unchanged?
+    answer_type: yes_no
+    notes_for_judge: The gears are jammed and should not have rotated.
+  - id: shadow_relative_position
+    question: Is the shadow on the sand in the same position relative to the mechanical legs as in the
+      initial frame?
+    answer_type: yes_no
+    notes_for_judge: Since the panel didn't move, the shadow shouldn't move relative to the base.
+  - id: panel_tilt_preservation
+    question: Is the tilt angle of the solar panel conserved relative to the horizon?
+    answer_type: yes_no
+    notes_for_judge: Check if the slope of the panel is the same.
+  - id: rust_texture_consistency
+    question: Are the rust patterns on the gears and frame consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Tests object permanence/consistency after the camera looks away.
+  - id: sun_relative_position
+    question: Is the position of the sun relative to the tip of the solar panel unchanged?
+    answer_type: yes_no
+    notes_for_judge: The view is restored, and the panel hasn't moved, so the alignment should be identical.

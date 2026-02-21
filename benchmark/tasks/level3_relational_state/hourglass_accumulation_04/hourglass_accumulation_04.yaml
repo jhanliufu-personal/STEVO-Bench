@@ -1,0 +1,59 @@
+id: hourglass_accumulation_04
+level: 1
+category: scalar_state
+tags: []
+variant_of: hourglass_accumulation
+variation_type: dynamic_condition
+variation_description: The hourglass has already finished running, so no change should occur.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Top bulb is empty; all sand is at the bottom.
+  expected_outcome_change: No change in sand level (static state).
+prompts:
+  init_frame_edit_prompt: Edit the image so that the top bulb of the hourglass is completely empty and
+    all the white sand is settled in the bottom bulb.
+  video_WM: An hourglass stands on the table with all sand settled in the bottom bulb. The camera rotates
+    right until the hourglass completely exits the view, then rotates toward the left smoothly at the
+    same rate until the hourglass is back in the center of view. No zoom, no cut, no scene change. STOP.
+  camera_WM: An hourglass stands on the table with all sand settled in the bottom bulb. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A wooden hourglass stands on a wooden desk in a library setting. The hourglass
+    has three turned wood pillars. The bottom glass bulb contains a conical pile of white sand, indicating
+    the timer has run out. The top glass bulb is transparent and empty. In the background, there are bookshelves
+    filled with books, a window, and other desk items.
+  init2final_edit_prompt: Edit the given image to show the hourglass in the exact same state as the original.
+    Ensure the top bulb is completely empty and clear. Ensure the bottom bulb contains the white sand
+    pile settled at the bottom. Do not show any sand falling. The background, lighting, and object placement
+    should remain unchanged.
+  rationale: The video prompt describes an hourglass with sand already settled in the bottom bulb. It
+    describes camera movement (panning right then left) but describes no physical interaction with the
+    hourglass (such as flipping it). Since the sand is already at the bottom and the hourglass is not
+    flipped, the physical state of the system is static. The sand remains settled in the bottom bulb throughout
+    the duration of the camera movement. The final frame should be visually identical to the initial frame.
+  questions:
+  - id: q1
+    question: Is the top bulb of the hourglass empty?
+    answer_type: yes_no
+    notes_for_judge: The top bulb should be clear glass with no sand inside.
+  - id: q2
+    question: Is the white sand still located in the bottom bulb?
+    answer_type: yes_no
+    notes_for_judge: The sand should be a pile in the bottom, not in the top.
+  - id: q3
+    question: Is the sand settled without any visible flow?
+    answer_type: yes_no
+    notes_for_judge: There should be no vertical stream of sand falling between the bulbs.
+  - id: q4
+    question: Does the amount of sand in the bottom bulb appear the same as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The volume of sand should not have decreased or increased.
+  - id: q5
+    question: Is the hourglass standing upright on the table?
+    answer_type: yes_no
+    notes_for_judge: The object should not have fallen over.
+  - id: q6
+    question: Is the background visible through the clear top bulb?
+    answer_type: yes_no
+    notes_for_judge: Verifies the top bulb is transparent and empty.

@@ -1,0 +1,72 @@
+id: syringe_hydraulic_09
+level: 3
+category: relational_state
+tags: []
+variant_of: syringe_hydraulic
+variation_type: combined
+variation_description: Tubing has a hole/leak (condition) and steam obscures view (occlusion).
+changes:
+  occlusion_method: Steam fills view.
+  dynamic_conditions: Hole in tubing causing leak.
+  expected_outcome_change: Right plunger moves little or not at all; fluid spurts from leak.
+prompts:
+  init_frame_edit_prompt: Edit the image to show a visible rupture or hole in the middle of the plastic
+    tubing.
+  video_WM: A mechanical finger begins pressing the plunger of the left syringe. The tubing has a visible
+    rupture in the middle. The pressing continues at a constant rate. Thick white sterilization steam
+    begins to billow across the tray, quickly becoming dense enough to completely obscure the syringes.
+    The steam then dissipates, clearing the view. No zoom, no cut, no scene change. STOP.
+  camera_WM: A mechanical finger begins pressing the plunger of the left syringe. The tubing has a visible
+    rupture in the middle. The pressing continues at a constant rate. Thick white sterilization steam
+    begins to billow across the tray, quickly becoming dense enough to completely obscure the syringes.
+    The steam then dissipates, clearing the view. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: Two plastic syringes connected by a clear plastic tube resting on a metal tray
+    lined with a white cloth. The left syringe is filled with a red liquid resembling blood, while the
+    right syringe is empty with its plunger fully depressed. The tubing connecting them loops upward and
+    has a visible, jagged rupture or break at the top of the loop. A small amount of red fluid is already
+    splattered on the tubing and the cloth below the rupture.
+  init2final_edit_prompt: Edit the given image to show the aftermath of the left syringe plunger being
+    pressed. The plunger of the left syringe should be pushed significantly further into the barrel, leaving
+    less red fluid inside. The pool of red fluid on the white cloth and metal tray directly beneath the
+    ruptured tubing should be much larger and more spread out, indicating the fluid leaked out there.
+    The right syringe should remain empty with its plunger unchanged.
+  rationale: The prompt describes a hydraulic system where the connecting tubing is ruptured. When the
+    plunger of the filled (left) syringe is pressed, the hydraulic pressure will force the fluid out through
+    the path of least resistance, which is the rupture in the tubing, rather than pushing the plunger
+    of the second syringe. Therefore, the final state should show a decrease in fluid volume in the source
+    syringe, a significant increase in spilled fluid on the tray, and no change in the destination syringe
+    (it should not fill). The steam occlusion serves to mask the exact animation of the flow, but the
+    final state must reflect the accumulated mass transfer from the syringe to the tray.
+  questions:
+  - id: left_plunger_pos
+    question: Is the plunger of the left syringe pushed further into the barrel compared to the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: The plunger should have moved to the right (inwards) as fluid was expelled.
+  - id: left_fluid_vol
+    question: Is the volume of red fluid remaining inside the left syringe visibly less than in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: Since the plunger was pressed, fluid must leave the syringe.
+  - id: spill_size
+    question: Is the pool of red fluid on the white cloth larger than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The fluid forced out of the syringe must accumulate on the tray due to the rupture.
+  - id: right_syringe_empty
+    question: Does the right syringe remain empty or nearly empty?
+    answer_type: yes_no
+    notes_for_judge: Due to the rupture, fluid should leak out rather than transferring to the second
+      syringe.
+  - id: mass_conservation_leak
+    question: Does the increase in spilled fluid on the tray correspond to the loss of fluid from the
+      left syringe?
+    answer_type: yes_no
+    notes_for_judge: This checks for basic conservation; the fluid lost from the container must appear
+      as a spill.
+  - id: coupling_failure
+    question: Is the position of the right syringe's plunger unchanged relative to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The rupture breaks the hydraulic coupling, so the output piston should not move.

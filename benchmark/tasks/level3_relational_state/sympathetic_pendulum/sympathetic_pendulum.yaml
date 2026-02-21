@@ -13,3 +13,48 @@ prompts:
     pendulum systems. STOP.
 camera_control:
   HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: Two metal pendulums, labeled A (left) and B (right), hang from a curved, flexible
+    horizontal wooden rod suspended by strings. Pendulum A is swinging with significant amplitude, appearing
+    blurred and angled. Pendulum B is hanging vertically and appears stationary and sharp. The background
+    is a dimly lit workshop with a window on the left and tools in the background.
+  init2final_edit_prompt: Edit the given image to shift the framing so that Pendulum B is positioned in
+    the horizontal center of the image. Pendulum B should be depicted as swinging or tilted, showing motion
+    blur or displacement from the vertical, indicating it has absorbed energy. Pendulum A should be shifted
+    towards the left edge or partially out of frame. The background should shift leftwards consistent
+    with the camera panning right.
+  rationale: The prompt describes a coupled pendulum system where energy transfers from the swinging Pendulum
+    A to the stationary Pendulum B via the flexible rod (sympathetic resonance). As the camera performs
+    a pan maneuver (panning right until A exits, then panning left to center B), time passes, allowing
+    this energy transfer to occur. Therefore, in the final frame, Pendulum B must have started swinging
+    (showing tilt or blur) instead of remaining stationary. The final camera instruction explicitly places
+    Pendulum B in the center of the view, which is a shift to the right relative to the initial frame
+    where B was on the right side.
+  questions:
+  - id: cam_centering
+    question: Is Pendulum B positioned in the horizontal center of the frame?
+    answer_type: yes_no
+    notes_for_judge: The prompt explicitly states the camera moves until B is back in the center.
+  - id: physics_coupling_motion
+    question: Does Pendulum B appear to be swinging, tilted, or blurred due to motion?
+    answer_type: yes_no
+    notes_for_judge: In the initial frame, B is stationary. Due to sympathetic resonance with A, B should
+      start moving.
+  - id: physics_state_change
+    question: Is Pendulum B no longer hanging perfectly vertically stationary?
+    answer_type: yes_no
+    notes_for_judge: It should show signs of movement.
+  - id: cam_relative_pos_A
+    question: Is Pendulum A positioned further to the left (or out of frame) compared to the initial view?
+    answer_type: yes_no
+    notes_for_judge: Since the view centers on B (originally on the right), A (originally on the left)
+      must move further left.
+  - id: background_shift
+    question: Does the background appear shifted to the left relative to the pendulums compared to the
+      initial frame?
+    answer_type: yes_no
+    notes_for_judge: The camera is looking more to the right, so the background moves left in the frame.
+  - id: consistency_rod
+    question: Is the curved wooden rod still visible connecting the pendulum strings?
+    answer_type: yes_no
+    notes_for_judge: The mechanism should remain intact.

@@ -1,0 +1,66 @@
+id: newtons_cradle_06
+level: 2
+category: spatial_kinematics
+tags: []
+variant_of: newtons_cradle
+variation_type: dynamic_condition
+variation_description: The released ball is significantly larger/heavier than the others.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Released ball is 2x larger and heavier than stationary balls.
+  expected_outcome_change: The heavy ball will not stop upon impact; it will continue forward, pushing
+    multiple balls on the other side.
+prompts:
+  init_frame_edit_prompt: Edit the image so the single ball pulled back on the left is significantly larger
+    (2x diameter) and heavier-looking than the stationary balls.
+  video_WM: The large, heavy far-left ball is released. It swings toward the smaller stationary balls.
+    The camera rotates right until the cradle completely exits the view, then rotates toward the left
+    smoothly at the same rate until the entire cradle is back in the center of view. No zoom, no cut,
+    no scene change. STOP.
+  camera_WM: The large, heavy far-left ball is released to impact the line of smaller stationary balls.
+    Conservation of momentum applies with unequal masses. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a Newton's Cradle on a wooden desk. The apparatus
+    features a gold frame and five metal spheres suspended by strings. The leftmost sphere is noticeably
+    larger than the others and is currently pulled back and held high to the left, creating a significant
+    gap between it and the other four smaller spheres, which are hanging vertically in a stationary cluster
+    at the center. The background is a blurred interior with books and a window.
+  init2final_edit_prompt: Edit the given image to show the Newton's Cradle after the collision. The large
+    leftmost ball should be hanging vertically at the bottom of its swing, touching or very close to the
+    central group of balls. The rightmost ball should be swinging upwards and outwards to the right, clearly
+    displaced from the central cluster. The strings of the left ball should be vertical, and the strings
+    of the right ball should be angled to the right.
+  rationale: The video prompt describes the release of the raised left ball, which converts potential
+    energy into kinetic energy. As it swings down, it strikes the stationary balls, transferring momentum
+    through the line. This causes the rightmost ball (or balls) to swing outward to the right. The camera
+    pans away and then returns, meaning the collision occurs while the object is largely or fully occluded.
+    When the camera returns to the center, the system should be in a state of oscillation or settling.
+    The key state changes are that the left ball is no longer held at its initial high release point (it
+    is now lower), and the rightmost ball is no longer stationary (it is displaced to the right).
+  questions:
+  - id: left_ball_height
+    question: Is the large ball on the left lower than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The ball was initially held high; it should now be at or near the bottom of its swing.
+  - id: left_ball_position
+    question: Is the large ball on the left closer to the central group of balls than it was initially?
+    answer_type: yes_no
+    notes_for_judge: The gap visible in the first frame should be closed or significantly reduced.
+  - id: right_ball_motion
+    question: Has the rightmost ball moved to the right from its initial resting position?
+    answer_type: yes_no
+    notes_for_judge: Momentum transfer should cause the right ball to swing out.
+  - id: right_ball_height
+    question: Is the rightmost ball higher than its initial stationary position?
+    answer_type: yes_no
+    notes_for_judge: It should be swinging upwards.
+  - id: left_string_angle
+    question: Are the strings holding the large left ball more vertical than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Initially they were angled sharply to the left; now they should be near vertical.
+  - id: state_change_config
+    question: Is the configuration of the balls different from the initial 'one held up, four down' state?
+    answer_type: yes_no
+    notes_for_judge: The system should not look identical to the start; the collision must have occurred.

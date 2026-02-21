@@ -1,0 +1,60 @@
+id: sympathetic_pendulum_00
+level: 3
+category: relational_state
+tags: []
+variant_of: sympathetic_pendulum
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: Pendulum A continues its wide, heavy swing. The flexible bar allows small vibrations to travel
+    between the two mounts. Camera remains stationary throughout, keeping both Pendulum A and Pendulum
+    B fully visible in the frame. No zoom, no cut, no scene change. STOP.
+  camera_WM: Pendulum A continues its wide, heavy swing. The flexible bar allows small vibrations to travel
+    between the two mounts. Camera remains stationary throughout, keeping both Pendulum A and Pendulum
+    B fully visible in the frame. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: Two pendulums, labeled A and B, hang from a flexible horizontal wooden rod suspended
+    by strings. Pendulum A on the left is swung out to the far left side, indicating high amplitude. Pendulum
+    B on the right hangs vertically, appearing stationary. The background is a dimly lit workshop with
+    tools.
+  init2final_edit_prompt: Edit the image to show the progression of the pendulum motion. Position Pendulum
+    A so that it has swung to a different point in its arc, such as near the bottom or towards the right
+    side. Edit Pendulum B so that it is no longer hanging perfectly straight down but is slightly tilted
+    or displaced from the vertical, indicating it has started to swing in sympathy.
+  rationale: The system depicts coupled pendulums. As Pendulum A swings, its energy is transferred through
+    the flexible horizontal rod to Pendulum B. Over the duration of the video, Pendulum A will progress
+    through its arc (moving away from the initial peak), and Pendulum B will begin to oscillate (move
+    away from the vertical stationary position) due to the sympathetic resonance transmitted by the connecting
+    rod.
+  questions:
+  - id: pendulum_a_moved
+    question: Is Pendulum A in a different position along its arc compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Pendulum A should have moved from its extreme left position.
+  - id: pendulum_b_displaced
+    question: Is Pendulum B displaced from its original vertical resting position?
+    answer_type: yes_no
+    notes_for_judge: Pendulum B should show signs of movement (tilting) due to coupling.
+  - id: pendulum_b_swinging
+    question: Does Pendulum B appear to be swinging rather than hanging perfectly straight?
+    answer_type: yes_no
+    notes_for_judge: It should no longer be static/vertical.
+  - id: coupling_active
+    question: Do both pendulums appear to be in motion or displaced from vertical?
+    answer_type: yes_no
+    notes_for_judge: Tests the coupled state; A is driving, B is responding.
+  - id: rod_integrity
+    question: Is the horizontal wooden rod still suspended and connecting both pendulums?
+    answer_type: yes_no
+    notes_for_judge: Structural consistency check.
+  - id: pendulum_a_not_static
+    question: Has Pendulum A moved from the specific high-left point shown in the first image?
+    answer_type: yes_no
+    notes_for_judge: It should be elsewhere in its swing path.

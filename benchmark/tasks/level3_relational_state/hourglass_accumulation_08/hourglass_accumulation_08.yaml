@@ -1,0 +1,62 @@
+id: hourglass_accumulation_08
+level: 1
+category: scalar_state
+tags: []
+variant_of: hourglass_accumulation
+variation_type: combined
+variation_description: Combines lighting blackout with horizontal orientation.
+changes:
+  occlusion_method: Lights turn off.
+  dynamic_conditions: Hourglass horizontal.
+  expected_outcome_change: No flow.
+prompts:
+  init_frame_edit_prompt: Edit the image so the hourglass is lying horizontally on its side on the table.
+  video_WM: An hourglass lies on its side on the table. Suddenly, the room lights turn off, plunging the
+    scene into complete pitch darkness where nothing is visible. After a few seconds, the lights turn
+    back on, illuminating the scene exactly as before. No zoom, no cut, no scene change. STOP.
+  camera_WM: An hourglass lies on its side on the table. Suddenly, the room lights turn off, plunging
+    the scene into complete pitch darkness where nothing is visible. After a few seconds, the lights turn
+    back on, illuminating the scene exactly as before. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A wooden hourglass lying horizontally on its side on a wooden desk. The hourglass
+    has a three-pillar frame and hexagonal bases. Inside the glass bulbs, white sand is distributed between
+    both chambers, settled on the lower side of the glass due to gravity, indicating it is not currently
+    flowing. The background features a window providing bright natural light, a dark curtain or wall section,
+    and shelves filled with books.
+  init2final_edit_prompt: Edit the given image to show the hourglass remaining in its original position
+    lying on its side. Ensure the sand distribution inside the bulbs remains exactly the same as the original
+    image, with no sand flowing or shifting. Maintain the original bright, natural lighting and the arrangement
+    of background objects exactly as they were.
+  rationale: The hourglass is positioned on its side, meaning the channel connecting the bulbs is horizontal.
+    In this orientation, gravity acts perpendicular to the flow direction, preventing sand from moving
+    between the bulbs. The video prompt describes a period of darkness followed by the restoration of
+    the original lighting, with no mention of external agents moving the object. Therefore, the physical
+    state of the hourglass (sand distribution) must remain static, and the final frame should be visually
+    identical to the initial frame.
+  questions:
+  - id: hourglass_orientation
+    question: Is the hourglass still lying horizontally on its side?
+    answer_type: yes_no
+    notes_for_judge: The hourglass should not have stood up.
+  - id: sand_static_check
+    question: Does the sand appear to be in the same position within the bulbs as it was initially?
+    answer_type: yes_no
+    notes_for_judge: Since the hourglass is on its side, the sand should not flow.
+  - id: sand_distribution_preservation
+    question: Is the ratio of sand between the two bulbs unchanged from the initial frame?
+    answer_type: yes_no
+    notes_for_judge: No transfer of mass should occur.
+  - id: sand_settling
+    question: Is the sand still settled on the lower side of the glass bulbs relative to the table?
+    answer_type: yes_no
+    notes_for_judge: It should not be floating or falling through the neck.
+  - id: lighting_restoration
+    question: Is the scene illuminated with bright, natural-looking light similar to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the lighting returns exactly as before.
+  - id: background_stability
+    question: Are the books and shelves in the background still visible and unchanged?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

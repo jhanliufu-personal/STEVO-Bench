@@ -1,0 +1,67 @@
+id: ballistic_pendulum_06
+level: 3
+category: relational_state
+tags: []
+variant_of: ballistic_pendulum
+variation_type: dynamic_condition
+variation_description: Projectile changed to a rubber ball, implying an elastic collision (bouncing) rather
+  than embedding.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Projectile is a rubber ball (elastic collision) instead of metal (inelastic).
+  expected_outcome_change: The projectile will bounce off the block rather than embedding; the block will
+    still swing.
+prompts:
+  init_frame_edit_prompt: Edit the image to change the metal projectile to a bright red rubber ball.
+  video_WM: The red rubber ball makes direct contact with the wooden block. Instead of embedding, the
+    ball's material properties suggest it will bounce upon impact. The block is free to swing on its wire
+    suspension. The camera rotates right until the block completely exits the view, then rotates toward
+    the left smoothly at the same rate until the suspension pivot is back in the center of view. No zoom,
+    no cut, no scene change. STOP.
+  camera_WM: The red rubber ball makes direct contact with the wooden block. Instead of embedding, the
+    ball's material properties suggest it will bounce upon impact. The block is free to swing on its wire
+    suspension. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A large, dark, rectangular wooden block (resembling a railroad tie) is suspended
+    by two steel cables from a metal beam structure near the ceiling. A red sphere (ball) is in mid-air,
+    making contact with the left face of the wooden block. A cloud of dust and wood debris is exploding
+    outwards from the point of impact. The background shows an industrial interior with white walls, pipes,
+    and metal beams.
+  init2final_edit_prompt: Edit the given image to remove the red ball and the cloud of flying dust and
+    debris. Show the wooden block hanging suspended by its wires, with the impact site cleared. Restore
+    the texture of the wood and the background where the ball and dust previously occluded them. The final
+    image should depict the wooden block hanging alone in the room.
+  rationale: 'The prompt describes an elastic collision where the ball bounces off the block rather than
+    embedding. The camera motion (panning away and then returning) implies a passage of time sufficient
+    for the ball to rebound away and the immediate impact debris to settle or dissipate. Since the ball
+    bounces and the camera looks away, the ball will no longer be in the frame when the camera returns
+    to the initial view. The heavy block acts as a pendulum and may be swinging, but the most definitive
+    state change is the decoupling of the objects: the ball is gone, and the air is clear.'
+  questions:
+  - id: ball_absent
+    question: Is the red ball absent from the final frame?
+    answer_type: yes_no
+    notes_for_judge: The ball should have bounced off and the camera looked away; upon return, the ball
+      should be gone.
+  - id: debris_cleared
+    question: Has the cloud of dust and debris from the impact disappeared?
+    answer_type: yes_no
+    notes_for_judge: The explosion of dust should settle over time.
+  - id: block_isolated
+    question: Is the wooden block the only main object suspended in the center of the frame?
+    answer_type: yes_no
+    notes_for_judge: Checks that the ball is no longer coupled with the block.
+  - id: no_embedding
+    question: Does the wooden block appear free of any embedded red object?
+    answer_type: yes_no
+    notes_for_judge: Tests the material property constraint (bouncing, not embedding).
+  - id: wires_intact
+    question: Are the suspension cables still visible and supporting the block?
+    answer_type: yes_no
+    notes_for_judge: Consistency check for the suspension system.
+  - id: background_restored
+    question: Is the background visible in the area previously covered by the red ball?
+    answer_type: yes_no
+    notes_for_judge: Checks for proper inpainting/disocclusion.

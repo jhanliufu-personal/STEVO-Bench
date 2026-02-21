@@ -1,0 +1,71 @@
+id: magnetic_slingshot_02
+level: 3
+category: relational_state
+tags: []
+variant_of: magnetic_slingshot
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to lights turning off.
+changes:
+  occlusion_method: The lights in the room turn off completely.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The first magnetic puck approaches the second stationary puck at high speed. The repulsion
+    between the two North poles is significant. Neither puck is attached to the rail. Suddenly, the lights
+    turn off, plunging the scene into total darkness. After a moment, the lights turn back on. No zoom,
+    no cut, no scene change. STOP.
+  camera_WM: The first magnetic puck approaches the second stationary puck at high speed. The repulsion
+    between the two North poles is significant. Neither puck is attached to the rail. Suddenly, the lights
+    turn off, plunging the scene into total darkness. After a moment, the lights turn back on. No zoom,
+    no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A photo of a physics experiment setup featuring a clear acrylic inclined rail
+    labeled 'FRICTIONLESS RAIL' sloping downwards from left to right. Two cylindrical metal pucks are
+    on the rail. The upper puck (left) is positioned on its edge like a wheel, with a red 'N' on its flat
+    face pointing towards the camera. The lower puck (right) is lying flat on the rail, with a red 'N'
+    on its top face. A whiteboard with physics equations is visible in the background.
+  init2final_edit_prompt: Edit the given image to show the aftermath of the magnetic interaction. Move
+    the upper puck (with the 'N' facing the camera) down the incline to approximately the position originally
+    occupied by the lower puck. Move the lower puck (with the 'N' on top) significantly further down the
+    rail to the right, near the bottom-right edge of the frame, creating a large gap between the two pucks.
+    Ensure the 'N' on the first puck still faces the camera and the 'N' on the second puck remains on
+    top.
+  rationale: The setup describes a magnetic repulsion scenario on a frictionless incline. As the moving
+    upper puck approaches the stationary lower puck, the significant magnetic repulsion acts as an elastic
+    collision mechanism. Momentum is transferred from the moving puck to the stationary one. Consequently,
+    the lower puck is propelled rapidly down the rail, while the upper puck slows down or momentarily
+    stops near the point of impact (the lower puck's initial position). The final state should show the
+    lower puck far down the track and the upper puck advanced to the middle, with a significantly increased
+    separation distance between them.
+  questions:
+  - id: puck1_moved_down
+    question: Is the puck with the 'N' facing the camera located lower on the rail than it was in the
+      initial frame?
+    answer_type: yes_no
+    notes_for_judge: The upper puck should have moved down the slope due to gravity and momentum.
+  - id: puck2_moved_further
+    question: Is the puck with the 'N' on top located further to the right than the puck with the 'N'
+      facing the camera?
+    answer_type: yes_no
+    notes_for_judge: The lower puck should have been repelled and moved further down the track than the
+      upper puck.
+  - id: separation_increased
+    question: Is the distance between the two pucks significantly larger than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The magnetic repulsion should cause the pucks to separate.
+  - id: puck2_position
+    question: Is the puck with the 'N' on top positioned closer to the bottom-right edge of the rail than
+      its starting position?
+    answer_type: yes_no
+    notes_for_judge: It should have moved significantly down the rail.
+  - id: puck_identities_visible
+    question: Are both pucks still visible on the rail?
+    answer_type: yes_no
+    notes_for_judge: Both objects should remain in the scene.
+  - id: background_consistency
+    question: Is the 'FRICTIONLESS RAIL' text still visible and unchanged?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

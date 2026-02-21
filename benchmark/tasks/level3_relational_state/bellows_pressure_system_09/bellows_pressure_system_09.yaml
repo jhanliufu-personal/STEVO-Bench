@@ -1,0 +1,60 @@
+id: bellows_pressure_system_09
+level: 3
+category: relational_state
+tags: []
+variant_of: bellows_pressure_system
+variation_type: combined
+variation_description: Zoom occlusion combined with a clamped hose preventing airflow.
+changes:
+  occlusion_method: Camera zoom out.
+  dynamic_conditions: Hose clamped shut.
+  expected_outcome_change: The balloon remains deflated due to the blockage.
+prompts:
+  init_frame_edit_prompt: Edit the image to show a metal C-clamp clamped tightly around the middle of
+    the black rubber hose, pinching it flat.
+  video_WM: A mechanical press begins squeezing the handles of the bellows together at a constant speed.
+    The hose is tightly clamped shut by a metal C-clamp, blocking airflow. The camera zooms out until
+    the bellows and balloon are too small to distinguish details, then zooms back in to the original framing.
+    No cut, no scene change. STOP.
+  camera_WM: A mechanical press begins squeezing the handles of the bellows together at a constant speed.
+    The hose is tightly clamped shut by a metal C-clamp, blocking airflow. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+evaluation:
+  init_frame_description: A pair of wooden bellows with leather sides sits on a workbench, with the handles
+    separated in an open position. A black rubber hose connects the bellows' nozzle to a deflated blue
+    balloon. A metal C-clamp is tightened around the middle of the hose, pinching it shut.
+  init2final_edit_prompt: Edit the given image to show the wooden handles of the bellows squeezed tightly
+    together, significantly reducing the gap between them. Ensure the blue balloon remains completely
+    deflated and flat, appearing identical in size and shape to the original image. Keep the C-clamp attached
+    to the hose in its original position.
+  rationale: The mechanical press squeezes the bellows handles together, changing the bellows from an
+    open to a compressed state. However, because the C-clamp tightly blocks the hose, air cannot flow
+    from the bellows into the balloon. Therefore, despite the compression of the bellows, the balloon
+    does not inflate and remains in its initial deflated state. The camera returns to the original framing,
+    so the view remains static.
+  questions:
+  - id: bellows_compressed
+    question: Are the wooden handles of the bellows closer together than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The handles should be squeezed together.
+  - id: balloon_deflated
+    question: Is the blue balloon still deflated?
+    answer_type: yes_no
+    notes_for_judge: The balloon should not be inflated because the hose is clamped.
+  - id: balloon_size_unchanged
+    question: Does the blue balloon appear to be approximately the same size as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: It should not expand.
+  - id: clamp_presence
+    question: Is the C-clamp still visible on the hose?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: bellows_gap_reduced
+    question: Is the vertical gap between the bellows handles smaller than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Checks for compression of the bellows.
+  - id: balloon_flatness
+    question: Does the balloon remain flat rather than spherical?
+    answer_type: yes_no
+    notes_for_judge: Verifies lack of inflation.
