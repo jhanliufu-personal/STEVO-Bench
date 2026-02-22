@@ -278,6 +278,10 @@ def main() -> int:
         help="Override the n_gpu value from the model config for all local models.",
     )
     parser.add_argument(
+        "--verbose", action="store_true",
+        help="Stream script stdout/stderr live to the terminal (local models only).",
+    )
+    parser.add_argument(
         "--config", default="generation/configs/models.yaml",
         help="Path to the model registry YAML (default: generation/configs/models.yaml).",
     )
@@ -303,8 +307,14 @@ def main() -> int:
             return 1
         try:
             cfg = models_config[name]
-            if args.n_gpu is not None and cfg.get("type") == "local":
-                cfg = {**cfg, "n_gpu": args.n_gpu}
+            if cfg.get("type") == "local":
+                overrides = {}
+                if args.n_gpu is not None:
+                    overrides["n_gpu"] = args.n_gpu
+                if args.verbose:
+                    overrides["verbose"] = True
+                if overrides:
+                    cfg = {**cfg, **overrides}
             runners[name] = build_runner(name, cfg)
         except Exception as e:
             print(f"[ERROR] Could not initialize runner for '{name}': {e}", file=sys.stderr)

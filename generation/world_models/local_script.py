@@ -41,6 +41,7 @@ class LocalScriptRunner(WorldModelRunner):
         self.extra_args: List[str] = list(config.get("extra_args") or [])
         self.camera_control_default: Optional[str] = config.get("camera_control_default") or None
         self.n_gpu: Optional[int] = config.get("n_gpu") or None
+        self.verbose: bool = bool(config.get("verbose", False))
 
     def generate(
         self,
@@ -73,15 +74,16 @@ class LocalScriptRunner(WorldModelRunner):
 
         result = subprocess.run(
             cmd,
-            capture_output=True,
-            text=True,
             cwd=str(self.repo_path),
+            capture_output=not self.verbose,
+            text=not self.verbose,
         )
 
-        if result.stdout:
-            print(result.stdout, end="")
-        if result.stderr:
-            print(result.stderr, end="")
+        if not self.verbose and result.returncode != 0:
+            if result.stdout:
+                print(result.stdout, end="")
+            if result.stderr:
+                print(result.stderr, end="")
 
         if result.returncode != 0:
             print(
