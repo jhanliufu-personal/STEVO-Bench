@@ -4,66 +4,69 @@ category: spatial_kinematics
 tags: []
 variant_of: bouncing_ball_rebound
 variation_type: dynamic_condition
-variation_description: Object changed from tennis ball to a lump of wet clay (plastic deformation).
+variation_description: Floor changed to deep wet mud
 changes:
   occlusion_method: null
-  dynamic_conditions: Ball is wet clay (plastic deformation, no elasticity).
-  expected_outcome_change: The ball will not bounce at all; it will hit the floor and stick/deform.
+  dynamic_conditions: Floor is deep wet mud instead of hardwood
+  expected_outcome_change: Inelastic collision; ball should stick/embed in mud without bouncing
 prompts:
-  init_frame_edit_prompt: Edit the image to change the tennis ball into a gray lump of wet modeling clay.
-  video_WM: The lump of wet clay is released from the hand and becomes free to move. The floor is solid
-    hardwood. The object is soft clay prone to plastic deformation upon impact. Gravity acts on the object.
-    The camera rotates right at constant speed until the object and hand completely exit the view to the
-    right. The camera continues rotating right for several seconds while the object remains off-screen.
-    Then the camera rotates left smoothly at the same rate back to the original viewpoint. No zoom, no
-    cut, no scene change. STOP.
-  camera_WM: The lump of wet clay is released from the hand and becomes free to move. The floor is solid
-    hardwood. The object is soft clay prone to plastic deformation upon impact. Gravity acts on the object.
+  init_frame_edit_prompt: Edit the image to show the floor covered in a layer of thick, wet, brown mud.
+  video_WM: The ball is released from the hand and becomes free to move. The floor is covered in a layer
+    of thick, wet, viscous mud. The ball is a standard tennis ball. Gravity acts on the ball. The camera
+    rotates right at constant speed until the ball and hand completely exit the view to the right. The
+    camera continues rotating right for several seconds while the ball remains off-screen. Then the camera
+    rotates left smoothly at the same rate back to the original viewpoint. No zoom, no cut, no scene change.
     STOP.
+  camera_WM: The ball is released from the hand and becomes free to move. The floor is covered in a layer
+    of thick, wet, viscous mud. The ball is a standard tennis ball. Gravity acts on the ball during the
+    occlusion period. STOP.
 camera_control:
   HY-WorldPlay: s-3, right-30, left-30
   Genie: null
 evaluation:
-  init_frame_description: A close-up, slightly high-angle shot showing a person's arm and hand extending
-    from the right side of the frame. The hand is open with fingers spread, palm facing down. A rough,
-    grey lump of wet clay is suspended in mid-air just a few inches below the fingertips, hovering above
-    a polished hardwood floor. The background includes the wooden floorboards and a blurred section of
-    a wall and window.
-  init2final_edit_prompt: Edit the given image to show the lump of clay resting on the hardwood floor
-    directly vertically below the hand. The clay should appear flattened and deformed into a 'splat' shape,
-    consistent with soft material impacting a hard surface. The space in the air where the clay was originally
-    floating must be empty. Keep the hand, arm, and background in their original positions and appearance.
-  rationale: 'The prompt specifies that the clay is released and gravity acts upon it. Since the clay
-    is soft and prone to plastic deformation, it will fall, hit the floor, and deform (flatten) without
-    bouncing (inelastic collision). The camera rotates away and then returns to the exact original viewpoint.
-    Therefore, the final frame must show the aftermath of the fall: the clay resting on the floor in a
-    flattened state, vertically below the release point, while the hand remains empty.'
+  init_frame_description: A close-up, high-angle shot showing a robotic arm with a black carbon-fiber
+    texture and silver metal joints extending from the upper right. The robot's three-fingered gripper
+    is holding a bright yellow tennis ball. The arm is positioned over a wooden parquet floor that is
+    heavily covered in a layer of thick, dark brown, wet mud. The mud has a glossy, viscous texture with
+    visible streaks and footprints.
+  init2final_edit_prompt: Edit the given image to show the robotic gripper open and empty, with the fingers
+    spread apart as if it has released the object. Place the yellow tennis ball on the muddy floor directly
+    vertically below the gripper's position. The ball should appear to be resting in the thick mud, partially
+    embedded or settled, with some mud residue on its surface. Create a small impact impression or disturbance
+    in the mud immediately surrounding the ball. Maintain the exact original camera angle, lighting, and
+    background details.
+  rationale: The prompt specifies that the ball is released and gravity acts upon it. Since the floor
+    is covered in thick, wet, viscous mud, the collision will be highly inelastic; the ball will not bounce
+    significantly but will instead land, splat, and settle into the mud directly below the release point.
+    The camera pans away and then returns to the original viewpoint, meaning the fall and impact happen
+    while occluded. In the final state, the ball must be on the floor, the hand must be empty, and the
+    ball should be stationary given the time elapsed and the sticky nature of the surface.
   questions:
-  - id: clay_on_floor
-    question: Is the lump of clay resting on the wooden floor?
+  - id: ball_released
+    question: Is the robotic gripper empty?
     answer_type: yes_no
-    notes_for_judge: The clay should be in contact with the floorboards, not floating.
-  - id: clay_lower
-    question: Is the lump of clay at a lower vertical position than it was in the initial frame?
+    notes_for_judge: The gripper should no longer be holding the ball.
+  - id: ball_on_floor
+    question: Is the tennis ball resting on the muddy floor?
     answer_type: yes_no
-    notes_for_judge: Check for downward displacement.
-  - id: hand_empty
-    question: Is the space immediately below the hand empty?
+    notes_for_judge: The ball should be located on the ground surface.
+  - id: ball_vertical_pos
+    question: Is the tennis ball positioned lower in the frame than the robotic gripper?
     answer_type: yes_no
-    notes_for_judge: The clay should no longer be hovering just under the fingers.
-  - id: clay_deformed
-    question: Does the clay appear flattened or deformed compared to its initial shape?
+    notes_for_judge: The ball must have fallen downwards due to gravity.
+  - id: ball_displacement
+    question: Has the tennis ball moved downwards from its initial position?
     answer_type: yes_no
-    notes_for_judge: The prompt specifies plastic deformation upon impact.
-  - id: vertical_alignment
-    question: Is the clay positioned vertically below the hand?
+    notes_for_judge: Compare with the initial frame where the ball was held high.
+  - id: ball_mud_contact
+    question: Is the tennis ball in contact with the mud?
     answer_type: yes_no
-    notes_for_judge: It should have fallen straight down.
-  - id: downward_motion
-    question: Has the clay moved downwards from its starting location?
+    notes_for_judge: The ball should be touching the mud on the floor.
+  - id: ball_alignment
+    question: Is the tennis ball located roughly vertically below the gripper?
     answer_type: yes_no
-    notes_for_judge: Verifying the direction of gravity.
-  - id: floor_contact
-    question: Is the clay in contact with the floor surface?
+    notes_for_judge: Since it was dropped in viscous mud, it should not have rolled far.
+  - id: arm_invariant
+    question: Is the robotic arm still visible in the frame?
     answer_type: yes_no
-    notes_for_judge: It should have landed.
+    notes_for_judge: The camera returned to the original viewpoint, so the arm should be visible.

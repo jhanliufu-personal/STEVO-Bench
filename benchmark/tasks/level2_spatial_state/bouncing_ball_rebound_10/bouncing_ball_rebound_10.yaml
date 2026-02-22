@@ -4,60 +4,65 @@ category: spatial_kinematics
 tags: []
 variant_of: bouncing_ball_rebound
 variation_type: combined
-variation_description: Combined clay ball (no bounce) with camera retreat occlusion.
+variation_description: Sticky glue floor + Camera zoom occlusion
 changes:
-  occlusion_method: Camera moves backward.
-  dynamic_conditions: Ball is wet clay.
-  expected_outcome_change: Ball hits and sticks without bouncing; occlusion is via camera movement.
+  occlusion_method: Camera zooms out until details lost
+  dynamic_conditions: Floor covered in industrial adhesive
+  expected_outcome_change: Ball gets stuck on impact (no bounce) + different occlusion style
 prompts:
-  init_frame_edit_prompt: Edit the image to change the tennis ball into a gray lump of wet modeling clay.
-  video_WM: The lump of wet clay is released from the hand and becomes free to move. The floor is solid
-    hardwood. The object is soft clay prone to plastic deformation upon impact. Gravity acts on the object.
-    The camera moves backward rapidly, pulling away from the scene until the object and hand become tiny
-    specks indistinguishable in the distance. The camera holds this distant position for several seconds.
-    Then the camera moves forward smoothly back to the original viewpoint. No cut, no scene change. STOP.
-  camera_WM: The lump of wet clay is released from the hand and becomes free to move. The floor is solid
-    hardwood. The object is soft clay prone to plastic deformation upon impact. Gravity acts on the object.
-    STOP.
+  init_frame_edit_prompt: Edit the image to show the floor covered in a thick, shiny, sticky layer of
+    industrial adhesive glue.
+  video_WM: The ball is released from the hand and becomes free to move. The floor is coated in a thick
+    layer of industrial adhesive glue with extremely high tackiness. The ball is a standard tennis ball.
+    Gravity acts on the ball. The camera zooms out rapidly until the hand and ball are too small to distinguish,
+    losing all detail. The camera holds this distant view for several seconds. Then the camera zooms back
+    in smoothly to the original framing. No cut, no scene change. STOP.
+  camera_WM: The ball is released from the hand and becomes free to move. The floor is coated in a thick
+    layer of industrial adhesive glue with extremely high tackiness. The ball is a standard tennis ball.
+    Gravity acts on the ball during the occlusion period. STOP.
 camera_control:
-  HY-WorldPlay: null
+  HY-WorldPlay: s-31, w-32
   Genie: null
 evaluation:
-  init_frame_description: A high-angle close-up showing a lump of grey wet clay resting on a brown hardwood
-    floor. A human hand is hovering directly above the clay with fingers spread open, casting a shadow
-    on the clay and floor.
-  init2final_edit_prompt: Edit the given image to show the lump of clay flattened and squashed against
-    the floor, significantly reducing its height and increasing its width to simulate impact deformation.
-    Remove the hand from the image. Keep the hardwood floor texture, lighting, and camera angle exactly
-    the same.
-  rationale: The video prompt describes a sequence where a lump of wet clay is released, subjected to
-    gravity, and undergoes plastic deformation upon impact. Although the clay appears grounded in the
-    initial frame, the physics description implies a drop or settling event that results in the clay flattening
-    (squashing) rather than bouncing. The camera moves away for several seconds and then returns; during
-    this time, the hand that released the object would logically have moved away or exited the frame.
-    The final state should therefore depict the deformed clay in isolation.
+  init_frame_description: A close-up view of a robotic arm with a carbon fiber texture and the text 'DYNAMIX
+    ROBOTICS' on it. The arm has a three-fingered metal gripper holding a standard yellow tennis ball.
+    The background is a wooden parquet floor with a herringbone pattern, covered in a thick, shiny, wet-looking
+    layer of liquid or adhesive.
+  init2final_edit_prompt: Edit the given image to show the robotic gripper empty with its fingers slightly
+    open. Place the yellow tennis ball on the floor directly vertically below the gripper, resting on
+    the wet adhesive surface.
+  rationale: The prompt specifies that the ball is released and gravity acts on it, causing it to fall.
+    The critical physical constraint is the 'industrial adhesive glue with extremely high tackiness' on
+    the floor. Upon impact, a tennis ball hitting such a surface would stick immediately rather than bouncing
+    or rolling. The camera zooms out and back in, covering a duration of several seconds, which is sufficient
+    time for the ball to fall and settle. Therefore, in the final frame, the gripper should be empty and
+    the ball should be stationary on the floor directly below the release point.
   questions:
-  - id: clay_flattened
-    question: Is the clay lump flatter than it was in the initial frame?
+  - id: ball_detached
+    question: Is the tennis ball no longer being held by the robotic gripper?
     answer_type: yes_no
-    notes_for_judge: The clay should look squashed or compressed vertically due to plastic deformation.
-  - id: clay_spread
-    question: Is the clay wider or more spread out on the floor than initially?
+    notes_for_judge: The gripper should be empty.
+  - id: ball_vertical_pos
+    question: Is the tennis ball positioned lower in the frame than it was initially?
     answer_type: yes_no
-    notes_for_judge: Impact should cause the wet clay to expand horizontally.
-  - id: hand_removed
-    question: Is the hand no longer hovering directly over the clay?
+    notes_for_judge: It should have fallen to the floor.
+  - id: ball_on_floor
+    question: Is the tennis ball resting on the floor surface?
     answer_type: yes_no
-    notes_for_judge: The hand should be absent or moved to a different position after the elapsed time.
-  - id: clay_position_consistency
-    question: Is the clay still located on the hardwood floor?
+    notes_for_judge: The ball should be in contact with the wood/glue surface.
+  - id: ball_horizontal_alignment
+    question: Is the tennis ball located directly beneath the robotic gripper?
     answer_type: yes_no
-    notes_for_judge: The object should not have vanished or moved to a different background.
-  - id: deformation_visible
-    question: Does the clay appear to have lost its initial tall, rough shape?
+    notes_for_judge: It should fall straight down and stick, not roll away.
+  - id: gripper_state
+    question: Are the fingers of the robotic gripper open or empty?
     answer_type: yes_no
-    notes_for_judge: Check for loss of the initial specific lump shape due to deformation.
+    notes_for_judge: The hand released the ball.
   - id: floor_consistency
-    question: Is the floor texture consistent with the initial frame?
+    question: Is the herringbone pattern of the wooden floor still visible?
     answer_type: yes_no
-    notes_for_judge: Secondary consistency check for the environment.
+    notes_for_judge: Background consistency check.
+  - id: arm_consistency
+    question: Is the robotic arm still visible in the upper right area?
+    answer_type: yes_no
+    notes_for_judge: The camera returned to the original framing.

@@ -4,64 +4,65 @@ category: spatial_kinematics
 tags: []
 variant_of: bouncing_ball_rebound
 variation_type: occlusion_method
-variation_description: Occlusion changed from camera rotation to camera moving backward (dolly out) until
-  details are lost.
+variation_description: Occlusion changed from camera rotation to thick fog filling the room
 changes:
-  occlusion_method: Camera moves backward physically away from the scene until the ball is too small to
-    see.
+  occlusion_method: Thick white fog/smoke fills the space
   dynamic_conditions: null
   expected_outcome_change: same dynamics
 prompts:
   init_frame_edit_prompt: '[NO CHANGE]'
   video_WM: The ball is released from the hand and becomes free to move. The floor is solid hardwood with
     elastic properties. The ball is a standard tennis ball with typical bounce characteristics. Gravity
-    acts on the ball. The camera moves backward rapidly, pulling away from the scene until the ball and
-    hand become tiny specks indistinguishable in the distance. The camera holds this distant position
-    for several seconds. Then the camera moves forward smoothly back to the original viewpoint. No cut,
-    no scene change. STOP.
+    acts on the ball. Rapidly, thick white fog fills the entire room, obscuring the floor, the hand, and
+    the ball completely. The fog swirls densely for several seconds, hiding all motion. Then the fog dissipates
+    quickly, clearing the view. No zoom, no cut, no scene change. STOP.
   camera_WM: The ball is released from the hand and becomes free to move. The floor is solid hardwood
     with elastic properties. The ball is a standard tennis ball with typical bounce characteristics. Gravity
-    acts on the ball. STOP.
+    acts on the ball. Rapidly, thick white fog fills the entire room, obscuring the floor, the hand, and
+    the ball completely. The fog swirls densely for several seconds, hiding all motion. Then the fog dissipates
+    quickly, clearing the view. STOP.
 camera_control:
   HY-WorldPlay: null
   Genie: null
 evaluation:
-  init_frame_description: A close-up, high-angle shot showing a person's hand in the upper right corner,
-    palm open and facing down. A yellow-green tennis ball is suspended in mid-air immediately below the
-    fingertips, having just been released. The background consists of a polished hardwood floor and a
-    section of a window with white trim in the upper background.
-  init2final_edit_prompt: Edit the given image to show the tennis ball resting on the wooden floor, vertically
-    below the hand. Remove the ball from its original position in mid-air just below the fingers, leaving
-    the hand empty. Ensure the background, lighting, and hand position remain unchanged.
-  rationale: The video prompt describes a sequence where the camera moves away and then returns to the
-    original viewpoint over a period of 'several seconds'. During this elapsed time, gravity acts on the
-    released ball, causing it to fall, hit the floor, and bounce. Given the duration of the camera movement,
-    the ball will have had time to bounce multiple times and lose energy, likely settling on the floor
-    or rolling by the time the camera returns. Therefore, in the final frame, the ball should be on the
-    floor rather than in the air near the hand.
+  init_frame_description: A close-up view of a robotic arm with a black carbon fiber texture and silver
+    metal joints extending from the top right. The arm's three-fingered gripper is holding a yellow-green
+    tennis ball. The background is a polished hardwood floor with a herringbone pattern, showing reflections
+    of light.
+  init2final_edit_prompt: Edit the given image to show the robotic gripper empty, with the fingers open.
+    Place the tennis ball on the hardwood floor directly below the gripper, resting on the surface. Ensure
+    the ball casts a natural shadow on the floor.
+  rationale: The prompt specifies that the ball is released and gravity acts upon it. Although the floor
+    is elastic and the ball would bounce, the duration of 'several seconds' during which the fog swirls
+    is sufficient for the ball's kinetic energy to dissipate significantly, causing it to settle on the
+    floor or roll to a stop. The fog dissipates at the end, revealing the final state where the ball is
+    no longer in the gripper but resting on the floor below.
   questions:
+  - id: ball_separated
+    question: Is the tennis ball separated from the robotic gripper?
+    answer_type: yes_no
+    notes_for_judge: The ball should no longer be held by the fingers.
   - id: ball_lower
-    question: Is the tennis ball located lower in the frame than it was initially?
+    question: Is the tennis ball positioned lower than its initial height?
     answer_type: yes_no
-    notes_for_judge: The ball should have fallen due to gravity.
+    notes_for_judge: The ball must have fallen due to gravity.
   - id: ball_on_floor
-    question: Is the tennis ball resting on or very close to the wooden floor?
+    question: Is the tennis ball resting on or very near the floor surface?
     answer_type: yes_no
-    notes_for_judge: After several seconds, the ball should have settled.
-  - id: hand_empty
-    question: Is the space immediately below the hand empty?
+    notes_for_judge: After several seconds, the ball should have settled on the floor.
+  - id: gripper_empty
+    question: Is the robotic gripper empty?
     answer_type: yes_no
-    notes_for_judge: The ball should no longer be floating right under the fingers.
-  - id: vertical_gap
-    question: Is the vertical distance between the hand and the ball significantly larger than in the
-      initial frame?
+    notes_for_judge: The gripper should not be holding anything.
+  - id: vertical_alignment
+    question: Is the tennis ball located generally below the gripper's position?
     answer_type: yes_no
-    notes_for_judge: The ball falls away from the hand.
-  - id: hand_position
-    question: Is the hand still visible in the upper right quadrant of the image?
+    notes_for_judge: It should fall roughly vertically, allowing for minor bounce displacement.
+  - id: fog_cleared
+    question: Is the view clear of the thick white fog mentioned in the prompt?
     answer_type: yes_no
-    notes_for_judge: The camera returns to the original view; the hand position shouldn't change much.
-  - id: background_consistency
-    question: Is the wooden floor pattern visible and consistent with the initial frame?
+    notes_for_judge: The prompt states the fog dissipates quickly, clearing the view.
+  - id: floor_consistency
+    question: Is the herringbone floor pattern visible and consistent with the initial frame?
     answer_type: yes_no
-    notes_for_judge: The environment should not change.
+    notes_for_judge: The environment should remain unchanged.

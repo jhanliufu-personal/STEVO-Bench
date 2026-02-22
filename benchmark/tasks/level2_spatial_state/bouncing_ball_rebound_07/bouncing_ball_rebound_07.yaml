@@ -4,68 +4,64 @@ category: spatial_kinematics
 tags: []
 variant_of: bouncing_ball_rebound
 variation_type: combined
-variation_description: Combined soft foam floor (damping) with lights-off occlusion.
+variation_description: Soft foam floor + Lights off occlusion
 changes:
-  occlusion_method: Lights turn off completely.
-  dynamic_conditions: Floor is soft foam.
-  expected_outcome_change: Ball bounces very little or stops; occlusion is via darkness.
+  occlusion_method: Lights turn off completely
+  dynamic_conditions: Floor is soft memory foam
+  expected_outcome_change: Ball bounces less/stops (dampened) + different occlusion style
 prompts:
-  init_frame_edit_prompt: Edit the image to change the hardwood floor to a thick, soft, gray foam exercise
-    mat surface.
-  video_WM: The ball is released from the hand and becomes free to move. The floor is a thick layer of
-    soft foam with high shock-absorbing properties. The ball is a standard tennis ball. Gravity acts on
-    the ball. Suddenly, the lights in the room turn off completely, plunging the scene into absolute pitch
-    black darkness. The darkness persists for several seconds while the ball remains unseen. Then the
-    lights turn back on instantly, restoring the original lighting. No zoom, no cut, no scene change.
-    STOP.
-  camera_WM: The ball is released from the hand and becomes free to move. The floor is a thick layer of
-    soft foam with high shock-absorbing properties. The ball is a standard tennis ball. Gravity acts on
-    the ball. Suddenly, the lights in the room turn off completely, plunging the scene into absolute pitch
-    black darkness. The darkness persists for several seconds while the ball remains unseen. Then the
-    lights turn back on instantly, restoring the original lighting. No zoom, no cut, no scene change.
-    STOP.
+  init_frame_edit_prompt: Edit the image to replace the hardwood floor with a thick, soft, dark grey memory
+    foam gym mat texture.
+  video_WM: The ball is released from the hand and becomes free to move. The floor is covered in a thick,
+    soft memory foam gym mat designed to absorb impact. The ball is a standard tennis ball. Gravity acts
+    on the ball. Suddenly, the lights in the room turn off completely, plunging the scene into total darkness.
+    The darkness persists for several seconds while the ball remains unseen. Then the lights turn back
+    on, restoring the original illumination. No zoom, no cut, no scene change. STOP.
+  camera_WM: The ball is released from the hand and becomes free to move. The floor is covered in a thick,
+    soft memory foam gym mat designed to absorb impact. The ball is a standard tennis ball. Gravity acts
+    on the ball. Suddenly, the lights in the room turn off completely, plunging the scene into total darkness.
+    The darkness persists for several seconds while the ball remains unseen. Then the lights turn back
+    on, restoring the original illumination. STOP.
 camera_control:
   HY-WorldPlay: null
   Genie: null
 evaluation:
-  init_frame_description: A close-up, high-angle shot showing a person's hand with fingers spread open,
-    having just released a yellow tennis ball. The ball is suspended in mid-air slightly below the palm.
-    The background consists of a gray, interlocking foam floor mat. Natural light illuminates the scene
-    from a window on the right side.
-  init2final_edit_prompt: Edit the given image to show the tennis ball resting on the gray foam floor
-    mat, directly vertically below the hand. The ball should be in contact with the floor surface, appearing
-    stationary. Keep the hand, the gray floor texture, and the lighting identical to the original image.
-  rationale: The ball is released and gravity pulls it downwards. The floor is described as soft, shock-absorbing
-    foam, which dampens the bounce. The blackout lasts for 'several seconds', which is ample time for
-    the ball to fall, impact the floor, lose its kinetic energy due to the shock-absorbing surface, and
-    settle to a stop. When the lights turn back on, the ball must be resting on the floor directly below
-    the release point.
+  init_frame_description: A close-up shot of a robotic arm with a black carbon fiber and silver metal
+    finish. The arm has a three-fingered claw gripper holding a standard yellow-green tennis ball. The
+    background is a textured, dark grey surface, resembling a soft memory foam mat, with a visible depression
+    or indentation directly below the suspended ball.
+  init2final_edit_prompt: Edit the given image to show the robotic gripper claws open and empty. Place
+    the tennis ball resting on the grey foam surface directly vertically below the open gripper. The ball
+    should appear stationary on the mat, sitting in or near the indentation on the floor.
+  rationale: 'The prompt describes a physical sequence where the ball is released and subjected to gravity.
+    The ''several seconds'' of darkness allow sufficient time for the ball to fall and settle. Since the
+    surface is described as soft memory foam designed to absorb impact, the ball will not bounce significantly
+    but will instead land and come to rest on the surface directly below the release point. The final
+    state shows the aftermath: the gripper is open (having released the ball) and the ball is resting
+    on the floor.'
   questions:
-  - id: ball_on_floor
-    question: Is the tennis ball resting on the gray floor mat?
-    answer_type: yes_no
-    notes_for_judge: The ball should be in contact with the ground, not floating.
-  - id: ball_lower
+  - id: ball_vertical_pos
     question: Is the tennis ball positioned lower in the frame than it was initially?
     answer_type: yes_no
-    notes_for_judge: It must have fallen due to gravity.
-  - id: vertical_alignment
-    question: Is the tennis ball located vertically below the hand?
+    notes_for_judge: The ball should have fallen from the gripper to the floor.
+  - id: ball_contact
+    question: Is the tennis ball resting on the grey surface?
     answer_type: yes_no
-    notes_for_judge: It should drop straight down without significant lateral movement.
-  - id: not_in_air
-    question: Is the tennis ball no longer floating in mid-air?
+    notes_for_judge: The ball should be in contact with the mat, not floating.
+  - id: gripper_state
+    question: Are the robotic gripper claws open?
     answer_type: yes_no
-    notes_for_judge: It should have settled on the surface.
+    notes_for_judge: The gripper must open to release the ball.
+  - id: gripper_empty
+    question: Is the robotic gripper empty?
+    answer_type: yes_no
+    notes_for_judge: The ball should no longer be inside the gripper.
+  - id: ball_alignment
+    question: Is the tennis ball located vertically below the robotic gripper?
+    answer_type: yes_no
+    notes_for_judge: Gravity pulls the ball straight down; it should not have moved significantly left
+      or right.
   - id: lighting_restored
-    question: Is the scene illuminated (not pitch black)?
+    question: Is the scene illuminated similarly to the initial frame?
     answer_type: yes_no
-    notes_for_judge: The prompt states the lights turn back on.
-  - id: hand_visible
-    question: Is the hand still visible in the upper portion of the frame?
-    answer_type: yes_no
-    notes_for_judge: Consistency check for the static camera and actor.
-  - id: floor_texture_consistency
-    question: Is the gray interlocking floor mat texture still visible?
-    answer_type: yes_no
-    notes_for_judge: Consistency check for the background.
+    notes_for_judge: The prompt states the lights turn back on, restoring original illumination.

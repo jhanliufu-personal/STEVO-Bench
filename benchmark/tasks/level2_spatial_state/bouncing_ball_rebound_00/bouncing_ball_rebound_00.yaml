@@ -21,46 +21,44 @@ camera_control:
   HY-WorldPlay: null
   Genie: null
 evaluation:
-  init_frame_description: A close-up shot showing a person's right arm and hand extending from the upper
-    right. The hand is open with fingers splayed, palm facing downwards. A yellow-green tennis ball is
-    suspended in mid-air immediately below the fingertips, appearing to have just been released. The background
-    consists of a polished hardwood floor and a white baseboard.
-  init2final_edit_prompt: Edit the given image to show the tennis ball positioned significantly lower
-    in the frame, closer to the hardwood floor, indicating it has fallen under gravity. The hand should
-    remain in the upper right quadrant but must be clearly separated from the ball with no contact. The
-    ball should maintain its approximate horizontal alignment with the hand but be vertically displaced
-    downwards.
-  rationale: The prompt specifies that the ball is released and acted upon by gravity. Whether the video
-    captures the initial fall or a subsequent rebound, the physical law of conservation of energy and
-    inelastic collision (coefficient of restitution < 1) dictates that the ball will never return to or
-    exceed its initial release height. Therefore, in any valid future state after release, the ball must
-    be vertically lower than its starting position. The hand is no longer holding the ball, so the distance
-    between them must increase.
+  init_frame_description: A robotic arm with a black carbon-fiber texture and silver joints extends from
+    the top right corner. It has a claw-style gripper holding a standard yellow tennis ball. The background
+    is a polished wooden parquet floor with a herringbone pattern, reflecting light from a window.
+  init2final_edit_prompt: Edit the given image to show the robotic gripper jaws open and empty. Position
+    the yellow tennis ball in mid-air, vertically below the gripper and significantly closer to the wooden
+    floor. Maintain the original background and camera perspective.
+  rationale: The prompt specifies that the ball is released from the hand, meaning the gripper must open.
+    Once released, gravity acts on the ball, causing it to accelerate downwards. Therefore, in the final
+    state, the ball must be physically separated from the gripper and located at a lower vertical position,
+    closer to the floor than in the initial frame. The camera remains stationary, so the background and
+    arm position should remain largely unchanged.
   questions:
+  - id: ball_separated
+    question: Is the tennis ball physically separated from the robotic gripper?
+    answer_type: yes_no
+    notes_for_judge: The ball should no longer be touching the gripper jaws.
   - id: ball_lower
     question: Is the tennis ball positioned lower in the frame than it was in the initial image?
     answer_type: yes_no
-    notes_for_judge: Compare the vertical center of the ball in both images. It must be lower in the final
-      frame.
-  - id: separation_increased
-    question: Is the vertical distance between the hand and the tennis ball greater than in the initial
-      frame?
+    notes_for_judge: Compare the vertical center of the ball in both frames.
+  - id: gripper_open
+    question: Are the jaws of the robotic gripper open or empty?
     answer_type: yes_no
-    notes_for_judge: The ball should have moved away from the hand downwards.
-  - id: ball_detached
-    question: Is the tennis ball completely separated from the hand?
+    notes_for_judge: The gripper should not be holding the ball.
+  - id: ball_closer_floor
+    question: Is the tennis ball closer to the wooden floor than it was initially?
     answer_type: yes_no
-    notes_for_judge: There should be clear space between the fingers and the ball.
-  - id: horizontal_alignment
-    question: Is the tennis ball roughly vertically aligned with the hand (not moved significantly left
-      or right)?
+    notes_for_judge: The distance between the ball and the floor should have decreased.
+  - id: vertical_alignment
+    question: Is the tennis ball positioned vertically below the gripper?
     answer_type: yes_no
-    notes_for_judge: Gravity acts vertically; significant lateral movement without external force is incorrect.
-  - id: hand_empty
-    question: Is the hand empty (not holding any object)?
+    notes_for_judge: The ball should fall straight down due to gravity, maintaining rough horizontal alignment
+      with the release point.
+  - id: background_consistency
+    question: Is the wooden floor pattern unchanged?
     answer_type: yes_no
-    notes_for_judge: The hand should have released the ball.
-  - id: floor_visible
-    question: Is the hardwood floor still visible at the bottom of the frame?
+    notes_for_judge: The parquet pattern should remain consistent.
+  - id: arm_presence
+    question: Is the robotic arm still visible in the top right area of the frame?
     answer_type: yes_no
-    notes_for_judge: Secondary consistency check.
+    notes_for_judge: The arm should not disappear.

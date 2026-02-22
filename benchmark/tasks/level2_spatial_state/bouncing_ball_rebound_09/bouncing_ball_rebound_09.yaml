@@ -4,64 +4,70 @@ category: spatial_kinematics
 tags: []
 variant_of: bouncing_ball_rebound
 variation_type: combined
-variation_description: Combined superball (high bounce) with fog occlusion.
+variation_description: Mud floor + Fog occlusion
 changes:
-  occlusion_method: Thick fog fills the room.
-  dynamic_conditions: Ball is a high-elasticity rubber superball.
-  expected_outcome_change: Ball bounces higher and longer than the tennis ball; occlusion is via fog.
+  occlusion_method: Thick fog fills room
+  dynamic_conditions: Floor is wet mud
+  expected_outcome_change: Ball sticks in mud (no bounce) + different occlusion style
 prompts:
-  init_frame_edit_prompt: Edit the image to change the tennis ball into a small, shiny, colorful rubber
-    superball.
-  video_WM: The rubber superball is released from the hand and becomes free to move. The floor is solid
-    hardwood. The ball is made of high-elasticity polymer designed for maximum energy conservation. Gravity
-    acts on the ball. Suddenly, thick, opaque white fog rapidly fills the room, obscuring all details
-    and hiding the ball completely from view. The fog remains dense for several seconds. Then the fog
-    clears rapidly, restoring visibility. No zoom, no cut, no scene change. STOP.
-  camera_WM: The rubber superball is released from the hand and becomes free to move. The floor is solid
-    hardwood. The ball is made of high-elasticity polymer designed for maximum energy conservation. Gravity
-    acts on the ball. Suddenly, thick, opaque white fog rapidly fills the room, obscuring all details
-    and hiding the ball completely from view. The fog remains dense for several seconds. Then the fog
-    clears rapidly, restoring visibility. No zoom, no cut, no scene change. STOP.
+  init_frame_edit_prompt: Edit the image to show the floor covered in a layer of thick, wet, brown mud.
+  video_WM: The ball is released from the hand and becomes free to move. The floor is covered in a layer
+    of thick, wet, viscous mud. The ball is a standard tennis ball. Gravity acts on the ball. Rapidly,
+    thick white fog fills the entire room, obscuring the floor, the hand, and the ball completely. The
+    fog swirls densely for several seconds, hiding all motion. Then the fog dissipates quickly, clearing
+    the view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The ball is released from the hand and becomes free to move. The floor is covered in a layer
+    of thick, wet, viscous mud. The ball is a standard tennis ball. Gravity acts on the ball. Rapidly,
+    thick white fog fills the entire room, obscuring the floor, the hand, and the ball completely. The
+    fog swirls densely for several seconds, hiding all motion. Then the fog dissipates quickly, clearing
+    the view. STOP.
 camera_control:
   HY-WorldPlay: null
   Genie: null
 evaluation:
-  init_frame_description: A close-up, high-angle shot showing a person's arm and hand extended over a
-    polished hardwood floor. The hand is open with fingers slightly curled, and a colorful, multi-colored
-    swirled rubber ball is suspended in mid-air just below the fingertips, appearing to have just been
-    released.
-  init2final_edit_prompt: Edit the given image to show the colorful rubber ball resting on the hardwood
-    floor significantly below the hand, instead of hovering in the air near the fingers. The space immediately
-    below the hand should be empty. Keep the hand, arm, and background floor details identical to the
-    original view.
-  rationale: The ball is released and subjected to gravity, causing it to fall towards the floor. Although
-    the fog obscures the scene for several seconds, the physical laws of gravity and energy conservation
-    dictate that the ball will fall, hit the floor, and bounce. After several seconds, due to energy dissipation
-    from impacts, the ball will be at a lower height than its release point, likely resting on the floor
-    or bouncing at a low amplitude. The fog clears, restoring visibility of the scene with the ball in
-    this new, lower position.
+  init_frame_description: A robotic arm with a black carbon-fiber texture and silver joints extends from
+    the upper right corner. It has a mechanical gripper holding a standard yellow-green tennis ball. The
+    floor below is parquet wood but is heavily covered in a layer of thick, wet, dark brown mud or sludge,
+    which has a glossy, uneven texture.
+  init2final_edit_prompt: Edit the given image to show the robotic gripper open and empty. Place the yellow
+    tennis ball on the muddy floor, positioned directly vertically below the gripper. The ball should
+    appear resting on the surface of the wet mud. Maintain the original camera angle, lighting, and the
+    position of the robotic arm.
+  rationale: The ball is released from the gripper and gravity pulls it downwards. Although the intermediate
+    motion is obscured by fog, the physical environment (thick, viscous mud) dictates the final state.
+    Upon impact, the mud absorbs the kinetic energy of the light tennis ball, preventing a significant
+    bounce. After several seconds, the ball settles on the mud surface directly below the release point.
+    The fog dissipates, revealing the ball on the floor and the empty gripper.
   questions:
-  - id: ball_vertical_pos
-    question: Is the colorful ball positioned lower in the frame than it was in the initial image?
+  - id: '1'
+    question: Is the tennis ball resting on the muddy floor?
     answer_type: yes_no
-    notes_for_judge: The ball should have fallen due to gravity.
-  - id: ball_displacement
-    question: Has the ball moved downwards from its starting position near the hand?
+    notes_for_judge: The ball should be on the ground surface.
+  - id: '2'
+    question: Is the robotic gripper empty?
     answer_type: yes_no
-    notes_for_judge: Check for downward displacement.
-  - id: hand_empty
-    question: Is the space immediately below the fingers empty?
+    notes_for_judge: The gripper should no longer be holding the ball.
+  - id: '3'
+    question: Is the tennis ball positioned lower than the robotic gripper?
     answer_type: yes_no
-    notes_for_judge: The ball should no longer be hovering right under the hand.
-  - id: floor_proximity
-    question: Is the ball closer to the hardwood floor than it is to the hand?
+    notes_for_judge: The ball must have fallen due to gravity.
+  - id: '4'
+    question: Has the tennis ball moved downwards from its initial position?
     answer_type: yes_no
-    notes_for_judge: After falling, it should be near or on the floor.
-  - id: visibility_restored
-    question: Is the colorful ball clearly visible?
+    notes_for_judge: Check for vertical displacement.
+  - id: '5'
+    question: Is the tennis ball located vertically below the gripper?
     answer_type: yes_no
-    notes_for_judge: The fog has cleared, so the object should be visible.
-  - id: fog_cleared
-    question: Are the floor details and the hand visible without obstruction?
+    notes_for_judge: The trajectory should be vertical; the ball should not have moved significantly sideways.
+  - id: '6'
+    question: Is the tennis ball visible in the frame?
     answer_type: yes_no
-    notes_for_judge: Verifies the fog has cleared.
+    notes_for_judge: The fog must have cleared, revealing the ball.
+  - id: '7'
+    question: Is the robotic arm still visible in the upper right area?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: '8'
+    question: Is the texture of the muddy floor visible?
+    answer_type: yes_no
+    notes_for_judge: Verifies the fog has dissipated.

@@ -4,68 +4,68 @@ category: spatial_kinematics
 tags: []
 variant_of: bouncing_ball_rebound
 variation_type: occlusion_method
-variation_description: Occlusion changed from camera rotation to lights turning off (pitch black).
+variation_description: Occlusion changed from camera rotation to lights turning off
 changes:
-  occlusion_method: Lights turn off completely, plunging the scene into darkness, then turn back on.
+  occlusion_method: Lights turn off completely (pitch black)
   dynamic_conditions: null
   expected_outcome_change: same dynamics
 prompts:
   init_frame_edit_prompt: '[NO CHANGE]'
   video_WM: The ball is released from the hand and becomes free to move. The floor is solid hardwood with
     elastic properties. The ball is a standard tennis ball with typical bounce characteristics. Gravity
-    acts on the ball. Suddenly, the lights in the room turn off completely, plunging the scene into absolute
-    pitch black darkness. The darkness persists for several seconds while the ball remains unseen. Then
-    the lights turn back on instantly, restoring the original lighting. No zoom, no cut, no scene change.
-    STOP.
+    acts on the ball. Suddenly, the lights in the room turn off completely, plunging the scene into total
+    darkness. The darkness persists for several seconds while the ball remains unseen. Then the lights
+    turn back on, restoring the original illumination. No zoom, no cut, no scene change. STOP.
   camera_WM: The ball is released from the hand and becomes free to move. The floor is solid hardwood
     with elastic properties. The ball is a standard tennis ball with typical bounce characteristics. Gravity
-    acts on the ball. Suddenly, the lights in the room turn off completely, plunging the scene into absolute
-    pitch black darkness. The darkness persists for several seconds while the ball remains unseen. Then
-    the lights turn back on instantly, restoring the original lighting. No zoom, no cut, no scene change.
-    STOP.
+    acts on the ball. Suddenly, the lights in the room turn off completely, plunging the scene into total
+    darkness. The darkness persists for several seconds while the ball remains unseen. Then the lights
+    turn back on, restoring the original illumination. STOP.
 camera_control:
   HY-WorldPlay: null
   Genie: null
 evaluation:
-  init_frame_description: A close-up, high-angle shot showing a person's arm and hand releasing a yellow
-    tennis ball. The ball is suspended in mid-air just below the fingertips in the center of the frame.
-    The background consists of a polished brown hardwood floor, a white baseboard, and a window letting
-    in natural daylight. A dark furniture leg is visible in the upper left.
-  init2final_edit_prompt: Edit the given image to place the yellow tennis ball on the hardwood floor in
-    the bottom center of the frame. Remove the ball from its original mid-air position near the fingers
-    so that the space below the hand is empty. Ensure the ball appears to be resting on the floor surface
-    while maintaining the original lighting and background.
-  rationale: The ball is released and subjected to gravity. The prompt specifies that 'several seconds'
-    pass in darkness before the lights return. A drop from this height takes less than a second, meaning
-    the ball will have hit the floor, bounced, and likely settled or begun rolling on the floor during
-    the elapsed time. Therefore, in the final frame, the ball must be located on or very near the floor,
-    significantly lower than its release point.
+  init_frame_description: A close-up view of a robotic arm with a black carbon-fiber texture and silver
+    metal joints, extending from the top right. The arm's gripper is holding a bright yellow tennis ball.
+    The background is a wooden parquet floor with a herringbone pattern, reflecting the light.
+  init2final_edit_prompt: Edit the given image to show the robotic gripper open and empty, with its fingers
+    spread apart. Place the tennis ball on the wooden floor directly vertically below the gripper, resting
+    on the surface.
+  rationale: The prompt describes the ball being released and subjected to gravity. During the 'several
+    seconds' of darkness, the ball will fall to the floor, bounce, and lose energy. Given the duration
+    specified, the ball will have had sufficient time to stop bouncing and settle on the floor or roll
+    slightly. Therefore, in the final frame, the ball must be located on the ground, significantly below
+    its initial position, and the gripper must be empty.
   questions:
-  - id: ball_vertical_drop
-    question: Is the tennis ball located lower in the frame than it was in the initial image?
+  - id: ball_released
+    question: Is the tennis ball no longer being held by the robotic gripper?
     answer_type: yes_no
-    notes_for_judge: Gravity pulls the ball down.
+    notes_for_judge: The ball should be separated from the gripper fingers.
+  - id: gripper_empty
+    question: Is the robotic gripper empty?
+    answer_type: yes_no
+    notes_for_judge: The gripper should not contain any object.
+  - id: ball_height_lower
+    question: Is the tennis ball positioned lower in the frame than it was initially?
+    answer_type: yes_no
+    notes_for_judge: The ball must have fallen due to gravity.
   - id: ball_on_floor
-    question: Is the tennis ball positioned on or very near the hardwood floor surface?
+    question: Is the tennis ball resting on or very near the wooden floor?
     answer_type: yes_no
-    notes_for_judge: After several seconds, the ball should have settled on the floor.
-  - id: initial_space_empty
-    question: Is the space directly below the fingers (where the ball started) now empty?
+    notes_for_judge: After several seconds, the ball should have settled on the ground.
+  - id: vertical_displacement
+    question: Has the tennis ball moved vertically downwards relative to the robotic arm?
     answer_type: yes_no
-    notes_for_judge: The ball has moved away from the release point.
-  - id: ball_alignment
-    question: Is the tennis ball positioned vertically below the hand?
+    notes_for_judge: Check for downward displacement consistent with gravity.
+  - id: gripper_state
+    question: Are the fingers of the gripper open or separated?
     answer_type: yes_no
-    notes_for_judge: The ball falls straight down; lateral motion is minimal without an initial throw.
-  - id: lighting_check
-    question: Is the scene illuminated (not pitch black)?
-    answer_type: yes_no
-    notes_for_judge: The prompt states the lights turn back on.
-  - id: hand_consistency
-    question: Is the hand still visible in the upper right portion of the frame?
-    answer_type: yes_no
-    notes_for_judge: Secondary consistency check.
+    notes_for_judge: The gripper must have opened to release the ball.
   - id: floor_consistency
-    question: Is the hardwood floor texture still visible in the background?
+    question: Is the wooden herringbone floor pattern visible and consistent with the initial frame?
     answer_type: yes_no
-    notes_for_judge: Secondary consistency check.
+    notes_for_judge: The environment should not change.
+  - id: arm_presence
+    question: Is the robotic arm still visible in the upper right area?
+    answer_type: yes_no
+    notes_for_judge: The arm itself should not disappear.
