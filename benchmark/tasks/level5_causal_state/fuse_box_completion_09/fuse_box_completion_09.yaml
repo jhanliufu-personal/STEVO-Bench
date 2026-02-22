@@ -1,0 +1,65 @@
+id: fuse_box_completion_09
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: fuse_box_completion
+variation_type: repeated_activation
+variation_description: Fuse inserted, pause, then removed.
+changes:
+  occlusion_method: null
+  dynamic_conditions: 'Net action: Fuse removed. Circuit open.'
+  expected_outcome_change: Fan remains OFF (stationary).
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The camera starts centered on the stationary industrial floor fan. The camera rotates right
+    at constant speed until the fan exits the view. The camera continues rotating, revealing an open industrial
+    fuse box. A hand enters, inserts a ceramic fuse into the gap, pauses for a moment, and then removes
+    the fuse again. The fuse is not left in the box. The action occurs while the fan remains out of camera
+    view. Then the camera rotates left smoothly at the same rate back to the original viewpoint, bringing
+    the industrial fan back into center view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The camera starts on the fan, then rotates to the fuse box. A hand inserts a fuse, pauses,
+    and removes it. The action occurs while the fan is not visible. The camera then returns to the fan.
+    STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A large industrial floor fan is centered in the view, featuring a circular metal
+    wire cage and three stationary metal blades that are clearly distinct and sharp. The fan is mounted
+    on a black tubular metal stand with wheels. To the left, a brick wall features an electrical outlet
+    with a black power cord plugged in. The floor is concrete with visible stains and texture. In the
+    background, there are workbenches, shelving units with various items, and windows letting in light.
+  init2final_edit_prompt: Edit the given image to show the industrial fan blades spinning rapidly. Apply
+    strong radial motion blur to the blades inside the wire cage so they appear as a translucent blur
+    of motion rather than distinct stationary blades. Ensure the wire cage itself, the stand, the floor,
+    and the background remain sharp, stationary, and unchanged. Do not change the lighting or the camera
+    angle.
+  rationale: The video describes a causal sequence where a fuse is inserted, completing the circuit and
+    powering the fan, followed by the fuse being removed. Although the power is cut when the fuse is removed,
+    industrial fans have significant rotational inertia and take time to spin down. Therefore, when the
+    camera returns to the fan immediately after the action, the blades should still be spinning (coasting)
+    with visible motion blur, distinguishing the state from the initially stationary fan.
+  questions:
+  - id: fan_spinning_blur
+    question: Do the fan blades exhibit motion blur indicating rotation?
+    answer_type: yes_no
+    notes_for_judge: The blades should look blurred/spinning, not sharp/static.
+  - id: fan_state_change
+    question: Is the fan in a state of motion compared to the stationary initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare with the initial frame where blades are clearly stopped.
+  - id: blades_distinctness
+    question: Are the individual fan blades less distinct than in the initial image due to spinning?
+    answer_type: yes_no
+    notes_for_judge: Spinning blades should appear as a disc or blur, not individual shapes.
+  - id: fan_active
+    question: Does the fan appear to be running or coasting?
+    answer_type: yes_no
+    notes_for_judge: Visual evidence of operation (spinning).
+  - id: cage_consistency
+    question: Is the metal wire cage of the fan still present and intact?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: plug_consistency
+    question: Is the power cord still plugged into the wall on the left?
+    answer_type: yes_no
+    notes_for_judge: The fuse was removed, not the plug.

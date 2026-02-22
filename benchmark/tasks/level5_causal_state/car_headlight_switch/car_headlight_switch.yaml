@@ -2,20 +2,73 @@ id: car_headlight_switch
 level: 5
 category: causal_mechanism
 mechanism_type: switch_circuit_logic
+tags: []
 prompts:
-  image_gen_prompt: A car's front headlights are visible from the exterior. Both headlights are currently
-    off and dark. The camera view is centered on the front headlights from outside the car.
-  video_WM: The camera starts centered on the car's front headlights from the exterior, both headlights
-    are off. The camera rotates right at constant speed until the headlights exit the view. The camera
-    continues rotating, revealing the car interior dashboard with the headlight control switch on the
-    left side of the steering column. A hand enters the frame and rotates the headlight switch from the
-    OFF position to the ON position. The switch controls the electrical circuit that supplies power to
-    the front headlight bulbs. The switch rotation occurs while the exterior headlights remain out of
-    camera view. Then the camera rotates left smoothly at the same rate back to the original viewpoint,
-    bringing the exterior headlights back into center view. No zoom, no cut, no scene change. STOP.
-  camera_WM: The camera starts on the exterior headlights showing them off, then rotates to the interior
-    dashboard switch. A hand turns the headlight switch to ON. The switch controls the headlight circuit.
-    The switch turn occurs while the exterior lights are not visible. The camera then returns to the exterior
-    headlights. STOP.
+  image_gen_prompt: A first-person view from the driver's seat of a car at night. The steering wheel is
+    centered in the frame with the instrument cluster fully illuminated behind it — the car is running
+    with the ignition on. The headlight control switch on the left steering column stalk is in the OFF
+    position. Through all windows — windshield, driver side, and passenger side — the surrounding environment
+    is completely dark and unlit, because the headlights are off and there are no exterior lights. The
+    dashboard glow is the only light source in the scene.
+  video_WM: Driver's upright POV at night. The lit dashboard is fully visible and the surrounding environment
+    through all windows is completely dark — the headlights are off. The driver leans forward toward the
+    dashboard; the windows and dark exterior are no longer visible. The headlight control switch on the
+    left steering column stalk comes into view. A hand rotates the headlight switch from OFF to ON. The
+    headlight switch is part of the car's electrical system and operates only when the ignition is on;
+    the switch position determines the state of the headlight circuit. The driver leans back to the upright
+    seated position. No zoom, no cut, no scene change. STOP.
+  camera_WM: The camera starts in upright driver POV at night — lit dashboard, headlight switch off, surrounding
+    environment completely dark through all windows. The driver leans forward, camera pitches down and
+    moves forward, revealing the headlight control stalk. A hand rotates the switch to ON. The headlight
+    switch is part of the electrical system and operates only with ignition on; switch position determines
+    the state of the headlight circuit. The action occurs while the windows are not visible. The driver
+    leans back to the original seated position. STOP.
 camera_control:
-  HY-WorldPlay: s-3, right-30, left-30
+  HY-WorldPlay: s-3, down-15, w-15, s-15, up-15
+evaluation:
+  init_frame_description: A driver's perspective from inside a car at night. The interior is dark, but
+    the dashboard instrument cluster is illuminated with orange backlighting, showing the speedometer,
+    tachometer, and various warning lights (battery, oil, check engine). A steering wheel with a Toyota
+    logo is centered in the frame. The left control stalk is visible behind the steering wheel. The view
+    through the windshield and the driver's side window is completely black, indicating total darkness
+    outside. The center console and door panel are dimly visible.
+  init2final_edit_prompt: Edit the given image to show the car's headlights turned on. The previously
+    pitch-black view through the windshield and side window must now show the road or ground environment
+    illuminated by bright headlight beams. The exterior darkness should be replaced by the visible texture
+    of the scene ahead as revealed by the lights. Keep the interior dashboard lights and steering wheel
+    configuration unchanged.
+  rationale: The video describes a causal sequence where the driver activates the headlight switch. The
+    initial state shows the ignition is on (dashboard lit) but headlights are off (exterior is dark).
+    The action involves manipulating the switch to the ON position. Since the camera returns to the initial
+    upright position, the geometric view remains the same. The primary functional change is the activation
+    of the headlights, which physically changes the state of the environment visibility from dark to illuminated.
+  questions:
+  - id: headlights_illuminated_windshield
+    question: Is the view through the windshield now illuminated instead of being pitch black?
+    answer_type: yes_no
+    notes_for_judge: The judge should check if the black void outside the window has been replaced by
+      a lit scene.
+  - id: visible_ground_texture
+    question: Is the road or ground texture visible outside the car?
+    answer_type: yes_no
+    notes_for_judge: Headlights reveal the ground; darkness hides it.
+  - id: exterior_brightness_change
+    question: Is the exterior environment significantly brighter than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the area through the windows between the two frames.
+  - id: functional_outcome_headlights
+    question: Does the image show evidence that the headlights have been switched on?
+    answer_type: yes_no
+    notes_for_judge: Evidence includes light cones, illuminated terrain, or reflections.
+  - id: side_window_visibility
+    question: Is the environment visible through the side window?
+    answer_type: yes_no
+    notes_for_judge: The side view should also show some illumination or ambient light from the headlights.
+  - id: dashboard_consistency
+    question: Are the dashboard gauges still illuminated in orange?
+    answer_type: yes_no
+    notes_for_judge: Secondary check for consistency.
+  - id: steering_wheel_position
+    question: Is the steering wheel in the same position as the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The driver leaned back; the wheel was not turned.

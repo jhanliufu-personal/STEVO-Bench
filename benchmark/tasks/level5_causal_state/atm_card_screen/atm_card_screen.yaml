@@ -20,3 +20,48 @@ prompts:
     STOP.
 camera_control:
   HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up view of an outdoor ATM machine. The central screen displays the text
+    'INSERT CARD TO BEGIN' in a blue, pixelated font on a black background. The screen is surrounded by
+    a silver metal bezel with vertical rows of buttons on the left and right sides. Below the screen,
+    a metal keypad is visible. To the right of the keypad, there is a circular component illuminated with
+    a blue light. To the left, a black horizontal slot is visible. Reflections of a street scene and buildings
+    at dusk are visible on the screen's glass surface.
+  init2final_edit_prompt: Edit the given image to change the text displayed on the ATM screen. Replace
+    the text 'INSERT CARD TO BEGIN' with 'ENTER PIN' or a similar transaction prompt like 'PLEASE ENTER
+    PIN'. Maintain the original blue pixelated font style, size, and color on the black background. Preserve
+    the reflections on the screen glass and all surrounding details of the ATM machine, including the
+    metal bezel, buttons, and keypad, exactly as they are.
+  rationale: The video describes a sequence where a user inserts a bank card into the ATM while the screen
+    is momentarily out of view due to camera rotation. In a functional ATM system, inserting a card triggers
+    the internal computer to transition from the standby state ('Insert Card') to the active transaction
+    state (typically requesting a PIN). When the camera rotates back to the original view, the screen
+    must display this new state to reflect the causal consequence of the card insertion.
+  questions:
+  - id: screen_text_change
+    question: Is the text on the ATM screen different from the initial 'INSERT CARD TO BEGIN' message?
+    answer_type: yes_no
+    notes_for_judge: The screen should now show a new prompt (e.g., ENTER PIN) instead of the standby
+      message.
+  - id: transaction_state_active
+    question: Does the ATM screen now display a prompt related to a transaction, such as requesting a
+      PIN or language selection?
+    answer_type: yes_no
+    notes_for_judge: The system should have transitioned to an active state.
+  - id: standby_mode_exit
+    question: Has the ATM exited the initial standby mode?
+    answer_type: yes_no
+    notes_for_judge: The initial state was waiting for a card; the final state should be processing or
+      waiting for input.
+  - id: screen_content_update
+    question: Does the screen content indicate that a card has been detected?
+    answer_type: yes_no
+    notes_for_judge: The change in text is evidence of the card detection mechanism working.
+  - id: bezel_consistency
+    question: Are the metal bezel and side buttons unchanged from the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: reflection_consistency
+    question: Are the reflections of the street scene on the screen glass still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check; reflections should persist despite text change.

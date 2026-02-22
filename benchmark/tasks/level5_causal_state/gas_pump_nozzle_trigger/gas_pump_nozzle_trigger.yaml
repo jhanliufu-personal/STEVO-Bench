@@ -21,3 +21,51 @@ prompts:
     to the pump display. STOP.
 camera_control:
   HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up view of a black gas pump interface. The central LCD screen displays
+    '$0.00' on the top line and '0.00' on the middle line, with 'gallons' text to the right. To the left
+    of the screen is a vertical column of square silver buttons. To the right, a black hose and part of
+    a green nozzle handle are visible. The background shows a blurred outdoor gas station setting.
+  init2final_edit_prompt: Edit the given image to show the gas pump display after fuel has been dispensed.
+    Change the top digital price reading from '0.00' to a positive number (e.g., '4.50') and the middle
+    gallons reading from '0.00' to a corresponding positive number (e.g., '1.25'). Ensure the new digits
+    match the style, color, and glare of the original LCD segments. Keep the pump housing, buttons, hose,
+    and background exactly as they are in the original image.
+  rationale: The video prompt describes a causal chain where the camera rotates away to reveal the nozzle,
+    a hand squeezes the trigger, and then the camera returns to the display. Squeezing the trigger opens
+    the valve and dispenses fuel, which mechanically drives the flow meter. Consequently, when the camera
+    returns to the display, the counters for price and gallons must have incremented from their initial
+    zero state to reflect the amount of fuel dispensed during the occlusion.
+  questions:
+  - id: price_change
+    question: Is the price displayed on the top line greater than $0.00?
+    answer_type: yes_no
+    notes_for_judge: The initial frame shows 0.00. The final frame should show a positive number.
+  - id: gallons_change
+    question: Does the gallons counter in the middle display a non-zero value?
+    answer_type: yes_no
+    notes_for_judge: The initial frame shows 0.00. The final frame should show a positive number.
+  - id: state_increment
+    question: Have the digital numbers on the screen incremented from the initial state?
+    answer_type: yes_no
+    notes_for_judge: Check if the numbers are different and higher than the starting 0.00.
+  - id: dispensed_evidence
+    question: Does the display indicate that fuel has been dispensed compared to the start?
+    answer_type: yes_no
+    notes_for_judge: Any positive value indicates fuel was dispensed.
+  - id: screen_update
+    question: Is the display showing a transaction value rather than the reset zero state?
+    answer_type: yes_no
+    notes_for_judge: The zero state is the reset state. A transaction value is any positive number.
+  - id: price_higher
+    question: Is the dollar amount shown higher than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Comparative check.
+  - id: buttons_consistency
+    question: Are the silver buttons on the left side of the pump still present?
+    answer_type: yes_no
+    notes_for_judge: Consistency check.
+  - id: hose_consistency
+    question: Is the black hose on the right side still visible in the same location?
+    answer_type: yes_no
+    notes_for_judge: Consistency check.

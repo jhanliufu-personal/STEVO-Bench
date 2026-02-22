@@ -1,0 +1,66 @@
+id: car_headlight_switch_03
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: car_headlight_switch
+variation_type: initial_state
+variation_description: Parking lights start ON, action turns full headlights ON.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Parking lights are active (dim amber). Action activates full headlights.
+  expected_outcome_change: The exterior lighting changes from dim amber to bright white.
+prompts:
+  init_frame_edit_prompt: Edit the image so the environment outside has a faint, dim amber glow (parking
+    lights) instead of total darkness.
+  video_WM: Driver's upright POV at night. The lit dashboard is visible and the surrounding environment
+    has a faint amber glow. The driver leans forward toward the dashboard; the windows and exterior are
+    no longer visible. The headlight control switch on the left steering column stalk comes into view.
+    A hand rotates the headlight switch to the next position. The headlight switch is part of the car's
+    electrical system. The driver leans back to the upright seated position, bringing the windshield and
+    exterior environment back into view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The camera starts in upright driver POV at night — lit dashboard, faint amber exterior glow.
+    A hand rotates the headlight switch to the next position. The action occurs while the windows are
+    not visible. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A driver's point-of-view shot from inside a car at night. The interior features
+    a Toyota steering wheel and an illuminated dashboard with amber backlighting. The speedometer and
+    tachometer needles are at zero, and several warning lights are visible on the instrument cluster.
+    Through the windshield, the exterior environment is dark and foggy, with only faint, diffuse amber
+    ambient light visible. A side view mirror is visible on the left.
+  init2final_edit_prompt: Edit the given image to show the car's headlights turned on. The view through
+    the windshield should be significantly brighter, with the road surface and fog ahead illuminated by
+    headlight beams projecting forward. The area directly in front of the car should be clearly lit, contrasting
+    with the darkness of the surrounding environment. Keep the interior dashboard and steering wheel appearance
+    unchanged.
+  rationale: 'The initial frame shows a lit dashboard but a dark exterior, suggesting the headlights are
+    currently off or only parking lights are active. The action describes rotating the headlight switch
+    to the next position. In a night driving context, this action functionally activates the low-beam
+    headlights. Although the exterior is occluded during the action, the final state must reflect the
+    causal consequence: the road and fog ahead should now be illuminated by the car''s headlights.'
+  questions:
+  - id: headlights_on_brightness
+    question: Is the area visible through the windshield significantly brighter than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The exterior should show the effect of headlights being turned on.
+  - id: headlight_beams_visible
+    question: Are there visible light beams or illuminated patches on the road/fog ahead?
+    answer_type: yes_no
+    notes_for_judge: Look for the cone of light typical of car headlights.
+  - id: ground_illumination
+    question: Is the ground directly in front of the car more clearly visible due to lighting?
+    answer_type: yes_no
+    notes_for_judge: The road surface should be lit up.
+  - id: lighting_source_change
+    question: Does the exterior lighting look like it is coming from the car's own headlights?
+    answer_type: yes_no
+    notes_for_judge: Contrast with the diffuse ambient light in the initial frame.
+  - id: dashboard_consistency
+    question: Is the dashboard instrument cluster still illuminated?
+    answer_type: yes_no
+    notes_for_judge: The interior lights should remain on.
+  - id: steering_wheel_consistency
+    question: Is the steering wheel in the same position as the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The driver leaned but did not turn the wheel.

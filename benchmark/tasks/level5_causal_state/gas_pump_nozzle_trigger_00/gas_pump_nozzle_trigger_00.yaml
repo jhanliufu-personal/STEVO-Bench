@@ -1,0 +1,63 @@
+id: gas_pump_nozzle_trigger_00
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: gas_pump_nozzle_trigger
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: Edit the image to add a fuel nozzle handle hanging on the right side of the
+    gas pump, positioned so it is clearly visible next to the digital display screen.
+  video_WM: The camera is completely stationary, framing the gas pump display screen which reads $0.00
+    and 0.00 gallons, alongside the fuel nozzle handle visible on the right. A hand enters the frame and
+    squeezes the trigger on the fuel nozzle handle. The hand maintains the grip on the trigger. STOP.
+  camera_WM: The camera is completely stationary, framing the gas pump display screen which reads $0.00
+    and 0.00 gallons, alongside the fuel nozzle handle visible on the right. A hand enters the frame and
+    squeezes the trigger on the fuel nozzle handle. The hand maintains the grip on the trigger. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up view of a gas pump interface. The center features a digital LCD display
+    showing '$ 0.00' on the top line and '0.00 gallons' on the bottom line. Below the screen are the texts
+    'PRICE PER GALLON' and 'SELECT GRADE'. To the left of the screen is a vertical column of silver buttons.
+    To the right, a black fuel nozzle with a green handle cover is resting in its holster/cradle. The
+    background shows a blurred outdoor gas station environment.
+  init2final_edit_prompt: Edit the given image to show a human hand entering from the right or bottom
+    and gripping the green handle of the fuel nozzle. The hand should be squeezing the black trigger lever
+    upward against the handle. The nozzle must remain resting in its original position in the holster.
+    The digital display on the pump must remain unchanged, reading exactly '$ 0.00' and '0.00 gallons'.
+  rationale: The video prompt describes a hand squeezing the trigger of the fuel nozzle. In the initial
+    frame, the nozzle is holstered. The prompt does not mention removing the nozzle or selecting a grade.
+    In reality, gas pumps have safety interlocks that prevent fuel flow and display activation if the
+    nozzle is not removed from the holster and the pump activated. Therefore, while the physical state
+    of the trigger changes (it is squeezed), the functional state of the pump system (the display) remains
+    unchanged at zero. The nozzle remains in the holster.
+  questions:
+  - id: hand_visible
+    question: Is a hand visible gripping the fuel nozzle handle?
+    answer_type: yes_no
+    notes_for_judge: Check for the presence of a hand on the nozzle.
+  - id: trigger_squeezed
+    question: Is the trigger lever on the nozzle squeezed upward?
+    answer_type: yes_no
+    notes_for_judge: The trigger should be pulled up against the handle, not in its resting down position.
+  - id: display_price_zero
+    question: Does the top line of the display still read '$ 0.00'?
+    answer_type: yes_no
+    notes_for_judge: The price should not have incremented.
+  - id: display_gallons_zero
+    question: Does the bottom line of the display still read '0.00 gallons'?
+    answer_type: yes_no
+    notes_for_judge: The volume counter should not have incremented.
+  - id: nozzle_holstered
+    question: Is the fuel nozzle still resting in its holster?
+    answer_type: yes_no
+    notes_for_judge: The nozzle should not be lifted or removed from the pump cradle.
+  - id: pump_inactive
+    question: Does the display indicate that no fuel is being dispensed?
+    answer_type: yes_no
+    notes_for_judge: Both numbers should remain at zero.

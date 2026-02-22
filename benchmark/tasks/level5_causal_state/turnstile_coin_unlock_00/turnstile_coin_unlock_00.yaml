@@ -1,0 +1,67 @@
+id: turnstile_coin_unlock_00
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: turnstile_coin_unlock
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: Edit the image to add a coin slot mechanism on the front vertical face of the
+    turnstile body, located to the right of the rotating tripod arm. The coin slot should appear as a
+    vertical slit on a metal plate, matching the brushed steel texture of the turnstile.
+  video_WM: The camera is completely stationary, capturing the subway turnstile with its rotating arm,
+    red 'LOCKED' indicator light, and the coin slot mechanism all in frame. A hand enters the view holding
+    a token and inserts the coin into the slot. The turnstile arm and indicator light are visible throughout
+    the action. STOP.
+  camera_WM: The camera is completely stationary, capturing the subway turnstile with its rotating arm,
+    red 'LOCKED' indicator light, and the coin slot mechanism all in frame. A hand enters the view holding
+    a token and inserts the coin into the slot. The turnstile arm and indicator light are visible throughout
+    the action. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up view of a metal subway turnstile system. The foreground features
+    a tripod turnstile with three polished metal bars. To the right is the control mechanism housing a
+    coin slot. A prominent circular red light is illuminated on the front face of this unit, with a 'LOCKED'
+    label directly above it. A secondary 'LOCKED' indicator is visible on the top of the unit. The background
+    shows a subway station environment with white tiled walls and several commuters walking.
+  init2final_edit_prompt: Edit the given image to show the turnstile immediately after a token has been
+    inserted. Change the large circular red indicator light on the front panel to a glowing green light
+    to indicate the mechanism is unlocked. Include a hand visible near the coin slot area. Keep the metal
+    turnstile arms in their original stationary position.
+  rationale: The video prompt describes the action of inserting a coin into the turnstile slot. In a functional
+    system, this action causally triggers the unlocking mechanism. Visually, this state change is represented
+    by the status indicator light switching from red (locked) to green (unlocked/go). Since the prompt
+    ends immediately after insertion without describing a person pushing through, the physical barrier
+    arms remain in their initial closed position, but the system state has transitioned to 'unlocked'.
+  questions:
+  - id: light_color_change
+    question: Is the circular indicator light on the front of the turnstile now glowing green?
+    answer_type: yes_no
+    notes_for_judge: The primary causal result of inserting a coin is the light changing from red to green.
+  - id: red_light_off
+    question: Is the red illumination of the main indicator light absent?
+    answer_type: yes_no
+    notes_for_judge: The red 'LOCKED' signal should no longer be active.
+  - id: hand_presence
+    question: Is a hand visible near the coin slot mechanism?
+    answer_type: yes_no
+    notes_for_judge: The prompt describes a hand entering and inserting a coin.
+  - id: indicator_state
+    question: Does the turnstile indicator now visually signal an 'unlocked' or 'go' state?
+    answer_type: yes_no
+    notes_for_judge: This is typically a green light.
+  - id: arms_stationary
+    question: Are the three metal turnstile arms in the same position as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The prompt does not describe anyone walking through, so the arms should not have
+      rotated.
+  - id: background_consistency
+    question: Is the background subway station environment (tiles, people) consistent with the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

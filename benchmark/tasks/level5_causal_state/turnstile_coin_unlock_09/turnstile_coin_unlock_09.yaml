@@ -1,0 +1,67 @@
+id: turnstile_coin_unlock_09
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: turnstile_coin_unlock
+variation_type: repeated_activation
+variation_description: Coin inserted on a string and pulled back out (Insert + Retract).
+changes:
+  occlusion_method: null
+  dynamic_conditions: Insertion triggers unlock, retraction cancels/relocks it.
+  expected_outcome_change: Final state is Locked (Red).
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The camera starts centered on the locked turnstile arm with its red indicator light. The camera
+    rotates right at constant speed until the turnstile exits the view. The camera continues rotating,
+    revealing a coin slot mechanism. A hand enters holding a token attached to a string. The hand inserts
+    the token, then immediately pulls the string to retrieve the token. This reversal cancels the payment
+    signal. The action occurs while the turnstile arm remains out of camera view. Then the camera rotates
+    left smoothly back to the original viewpoint, bringing the turnstile arm and indicator back into center
+    view. STOP.
+  camera_WM: The scene starts on the locked turnstile arm. A hand inserts a token on a string and then
+    retrieves it. The retrieval cancels the signal. The action occurs while the turnstile is not visible.
+    The scene returns to the turnstile arm. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a silver metal subway turnstile unit. The foreground
+    features a tripod turnstile mechanism with three polished metal bars. To the right of the bars, a
+    vertical metal panel houses a display. The display shows a bright red circular LED light illuminated,
+    consisting of horizontal red lines. Immediately above the red light is a label reading 'LOCKED' in
+    black text on a white background. In the background, slightly out of focus, is a subway station environment
+    with white tiled walls and people walking.
+  init2final_edit_prompt: Edit the given image to ensure the turnstile remains in the locked state. The
+    red circular indicator light must remain illuminated and bright. The text label above the light must
+    clearly read 'LOCKED'. The metal turnstile arms should remain in the blocking position, identical
+    to the initial state. Do not change the indicator to green or 'GO'.
+  rationale: The video prompt describes a 'coin on a string' scenario where a token is inserted but immediately
+    retrieved. The prompt explicitly states that this reversal 'cancels the payment signal'. Consequently,
+    the causal mechanism for unlocking the turnstile is negated. Although the camera pans away and returns,
+    the functional state of the turnstile must not change. Upon returning to the initial view, the turnstile
+    should still be locked, displaying the red light and 'LOCKED' text, rather than transitioning to a
+    green 'GO' state which would typically follow a successful payment.
+  questions:
+  - id: turnstile_red_light
+    question: Is the red circular indicator light still illuminated?
+    answer_type: yes_no
+    notes_for_judge: The light should remain red because the payment signal was cancelled.
+  - id: turnstile_text_locked
+    question: Does the text label above the light still read 'LOCKED'?
+    answer_type: yes_no
+    notes_for_judge: The text should not change to 'GO' or 'OPEN'.
+  - id: turnstile_arms_blocking
+    question: Are the turnstile arms still in a blocking position?
+    answer_type: yes_no
+    notes_for_judge: The arms should not have rotated or dropped.
+  - id: no_green_light
+    question: Is the display free of any green 'GO' or 'OPEN' indicators?
+    answer_type: yes_no
+    notes_for_judge: Verifies the model did not hallucinate a successful unlock.
+  - id: state_maintenance
+    question: Does the turnstile appear to be in the same locked mode as the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The overall functional state should be unchanged.
+  - id: structure_consistency
+    question: Is the silver metal finish of the turnstile visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

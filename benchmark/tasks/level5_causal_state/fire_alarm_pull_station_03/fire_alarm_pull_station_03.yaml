@@ -1,0 +1,64 @@
+id: fire_alarm_pull_station_03
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: fire_alarm_pull_station
+variation_type: initial_state
+variation_description: The system starts in a Warning (Amber) state; pulling escalates it to Alarm (Red).
+changes:
+  occlusion_method: null
+  dynamic_conditions: Initial state is Amber. Action escalates state to Red.
+  expected_outcome_change: The indicator light should change from Amber to Red.
+prompts:
+  init_frame_edit_prompt: Edit the image to change the green indicator light to a glowing amber (orange/yellow)
+    color.
+  video_WM: The camera starts centered on the ceiling-mounted indicator light showing steady amber (warning
+    state). The camera rotates right at constant speed until the indicator exits the view. The camera
+    continues rotating, revealing a red fire alarm pull station on the wall. A hand enters the frame and
+    pulls down the handle on the pull station firmly. This action escalates the system from warning to
+    full alarm mode. The handle pull occurs while the ceiling indicator remains out of camera view. Then
+    the camera rotates left smoothly at the same rate back to the original viewpoint, bringing the ceiling
+    indicator back into center view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The ceiling indicator shows amber. A hand pulls down the handle on the wall-mounted station.
+    The station escalates the alarm. The action occurs while the indicator is not visible. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up, low-angle shot of a white, circular fire alarm indicator mounted
+    on a white textured ceiling. The device has a central translucent dome that is illuminated with a
+    steady amber/yellow light. Black text printed on the white plastic bezel reads 'SYSTEM ARMED' at the
+    top and 'FIRE ALARM INDICATOR' at the bottom.
+  init2final_edit_prompt: Edit the given image to change the color of the central glowing light from amber
+    to bright red. The light should appear illuminated and glowing red. Keep the white plastic casing,
+    the printed text, and the surrounding ceiling texture exactly unchanged.
+  rationale: The video prompt describes a causal chain where a fire alarm pull station is activated. This
+    action triggers the system to escalate from a 'warning state' (represented by the initial amber light)
+    to a 'full alarm mode'. In fire safety systems, an active alarm state is standardly indicated by a
+    red light. Since the camera returns to the original viewpoint after the action, the final frame should
+    show the same device but with the indicator light changed from amber to red to reflect the alarm status.
+  questions:
+  - id: q1_primary_color
+    question: Is the central indicator light now glowing red?
+    answer_type: yes_no
+    notes_for_judge: The light should have changed from the initial amber/yellow to red to indicate the
+      alarm state.
+  - id: q2_primary_change
+    question: Is the color of the central light different from the initial amber hue?
+    answer_type: yes_no
+    notes_for_judge: The system state changed, so the light color must change (typically to red).
+  - id: q3_primary_illumination
+    question: Is the central dome still illuminated?
+    answer_type: yes_no
+    notes_for_judge: The light should be on (glowing), not off.
+  - id: q4_primary_state
+    question: Does the indicator light show a red alarm state rather than a yellow warning state?
+    answer_type: yes_no
+    notes_for_judge: Verifies the specific transition described in the prompt.
+  - id: q5_secondary_text
+    question: Is the text 'SYSTEM ARMED' still visible on the device casing?
+    answer_type: yes_no
+    notes_for_judge: The text is printed on the device and should not change.
+  - id: q6_secondary_casing
+    question: Is the device casing still white and circular?
+    answer_type: yes_no
+    notes_for_judge: Invariant check for the object structure.

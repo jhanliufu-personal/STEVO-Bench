@@ -1,0 +1,81 @@
+id: car_key_ignition_turn_01
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: car_key_ignition_turn
+variation_type: initial_state
+variation_description: The car starts with the engine running and dashboard lit; the action turns it off.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Initial state is ON (lit dashboard). Trigger action is reversed (ON to OFF).
+  expected_outcome_change: The instrument cluster lights and gauges will turn OFF, leaving the dashboard
+    dark.
+prompts:
+  init_frame_edit_prompt: Edit the instrument cluster to show illuminated gauges, active speedometer needles,
+    and dashboard lights on, indicating the car is running.
+  video_WM: Driver's upright POV. The steering wheel is centered and the instrument cluster is fully illuminated
+    with active gauges — the car is on. The driver leans forward toward the dashboard; the side windows
+    and surrounding environment are no longer visible. The ignition cylinder on the right side of the
+    steering column comes into view with the key at the ON position. A hand grips the key and turns it
+    counter-clockwise from the ON position to the OFF position. The ignition cylinder is a rotary switch
+    with distinct contact positions. The driver leans back to the upright seated position. No zoom, no
+    cut, no scene change. STOP.
+  camera_WM: The camera starts in upright driver POV with an illuminated dashboard and instrument cluster
+    — car is on. The driver leans forward, camera pitches down and moves toward the dashboard, revealing
+    the ignition cylinder with the key at ON. A hand turns the key counter-clockwise to OFF. The ignition
+    cylinder is a rotary switch. The action occurs while the windows are not visible. The driver leans
+    back to the original seated position. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: 'A driver''s perspective of a car dashboard and instrument cluster. The car
+    is in an ''Ignition On'' state but the engine is not running (0 RPM). Several warning lights are illuminated
+    on the cluster: a yellow Check Engine light on the left, a red Parking Brake indicator and Seatbelt
+    indicator in the center, and red Battery and Oil Pressure indicators on the right. The tachometer
+    and speedometer needles are resting at zero. A ''START'' button is visible on the dashboard trim to
+    the right of the steering wheel.'
+  init2final_edit_prompt: Edit the given image to simulate the car being turned off. Extinguish all the
+    illuminated warning lights and indicators on the instrument cluster so they appear dark and unlit.
+    Specifically, ensure the Check Engine, Parking Brake, Seatbelt, Battery, and Oil Pressure lights are
+    no longer glowing. The dashboard should appear completely unpowered. Keep the gauge needles at the
+    zero position and maintain the original camera viewpoint.
+  rationale: The video describes a sequence where the driver leans forward, turns the ignition key from
+    the 'ON' position to the 'OFF' position, and then leans back to the original upright viewpoint. In
+    the initial frame, the car is in the 'Ignition On, Engine Off' state, indicated by the illuminated
+    warning lights and zero RPM. The causal action of turning the key to 'OFF' cuts electrical power to
+    the instrument cluster. Therefore, in the final frame, all warning lights must be extinguished, while
+    the physical gauges (needles) remain at zero.
+  questions:
+  - id: check_engine_off
+    question: Is the Check Engine light now dark?
+    answer_type: yes_no
+    notes_for_judge: The yellow engine icon on the left should no longer be illuminated.
+  - id: battery_light_off
+    question: Is the battery warning light extinguished?
+    answer_type: yes_no
+    notes_for_judge: The red battery icon on the right should be off.
+  - id: oil_light_off
+    question: Is the oil pressure indicator unlit?
+    answer_type: yes_no
+    notes_for_judge: The red oil can icon on the right should be off.
+  - id: brake_light_off
+    question: Is the parking brake warning light off?
+    answer_type: yes_no
+    notes_for_judge: The red brake indicator in the center should be dark.
+  - id: cluster_power_state
+    question: Does the instrument cluster appear to be completely unpowered?
+    answer_type: yes_no
+    notes_for_judge: All electronic indicators should be off.
+  - id: seatbelt_light_off
+    question: Is the seatbelt warning light dark?
+    answer_type: yes_no
+    notes_for_judge: The red seatbelt icon in the center should be off.
+  - id: needle_consistency
+    question: Are the speedometer and tachometer needles still at the zero position?
+    answer_type: yes_no
+    notes_for_judge: The needles should not have moved from 0.
+  - id: viewpoint_consistency
+    question: Is the steering wheel visible in the same position as the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The camera should have returned to the original upright position.

@@ -1,0 +1,73 @@
+id: thermostat_threshold_dial_variant_07
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: thermostat_threshold_dial
+variation_type: precondition_failure
+variation_description: An 'OUT OF ORDER' sign implies the unit is non-functional.
+changes:
+  occlusion_method: null
+  dynamic_conditions: 'Broken precondition: unit is broken/disabled.'
+  expected_outcome_change: Heater remains OFF.
+prompts:
+  init_frame_edit_prompt: Edit the image to affix a handwritten 'OUT OF ORDER' tag to the heating element
+    grille.
+  video_WM: The camera starts centered on the inactive heating element which has an 'OUT OF ORDER' tag
+    attached. The camera rotates right at constant speed until the heating element exits the view. The
+    camera continues rotating, revealing a round analog thermostat dial mounted on the wall. The current
+    temperature needle shows 60 degrees. The setting dial is currently at 50 degrees. A hand enters the
+    frame and rotates the setting dial clockwise until the marker reaches 80 degrees. The dial rotation
+    occurs while the heating element remains out of camera view. Then the camera rotates left smoothly
+    at the same rate back to the original viewpoint, bringing the heating element back into center view.
+    No zoom, no cut, no scene change. STOP.
+  camera_WM: The camera starts on the tagged heating element, then rotates to the thermostat dial. A hand
+    rotates the setting dial from 50 to 80 degrees. The dial rotation occurs while the heating element
+    is not visible. The camera then returns to the heating element. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up view of an electric heating unit housed in a silver metal casing.
+    The central heating element consists of zig-zagging metal coils which are currently a dull, dusty
+    reddish-brown color, indicating they are inactive and cold. A beige paper tag with the handwritten
+    text 'OUT OF ORDER' is tied to the upper wire grille with a piece of twine and hangs directly in front
+    of the coils.
+  init2final_edit_prompt: Edit the given image to ensure the heating element remains completely inactive
+    and dark. The metal coils must retain their dull, dusty reddish-brown appearance with absolutely no
+    orange or red glow. The 'OUT OF ORDER' tag must remain hanging in its original position, intact, unburnt,
+    and free of any singeing or smoke. The scene should look identical to the initial state, reflecting
+    that the device failed to activate.
+  rationale: The video depicts a user adjusting a thermostat from 50 to 80 degrees, crossing the current
+    temperature threshold of 60 degrees. In a functional system, this would trigger the heating element
+    to glow. However, the heating element is explicitly labeled with an 'OUT OF ORDER' tag. A correct
+    world model must prioritize this semantic constraint (the device is broken) over the standard causal
+    rule of the thermostat. Therefore, the heater should fail to activate, the coils should remain dark,
+    and the paper tag should not burn.
+  questions:
+  - id: q1
+    question: Is the heating element still inactive and dark?
+    answer_type: yes_no
+    notes_for_judge: The coils should not be glowing.
+  - id: q2
+    question: Are the metal coils free of any bright orange or red glow?
+    answer_type: yes_no
+    notes_for_judge: Check for absence of incandescence.
+  - id: q3
+    question: Is the 'OUT OF ORDER' tag still intact and unburnt?
+    answer_type: yes_no
+    notes_for_judge: If the heater turned on, the paper tag would burn. It should remain pristine.
+  - id: q4
+    question: Does the scene indicate that the heater failed to turn on?
+    answer_type: yes_no
+    notes_for_judge: The state should be unchanged from the initial frame.
+  - id: q5
+    question: Is the twine holding the tag still visible and undamaged?
+    answer_type: yes_no
+    notes_for_judge: Verifies the tag hasn't burned or fallen.
+  - id: q6
+    question: Do the coils retain their dusty, dull texture?
+    answer_type: yes_no
+    notes_for_judge: Glow usually obscures surface texture/dust.
+  - id: q7
+    question: Is the wire grille in front of the coils still in the same position?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

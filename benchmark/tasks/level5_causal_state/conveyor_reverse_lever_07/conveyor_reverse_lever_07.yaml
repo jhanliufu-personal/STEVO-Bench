@@ -1,0 +1,75 @@
+id: conveyor_reverse_lever_07
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: conveyor_reverse_lever
+variation_type: precondition_failure
+variation_description: An electrical panel is open and a critical fuse is missing.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Circuit open. Lever action has no effect.
+  expected_outcome_change: The conveyor does not move. The box remains stationary.
+prompts:
+  init_frame_edit_prompt: Edit the image to show a small electrical box next to the lever with its door
+    open, revealing empty fuse sockets.
+  video_WM: The camera starts centered on the stationary cardboard box on the conveyor belt. The camera
+    rotates right at constant speed until the box exits the view. The camera continues rotating, revealing
+    a control lever on the side of the conveyor. The lever is currently in the middle NEUTRAL position.
+    A hand enters the frame and pulls the control lever all the way to the REVERSE position. The lever
+    movement occurs while the cardboard box remains out of camera view. Then the camera rotates left smoothly
+    at the same rate back to the original viewpoint, bringing the cardboard box on the belt back into
+    center view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The camera starts on the box, then rotates to the control lever. A hand shifts the lever
+    from NEUTRAL to REVERSE position. The lever movement occurs while the box is not visible. The camera
+    then returns to the box on the belt. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A warehouse interior featuring a large cardboard box centered on a conveyor
+    belt. The conveyor belt has a fabric or rubber surface and green metal framing. To the right of the
+    conveyor, there is a grey electrical control box with its door open, revealing fuses and wiring inside.
+    Below the grey box, attached to the green frame, is a black control lever with a ball handle, currently
+    in a horizontal or neutral position. In the background, there are warehouse racks, pallets, and ceiling
+    lights.
+  init2final_edit_prompt: Edit the given image to show the cardboard box shifted to a new position along
+    the conveyor belt, so it is no longer centered in the frame (moved either towards the foreground or
+    background). Adjust the black control lever on the right side of the conveyor frame so it is angled
+    differently, indicating it has been pulled to a new position.
+  rationale: The video prompt describes a causal chain where a control lever is moved from a 'Neutral'
+    position to a 'Reverse' position. In industrial machinery, moving a lever from neutral to reverse
+    typically engages the drive mechanism, causing the conveyor belt to move. Since the cardboard box
+    is sitting on the belt, the activation of the conveyor must cause the box to be transported along
+    the belt. Therefore, when the camera returns to the original viewpoint, the box should have physically
+    shifted from its initial central position due to the movement of the belt during the elapsed time.
+    The lever itself must also appear in its new 'Reverse' physical orientation.
+  questions:
+  - id: box_position_change
+    question: Is the cardboard box in a different position on the conveyor belt compared to the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: The box should have moved along the belt axis due to the conveyor being activated.
+  - id: box_not_centered
+    question: Has the cardboard box moved away from the exact center of the frame?
+    answer_type: yes_no
+    notes_for_judge: The camera returns to the original view, but the box should have been transported
+      by the belt.
+  - id: lever_position_change
+    question: Is the black control lever on the right side in a different angular position than in the
+      initial frame?
+    answer_type: yes_no
+    notes_for_judge: The lever was pulled from Neutral to Reverse.
+  - id: mechanism_activation_evidence
+    question: Does the final image show evidence that the conveyor belt mechanism was activated (i.e.,
+      object displacement)?
+    answer_type: yes_no
+    notes_for_judge: The primary evidence of the mechanism working is the movement of the payload (the
+      box).
+  - id: box_on_belt
+    question: Is the cardboard box still on the conveyor belt (even if shifted)?
+    answer_type: yes_no
+    notes_for_judge: The box should move along the belt, not vanish or float.
+  - id: background_consistency
+    question: Are the background warehouse racks and lights in the same position as the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The camera returns to the original viewpoint, so static background elements should
+      align.

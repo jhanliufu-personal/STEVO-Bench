@@ -1,0 +1,67 @@
+id: automatic_toilet_flush_02
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: automatic_toilet_flush
+variation_type: initial_state
+variation_description: The toilet bowl starts completely dry/empty; the trigger action fills it.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Initial state is empty. Trigger activates the fill valve.
+  expected_outcome_change: The bowl should be filled with water instead of just flushing existing water.
+prompts:
+  init_frame_edit_prompt: Edit the image so the toilet bowl is completely dry and empty of water.
+  video_WM: The camera starts centered on the dry, empty toilet bowl. The camera rotates right at constant
+    speed until the bowl exits the view. The camera continues rotating, revealing the automatic flush
+    sensor module on the wall. A hand enters the frame and waves in front of the sensor to activate the
+    water supply. The hand wave occurs while the toilet bowl remains out of camera view. Then the camera
+    rotates left smoothly back to the original viewpoint, bringing the toilet bowl back into center view.
+    STOP.
+  camera_WM: The scene features an empty toilet bowl and a flush sensor. A hand waves in front of the
+    sensor to trigger the water flow. This action occurs while the bowl is not visible. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A high-angle close-up view of a white ceramic toilet bowl. The toilet seat is
+    down. Inside the bowl, there is clean, still water at the bottom, typical of a resting state. There
+    is some slight discoloration or mineral staining near the water line. The toilet sits on a tiled floor
+    with light-colored grout. A beige, textured bath mat or rug is visible at the bottom of the frame,
+    contouring around the base of the toilet. To the left, a portion of a wall or window frame is visible.
+  init2final_edit_prompt: Edit the given image to show the toilet actively flushing. Change the water
+    inside the bowl from calm and still to swirling, turbulent, and agitated. The water surface should
+    show ripples and motion blur consistent with a strong flow of water during a flush cycle. Keep the
+    toilet seat, rug, and surrounding tiles exactly as they are.
+  rationale: The video prompt describes a sequence where the camera pans away to reveal a flush sensor,
+    a hand triggers the sensor, and the camera pans back to the toilet bowl. The functional consequence
+    of triggering the sensor is that the toilet flushes. Therefore, when the camera returns to the original
+    viewpoint, the state of the toilet bowl must have transitioned from 'resting/static' to 'flushing/active'.
+    The final frame should depict the water in motion (swirling or agitated) to reflect this causal chain.
+  questions:
+  - id: q1
+    question: Is the water in the toilet bowl agitated or swirling?
+    answer_type: yes_no
+    notes_for_judge: The water should look turbulent, indicating a flush is in progress.
+  - id: q2
+    question: Does the water surface appear turbulent compared to the calm water in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the texture of the water; it should not be a flat reflection anymore.
+  - id: q3
+    question: Is there visual evidence that the flush mechanism has been activated?
+    answer_type: yes_no
+    notes_for_judge: Evidence includes swirling water, rising water level, or bubbles.
+  - id: q4
+    question: Is the toilet currently in a flushing state?
+    answer_type: yes_no
+    notes_for_judge: The primary state change is from resting to flushing.
+  - id: q5
+    question: Is the water inside the bowl in motion rather than still?
+    answer_type: yes_no
+    notes_for_judge: Look for motion blur or ripples in the water.
+  - id: q6
+    question: Is the toilet seat in the same position as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check; the seat should not have moved.
+  - id: q7
+    question: Is the beige rug at the base of the toilet still present?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

@@ -1,0 +1,77 @@
+id: conveyor_reverse_lever_03
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: conveyor_reverse_lever
+variation_type: initial_state
+variation_description: The lever starts in NEUTRAL. The hand pushes it to FORWARD (opposite direction
+  of original task).
+changes:
+  occlusion_method: null
+  dynamic_conditions: Action engages Forward gear instead of Reverse.
+  expected_outcome_change: The conveyor moves forward. The box moves in the opposite direction compared
+    to the original task.
+prompts:
+  init_frame_edit_prompt: Edit the image to ensure the control lever is clearly in the middle NEUTRAL
+    position, with labels indicating Forward is a push action.
+  video_WM: The camera starts centered on the stationary cardboard box on the conveyor belt. The camera
+    rotates right at constant speed until the box exits the view. The camera continues rotating, revealing
+    a control lever on the side of the conveyor. The lever is currently in the middle NEUTRAL position.
+    A hand enters the frame and pushes the control lever all the way to the FORWARD position. The motor
+    is active and the transmission engages in the selected direction. The lever movement occurs while
+    the cardboard box remains out of camera view. Then the camera rotates left smoothly at the same rate
+    back to the original viewpoint, bringing the cardboard box on the belt back into center view. No zoom,
+    no cut, no scene change. STOP.
+  camera_WM: The camera starts on the box, then rotates to the control lever. A hand shifts the lever
+    from NEUTRAL to FORWARD position. The transmission engages in the selected direction. The lever movement
+    occurs while the box is not visible. The camera then returns to the box on the belt. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A warehouse interior showing a conveyor belt system in the foreground. A large,
+    cubic cardboard box with shipping labels sits stationary in the center of the belt. To the right of
+    the conveyor, a control box is mounted on a green metal stand. The control box features a black lever
+    currently in the vertical 'NEUTRAL' position. Text labels on the control box read 'FORWARD (PUSH)'
+    at the top, 'NEUTRAL' in the middle, and 'REVERSE' at the bottom. The background contains industrial
+    shelving, stacked wooden pallets, and overhead lights.
+  init2final_edit_prompt: Edit the given image to show the control lever on the right tilted into the
+    'FORWARD' position (angled towards the top label). Move the cardboard box significantly further down
+    the conveyor belt, away from the camera, so it appears smaller and deeper in the scene. Ensure the
+    box is no longer in the center foreground position, reflecting that the conveyor belt has moved it
+    away.
+  rationale: The user action pushes the control lever to the 'FORWARD' position, which activates the conveyor
+    belt motor. As the camera rotates away and then returns, time passes with the conveyor running. This
+    causes the box to be transported along the belt. Given the 'FORWARD' designation and typical warehouse
+    flow away from the control station, the box should move away from the camera into the distance. The
+    final state must show the lever in the active position and the box displaced from its original location.
+  questions:
+  - id: lever_position_forward
+    question: Is the control lever on the right now in the FORWARD position?
+    answer_type: yes_no
+    notes_for_judge: The lever should be tilted towards the 'FORWARD' label or away from the viewer, not
+      vertical.
+  - id: lever_not_neutral
+    question: Is the control lever no longer in the vertical NEUTRAL position?
+    answer_type: yes_no
+    notes_for_judge: The lever was vertical initially; it should now be angled.
+  - id: box_moved
+    question: Has the cardboard box moved from its original position in the center foreground?
+    answer_type: yes_no
+    notes_for_judge: The box should not be in the exact same spot as the initial frame.
+  - id: box_distance
+    question: Is the cardboard box positioned further away from the camera than it was initially?
+    answer_type: yes_no
+    notes_for_judge: The box should have receded into the background along the belt.
+  - id: belt_clearance
+    question: Is the section of the belt where the box was originally sitting now empty?
+    answer_type: yes_no
+    notes_for_judge: The immediate foreground of the belt should be clear if the box moved away.
+  - id: box_on_belt
+    question: Is the cardboard box still located on the conveyor belt surface?
+    answer_type: yes_no
+    notes_for_judge: The box should move along the belt, not float or disappear completely (unless it
+      fell off, but prompt implies it's brought back into view).
+  - id: mechanism_consistency
+    question: Does the final state show evidence that the conveyor mechanism was activated?
+    answer_type: yes_no
+    notes_for_judge: Evidence includes the lever being thrown and the payload (box) moving.

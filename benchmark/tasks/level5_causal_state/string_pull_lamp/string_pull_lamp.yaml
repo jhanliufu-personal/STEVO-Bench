@@ -3,8 +3,61 @@ level: 5
 category: causal_mechanism
 mechanism_type: mechanical_toggle_logic
 prompts:
-  image_gen_prompt: A hanging workshop lamp with the bulb visible. The lamp is currently off (not glowing). The camera view is centered on the lamp bulb.
-  video_WM: The camera starts centered on the dark lamp bulb. The camera rotates right at constant speed until the bulb exits the view. The camera continues rotating, revealing the beaded pull-string hanging down. A hand enters the frame, grabs the beaded string, and pulls it downward firmly until a mechanical click is heard, then releases it. The lamp contains an internal toggle switch mechanism that changes state with each pull. The string pull occurs while the lamp bulb remains out of camera view. Then the camera rotates left smoothly at the same rate back to the original viewpoint, bringing the lamp bulb back into center view. No zoom, no cut, no scene change. STOP.
-  camera_WM: The camera starts on the lamp bulb, then rotates to the pull-string. A hand pulls the string downward to engage the internal toggle switch. The string pull occurs while the bulb is not visible. The camera then returns to the lamp bulb. STOP.
+  image_gen_prompt: A hanging workshop lamp with the bulb visible. The lamp is currently off (not glowing).
+    The camera view is centered on the lamp bulb.
+  video_WM: The camera starts centered on the dark lamp bulb. The camera rotates right at constant speed
+    until the bulb exits the view. The camera continues rotating, revealing the beaded pull-string hanging
+    down. A hand enters the frame, grabs the beaded string, and pulls it downward firmly until a mechanical
+    click is heard, then releases it. The lamp contains an internal toggle switch mechanism that changes
+    state with each pull. The string pull occurs while the lamp bulb remains out of camera view. Then
+    the camera rotates left smoothly at the same rate back to the original viewpoint, bringing the lamp
+    bulb back into center view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The camera starts on the lamp bulb, then rotates to the pull-string. A hand pulls the string
+    downward to engage the internal toggle switch. The string pull occurs while the bulb is not visible.
+    The camera then returns to the lamp bulb. STOP.
 camera_control:
   HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a vintage industrial pendant lamp hanging in a
+    workshop. The lamp features a weathered silver metal shade and a wire cage guard surrounding a clear
+    glass Edison-style bulb. The bulb's filament is dark and unlit. The background is a cluttered workshop
+    with wooden beams, shelves, and various tools hanging on the walls, all slightly out of focus.
+  init2final_edit_prompt: Edit the given image to turn the light bulb on. Make the internal filament glow
+    brightly with a warm orange-yellow light. Add a realistic glow effect around the bulb and reflections
+    on the wire cage and the inside of the metal shade consistent with the light source being active.
+    Ensure the camera angle, background tools, and workshop setting remain exactly identical to the original
+    image.
+  rationale: The video sequence depicts a causal interaction with a lamp's toggle switch. The camera rotates
+    away from the unlit lamp, a hand pulls the switch string (indicated by the action and sound), and
+    the camera returns to the original view. Since the lamp starts in the 'off' state and the pull-string
+    mechanism is a toggle, the single pull action transitions the lamp to the 'on' state. Therefore, the
+    final frame must show the bulb illuminated while maintaining the original camera angle and background.
+  questions:
+  - id: bulb_glowing
+    question: Is the light bulb glowing in the final frame?
+    answer_type: yes_no
+    notes_for_judge: The bulb should be emitting light, contrasting with the dark initial state.
+  - id: filament_lit
+    question: Does the filament inside the bulb appear to be illuminated?
+    answer_type: yes_no
+    notes_for_judge: The filament should look bright (e.g., orange, yellow, or white) rather than dark.
+  - id: state_change_on
+    question: Is the lamp in the 'on' state compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Verify the functional state change from off to on.
+  - id: light_color
+    question: Is the light emitting a warm color like yellow or orange?
+    answer_type: yes_no
+    notes_for_judge: Edison bulbs typically emit warm light when on.
+  - id: bulb_brightness
+    question: Is the interior of the glass bulb brighter than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Comparative check of the bulb's interior brightness.
+  - id: cage_consistency
+    question: Is the wire cage still surrounding the bulb?
+    answer_type: yes_no
+    notes_for_judge: Consistency check for the lamp structure.
+  - id: background_consistency
+    question: Are the background tools and shelves consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The camera returns to the original viewpoint, so the background should match.

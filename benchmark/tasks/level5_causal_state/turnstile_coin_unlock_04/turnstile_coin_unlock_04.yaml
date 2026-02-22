@@ -1,0 +1,68 @@
+id: turnstile_coin_unlock_04
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: turnstile_coin_unlock
+variation_type: precondition_failure
+variation_description: Power cord is unplugged; system is dead.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Power is disconnected. Coin insertion has no effect.
+  expected_outcome_change: Final state is Dark/Off (Locked) with no change from start.
+prompts:
+  init_frame_edit_prompt: Edit the image to show the red indicator light turned OFF (dark) and add a visible
+    power cord dangling unplugged near the base of the turnstile.
+  video_WM: The camera starts centered on the unpowered turnstile arm with its dark indicator light and
+    unplugged cord. The camera rotates right at constant speed until the turnstile exits the view. The
+    camera continues rotating, revealing a coin slot mechanism. A hand enters and inserts a token into
+    the slot. However, the system has no power. The insertion occurs while the turnstile arm remains out
+    of camera view. Then the camera rotates left smoothly back to the original viewpoint, bringing the
+    turnstile arm back into center view. STOP.
+  camera_WM: The scene starts on the unpowered turnstile arm with an unplugged cord. A hand inserts a
+    token into the coin slot. The system is unpowered. The action occurs while the turnstile is not visible.
+    The scene returns to the turnstile arm. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up view of a silver metal subway turnstile in a station. A black power
+    cord with a three-prong plug is prominently visible in the foreground, dangling loose and lying unplugged
+    on the tiled floor. The turnstile features a three-bar rotating arm mechanism and a front panel with
+    a 'LOCKED' sticker and a directional arrow. Above the arrow are circular indicator lights which are
+    currently dark and unlit. In the background, slightly out of focus, there are white subway tiles and
+    people walking, including a man in a black jacket and beanie.
+  init2final_edit_prompt: Edit the given image to ensure the scene remains unchanged. Keep the black power
+    cord unplugged and lying on the floor. Ensure the circular indicator lights on the turnstile remain
+    completely dark and unlit. Do not add any green glow or light to the indicators. Maintain the metal
+    turnstile arms in their original position. Preserve the background people and subway environment exactly
+    as they appear.
+  rationale: 'The video depicts a token insertion attempt, which is typically a causal trigger for unlocking
+    a turnstile. However, the prompt explicitly establishes a missing precondition: the system has no
+    power, evidenced by the unplugged cord in the initial frame. Consequently, the causal action (token
+    insertion) fails to produce the standard effect (lights turning on or arms unlocking). When the camera
+    returns to the initial view, the state must reflect this failure: the cord remains unplugged, and
+    the indicator lights must remain dark, avoiding the common hallucination of a successful activation.'
+  questions:
+  - id: cord_unplugged
+    question: Is the power cord still visible and unplugged on the floor?
+    answer_type: yes_no
+    notes_for_judge: The cord must remain disconnected as no action was taken to plug it in.
+  - id: lights_dark
+    question: Are the circular indicator lights on the turnstile still dark?
+    answer_type: yes_no
+    notes_for_judge: The lights should not be glowing because the system is unpowered.
+  - id: no_green_light
+    question: Is the turnstile free of any illuminated green signal light?
+    answer_type: yes_no
+    notes_for_judge: A green light would indicate a hallucinated successful activation.
+  - id: arm_position
+    question: Is the turnstile arm in the same position as it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The arm should not have rotated.
+  - id: system_inactive
+    question: Does the turnstile system appear to be in an unpowered state?
+    answer_type: yes_no
+    notes_for_judge: Check for lack of lights and the unplugged cord.
+  - id: background_consistency
+    question: Are the people in the background still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

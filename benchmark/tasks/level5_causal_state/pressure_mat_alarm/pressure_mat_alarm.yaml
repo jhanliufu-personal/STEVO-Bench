@@ -11,12 +11,55 @@ prompts:
     rotating, revealing a rectangular pressure-sensitive floor mat positioned in the entryway. A foot
     enters the frame and steps onto the pressure mat. The mat contains weight sensors connected to the
     alarm circuit. When pressure exceeds the threshold, the sensor triggers the alarm indicator to change
-    state. The stepping action occurs while the alarm indicator remains out of camera view. Then the
-    camera rotates left smoothly at the same rate back to the original viewpoint, bringing the alarm
-    indicator back into center view. No zoom, no cut, no scene change. STOP.
+    state. The stepping action occurs while the alarm indicator remains out of camera view. Then the camera
+    rotates left smoothly at the same rate back to the original viewpoint, bringing the alarm indicator
+    back into center view. No zoom, no cut, no scene change. STOP.
   camera_WM: The camera starts on the green alarm indicator, then rotates to the floor pressure mat. A
     foot steps onto the mat. The mat has weight sensors that trigger the alarm when threshold is exceeded.
     The step occurs while the alarm indicator is not visible. The camera then returns to the alarm indicator.
     STOP.
 camera_control:
   HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a gray metal industrial electrical box mounted
+    on a textured, beige wall. The box features a single large, round indicator light in the center which
+    is illuminated bright green. A black label above the light reads 'SYSTEM ARMED', and a label below
+    reads 'NORMAL'. Metal conduit pipes connect to the top and bottom of the box. To the left and right
+    of the wall section, parts of window frames are visible. The wall paint appears old with some peeling
+    and rough texture.
+  init2final_edit_prompt: Edit the given image to change the color of the central indicator light from
+    green to bright red. The light should appear to be glowing red, indicating an alarm state. Keep the
+    metal box, the 'SYSTEM ARMED' and 'NORMAL' labels, the conduits, the wall texture, and the window
+    frames exactly as they are in the original image. Do not change the camera angle, lighting, or any
+    other background details.
+  rationale: 'The video prompt describes a causal sequence where a pressure mat is stepped on, triggering
+    an alarm. This action occurs while the alarm indicator is temporarily out of view due to camera rotation.
+    When the camera returns to the initial viewpoint, the world state must reflect the consequence of
+    the trigger: the alarm indicator should have transitioned from its ''Normal'' state (green) to an
+    ''Alarm'' state (red). The model must maintain the static background (wall, box, labels) while updating
+    only the specific state variable (light color) affected by the causal chain.'
+  questions:
+  - id: light_is_red
+    question: Is the central indicator light now glowing red?
+    answer_type: yes_no
+    notes_for_judge: The light should be red to indicate the alarm was triggered.
+  - id: light_changed_color
+    question: Has the indicator light changed color compared to the initial green state?
+    answer_type: yes_no
+    notes_for_judge: Any distinct change from green (e.g., to red) indicates the state change occurred.
+  - id: green_gone
+    question: Is the original green illumination absent from the indicator?
+    answer_type: yes_no
+    notes_for_judge: The green 'Normal' state should no longer be active.
+  - id: box_position_preserved
+    question: Is the metal box still centered in the frame?
+    answer_type: yes_no
+    notes_for_judge: The camera returns to the original viewpoint, so the box position should be identical.
+  - id: labels_visible
+    question: Are the text labels 'SYSTEM ARMED' and 'NORMAL' still visible on the box?
+    answer_type: yes_no
+    notes_for_judge: The physical labels should not change, even if the light state contradicts 'NORMAL'.
+  - id: conduit_intact
+    question: Is the vertical metal conduit still connected to the box?
+    answer_type: yes_no
+    notes_for_judge: Structural elements should remain unchanged.

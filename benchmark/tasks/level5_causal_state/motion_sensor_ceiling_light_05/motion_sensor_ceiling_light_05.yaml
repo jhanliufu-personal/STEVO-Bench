@@ -1,0 +1,71 @@
+id: motion_sensor_ceiling_light_05
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: motion_sensor_ceiling_light
+variation_type: precondition_failure
+variation_description: The lightbulb is shattered. Triggering the sensor has no visible effect.
+changes:
+  occlusion_method: null
+  dynamic_conditions: 'Precondition failure: Broken bulb.'
+  expected_outcome_change: No change (light remains dark/broken).
+prompts:
+  init_frame_edit_prompt: Edit the image to show the lightbulb inside the glass cage is shattered and
+    broken.
+  video_WM: The camera starts centered on the damaged ceiling light fixture with a shattered bulb. The
+    camera rotates right at constant speed until the light fixture exits the view. The camera continues
+    rotating right, revealing a motion sensor mounted on the wall. A hand enters the frame and waves in
+    front of the motion sensor. The sensor is a PIR detector that activates the circuit when motion is
+    detected. The hand waves while the ceiling light remains out of view. Then the camera rotates left
+    smoothly at the same rate back to the original viewpoint, bringing the ceiling light fixture back
+    into center view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The camera starts on the shattered ceiling light, then rotates to the motion sensor. A hand
+    waves in front of the sensor. The sensor activates the circuit upon motion. The hand motion occurs
+    while the light is not visible. The camera then returns to the light fixture. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A low-angle, centered view of a rustic or distressed room with peeling paint
+    on the walls and ceiling. A metal caged ceiling light fixture hangs in the center. Inside the cage,
+    the glass bulb is shattered, with broken shards visible at the bottom of the glass enclosure. The
+    light is currently off. Portions of windows are visible on the far left and right edges of the frame.
+  init2final_edit_prompt: Edit the given image to make the central ceiling light fixture appear illuminated.
+    The interior of the cage should be glowing brightly with warm light, indicating the bulb is on. The
+    ceiling immediately surrounding the fixture should be lit up by this glow. Maintain the distressed
+    texture of the walls and the position of the windows.
+  rationale: 'The video prompt describes a causal chain: the camera pans to a motion sensor, a hand waves
+    to trigger it, and the sensor activates the circuit. The camera then returns to the light fixture.
+    Functionally, the activation of the circuit by the motion sensor implies the light should turn on.
+    Therefore, the final frame must show the light fixture illuminated, demonstrating the state change
+    caused by the interaction with the sensor.'
+  questions:
+  - id: light_on_primary
+    question: Is the ceiling light fixture emitting light?
+    answer_type: yes_no
+    notes_for_judge: The light fixture should be glowing/illuminated in the final frame, contrasting with
+      the dark state in the initial frame.
+  - id: filament_glow
+    question: Does the interior of the light fixture cage appear to be glowing?
+    answer_type: yes_no
+    notes_for_judge: Check for a bright light source inside the cage.
+  - id: ceiling_illumination
+    question: Is the ceiling area immediately around the fixture brighter than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The light source should cast a glow on the nearby ceiling surface.
+  - id: state_change_on
+    question: Has the light fixture transitioned from an 'off' state to an 'on' state?
+    answer_type: yes_no
+    notes_for_judge: Compare the initial off state to the final state.
+  - id: cage_visibility
+    question: Are the metal bars of the light cage backlit or illuminated by the internal light?
+    answer_type: yes_no
+    notes_for_judge: The light inside should make the cage bars stand out against the glow.
+  - id: consistency_walls
+    question: Is the peeling paint texture on the walls still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: consistency_windows
+    question: Are the window frames on the edges of the image still present?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

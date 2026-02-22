@@ -1,0 +1,67 @@
+id: elevator_call_button_press_00
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: elevator_call_button_press
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: Edit the image to ensure the brushed metal elevator button panel, containing
+    both the up and down arrow buttons, is clearly visible on the concrete wall.
+  video_WM: The camera is completely stationary, showing a close-up of a metal elevator button panel mounted
+    on a concrete wall. The panel features an unlit up-arrow button and an illuminated amber down-arrow
+    button. A hand enters the frame, reaches for the unlit up-arrow button, and presses it firmly. The
+    hand then releases the button and exits the view. STOP.
+  camera_WM: The camera is completely stationary, showing a close-up of a metal elevator button panel
+    mounted on a concrete wall. The panel features an unlit up-arrow button and an illuminated amber down-arrow
+    button. A hand enters the frame, reaches for the unlit up-arrow button, and presses it firmly. The
+    hand then releases the button and exits the view. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A close-up view of a brushed metal elevator button panel mounted on a rough
+    concrete wall. The panel contains two circular buttons arranged vertically. The top button displays
+    an up-arrow and is currently unlit (dark/black). The bottom button displays a down-arrow and is illuminated
+    with a bright amber/orange light.
+  init2final_edit_prompt: Edit the given image to make the top up-arrow button illuminated with an amber
+    glow, matching the brightness and color of the bottom button. Ensure the bottom down-arrow button
+    remains illuminated. Remove any hands or obstructions, leaving the view of the panel unobstructed.
+  rationale: The video prompt describes a causal interaction where a hand presses the unlit up-arrow button.
+    In this functional system, the expected state change is that the button lights up to acknowledge the
+    press (registering the call). Since the hand exits the frame, the final state should show the panel
+    with the top button now illuminated, while the previously lit bottom button remains active, and the
+    scene is clear of the agent.
+  questions:
+  - id: q1_functional_state
+    question: Is the top up-arrow button now illuminated?
+    answer_type: yes_no
+    notes_for_judge: The top button was dark initially; it should now be glowing/lit.
+  - id: q2_functional_state
+    question: Does the top button emit an amber or orange light?
+    answer_type: yes_no
+    notes_for_judge: It should match the color of the bottom button.
+  - id: q3_functional_change
+    question: Is the top button significantly brighter than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the top button in the final frame to the initial frame.
+  - id: q4_functional_state
+    question: Are both the up and down arrow buttons illuminated?
+    answer_type: yes_no
+    notes_for_judge: The bottom was already lit; the top should now be lit as well.
+  - id: q5_consistency
+    question: Is the bottom down-arrow button still illuminated?
+    answer_type: yes_no
+    notes_for_judge: The action should not have turned off the existing call.
+  - id: q6_cleanup
+    question: Is the view free of any hands or arms?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the hand exits the view.
+  - id: q7_consistency
+    question: Is the brushed metal panel still mounted on the concrete wall?
+    answer_type: yes_no
+    notes_for_judge: Background consistency check.

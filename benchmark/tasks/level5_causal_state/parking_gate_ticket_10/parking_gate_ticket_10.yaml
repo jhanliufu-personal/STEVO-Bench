@@ -1,0 +1,69 @@
+id: parking_gate_ticket_10
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: parking_gate_ticket
+variation_type: indirect_causation
+variation_description: A traffic light is added. The ticket triggers the light, which then signals the
+  barrier. The causal chain is mediated.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Ticket -> Light Green -> Barrier Open.
+  expected_outcome_change: Barrier raises, but logic involves the intermediate light.
+prompts:
+  init_frame_edit_prompt: Edit the image to add a small red traffic light mounted on top of the barrier
+    motor housing.
+  video_WM: The camera starts centered on the lowered parking barrier arm, which has a red traffic light
+    mounted on its housing. The camera rotates right at constant speed until the barrier exits the view.
+    The camera continues rotating, revealing a ticket payment machine. A hand holding a validated parking
+    ticket enters the frame and inserts the ticket into the slot. The machine is wired to control the
+    traffic light, which in turn signals the barrier motor to activate. The ticket insertion occurs while
+    the barrier arm and light remain out of camera view. Then the camera rotates left smoothly at the
+    same rate back to the original viewpoint, bringing the barrier arm back into center view. No zoom,
+    no cut, no scene change. STOP.
+  camera_WM: The scene features a lowered barrier arm with a mounted traffic light and a ticket payment
+    machine. A hand inserts a validated parking ticket into the slot. The machine controls the traffic
+    light, which signals the barrier motor. The ticket insertion occurs while the barrier and light are
+    not visible.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A yellow parking barrier housing stands on the left with a red traffic light
+    illuminated on top. A red and white striped barrier arm extends horizontally to the right, blocking
+    the lane. A 'STOP' sign is attached to the arm. In the background, there is a parking lot with several
+    parked cars.
+  init2final_edit_prompt: Edit the given image so that the red and white barrier arm is raised to a vertical
+    open position. Change the illuminated red light on top of the yellow housing to a green light.
+  rationale: The prompt describes a causal chain where a validated ticket is inserted into a machine (off-screen
+    during the pan), which triggers the traffic light and subsequently the barrier motor. Since the camera
+    returns to the original view after this action occurs, the barrier arm should now be raised to allow
+    passage, and the traffic light should have switched from red to green to signal that the gate is open.
+  questions:
+  - id: barrier_position_vertical
+    question: Is the parking barrier arm now in a raised or vertical position?
+    answer_type: yes_no
+    notes_for_judge: The arm should be pointing upwards, not horizontal.
+  - id: barrier_not_horizontal
+    question: Is the barrier arm no longer blocking the lane horizontally?
+    answer_type: yes_no
+    notes_for_judge: It should have moved from the closed state.
+  - id: light_color_change
+    question: Has the traffic light on the yellow housing changed from red to green (or turned off)?
+    answer_type: yes_no
+    notes_for_judge: The red light should no longer be the dominant active signal.
+  - id: stop_sign_position
+    question: Is the 'STOP' sign on the barrier arm positioned higher than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: As the arm raises, the attached sign moves up.
+  - id: gate_open_state
+    question: Does the gate appear to be open for a vehicle to pass?
+    answer_type: yes_no
+    notes_for_judge: Functional check of the system state.
+  - id: background_consistency
+    question: Are the parked cars in the background still in the same positions?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: housing_consistency
+    question: Is the yellow barrier housing still in the same location on the left?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

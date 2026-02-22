@@ -3,8 +3,64 @@ level: 5
 category: causal_mechanism
 mechanism_type: rf_coupling_logic
 prompts:
-  image_gen_prompt: A small toy robot labeled Channel A sits on a surface. The robot is currently motionless and stationary. The camera view is centered on the robot.
-  video_WM: The camera starts centered on the motionless toy robot labeled Channel A. The camera rotates right at constant speed until the robot exits the view. The camera continues rotating, revealing a handheld remote control also labeled Channel A. A hand enters the frame and presses the large FORWARD button on the remote control. The remote is within wireless range of the robot. The remote transmits radio signals when buttons are pressed, and the robot receives signals on the paired channel. The button press occurs while the toy robot remains out of camera view. Then the camera rotates left smoothly at the same rate back to the original viewpoint, bringing the toy robot back into center view. No zoom, no cut, no scene change. STOP.
-  camera_WM: The camera starts on the robot, then rotates to the remote control. A hand presses the FORWARD button on the paired Channel A remote. The remote transmits the command signal wirelessly. The button press occurs while the robot is not visible. The camera then returns to the robot. STOP.
+  image_gen_prompt: A small toy robot labeled Channel A sits on a surface. The robot is currently motionless
+    and stationary. The camera view is centered on the robot.
+  video_WM: The camera starts centered on the motionless toy robot labeled Channel A. The camera rotates
+    right at constant speed until the robot exits the view. The camera continues rotating, revealing a
+    handheld remote control also labeled Channel A. A hand enters the frame and presses the large FORWARD
+    button on the remote control. The remote is within wireless range of the robot. The remote transmits
+    radio signals when buttons are pressed, and the robot receives signals on the paired channel. The
+    button press occurs while the toy robot remains out of camera view. Then the camera rotates left smoothly
+    at the same rate back to the original viewpoint, bringing the toy robot back into center view. No
+    zoom, no cut, no scene change. STOP.
+  camera_WM: The camera starts on the robot, then rotates to the remote control. A hand presses the FORWARD
+    button on the paired Channel A remote. The remote transmits the command signal wirelessly. The button
+    press occurs while the robot is not visible. The camera then returns to the robot. STOP.
 camera_control:
   HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A grey, retro-style toy robot with tank treads standing on a scratched wooden
+    table. The robot has a boxy body and head with two small antennae. A prominent label on its chest
+    (or back panel) reads 'CHANNEL A' in red text on a silver background. The background is out of focus,
+    showing a row of books on the left and a window area on the right.
+  init2final_edit_prompt: Edit the given image to show that the robot has driven forward along the table
+    surface. Position the robot further away from the camera than it was in the initial frame, as if it
+    has moved into the depth of the scene. The robot should appear slightly smaller due to perspective,
+    and the area of the table where it originally stood should now be empty. Keep the background, lighting,
+    and camera angle identical to the original.
+  rationale: The video sequence establishes a causal link between a remote control and the robot. Both
+    are labeled 'Channel A', indicating they are paired. The user presses the 'FORWARD' button on the
+    remote while the robot is out of view. This action transmits a signal that activates the robot's motors,
+    causing it to drive forward. When the camera returns to the original viewpoint, the robot should have
+    displaced from its starting position. Assuming the visible panel is the back (common for battery/channel
+    access) or following standard cinematic 'forward' motion into the scene, the robot should be further
+    away from the camera.
+  questions:
+  - id: robot_moved
+    question: Is the robot in a different position on the table compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Check if the robot has displaced from the center.
+  - id: robot_moved_away
+    question: Is the robot positioned further away from the camera than it was initially?
+    answer_type: yes_no
+    notes_for_judge: The robot should have moved into the depth of the scene.
+  - id: original_spot_empty
+    question: Is the specific spot on the table where the robot started now empty?
+    answer_type: yes_no
+    notes_for_judge: The texture of the wood where the robot was standing should now be visible.
+  - id: closer_to_background
+    question: Is the robot visually closer to the background books than before?
+    answer_type: yes_no
+    notes_for_judge: Due to moving away from the camera/viewer.
+  - id: robot_still_visible
+    question: Is the robot still visible on the table?
+    answer_type: yes_no
+    notes_for_judge: It should not have driven completely off-screen.
+  - id: background_invariant
+    question: Are the books in the background in the same position as the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The environment should be static.
+  - id: lighting_invariant
+    question: Is the lighting on the table consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: No time of day change, just a short action.

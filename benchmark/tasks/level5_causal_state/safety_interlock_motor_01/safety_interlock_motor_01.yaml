@@ -1,0 +1,69 @@
+id: safety_interlock_motor_01
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: safety_interlock_motor
+variation_type: initial_state
+variation_description: Motor starts in the running state; trigger is a STOP button.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Initial state is ON (spinning). Trigger action (pressing button) causes state to
+    change to OFF (stationary).
+  expected_outcome_change: The motor shaft should be stationary at the end (opposite of original).
+prompts:
+  init_frame_edit_prompt: Edit the image to apply strong rotational motion blur to the motor drive shaft
+    to make it look like it is spinning rapidly. Change the color of any visible button housing to red
+    if possible, or leave neutral.
+  video_WM: The camera starts centered on the rapidly spinning motor drive shaft. The camera rotates right
+    at constant speed until the shaft exits the view. The camera continues rotating, revealing a large
+    red STOP button. A finger enters the frame and firmly presses the red STOP button. The button press
+    occurs while the motor shaft remains out of camera view. Then the camera rotates left smoothly at
+    the same rate back to the original viewpoint, bringing the motor drive shaft back into center view.
+    No zoom, no cut, no scene change. STOP.
+  camera_WM: The scene features a spinning motor drive shaft and a red STOP button. A finger presses the
+    STOP button while the shaft is out of view. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A large industrial electric motor with a green painted housing and a red terminal
+    box attached to the side. A thick, cylindrical metal drive shaft extends from the left side of the
+    motor. The drive shaft exhibits significant rotational motion blur, indicating it is spinning rapidly.
+    The background shows a factory floor with concrete surfaces and other industrial equipment.
+  init2final_edit_prompt: Edit the given image to show the motor drive shaft in a completely stationary
+    state. Remove the rotational motion blur from the cylindrical metal shaft. Render the shaft's surface
+    with sharp, distinct metallic textures, scratches, and grease marks to indicate it is not moving.
+    Ensure the keyway or slot on the shaft is sharply defined if visible. Keep the green motor housing,
+    red terminal box, and background machinery exactly identical to the original image.
+  rationale: The video sequence depicts a functional safety test where a user presses a STOP button to
+    halt the machinery. The initial frame shows the motor spinning (indicated by motion blur). The camera
+    pans away to capture the causal action (pressing the stop button) and then pans back to the original
+    view. According to the causal logic of the prompt, the motor must have stopped spinning by the time
+    the camera returns. Therefore, the final frame must depict the drive shaft as static, replacing the
+    initial motion blur with sharp, stationary details.
+  questions:
+  - id: shaft_stationary
+    question: Does the motor drive shaft appear to be stationary in the final frame?
+    answer_type: yes_no
+    notes_for_judge: The shaft should look static, lacking the motion blur seen in the first frame.
+  - id: blur_removal
+    question: Has the motion blur on the metal drive shaft been removed or significantly reduced compared
+      to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the texture of the shaft; it should be sharp in the final frame.
+  - id: texture_sharpness
+    question: Are the surface details (scratches, grease marks) on the shaft sharper than in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: Spinning shafts blur these details; a stopped shaft shows them clearly.
+  - id: state_change_stopped
+    question: Does the final image indicate that the motor has stopped spinning?
+    answer_type: yes_no
+    notes_for_judge: This is the primary causal outcome of the button press.
+  - id: housing_consistency
+    question: Is the green motor housing in the same position as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The motor body should not move, only the internal rotor stops.
+  - id: red_box_consistency
+    question: Is the red terminal box on the side of the motor still present and unchanged?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

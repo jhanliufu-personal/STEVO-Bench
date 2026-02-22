@@ -1,0 +1,66 @@
+id: pressure_mat_alarm_08
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: pressure_mat_alarm
+variation_type: repeated_activation
+variation_description: The mat is stepped on and then stepped off; momentary switch logic applies.
+changes:
+  occlusion_method: null
+  dynamic_conditions: 'Momentary switch logic: Active only when pressed. Releasing returns to start state.'
+  expected_outcome_change: Final state is Green (Original state), as the foot is removed.
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The camera starts centered on the alarm indicator light showing green. The camera rotates
+    right at constant speed until the indicator exits the view. The camera continues rotating, revealing
+    a rectangular pressure-sensitive floor mat positioned in the entryway. The system operates as a momentary
+    signal. A foot enters the frame, steps onto the pressure mat, and then immediately steps off. The
+    activation and release occur while the alarm indicator remains out of camera view. Then the camera
+    rotates left smoothly at the same rate back to the original viewpoint, bringing the alarm indicator
+    back into center view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The scene features a green alarm indicator and a pressure-sensitive floor mat configured
+    as a momentary switch. A foot steps onto the mat and then steps off. The activation and release occur
+    while the alarm indicator is not visible. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a grey, industrial metal electrical box mounted
+    on a rough, beige wall. A metal conduit pipe runs vertically, passing through the box. In the center
+    of the box face is a large, circular indicator light currently glowing bright green. Above the light,
+    a black label with white text reads 'SYSTEM ARMED'. Below the light, a smaller label reads 'NORMAL'.
+    To the left, the edge of a white window frame is visible. The lighting is natural, casting soft shadows.
+  init2final_edit_prompt: Edit the given image to change the color of the central circular indicator light.
+    The light should now appear to be glowing bright red instead of green, indicating an alarm state.
+    Keep the metal box, the conduit, the 'SYSTEM ARMED' and 'NORMAL' labels, and the wall background exactly
+    as they are. Only the hue of the emitted light should change.
+  rationale: The initial state shows an armed security system in a 'Normal' (green) state. The video prompt
+    describes a pressure mat being triggered by a foot. Although the prompt notes the mat operates as
+    a 'momentary signal' and the foot steps off, security systems labeled 'ARMED' typically latch into
+    an alarm state upon any activation. If the system did not latch, the final state would be identical
+    to the initial state, rendering the causal action invisible. Therefore, we assume the system latches,
+    resulting in the indicator light changing to red and remaining red after the trigger is released.
+  questions:
+  - id: q1_primary_state
+    question: Is the central indicator light now glowing red?
+    answer_type: yes_no
+    notes_for_judge: The light should have changed from green to red to indicate the alarm was triggered.
+  - id: q2_primary_change
+    question: Is the indicator light a different color than the initial green?
+    answer_type: yes_no
+    notes_for_judge: It should no longer be green.
+  - id: q3_primary_meaning
+    question: Does the system status indicate an alarm state (red light)?
+    answer_type: yes_no
+    notes_for_judge: Red typically signifies alarm in this context.
+  - id: q4_secondary_invariant
+    question: Is the label 'SYSTEM ARMED' still visible above the light?
+    answer_type: yes_no
+    notes_for_judge: Labels should not change.
+  - id: q5_secondary_invariant
+    question: Is the metal conduit pipe still present?
+    answer_type: yes_no
+    notes_for_judge: Structural elements should remain unchanged.
+  - id: q6_secondary_invariant
+    question: Is the wall texture and window frame consistent with the initial view?
+    answer_type: yes_no
+    notes_for_judge: Background should be preserved.

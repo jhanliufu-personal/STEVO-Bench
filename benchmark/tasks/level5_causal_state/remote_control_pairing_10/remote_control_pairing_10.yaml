@@ -1,0 +1,73 @@
+id: remote_control_pairing_10
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: remote_control_pairing
+variation_type: indirect_causation
+variation_description: A separate receiver module is added. The remote talks to the module, which is wired
+  to the robot.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Mediated causation via external receiver module.
+  expected_outcome_change: The robot moves (causal chain is intact but longer).
+prompts:
+  init_frame_edit_prompt: Edit the image to add a small electronic box labeled 'RECEIVER' with an antenna
+    sitting on the table next to the robot, connected to the robot by a visible wire.
+  video_WM: The camera starts centered on the motionless toy robot labeled Channel A, which is connected
+    by wire to a separate receiver module. The camera rotates right at constant speed until the robot
+    and receiver exit the view. The camera continues rotating, revealing a handheld remote control also
+    labeled Channel A. A hand enters the frame and presses the large FORWARD button on the remote control.
+    The remote transmits radio signals to the receiver module. The button press occurs while the toy robot
+    remains out of camera view. Then the camera rotates left smoothly at the same rate back to the original
+    viewpoint, bringing the toy robot back into center view. No zoom, no cut, no scene change. STOP.
+  camera_WM: A handheld remote control labeled Channel A is revealed. A hand enters the frame and presses
+    the large FORWARD button on the remote control. The remote transmits radio signals to the receiver
+    module. The button press occurs while the toy robot remains out of camera view. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A grey retro-style toy robot with tank treads and a square head stands on a
+    wooden table, facing the camera. It has a red label on its chest reading 'CHANNEL A'. A black wire
+    connects the robot to a small grey rectangular receiver box labeled 'RECEIVER' sitting to the right
+    of the robot. The receiver has a single vertical antenna. The background features blurred books and
+    a window.
+  init2final_edit_prompt: Edit the given image to show the toy robot has moved forward, closer to the
+    camera. The robot should be positioned noticeably closer to the viewer than in the original state.
+    The wire connecting the robot to the receiver should appear straighter, taut, or reconfigured to account
+    for the increased distance or change in relative position. The receiver box should remain on the table,
+    potentially shifted slightly if pulled by the wire, but the primary change must be the robot's advancement
+    towards the foreground.
+  rationale: The video prompt describes a causal chain where a remote control labeled 'Channel A' is used
+    to send a 'FORWARD' command to the robot, which is also labeled 'Channel A'. Although the robot is
+    out of view during the button press, the functional consequence of this action is locomotion. Since
+    the robot is facing the camera in the initial frame, a 'forward' movement corresponds to the robot
+    driving towards the viewpoint. When the camera returns to the initial angle, the robot must be displaced
+    closer to the camera, and the connecting wire should reflect this movement.
+  questions:
+  - id: robot_moved_closer
+    question: Is the robot positioned closer to the camera than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The robot should appear larger or lower in the frame, indicating movement towards
+      the viewer.
+  - id: robot_position_change
+    question: Has the robot's location on the wooden table changed relative to the background?
+    answer_type: yes_no
+    notes_for_judge: Compare the robot's position against the blurred books or window frame.
+  - id: wire_state_change
+    question: Is the shape or tension of the wire connecting the robot and receiver different than in
+      the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The wire should look extended, straighter, or moved due to the robot's travel.
+  - id: functional_response
+    question: Does the final image show evidence that the robot responded to the movement command?
+    answer_type: yes_no
+    notes_for_judge: The evidence is the displacement of the robot from its starting spot.
+  - id: receiver_presence
+    question: Is the receiver box still visible on the table?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: robot_orientation
+    question: Is the robot still facing roughly the same direction (towards the camera) despite moving?
+    answer_type: yes_no
+    notes_for_judge: The command was 'forward', not a turn, so it should face the same way but be in a
+      new spot.

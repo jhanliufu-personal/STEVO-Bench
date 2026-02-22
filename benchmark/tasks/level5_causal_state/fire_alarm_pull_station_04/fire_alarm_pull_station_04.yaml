@@ -1,0 +1,69 @@
+id: fire_alarm_pull_station_04
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: fire_alarm_pull_station
+variation_type: precondition_failure
+variation_description: A signal wire connecting the system is visibly severed, preventing the signal from
+  reaching the light.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Signal wire is cut. Causal chain broken. Output state remains unchanged.
+  expected_outcome_change: The light should remain Green (no change) because the signal cannot reach it.
+prompts:
+  init_frame_edit_prompt: Edit the image to show a visibly severed/cut wire hanging next to the indicator
+    light fixture.
+  video_WM: The camera starts centered on the ceiling-mounted fire alarm indicator light showing steady
+    green, with a visibly severed signal wire hanging near the fixture. The camera rotates right at constant
+    speed until the indicator exits the view. The camera continues rotating, revealing a red fire alarm
+    pull station on the wall. A hand enters the frame and pulls down the handle on the pull station firmly.
+    The pull station switch closes the circuit, but the connection to the indicator is severed. The handle
+    pull occurs while the ceiling indicator remains out of camera view. Then the camera rotates left smoothly
+    at the same rate back to the original viewpoint, bringing the ceiling indicator back into center view.
+    No zoom, no cut, no scene change. STOP.
+  camera_WM: The ceiling indicator shows green with a cut wire nearby. A hand pulls down the handle on
+    the wall-mounted station. The station activates but the wire is cut. The action occurs while the indicator
+    is not visible. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up view of a white, circular fire alarm indicator mounted on a white
+    textured ceiling. The device features a central dome light that is illuminated in bright green. Text
+    printed on the white plastic rim reads 'SYSTEM ARMED' at the top and 'FIRE ALARM INDICATOR' at the
+    bottom. To the left of the device, a white cable hangs down from the ceiling, ending in visibly severed,
+    exposed wires (black, red, and bare copper) that are unconnected.
+  init2final_edit_prompt: Edit the given image to maintain the fire alarm indicator light in its initial
+    state, glowing bright green. Ensure the severed wire with exposed tips remains hanging in the exact
+    same position to the left of the device. Do not change the color of the light to red; it must remain
+    green.
+  rationale: The video involves a camera rotation to a fire alarm pull station which is then activated
+    by a hand. However, the prompt explicitly states that the connection between the pull station and
+    the indicator is severed, a fact visually supported by the severed wire visible in the initial frame.
+    Because the signal path is broken, the activation of the alarm switch cannot trigger the indicator
+    light. Therefore, the causal chain is interrupted, and the indicator light must remain in its initial
+    'System Armed' (green) state rather than transitioning to an alarm state (red).
+  questions:
+  - id: q1_state_green
+    question: Is the central indicator light still illuminated in green?
+    answer_type: yes_no
+    notes_for_judge: The light should remain green because the connection is severed.
+  - id: q2_not_red
+    question: Does the indicator light remain green instead of turning red?
+    answer_type: yes_no
+    notes_for_judge: If the light turns red, the model failed to account for the severed wire.
+  - id: q3_system_armed
+    question: Is the 'SYSTEM ARMED' status (indicated by the green light) still active?
+    answer_type: yes_no
+    notes_for_judge: The system should appear armed/normal.
+  - id: q4_no_alarm_state
+    question: Is the device free of any red alarm indication?
+    answer_type: yes_no
+    notes_for_judge: The device should not show red.
+  - id: q5_wire_presence
+    question: Is the severed wire still visible hanging to the left of the device?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: q6_wire_tips
+    question: Are the exposed tips of the severed wire still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

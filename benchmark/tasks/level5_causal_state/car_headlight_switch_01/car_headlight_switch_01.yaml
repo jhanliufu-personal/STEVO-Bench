@@ -1,0 +1,73 @@
+id: car_headlight_switch_01
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: car_headlight_switch
+variation_type: initial_state
+variation_description: Headlights start ON, so the action turns them OFF.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Headlights are initially active. The switch is toggled to the inactive state.
+  expected_outcome_change: The environment outside the windows will become dark (lights turn off).
+prompts:
+  init_frame_edit_prompt: Edit the image so the environment outside the car windows is brightly illuminated
+    by headlights, revealing a street scene at night. The dashboard lights remain on.
+  video_WM: Driver's upright POV at night. The lit dashboard is fully visible and the surrounding environment
+    is illuminated by the car's headlights. The driver leans forward toward the dashboard; the windows
+    and exterior are no longer visible. The headlight control switch on the left steering column stalk
+    comes into view. A hand rotates the headlight switch. The headlight switch is part of the car's electrical
+    system and operates only when the ignition is on. The driver leans back to the upright seated position,
+    bringing the windshield and exterior environment back into view. No zoom, no cut, no scene change.
+    STOP.
+  camera_WM: The camera starts in upright driver POV at night — lit dashboard, surrounding environment
+    illuminated. A hand rotates the headlight switch. The headlight switch is part of the electrical system
+    and operates only with ignition on. The action occurs while the windows are not visible. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A driver's point-of-view shot from inside a car at night. The interior dashboard
+    is visible with illuminated orange instrument dials (speedometer, tachometer) and a Toyota steering
+    wheel. Through the windshield, a wet city street is brightly illuminated by the car's headlights,
+    creating strong white reflections on the asphalt directly in front of the vehicle. Distant streetlights,
+    shop signs (including a green 'Pizza' sign), and parked cars are visible in the background. A side
+    mirror on the left shows a reflection of the street behind.
+  init2final_edit_prompt: Edit the given image to simulate the car's headlights being turned off. Significantly
+    darken the wet road surface visible through the windshield, removing the bright projected light and
+    white reflections cast by the car's beams. The road directly ahead should appear dark, illuminated
+    only by the ambient city glow and streetlights. Keep the distant storefronts, streetlights, and the
+    illuminated dashboard interior unchanged.
+  rationale: The video prompt describes a driver interacting with the headlight control switch on the
+    steering column. In the initial frame, the headlights are clearly on, illuminating the road. The action
+    of rotating the switch typically turns the headlights off (or to parking lights). Therefore, the primary
+    functional state change is the deactivation of the headlights, causing the road ahead to become darker
+    as the car's beam projection is removed. The driver returns to the original position, restoring the
+    original view but with the new lighting state.
+  questions:
+  - id: q1
+    question: Is the road surface directly in front of the car significantly darker than in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: The road should no longer be lit by the car's headlights.
+  - id: q2
+    question: Have the bright white headlight reflections on the wet asphalt been removed or dimmed?
+    answer_type: yes_no
+    notes_for_judge: The strong reflections from the main beams should be gone.
+  - id: q3
+    question: Does the street scene appear to be lit only by ambient streetlights rather than the car's
+      headlights?
+    answer_type: yes_no
+    notes_for_judge: Check for the absence of the forward light cone.
+  - id: q4
+    question: Is the pavement immediately ahead of the car now darker than the illuminated shop signs
+      in the distance?
+    answer_type: yes_no
+    notes_for_judge: 'Relative brightness check: initially the road was very bright; now it should be
+      darker than the distant lights.'
+  - id: q5
+    question: Are the distant streetlights and storefront signs still visible?
+    answer_type: yes_no
+    notes_for_judge: 'Invariant check: background city lights should remain.'
+  - id: q6
+    question: Is the dashboard instrument cluster still illuminated?
+    answer_type: yes_no
+    notes_for_judge: 'Invariant check: the interior view should remain visible.'

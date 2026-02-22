@@ -1,0 +1,67 @@
+id: car_hood_release_05
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: car_hood_release
+variation_type: precondition_failure
+variation_description: The plastic handle of the lever is broken off, leaving only a stump that cannot
+  be gripped effectively.
+changes:
+  occlusion_method: null
+  dynamic_conditions: The interface (handle) is missing, preventing the action from being performed successfully.
+  expected_outcome_change: The hood remains fully closed.
+prompts:
+  init_frame_edit_prompt: Edit the image to show the plastic handle of the hood release lever is broken
+    off, leaving only a jagged metal stump.
+  video_WM: Driver's upright POV. The steering wheel is centered, and the closed car hood is visible through
+    the windshield. The driver leans forward and downward toward the lower dashboard; the windshield is
+    no longer visible. The remains of the hood release lever come into view—the handle is missing. A hand
+    reaches for the jagged stump and attempts to pull it but slips off without engaging the mechanism.
+    The driver leans back to the upright seated position, bringing the hood back into view. STOP.
+  camera_WM: The camera starts in upright driver POV with the closed hood visible. The driver leans forward
+    and down, camera pitches down and moves forward, revealing the broken lever stump. A hand reaches
+    for the stump but fails to pull it. The action occurs while the windshield is not visible. The driver
+    leans back to the original seated position. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A first-person view from the driver's seat of a blue Chevrolet Corvette. The
+    steering wheel is centered with a digital instrument cluster showing 0 MPH. Through the windshield,
+    a sunny suburban street with trees and parked cars is visible. The car's hood is visible at the bottom
+    of the windshield view and is currently closed. On the lower dashboard to the left of the steering
+    wheel, there is a broken, jagged silver stump where the hood release handle would normally be.
+  init2final_edit_prompt: Edit the given image to show the car hood remaining fully closed and latched,
+    identical to its position in the original image. Ensure the hood is flush with the body panels and
+    does not obstruct the view of the street. The broken lever stump on the lower left dashboard should
+    remain visible and unchanged.
+  rationale: The video prompt describes an attempt to pull the hood release lever which fails because
+    the hand slips off the broken stump without engaging the mechanism. Since the mechanism is not successfully
+    triggered, the hood latch does not release. The driver then returns to the initial upright seating
+    position. Therefore, the final state of the hood must be identical to the initial state (closed),
+    and the view should return to the original perspective.
+  questions:
+  - id: hood_closed_check
+    question: Is the car hood still fully closed?
+    answer_type: yes_no
+    notes_for_judge: The action failed to engage the mechanism, so the hood should not have popped up.
+  - id: hood_position_comparison
+    question: Is the position of the hood identical to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Check if the hood has moved upwards. It should not have moved.
+  - id: latch_status_visual
+    question: Does the hood appear flush with the car body, indicating it is still latched?
+    answer_type: yes_no
+    notes_for_judge: A released hood would show a gap or be raised slightly.
+  - id: street_visibility
+    question: Is the view of the street through the windshield unobstructed by a raised hood?
+    answer_type: yes_no
+    notes_for_judge: If the hood opened significantly, it might block the lower part of the street view.
+  - id: broken_lever_presence
+    question: Is the broken lever stump on the lower left dashboard still visible?
+    answer_type: yes_no
+    notes_for_judge: The camera returns to the initial position, so the dashboard features should be visible
+      again.
+  - id: steering_wheel_view
+    question: Is the steering wheel centered in the view, matching the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Verifies the camera returned to the upright seated position.

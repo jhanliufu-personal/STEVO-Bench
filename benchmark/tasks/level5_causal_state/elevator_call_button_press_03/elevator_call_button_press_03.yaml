@@ -1,0 +1,73 @@
+id: elevator_call_button_press_03
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: elevator_call_button_press
+variation_type: initial_state
+variation_description: Both buttons start LIT. The action is to press the Up button, canceling that specific
+  call.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Both buttons are active. Pressing Up cancels the Up call.
+  expected_outcome_change: The Up button turns OFF; Down button remains ON.
+prompts:
+  init_frame_edit_prompt: Edit the image so that BOTH the Up and Down arrow buttons are illuminated with
+    a bright orange glow.
+  video_WM: The camera starts centered on the elevator call button panel, where both buttons are currently
+    illuminated. The camera rotates right at constant speed until the button panel exits the view. The
+    camera continues rotating right, showing the wall and surroundings. While the button is out of view,
+    a hand reaches to the button location and presses the Up call button. This action sends a cancellation
+    signal for the upward direction to the controller. The controller processes the input and updates
+    the status of the light circuit accordingly. The button press occurs while the button panel remains
+    out of camera view. Then the camera rotates left smoothly at the same rate back to the original viewpoint,
+    bringing the button panel back into center view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The camera starts on the panel with both buttons lit. While out of view, the Up button is
+    pressed. The system treats this as a cancellation for that direction. The controller updates the light
+    circuit. The button press occurs while the button is not visible. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A close-up view of a brushed metal elevator control panel mounted on a textured
+    concrete wall. The panel contains two circular buttons arranged vertically. The top button features
+    an upward-pointing arrow, and the bottom button features a downward-pointing arrow. Both buttons are
+    currently illuminated with a bright orange-yellow internal light.
+  init2final_edit_prompt: Edit the given image so that the top button (with the up arrow) is no longer
+    illuminated and appears dark or unlit. Ensure the bottom button (with the down arrow) remains illuminated
+    with its original orange glow. Keep the metal panel and concrete wall texture unchanged.
+  rationale: The video prompt describes a sequence where the camera pans away, a user presses the Up button
+    to send a cancellation signal, and the camera returns. The explicit instruction states that the action
+    sends a cancellation signal which updates the light circuit. In the context of elevator controls,
+    cancelling a call turns off the corresponding indicator light. Therefore, upon the camera's return,
+    the Up button should be unlit (off), while the Down button remains lit (on) as it was not interacted
+    with.
+  questions:
+  - id: q1_up_button_state
+    question: Is the top button with the up arrow now unlit?
+    answer_type: yes_no
+    notes_for_judge: The top button should be dark/off, contrasting with the initial frame where it was
+      lit.
+  - id: q2_up_button_change
+    question: Is the top button darker than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: It was glowing orange initially; it should be dark now.
+  - id: q3_down_button_state
+    question: Is the bottom button with the down arrow still illuminated?
+    answer_type: yes_no
+    notes_for_judge: The bottom button was not pressed, so it should remain lit.
+  - id: q4_relative_brightness
+    question: Is the bottom button significantly brighter than the top button?
+    answer_type: yes_no
+    notes_for_judge: Since the bottom is lit and the top is unlit, the bottom should be brighter.
+  - id: q5_functional_outcome
+    question: Does the panel show that the upward call has been cancelled (light off)?
+    answer_type: yes_no
+    notes_for_judge: 'Functional check: cancellation signal = light off.'
+  - id: q6_wall_consistency
+    question: Is the texture of the concrete wall consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: q7_panel_position
+    question: Is the metal panel centered in the view as it was initially?
+    answer_type: yes_no
+    notes_for_judge: The camera returned to the original viewpoint.

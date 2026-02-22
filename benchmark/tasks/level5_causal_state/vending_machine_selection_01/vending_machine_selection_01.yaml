@@ -1,0 +1,69 @@
+id: vending_machine_selection_01
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: vending_machine_selection
+variation_type: initial_state
+variation_description: The product slot D3 is initially empty, so the dispensing mechanism activates but
+  releases nothing.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Slot D3 is empty. Coil rotates but no product falls.
+  expected_outcome_change: The final state shows the empty slot D3 unchanged; no product appears at the
+    bottom.
+prompts:
+  init_frame_edit_prompt: Edit the image to remove the bag of chips from slot D3, leaving the metal coil
+    empty and visible.
+  video_WM: The camera starts centered on the empty slot D3 behind the glass. The camera rotates right
+    at constant speed until the empty slot exits the view. The camera continues rotating, revealing the
+    vending machine keypad. A hand enters the frame and presses D, then 3 on the keypad. The keypad is
+    connected to the dispensing mechanism. The code entry occurs while the empty slot remains out of camera
+    view. Then the camera rotates left smoothly back to the original viewpoint, bringing the slot D3 back
+    into center view. STOP.
+  camera_WM: The camera starts on the empty slot D3. A hand enters code D-3 on the keypad. The keypad
+    controls the dispensing mechanism. The code entry occurs while the slot is not visible. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up view of a vending machine interior seen through the glass. The center
+    of the frame features an empty dispensing slot (labeled 'D3 - $1.50' above and below it) containing
+    a metal spiral coil with the wire end positioned at the bottom right. To the left of the empty slot
+    is a bag of Doritos. On the shelf above, there are bags of chips, including a green bag on the left
+    and an orange bag on the right. A reflection of a person holding a camera is visible in the glass.
+  init2final_edit_prompt: Edit the given image so that the metal spiral coil in the center empty slot
+    is rotated to a different angle. The end of the coil wire should be at a different clock position
+    (e.g., top or left) compared to the original bottom-right position, indicating the mechanism has turned.
+    Ensure the slot remains empty and that surrounding items, such as the Doritos and the chips on the
+    top shelf, remain unchanged.
+  rationale: The video prompt describes a user entering the code 'D3' on the vending machine keypad. In
+    the initial frame, the label 'D3' identifies the empty slot in the center. The causal consequence
+    of entering the code is the activation of the dispensing motor for that slot, which rotates the spiral
+    coil. Since the slot is empty, no product falls, but the coil will end up in a different rotational
+    orientation (phase) or be captured mid-cycle. The final frame must show this change in the coil's
+    position to demonstrate the mechanism was triggered.
+  questions:
+  - id: coil_rotation_change
+    question: Is the metal coil in the center slot oriented differently than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the rotational phase of the spiral. The wire end should be in a different
+      position.
+  - id: coil_wire_position
+    question: Is the end of the spiral wire in the center slot at a different clock position?
+    answer_type: yes_no
+    notes_for_judge: In the init frame, the wire end is at approx 4-5 o'clock. It should be elsewhere.
+  - id: mechanism_activation
+    question: Does the center coil show visual evidence of having rotated?
+    answer_type: yes_no
+    notes_for_judge: Any change in the spiral's angle indicates activation.
+  - id: coil_configuration_diff
+    question: Is the configuration of the center coil distinct from the start?
+    answer_type: yes_no
+    notes_for_judge: The spiral pattern should look shifted due to rotation.
+  - id: slot_empty_invariant
+    question: Is the center slot still empty?
+    answer_type: yes_no
+    notes_for_judge: No product should have appeared; the slot was empty initially.
+  - id: doritos_invariant
+    question: Is the bag of Doritos on the left still in the same position?
+    answer_type: yes_no
+    notes_for_judge: The neighbor object should not move.

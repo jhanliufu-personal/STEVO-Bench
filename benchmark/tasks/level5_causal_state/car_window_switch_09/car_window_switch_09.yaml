@@ -1,0 +1,70 @@
+id: car_window_switch_09
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: car_window_switch
+variation_type: repeated_activation
+variation_description: The switch is pulled up (close) twice on an already closed window.
+changes:
+  occlusion_method: null
+  dynamic_conditions: 'Action sequence: Close -> Close. Initial state: Closed. Net result: Closed.'
+  expected_outcome_change: The window remains closed.
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: Driver's upright POV. The steering wheel is centered, the dashboard is lit, and the driver-side
+    window is fully closed — the daylight exterior is visible through the glass. The driver leans forward
+    toward the door panel; the side windows are no longer visible. The window control switch panel on
+    the door armrest comes into view. A hand pulls the driver window switch upward, releases it, and pulls
+    it upward again. The window switch is part of the car's electrical system; the direction pressed determines
+    the behavior of the window motor. The driver leans back to the upright seated position. No zoom, no
+    cut, no scene change. STOP.
+  camera_WM: The camera starts in upright driver POV with lit dashboard and the driver-side window fully
+    closed. The driver leans forward, camera pitches down and moves forward, revealing the window control
+    switch on the door armrest. A hand pulls the switch upward twice. The window switch is part of the
+    electrical system. The action occurs while the windows are not visible. The driver leans back to the
+    original seated position. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: Driver's perspective view from inside a car. A black steering wheel is centered
+    with the driver's left hand gripping the rim at the 9 o'clock position. The dashboard features illuminated
+    orange gauges. The driver's side door panel is visible on the left. The driver's side window is fully
+    closed (up), indicated by the presence of a glass pane with reflections and a slight tint. Through
+    the closed window, a street scene with a white car, trees, and buildings is visible, along with the
+    side view mirror.
+  init2final_edit_prompt: Edit the given image to show the driver's side window remaining fully closed.
+    The window opening must be completely covered by the glass pane, which should exhibit reflections
+    and tint consistent with being rolled up. The driver's left hand should be gripping the steering wheel
+    in the original position. Ensure the view of the street and side mirror is seen through the window
+    glass.
+  rationale: The initial state is a fully closed window. The action described is pulling the window switch
+    'upward'. In standard automotive controls, pulling the switch up commands the window to close. Since
+    the window is already at its upper limit (fully closed), the action is physically idempotent, and
+    the window state remains unchanged. The driver then returns to the initial upright seated position.
+    The key causal test is whether the model correctly identifies that pulling 'up' on a closed window
+    keeps it closed, rather than hallucinating that the window opens simply because an interaction occurred.
+  questions:
+  - id: window_closed
+    question: Is the driver's side window fully closed?
+    answer_type: yes_no
+    notes_for_judge: The window should be up, covering the opening.
+  - id: glass_visible
+    question: Is the glass pane clearly visible in the driver's side window frame?
+    answer_type: yes_no
+    notes_for_judge: Look for reflections or tint indicating the presence of glass.
+  - id: view_through_glass
+    question: Does the view of the outside world appear to be seen through a glass pane?
+    answer_type: yes_no
+    notes_for_judge: The view should not be a clear, unobstructed air gap.
+  - id: state_invariant
+    question: Did the window remain in the up (closed) position?
+    answer_type: yes_no
+    notes_for_judge: The action (pull up) on a closed window results in no change.
+  - id: mirror_occlusion
+    question: Is the side view mirror viewed through the window glass?
+    answer_type: yes_no
+    notes_for_judge: Verify the mirror is behind the glass pane.
+  - id: hand_position
+    question: Is the driver's left hand visible on the steering wheel?
+    answer_type: yes_no
+    notes_for_judge: Secondary check for return to initial pose.

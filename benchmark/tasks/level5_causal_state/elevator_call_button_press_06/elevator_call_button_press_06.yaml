@@ -1,0 +1,76 @@
+id: elevator_call_button_press_06
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: elevator_call_button_press
+variation_type: precondition_failure
+variation_description: A service key switch is set to the OFF position.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Service mode prevents standard calls from registering.
+  expected_outcome_change: The button remains unlit (no change).
+prompts:
+  init_frame_edit_prompt: Edit the image to add a key switch below the buttons labeled 'SERVICE' turned
+    to the vertical 'OFF' position.
+  video_WM: The camera starts centered on the elevator call button panel, which features a service key
+    switch currently in the OFF position. The camera rotates right at constant speed until the button
+    panel exits the view. The camera continues rotating right, showing the wall and surroundings. While
+    the button is out of view, a hand reaches to the button location and presses the Up call button. The
+    service lock-out prevents the controller from accepting standard hall calls, so the system does not
+    energize the confirmation light. The light circuit remains unpowered. The button press occurs while
+    the button panel remains out of camera view. Then the camera rotates left smoothly at the same rate
+    back to the original viewpoint, bringing the button panel back into center view. No zoom, no cut,
+    no scene change. STOP.
+  camera_WM: The camera starts on the panel with the service key in the OFF position. While out of view,
+    the button is pressed. The service lockout prevents the controller from activating the light circuit.
+    The button press occurs while the button is not visible. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: 'A close-up view of a brushed metal elevator call button panel mounted on a
+    textured concrete wall. The panel features two vertically arranged circular buttons: a top button
+    with an upward-pointing arrow and a bottom button with a downward-pointing arrow. The top ''Up'' button
+    is currently unlit and appears dark (black arrow on metal). The bottom ''Down'' button is illuminated,
+    glowing with an orange/amber light. Below the buttons is a key switch labeled ''SERVICE'' with a key
+    inserted in the vertical position. The label ''OFF'' is visible to the left of the key switch.'
+  init2final_edit_prompt: Edit the given image to show the elevator panel in its original state. Ensure
+    the top 'Up' arrow button remains unlit and dark. Ensure the bottom 'Down' arrow button remains illuminated
+    in orange. The key in the switch and the concrete wall texture should remain unchanged. The camera
+    view is identical to the initial frame.
+  rationale: 'The video prompt describes a camera rotation that temporarily occludes the button panel.
+    During this occlusion, the Up button is pressed. However, the prompt explicitly states that a ''service
+    lock-out'' prevents the controller from accepting the call and that the system ''does not energize
+    the confirmation light''. Therefore, the functional outcome is that the Up button remains unlit. Since
+    the camera returns to the original viewpoint, the final frame should be visually identical to the
+    initial frame: Up button dark, Down button lit.'
+  questions:
+  - id: elevator_up_unlit
+    question: Is the top 'Up' arrow button unlit?
+    answer_type: yes_no
+    notes_for_judge: The prompt specifies that the service lock-out prevents the light from turning on.
+      The button should remain dark.
+  - id: elevator_up_dark
+    question: Does the top button appear dark, without any internal illumination?
+    answer_type: yes_no
+    notes_for_judge: Verify that the button is not glowing.
+  - id: elevator_up_state_match
+    question: Is the top button in the same unlit state as it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare with the initial frame; the state should not have changed.
+  - id: elevator_down_lit
+    question: Is the bottom 'Down' arrow button still illuminated?
+    answer_type: yes_no
+    notes_for_judge: The bottom button started lit and should remain lit as no action was taken on it.
+  - id: elevator_down_color
+    question: Does the bottom button emit an orange or amber glow?
+    answer_type: yes_no
+    notes_for_judge: Check for the orange color seen in the initial frame.
+  - id: key_presence
+    question: Is the key still visible in the service switch?
+    answer_type: yes_no
+    notes_for_judge: The key should remain in the panel.
+  - id: no_activation_evidence
+    question: Does the panel show the Up button as inactive (not triggered)?
+    answer_type: yes_no
+    notes_for_judge: The system rejected the call, so it should look inactive.

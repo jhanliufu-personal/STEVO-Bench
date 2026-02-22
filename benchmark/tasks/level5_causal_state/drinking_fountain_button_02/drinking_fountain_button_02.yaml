@@ -1,0 +1,62 @@
+id: drinking_fountain_button_02
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: drinking_fountain_button
+variation_type: initial_state
+variation_description: Fountain starts ON; lever toggle turns it OFF
+changes:
+  occlusion_method: null
+  dynamic_conditions: Initial state is active. Trigger is described as a lever that shuts off flow when
+    toggled.
+  expected_outcome_change: 'Water should stop flowing (Final state: OFF)'
+prompts:
+  init_frame_edit_prompt: Edit the image to show water streaming from the spout, indicating the fountain
+    is running.
+  video_WM: The camera starts centered on the drinking fountain spout with water streaming out. The camera
+    rotates right at constant speed until the spout exits the view. The camera continues rotating, revealing
+    the control lever on the side. A hand enters the frame and toggles the lever. The lever controls the
+    supply valve mechanically. When toggled, the valve shuts off the water supply. The interaction occurs
+    while the fountain spout remains out of camera view. Then the camera rotates left smoothly at the
+    same rate back to the original viewpoint, bringing the fountain spout back into center view. No zoom,
+    no cut, no scene change. STOP.
+  camera_WM: The camera starts on the active spout, then rotates to the side lever. A hand toggles the
+    lever. The lever closes the valve. The camera then returns to the fountain spout. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up view of a stainless steel drinking fountain basin. A stream of clear
+    water is arcing from the metal spout on the right side into the center of the basin. The background
+    features a wall with light-colored square tiles.
+  init2final_edit_prompt: Edit the given image to remove the stream of water. The metal spout should appear
+    inactive with no water arcing out of it. Keep the stainless steel basin and the tiled background unchanged,
+    but eliminate the flowing water arc.
+  rationale: The video prompt describes a sequence where the camera pans away from the running fountain,
+    a hand toggles a lever to shut off the water supply valve, and then the camera pans back. Since the
+    action explicitly shuts off the water supply, the final frame must show the fountain in an 'off' state,
+    meaning the water stream seen in the initial frame should be gone.
+  questions:
+  - id: q1
+    question: Is the arc of water that was visible in the initial frame now absent?
+    answer_type: yes_no
+    notes_for_judge: The primary change is the cessation of water flow.
+  - id: q2
+    question: Does the fountain spout appear to be inactive or turned off?
+    answer_type: yes_no
+    notes_for_judge: The spout should not be spraying water.
+  - id: q3
+    question: Is the water flow stopped compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the active stream in init to the lack thereof in final.
+  - id: q4
+    question: Is the view of the basin clear of the main water stream?
+    answer_type: yes_no
+    notes_for_judge: The stream obscured part of the basin initially; it should be gone now.
+  - id: q5
+    question: Is the stainless steel material of the fountain basin preserved?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: q6
+    question: Are the background tiles consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

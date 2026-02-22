@@ -1,0 +1,69 @@
+id: atm_card_screen_10
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: atm_card_screen
+variation_type: indirect_causation
+variation_description: Screen indicates a biometric requirement; card insertion triggers the NEXT step
+  (scan) not the menu.
+changes:
+  occlusion_method: null
+  dynamic_conditions: The causal chain is Card -> Biometric Request -> Menu. The card only triggers the
+    intermediate request.
+  expected_outcome_change: Screen shows 'SCAN FINGERPRINT' instead of the main menu.
+prompts:
+  init_frame_edit_prompt: Edit the ATM screen to include a small icon and text saying 'BIOMETRIC SECURED'
+    at the bottom.
+  video_WM: The camera starts centered on the ATM screen showing 'INSERT CARD' with a biometric security
+    badge. The camera rotates right at constant speed until the screen exits the view. The camera continues
+    rotating, revealing the ATM card insertion slot. A hand enters the frame and slides the card into
+    the slot. The reader detects the card and initiates the secondary security protocol. The card insertion
+    occurs while the screen remains out of camera view. Then the camera rotates left smoothly at the same
+    rate back to the original viewpoint, bringing the ATM screen back into center view. No zoom, no cut,
+    no scene change. STOP.
+  camera_WM: The camera starts on the biometric-secured ATM screen, then rotates to the card slot. A hand
+    inserts a bank card. The system initiates secondary protocol. The insertion occurs while the screen
+    is not visible. The camera then returns to the ATM screen. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up view of an ATM interface. The central screen displays cyan text reading
+    'INSERT CARD TO BEGIN' and 'BIOMETRIC SECURED' along with a stylized face icon. Below the screen is
+    a metal keypad with numbered buttons. To the right of the keypad, there is a card reader slot illuminated
+    by a bright blue circular light. The scene is viewed through a glass reflection, showing a street
+    scene in the background.
+  init2final_edit_prompt: Edit the given image to update the ATM screen text to the next transaction state.
+    Replace the text 'INSERT CARD TO BEGIN' with 'ENTER PIN'. Replace the 'BIOMETRIC SECURED' text and
+    icon with a row of asterisks (****) or a password input field. Keep the screen background color, font
+    style, and the rest of the machine (keypad, card slot) unchanged.
+  rationale: The video prompt describes a sequence where the camera pans away, a user inserts a card,
+    and the camera pans back to the original view. Functionally, inserting a card into an ATM triggers
+    the system to transition from the idle 'Insert Card' screen to an authentication screen (the 'secondary
+    security protocol'). Therefore, the final frame must show the screen in this new state (asking for
+    a PIN) rather than the initial idle state, demonstrating that the model tracks the causal effect of
+    the action that occurred while the screen was occluded.
+  questions:
+  - id: screen_text_change
+    question: Is the text 'INSERT CARD TO BEGIN' absent from the screen?
+    answer_type: yes_no
+    notes_for_judge: The screen should no longer show the idle message.
+  - id: screen_new_state
+    question: Does the screen display text requesting a PIN or authentication (e.g., 'ENTER PIN')?
+    answer_type: yes_no
+    notes_for_judge: The screen should show the next step in the transaction flow.
+  - id: screen_input_field
+    question: Are there asterisks (****) or an input field visible on the screen?
+    answer_type: yes_no
+    notes_for_judge: Visual evidence of a password/PIN entry field.
+  - id: state_transition
+    question: Has the screen content changed from the initial idle state to an active transaction state?
+    answer_type: yes_no
+    notes_for_judge: Compare with the initial frame; the text/graphics must be different.
+  - id: keypad_invariant
+    question: Is the metal keypad still visible below the screen?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: card_slot_invariant
+    question: Is the blue illuminated card reader slot still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

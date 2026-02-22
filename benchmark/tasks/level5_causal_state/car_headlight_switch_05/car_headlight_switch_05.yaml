@@ -1,0 +1,67 @@
+id: car_headlight_switch_05
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: car_headlight_switch
+variation_type: precondition_failure
+variation_description: The headlight stalk is physically broken/snapped.
+changes:
+  occlusion_method: null
+  dynamic_conditions: The mechanical linkage is broken. Moving the stump does not engage the switch contacts.
+  expected_outcome_change: The environment remains dark because the switch is broken.
+prompts:
+  init_frame_edit_prompt: Edit the image to show the headlight stalk on the left of the steering wheel
+    snapped in half, with wires dangling from the broken end.
+  video_WM: Driver's upright POV at night. The lit dashboard is fully visible and the surrounding environment
+    is dark. The driver leans forward toward the dashboard; the windows and dark exterior are no longer
+    visible. The broken headlight control stalk comes into view. A hand attempts to rotate the remaining
+    stump of the switch. The switch mechanism is damaged. The driver leans back to the upright seated
+    position, bringing the windshield and exterior environment back into view. No zoom, no cut, no scene
+    change. STOP.
+  camera_WM: The camera starts in upright driver POV at night — lit dashboard, dark exterior. A hand attempts
+    to rotate the remaining stump of the switch. The switch mechanism is damaged. The action occurs while
+    the windows are not visible. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A nighttime driver's point-of-view inside a car. The dashboard is illuminated
+    with amber light, showing a speedometer, tachometer, and digital displays. The steering wheel has
+    a Toyota logo. The turn signal/headlight control stalk on the left side of the steering column is
+    broken, with a bundle of exposed blue, green, and white wires hanging from the stump. The side mirror
+    is visible on the left. The view through the windshield and side window is completely black, indicating
+    a dark exterior environment.
+  init2final_edit_prompt: Edit the given image to maintain the exact lighting conditions of the initial
+    state. The exterior view through the windshield must remain completely pitch black, as the headlights
+    have failed to turn on. The dashboard lights should remain amber with no new indicator lights illuminated.
+    The broken stalk on the left must remain broken with exposed wires, though the wires may be slightly
+    rearranged. The steering wheel and overall interior configuration should remain unchanged.
+  rationale: 'The video prompt describes an attempt to operate the headlight switch, but explicitly states
+    the mechanism is damaged. This is a causal negation: the action (rotating the switch) does not produce
+    the typical effect (lights turning on) because of the broken state (damaged mechanism). Therefore,
+    when the driver returns to the initial upright position, the exterior should remain dark. The only
+    plausible physical change is a minor disturbance to the hanging wires from the manual interaction.'
+  questions:
+  - id: exterior_darkness
+    question: Is the exterior environment through the windshield still completely dark?
+    answer_type: yes_no
+    notes_for_judge: The headlights should not turn on because the switch is damaged.
+  - id: no_headlight_beam
+    question: Is the road ahead invisible due to lack of headlight illumination?
+    answer_type: yes_no
+    notes_for_judge: Verify that no light beams are projecting onto the road.
+  - id: stalk_broken_state
+    question: Is the left control stalk still broken with exposed wires?
+    answer_type: yes_no
+    notes_for_judge: The stalk should not be magically repaired.
+  - id: dashboard_indicators
+    question: Are the dashboard headlight indicators (typically green or blue icons) still off?
+    answer_type: yes_no
+    notes_for_judge: No new indicators should light up on the dash.
+  - id: wires_visible
+    question: Are the exposed wires on the left stalk still visible?
+    answer_type: yes_no
+    notes_for_judge: The wires should remain part of the broken mechanism.
+  - id: steering_wheel_pos
+    question: Is the steering wheel in the same position as the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

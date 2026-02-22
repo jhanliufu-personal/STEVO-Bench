@@ -1,0 +1,68 @@
+id: doorbell_chime_wireless_06
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: doorbell_chime_wireless
+variation_type: precondition_failure
+variation_description: The chime is wrapped in aluminum foil, acting as a Faraday cage.
+changes:
+  occlusion_method: null
+  dynamic_conditions: The chime is shielded by foil, blocking radio signals.
+  expected_outcome_change: The chime will not activate because the foil blocks the wireless signal from
+    the button.
+prompts:
+  init_frame_edit_prompt: Edit the image so the chime is completely wrapped in aluminum foil.
+  video_WM: The camera starts centered on the wireless doorbell chime, which is completely wrapped in
+    aluminum foil. The foil acts as a Faraday cage shielding the device. The camera rotates right at constant
+    speed until the chime exits the view. The camera continues rotating through the hallway and toward
+    the exterior door, revealing the wireless doorbell button mounted outside. A finger enters the frame
+    and presses the doorbell button. The button transmits a radio signal, but the foil blocks reception.
+    The button press occurs while the interior chime remains out of camera view. Then the camera rotates
+    left smoothly at the same rate back to the original viewpoint, bringing the foil-wrapped chime back
+    into center view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The scene features a wireless doorbell chime wrapped in aluminum foil and an exterior doorbell
+    button. A finger presses the doorbell button. The button transmits a signal, but the foil blocks reception.
+    The button press occurs while the interior chime remains out of camera view. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a wireless doorbell chime plugged into the top
+    socket of a white duplex wall outlet. The chime is completely wrapped in crinkled silver aluminum
+    foil. The bottom socket of the outlet is exposed and empty. To the left is a vertical white doorframe
+    or window casing. The wall is painted a neutral beige color. To the right, a blurred window is partially
+    visible.
+  init2final_edit_prompt: Edit the given image to show the scene unchanged. The doorbell chime remains
+    plugged into the top outlet and is still completely wrapped in crinkled aluminum foil. The foil appears
+    silver and opaque, with no lights glowing through it and no tears. The bottom outlet remains empty
+    and visible. The lighting and surrounding wall details are identical to the original view.
+  rationale: The video sequence depicts a test of a Faraday cage. Although the doorbell button is pressed
+    outside, the prompt explicitly states that the aluminum foil wrapping blocks the radio signal reception.
+    Therefore, the chime does not receive the trigger to ring or light up. When the camera returns to
+    the chime, the device remains in its passive, unactivated state. The foil wrapping remains intact
+    and unchanged, and no visual indicators (lights) are visible because the signal was blocked.
+  questions:
+  - id: foil_presence
+    question: Is the doorbell chime still completely wrapped in aluminum foil?
+    answer_type: yes_no
+    notes_for_judge: The foil should not have fallen off or been removed.
+  - id: foil_integrity
+    question: Is the foil wrapping intact, without revealing the device underneath?
+    answer_type: yes_no
+    notes_for_judge: The foil acts as a shield and should remain covering the object.
+  - id: no_activation_light
+    question: Is the foil free of any visible glowing lights or illumination?
+    answer_type: yes_no
+    notes_for_judge: The signal was blocked, so the device should not light up. Even if it did, the foil
+      is opaque, but the model should not hallucinate a glow.
+  - id: device_position
+    question: Is the foil-wrapped device still plugged into the top socket of the outlet?
+    answer_type: yes_no
+    notes_for_judge: The device should not have moved.
+  - id: bottom_socket_visibility
+    question: Is the bottom socket of the wall outlet still visible and empty?
+    answer_type: yes_no
+    notes_for_judge: Verifies the device hasn't changed size or position to cover the bottom socket.
+  - id: visual_stability
+    question: Does the foil appear silver and metallic, matching the initial material?
+    answer_type: yes_no
+    notes_for_judge: Checks for consistency in material rendering.

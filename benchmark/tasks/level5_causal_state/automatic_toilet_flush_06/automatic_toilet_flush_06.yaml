@@ -1,0 +1,72 @@
+id: automatic_toilet_flush_06
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: automatic_toilet_flush
+variation_type: precondition_failure
+variation_description: The chrome flush pipe is physically disconnected.
+changes:
+  occlusion_method: null
+  dynamic_conditions: The water path is broken. Activation might release water elsewhere, but not into
+    the bowl.
+  expected_outcome_change: The water in the bowl remains stable (no flush) because the pipe is broken.
+prompts:
+  init_frame_edit_prompt: Edit the image so the chrome flush pipe connecting the sensor module to the
+    toilet bowl is physically disconnected, with a visible gap.
+  video_WM: The camera starts centered on the toilet bowl with stable water level. The camera rotates
+    right at constant speed until the bowl exits the view. The camera continues rotating, revealing the
+    automatic flush sensor and the disconnected flush pipe. A hand enters the frame and waves in front
+    of the sensor. The sensor triggers the valve. The hand wave occurs while the toilet bowl remains out
+    of camera view. Then the camera rotates left smoothly back to the original viewpoint, bringing the
+    toilet bowl back into center view. STOP.
+  camera_WM: The scene features a toilet bowl and a flush sensor with a disconnected pipe. A hand waves
+    in front of the sensor. This action occurs while the bowl is not visible. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A high-angle shot of a bathroom corner showing a white toilet on the right side.
+    To the left of the toilet, mounted on the white tiled wall, is a chrome automatic sensor box with
+    a vertical metal pipe extending downwards from above. A curved chrome pipe, which appears to be disconnected,
+    lies on the tiled floor directly beneath the wall plumbing. There is a small puddle of water on the
+    floor tiles near the disconnected pipe. A beige bath mat is partially visible in the bottom left corner.
+    A window is visible on the far left edge.
+  init2final_edit_prompt: Edit the given image to show a significantly larger puddle of water spreading
+    across the tiled floor. The water should appear to have spilled from the plumbing on the wall, creating
+    a realistic flood that extends from the wall area towards the toilet base and the bath mat. The water
+    should look clear and liquid on the tiles, covering a much larger surface area than the initial small
+    puddle. Do not change the position of the disconnected pipe, the toilet, or the sensor box.
+  rationale: 'The video prompt describes a sequence where a hand triggers the automatic flush sensor while
+    the flush pipe is disconnected (lying on the floor). This causal action activates the flush valve,
+    but because the connecting pipe to the toilet is missing, the water discharges directly from the valve
+    outlet onto the floor instead of flushing the toilet. The camera returns to the original view after
+    this event. Therefore, the final state must show the aftermath of this functional failure: a significantly
+    expanded pool of water or flooding on the floor tiles, while the toilet bowl itself remains unaffected.'
+  questions:
+  - id: floor_water_increase
+    question: Is the puddle of water on the floor larger than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The primary change is the flooding caused by the disconnected pipe.
+  - id: water_spread_area
+    question: Does the water on the tiles cover a significantly larger surface area?
+    answer_type: yes_no
+    notes_for_judge: Check for expansion of the wet area.
+  - id: water_near_pipe
+    question: Is there more water surrounding the disconnected pipe on the floor?
+    answer_type: yes_no
+    notes_for_judge: The leak source is above this pipe.
+  - id: flood_evidence
+    question: Does the floor show evidence of fresh flooding or a significant spill?
+    answer_type: yes_no
+    notes_for_judge: Look for reflections or wetness on the tiles.
+  - id: pipe_disconnected_invariant
+    question: Is the curved chrome pipe still lying disconnected on the floor?
+    answer_type: yes_no
+    notes_for_judge: The pipe should not reattach itself.
+  - id: toilet_lid_invariant
+    question: Is the toilet seat/lid in the same position as the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The toilet itself was not interacted with, only the sensor.
+  - id: hand_absence
+    question: Is the hand absent from the final frame?
+    answer_type: yes_no
+    notes_for_judge: The hand waved and left; the final view is static.

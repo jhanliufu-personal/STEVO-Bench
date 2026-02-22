@@ -1,0 +1,72 @@
+id: car_key_ignition_turn_03
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: car_key_ignition_turn
+variation_type: initial_state
+variation_description: Car starts in Accessory mode (radio/clock on, engine off); action turns to ON.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Initial state is ACC (partial lights). Trigger action is ACC to ON.
+  expected_outcome_change: The main instrument cluster gauges (check engine, battery, oil) will illuminate,
+    transitioning from partial to full power.
+prompts:
+  init_frame_edit_prompt: Edit the dashboard to show the digital clock and radio display turned on, but
+    the main gauge cluster remains dark (Accessory mode).
+  video_WM: Driver's upright POV. The steering wheel is centered and the radio display is lit, but the
+    main gauges are dark — the car is in accessory mode. The driver leans forward toward the dashboard;
+    the side windows are no longer visible. The ignition cylinder comes into view with the key at the
+    ACC position. A hand grips the key and turns it clockwise from the ACC position to the ON position.
+    The ignition cylinder is a rotary switch. The driver leans back to the upright seated position. No
+    zoom, no cut, no scene change. STOP.
+  camera_WM: The camera starts in upright driver POV with partial dashboard lights (radio/clock) — car
+    is in accessory mode. The driver leans forward, camera pitches down and moves toward the dashboard,
+    revealing the ignition cylinder with the key at ACC. A hand turns the key clockwise to ON. The action
+    occurs while the windows are not visible. The driver leans back to the original seated position. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A driver's point-of-view shot from inside a 1990s era sedan. The steering wheel
+    is centered in the frame. Behind the wheel, the instrument cluster (speedometer and tachometer) is
+    dark and unlit. To the right of the steering wheel, a digital clock displays '12:34' and the car radio
+    is lit with an orange display showing 'FM 101.1'. The ignition cylinder is visible on the right side
+    of the steering column with a key inserted. Through the windshield, a sunny suburban street with houses
+    and lawns is visible.
+  init2final_edit_prompt: Edit the given image to show the car's instrument cluster in the 'ON' state.
+    Specifically, add illuminated warning lights (such as red or amber battery, oil, and check engine
+    icons) to the previously dark gauge cluster area behind the steering wheel. The key in the ignition
+    should appear rotated slightly clockwise. Maintain the original camera viewpoint, the lit radio display,
+    and the background scenery exactly as they are.
+  rationale: The video prompt describes a sequence where the driver leans forward, turns the ignition
+    key from 'ACC' (Accessory) to 'ON', and then leans back to the original upright position. In the initial
+    'ACC' state, only the radio and clock are powered. Turning the key to 'ON' activates the vehicle's
+    main electrical systems, which functionally results in the instrument cluster warning lights (battery,
+    oil, check engine, etc.) illuminating immediately. Since the driver returns to the upright position,
+    the final frame must match the initial viewpoint but reflect this new electrical state on the dashboard.
+  questions:
+  - id: dash_lights_illuminated
+    question: Are the warning lights or indicators on the instrument cluster now illuminated?
+    answer_type: yes_no
+    notes_for_judge: In the ON position, dashboard warning lights (battery, oil, etc.) should light up
+      in the gauge area.
+  - id: gauge_cluster_active
+    question: Does the area behind the steering wheel show lit icons that were previously dark?
+    answer_type: yes_no
+    notes_for_judge: The initial frame has a dark cluster; the final frame should show activity/lights.
+  - id: radio_consistency
+    question: Is the radio display still illuminated?
+    answer_type: yes_no
+    notes_for_judge: The radio was on in ACC mode and should remain on in ON mode.
+  - id: viewpoint_return
+    question: Is the camera view back to the original upright driver's perspective?
+    answer_type: yes_no
+    notes_for_judge: The driver leaned back, so the view should not be zoomed in or angled differently.
+  - id: steering_wheel_pos
+    question: Is the steering wheel in the same position as the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Only the key was turned; the wheel itself was not turned.
+  - id: clock_consistency
+    question: Is the digital clock still visible and lit?
+    answer_type: yes_no
+    notes_for_judge: The clock should remain powered.

@@ -1,0 +1,67 @@
+id: rotary_valve_supply_02
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: rotary_valve_supply
+variation_type: initial_state
+variation_description: The burner starts with an intense yellow flame and open valve; action closes it.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Valve starts open (parallel) and burner has intense flame. Action closes valve.
+  expected_outcome_change: The intense flame extinguishes (starts ON, ends OFF).
+prompts:
+  init_frame_edit_prompt: Edit the image so a large, intense yellow flame is blasting from the burner
+    nozzle on the left, and the yellow valve handle is rotated to be parallel with the pipe (open position).
+  video_WM: The camera starts centered on the burner nozzle, which is emitting an intense yellow flame.
+    The camera rotates right at constant speed until the burner exits the view. The camera continues rotating,
+    revealing a yellow rotary valve handle on the gas pipe. The handle is currently parallel to the pipe
+    (open position). A hand enters the frame, grabs the yellow handle, and rotates it 90 degrees so that
+    it becomes perpendicular with the pipe. The handle remains in the perpendicular position. Closing
+    the valve cuts off the fuel supply. The valve rotation occurs while the burner nozzle remains out
+    of camera view. Then the camera rotates left smoothly at the same rate back to the original viewpoint,
+    bringing the burner nozzle back into center view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The camera starts on the flaming burner nozzle, then rotates to the valve handle. A hand
+    rotates the valve from parallel (open) to perpendicular (closed). The valve rotation occurs while
+    the burner is not visible. The camera then returns to the burner nozzle. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: The image shows a close-up of a rusty metal gas pipe assembly in a workshop.
+    On the left, a burner nozzle is emitting a large, intense horizontal jet of yellow and orange flame.
+    To the right of the nozzle, the pipe connects to a flanged joint and then a ball valve with a yellow
+    handle. The yellow handle is currently aligned parallel to the pipe, indicating the valve is in the
+    open position. The background is a cluttered workshop with a window and tools visible in the blur.
+  init2final_edit_prompt: Edit the given image to show the gas supply turned off. Completely remove the
+    yellow flame so that the burner nozzle is visible but not emitting any fire. Rotate the yellow valve
+    handle on the right side of the pipe by 90 degrees so that it is perpendicular to the pipe (crosswise)
+    instead of parallel, indicating the closed position.
+  rationale: 'The video describes a sequence where the camera pans away, a hand closes the gas valve,
+    and the camera pans back. The primary causal mechanism is that closing the valve cuts off the fuel
+    supply to the burner. Therefore, in the final frame (which returns to the original viewpoint), two
+    state changes must be visible: the valve handle must be rotated 90 degrees to the closed (perpendicular)
+    position, and the flame must be extinguished due to the lack of fuel.'
+  questions:
+  - id: flame_extinguished
+    question: Is the large yellow flame completely extinguished in the final frame?
+    answer_type: yes_no
+    notes_for_judge: The flame should be gone, leaving the nozzle visible.
+  - id: valve_position_perpendicular
+    question: Is the yellow valve handle now perpendicular to the pipe?
+    answer_type: yes_no
+    notes_for_judge: The handle should be rotated 90 degrees from its initial parallel state.
+  - id: nozzle_inactive
+    question: Is the burner nozzle visible without any fire emitting from it?
+    answer_type: yes_no
+    notes_for_judge: Check for the absence of fire at the nozzle tip.
+  - id: valve_state_change
+    question: Is the yellow valve handle in a different orientation than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: It should have moved from parallel to perpendicular.
+  - id: fuel_cutoff_evidence
+    question: Does the image show evidence that the fuel supply has been cut off?
+    answer_type: yes_no
+    notes_for_judge: Evidence is the lack of flame.
+  - id: background_consistency
+    question: Are the background workshop elements (window, tools) consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The camera returns to the original view, so the background should match.

@@ -1,0 +1,68 @@
+id: thermostat_threshold_dial_variant_02
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: thermostat_threshold_dial
+variation_type: initial_state
+variation_description: Heater starts ON (glowing) with thermostat set very high; hand turns it very low.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Initial state is active. Action is turning dial down significantly.
+  expected_outcome_change: Heater turns OFF (stops glowing).
+prompts:
+  init_frame_edit_prompt: Edit the image to show the heating coils glowing intensely with bright yellow-orange
+    heat.
+  video_WM: The camera starts centered on the intensely glowing heating element. The camera rotates right
+    at constant speed until the heating element exits the view. The camera continues rotating, revealing
+    a round analog thermostat dial mounted on the wall. The current temperature needle shows 60 degrees.
+    The setting dial is currently at 90 degrees (well above ambient). A hand enters the frame and rotates
+    the setting dial counter-clockwise until the marker reaches 40 degrees, well below the current temperature
+    needle. The dial rotation occurs while the heating element remains out of camera view. Then the camera
+    rotates left smoothly at the same rate back to the original viewpoint, bringing the heating element
+    back into center view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The camera starts on the heating element, then rotates to the thermostat dial. A hand rotates
+    the setting dial from 90 to 40 degrees. The dial rotation occurs while the heating element is not
+    visible. The camera then returns to the heating element. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up view of an electric space heater. The central component is a coiled
+    heating element glowing intensely with bright orange and yellow light, indicating it is active and
+    hot. The element is housed within a rectangular metal reflector and protected by a horizontal wire
+    safety guard. The metal casing is silver and reflects the orange glow of the heater.
+  init2final_edit_prompt: Edit the given image to make the electric heater appear turned off and cold.
+    Change the bright glowing orange heating coils to dark, dull grey metal tubes. Remove all orange glow,
+    light emission, and heat incandescence from the coils. Remove the orange reflections from the surrounding
+    metal casing and reflector, leaving them silver and shadowed. The heating element should look completely
+    unlit.
+  rationale: The video depicts a functional control loop. Initially, the heater is on (glowing) because
+    the thermostat setting (90) is higher than the ambient temperature (60). The action involves a hand
+    rotating the thermostat setting dial to 40 degrees, which is well below the current temperature of
+    60 degrees. This causal trigger functionally switches the heater off. During the time it takes for
+    the camera to rotate back to the heater, the heating element loses power and ceases to glow, transitioning
+    from a bright orange state to a dark, cold state.
+  questions:
+  - id: heater_state_off
+    question: Does the heating element appear to be turned off?
+    answer_type: yes_no
+    notes_for_judge: The element should look dark or metallic, not glowing.
+  - id: coil_color_change
+    question: Are the heating coils dark or grey instead of glowing bright orange?
+    answer_type: yes_no
+    notes_for_judge: Check for the absence of the bright orange color on the coils themselves.
+  - id: light_emission_ceased
+    question: Has the heating element stopped emitting bright light?
+    answer_type: yes_no
+    notes_for_judge: The coils should not be a light source in the final frame.
+  - id: reflection_dimmed
+    question: Is the orange reflection on the metal casing significantly reduced or gone?
+    answer_type: yes_no
+    notes_for_judge: Without the glowing source, the reflections should be silver/grey/dark.
+  - id: wire_guard_presence
+    question: Is the wire safety guard still visible in front of the element?
+    answer_type: yes_no
+    notes_for_judge: 'Invariant check: the structure of the heater should not change, only the glow.'
+  - id: casing_structure_invariant
+    question: Is the shape of the metal reflector housing unchanged?
+    answer_type: yes_no
+    notes_for_judge: Invariant check.

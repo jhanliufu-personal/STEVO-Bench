@@ -1,0 +1,68 @@
+id: thermostat_threshold_dial_variant_03
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: thermostat_threshold_dial
+variation_type: initial_state
+variation_description: Heater starts ON (glowing) with thermostat set just above ambient; hand turns it
+  just below.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Initial state active. Threshold crossed downwards.
+  expected_outcome_change: Heater turns OFF (stops glowing).
+prompts:
+  init_frame_edit_prompt: Edit the heating element to show the coils glowing with a dull red heat.
+  video_WM: The camera starts centered on the glowing red heating element. The camera rotates right at
+    constant speed until the heating element exits the view. The camera continues rotating, revealing
+    a round analog thermostat dial mounted on the wall. The current temperature needle shows 60 degrees.
+    The setting dial is currently at 65 degrees (just above ambient). A hand enters the frame and rotates
+    the setting dial counter-clockwise until the marker reaches 55 degrees, just below the current temperature
+    needle. The dial rotation occurs while the heating element remains out of camera view. Then the camera
+    rotates left smoothly at the same rate back to the original viewpoint, bringing the heating element
+    back into center view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The camera starts on the heating element, then rotates to the thermostat dial. A hand rotates
+    the setting dial from 65 to 55 degrees, crossing the ambient threshold of 60. The dial rotation occurs
+    while the heating element is not visible. The camera then returns to the heating element. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up view of an electric space heater. The central component is a coiled
+    heating element that is glowing bright red-orange, indicating it is currently active and hot. The
+    element is housed within a metal reflector box which shows signs of dust and wear. A wire safety grille
+    protects the front. The outer casing is metallic.
+  init2final_edit_prompt: Edit the given image to turn the heater off. Change the color of the coiled
+    heating element from glowing red-orange to a dull, dark grey or metallic color. Remove all incandescence
+    and light emission from the coils to show they are no longer active. Keep the wire grille, the dusty
+    reflector background, and the metal casing exactly as they are, but ensure the central coils appear
+    cold and unlit.
+  rationale: The video prompt establishes a causal relationship between a thermostat and the heater shown
+    in the initial frame. Initially, the heater is on (glowing) and the thermostat is set to 65 (above
+    the ambient 60). The action involves turning the thermostat setting down to 55, which is below the
+    ambient temperature of 60. This functional change triggers the heater to deactivate. When the camera
+    returns to the heater, the heating element should no longer be glowing red, reflecting the 'off' state
+    caused by the thermostat adjustment.
+  questions:
+  - id: coils_not_glowing
+    question: Are the heating coils dark or grey instead of glowing red?
+    answer_type: yes_no
+    notes_for_judge: The coils should look like cold metal, not incandescent.
+  - id: glow_removed
+    question: Has the bright orange/red light been removed from the heating element?
+    answer_type: yes_no
+    notes_for_judge: Check for the absence of the light source coming from the coils.
+  - id: heater_off_state
+    question: Does the heater appear to be turned off compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Off state is indicated by lack of glow.
+  - id: coils_color_change
+    question: Is the color of the heating element significantly darker than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Comparing the specific pixel area of the coils.
+  - id: grille_presence
+    question: Is the wire safety grille still visible in front of the element?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: casing_consistency
+    question: Is the metal casing around the heater still present?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

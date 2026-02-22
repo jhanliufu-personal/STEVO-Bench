@@ -1,0 +1,62 @@
+id: barcode_scanner_register_00
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: barcode_scanner_register
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: Edit the image to place a barcode scanner on the counter to the right of the
+    cash register, ensuring it is clearly visible within the frame alongside the display.
+  video_WM: The camera is completely stationary, showing both the cash register display reading $0.00
+    and the barcode scanner positioned next to it. A hand holding a cereal box enters the frame and moves
+    the product across the scanner window to scan the barcode. STOP.
+  camera_WM: The camera is completely stationary, showing both the cash register display reading $0.00
+    and the barcode scanner positioned next to it. A hand holding a cereal box enters the frame and moves
+    the product across the scanner window to scan the barcode. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up view of a beige cash register and a barcode scanner. The cash register
+    on the left has a green digital display showing '$0.00'. The keypad is visible below the display.
+    To the right of the register, a beige handheld barcode scanner rests in its stand. In the background,
+    there are shelves with candy bars and other convenience store items. The lighting is indoor and slightly
+    dim.
+  init2final_edit_prompt: Edit the given image to show a hand holding a cereal box positioned in front
+    of the barcode scanner. Change the text on the green cash register display to show a price like '$4.59'
+    instead of '$0.00'.
+  rationale: The video prompt describes a scanning action where a product is moved across the scanner.
+    The functional consequence of scanning a barcode is that the cash register registers the item and
+    updates the display from the idle state ($0.00) to the price of the item. Therefore, the final frame
+    must show a non-zero price on the display. The hand and cereal box are included as they are the agents
+    of the action described in the prompt.
+  questions:
+  - id: display_change_nonzero
+    question: Does the cash register display now show a price other than $0.00?
+    answer_type: yes_no
+    notes_for_judge: The screen should show a positive number (e.g., $3.50, $4.99) indicating an item
+      was scanned.
+  - id: display_text_diff
+    question: Is the text on the green screen different from the initial '$0.00'?
+    answer_type: yes_no
+    notes_for_judge: Any change in the digits indicating a transaction is acceptable.
+  - id: cereal_box_visible
+    question: Is a cereal box visible in the frame?
+    answer_type: yes_no
+    notes_for_judge: The prompt describes a cereal box entering the frame.
+  - id: hand_visible
+    question: Is a hand visible holding the product?
+    answer_type: yes_no
+    notes_for_judge: The prompt describes a hand moving the product.
+  - id: scanner_presence
+    question: Is the barcode scanner still present to the right of the register?
+    answer_type: yes_no
+    notes_for_judge: The scanner itself should not disappear, though it might be obscured by the box.
+  - id: background_consistency
+    question: Are the candy bars or shelves in the background still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

@@ -1,0 +1,65 @@
+id: remote_control_pairing_08
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: remote_control_pairing
+variation_type: repeated_activation
+variation_description: The remote button is pressed twice (toggle on, then toggle off), resulting in no
+  net change.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Double activation of toggle switch cancels out.
+  expected_outcome_change: The robot is in the same state as the start (off/stationary).
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The camera starts centered on the motionless toy robot labeled Channel A. The camera rotates
+    right at constant speed until the robot exits the view. The camera continues rotating, revealing a
+    handheld remote control also labeled Channel A. A hand enters the frame and presses the 'RUN/STOP'
+    toggle button, waits for a brief moment, and then presses the same button a second time. The remote
+    transmits radio signals when buttons are pressed. The button presses occur while the toy robot remains
+    out of camera view. Then the camera rotates left smoothly at the same rate back to the original viewpoint,
+    bringing the toy robot back into center view. No zoom, no cut, no scene change. STOP.
+  camera_WM: A handheld remote control labeled Channel A is revealed. A hand enters the frame and presses
+    the 'RUN/STOP' toggle button, waits for a brief moment, and then presses the same button a second
+    time. The remote transmits radio signals when buttons are pressed. The button presses occur while
+    the toy robot remains out of camera view. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A grey, boxy toy robot with tank tracks sitting on a scratched wooden table.
+    The robot has a rectangular head with two antennae and a chest panel labeled 'CHANNEL A' in bold red
+    text. The background is blurred, showing books and a window.
+  init2final_edit_prompt: Edit the given image to change the position of the robot on the table. Move
+    the robot to a new location and orientation, displaced from the center, as if it has driven to a different
+    spot. Keep the background, lighting, and camera angle identical to the original.
+  rationale: The video demonstrates a functional pairing between the remote control and the robot, both
+    labeled 'Channel A'. The user presses the 'RUN/STOP' button to activate the robot, waits for a duration,
+    and presses it again to stop the robot. This sequence causes the robot to drive for a short period
+    while it is out of the camera's view. When the camera returns to the original viewpoint, the robot
+    should be in a different position and orientation on the table, reflecting the physical displacement
+    that occurred during the activation interval.
+  questions:
+  - id: robot_moved_position
+    question: Is the robot in a different position on the table compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The robot should have moved from its starting spot.
+  - id: robot_displaced_center
+    question: Is the robot displaced from the center of the image?
+    answer_type: yes_no
+    notes_for_judge: Initially centered, the robot should now be off-center due to movement.
+  - id: robot_orientation_changed
+    question: Has the robot's orientation or placement changed?
+    answer_type: yes_no
+    notes_for_judge: It should look like it drove and turned.
+  - id: robot_visible
+    question: Is the robot still visible on the wooden table?
+    answer_type: yes_no
+    notes_for_judge: The robot should not have disappeared completely.
+  - id: background_consistency
+    question: Are the background objects (books, window) unchanged?
+    answer_type: yes_no
+    notes_for_judge: The camera returned to the original view, so the background should be static.
+  - id: robot_state_change
+    question: Does the final image show evidence that the robot moved from its starting coordinates?
+    answer_type: yes_no
+    notes_for_judge: Check for displacement.

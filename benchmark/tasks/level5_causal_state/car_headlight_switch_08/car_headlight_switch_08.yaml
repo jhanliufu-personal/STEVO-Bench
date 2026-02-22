@@ -1,0 +1,71 @@
+id: car_headlight_switch_08
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: car_headlight_switch
+variation_type: repeated_activation
+variation_description: Switch is turned ON then immediately back OFF.
+changes:
+  occlusion_method: null
+  dynamic_conditions: The switch is toggled twice, returning to the start position.
+  expected_outcome_change: The environment remains dark (net no change).
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: Driver's upright POV at night. The lit dashboard is fully visible and the surrounding environment
+    is completely dark. The driver leans forward toward the dashboard; the windows and dark exterior are
+    no longer visible. The headlight control switch on the left steering column stalk comes into view.
+    A hand rotates the headlight switch to ON and then immediately rotates it back to OFF. The switch
+    position determines the state of the headlight circuit. The driver leans back to the upright seated
+    position, bringing the windshield and exterior environment back into view. No zoom, no cut, no scene
+    change. STOP.
+  camera_WM: The camera starts in upright driver POV at night — lit dashboard, dark exterior. A hand rotates
+    the switch to ON and then back to OFF. The action occurs while the windows are not visible. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A driver's perspective of a car interior at night. The dashboard is illuminated
+    with amber backlighting, showing the speedometer, tachometer, and center console controls. A Toyota
+    steering wheel is in the foreground. The left steering column stalk (headlight/turn signal switch)
+    is partially visible behind the wheel. To the left, a side mirror is visible but shows only darkness.
+    The windshield view is completely black, indicating the exterior environment is unlit and the headlights
+    are off.
+  init2final_edit_prompt: Edit the given image to depict the driver's view at night with the headlights
+    turned off. The area outside the windshield and windows must be completely pitch black with no illumination
+    on the road or surroundings. The interior dashboard and instrument cluster should be illuminated with
+    amber light. The steering wheel and interior controls should be visible in the foreground.
+  rationale: The video prompt describes a sequence where the driver leans forward, turns the headlight
+    switch to ON, and then immediately turns it back to OFF. The prompt explicitly states that the switch
+    position determines the circuit state. Since the switch ends in the OFF position, the headlights must
+    be deactivated in the final frame. Consequently, the exterior environment must remain completely dark.
+    The driver returns to the upright seated position, restoring the original camera viewpoint.
+  questions:
+  - id: exterior_darkness
+    question: Is the view through the windshield completely dark?
+    answer_type: yes_no
+    notes_for_judge: The headlights were turned on and then immediately back off, so the final state is
+      dark.
+  - id: headlights_off
+    question: Does the image show that the headlights are currently turned off?
+    answer_type: yes_no
+    notes_for_judge: Verify that there is no light beam projecting onto the road or environment.
+  - id: environment_unlit
+    question: Is the exterior environment unlit?
+    answer_type: yes_no
+    notes_for_judge: The surroundings should be invisible due to darkness.
+  - id: road_invisible
+    question: Is the road surface invisible due to darkness?
+    answer_type: yes_no
+    notes_for_judge: No pavement or ground texture should be visible through the windshield.
+  - id: mirror_dark
+    question: Is the reflection in the side mirror dark?
+    answer_type: yes_no
+    notes_for_judge: The side mirror should not show any illuminated objects.
+  - id: dash_lit
+    question: Are the dashboard lights illuminated?
+    answer_type: yes_no
+    notes_for_judge: 'Secondary consistency check: dashboard lights should remain on as in the initial
+      frame.'
+  - id: wheel_visible
+    question: Is the steering wheel visible?
+    answer_type: yes_no
+    notes_for_judge: 'Secondary consistency check: the steering wheel should be present.'

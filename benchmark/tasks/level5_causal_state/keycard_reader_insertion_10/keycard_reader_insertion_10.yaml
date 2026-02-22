@@ -1,0 +1,66 @@
+id: keycard_reader_insertion_10
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: keycard_reader_insertion
+variation_type: indirect_causation
+variation_description: A keypad is added. The user swipes the card AND types a code. Both are required
+  for the outcome.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Two-factor authentication (Card + PIN) is performed.
+  expected_outcome_change: The LED turns Green (success) because both conditions were met.
+prompts:
+  init_frame_edit_prompt: Edit the image to add a numeric keypad mounted on the wall directly next to
+    the card reader.
+  video_WM: The camera starts centered on the keycard reader and adjacent keypad. The camera rotates right
+    at constant speed until the devices exit the view. The camera continues rotating, showing the area
+    near the reader. A hand holding a white plastic keycard enters the frame, slides the keycard into
+    the slot, removes it, and then presses a sequence of buttons on the adjacent keypad. The system requires
+    both card and code for validation. This sequence occurs while the reader's status LED remains out
+    of camera view. Then the camera rotates left smoothly at the same rate back to the original viewpoint,
+    bringing the reader and its status LED back into center view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The camera starts on the keycard reader and keypad, then rotates away. A hand swipes a keycard
+    and then types a code on the keypad. The system validates both inputs. The camera then returns to
+    the reader and status LED. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: 'A close-up view of a wall-mounted security system on a beige textured wall.
+    On the left is a vertical brushed metal plate containing a horizontal black card reader slot and a
+    small, dark circular LED indicator above it. To the right is a separate metal keypad unit with a small
+    LCD screen and black buttons numbered 0-9, *, and #. A portion of a wooden door frame is visible on
+    the far left edge.'
+  init2final_edit_prompt: Edit the given image to make the small circular LED indicator located above
+    the card reader slot glow bright green. Keep the rest of the scene, including the keypad and wall
+    texture, unchanged.
+  rationale: The video describes a user performing a validation sequence (swiping a card and entering
+    a code) while the camera is temporarily looked away. In functional access control systems, completing
+    the validation sequence triggers a visual status indicator. Since the inputs (card and code) were
+    provided, the causal result is the activation of the status LED (typically turning green to indicate
+    access granted or processing) upon the camera's return to the initial view.
+  questions:
+  - id: led_illuminated
+    question: Is the small circular LED above the card slot now illuminated?
+    answer_type: yes_no
+    notes_for_judge: The LED was dark in the initial frame. It should now be glowing (likely green).
+  - id: led_state_change
+    question: Has the status indicator light on the card reader changed from dark to glowing?
+    answer_type: yes_no
+    notes_for_judge: Compare the small round light above the black slot in both frames.
+  - id: led_glowing
+    question: Does the light above the card reader slot appear to be emitting light?
+    answer_type: yes_no
+    notes_for_judge: It should look like a lit LED.
+  - id: system_response
+    question: Is there visual evidence that the card reader status light has been activated?
+    answer_type: yes_no
+    notes_for_judge: Activation is shown by the light turning on.
+  - id: keypad_presence
+    question: Is the keypad still visible to the right of the card reader?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: door_presence
+    question: Is the wooden door frame still visible on the left side?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

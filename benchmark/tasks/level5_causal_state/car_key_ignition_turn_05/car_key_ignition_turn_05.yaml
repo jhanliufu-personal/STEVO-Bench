@@ -1,0 +1,66 @@
+id: car_key_ignition_turn_05
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: car_key_ignition_turn
+variation_type: precondition_failure
+variation_description: A sticky note on the steering wheel indicates the battery is missing.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Precondition broken (no battery). Trigger action has no effect.
+  expected_outcome_change: The dashboard will remain dark because there is no power source.
+prompts:
+  init_frame_edit_prompt: Edit the image to place a large yellow sticky note on the center of the steering
+    wheel that reads 'NO BATTERY'.
+  video_WM: Driver's upright POV. The steering wheel is centered with a 'NO BATTERY' note attached, and
+    the instrument cluster is dark. The driver leans forward toward the dashboard; the note and surroundings
+    are no longer visible. The ignition cylinder comes into view with the key at the OFF position. A hand
+    grips the key and turns it clockwise from OFF to the ON position. The ignition cylinder is a rotary
+    switch. The driver leans back to the upright seated position. No zoom, no cut, no scene change. STOP.
+  camera_WM: The camera starts in upright driver POV with a dark dashboard and a warning note on the steering
+    wheel. The driver leans forward, camera pitches down and moves toward the dashboard, revealing the
+    ignition cylinder with the key at OFF. A hand turns the key clockwise to ON. The action occurs while
+    the windows are not visible. The driver leans back to the original seated position. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A driver's point-of-view shot from inside a car, showing a black steering wheel
+    with a yellow sticky note attached to the center that reads 'NO BATTERY'. Behind the steering wheel
+    is a dark instrument cluster with analog gauges. To the right of the steering column, the ignition
+    cylinder is visible with a car key inserted in the 'OFF' position. The background shows a residential
+    street with houses and green lawns visible through the windshield.
+  init2final_edit_prompt: Edit the given image to show the ignition key rotated clockwise to a new angle.
+    Ensure the instrument cluster, gauges, and dashboard lights remain completely dark and unlit. Keep
+    the yellow sticky note on the steering wheel unchanged.
+  rationale: 'The video prompt describes the driver turning the ignition key to the ON position. However,
+    the ''NO BATTERY'' note on the steering wheel establishes a causal constraint: the car has no electrical
+    power. Therefore, the functional outcome of turning the key is that the dashboard lights and indicators
+    must NOT turn on. The final state should show the physical rotation of the key, but the instrument
+    cluster must remain as dark as it was in the initial frame. The camera returns to the original upright
+    position, so the viewpoint is unchanged.'
+  questions:
+  - id: dash_remains_dark
+    question: Is the instrument cluster still completely dark and unlit?
+    answer_type: yes_no
+    notes_for_judge: The dashboard should not light up because the note says 'NO BATTERY'.
+  - id: no_warning_lights
+    question: Are the dashboard warning lights and indicators off?
+    answer_type: yes_no
+    notes_for_judge: Check for red/orange/green icons on the dash. They should be off.
+  - id: key_rotated
+    question: Is the ignition key rotated clockwise compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The key head should be at a different angle (turned to the right).
+  - id: note_persists
+    question: Is the yellow 'NO BATTERY' note still attached to the steering wheel?
+    answer_type: yes_no
+    notes_for_judge: The note should not disappear.
+  - id: gauges_inactive
+    question: Do the gauge needles appear to be in their resting/off positions?
+    answer_type: yes_no
+    notes_for_judge: Needles should not have moved to active positions.
+  - id: viewpoint_consistency
+    question: Is the camera view approximately the same as the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The driver leaned back to the starting position.

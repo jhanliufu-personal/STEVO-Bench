@@ -1,0 +1,68 @@
+id: thermostat_threshold_dial_variant_09
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: thermostat_threshold_dial
+variation_type: repeated_activation
+variation_description: Thermostat is adjusted but returned to initial position.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Action reversed. Net state change is zero.
+  expected_outcome_change: Heater remains OFF.
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The camera starts centered on the inactive red heating element. The camera rotates right at
+    constant speed until the heating element exits the view. The camera continues rotating, revealing
+    a round analog thermostat dial mounted on the wall. The current temperature needle shows 60 degrees.
+    The setting dial is currently at 50 degrees. A hand enters the frame, grabs the dial, rotates it up
+    to 70 degrees, and immediately returns it to the 50 degree mark. The dial rotation occurs while the
+    heating element remains out of camera view. Then the camera rotates left smoothly at the same rate
+    back to the original viewpoint, bringing the heating element back into center view. No zoom, no cut,
+    no scene change. STOP.
+  camera_WM: The camera starts on the heating element, then rotates to the thermostat dial. A hand rotates
+    the setting dial up to 70 degrees and back to 50 degrees. The dial rotation occurs while the heating
+    element is not visible. The camera then returns to the heating element. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up view of an electric space heater. The central focus is a coiled metal
+    heating element which appears dull, rusty, and reddish-brown, indicating it is currently inactive
+    and cold. The coil is housed within a metal reflector box that shows signs of dust and wear. A horizontal
+    wire safety grille is positioned in front of the heating element. The lighting is neutral, with no
+    orange or yellow glow emitting from the coil.
+  init2final_edit_prompt: Edit the given image to ensure the heating element remains completely inactive.
+    The coiled metal tube should retain its dull, rusty reddish-brown color and dusty texture. There should
+    be absolutely no bright orange or yellow glow indicating heat or incandescence. The appearance of
+    the heater should be identical to the initial inactive state, with the coil looking dark and cold.
+  rationale: The video prompt describes a causal chain where a thermostat dial is turned up to 70 degrees
+    (triggering the heater on) but is immediately returned to 50 degrees (triggering the heater off).
+    Since the ambient temperature is 60 degrees, the final setting of 50 degrees keeps the heater in the
+    'off' state. Due to the immediate nature of the cancellation and the thermal mass of resistive heating
+    elements, the coil would not have had sufficient time to heat up to a visible glow before being switched
+    off again. Therefore, when the camera returns to the heater, it should appear visually identical to
+    the initial inactive state.
+  questions:
+  - id: q1_state_inactive
+    question: Does the heating element appear inactive and dark?
+    answer_type: yes_no
+    notes_for_judge: The heater should not be glowing.
+  - id: q2_no_glow
+    question: Is the coiled tube free of any bright orange or yellow glow?
+    answer_type: yes_no
+    notes_for_judge: Check for absence of incandescence.
+  - id: q3_color_consistency
+    question: Is the color of the heating coil dull reddish-brown or metallic?
+    answer_type: yes_no
+    notes_for_judge: It should look like rusty metal, not light-emitting.
+  - id: q4_functional_state
+    question: Does the heater appear to be in a powered-off state?
+    answer_type: yes_no
+    notes_for_judge: The final state should be off.
+  - id: q5_visual_match
+    question: Is the heating element visually consistent with its initial cold state?
+    answer_type: yes_no
+    notes_for_judge: The action was cancelled, so the state should revert to initial.
+  - id: q6_invariant_grille
+    question: Is the wire safety grille still visible in front of the heating element?
+    answer_type: yes_no
+    notes_for_judge: Invariant check.

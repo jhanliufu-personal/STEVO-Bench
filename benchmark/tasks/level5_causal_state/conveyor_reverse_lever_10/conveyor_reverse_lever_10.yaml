@@ -1,0 +1,69 @@
+id: conveyor_reverse_lever_10
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: conveyor_reverse_lever
+variation_type: indirect_causation
+variation_description: A safety key must be turned ON before the lever works.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Multi-step activation required. Both inputs satisfied.
+  expected_outcome_change: The conveyor moves in reverse (same as original, but via more complex cause).
+prompts:
+  init_frame_edit_prompt: Edit the image to add a key-switch control box next to the lever, with a key
+    inserted and currently in the vertical OFF position.
+  video_WM: The camera starts centered on the stationary cardboard box on the conveyor belt. The camera
+    rotates right at constant speed until the box exits the view. The camera continues rotating, revealing
+    a control lever and a safety key switch on the side of the conveyor. The lever is in NEUTRAL and the
+    key is OFF. A hand enters the frame, turns the key to the ON position, and then pulls the control
+    lever to the REVERSE position. The motor is active and the transmission engages. The actions occur
+    while the cardboard box remains out of camera view. Then the camera rotates left smoothly at the same
+    rate back to the original viewpoint, bringing the cardboard box on the belt back into center view.
+    No zoom, no cut, no scene change. STOP.
+  camera_WM: The camera starts on the box, then rotates to the controls. A hand turns the safety key to
+    ON and shifts the lever from NEUTRAL to REVERSE. The transmission engages. The actions occur while
+    the box is not visible. The camera then returns to the box on the belt. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A warehouse interior showing a conveyor belt system in the foreground. A large,
+    worn cardboard box sits centered on the belt. To the right of the belt, mounted on the frame, is a
+    control box featuring a vertical control lever and a safety key switch with a key inserted. The background
+    is filled with warehouse racking, pallets, and other boxes. The lighting is industrial overhead.
+  init2final_edit_prompt: Edit the given image to show the cardboard box shifted to a new position along
+    the conveyor belt (either further away or closer), indicating it has moved from the center. Change
+    the control lever on the right to be pulled to a different angle (Reverse position) and ensure the
+    safety key is turned to the angled ON position.
+  rationale: 'The video prompt describes a sequence where the camera rotates away, a user activates the
+    conveyor system (Key ON, Lever REVERSE), and the motor engages. This causal action activates the belt,
+    which must physically move the box during the time the camera is looking away. When the camera returns
+    to the original viewpoint, the state of the world must reflect these changes: the controls should
+    be in their active positions (Key ON, Lever REVERSE), and the box must be displaced from its original
+    position due to the movement of the belt.'
+  questions:
+  - id: box_moved
+    question: Has the cardboard box moved from its exact original position on the conveyor belt?
+    answer_type: yes_no
+    notes_for_judge: Compare the box's position relative to the belt rollers and background. It should
+      be shifted forward or backward.
+  - id: lever_position
+    question: Is the control lever in a different position compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The lever should be pulled or angled differently to indicate the REVERSE setting.
+  - id: key_state
+    question: Is the safety key switch turned to a different angle (ON position)?
+    answer_type: yes_no
+    notes_for_judge: The key should be rotated compared to the vertical OFF state in the initial frame.
+  - id: box_center
+    question: Is the cardboard box no longer perfectly centered in the frame?
+    answer_type: yes_no
+    notes_for_judge: Since the camera returns to the original view but the belt moved, the box should
+      be displaced from the center.
+  - id: system_active
+    question: Does the scene show evidence that the conveyor mechanism was activated?
+    answer_type: yes_no
+    notes_for_judge: Evidence includes the changed control states and the displacement of the box.
+  - id: background_consistency
+    question: Are the pallets and racking in the background unchanged?
+    answer_type: yes_no
+    notes_for_judge: Only the conveyor system and box should change; the background is static.

@@ -1,0 +1,75 @@
+id: remote_control_pairing_06
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: remote_control_pairing
+variation_type: precondition_failure
+variation_description: The robot's antennas are broken off, preventing signal reception.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Receiver hardware damaged. Signal cannot be received.
+  expected_outcome_change: The robot does not move (no signal).
+prompts:
+  init_frame_edit_prompt: Edit the image to remove the antennas from the robot's head, leaving jagged,
+    broken stumps.
+  video_WM: The camera starts centered on the motionless toy robot labeled Channel A with broken antennas.
+    The camera rotates right at constant speed until the robot exits the view. The camera continues rotating,
+    revealing a handheld remote control also labeled Channel A. A hand enters the frame and presses the
+    large FORWARD button on the remote control. The remote transmits radio signals when buttons are pressed.
+    The button press occurs while the toy robot remains out of camera view. Then the camera rotates left
+    smoothly at the same rate back to the original viewpoint, bringing the toy robot back into center
+    view. No zoom, no cut, no scene change. STOP.
+  camera_WM: A handheld remote control labeled Channel A is revealed. A hand enters the frame and presses
+    the large FORWARD button on the remote control. The remote transmits radio signals when buttons are
+    pressed. The button press occurs while the toy robot remains out of camera view. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A rear view of a grey, retro-style toy robot standing on a scratched wooden
+    table. The robot has a square head with two antennas (the left one is bent/broken), a boxy body with
+    a panel labeled 'CHANNEL A' in red text, and tank treads. The background is blurred, showing books
+    and a window.
+  init2final_edit_prompt: Edit the given image to show the robot positioned further away from the camera,
+    deeper into the scene on the wooden table. The robot should appear smaller due to perspective, indicating
+    it has moved forward away from the viewer. Maintain the original camera angle, lighting, and background
+    details.
+  rationale: The video sequence establishes a causal link between a remote control and the robot. Both
+    are labeled 'Channel A', implying they are paired. The camera pans to the remote, a user presses the
+    'FORWARD' button, and the camera pans back. Since the robot is facing away from the camera, the 'FORWARD'
+    command causes it to move away from the viewpoint into the depth of the scene. Therefore, in the final
+    frame, the robot should be visible but positioned further away (smaller and higher in the frame) than
+    in the initial state.
+  questions:
+  - id: robot_distance_change
+    question: Is the robot positioned further away from the camera than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The robot should appear smaller or higher up on the table surface, indicating movement
+      into the depth of the scene.
+  - id: robot_size_perspective
+    question: Does the robot appear smaller in the frame due to being further away?
+    answer_type: yes_no
+    notes_for_judge: Perspective scaling should make the robot look smaller as it moves away.
+  - id: robot_position_change
+    question: Has the robot's position on the wooden surface changed relative to the wood grain or marks?
+    answer_type: yes_no
+    notes_for_judge: Check if the treads are sitting on a different part of the table texture.
+  - id: robot_moved_forward
+    question: Does the final image show evidence that the robot moved forward (away from the viewer)?
+    answer_type: yes_no
+    notes_for_judge: The robot faces away from the camera, so forward movement is away from the viewer.
+  - id: robot_visibility
+    question: Is the robot still visible in the frame?
+    answer_type: yes_no
+    notes_for_judge: The robot should not have disappeared completely.
+  - id: label_consistency
+    question: Is the 'CHANNEL A' label still visible on the back of the robot?
+    answer_type: yes_no
+    notes_for_judge: The robot should not have turned around; it moved forward.
+  - id: antenna_consistency
+    question: Does the robot still have a bent or broken left antenna?
+    answer_type: yes_no
+    notes_for_judge: Visual consistency check.
+  - id: background_consistency
+    question: Are the background books and window unchanged?
+    answer_type: yes_no
+    notes_for_judge: Only the robot should move.

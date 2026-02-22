@@ -1,0 +1,70 @@
+id: pedestrian_crosswalk_button_03
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: pedestrian_crosswalk_button
+variation_type: initial_state
+variation_description: Signal starts in Countdown/Flashing state
+changes:
+  occlusion_method: null
+  dynamic_conditions: Initial state is Flashing Countdown. Pressing button resets to Steady DON'T WALK.
+  expected_outcome_change: Signal changes from Flashing Countdown to Steady Red DON'T WALK.
+prompts:
+  init_frame_edit_prompt: Edit the pedestrian signal to show a flashing red hand with a countdown number
+    '10' next to it.
+  video_WM: The camera starts centered on the pedestrian signal showing a flashing red hand and countdown
+    number. The camera rotates right at constant speed until the signal exits the view. The camera continues
+    rotating, revealing a pedestrian crossing button mounted on a pole at the curb. A hand enters the
+    frame and presses the circular button firmly. The button sends a reset signal to the traffic light
+    controller. The button press occurs while the crossing signal remains out of camera view. Then the
+    camera rotates left smoothly at the same rate back to the original viewpoint, bringing the pedestrian
+    crossing signal back into center view. No zoom, no cut, no scene change. STOP.
+  camera_WM: A hand presses the pedestrian button. The button sends a reset signal to the traffic controller.
+    The button press occurs while the crossing signal is not visible. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a yellow pedestrian traffic signal box mounted
+    on a pole. The signal display is active, showing a bright orange-red hand symbol on the left (indicating
+    'Don't Walk') and a digital countdown number '10' in orange-red LEDs on the right. The signal is situated
+    in a city environment with a wet, rainy street, blurred cars, and buildings visible in the background.
+    The sky is overcast.
+  init2final_edit_prompt: Edit the given image to change the state of the pedestrian signal. Replace the
+    orange-red hand symbol and the countdown number '10' with a bright white 'walking person' symbol.
+    The signal should now clearly display the 'Walk' state. Keep the yellow signal housing, the mounting
+    hardware, and the rainy city background exactly as they are in the original image.
+  rationale: The video prompt describes a sequence where the camera pans away, a button is pressed to
+    send a 'reset' signal to the controller, and the camera returns. Functionally, a 'reset' signal sent
+    to a traffic controller during a countdown phase is interpreted here as overriding the wait time and
+    immediately triggering the 'Walk' phase. Therefore, the final state should show the signal transitioned
+    from the 'Don't Walk' (Red Hand + 10) state to the 'Walk' (White Person) state. The countdown should
+    be gone, and the red color replaced by white.
+  questions:
+  - id: primary_state_symbol
+    question: Is the pedestrian signal now displaying a walking person symbol?
+    answer_type: yes_no
+    notes_for_judge: The signal should show the standard white walking figure, not the hand.
+  - id: primary_state_color
+    question: Is the illuminated part of the signal now white instead of orange-red?
+    answer_type: yes_no
+    notes_for_judge: Walk signals are white; the initial Don't Walk signal was orange-red.
+  - id: primary_state_countdown
+    question: Has the numeric countdown '10' disappeared from the display?
+    answer_type: yes_no
+    notes_for_judge: The Walk state typically does not show a countdown number.
+  - id: primary_state_hand
+    question: Is the orange-red hand symbol no longer visible?
+    answer_type: yes_no
+    notes_for_judge: The hand symbol should be replaced by the walking person.
+  - id: primary_functional_transition
+    question: Does the signal indicate a 'Walk' state rather than a 'Don't Walk' state?
+    answer_type: yes_no
+    notes_for_judge: Verify the semantic meaning of the signal has changed.
+  - id: secondary_consistency_housing
+    question: Is the yellow signal housing structurally unchanged?
+    answer_type: yes_no
+    notes_for_judge: The physical box should not change, only the lights.
+  - id: secondary_consistency_background
+    question: Are the background buildings and wet street texture consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The environment should remain stable.

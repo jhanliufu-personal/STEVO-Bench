@@ -1,0 +1,67 @@
+id: automatic_toilet_flush_10
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: automatic_toilet_flush
+variation_type: indirect_causation
+variation_description: An intermediate control box is added; the sensor triggers the box, which triggers
+  the flush.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Causal chain is Sensor -> Control Box -> Flush Valve.
+  expected_outcome_change: The toilet flushes (same outcome, but implied mechanism is more complex).
+prompts:
+  init_frame_edit_prompt: Edit the image to add a small electrical control box with a green status light
+    mounted on the wall between the sensor and the flush valve.
+  video_WM: The camera starts centered on the toilet bowl with stable water level. The camera rotates
+    right at constant speed until the bowl exits the view. The camera continues rotating, revealing the
+    automatic flush sensor and a wall-mounted control box. A hand enters the frame and waves in front
+    of the sensor. The sensor sends a signal to the control box, which then activates the flush valve.
+    The hand wave occurs while the toilet bowl remains out of camera view. Then the camera rotates left
+    smoothly back to the original viewpoint, bringing the toilet bowl back into center view. STOP.
+  camera_WM: The scene features a toilet bowl, a flush sensor, and an intermediate control box. A hand
+    waves in front of the sensor, triggering the control box and subsequently the valve. This action occurs
+    while the bowl is not visible. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A high-angle shot of a white ceramic toilet bowl with the seat down and lid
+    up. The water in the bowl is clear and completely still. To the right of the toilet, mounted on the
+    tiled wall, is a beige rectangular control box with a small green indicator light illuminated. A beige
+    bathroom rug is visible on the floor at the base of the toilet.
+  init2final_edit_prompt: Edit the given image to show the water inside the toilet bowl swirling and turbulent,
+    as if the toilet is currently flushing. The water surface should be agitated with ripples and motion
+    blur. Keep the toilet bowl structure, the seat position, the rug, and the wall-mounted control box
+    unchanged.
+  rationale: The video prompt describes a sequence where the camera pans away to focus on the sensor,
+    a hand triggers the sensor, and the camera pans back to the bowl. The causal action (waving at the
+    sensor) activates the flush mechanism. Therefore, when the camera returns to the initial viewpoint,
+    the state of the water in the bowl must have changed from still to turbulent/flushing. The surrounding
+    environment remains static.
+  questions:
+  - id: water_turbulence
+    question: Is the water in the toilet bowl turbulent or swirling?
+    answer_type: yes_no
+    notes_for_judge: The water should look agitated, indicating a flush is in progress, unlike the still
+      water in the initial frame.
+  - id: flush_active
+    question: Does the water surface appear agitated compared to the still water in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Check for ripples, swirls, or motion blur in the water.
+  - id: mechanism_evidence
+    question: Is there visual evidence in the bowl that the flush mechanism was triggered?
+    answer_type: yes_no
+    notes_for_judge: The evidence is the movement of the water.
+  - id: water_motion
+    question: Is the water in the bowl moving rather than stagnant?
+    answer_type: yes_no
+    notes_for_judge: Stagnant means flat and reflective like a mirror; moving means distorted reflections
+      and ripples.
+  - id: seat_position
+    question: Is the toilet seat still in the down position?
+    answer_type: yes_no
+    notes_for_judge: The seat should not have moved.
+  - id: control_box_visibility
+    question: Is the beige control box still visible on the wall to the right?
+    answer_type: yes_no
+    notes_for_judge: The camera returns to the original view, so the box should be visible.

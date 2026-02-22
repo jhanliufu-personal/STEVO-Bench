@@ -1,0 +1,71 @@
+id: drinking_fountain_button_06
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: drinking_fountain_button
+variation_type: precondition_failure
+variation_description: Button is missing/removed
+changes:
+  occlusion_method: null
+  dynamic_conditions: 'Precondition failure: The trigger mechanism is missing, so the action (pressing
+    the hole) fails to activate the valve.'
+  expected_outcome_change: 'No water flow (Final state: OFF)'
+prompts:
+  init_frame_edit_prompt: Edit the image to remove the push button from the side, leaving an empty, dark
+    hole where the mechanism should be.
+  video_WM: The camera starts centered on the drinking fountain spout with no water flowing. The camera
+    rotates right at constant speed until the spout exits the view. The camera continues rotating, revealing
+    the empty socket where the button should be. A hand enters the frame and presses into the empty hole.
+    Because the button mechanism is missing, the valve cannot be engaged. The interaction occurs while
+    the fountain spout remains out of camera view. Then the camera rotates left smoothly at the same rate
+    back to the original viewpoint, bringing the fountain spout back into center view. No zoom, no cut,
+    no scene change. STOP.
+  camera_WM: The camera starts on the spout, then rotates to the empty button socket. A hand presses into
+    the hole. The missing mechanism prevents activation. The camera then returns to the fountain spout.
+    STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a stainless steel drinking fountain. The central
+    focus is the metal spout (bubbler head) rising from the circular basin. The spout is dry, and no water
+    is flowing. The background consists of a wall tiled with light-colored square tiles. The lighting
+    is artificial and reflects off the brushed metal surfaces.
+  init2final_edit_prompt: Edit the given image to show the drinking fountain spout remaining completely
+    inactive. Ensure there is absolutely no water flowing from the nozzle. The metal spout should appear
+    dry, and the basin should be free of any water stream or arc, looking exactly as it did in the initial
+    inactive state.
+  rationale: The video prompt describes a sequence where the camera pans to the button mechanism, reveals
+    that the button is missing (empty socket), and shows a hand pressing into the empty hole. Since the
+    physical mechanism required to open the valve is missing, the pressing action is futile. Therefore,
+    when the camera pans back to the spout, the water must NOT be flowing. This tests the model's ability
+    to handle negative causal constraints (broken mechanism = no effect) rather than simply associating
+    a 'press' action with water activation.
+  questions:
+  - id: q1
+    question: Is the drinking fountain spout inactive (no water flowing)?
+    answer_type: yes_no
+    notes_for_judge: The correct final state is NO water flow because the button was missing.
+  - id: q2
+    question: Is the space immediately above the spout free of a water arc?
+    answer_type: yes_no
+    notes_for_judge: Verify no water stream is generated.
+  - id: q3
+    question: Does the fountain appear to be in the same 'off' state as the initial frame?
+    answer_type: yes_no
+    notes_for_judge: State should be unchanged.
+  - id: q4
+    question: Is the metal nozzle visible and dry?
+    answer_type: yes_no
+    notes_for_judge: Check for absence of water texture on the nozzle.
+  - id: q5
+    question: Is the basin free of flowing or splashing water?
+    answer_type: yes_no
+    notes_for_judge: Ensure no water effects in the basin.
+  - id: q6
+    question: Is the stainless steel spout positioned in the center of the frame?
+    answer_type: yes_no
+    notes_for_judge: Verifies the camera returned to the original viewpoint.
+  - id: q7
+    question: Are the background wall tiles still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

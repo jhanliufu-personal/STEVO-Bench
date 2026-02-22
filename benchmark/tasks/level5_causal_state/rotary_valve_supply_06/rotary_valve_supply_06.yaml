@@ -1,0 +1,73 @@
+id: rotary_valve_supply_06
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: rotary_valve_supply
+variation_type: precondition_failure
+variation_description: The burner nozzle is capped, blocking gas flow.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Nozzle capped. Opening valve pressurizes pipe but no gas escapes to burn.
+  expected_outcome_change: No flame appears because the nozzle is physically blocked.
+prompts:
+  init_frame_edit_prompt: Edit the image to show a brass threaded cap screwed tightly onto the open end
+    of the burner nozzle on the left.
+  video_WM: The camera starts centered on the capped burner nozzle. The camera rotates right at constant
+    speed until the burner exits the view. The camera continues rotating, revealing a yellow rotary valve
+    handle on the gas pipe. The handle is currently perpendicular to the pipe (closed position). A hand
+    enters the frame, grabs the yellow handle, and rotates it 90 degrees so that it becomes parallel with
+    the pipe. The handle remains in the parallel position. The valve rotation occurs while the burner
+    nozzle remains out of camera view. Then the camera rotates left smoothly at the same rate back to
+    the original viewpoint, bringing the capped burner nozzle back into center view. No zoom, no cut,
+    no scene change. STOP.
+  camera_WM: The camera starts on the capped burner nozzle, then rotates to the valve handle. A hand rotates
+    the valve 90 degrees to the open position. The valve rotation occurs while the burner is not visible.
+    The camera then returns to the burner nozzle. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up view of a rusty horizontal metal pipe assembly in a workshop setting.
+    On the left end of the pipe, there is a large, solid brass hexagonal fitting (the capped burner nozzle)
+    screwed onto a T-junction. A smaller copper tube connects to the bottom of the T-junction. The background
+    is blurred, showing wooden walls and workshop clutter.
+  init2final_edit_prompt: Edit the image to show a bright jet of flame shooting out from the brass hexagonal
+    nozzle on the left. The flame should be directed horizontally towards the left side of the frame.
+    The flame should be a mix of blue and orange, indicating active combustion. The brass fitting and
+    rusty pipe should remain in their original positions, but the area to the left of the nozzle should
+    be illuminated and obscured by the fire.
+  rationale: The video prompt describes a causal chain where a gas supply valve (initially off-screen)
+    is revealed, opened by a hand, and left in the open position before the camera returns to the burner.
+    Opening the valve allows fuel to flow to the burner nozzle. In this functional benchmark scenario,
+    we assume the presence of an ignition source (such as a pilot light implied by the lower feed line)
+    which causes the burner to ignite once fuel is supplied. Therefore, the final state must show the
+    burner in an active, firing state to demonstrate that the model correctly tracked the off-screen causal
+    action.
+  questions:
+  - id: flame_visible
+    question: Is there a flame visible coming from the brass nozzle?
+    answer_type: yes_no
+    notes_for_judge: Check for the presence of fire/flames emitting from the nozzle on the left.
+  - id: burner_active
+    question: Does the burner appear to be ignited and active?
+    answer_type: yes_no
+    notes_for_judge: The burner should no longer look dormant; it should be firing.
+  - id: flame_direction
+    question: Is the flame directed towards the left side of the frame?
+    answer_type: yes_no
+    notes_for_judge: The flame should project outwards from the nozzle tip.
+  - id: combustion_color
+    question: Are there blue or orange combustion colors visible near the nozzle?
+    answer_type: yes_no
+    notes_for_judge: Look for fire colors.
+  - id: state_change_lit
+    question: Has the nozzle transitioned from an unlit state to a lit state?
+    answer_type: yes_no
+    notes_for_judge: Compare with the initial description of a capped/unlit nozzle.
+  - id: pipe_consistency
+    question: Is the rusty horizontal pipe still in the same position?
+    answer_type: yes_no
+    notes_for_judge: The physical structure of the pipe should not have moved, only the flame appeared.
+  - id: fitting_consistency
+    question: Is the brass hexagonal fitting still visible at the base of the flame?
+    answer_type: yes_no
+    notes_for_judge: The nozzle itself should not disappear, it should just be emitting fire.

@@ -1,0 +1,69 @@
+id: rotary_valve_supply_05
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: rotary_valve_supply
+variation_type: precondition_failure
+variation_description: The yellow handle is missing, preventing the hand from turning the valve.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Handle missing. Hand fails to actuate valve.
+  expected_outcome_change: No flame appears because the valve remains closed.
+prompts:
+  init_frame_edit_prompt: Edit the image to remove the yellow plastic handle from the valve, leaving only
+    the bare square metal stem exposed.
+  video_WM: The camera starts centered on the unlit burner nozzle. The camera rotates right at constant
+    speed until the burner exits the view. The camera continues rotating, revealing the valve body where
+    the yellow handle is missing, leaving only a bare metal stem. A hand enters the frame and attempts
+    to grip the small stem to turn it, but fingers slip and cannot apply torque. The stem remains in its
+    original closed position. The attempted interaction occurs while the burner nozzle remains out of
+    camera view. Then the camera rotates left smoothly at the same rate back to the original viewpoint,
+    bringing the burner nozzle back into center view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The camera starts on the burner nozzle, then rotates to the valve. A hand attempts to rotate
+    the bare valve stem but fails due to the missing handle. The valve remains closed. The camera then
+    returns to the burner nozzle. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up view of a metal pipe assembly in a workshop. On the left is a brass
+    cylindrical burner nozzle, currently unlit and dark inside. In the center is a black cast-iron valve
+    body. Protruding from the top of the valve is a square metal stem, which lacks a handle. A small hose
+    connects to the bottom of the valve. To the right, the assembly connects to a vertical rusty pipe.
+    The background is cluttered with workshop tools and a window.
+  init2final_edit_prompt: Edit the given image to show the brass burner nozzle on the left remaining completely
+    unlit and inactive. Ensure the opening of the brass pipe is dark with no flames, fire, or smoke visible.
+    The square metal stem on top of the central valve body should remain in its original position. The
+    scene should appear identical to the initial state.
+  rationale: The video depicts a failed attempt to operate the valve. The camera pans away to the valve
+    stem, where a hand attempts to turn it but slips, failing to apply torque. The valve stem remains
+    in its original closed position. Consequently, no gas is released to the burner. When the camera returns
+    to the initial viewpoint, the burner nozzle must remain unlit and inactive, identical to the start.
+  questions:
+  - id: q1
+    question: Is the brass burner nozzle completely unlit?
+    answer_type: yes_no
+    notes_for_judge: The causal action failed, so the burner should not be lit.
+  - id: q2
+    question: Is the image free of any visible flame coming from the brass pipe?
+    answer_type: yes_no
+    notes_for_judge: Check for absence of fire.
+  - id: q3
+    question: Is the opening of the brass nozzle dark?
+    answer_type: yes_no
+    notes_for_judge: It should be dark/shadowed, not glowing.
+  - id: q4
+    question: Does the burner system appear to be in an inactive state?
+    answer_type: yes_no
+    notes_for_judge: Compare to the initial inactive state.
+  - id: q5
+    question: Is the scene free of smoke or heat distortion?
+    answer_type: yes_no
+    notes_for_judge: No combustion occurred.
+  - id: q6
+    question: Is the brass nozzle still visible on the left side of the frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: q7
+    question: Is the vertical pipe on the right side still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

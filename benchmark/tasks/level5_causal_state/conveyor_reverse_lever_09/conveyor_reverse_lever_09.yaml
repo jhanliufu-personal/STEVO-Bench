@@ -1,0 +1,69 @@
+id: conveyor_reverse_lever_09
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: conveyor_reverse_lever
+variation_type: repeated_activation
+variation_description: Lever starts in REVERSE. Hand moves it to NEUTRAL then back to REVERSE.
+changes:
+  occlusion_method: null
+  dynamic_conditions: State toggled off then on. Net result is active.
+  expected_outcome_change: The conveyor continues moving in reverse. The final state matches the initial
+    state.
+prompts:
+  init_frame_edit_prompt: Edit the image so the control lever is in the REVERSE position.
+  video_WM: The camera starts centered on the cardboard box on the conveyor belt. The camera rotates right
+    at constant speed until the box exits the view. The camera continues rotating, revealing a control
+    lever on the side of the conveyor. The lever is currently in the REVERSE position. A hand enters the
+    frame, pushes the control lever to the NEUTRAL position, and then immediately pulls it back to the
+    REVERSE position. The lever movement occurs while the cardboard box remains out of camera view. Then
+    the camera rotates left smoothly at the same rate back to the original viewpoint, bringing the cardboard
+    box on the belt back into center view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The camera starts on the box, then rotates to the control lever. A hand shifts the lever
+    from REVERSE to NEUTRAL and back to REVERSE. The transmission disengages briefly then re-engages.
+    The lever movement occurs while the box is not visible. The camera then returns to the box on the
+    belt. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A warehouse scene featuring a conveyor belt in the foreground with a brown cardboard
+    box sitting in the center. To the right of the conveyor, a metal control box is mounted with a red-handled
+    lever currently in the down position, labeled 'REVERSE'. The background contains warehouse shelving,
+    pallets stacked with goods, and overhead lighting.
+  init2final_edit_prompt: Edit the given image to show the cardboard box has moved significantly along
+    the conveyor belt, either displaced to a new position along the track or having fallen off/exited
+    the frame entirely, leaving the center of the belt empty. Ensure the red control lever on the right
+    remains in the down (REVERSE) position. Keep the background and lighting consistent with the original
+    scene.
+  rationale: The initial state shows the control lever in the 'REVERSE' position, implying the conveyor
+    belt is active and moving. The camera rotates away for a duration of time, during which the lever
+    is briefly toggled to NEUTRAL and then immediately back to REVERSE. Since the conveyor system remains
+    primarily in the 'REVERSE' state (active) throughout the camera rotation and interaction, the cardboard
+    box must have been transported along the belt. When the camera returns to the original view, the box
+    should no longer be in its initial central position.
+  questions:
+  - id: box_moved_position
+    question: Is the cardboard box in a different position on the conveyor belt compared to the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: The box should have moved due to the active conveyor belt.
+  - id: box_center_empty
+    question: Is the center of the conveyor belt, where the box was originally sitting, now empty?
+    answer_type: yes_no
+    notes_for_judge: The box should have moved away from the center.
+  - id: lever_position_reverse
+    question: Is the red control lever in the down (REVERSE) position?
+    answer_type: yes_no
+    notes_for_judge: The lever was returned to the REVERSE position at the end of the action.
+  - id: box_displacement
+    question: Has the cardboard box moved along the track or exited the view?
+    answer_type: yes_no
+    notes_for_judge: Any significant displacement or disappearance counts as YES.
+  - id: lever_handle_visible
+    question: Is the red handle of the control lever visible?
+    answer_type: yes_no
+    notes_for_judge: The lever should still be in the frame.
+  - id: background_consistency
+    question: Are the pallets and shelves in the background unchanged?
+    answer_type: yes_no
+    notes_for_judge: Only the conveyor payload should change.

@@ -1,0 +1,72 @@
+id: conveyor_reverse_lever_04
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: conveyor_reverse_lever
+variation_type: precondition_failure
+variation_description: The main power cord is visibly unplugged, preventing the motor from starting.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Power source disconnected. Lever action has no effect.
+  expected_outcome_change: The conveyor does not move. The box remains in the exact same position.
+prompts:
+  init_frame_edit_prompt: Edit the image to show the conveyor's heavy black power plug lying disconnected
+    on the floor in the background.
+  video_WM: The camera starts centered on the stationary cardboard box on the conveyor belt. The camera
+    rotates right at constant speed until the box exits the view. The camera continues rotating, revealing
+    a control lever on the side of the conveyor. The lever is currently in the middle NEUTRAL position.
+    A hand enters the frame and pulls the control lever all the way to the REVERSE position. The lever
+    movement occurs while the cardboard box remains out of camera view. Then the camera rotates left smoothly
+    at the same rate back to the original viewpoint, bringing the cardboard box on the belt back into
+    center view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The camera starts on the box, then rotates to the control lever. A hand shifts the lever
+    from NEUTRAL to REVERSE position. The lever movement occurs while the box is not visible. The camera
+    then returns to the box on the belt. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A warehouse interior featuring a central conveyor belt system extending into
+    the background. A medium-sized cardboard box sits stationary in the center of the conveyor belt. To
+    the left, a black heavy-duty power cord with a plug lies coiled on the concrete floor. To the right,
+    stacks of wooden pallets are arranged in columns. The background shows industrial shelving, a high
+    ceiling with rectangular lights, and a rear wall.
+  init2final_edit_prompt: Edit the given image to show the cardboard box has moved along the conveyor
+    belt towards the camera. The box should be positioned lower in the frame and appear slightly larger,
+    indicating it has traveled down the belt. Ensure the background, lighting, and camera angle remain
+    identical to the original frame.
+  rationale: The video prompt describes a causal chain where a control lever is pulled to the 'REVERSE'
+    position, activating the conveyor belt. Although the camera rotates away and then returns to the original
+    viewpoint, the activation of the belt means the stationary box must have moved during the elapsed
+    time. Therefore, in the final frame, the box should be displaced along the conveyor track (shifted
+    in position) rather than remaining in the exact starting spot. The camera returns to the original
+    static viewpoint, so the background must not change.
+  questions:
+  - id: box_moved_position
+    question: Is the cardboard box in a different position on the conveyor belt compared to the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: The box should have moved along the belt (likely towards or away from the camera),
+      changing its position relative to the frame edges.
+  - id: box_longitudinal_shift
+    question: Has the box moved vertically within the frame (up or down) along the path of the conveyor?
+    answer_type: yes_no
+    notes_for_judge: Movement along the belt corresponds to vertical displacement in the image perspective.
+  - id: box_not_identical
+    question: Is the box no longer in the exact center of the image where it started?
+    answer_type: yes_no
+    notes_for_judge: If the box is in the exact same pixel coordinates, the answer is No. It should have
+      shifted due to the 'Reverse' action.
+  - id: background_static
+    question: Are the stacks of wooden pallets on the right in the same position as the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The camera returns to the original viewpoint, so static background objects should
+      not move.
+  - id: cord_static
+    question: Is the black power cord on the floor unchanged?
+    answer_type: yes_no
+    notes_for_judge: Static object check.
+  - id: box_visible
+    question: Is the cardboard box still visible in the frame?
+    answer_type: yes_no
+    notes_for_judge: The prompt implies the box is brought back into view, so it should not have moved
+      completely off-screen.

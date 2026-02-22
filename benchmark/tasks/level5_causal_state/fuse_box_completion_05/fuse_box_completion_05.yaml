@@ -1,0 +1,69 @@
+id: fuse_box_completion_05
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: fuse_box_completion
+variation_type: precondition_failure
+variation_description: Power cable is visibly cut/severed.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Cable severed. Circuit cannot complete.
+  expected_outcome_change: Fan remains OFF (stationary).
+prompts:
+  init_frame_edit_prompt: Edit the image to show the thick black power cable leading to the fan is clearly
+    cut or severed in the middle.
+  video_WM: The camera starts centered on the stationary industrial floor fan with a severed power cable.
+    The camera rotates right at constant speed until the fan exits the view. The camera continues rotating,
+    revealing an open industrial fuse box mounted on the wall. One circuit is missing its ceramic fuse.
+    A hand enters the frame holding a new ceramic fuse and presses it firmly into the empty gap. The fuse
+    insertion occurs while the fan remains out of camera view. Then the camera rotates left smoothly at
+    the same rate back to the original viewpoint, bringing the industrial fan back into center view. No
+    zoom, no cut, no scene change. STOP.
+  camera_WM: The camera starts on the fan with the severed cable, then rotates to the fuse box. A hand
+    inserts a ceramic fuse. The action occurs while the fan is not visible. The camera then returns to
+    the fan. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A large industrial floor fan with a metal wire cage and three blades stands
+    in the center of a workshop. The fan is positioned on a metal stand on a concrete floor. A black power
+    cable extends from a wall outlet on the left side, running down to the floor where it is visibly severed.
+    The other end of the cable, connected to the fan motor, lies on the floor nearby, separated from the
+    power source by a clear gap with exposed wire ends. The background features a brick wall and workshop
+    equipment.
+  init2final_edit_prompt: Edit the given image to ensure the industrial fan remains completely stationary.
+    The fan blades must remain sharp and distinct, with absolutely no motion blur or rotation. Preserve
+    the severed power cable on the floor exactly as it is, with the gap between the wire ends clearly
+    visible and disconnected. The scene should appear identical to the initial state, with the fan powered
+    off.
+  rationale: The video prompt describes inserting a fuse into a fuse box to complete a circuit. However,
+    the initial frame and prompt explicitly establish that the fan's power cable is severed on the floor.
+    Inserting a fuse at the wall box restores power to the line, but the physical break in the cable at
+    the floor level prevents the current from reaching the fan motor. Therefore, the fan must not start.
+    A correct physical simulation will show the fan remaining stationary despite the fuse insertion, as
+    the circuit is still open at the severed cable.
+  questions:
+  - id: fan_stationary
+    question: Is the industrial fan still stationary in the final frame?
+    answer_type: yes_no
+    notes_for_judge: The fan should not be spinning because the power cable is severed.
+  - id: blades_sharp
+    question: Are the fan blades sharp and free of motion blur?
+    answer_type: yes_no
+    notes_for_judge: Motion blur would indicate the fan is spinning, which is incorrect.
+  - id: cable_disconnected
+    question: Is the power cable on the floor still visibly disconnected or severed?
+    answer_type: yes_no
+    notes_for_judge: The cable should not be magically repaired.
+  - id: fan_off_state
+    question: Does the fan appear to be in the same powered-off state as the initial frame?
+    answer_type: yes_no
+    notes_for_judge: No change should occur.
+  - id: blade_position
+    question: Is the orientation of the fan blades identical to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Since the fan never started, the blades should not have moved.
+  - id: no_rotation
+    question: Is the fan free of any rotational movement?
+    answer_type: yes_no
+    notes_for_judge: Check for any signs of rotation.

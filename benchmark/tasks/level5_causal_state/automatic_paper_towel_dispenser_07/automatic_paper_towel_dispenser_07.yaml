@@ -1,0 +1,69 @@
+id: automatic_paper_towel_dispenser_07
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: automatic_paper_towel_dispenser
+variation_type: precondition_failure
+variation_description: An 'Out of Order' sign is present.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Device is marked broken, implying power is off or mechanism is disabled.
+  expected_outcome_change: No paper is dispensed.
+prompts:
+  init_frame_edit_prompt: Edit the image to show a handwritten sign taped to the dispenser that reads
+    'OUT OF ORDER'.
+  video_WM: The camera starts centered on the automatic paper towel dispenser opening. The camera rotates
+    right at constant speed until the dispenser exits the view. The camera continues rotating, revealing
+    the area directly below the dispenser. A hand enters the frame and waves in front of the sensor zone
+    below the dispenser. The hand wave occurs while the dispenser opening remains out of camera view.
+    Then the camera rotates left smoothly at the same rate back to the original viewpoint, bringing the
+    dispenser opening back into center view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The scene displays the dispenser opening. The view shifts to the sensor detection area below.
+    A hand waves in the sensor zone. The hand wave occurs while the dispenser opening is not visible.
+    The view returns to the dispenser opening. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A stainless steel automatic paper towel dispenser mounted on a wall with white
+    subway tiles. A handwritten sign on white paper reading 'OUT OF ORDER' is taped to the front of the
+    dispenser with masking tape. A translucent window on the front shows a roll of brown paper towels
+    inside. The dispensing slot at the bottom is dark and empty, with no paper hanging out. To the right,
+    a white porcelain sink and part of a window frame are visible.
+  init2final_edit_prompt: Edit the given image to show the paper towel dispenser in exactly the same state
+    as the original. Ensure that no paper towel is hanging from the bottom slot and that the 'OUT OF ORDER'
+    sign remains attached to the front. The scene should appear unchanged.
+  rationale: The video sequence involves a camera panning away from the dispenser, a hand waving to trigger
+    the sensor, and the camera returning to the original view. The critical visual cue is the 'OUT OF
+    ORDER' sign taped to the device. A correct causal world model must interpret this text or the sign's
+    presence as a condition that inhibits the normal function of the machine. Therefore, despite the trigger
+    action (hand wave), the mechanism should not activate, and no paper should be dispensed. The final
+    state should be visually identical to the initial state.
+  questions:
+  - id: slot_empty
+    question: Is the dispensing slot at the bottom of the unit still empty?
+    answer_type: yes_no
+    notes_for_judge: The machine is out of order, so no paper should have been dispensed.
+  - id: no_paper_hanging
+    question: Is the area directly below the dispenser opening free of hanging paper?
+    answer_type: yes_no
+    notes_for_judge: Verifies that the 'Out of Order' status prevented the dispensing action.
+  - id: sign_persistence
+    question: Is the 'OUT OF ORDER' sign still attached to the front of the dispenser?
+    answer_type: yes_no
+    notes_for_judge: The sign should remain present throughout the sequence.
+  - id: roll_state
+    question: Is the brown paper roll visible through the window still in the same position?
+    answer_type: yes_no
+    notes_for_judge: The internal roll should not have moved significantly since no paper was dispensed.
+  - id: mechanism_inactive
+    question: Does the dispenser appear to have remained inactive despite the trigger?
+    answer_type: yes_no
+    notes_for_judge: Checks for the absence of state change.
+  - id: background_sink
+    question: Is the white sink on the right side still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: wall_tiles
+    question: Are the white subway tiles in the background unchanged?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

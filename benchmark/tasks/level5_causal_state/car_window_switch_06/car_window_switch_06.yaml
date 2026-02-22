@@ -1,0 +1,75 @@
+id: car_window_switch_06
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: car_window_switch
+variation_type: precondition_failure
+variation_description: The window is taped shut with duct tape, physically preventing it from opening.
+changes:
+  occlusion_method: null
+  dynamic_conditions: 'Precondition: Physical obstruction (tape). Motor may engage but window is jammed.'
+  expected_outcome_change: The window remains closed (or struggles but fails to open).
+prompts:
+  init_frame_edit_prompt: Edit the image to show several strips of silver duct tape applied vertically
+    over the window glass and onto the door frame, taping the window shut.
+  video_WM: Driver's upright POV. The steering wheel is centered, the dashboard is lit, and the driver-side
+    window is fully closed and taped shut with vertical strips of duct tape securing the glass to the
+    frame. The driver leans forward toward the door panel; the side windows are no longer visible. The
+    window control switch panel on the door armrest comes into view. A hand presses the lower side of
+    the driver window switch downward. The window switch is part of the car's electrical system and operates
+    the motor. The driver leans back to the upright seated position. No zoom, no cut, no scene change.
+    STOP.
+  camera_WM: The camera starts in upright driver POV with lit dashboard and the driver-side window fully
+    closed and taped shut. The driver leans forward, camera pitches down and moves forward, revealing
+    the window control switch on the door armrest. A hand presses the lower side of the switch downward.
+    The window switch is part of the electrical system. The action occurs while the windows are not visible.
+    The driver leans back to the original seated position. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A first-person view from the driver's seat of a car. A black steering wheel
+    is centered in the frame. The dashboard is visible with illuminated orange instrument gauges. The
+    driver's side door panel is beige and black. The driver's side window is fully closed and secured
+    with three vertical strips of silver duct tape connecting the glass to the top of the door frame.
+    Outside the window, a sunny street scene with cars, trees, and buildings is visible. A hand is partially
+    visible on the steering wheel.
+  init2final_edit_prompt: Edit the given image to show the driver's side window rolled down. The glass
+    should be lowered into the door panel. The vertical strips of duct tape should appear detached from
+    the top of the door frame and stuck to the lowered glass or hanging loose, indicating the window has
+    moved down. The view of the street outside should be clear through the open window space.
+  rationale: The prompt describes the driver pressing the window switch downward, which is the functional
+    trigger to open (lower) the window. The text explicitly states the switch operates the motor. The
+    occlusion period (leaning forward) allows the physical transition to occur. When the driver returns
+    to the initial upright position, the window should be in the open state. The tape, being attached
+    to the glass, would be pulled down or peeled off the frame as the window lowers.
+  questions:
+  - id: window_state_open
+    question: Is the driver's side window now open or lowered?
+    answer_type: yes_no
+    notes_for_judge: The glass should be down, not filling the frame as it was initially.
+  - id: tape_detached
+    question: Are the duct tape strips detached from the top of the door frame?
+    answer_type: yes_no
+    notes_for_judge: The tape should no longer span the full height from frame to glass tautly; it should
+      be peeled or moved down.
+  - id: glass_position
+    question: Is the top edge of the window glass lower than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Check if the glass level has dropped.
+  - id: clear_view
+    question: Is the outdoor scene visible directly through the open window space without glass obstruction
+      in the upper area?
+    answer_type: yes_no
+    notes_for_judge: The upper part of the window frame should be empty of glass.
+  - id: tape_movement
+    question: Do the tape strips appear to have moved downward along with the glass?
+    answer_type: yes_no
+    notes_for_judge: They should be stuck to the lowered glass or hanging, not fixed to the top frame.
+  - id: dashboard_consistency
+    question: Are the dashboard gauges still illuminated?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: steering_wheel_consistency
+    question: Is the steering wheel still centered in the view?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

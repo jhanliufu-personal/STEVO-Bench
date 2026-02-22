@@ -1,0 +1,69 @@
+id: rotary_valve_supply_03
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: rotary_valve_supply
+variation_type: initial_state
+variation_description: Burner is active (glowing hot with flame) and valve is open; action closes it.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Valve starts open with active burner. Action closes valve.
+  expected_outcome_change: The flame stops, leaving only a fading glow (starts ON, ends OFF).
+prompts:
+  init_frame_edit_prompt: Edit the image so the burner nozzle is glowing red-hot with a small flame present,
+    and the yellow valve handle is parallel to the pipe (open position).
+  video_WM: The camera starts centered on the glowing, lit burner nozzle. The camera rotates right at
+    constant speed until the burner exits the view. The camera continues rotating, revealing a yellow
+    rotary valve handle on the gas pipe. The handle is currently parallel to the pipe (open position).
+    A hand enters the frame, grabs the yellow handle, and rotates it 90 degrees so that it becomes perpendicular
+    with the pipe. The handle remains in the perpendicular position. The valve rotation occurs while the
+    burner nozzle remains out of camera view. Then the camera rotates left smoothly at the same rate back
+    to the original viewpoint, bringing the burner nozzle back into center view. No zoom, no cut, no scene
+    change. STOP.
+  camera_WM: The camera starts on the active burner nozzle, then rotates to the valve handle. A hand rotates
+    the valve from parallel (open) to perpendicular (closed). The valve rotation occurs while the burner
+    is not visible. The camera then returns to the burner nozzle. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up shot of a metal gas burner system in a workshop. On the left, a cylindrical
+    burner nozzle emits a strong blue flame. The nozzle is attached to a central T-shaped metal fitting
+    that is glowing bright red-hot from the heat. To the right, a rusty metal pipe connects to the fitting,
+    featuring a yellow manual ball valve handle. The yellow handle is currently aligned parallel to the
+    pipe, indicating the open position. The background is blurred, showing a window and workshop tools.
+  init2final_edit_prompt: Edit the given image to show the gas supply cut off. Remove the blue flame completely
+    from the burner nozzle on the left, leaving the nozzle tip visible but without fire. Rotate the yellow
+    valve handle on the right 90 degrees so that it is perpendicular to the pipe (crossing the pipe axis
+    vertically) instead of parallel. Keep the central metal T-fitting glowing red-hot.
+  rationale: 'The video prompt describes a causal chain: a hand closes the supply valve (turns it 90 degrees)
+    while the burner is temporarily out of view. Closing the valve cuts off the gas flow, which causes
+    the flame to extinguish. When the camera returns to the original view, the yellow handle should be
+    in the closed (perpendicular) position, and the blue flame should be gone. The metal fitting will
+    likely still be glowing red due to thermal inertia, as the duration of the camera movement is short.'
+  questions:
+  - id: flame_extinguished
+    question: Is the blue flame extinguished?
+    answer_type: yes_no
+    notes_for_judge: The flame should be completely gone or reduced to a wisp, as the gas is cut off.
+  - id: nozzle_no_fire
+    question: Is the burner nozzle free of visible fire?
+    answer_type: yes_no
+    notes_for_judge: Check the tip of the burner on the left.
+  - id: handle_perpendicular
+    question: Is the yellow valve handle perpendicular to the pipe?
+    answer_type: yes_no
+    notes_for_judge: The handle should cross the pipe axis (vertical orientation relative to the pipe),
+      indicating it was turned 90 degrees.
+  - id: handle_position_change
+    question: Is the yellow handle in a different orientation than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: It should have rotated from parallel to perpendicular.
+  - id: metal_glow_persistence
+    question: Is the metal T-fitting still glowing red?
+    answer_type: yes_no
+    notes_for_judge: The metal should retain its heat glow despite the flame being out; it should not
+      be cold/black immediately.
+  - id: background_consistency
+    question: Is the window in the background still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

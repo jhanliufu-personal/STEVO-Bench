@@ -1,0 +1,70 @@
+id: string_pull_lamp_02
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: string_pull_lamp
+variation_type: initial_state
+variation_description: The lamp starts in the ON state (bright cool white), so pulling the string turns
+  it OFF.
+changes:
+  occlusion_method: null
+  dynamic_conditions: 'Initial state inverted: Lamp is ON. Mechanism is a toggle. Action should turn it
+    OFF.'
+  expected_outcome_change: The lamp will be OFF (dark) at the end.
+prompts:
+  init_frame_edit_prompt: Edit the image so the lamp bulb is emitting a bright cool white light, creating
+    high contrast with the background.
+  video_WM: The camera starts centered on the bright, illuminated lamp bulb. The camera rotates right
+    at constant speed until the bulb exits the view. The camera continues rotating, revealing the beaded
+    pull-string hanging down. A hand enters the frame, grabs the beaded string, and pulls it downward
+    firmly until a mechanical click is heard, then releases it. The lamp contains an internal toggle switch
+    mechanism that changes state with each pull. The string pull occurs while the lamp bulb remains out
+    of camera view. Then the camera rotates left smoothly at the same rate back to the original viewpoint,
+    bringing the lamp bulb back into center view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The camera starts on the lamp bulb, then rotates to the pull-string. A hand pulls the string
+    downward to engage the internal toggle switch. The string pull occurs while the bulb is not visible.
+    The camera then returns to the lamp bulb. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a vintage industrial pendant lamp hanging in a
+    workshop. The lamp has a galvanized metal shade and a wire cage guard surrounding an Edison-style
+    filament bulb. The bulb is currently switched on, emitting a bright, warm glow that creates lens flare
+    and illuminates the metal shade and cage. The background is dimly lit, featuring wooden beams, shelves
+    with tools, and a window, typical of a garage or shed environment.
+  init2final_edit_prompt: Edit the given image to turn the light bulb off. Render the bulb's filament
+    as dark and unlit, removing all bright glow, bloom, and lens flare associated with the light source.
+    Darken the illumination on the metal shade, the wire cage, and the surrounding background objects
+    to reflect the absence of the light source, simulating natural ambient lighting instead of the lamp's
+    direct illumination. Keep the camera angle, framing, and object positions exactly the same as the
+    original.
+  rationale: The video describes a sequence where the camera rotates away from the lamp, a hand pulls
+    the switch cord, and the camera returns. The lamp is equipped with a toggle switch mechanism. Since
+    the lamp is initially ON, a single pull of the cord toggles the state to OFF. The camera returns to
+    the exact starting position, so the final frame should look identical to the initial frame in terms
+    of composition, but with the light bulb extinguished.
+  questions:
+  - id: light_state_off
+    question: Is the light bulb currently turned off?
+    answer_type: yes_no
+    notes_for_judge: The bulb should no longer be glowing.
+  - id: filament_dark
+    question: Is the filament inside the bulb dark instead of glowing?
+    answer_type: yes_no
+    notes_for_judge: The internal filament should be visible but unlit.
+  - id: glare_removed
+    question: Has the bright glare and bloom around the bulb disappeared?
+    answer_type: yes_no
+    notes_for_judge: Compare with the initial frame's bright light emission.
+  - id: shade_dimmer
+    question: Is the metal lamp shade less illuminated than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The shade should not be reflecting bright light from the bulb.
+  - id: cage_visibility
+    question: Is the wire cage around the bulb still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: background_consistency
+    question: Are the background shelves and tools in the same position as the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

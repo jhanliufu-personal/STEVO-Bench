@@ -1,0 +1,69 @@
+id: pressure_mat_alarm_04
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: pressure_mat_alarm
+variation_type: precondition_failure
+variation_description: Conduit is severed; signal cannot reach the light.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Physical connection broken (cut wire). Causal chain interrupted.
+  expected_outcome_change: Final state is Green (Unchanged) because the signal never reaches the light.
+prompts:
+  init_frame_edit_prompt: Edit the image to show the conduit pipe leading into the top of the box is clearly
+    severed and broken, with a gap in the pipe.
+  video_WM: The camera starts centered on the alarm indicator light showing green. Note that the conduit
+    pipe feeding the box is visibly severed. The camera rotates right at constant speed until the indicator
+    exits the view. The camera continues rotating, revealing a rectangular pressure-sensitive floor mat
+    positioned in the entryway. A foot enters the frame and steps onto the pressure mat. The mat contains
+    weight sensors intended to trigger the alarm. The stepping action occurs while the alarm indicator
+    remains out of camera view. Then the camera rotates left smoothly at the same rate back to the original
+    viewpoint, bringing the alarm indicator back into center view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The scene features a green alarm indicator with a severed conduit pipe and a pressure-sensitive
+    floor mat. A foot steps onto the mat. The mat contains weight sensors intended to trigger the alarm.
+    The step occurs while the alarm indicator is not visible. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up view of a grey, wall-mounted industrial electrical box. The box features
+    a prominent green dome light which is illuminated. Text labels on the box read 'SYSTEM ARMED' above
+    the light and 'NORMAL' below it. A metal conduit pipe extends vertically from the top of the box but
+    is visibly severed, with a clear gap and broken edges a few inches above the box. To the left, part
+    of a white window frame is visible against a textured beige wall.
+  init2final_edit_prompt: Edit the given image to ensure the central indicator light remains illuminated
+    in green. The light must stay green and should not turn red. The appearance of the grey box, the text
+    labels, and the severed conduit above the box should remain exactly as they are in the original image,
+    reflecting that the alarm state has not changed.
+  rationale: The video prompt describes a sequence where a foot steps on a pressure mat, which is a trigger
+    action typically intended to activate an alarm. However, the prompt explicitly highlights that the
+    conduit pipe feeding the alarm box is visibly severed. In a causal world model, this broken connection
+    prevents the signal from the mat from reaching the alarm box. Therefore, the expected functional outcome
+    is that the alarm fails to trigger, and the indicator light remains green (unchanged) rather than
+    turning red. The camera movement returns to the original view, so the final frame should be visually
+    identical to the initial frame.
+  questions:
+  - id: q1
+    question: Is the indicator light still illuminated green?
+    answer_type: yes_no
+    notes_for_judge: The light should remain green because the severed wire prevents the alarm from triggering.
+  - id: q2
+    question: Has the alarm indicator avoided turning red?
+    answer_type: yes_no
+    notes_for_judge: The correct state is green; a red light would indicate a failure to simulate the
+      broken connection.
+  - id: q3
+    question: Does the box still display the 'Normal' status indication?
+    answer_type: yes_no
+    notes_for_judge: The green light corresponds to the 'Normal' label.
+  - id: q4
+    question: Is the green light the only illuminated indicator on the box?
+    answer_type: yes_no
+    notes_for_judge: No other lights should turn on.
+  - id: q5
+    question: Does the alarm system appear to be in the same state as the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The state should be unchanged due to the broken mechanism.
+  - id: q6
+    question: Is the severed conduit pipe still visible above the box?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

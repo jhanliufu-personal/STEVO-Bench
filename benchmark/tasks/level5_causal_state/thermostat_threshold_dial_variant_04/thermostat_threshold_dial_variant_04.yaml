@@ -1,0 +1,69 @@
+id: thermostat_threshold_dial_variant_04
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: thermostat_threshold_dial
+variation_type: precondition_failure
+variation_description: Power cord is unplugged, preventing activation.
+changes:
+  occlusion_method: null
+  dynamic_conditions: 'Broken precondition: no power source.'
+  expected_outcome_change: Heater remains OFF despite thermostat setting.
+prompts:
+  init_frame_edit_prompt: Edit the image to show the heater's power cord lying unplugged on the surface
+    next to the unit.
+  video_WM: The camera starts centered on the inactive red heating element, with its unplugged power cord
+    visible nearby. The camera rotates right at constant speed until the heating element exits the view.
+    The camera continues rotating, revealing a round analog thermostat dial mounted on the wall. The current
+    temperature needle shows 60 degrees. The setting dial is currently at 50 degrees. A hand enters the
+    frame and rotates the setting dial clockwise until the marker reaches 80 degrees. The dial rotation
+    occurs while the heating element remains out of camera view. Then the camera rotates left smoothly
+    at the same rate back to the original viewpoint, bringing the heating element back into center view.
+    No zoom, no cut, no scene change. STOP.
+  camera_WM: The camera starts on the heating element and unplugged cord, then rotates to the thermostat
+    dial. A hand rotates the setting dial from 50 to 80 degrees. The dial rotation occurs while the heating
+    element is not visible. The camera then returns to the heating element. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up view of a portable electric heater on a wooden surface. The central
+    component is a zig-zagging metal heating element with a dull, rusty-red color, housed inside a metal
+    reflector box. The element is currently inactive and not glowing. In the foreground, a black power
+    cord is coiled on the table, with a standard two-prong plug clearly visible and not plugged into any
+    outlet.
+  init2final_edit_prompt: Edit the given image to ensure the heating element remains completely inactive.
+    The zig-zag metal coils should retain their dull, rusty-red color and must not appear to be glowing,
+    bright orange, or emitting light. The black power cord should remain coiled and unplugged on the wooden
+    surface in the foreground, exactly as it appeared initially.
+  rationale: The video depicts a thermostat being adjusted to 80 degrees, which is higher than the ambient
+    60 degrees. Under normal circumstances, this would trigger the heating system to activate. However,
+    the initial frame and description explicitly establish that the heater's power cord is unplugged.
+    The prompt describes the hand adjusting the dial but does not describe the hand plugging in the cord.
+    Therefore, the electrical circuit remains open, and the heater cannot receive power. The final state
+    of the heating element must remain inactive (not glowing), identical to the initial state.
+  questions:
+  - id: heater_inactive
+    question: Is the heating element currently inactive?
+    answer_type: yes_no
+    notes_for_judge: The element should look dull and cold, not glowing.
+  - id: no_glow
+    question: Is the heating coil free of any bright orange or yellow incandescence?
+    answer_type: yes_no
+    notes_for_judge: The coils are naturally rusty-red. A 'no' answer would require bright light emission
+      indicating heat.
+  - id: dull_appearance
+    question: Does the heating element retain a dull, non-luminous appearance?
+    answer_type: yes_no
+    notes_for_judge: It should not look like a light source.
+  - id: cord_unplugged
+    question: Is the power cord still visible and unplugged?
+    answer_type: yes_no
+    notes_for_judge: The plug should be resting on the table, not in a socket.
+  - id: state_consistency
+    question: Is the heating element in the same state as it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Since it was unplugged, it should not have turned on.
+  - id: no_light_emission
+    question: Is the scene free of red/orange lighting effects on the reflector behind the coils?
+    answer_type: yes_no
+    notes_for_judge: Active heaters cast a glow on their surroundings; this should be absent.

@@ -1,0 +1,66 @@
+id: gas_pump_nozzle_trigger_10
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: gas_pump_nozzle_trigger
+variation_type: indirect_causation
+variation_description: A 'Processing' light indicates a delay. Squeezing trigger initiates a check, but
+  pump doesn't start immediately.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Intermediate processing step introduced.
+  expected_outcome_change: Display shows 'WAIT' or similar, or hasn't started counting yet.
+prompts:
+  init_frame_edit_prompt: Edit the pump interface to include a visible 'WIRELESS PROCESSING' indicator
+    light that is currently OFF.
+  video_WM: The camera starts centered on the gas pump display. The camera rotates right until the display
+    exits the view, revealing the fuel nozzle. A hand enters the frame and squeezes the nozzle trigger
+    handle. This sends a signal to the wireless processing unit, which begins an authorization check before
+    enabling the pump. The action occurs while the display is out of view. The camera rotates left smoothly
+    back to the original viewpoint, bringing the pump display screen back into center view. STOP.
+  camera_WM: The camera starts on the display, then rotates to the nozzle. A hand squeezes the trigger.
+    The camera returns to the display. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up view of a black gas pump control panel. The center features a digital
+    LCD display showing '$ 0.00' on the top line and '0.000 gallons' on the bottom line. Below the screen
+    is the text 'WIRELESS PROCESSING' in white, with a small circular component (resembling an LED indicator)
+    located to its immediate right. Below that is a yellow section with the text 'SELECT GRADE'. To the
+    left of the screen, a column of buttons is partially visible. The panel has a matte texture with some
+    daylight reflections on the screen.
+  init2final_edit_prompt: Edit the given image to make the small circular indicator light located to the
+    right of the 'WIRELESS PROCESSING' text appear illuminated and glowing red. Ensure the digital display
+    text '$ 0.00' and '0.000 gallons' remains unchanged. Maintain the original lighting, reflections,
+    and camera perspective.
+  rationale: The video prompt describes a sequence where the camera rotates away, a hand squeezes the
+    nozzle trigger, and this action sends a signal to the wireless processing unit to begin an authorization
+    check. The prompt explicitly states this check happens 'before enabling the pump'. Therefore, when
+    the camera returns to the display, the system is in a 'processing' state, indicated by the activation
+    of the 'WIRELESS PROCESSING' light. The fuel numbers remain at zero because the pump has not yet been
+    enabled to dispense fuel.
+  questions:
+  - id: q1
+    question: Is the indicator light next to the 'WIRELESS PROCESSING' text illuminated?
+    answer_type: yes_no
+    notes_for_judge: Check if the small circular dot to the right of the text is glowing/lit.
+  - id: q2
+    question: Does the small circular component to the right of 'WIRELESS PROCESSING' appear to be glowing?
+    answer_type: yes_no
+    notes_for_judge: It should look like an active LED (red, amber, or green).
+  - id: q3
+    question: Is the wireless processing status light active?
+    answer_type: yes_no
+    notes_for_judge: Refers to the same light next to the label.
+  - id: q4
+    question: Are the digital numbers on the display still showing 0.00?
+    answer_type: yes_no
+    notes_for_judge: The numbers should not have increased yet as the pump is only checking authorization.
+  - id: q5
+    question: Is the display screen showing '$ 0.00'?
+    answer_type: yes_no
+    notes_for_judge: Verifies the pump hasn't started dispensing.
+  - id: q6
+    question: Is the 'SELECT GRADE' text still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

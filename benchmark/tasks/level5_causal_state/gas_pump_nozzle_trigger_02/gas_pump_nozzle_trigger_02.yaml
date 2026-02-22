@@ -1,0 +1,74 @@
+id: gas_pump_nozzle_trigger_02
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: gas_pump_nozzle_trigger
+variation_type: initial_state
+variation_description: The trigger mechanism is changed to the pump lever. Starting state is ON (Lever
+  Up), action is turning it OFF (Lever Down).
+changes:
+  occlusion_method: null
+  dynamic_conditions: Trigger is the pump lever. Initial state is ON. Action is turning OFF.
+  expected_outcome_change: The display turns off or stops counting.
+prompts:
+  init_frame_edit_prompt: Edit the image to show the pump display illuminated with active numbers, and
+    the pump lever (where the nozzle rests) in the UP (active) position.
+  video_WM: The camera starts centered on the active gas pump display. The camera rotates right until
+    the display exits the view, revealing the pump lever mechanism in the UP position. A hand enters the
+    frame and pushes the pump lever DOWN to the OFF position. This action cuts power to the pump. The
+    action occurs while the display is out of view. The camera rotates left smoothly back to the original
+    viewpoint, bringing the pump display screen back into center view. STOP.
+  camera_WM: The camera starts on the active display, then rotates to the pump lever. A hand pushes the
+    lever down. The camera returns to the display. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up view of a black gas pump interface. The main display features bright
+    red LED segments showing '12.75' for the price (top) and '3.459' for gallons (bottom). To the left
+    of the top number is a printed '$' sign, and to the right of the bottom number is the text 'gallons'.
+    Below the numbers, white text reads 'PRICE PER GALLON' and 'SELECT GRADE'. To the left is a vertical
+    column of silver buttons. To the right, a green gas pump nozzle handle is visible, resting in its
+    holster.
+  init2final_edit_prompt: Edit the image to simulate the power being cut to the gas pump. Remove the illuminated
+    red LED numbers ('12.75' and '3.459') from the display screens, making the screens appear black and
+    inactive. Do not remove the printed symbols '$' or 'gallons', or the text 'PRICE PER GALLON'. Keep
+    the green nozzle, the silver buttons, and the surrounding frame exactly as they are.
+  rationale: The video prompt describes an action where the pump lever is pushed to the OFF position,
+    explicitly stating that this 'cuts power to the pump'. In the initial frame, the pump is active with
+    illuminated LED values. To visually represent the 'power cut' state in the final frame, the electronic
+    display segments must be turned off (darkened). This provides a clear, binary functional state change
+    (Lit -> Dark) that distinguishes the final state from the initial state, as the camera returns to
+    the exact same viewpoint.
+  questions:
+  - id: q1
+    question: Are the red LED numbers on the display turned off?
+    answer_type: yes_no
+    notes_for_judge: The red numbers 12.75 and 3.459 should be gone or dark.
+  - id: q2
+    question: Is the screen area where the numbers were displayed now dark?
+    answer_type: yes_no
+    notes_for_judge: The display background should be black without the illuminated segments.
+  - id: q3
+    question: Does the gas pump display appear to be powered down?
+    answer_type: yes_no
+    notes_for_judge: Power cut implies the active electronic elements are off.
+  - id: q4
+    question: Is the price '12.75' no longer illuminated?
+    answer_type: yes_no
+    notes_for_judge: Check specifically for the top number.
+  - id: q5
+    question: Is the gallon amount '3.459' no longer illuminated?
+    answer_type: yes_no
+    notes_for_judge: Check specifically for the bottom number.
+  - id: q6
+    question: Is the printed '$' symbol still visible?
+    answer_type: yes_no
+    notes_for_judge: 'Secondary consistency check: printed elements should remain.'
+  - id: q7
+    question: Is the green nozzle handle still visible on the right?
+    answer_type: yes_no
+    notes_for_judge: 'Secondary consistency check: the camera returns to the original view.'
+  - id: q8
+    question: Is the white text 'PRICE PER GALLON' still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

@@ -4,63 +4,59 @@ category: structural_transformation
 tags: []
 variant_of: sandcastle_wave_impact
 variation_type: combined
-variation_description: Stone material condition combined with zoom occlusion.
+variation_description: Solid stone castle condition + Camera zoom occlusion.
 changes:
-  occlusion_method: Camera zooms out to sky
-  dynamic_conditions: Structure material changed from sand to stone
+  occlusion_method: Camera zoom out
+  dynamic_conditions: 'Material: Sand -> Solid Stone'
   expected_outcome_change: Structure remains intact
 prompts:
-  init_frame_edit_prompt: Edit the image so the castle looks like it is made of solid grey carved stone
-    or concrete, rather than loose sand.
-  video_WM: The large ocean wave crashes down with force directly onto the stone castle sculpture. The
-    camera immediately zooms out rapidly and tilts up towards the cloudy sky until the beach is completely
-    out of frame. The camera tilts back down and zooms in to the original framing. No cut, no scene change.
-    STOP.
-  camera_WM: The large ocean wave crashes down with force directly onto the stone castle sculpture. STOP.
+  init_frame_edit_prompt: Edit the image to change the castle texture to solid grey rock, while keeping
+    the wave the same.
+  video_WM: The large ocean wave crashes down with force directly onto the solid stone castle sculpture.
+    The camera zooms out rapidly until the castle becomes a tiny indistinguishable dot in the distance,
+    then zooms back in to the original framing. No cut, no scene change. STOP.
+  camera_WM: The large ocean wave crashes down with force directly onto the solid stone castle sculpture.
+    The impact force is applied to the structure. STOP.
 camera_control:
   HY-WorldPlay: s-31, w-32
 evaluation:
-  init_frame_description: A detailed sandcastle sculpture resembling a stone fortress with multiple turrets,
-    walls, and a bridge, situated on a sandy beach. The sculpture has seashells embedded in its base.
-    To the left, a massive, translucent green ocean wave is curling over, about to crash directly onto
-    the castle. The sky is cloudy and grey. In the background on the right, several people are standing
-    on the shoreline.
-  init2final_edit_prompt: Edit the given image to show the aftermath of the wave crashing. The castle
-    sculpture should be destroyed, appearing as a flattened mound of wet sand, scattered debris, or eroded
-    ruins with no tall towers left standing. The large curling green wave should be gone, replaced by
-    wet sand, sea foam, or shallow receding water on the beach surface. The background sky and distant
-    people should remain consistent.
-  rationale: The video prompt describes a forceful wave impact followed by a camera movement that looks
-    away and returns. During the time the camera is pointed at the sky, the wave crashes onto the sculpture,
-    destroying its structure due to the force of the water. When the camera returns to the original framing,
-    the wave will have receded or dissipated, and the sculpture will be irreversibly damaged, flattened,
-    or washed away. The state change is the transition from an intact structure to a destroyed one.
+  init_frame_description: A detailed miniature castle sculpture with a stone-like texture, featuring multiple
+    towers, walls, and a bridge, sits on a sandy beach. A massive, translucent green ocean wave is curling
+    high above it from the left, poised to crash directly onto the structure. To the right, the beach
+    extends into the distance with several people standing near the shoreline under a cloudy sky.
+  init2final_edit_prompt: Edit the given image to show the aftermath of the wave crashing. The stone castle
+    sculpture should be structurally damaged, collapsed, or broken into rubble, with its towers toppled
+    or destroyed. The large curling wave should be gone, replaced by turbulent white foam, splashing water,
+    or wet sand covering the area where the wave impacted.
+  rationale: 'The video prompt describes a forceful wave impact occurring during a camera zoom-out and
+    zoom-in sequence. This camera maneuver implies a passage of time sufficient for the wave to crash
+    and the water to settle or recede. Upon returning to the original framing, the physical state of the
+    world must reflect the high-energy impact: the sculpture should be broken or destroyed (irreversible
+    transformation), and the wave should have dissipated into foam or water (state change).'
   questions:
-  - id: castle_destroyed
-    question: Is the castle sculpture significantly collapsed or flattened compared to the initial frame?
+  - id: structural_damage
+    question: Has the castle sculpture suffered visible structural damage or collapse?
     answer_type: yes_no
-    notes_for_judge: The structure should no longer be intact; towers should be fallen or eroded.
-  - id: towers_gone
-    question: Are the tall turrets and towers of the castle missing or ruined?
+    notes_for_judge: Look for broken walls, toppled towers, or a loss of the original architectural form.
+  - id: towers_status
+    question: Are the castle's towers broken, missing, or no longer standing upright?
     answer_type: yes_no
-    notes_for_judge: The vertical elements should be destroyed by the wave.
-  - id: wave_gone
-    question: Is the large curling green wave gone from the scene?
+    notes_for_judge: Compare the verticality and completeness of the towers to the initial frame.
+  - id: wave_dissipation
+    question: Has the large curling wave been replaced by foam, splashing water, or wet sand?
     answer_type: yes_no
-    notes_for_judge: The wave should have crashed and receded; it should not be frozen in the air.
-  - id: wet_sand_remains
-    question: Is the area where the castle stood now wet, foamy, or covered in debris?
+    notes_for_judge: The distinct curling shape of the wave should be gone.
+  - id: shape_alteration
+    question: Is the overall silhouette or shape of the castle significantly different than in the initial
+      frame?
     answer_type: yes_no
-    notes_for_judge: Evidence of the wave washing over the area.
-  - id: structural_integrity_loss
-    question: Has the sculpture lost its defined architectural shape?
+    notes_for_judge: The object should look deformed or flattened.
+  - id: height_reduction
+    question: Is the height of the remaining castle structure lower than it was initially?
     answer_type: yes_no
-    notes_for_judge: It should look like a pile of sand or ruins, not a castle.
-  - id: background_consistency_people
-    question: Are the people in the background still visible?
+    notes_for_judge: Due to collapse or breakage.
+  - id: environment_wetness
+    question: Is the ground around the castle significantly wetter or covered in foam compared to the
+      start?
     answer_type: yes_no
-    notes_for_judge: Secondary consistency check.
-  - id: background_consistency_sky
-    question: Is the sky still cloudy?
-    answer_type: yes_no
-    notes_for_judge: Secondary consistency check.
+    notes_for_judge: Check for evidence of the water having washed over the area.

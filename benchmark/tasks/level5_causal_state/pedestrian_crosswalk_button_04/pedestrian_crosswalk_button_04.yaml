@@ -1,0 +1,64 @@
+id: pedestrian_crosswalk_button_04
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: pedestrian_crosswalk_button
+variation_type: precondition_failure
+variation_description: The button faceplate is hanging off with exposed wires
+changes:
+  occlusion_method: null
+  dynamic_conditions: Mechanism is physically broken. Input cannot be registered.
+  expected_outcome_change: Signal remains Red DON'T WALK (No Change).
+prompts:
+  init_frame_edit_prompt: Edit the pedestrian button to look broken, with the faceplate hanging loose
+    and wires exposed.
+  video_WM: The camera starts centered on the pedestrian signal showing the red hand (DON'T WALK) symbol.
+    The camera rotates right at constant speed until the signal exits the view. The camera continues rotating,
+    revealing a broken pedestrian crossing button with exposed wires. A hand enters the frame and presses
+    the damaged button mechanism. Due to the damage, no signal is sent to the traffic light controller.
+    The button press attempt occurs while the crossing signal remains out of camera view. Then the camera
+    rotates left smoothly at the same rate back to the original viewpoint, bringing the pedestrian crossing
+    signal back into center view. No zoom, no cut, no scene change. STOP.
+  camera_WM: A hand presses the damaged pedestrian button mechanism. No signal is sent due to damage.
+    The action occurs while the crossing signal is not visible. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up view of a pedestrian traffic signal mounted on a grey metal pole.
+    The signal displays an illuminated red hand symbol and the text 'DON'T WALK'. Below the signal box,
+    a damaged pedestrian push-button housing hangs open, exposing a green circuit board and multi-colored
+    wires. The background depicts a wet city street with blurred cars, scaffolding, and pedestrians holding
+    umbrellas.
+  init2final_edit_prompt: Edit the given image to ensure the pedestrian signal still displays the illuminated
+    red hand 'DON'T WALK' symbol. Keep the broken button housing hanging open with exposed wires exactly
+    as it appeared initially. Maintain the wet street background without changing the traffic signal phase.
+  rationale: The video depicts a camera panning away from the signal, a hand attempting to press the button,
+    and the camera panning back. The prompt explicitly states that the button is broken and sends no signal
+    to the controller. Therefore, the causal chain required to change the traffic light is severed. When
+    the camera returns to the initial view, the signal state must remain unchanged (Red Hand/Don't Walk)
+    because the input was ineffective. The physical damage to the button remains visible.
+  questions:
+  - id: signal_state_red_hand
+    question: Is the red hand symbol still illuminated on the pedestrian signal?
+    answer_type: yes_no
+    notes_for_judge: The button was broken, so the signal should not have changed to WALK.
+  - id: signal_text_dont_walk
+    question: Is the text 'DON'T WALK' still illuminated?
+    answer_type: yes_no
+    notes_for_judge: Verifies the signal phase remained unchanged.
+  - id: signal_state_no_walk
+    question: Is the white 'WALK' symbol currently unlit?
+    answer_type: yes_no
+    notes_for_judge: The signal should not have progressed to the WALK phase.
+  - id: button_damage_visible
+    question: Is the pedestrian button box still hanging open with exposed wires?
+    answer_type: yes_no
+    notes_for_judge: The physical state of the broken equipment should persist.
+  - id: circuit_board_visible
+    question: Is the green circuit board inside the button housing still visible?
+    answer_type: yes_no
+    notes_for_judge: Checks for consistency of the damaged object.
+  - id: functional_failure_check
+    question: Does the signal state indicate that the button press failed to trigger a change?
+    answer_type: yes_no
+    notes_for_judge: If the signal is still Red Hand, the answer is Yes.

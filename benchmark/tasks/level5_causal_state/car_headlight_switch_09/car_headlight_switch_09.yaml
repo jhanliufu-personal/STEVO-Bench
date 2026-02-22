@@ -1,0 +1,66 @@
+id: car_headlight_switch_09
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: car_headlight_switch
+variation_type: repeated_activation
+variation_description: Headlights start ON, switch turned OFF then back ON.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Initial state is ON. Action cycles OFF then back to ON.
+  expected_outcome_change: The environment remains illuminated (net no change).
+prompts:
+  init_frame_edit_prompt: Edit the image so the environment outside the windows is brightly illuminated
+    by car headlights.
+  video_WM: Driver's upright POV at night. The lit dashboard is fully visible and the surrounding environment
+    is illuminated by headlights. The driver leans forward toward the dashboard; the windows and exterior
+    are no longer visible. The headlight control switch on the left steering column stalk comes into view.
+    A hand rotates the headlight switch to OFF and then immediately rotates it back to ON. The switch
+    position determines the state of the headlight circuit. The driver leans back to the upright seated
+    position, bringing the windshield and exterior environment back into view. No zoom, no cut, no scene
+    change. STOP.
+  camera_WM: The camera starts in upright driver POV at night — lit dashboard, illuminated exterior. A
+    hand rotates the switch to OFF and then back to ON. The action occurs while the windows are not visible.
+    STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A first-person view from the driver's seat of a car at night. The dashboard
+    is lit with amber light, displaying a speedometer and tachometer. The steering wheel is visible with
+    a Toyota logo. Through the windshield, the road ahead is illuminated by the car's headlights, revealing
+    asphalt, double yellow lines, and roadside trees. A side mirror is visible on the left.
+  init2final_edit_prompt: Edit the given image to show the view from the driver's seat at night with the
+    headlights turned on. The road ahead and roadside trees should be brightly illuminated by the headlight
+    beams. The dashboard gauges should be illuminated in amber. The windshield should be clear and unobstructed,
+    showing the lit environment outside.
+  rationale: The video sequence involves the driver leaning forward (occluding the view) to cycle the
+    headlight switch OFF and then immediately back ON, before leaning back to the initial upright position.
+    The causal action (turning the switch back to ON) dictates that the final state must show the headlights
+    active. The physical action (leaning back) dictates that the final view must be the original unoccluded
+    driver's perspective. Therefore, the final frame should functionally match the initial frame with
+    the road illuminated.
+  questions:
+  - id: q1
+    question: Is the road ahead illuminated by the car's headlights?
+    answer_type: yes_no
+    notes_for_judge: The switch was turned back to ON, so the road must be lit.
+  - id: q2
+    question: Are the trees and surroundings visible through the windshield illuminated?
+    answer_type: yes_no
+    notes_for_judge: Checks if the headlights are casting light on the environment.
+  - id: q3
+    question: Is the dashboard instrument cluster illuminated?
+    answer_type: yes_no
+    notes_for_judge: Dashboard lights usually correspond to the headlight state (ON).
+  - id: q4
+    question: Is the view through the windshield unobstructed by the driver?
+    answer_type: yes_no
+    notes_for_judge: The driver leaned back to the upright position, so the view should be clear.
+  - id: q5
+    question: Does the scene show the headlights in the ON state?
+    answer_type: yes_no
+    notes_for_judge: Verifies the final functional state of the lighting circuit.
+  - id: q6
+    question: Is the steering wheel visible in the foreground?
+    answer_type: yes_no
+    notes_for_judge: Checks if the camera view has returned to the driver's seat perspective.

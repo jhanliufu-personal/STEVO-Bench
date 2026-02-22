@@ -1,0 +1,77 @@
+id: thermostat_threshold_dial_variant_10
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: thermostat_threshold_dial
+variation_type: indirect_causation
+variation_description: Heater is plugged into a timer set to 'OFF', blocking the thermostat's effect.
+changes:
+  occlusion_method: null
+  dynamic_conditions: 'Mediated causation: Timer interlock prevents activation.'
+  expected_outcome_change: Heater remains OFF despite thermostat trigger.
+prompts:
+  init_frame_edit_prompt: Edit the image to show the heater plugged into a wall timer device that is set
+    to the 'OFF' position.
+  video_WM: The camera starts centered on the inactive red heating element, which is plugged into a wall
+    timer visibly set to 'OFF'. The camera rotates right at constant speed until the heating element exits
+    the view. The camera continues rotating, revealing a round analog thermostat dial mounted on the wall.
+    The current temperature needle shows 60 degrees. The setting dial is currently at 50 degrees. A hand
+    enters the frame and rotates the setting dial clockwise until the marker reaches 80 degrees. The dial
+    rotation occurs while the heating element remains out of camera view. Then the camera rotates left
+    smoothly at the same rate back to the original viewpoint, bringing the heating element back into center
+    view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The camera starts on the heating element and timer, then rotates to the thermostat dial.
+    A hand rotates the setting dial from 50 to 80 degrees. The dial rotation occurs while the heating
+    element is not visible. The camera then returns to the heating element. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up view of a vintage electric space heater with a silver metal casing
+    and a wire safety grille. Inside the casing, the heating coils are a dull, dark reddish-brown color,
+    indicating they are currently cold and inactive. To the right of the heater, a cream-colored analog
+    wall timer is plugged into a wall outlet. The heater's black power cord is plugged into the timer.
+    The timer features a black dial with white numerals and a red indicator tab at the bottom.
+  init2final_edit_prompt: Edit the given image to make the heating coils inside the heater glow bright
+    orange and red with incandescence, indicating they are extremely hot and active. The coils should
+    appear to be emitting intense light. Add a warm orange glow illuminating the interior of the metal
+    casing and reflecting off the wire grille. Keep the wall timer, the plug, and the background exactly
+    as they are.
+  rationale: The video prompt describes a scenario where a thermostat is adjusted from 50 degrees to 80
+    degrees while the ambient temperature is 60 degrees. Since the target setting (80) is higher than
+    the current temperature (60), the thermostat switch closes, completing the circuit and activating
+    the heating system. Although the heater is occluded during the adjustment, the functional consequence
+    is that the heater turns on. When the camera returns to the initial view, the heating coils must be
+    glowing red-hot to reflect this active state.
+  questions:
+  - id: q1_glow
+    question: Are the heating coils glowing bright orange or red?
+    answer_type: yes_no
+    notes_for_judge: The coils should exhibit incandescence (emitting light), not just be red in color.
+  - id: q2_active
+    question: Does the heater appear to be active and generating heat?
+    answer_type: yes_no
+    notes_for_judge: Active state is indicated by the glowing elements.
+  - id: q3_light_emission
+    question: Is the interior of the heater illuminated by the light from the coils?
+    answer_type: yes_no
+    notes_for_judge: Check for lighting effects/glow inside the casing.
+  - id: q4_brightness_change
+    question: Are the heating coils significantly brighter than they were in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare luminance/brightness of the coils.
+  - id: q5_state_transition
+    question: Has the heating element transitioned from a cold state to a hot state?
+    answer_type: yes_no
+    notes_for_judge: Infer state from visual evidence of heat (glow).
+  - id: q6_timer_presence
+    question: Is the wall timer still visible and plugged into the outlet?
+    answer_type: yes_no
+    notes_for_judge: Consistency check for the object on the right.
+  - id: q7_cord_connection
+    question: Is the black power cord still connected to the timer?
+    answer_type: yes_no
+    notes_for_judge: Consistency check.
+  - id: q8_grille_structure
+    question: Is the wire grille on the front of the heater still intact?
+    answer_type: yes_no
+    notes_for_judge: Consistency check.

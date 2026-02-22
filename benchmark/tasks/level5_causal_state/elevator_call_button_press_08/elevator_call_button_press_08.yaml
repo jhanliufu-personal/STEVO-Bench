@@ -1,0 +1,65 @@
+id: elevator_call_button_press_08
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: elevator_call_button_press
+variation_type: repeated_activation
+variation_description: The unlit Up button is pressed TWICE.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Double toggle returns system to initial state (Off -> On -> Off).
+  expected_outcome_change: The button remains unlit (net no change).
+prompts:
+  init_frame_edit_prompt: Edit the image to ensure the Up button is unlit/dark.
+  video_WM: 'The camera starts centered on the unlit Up button on the panel. The camera rotates right
+    at constant speed until the button panel exits the view. The camera continues rotating right, showing
+    the wall and surroundings. While the button is out of view, a hand reaches to the button location
+    and presses the Up call button, pauses briefly, and then presses it a second time. In this system,
+    the button acts as a toggle: the first press registers the call, and the second press cancels it.
+    The controller processes both inputs in sequence. The double press occurs while the button panel remains
+    out of camera view. Then the camera rotates left smoothly at the same rate back to the original viewpoint,
+    bringing the button panel back into center view. No zoom, no cut, no scene change. STOP.'
+  camera_WM: The camera starts on the unlit Up button. While out of view, the button is pressed twice.
+    The system treats the button as a toggle, so two presses revert the state to the original. The interactions
+    occur while the button is not visible. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A close-up view of a brushed metal elevator button panel mounted on a rough,
+    porous concrete wall. The panel features two vertically aligned circular buttons. The top button displays
+    an up arrow and is currently unlit (appearing dark grey/metallic). The bottom button displays a down
+    arrow and is illuminated with a bright orange/amber glow.
+  init2final_edit_prompt: Edit the given image so that the top button (with the up arrow) is unlit, appearing
+    dark and metallic with no illumination. Ensure the bottom button (with the down arrow) remains illuminated
+    with a bright orange glow. Keep the concrete wall texture and the metal panel appearance exactly unchanged.
+  rationale: 'The prompt specifies a camera rotation that occludes the button panel, followed by two presses
+    of the Up button, and a return to the original view. The system logic is explicitly defined as a toggle:
+    the first press activates the call (turning the light on), and the second press cancels it (turning
+    the light off). Therefore, the final state of the Up button is unlit (Off), returning to its initial
+    state. The Down button is not interacted with and remains in its initial lit state.'
+  questions:
+  - id: up_button_unlit
+    question: Is the top button (Up arrow) unlit in the final frame?
+    answer_type: yes_no
+    notes_for_judge: The button should be dark/metallic, not glowing.
+  - id: up_button_no_glow
+    question: Is the orange glow absent from the top button?
+    answer_type: yes_no
+    notes_for_judge: Check for absence of light on the top button.
+  - id: down_button_lit
+    question: Is the bottom button (Down arrow) illuminated?
+    answer_type: yes_no
+    notes_for_judge: The bottom button should retain its orange glow.
+  - id: only_down_lit
+    question: Is the bottom button the only one that is lit?
+    answer_type: yes_no
+    notes_for_judge: Top should be off, bottom should be on.
+  - id: up_button_state_dark
+    question: Does the top button appear dark rather than bright?
+    answer_type: yes_no
+    notes_for_judge: Verifying the 'off' state.
+  - id: panel_texture_preserved
+    question: Is the brushed metal texture of the panel visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

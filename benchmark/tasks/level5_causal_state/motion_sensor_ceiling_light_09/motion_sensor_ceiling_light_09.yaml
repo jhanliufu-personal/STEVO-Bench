@@ -1,0 +1,77 @@
+id: motion_sensor_ceiling_light_09
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: motion_sensor_ceiling_light
+variation_type: repeated_activation
+variation_description: The hand triggers the sensor twice distinctly. Net result is no change.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Toggle logic activated twice.
+  expected_outcome_change: No change (light remains OFF).
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The camera starts centered on the dark ceiling light fixture. The camera rotates right at
+    constant speed until the light fixture exits the view. The camera continues rotating right, revealing
+    a motion sensor mounted on the wall. A hand enters the frame, waves to trigger the sensor, retracts,
+    and then enters again to wave a second time. The sensor operates on a toggle logic, reversing the
+    light's state with each confirmed motion event. These actions occur while the ceiling light remains
+    out of view. Then the camera rotates left smoothly at the same rate back to the original viewpoint,
+    bringing the ceiling light fixture back into center view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The camera starts on the ceiling light, then rotates to the motion sensor. A hand triggers
+    the sensor twice. The sensor operates on toggle logic. The actions occur while the light is not visible.
+    The camera then returns to the light fixture. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: The image shows a low-angle view of an empty, aged room. In the center of the
+    white ceiling is an industrial-style light fixture featuring a glass dome or jar encased in a metal
+    wire cage. Inside the glass, a light bulb is visible and is currently unlit (dark). The walls have
+    peeling paint or plaster, giving the room a dilapidated look. On the left and right edges of the frame,
+    parts of windows are visible, providing natural daylight which illuminates the scene. The floor is
+    made of wide wooden planks.
+  init2final_edit_prompt: Edit the given image to ensure the central ceiling light fixture remains completely
+    unlit and dark. The light bulb inside the glass dome should appear inactive with no glow or incandescence.
+    Maintain the existing natural lighting of the room and the appearance of the metal cage and glass
+    texture without adding any artificial illumination from the fixture.
+  rationale: The video prompt establishes that the light starts in the 'off' (dark) state. The camera
+    rotates away to reveal a motion sensor. The prompt specifies a custom 'toggle logic' for the sensor,
+    where each confirmed motion event reverses the light's state. The hand waves twice (two distinct events).
+    The first wave toggles the light from Off to On. The second wave toggles the light from On back to
+    Off. The camera then returns to the original view. Therefore, in the final frame, the light fixture
+    must be in the 'off' state, visually identical to the initial state regarding the bulb's illumination.
+  questions:
+  - id: light_state_off
+    question: Is the ceiling light fixture currently unlit?
+    answer_type: yes_no
+    notes_for_judge: The light should be off because the sensor was triggered twice (Off -> On -> Off).
+  - id: bulb_dark
+    question: Is the light bulb inside the glass dome dark?
+    answer_type: yes_no
+    notes_for_judge: The bulb should not be glowing.
+  - id: no_glow
+    question: Is the glass enclosure free of any internal illumination or glow?
+    answer_type: yes_no
+    notes_for_judge: Check for absence of light emission.
+  - id: filament_dark
+    question: Does the filament or interior of the bulb appear inactive?
+    answer_type: yes_no
+    notes_for_judge: It should look like a cold, unpowered bulb.
+  - id: room_lighting_natural
+    question: Does the room appear to be lit primarily by natural light from the windows rather than the
+      ceiling fixture?
+    answer_type: yes_no
+    notes_for_judge: The ceiling light should not be casting artificial light on the walls.
+  - id: cage_visibility
+    question: Is the metal cage around the light visible without being obscured by glare?
+    answer_type: yes_no
+    notes_for_judge: Glare would indicate the light is on.
+  - id: secondary_windows
+    question: Are the window sections on the sides of the frame still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: secondary_floor
+    question: Is the wooden floor visible at the bottom of the image?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

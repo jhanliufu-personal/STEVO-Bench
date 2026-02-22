@@ -1,0 +1,64 @@
+id: safety_interlock_motor_04
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: safety_interlock_motor
+variation_type: precondition_failure
+variation_description: Main power cable is disconnected.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Power source disconnected. Trigger action (Start button) has no effect.
+  expected_outcome_change: The motor shaft remains stationary (no change).
+prompts:
+  init_frame_edit_prompt: Edit the image to show a large, heavy industrial power plug lying disconnected
+    on the floor near the motor.
+  video_WM: The camera starts centered on the stationary motor drive shaft. A disconnected power plug
+    is visible on the floor. The camera rotates right at constant speed until the shaft exits the view.
+    The camera continues rotating, revealing the green START button. A finger enters the frame and presses
+    the green START button. The button press occurs while the motor shaft remains out of camera view.
+    Then the camera rotates left smoothly at the same rate back to the original viewpoint, bringing the
+    motor drive shaft back into center view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The scene features a stationary motor drive shaft, a disconnected power plug, and a START
+    button. A finger presses the START button while the shaft is out of view. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A large industrial green electric motor is positioned on the right, with a thick,
+    rusty metal drive shaft extending towards the left. In the foreground, resting on a metal surface,
+    is a coiled black cable ending in a large, disconnected grey power plug with its pins visible. The
+    background shows a factory interior with structural pillars and overhead lighting.
+  init2final_edit_prompt: Edit the given image to show the motor drive shaft in the exact same stationary
+    position as the original. Ensure the rust patterns and grease marks on the shaft are identical to
+    the initial state and have not rotated. Do not add any motion blur to the shaft. Keep the disconnected
+    power plug visible and unchanged on the floor. The scene should appear identical to the initial frame.
+  rationale: The video shows a user pressing the start button for the motor. However, the initial frame
+    explicitly establishes that the motor's power plug is disconnected and lying on the floor. Because
+    the power source is disconnected, the causal action (pressing the button) cannot activate the machine.
+    Therefore, when the camera returns to the motor, the drive shaft must remain completely stationary,
+    with no rotation or motion blur, identical to the initial state.
+  questions:
+  - id: q1
+    question: Is the motor drive shaft stationary?
+    answer_type: yes_no
+    notes_for_judge: The motor is unplugged, so it should not be spinning.
+  - id: q2
+    question: Is the drive shaft free of rotational motion blur?
+    answer_type: yes_no
+    notes_for_judge: Motion blur would indicate the motor started, which is incorrect given the disconnected
+      plug.
+  - id: q3
+    question: Are the rust patterns on the shaft in the same position as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The shaft should not have rotated.
+  - id: q4
+    question: Does the motor appear to be in a deactivated state?
+    answer_type: yes_no
+    notes_for_judge: The system should remain off.
+  - id: q5
+    question: Is the power plug still visible and disconnected?
+    answer_type: yes_no
+    notes_for_judge: Verifying the precondition for the non-event.
+  - id: q6
+    question: Is the orientation of the drive shaft identical to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Check for any rotation of the keyway or surface details.

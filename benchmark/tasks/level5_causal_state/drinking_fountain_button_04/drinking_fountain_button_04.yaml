@@ -1,0 +1,67 @@
+id: drinking_fountain_button_04
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: drinking_fountain_button
+variation_type: precondition_failure
+variation_description: Out of Order sign prevents successful activation
+changes:
+  occlusion_method: null
+  dynamic_conditions: 'Precondition failure: The fountain is marked out of order, implying the water supply
+    is cut.'
+  expected_outcome_change: 'No water flow despite button press (Final state: OFF)'
+prompts:
+  init_frame_edit_prompt: Edit the image to add a paper 'OUT OF ORDER' sign taped clearly to the backsplash
+    of the drinking fountain.
+  video_WM: The camera starts centered on the drinking fountain spout with the 'Out of Order' sign visible.
+    The camera rotates right at constant speed until the spout exits the view. The camera continues rotating,
+    revealing the push button on the side. A hand enters the frame and presses the button firmly. Although
+    the button is pressed, the water supply has been disconnected due to the maintenance status. The button
+    press occurs while the fountain spout remains out of camera view. Then the camera rotates left smoothly
+    at the same rate back to the original viewpoint, bringing the fountain spout back into center view.
+    No zoom, no cut, no scene change. STOP.
+  camera_WM: The camera starts on the spout and sign, then rotates to the side button. A hand presses
+    the button. The maintenance status prevents water flow. The camera then returns to the fountain spout.
+    STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a stainless steel drinking fountain. The central
+    focus is the chrome spout (bubbler). Behind the spout, taped to the vertical stainless steel backplate,
+    is a white piece of paper with the handwritten text 'OUT OF ORDER' in black marker. The background
+    consists of beige square wall tiles.
+  init2final_edit_prompt: Edit the given image to show the drinking fountain spout remaining completely
+    dry and inactive. Do not add any water stream, spray, or droplets coming from the nozzle. Ensure the
+    'Out of Order' sign remains attached to the back panel. Maintain the exact original camera angle,
+    framing, and lighting, showing the fountain in the same non-functioning state as the initial view.
+  rationale: 'The video sequence involves a camera rotation to reveal the activation button, a hand pressing
+    that button, and a rotation back to the start. However, the prompt explicitly states the fountain
+    is ''Out of Order'' and the water supply is disconnected. Therefore, the causal trigger (button press)
+    must result in a null outcome (no water). The final frame should be visually identical to the initial
+    frame regarding the spout''s state: dry and inactive. This tests the model''s ability to handle conditional
+    logic where a mechanism is disabled.'
+  questions:
+  - id: '1'
+    question: Is the drinking fountain spout free of any flowing water?
+    answer_type: yes_no
+    notes_for_judge: The fountain is out of order; despite the button press, no water should flow.
+  - id: '2'
+    question: Does the fountain appear inactive, with no water stream visible?
+    answer_type: yes_no
+    notes_for_judge: Verify that the model did not hallucinate water flow.
+  - id: '3'
+    question: Is the 'Out of Order' sign still visible and attached to the backplate?
+    answer_type: yes_no
+    notes_for_judge: The sign explains the lack of water and should persist.
+  - id: '4'
+    question: Is the spout dry, without any spray or droplets?
+    answer_type: yes_no
+    notes_for_judge: Check for subtle water effects which should be absent.
+  - id: '5'
+    question: Is the camera view centered on the spout, matching the initial perspective?
+    answer_type: yes_no
+    notes_for_judge: The camera rotates back to the original position.
+  - id: '6'
+    question: Does the scene depict the fountain in a non-functioning state?
+    answer_type: yes_no
+    notes_for_judge: General functional assessment.

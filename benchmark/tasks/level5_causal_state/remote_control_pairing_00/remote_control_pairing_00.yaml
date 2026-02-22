@@ -1,0 +1,69 @@
+id: remote_control_pairing_00
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: remote_control_pairing
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: Edit the image to place a toy remote control labeled 'Channel A' on the wooden
+    table to the right of the robot. The remote should have a large button and match the lighting, texture,
+    and depth of field of the scene.
+  video_WM: The camera is completely stationary, framing both the toy robot labeled 'Channel A' and the
+    paired remote control labeled 'Channel A' resting on the table. A hand enters the frame and presses
+    the large FORWARD button on the remote control. STOP.
+  camera_WM: The camera is completely stationary, framing both the toy robot labeled 'Channel A' and the
+    paired remote control labeled 'Channel A' resting on the table. A hand enters the frame and presses
+    the large FORWARD button on the remote control. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A grey, retro-style toy robot with tank tracks and a 'CHANNEL A' label on its
+    chest stands on the left side of a wooden table. To its right sits a matching grey remote control
+    with a prominent red button, a small dark indicator light, an antenna, and a 'CHANNEL A' label. The
+    background features blurred books and a window.
+  init2final_edit_prompt: Edit the given image to show a human hand entering the frame and pressing the
+    large red button on the remote control. The small indicator light below the button on the remote should
+    be illuminated red. The toy robot should be positioned closer to the camera and lower in the frame,
+    appearing larger than in the original image, to simulate that it has driven forward towards the viewer.
+    The background and table surface should remain consistent.
+  rationale: The visual setup establishes a functional pairing between the remote and the robot via the
+    matching 'Channel A' labels. The action described is pressing the 'Forward' button. Functionally,
+    this triggers the robot's motors. Since the robot is oriented facing the camera, a 'forward' command
+    causes it to move towards the viewpoint. Therefore, in the final state, the robot must be displaced
+    from its original position, appearing closer (larger and lower in the frame) while the remote shows
+    signs of activation (hand present, light on).
+  questions:
+  - id: hand_presence
+    question: Is a hand visible interacting with the remote control?
+    answer_type: yes_no
+    notes_for_judge: Check for the presence of a hand pressing the button.
+  - id: robot_movement_occurred
+    question: Has the robot moved from its initial position?
+    answer_type: yes_no
+    notes_for_judge: Compare the robot's position on the table relative to the background or table markings.
+  - id: robot_movement_direction_size
+    question: Does the robot appear larger in the frame compared to the initial image?
+    answer_type: yes_no
+    notes_for_judge: Forward movement towards the camera should increase the apparent size of the object.
+  - id: robot_movement_direction_position
+    question: Is the robot positioned lower in the frame than it was initially?
+    answer_type: yes_no
+    notes_for_judge: Moving towards the camera (forward) typically lowers the object's position in the
+      frame on a flat surface.
+  - id: remote_indicator_state
+    question: Is the small indicator light on the remote control illuminated?
+    answer_type: yes_no
+    notes_for_judge: The light should be on (red/bright) to indicate transmission.
+  - id: robot_orientation_consistency
+    question: Is the robot still facing generally towards the camera?
+    answer_type: yes_no
+    notes_for_judge: The robot should move forward, not spin around.
+  - id: remote_position_stability
+    question: Is the remote control in approximately the same location on the table?
+    answer_type: yes_no
+    notes_for_judge: The remote should not move significantly, though a hand is pressing it.

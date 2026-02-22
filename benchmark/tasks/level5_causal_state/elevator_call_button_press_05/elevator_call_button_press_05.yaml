@@ -1,0 +1,76 @@
+id: elevator_call_button_press_05
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: elevator_call_button_press
+variation_type: precondition_failure
+variation_description: The panel is unscrewed and hanging loose, wires disconnected.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Physical disconnection prevents the signal from reaching the controller.
+  expected_outcome_change: The button remains unlit (no change).
+prompts:
+  init_frame_edit_prompt: Edit the image to show the metal faceplate unscrewed and hanging slightly loose
+    from the wall, revealing disconnected wires behind it.
+  video_WM: The camera starts centered on the elevator call button panel, which is hanging loose from
+    the wall with visible disconnected wiring. The camera rotates right at constant speed until the button
+    panel exits the view. The camera continues rotating right, showing the wall and surroundings. While
+    the button is out of view, a hand reaches to the button location and presses the Up call button. Because
+    the wiring is disconnected, the switch closure signal cannot reach the elevator controller, and no
+    power can be returned to the light circuit. The circuit is physically broken. The button press occurs
+    while the button panel remains out of camera view. Then the camera rotates left smoothly at the same
+    rate back to the original viewpoint, bringing the button panel back into center view. No zoom, no
+    cut, no scene change. STOP.
+  camera_WM: The camera starts on the disconnected button panel. While out of view, the button is pressed.
+    Due to the disconnected wiring, no signal reaches the controller and the light circuit cannot activate.
+    The button press occurs while the button is not visible. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: 'A close-up shot of a brushed metal elevator call button panel hanging loose
+    from a recessed concrete junction box. The panel is tilted and suspended by exposed red, black, and
+    white electrical wires with wire nuts. The panel features two circular buttons: a top button with
+    an ''Up'' arrow which is currently unlit (dark grey/black), and a bottom button with a ''Down'' arrow
+    which is currently illuminated with a bright orange glow. The background is a rough, unfinished concrete
+    wall.'
+  init2final_edit_prompt: Edit the given image to show the elevator button panel in the same state as
+    the original. The top 'Up' button must remain unlit and dark, appearing grey or black with no illumination.
+    The bottom 'Down' button must remain illuminated with an orange glow. The panel should remain hanging
+    from the wall with exposed wires visible. Ensure the 'Up' button does not show any light or activation
+    color.
+  rationale: 'The camera performs a rotational round-trip, returning to the initial view. During the unobserved
+    interval, the ''Up'' button is pressed. However, the prompt specifies a causal inhibitor: disconnected
+    wiring prevents the circuit from closing. Therefore, the expected functional outcome is that the ''Up''
+    button remains unlit (failure to activate). The ''Down'' button retains its initial illuminated state.
+    The panel remains hanging from the wall. The key test is whether the model correctly suppresses the
+    typical ''button press implies light on'' transition due to the context of broken wiring.'
+  questions:
+  - id: up_button_unlit
+    question: Is the top 'Up' button unlit?
+    answer_type: yes_no
+    notes_for_judge: The button should not be glowing. It should look dark/grey.
+  - id: up_button_no_glow
+    question: Is the top button free of any orange illumination?
+    answer_type: yes_no
+    notes_for_judge: Verifies the negative result of the broken circuit.
+  - id: up_button_state_unchanged
+    question: Does the top button appear in the same unlit state as the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The state should not change.
+  - id: down_button_lit
+    question: Is the bottom 'Down' button still illuminated orange?
+    answer_type: yes_no
+    notes_for_judge: 'Consistency check: the existing light should remain.'
+  - id: panel_detached
+    question: Is the button panel still hanging loose from the wall?
+    answer_type: yes_no
+    notes_for_judge: The panel should not be reattached.
+  - id: wires_visible
+    question: Are the exposed wires still visible connecting the panel to the wall?
+    answer_type: yes_no
+    notes_for_judge: Verifies the mechanism (broken wiring) is still depicted.
+  - id: up_arrow_visibility
+    question: Is the 'Up' arrow symbol visible as a dark shape on the button?
+    answer_type: yes_no
+    notes_for_judge: Ensures the button details are preserved without lighting up.

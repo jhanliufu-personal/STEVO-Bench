@@ -1,0 +1,68 @@
+id: turnstile_coin_unlock_06
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: turnstile_coin_unlock
+variation_type: precondition_failure
+variation_description: Debris jamming the turnstile mechanism.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Mechanical jam prevents unlocking.
+  expected_outcome_change: Final state is unchanged (Locked/Red).
+prompts:
+  init_frame_edit_prompt: Edit the image to show a metal bar or piece of debris firmly jammed into the
+    turnstile arm mechanism.
+  video_WM: The camera starts centered on the locked turnstile arm which is visibly jammed with debris.
+    The camera rotates right at constant speed until the turnstile exits the view. The camera continues
+    rotating, revealing a coin slot mechanism. A hand enters and inserts a token into the slot. The lock
+    attempts to release but is mechanically blocked. The insertion occurs while the turnstile arm remains
+    out of camera view. Then the camera rotates left smoothly back to the original viewpoint, bringing
+    the turnstile arm back into center view. STOP.
+  camera_WM: The scene starts on the jammed turnstile arm. A hand inserts a token into the coin slot.
+    The mechanism is blocked by debris. The action occurs while the turnstile is not visible. The scene
+    returns to the turnstile arm. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a metal subway turnstile. The focus is on the
+    central mechanism where a bright red circular light is illuminated below a 'LOCKED' label. A rusty,
+    flat metal bar is jammed diagonally into the turnstile's rotating arms, physically blocking them from
+    moving. The turnstile is made of brushed stainless steel. In the background, out of focus, are tiled
+    subway walls and other turnstiles.
+  init2final_edit_prompt: Edit the given image to change the bright red circular indicator light to a
+    glowing green light or green arrow. The rusty metal bar jammed in the turnstile mechanism must remain
+    exactly in its original position. The turnstile arms must remain stationary and in the same orientation
+    as the initial frame. The scene should look identical to the original image, including the background
+    and debris, with the only change being the color of the indicator light.
+  rationale: The video prompt describes a token being inserted, which is the causal trigger for the turnstile's
+    authorization system. Functionally, this changes the system state from 'locked' to 'unlocked', which
+    is visually represented by the indicator light changing from red to green. However, the prompt also
+    specifies that the lock is 'mechanically blocked', and the initial frame clearly shows a metal bar
+    jamming the arms. This physical constraint prevents the turnstile arms from rotating despite the authorization.
+    Therefore, the final state should show the electronic state change (green light) while preserving
+    the initial physical state (arms stationary and jammed).
+  questions:
+  - id: light_is_green
+    question: Is the circular indicator light now green or showing a green arrow?
+    answer_type: yes_no
+    notes_for_judge: The light should indicate an unlocked state (green). It should not be red.
+  - id: red_light_off
+    question: Is the red circular light from the initial frame no longer illuminated?
+    answer_type: yes_no
+    notes_for_judge: The red 'LOCKED' light should be off or replaced by green.
+  - id: light_state_changed
+    question: Does the indicator light show a state different from the initial red 'LOCKED' status?
+    answer_type: yes_no
+    notes_for_judge: Any change indicating activation (green, off, arrow) is acceptable.
+  - id: bar_still_present
+    question: Is the rusty metal bar still visible jamming the mechanism?
+    answer_type: yes_no
+    notes_for_judge: The debris should not disappear.
+  - id: arms_stationary
+    question: Are the turnstile arms in the same position as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The arms should not have rotated due to the mechanical block.
+  - id: jam_persists
+    question: Is the turnstile mechanism still physically blocked by the debris?
+    answer_type: yes_no
+    notes_for_judge: The physical configuration of the jam should remain.

@@ -1,0 +1,71 @@
+id: fire_alarm_pull_station_07
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: fire_alarm_pull_station
+variation_type: precondition_failure
+variation_description: The system is completely unpowered (dark light + 'NO POWER' LED); pulling does
+  nothing.
+changes:
+  occlusion_method: null
+  dynamic_conditions: System has no power. Action has no effect.
+  expected_outcome_change: The light remains dark (no change).
+prompts:
+  init_frame_edit_prompt: Edit the image so the main light is dark, and add a small red LED on the housing
+    labeled 'NO POWER' that is lit.
+  video_WM: The camera starts centered on the ceiling-mounted fire alarm indicator light which is dark,
+    with a small 'NO POWER' warning LED lit on the housing. The camera rotates right at constant speed
+    until the indicator exits the view. The camera continues rotating, revealing a red fire alarm pull
+    station on the wall. A hand enters the frame and pulls down the handle on the pull station firmly.
+    Without main power, the alarm circuit cannot energize the indicator. The handle pull occurs while
+    the ceiling indicator remains out of camera view. Then the camera rotates left smoothly at the same
+    rate back to the original viewpoint, bringing the ceiling indicator back into center view. No zoom,
+    no cut, no scene change. STOP.
+  camera_WM: The ceiling indicator is dark with a 'NO POWER' LED lit. A hand pulls down the handle on
+    the wall-mounted station. The system lacks power. The action occurs while the indicator is not visible.
+    STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up view of a white, circular fire alarm indicator mounted on a white
+    textured wall or ceiling. The device features a central clear dome lens which is currently dark. Surrounding
+    the lens is black text reading 'SYSTEM ARMED', 'FIRE ALARM INDICATOR', and 'NO POWER'. A small red
+    LED indicator located next to the 'NO POWER' text is illuminated. The background is a plain, textured
+    white surface.
+  init2final_edit_prompt: Edit the given image to ensure the central clear strobe lens remains completely
+    dark and unlit. Keep the small red LED indicator next to the 'NO POWER' text illuminated. Maintain
+    the original lighting and appearance of the white housing and textured background, ensuring no main
+    alarm lights are active.
+  rationale: The video prompt introduces a causal action (pulling the fire alarm handle) but simultaneously
+    imposes a functional constraint ('Without main power, the alarm circuit cannot energize the indicator').
+    While the alarm mechanism is triggered off-screen, the lack of power prevents the high-energy strobe
+    light from activating. The low-power 'NO POWER' LED, which was initially lit (likely on backup power
+    indicating the fault), should remain lit. Therefore, the final visual state should be identical to
+    the initial state, with the main strobe remaining off despite the trigger.
+  questions:
+  - id: strobe_dark
+    question: Is the central strobe light dark?
+    answer_type: yes_no
+    notes_for_judge: The main light should not be flashing because the prompt specifies there is no power
+      to energize it.
+  - id: lens_unlit
+    question: Is the main clear lens unlit?
+    answer_type: yes_no
+    notes_for_judge: Verifies that the alarm activation did not result in illumination due to the power
+      constraint.
+  - id: led_remains_lit
+    question: Is the small red LED labeled 'NO POWER' still illuminated?
+    answer_type: yes_no
+    notes_for_judge: The power fault indicator should remain active.
+  - id: no_flashing
+    question: Is the device free of any bright white flashing light?
+    answer_type: yes_no
+    notes_for_judge: Checks that the model correctly applied the 'no power' constraint.
+  - id: dome_inactive
+    question: Does the central dome appear inactive?
+    answer_type: yes_no
+    notes_for_judge: The dome should look the same as in the initial frame (dark).
+  - id: only_led_active
+    question: Is the red LED the only illuminated part of the device?
+    answer_type: yes_no
+    notes_for_judge: Ensures the strobe is off while the status LED remains on.

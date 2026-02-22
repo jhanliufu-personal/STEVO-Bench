@@ -1,0 +1,73 @@
+id: car_key_ignition_turn_07
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: car_key_ignition_turn
+variation_type: precondition_failure
+variation_description: The instrument cluster is physically smashed/broken.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Precondition broken (display destroyed). Trigger action cannot illuminate the display.
+  expected_outcome_change: The dashboard will remain dark/broken because the display itself is destroyed.
+prompts:
+  init_frame_edit_prompt: Edit the instrument cluster to appear smashed, with cracked plastic cover and
+    broken gauge faces.
+  video_WM: Driver's upright POV. The steering wheel is centered and the instrument cluster is visibly
+    smashed and broken — the car is off. The driver leans forward toward the dashboard; the surroundings
+    are no longer visible. The ignition cylinder comes into view with the key at the OFF position. A hand
+    grips the key and turns it clockwise from OFF to the ON position. The ignition cylinder is a rotary
+    switch. The driver leans back to the upright seated position. No zoom, no cut, no scene change. STOP.
+  camera_WM: The camera starts in upright driver POV with a smashed, dark instrument cluster. The driver
+    leans forward, camera pitches down and moves toward the dashboard, revealing the ignition cylinder
+    with the key at OFF. A hand turns the key clockwise to ON. The action occurs while the windows are
+    not visible. The driver leans back to the original seated position. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: Driver's POV inside a car with a maroon exterior visible on the door frame.
+    A black steering wheel is centered. The instrument cluster is covered in a web of shattered glass
+    cracks, and the gauges behind are dark. To the right of the steering wheel on the dashboard is a dark
+    digital clock recess, air vents, and climate controls. The ignition cylinder is on the right side
+    of the steering column, with a key inserted; the key's head and keyring hang vertically. Through the
+    windshield, a sunny residential street with houses and lawns is visible.
+  init2final_edit_prompt: Edit the given image to show the result of turning the car ignition to the 'ON'
+    position. Rotate the key in the ignition cylinder clockwise so the key head and keyring are angled
+    to the right, distinct from their initial vertical position. Illuminate the instrument cluster with
+    dashboard warning lights (such as battery, oil, or check engine symbols) glowing visibly from behind
+    the shattered glass texture. Illuminate the digital clock display on the upper right dashboard with
+    bright digits. Keep the steering wheel position, the pattern of the shattered glass, and the background
+    scenery identical to the original image.
+  rationale: The video prompt describes a sequence where the driver leans forward, turns the ignition
+    key from OFF to ON, and then leans back to the original position. The causal action (turning the key)
+    changes the vehicle's state to 'ON'. This functionally results in the activation of the car's electrical
+    systems. Therefore, in the final frame, the ignition key should be physically rotated clockwise, and
+    the dashboard electronics (instrument cluster warning lights and digital clock) should be illuminated.
+    The camera returns to the initial viewpoint, so the background and static objects (like the steering
+    wheel and the cracks in the glass) remain unchanged.
+  questions:
+  - id: key_rotation
+    question: Is the ignition key rotated clockwise compared to its position in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The key head and ring should be angled to the right, not hanging vertically as in
+      the start.
+  - id: cluster_illumination
+    question: Are dashboard warning lights or indicators illuminated on the instrument cluster?
+    answer_type: yes_no
+    notes_for_judge: Look for colored lights (red/amber) glowing behind the cracked glass.
+  - id: clock_illumination
+    question: Is the digital clock or display on the dashboard illuminated?
+    answer_type: yes_no
+    notes_for_judge: The rectangular display to the right of the steering wheel should show light or digits.
+  - id: glass_cracks_persistence
+    question: Are the cracks in the instrument cluster glass still visible over the illuminated lights?
+    answer_type: yes_no
+    notes_for_judge: The lights should appear behind the damage; the cracks should not disappear.
+  - id: steering_wheel_invariant
+    question: Is the steering wheel in the same centered position as the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The driver leaned back to the original position.
+  - id: background_invariant
+    question: Is the residential street outside still visible through the windshield?
+    answer_type: yes_no
+    notes_for_judge: The view should return to the initial perspective.

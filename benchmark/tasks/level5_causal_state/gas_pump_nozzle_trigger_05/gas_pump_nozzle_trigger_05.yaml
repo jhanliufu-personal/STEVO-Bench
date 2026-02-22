@@ -1,0 +1,72 @@
+id: gas_pump_nozzle_trigger_05
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: gas_pump_nozzle_trigger
+variation_type: precondition_failure
+variation_description: The pump display is completely black (power off).
+changes:
+  occlusion_method: null
+  dynamic_conditions: No power. Trigger has no effect.
+  expected_outcome_change: Display remains black/unchanged.
+prompts:
+  init_frame_edit_prompt: Edit the image so the gas pump display screen is completely black and unlit.
+  video_WM: The camera starts centered on the unlit gas pump display. The camera rotates right until the
+    display exits the view, revealing the fuel nozzle. A hand enters the frame and squeezes the nozzle
+    trigger handle. Because the pump has no power, no fuel flows. The action occurs while the display
+    is out of view. The camera rotates left smoothly back to the original viewpoint, bringing the pump
+    display screen back into center view. STOP.
+  camera_WM: The camera starts on the unlit display, then rotates to the nozzle. A hand squeezes the trigger.
+    The camera returns to the display. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up view of a black gas pump interface. In the center is a large, rectangular,
+    unlit black screen. To the left of the screen is a vertical column of silver buttons and a white dollar
+    sign symbol. To the right of the screen is the text 'gallons' in white. Below the screen is the text
+    'PRICE PER GALLON'. Further down is 'SELECT GRADE'. In the bottom right corner, part of a green fuel
+    nozzle handle and a black hose are visible. In the background, a yellow safety bollard is partially
+    visible.
+  init2final_edit_prompt: Edit the image to ensure the central display screen remains completely black
+    and unlit. Do not add any illuminated numbers, digits, or text to the screen. The screen must appear
+    powered off. Maintain the original framing of the pump interface, keeping the buttons, labels, and
+    surrounding elements unchanged.
+  rationale: The video prompt describes a camera movement that reveals the nozzle, followed by a trigger
+    squeeze, and a return to the original view. Crucially, the prompt states the pump has no power. Therefore,
+    the causal chain that normally results in the display lighting up or numbers changing is broken. The
+    correct final state is for the display to remain completely black and unlit, identical to the initial
+    state, despite the trigger interaction. The evaluation checks if the model correctly adheres to the
+    'no power' constraint by not hallucinating a lit display.
+  questions:
+  - id: screen_state_black
+    question: Is the central display screen completely black?
+    answer_type: yes_no
+    notes_for_judge: The screen should be unlit/black because the pump has no power.
+  - id: screen_unlit
+    question: Is the display screen devoid of any illuminated numbers or digits?
+    answer_type: yes_no
+    notes_for_judge: Check for any glowing text or numbers. There should be none.
+  - id: power_status
+    question: Does the pump interface appear to be powered off?
+    answer_type: yes_no
+    notes_for_judge: The screen should look dead/off.
+  - id: framing_consistency
+    question: Is the view centered on the pump display interface?
+    answer_type: yes_no
+    notes_for_judge: The camera should have returned to the original viewpoint.
+  - id: label_gallons
+    question: Is the word 'gallons' visible to the right of the screen?
+    answer_type: yes_no
+    notes_for_judge: Verifying the camera returned to the correct object.
+  - id: label_price
+    question: Is the text 'PRICE PER GALLON' visible below the screen?
+    answer_type: yes_no
+    notes_for_judge: Verifying scene consistency.
+  - id: buttons_visible
+    question: Are the silver buttons visible on the left side of the frame?
+    answer_type: yes_no
+    notes_for_judge: Verifying scene consistency.
+  - id: no_hallucinated_flow
+    question: Is the screen free of any indication of fuel flow (e.g. rolling numbers)?
+    answer_type: yes_no
+    notes_for_judge: Strict check against hallucinated action effects.

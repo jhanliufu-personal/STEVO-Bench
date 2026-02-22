@@ -1,0 +1,69 @@
+id: parking_gate_ticket_01
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: parking_gate_ticket
+variation_type: initial_state
+variation_description: The barrier arm starts in the raised (open) position. The trigger action (ticket
+  insertion) is treated as a toggle or closing command, causing the barrier to lower.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Barrier starts UP. Trigger closes it.
+  expected_outcome_change: Barrier should be seen lowering or fully lowered (closed) upon return, opposite
+    of original.
+prompts:
+  init_frame_edit_prompt: Edit the image so the parking barrier arm is in the fully raised (vertical)
+    position, pointing towards the sky.
+  video_WM: The camera starts centered on the raised parking barrier arm allowing exit. The camera rotates
+    right at constant speed until the barrier exits the view. The camera continues rotating, revealing
+    a ticket payment machine with an insertion slot at driver window height. A hand holding a validated
+    parking ticket enters the frame and inserts the ticket into the slot. The machine contains validation
+    circuitry that reads tickets and controls the barrier motor based on payment status. The ticket insertion
+    occurs while the barrier arm remains out of camera view. Then the camera rotates left smoothly at
+    the same rate back to the original viewpoint, bringing the barrier arm back into center view. No zoom,
+    no cut, no scene change. STOP.
+  camera_WM: The scene features a raised parking barrier arm and a ticket payment machine. A hand inserts
+    a validated parking ticket into the slot. The machine validates tickets and controls the barrier motor.
+    The ticket insertion occurs while the barrier is not visible.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: The image shows a parking lot exit with a yellow barrier mechanism housing on
+    the left. A red and white striped barrier arm extends horizontally across the frame, blocking the
+    path. The word 'STOP' is printed on the barrier arm. The tip of the arm rests on a vertical support
+    post on the right side. In the background, there is a grey payment machine and several parked cars
+    on an asphalt surface.
+  init2final_edit_prompt: Edit the given image to show the parking barrier arm in the raised, open position.
+    The red and white striped arm should be rotated upwards to a vertical or near-vertical angle, clearing
+    the path. The arm should no longer be resting on the vertical support post. The 'STOP' text on the
+    arm should move with the arm (rotated or out of view). Keep the yellow housing, the support post,
+    and the background cars unchanged.
+  rationale: The initial frame shows a closed parking barrier (arm down). The video prompt describes a
+    sequence where the camera pans to a payment machine and a validated ticket is inserted. In a functional
+    parking system, inserting a validated ticket triggers the mechanism to open the gate. Therefore, when
+    the camera returns to the initial view, the barrier arm should be raised to allow exit.
+  questions:
+  - id: barrier_raised
+    question: Is the red and white barrier arm now in a raised or vertical position?
+    answer_type: yes_no
+    notes_for_judge: The arm should be angled upwards or vertical, not horizontal.
+  - id: path_clear
+    question: Is the barrier arm no longer blocking the horizontal path across the image?
+    answer_type: yes_no
+    notes_for_judge: The path should be clear for a vehicle to pass.
+  - id: arm_off_post
+    question: Is the barrier arm lifted off the vertical support post on the right?
+    answer_type: yes_no
+    notes_for_judge: The arm should not be touching the rest post.
+  - id: arm_rotation
+    question: Has the barrier arm rotated upwards compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Check for rotational change of the arm object.
+  - id: housing_consistency
+    question: Is the yellow barrier housing still present on the left side?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: background_consistency
+    question: Are the parked cars in the background still visible and unchanged?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

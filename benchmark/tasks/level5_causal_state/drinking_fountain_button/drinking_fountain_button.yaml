@@ -18,3 +18,43 @@ prompts:
     is not visible. The camera then returns to the fountain spout. STOP.
 camera_control:
   HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up, eye-level view of a stainless steel drinking fountain. The central
+    focus is the metal spout (bubbler) rising from the circular basin. The spout is dry with no water
+    flowing. The background consists of a beige or off-white tiled wall. The metal surfaces show some
+    wear and mineral deposits.
+  init2final_edit_prompt: Edit the given image to show a stream of water arcing out of the metal spout.
+    The water should form a clear, curved stream typical of an active drinking fountain, flowing from
+    the nozzle opening down into the basin. Ensure the water looks realistic with appropriate transparency
+    and reflections. Keep the metal spout, basin, and tiled background exactly as they are in the original
+    image, maintaining the original camera viewpoint.
+  rationale: 'The video sequence describes a causal interaction where the camera pans to reveal a button,
+    a hand presses it, and the camera pans back to the spout. The pressing of the button is the mechanical
+    trigger for the water valve. Therefore, when the camera returns to the spout, the functional consequence
+    of that action must be visible: the fountain should be active with water flowing. The final state
+    represents the system in its ''on'' state immediately following the trigger event.'
+  questions:
+  - id: water_flowing_primary
+    question: Is water flowing from the spout in the final frame?
+    answer_type: yes_no
+    notes_for_judge: Look for a stream of water exiting the nozzle.
+  - id: water_arc_visible
+    question: Is there a visible arc of water in the air above the basin?
+    answer_type: yes_no
+    notes_for_judge: The water should form a parabolic arc typical of a drinking fountain.
+  - id: fountain_active_state
+    question: Does the drinking fountain appear to be activated compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Initial frame was dry/inactive; final should be active.
+  - id: basin_wetness
+    question: Is the water stream directed into the basin?
+    answer_type: yes_no
+    notes_for_judge: Checks if the physics of the water flow are contained within the fountain bowl.
+  - id: spout_position_invariant
+    question: Is the metal spout in the same position and orientation as the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The camera returned to the original viewpoint, so the static object should align.
+  - id: background_consistency
+    question: Is the tiled wall background still visible and consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Invariant check.

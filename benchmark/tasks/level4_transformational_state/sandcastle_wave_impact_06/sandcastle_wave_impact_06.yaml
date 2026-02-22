@@ -4,65 +4,63 @@ category: structural_transformation
 tags: []
 variant_of: sandcastle_wave_impact
 variation_type: dynamic_condition
-variation_description: Water direction reversed; tide is going out rather than crashing in.
+variation_description: Wave trajectory changed to miss the castle.
 changes:
   occlusion_method: null
-  dynamic_conditions: Water receding instead of incoming
-  expected_outcome_change: Sandcastle remains dry/intact; water moves away
+  dynamic_conditions: 'Trajectory: Direct hit -> Miss (background)'
+  expected_outcome_change: Sandcastle remains dry and intact
 prompts:
-  init_frame_edit_prompt: Edit the image to show the wave gone, with the water level low and receding
-    away from the castle, leaving wet sand in the foreground.
-  video_WM: The ocean water continues to recede, pulling away from the sandcastle and down the beach.
+  init_frame_edit_prompt: Edit the image so the wave is breaking far in the background distance, leaving
+    the sand around the castle dry and calm.
+  video_WM: The wave breaks in the distance behind the sandcastle, not reaching the structure itself.
     The camera rotates right until the sandcastle completely exits the view, then rotates toward the left
-    smoothly at the same rate until the sandcastle location is back in the center of view. No zoom, no
-    cut, no scene change. STOP.
-  camera_WM: The ocean water continues to recede, pulling away from the sandcastle and down the beach.
+    smoothly at the same rate until the sandcastle is back in the center of view. No zoom, no cut, no
+    scene change. STOP.
+  camera_WM: The wave breaks in the distance behind the sandcastle, not reaching the structure itself.
     STOP.
 camera_control:
   HY-WorldPlay: s-3, right-30, left-30
 evaluation:
-  init_frame_description: A detailed, multi-towered sandcastle sitting on a wet, flat sandy beach. The
-    castle features a central keep, several pointed turrets, and surrounding walls, all decorated with
-    rows of white seashells embedded in the sand. The ground around the castle is textured with ripples
-    and shallow pools of water, reflecting the sky. In the background, the ocean meets the horizon with
-    small waves, and a few distant figures are visible on the beach to the right.
-  init2final_edit_prompt: Edit the given image to show the ocean water having receded significantly further
-    into the distance. The water line in the background should be lower and further away from the sandcastle.
-    The shallow puddles and water immediately surrounding the base of the sandcastle should be drained
-    or reduced, revealing more exposed wet sand. The sandcastle itself must remain standing and structurally
-    intact, with its towers, walls, and seashells preserved in their original configuration. Keep the
-    camera angle, lighting, and framing identical to the initial view.
-  rationale: The video prompt describes the ocean water 'receding' and 'pulling away' from the sandcastle,
-    which is a directional and irreversible environmental change (the tide going out). The camera rotates
-    away and then returns to the original view, creating a temporal gap. Since the action is water retreating
-    rather than crashing, the sandcastle should not be destroyed; instead, the primary state change is
-    the increased distance of the water and the drying/draining of the immediate surroundings. The evaluation
-    focuses on verifying this environmental shift while checking that the model correctly maintains the
-    sandcastle's structural integrity (avoiding hallucinated destruction).
+  init_frame_description: A detailed sandcastle sits on a sandy beach in the foreground. The sandcastle
+    features multiple towers with conical roofs, a central keep, a bridge or archway connecting sections,
+    and decorative white shells placed along the walls and base. The sand is tan and textured. In the
+    background, a large, menacing ocean wave with a green face and white crest is curling and about to
+    break. The sky above is dark and overcast with grey storm clouds.
+  init2final_edit_prompt: Edit the given image to show the large wave in the background has crashed into
+    white foam or dissipated. The sandcastle in the foreground must remain exactly as it was in the original
+    image, completely intact with no structural damage, no missing towers, and no water touching it. The
+    composition and lighting should remain consistent with the initial view.
+  rationale: 'The video prompt explicitly states that the wave breaks in the distance and does not reach
+    the sandcastle. The camera rotates away (occlusion) and then returns to the original view. Therefore,
+    the physical state of the sandcastle must remain invariant (object permanence and stability), showing
+    no damage or erosion. However, the background environment must evolve: the looming wave seen in the
+    initial frame would have crashed and dissipated during the time elapsed for the camera movement.'
   questions:
-  - id: water_receded_distance
-    question: Is the ocean water line further away from the sandcastle than it was in the initial frame?
+  - id: sandcastle_intact
+    question: Is the sandcastle structure still standing and intact?
     answer_type: yes_no
-    notes_for_judge: Compare the distance of the water in the background. It should be greater in the
-      final frame.
-  - id: exposed_sand_area
-    question: Is there more exposed sand visible between the sandcastle and the ocean compared to the
-      start?
+    notes_for_judge: The prompt specifies the wave does not reach the structure, so it should be undamaged.
+  - id: wave_state_change
+    question: Has the large curling wave in the background crashed or dissipated?
     answer_type: yes_no
-    notes_for_judge: The receding water should reveal more of the beach flats.
-  - id: puddles_drained
-    question: Are the puddles surrounding the sandcastle smaller or less prominent than initially?
+    notes_for_judge: Time has passed, so the wave should no longer be in the exact moment of breaking.
+  - id: towers_standing
+    question: Are the pointed towers of the sandcastle still vertical?
     answer_type: yes_no
-    notes_for_judge: The water pulling away should drain the immediate area.
-  - id: water_level_drop
-    question: Has the water level visibly dropped or retreated towards the horizon?
+    notes_for_judge: Check for structural integrity of the vertical elements.
+  - id: bridge_integrity
+    question: Is the sand bridge or archway connecting the castle parts still intact?
     answer_type: yes_no
-    notes_for_judge: Check for the general recession of the tide.
-  - id: castle_intact
-    question: Is the sandcastle still standing upright?
+    notes_for_judge: Specific structural detail check.
+  - id: no_water_damage
+    question: Is the sandcastle free from visible water damage or flooding?
     answer_type: yes_no
-    notes_for_judge: The castle should not be destroyed as the water is receding, not impacting.
-  - id: seashells_present
-    question: Are the decorative seashells still attached to the sandcastle walls?
+    notes_for_judge: The prompt says the wave did not reach the structure.
+  - id: shells_present
+    question: Are the decorative shells still visible on the sandcastle?
     answer_type: yes_no
-    notes_for_judge: Check for object consistency; they should not be washed away.
+    notes_for_judge: Check for fine detail preservation.
+  - id: object_permanence
+    question: Is the sandcastle visible in the center of the frame?
+    answer_type: yes_no
+    notes_for_judge: The camera rotated back to the center view.

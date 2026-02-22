@@ -1,0 +1,75 @@
+id: lightbulb_and_switch_06
+level: 5
+category: causal_reasoning
+tags: []
+variant_of: lightbulb_and_switch
+variation_type: precondition_failure
+variation_description: The bulb is blackened/burnt out, preventing it from functioning.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Bulb is burnt out. Switch toggle has no effect.
+  expected_outcome_change: Light stays OFF (original was ON).
+prompts:
+  init_frame_edit_prompt: Edit the image so the lightbulb glass looks blackened and burnt out.
+  video_WM: Single continuous shot, no cuts, no zoom. The scene contains a ceiling light with a blackened,
+    burnt-out bulb. Camera starts centered on the ceiling light. The camera smoothly moves left at constant
+    speed until the light exits the frame to the right. While the light is out of view, a human hand toggles
+    the wall switch to the ON position. The camera continues moving left for several seconds. Then the
+    camera moves right at the same constant speed back to the original viewpoint, bringing the ceiling
+    light back into view.
+  camera_WM: The scene contains a ceiling light with a blackened, burnt-out bulb. A human hand toggles
+    the wall switch to the ON position. STOP.
+camera_control:
+  HY-WorldPlay: s-3, left-30, right-30
+  Genie: null
+evaluation:
+  init_frame_description: A low-angle interior shot centered on a ceiling light fixture containing a single,
+    bare incandescent bulb. The bulb appears dark, greyish, and unlit, consistent with being burnt out
+    or off. The ceiling is textured and painted in a neutral tone, likely white or light grey. The corner
+    of the room is visible where two walls meet. The floor at the bottom of the frame consists of wooden
+    planks. The room is dimly lit by soft, diffuse ambient light, casting gentle shadows on the walls
+    and ceiling.
+  init2final_edit_prompt: Edit the given image to ensure the light bulb remains completely dark and unlit.
+    The bulb should retain its blackened, burnt-out appearance with absolutely no glow or light emission.
+    The surrounding ceiling and room must remain dimly lit with soft shadows, preserving the original
+    low-light atmosphere without any new light sources.
+  rationale: The video prompt explicitly states that the bulb is 'blackened, burnt-out'. Although the
+    action involves toggling the wall switch to the ON position, a burnt-out bulb cannot physically emit
+    light. Therefore, the causal chain (Switch ON -> Current -> Light) is broken by the component failure
+    (Burnt Bulb). The correct final state is that the light remains off and the room remains dim. The
+    camera returns to the original viewpoint, so the final frame should be visually identical to the initial
+    frame regarding the lighting state.
+  questions:
+  - id: bulb_state_dark
+    question: Is the light bulb still dark and unlit in the final frame?
+    answer_type: yes_no
+    notes_for_judge: The bulb should not be glowing. If it is white/bright/yellow, answer NO.
+  - id: room_lighting_dim
+    question: Does the room remain dimly lit, without a bright central light source?
+    answer_type: yes_no
+    notes_for_judge: The overall brightness should not have increased significantly.
+  - id: filament_check
+    question: Is the filament inside the bulb free from any glow?
+    answer_type: yes_no
+    notes_for_judge: Check for any orange or white lines inside the bulb. There should be none.
+  - id: ceiling_shadows
+    question: Are the shadows on the ceiling consistent with the light being off?
+    answer_type: yes_no
+    notes_for_judge: If the light were on, the ceiling immediately around the fixture would be very bright.
+      It should remain dim.
+  - id: bulb_appearance
+    question: Does the bulb retain its grey/blackened appearance?
+    answer_type: yes_no
+    notes_for_judge: It should look like a dead bulb.
+  - id: no_new_light
+    question: Is the scene free of any new illumination compared to the initial view?
+    answer_type: yes_no
+    notes_for_judge: The switch toggle should have no visual effect due to the burnt bulb.
+  - id: floor_visibility
+    question: Are the wooden floor planks still visible at the bottom of the frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: wall_corner
+    question: Is the corner where the walls meet still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

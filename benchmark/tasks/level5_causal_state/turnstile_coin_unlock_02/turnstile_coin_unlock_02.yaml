@@ -1,0 +1,70 @@
+id: turnstile_coin_unlock_02
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: turnstile_coin_unlock
+variation_type: initial_state
+variation_description: Turnstile starts with 'Free Entry' sign; coin insertion engages the lock.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Turnstile starts in 'Free' mode. Coin insertion triggers 'Secure' mode (Locked).
+  expected_outcome_change: Final state is Locked (Red light) instead of Unlocked.
+prompts:
+  init_frame_edit_prompt: Edit the image to replace the red light with a glowing 'FREE ENTRY' sign or
+    green arrow. The turnstile looks active and open.
+  video_WM: The camera starts centered on the active turnstile arm with its 'Free Entry' signal. The camera
+    rotates right at constant speed until the turnstile exits the view. The camera continues rotating,
+    revealing a coin slot mechanism. A hand enters and inserts a token into the slot. This action triggers
+    the security locking mechanism. The insertion occurs while the turnstile arm remains out of camera
+    view. Then the camera rotates left smoothly back to the original viewpoint, bringing the turnstile
+    arm and signal back into center view. STOP.
+  camera_WM: The scene starts on the turnstile arm showing a 'Free Entry' signal. A hand inserts a token
+    into the coin slot. This triggers the lock. The action occurs while the turnstile is not visible.
+    The scene returns to the turnstile arm. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up view of a metal subway turnstile in a station. The turnstile features
+    a prominent electronic display box showing the text 'FREE ENTRY' in bright green LEDs, accompanied
+    by a large green arrow pointing diagonally down and to the left. Above the display, there is a label
+    reading 'UNLOCKED'. The turnstile has a tripod of rotating metal bars (arms) in the center. In the
+    background, white tiled walls and blurred figures of people are visible.
+  init2final_edit_prompt: Edit the given image to show the turnstile in a locked state. Change the bright
+    green electronic display that reads 'FREE ENTRY' with the arrow to a red display showing 'LOCKED',
+    'STOP', or a red 'X'. Ensure the green light is completely replaced by a red signal indicating restricted
+    entry. Keep the metal turnstile arms in the exact same position. Keep the background station environment
+    and lighting identical to the original.
+  rationale: The video prompt specifies that a token insertion triggers the 'security locking mechanism'.
+    Since the initial state is 'Free Entry' (unlocked), the causal consequence of triggering the locking
+    mechanism is a transition to a 'Locked' state. Therefore, the visual indicator (the electronic display)
+    must change from the green 'Free Entry' signal to a red 'Locked' or 'Stop' signal. The camera returns
+    to the original viewpoint, and since no passage through the gate is described, the physical arms remain
+    in their original position.
+  questions:
+  - id: display_color_change
+    question: Is the turnstile's electronic display now red instead of green?
+    answer_type: yes_no
+    notes_for_judge: The initial green display must change to red to indicate the locking mechanism was
+      triggered.
+  - id: text_change
+    question: Has the 'FREE ENTRY' text disappeared from the display?
+    answer_type: yes_no
+    notes_for_judge: The state changed to locked, so 'FREE ENTRY' should no longer be displayed.
+  - id: arrow_removal
+    question: Is the green directional arrow no longer visible?
+    answer_type: yes_no
+    notes_for_judge: The green arrow indicates free entry; it should be gone or replaced by a stop symbol.
+  - id: locked_indicator
+    question: Does the display now show a symbol or text indicating a locked or stop state (e.g., 'LOCKED',
+      'STOP', or 'X')?
+    answer_type: yes_no
+    notes_for_judge: Check for positive evidence of the locked state.
+  - id: arms_invariant
+    question: Are the metal turnstile arms in the same position as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The prompt describes token insertion but not pushing through the gate, so the arms
+      should not rotate.
+  - id: background_invariant
+    question: Is the background subway station environment unchanged?
+    answer_type: yes_no
+    notes_for_judge: The camera returns to the original view; background details should persist.

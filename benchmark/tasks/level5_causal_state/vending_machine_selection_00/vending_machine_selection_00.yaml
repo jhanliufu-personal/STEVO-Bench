@@ -1,0 +1,65 @@
+id: vending_machine_selection_00
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: vending_machine_selection
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: Edit the image to add a vertical vending machine keypad panel on the right side
+    of the frame. The keypad should feature alphanumeric buttons and be positioned as if mounted on the
+    exterior frame of the machine, clearly visible alongside the bag of chips in slot D3 inside the glass.
+  video_WM: The camera is completely stationary, framing the bag of Crinkle Cut Crisps in slot D3 and
+    the vending machine keypad visible on the right. A hand enters the frame and presses the 'D' button,
+    followed by the '3' button on the keypad. The keypad is connected to the coil mechanism for the visible
+    slot. STOP.
+  camera_WM: The camera is completely stationary, framing the bag of Crinkle Cut Crisps in slot D3 and
+    the vending machine keypad visible on the right. A hand enters the frame and presses the 'D' button,
+    followed by the '3' button on the keypad. The keypad is connected to the coil mechanism for the visible
+    slot. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up view of a vending machine interior. In the center, slot D3 holds
+    a blue and white bag of 'Crinkle Cut Crisps' (Sea Salt & Vinegar) secured by a metal spiral coil.
+    Below the product is a price tag reading 'D3 - $1.50'. To the right, a black control panel features
+    a keypad with alphanumeric buttons and a small digital display showing the number '01' in blue LED
+    segments. To the left, a portion of an orange Doritos bag is visible.
+  init2final_edit_prompt: Edit the given image to show the vending machine mechanism in an active state.
+    The digital display above the keypad should read 'D3'. The metal spiral coil in slot D3 should be
+    rotated compared to its initial position. The bag of Crinkle Cut Crisps should be pushed forward and
+    tilted, appearing closer to the edge of the shelf than in the original image.
+  rationale: The video prompt describes a user entering the code 'D3' on the keypad. This input causally
+    triggers the vending machine's selection mechanism. Consequently, the digital display updates to reflect
+    the input code, and the motor for slot D3 activates. The rotation of the coil pushes the product forward,
+    resulting in a change in the bag's position and orientation.
+  questions:
+  - id: coil_rotation
+    question: Is the metal spiral coil in slot D3 in a different rotational position than in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: Check if the spiral wire has turned, indicating motor activation.
+  - id: bag_movement
+    question: Has the bag of Crinkle Cut Crisps moved forward compared to its starting position?
+    answer_type: yes_no
+    notes_for_judge: The bag should be closer to the front or displaced by the coil.
+  - id: display_change
+    question: Does the digital display on the keypad show a different readout than the initial '01'?
+    answer_type: yes_no
+    notes_for_judge: The display should likely show 'D3' or a price, but must be different from '01'.
+  - id: bag_orientation
+    question: Is the orientation or tilt of the Crinkle Cut Crisps bag different than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The bag should be tilted or shifted due to the coil pushing it.
+  - id: bag_proximity
+    question: Is the bottom of the Crinkle Cut Crisps bag closer to the shelf edge than before?
+    answer_type: yes_no
+    notes_for_judge: Directional check for forward movement.
+  - id: invariant_doritos
+    question: Is the orange Doritos bag on the left still in the same position?
+    answer_type: yes_no
+    notes_for_judge: This object is in a different slot and should not move.

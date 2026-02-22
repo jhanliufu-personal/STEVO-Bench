@@ -1,0 +1,70 @@
+id: sprinkler_valve_control_02
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: sprinkler_valve_control
+variation_type: initial_state
+variation_description: Sprinkler starts active with visible puddles; action closes the valve.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Sprinkler is active. Valve starts OPEN. Action CLOSES valve.
+  expected_outcome_change: Water flow ceases.
+prompts:
+  init_frame_edit_prompt: Edit the image to show a vigorous spray of water coming from the sprinkler and
+    large puddles forming on the ground around it.
+  video_WM: The camera starts centered on the spraying sprinkler head and puddles on the grass. The camera
+    rotates right at constant speed until the sprinkler exits the view. The camera continues rotating,
+    revealing a manual water valve mounted on a pipe near the wall. The valve handle is currently aligned
+    with the pipe in the open position. A hand enters the frame and rotates the valve handle clockwise
+    to the closed position (perpendicular to the pipe). The valve controls the water supply to the sprinkler.
+    Closing the valve cuts off the water supply. The valve manipulation occurs while the sprinkler head
+    remains out of camera view. Then the camera rotates left smoothly at the same rate back to the original
+    viewpoint, bringing the sprinkler head back into center view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The scene features a spraying sprinkler head and a manual water valve. A hand closes the
+    valve by rotating it clockwise. The valve controls the water supply to the sprinkler. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a metal impact sprinkler head mounted on a vertical
+    riser pipe in a field of dry, yellowing grass. The sprinkler is actively operating, ejecting a strong,
+    blurry stream of water to the left and creating a mist of droplets in the air. The ground immediately
+    around the base of the sprinkler is wet with visible puddles reflecting the sky, contrasting with
+    the dry grass in the background. A hose or pipe runs along the ground connected to the riser.
+  init2final_edit_prompt: Edit the given image to show the sprinkler turned off. Remove the active stream
+    of water spraying from the nozzle and all airborne water droplets. The sprinkler head should remain
+    visible but inactive. Preserve the wet puddles on the ground and the surrounding dry grass exactly
+    as they appear in the original image.
+  rationale: The video prompt describes a sequence where the camera pans away to reveal a control valve,
+    a hand closes the valve to cut off the water supply, and the camera pans back to the sprinkler. The
+    causal mechanism (closing the valve) dictates that the water flow to the sprinkler stops. Therefore,
+    in the final frame, the sprinkler must no longer be spraying water. However, the physical state of
+    the environment (puddles, grass) remains largely unchanged as insufficient time has passed for evaporation.
+  questions:
+  - id: water_stream_absent
+    question: Is the active stream of water coming from the nozzle absent?
+    answer_type: yes_no
+    notes_for_judge: The water jet should be gone.
+  - id: droplets_removed
+    question: Are the airborne water droplets removed from the scene?
+    answer_type: yes_no
+    notes_for_judge: The air should be clear of spray.
+  - id: sprinkler_inactive
+    question: Does the sprinkler head appear to be inactive?
+    answer_type: yes_no
+    notes_for_judge: It should not be spraying.
+  - id: mist_cleared
+    question: Is the air above and around the sprinkler clear of mist?
+    answer_type: yes_no
+    notes_for_judge: No residual spray mist.
+  - id: no_active_spray
+    question: Is the scene free of any active water spraying?
+    answer_type: yes_no
+    notes_for_judge: General check for spray.
+  - id: puddles_persist
+    question: Are the puddles on the ground still visible?
+    answer_type: yes_no
+    notes_for_judge: Ground water should not disappear instantly.
+  - id: sprinkler_present
+    question: Is the metal sprinkler head still present in the center of the frame?
+    answer_type: yes_no
+    notes_for_judge: Object permanence check.

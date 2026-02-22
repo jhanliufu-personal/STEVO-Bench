@@ -1,0 +1,71 @@
+id: car_hood_release_08
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: car_hood_release
+variation_type: repeated_activation
+variation_description: The lever is reinterpreted as the toggle for the retractable dashboard screen.
+  Toggling it twice (Down->Up) returns it to the original state.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Lever acts as a toggle for the retractable screen. Two activations = net no change.
+  expected_outcome_change: The dashboard screen remains in its original position (closed/up).
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: Driver's upright POV. The steering wheel is centered, and the dashboard screen is in its standard
+    position. The driver leans forward and downward toward the lower dashboard; the screen is no longer
+    visible. The lever under the left dashboard (acting as the screen retraction toggle) comes into view.
+    A hand pulls the lever TWICE in quick succession. The mechanism cycles the screen down and then immediately
+    back up. The driver leans back to the upright seated position, bringing the dashboard screen back
+    into view. STOP.
+  camera_WM: The camera starts in upright driver POV with the dashboard visible. The driver leans forward
+    and down, camera pitches down and moves forward, revealing the lever. A hand pulls the lever twice.
+    The action occurs while the dashboard screen is out of view. The driver leans back to the original
+    seated position. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: The image shows the interior of a Chevrolet Corvette C7 from the driver's perspective.
+    A black leather steering wheel with the Corvette logo is centered. Behind the wheel is a digital instrument
+    cluster showing '0 MPH' and a tachometer. To the right of the steering wheel, the center dashboard
+    infotainment screen is visible in its raised, active position. Through the windshield, a sunny suburban
+    street with trees and parked cars is visible. The hood of the car is visible at the bottom of the
+    windshield.
+  init2final_edit_prompt: Edit the given image to show the driver's view from the standard upright seated
+    position. Ensure the center dashboard infotainment screen is fully visible and in its standard raised
+    (upright) position. The view through the windshield should show the car hood in its closed position
+    and the street scene as seen from the driver's eye level.
+  rationale: The prompt describes a sequence of actions where the driver leans down, pulls a lever that
+    triggers a mechanism, and then sits back up. The mechanism is described as cycling the screen 'down
+    and then immediately back up'. This implies a transient state change that resolves itself before the
+    driver returns to the upright position. Therefore, in the final frame, the screen should be back in
+    its initial raised position (not retracted), and the camera view should be restored to the initial
+    upright perspective. The lever pull is redefined as a screen toggle, so the hood should remain closed.
+  questions:
+  - id: screen_visible
+    question: Is the center dashboard infotainment screen visible in the image?
+    answer_type: yes_no
+    notes_for_judge: The screen should be visible to the right of the steering wheel, as the driver has
+      returned to the upright position.
+  - id: screen_position_up
+    question: Is the center dashboard screen in its raised (upright) position?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the mechanism cycles the screen down and 'immediately back up',
+      so it should be raised in the final state.
+  - id: screen_not_retracted
+    question: Is the center dashboard screen retracted or hidden?
+    answer_type: yes_no
+    notes_for_judge: The answer should be NO. If the screen is down/hidden, the model failed to complete
+      the 'back up' cycle.
+  - id: driver_view_upright
+    question: Is the view from an upright driver's perspective (seeing the road through the windshield)?
+    answer_type: yes_no
+    notes_for_judge: The driver leans back to the upright position at the end.
+  - id: steering_wheel_centered
+    question: Is the steering wheel centered in the view?
+    answer_type: yes_no
+    notes_for_judge: The view should match the initial frame's composition.
+  - id: hood_closed
+    question: Is the car's hood in the closed position (not raised or blocking the view)?
+    answer_type: yes_no
+    notes_for_judge: The prompt redefines the lever as a screen toggle; the hood should not open.

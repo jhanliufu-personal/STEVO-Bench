@@ -1,0 +1,67 @@
+id: fuse_box_completion_04
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: fuse_box_completion
+variation_type: precondition_failure
+variation_description: Fan power cord is unplugged, preventing activation.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Fan is unplugged. Fuse insertion completes box circuit but not fan circuit.
+  expected_outcome_change: Fan remains OFF (stationary) despite fuse insertion.
+prompts:
+  init_frame_edit_prompt: Edit the image to show the fan's power cord lying loose and unplugged on the
+    concrete floor, clearly disconnected from any outlet.
+  video_WM: The camera starts centered on the stationary industrial floor fan, with its unplugged power
+    cord visible on the floor. The camera rotates right at constant speed until the fan exits the view.
+    The camera continues rotating, revealing an open industrial fuse box mounted on the wall. One circuit
+    is missing its ceramic fuse. A hand enters the frame holding a new ceramic fuse and presses it firmly
+    into the empty gap. The fuse insertion occurs while the fan remains out of camera view. Then the camera
+    rotates left smoothly at the same rate back to the original viewpoint, bringing the industrial fan
+    back into center view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The camera starts on the fan with the unplugged cord, then rotates to the fuse box. A hand
+    inserts a ceramic fuse into the gap. The action occurs while the fan is not visible. The camera then
+    returns to the fan. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A large, circular industrial floor fan with a metal wire cage and three metal
+    blades sits in the center of a workshop. The fan is stationary, with its blades clearly defined. In
+    the foreground, a thick black power cord is coiled on the stained concrete floor, with the plug end
+    clearly visible and disconnected from any outlet. The background features a brick wall on the left,
+    large industrial windows in the back, and workshop machinery and shelves on the right.
+  init2final_edit_prompt: Edit the given image to ensure the industrial fan remains completely stationary.
+    Keep the fan blades sharp and distinct with no motion blur. Ensure the power cord and plug remain
+    lying on the floor in their original position, clearly unplugged. The scene should appear identical
+    to the initial frame, with no changes to the fan's state or the background.
+  rationale: The video prompt describes a camera panning away from the fan to a fuse box where a fuse
+    is inserted, restoring a circuit, before panning back to the fan. However, the initial frame explicitly
+    shows the fan's power cord is unplugged, and the prompt does not describe any action to plug it in.
+    Causal logic dictates that restoring the building's fuse will not activate a device that is physically
+    disconnected from the outlet. Therefore, the fan must remain stationary and unpowered in the final
+    frame.
+  questions:
+  - id: fan_stationary
+    question: Is the industrial fan still stationary in the final frame?
+    answer_type: yes_no
+    notes_for_judge: The fan should not be spinning.
+  - id: blades_sharp
+    question: Are the fan blades clearly defined and sharp, indicating no motion?
+    answer_type: yes_no
+    notes_for_judge: Motion blur would indicate the fan is on, which is incorrect.
+  - id: plug_visible
+    question: Is the power plug still visible lying on the floor?
+    answer_type: yes_no
+    notes_for_judge: The plug should not have moved to a socket.
+  - id: plug_disconnected
+    question: Is the power cord still disconnected from any power outlet?
+    answer_type: yes_no
+    notes_for_judge: The fan must remain unplugged.
+  - id: fan_off_state
+    question: Does the fan appear to be completely unpowered?
+    answer_type: yes_no
+    notes_for_judge: Check for lack of spin and unplugged cord.
+  - id: viewpoint_centered
+    question: Is the camera view centered on the fan?
+    answer_type: yes_no
+    notes_for_judge: The camera should have returned to the original viewpoint.

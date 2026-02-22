@@ -1,0 +1,68 @@
+id: safety_interlock_motor_05
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: safety_interlock_motor
+variation_type: precondition_failure
+variation_description: Safety lockout tag prevents operation.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Lockout/Tagout active. Trigger action has no effect.
+  expected_outcome_change: The motor shaft remains stationary.
+prompts:
+  init_frame_edit_prompt: Edit the image to add a prominent red 'DANGER - DO NOT OPERATE' tag hanging
+    from the motor housing.
+  video_WM: The camera starts centered on the stationary motor drive shaft. A safety lockout tag is hanging
+    from the machine. The camera rotates right at constant speed until the shaft exits the view. The camera
+    continues rotating, revealing the green START button. A finger enters the frame and presses the green
+    START button. The button press occurs while the motor shaft remains out of camera view. Then the camera
+    rotates left smoothly at the same rate back to the original viewpoint, bringing the motor drive shaft
+    back into center view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The scene features a stationary motor drive shaft with a lockout tag and a START button.
+    A finger presses the START button while the shaft is out of view. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up view of a large, green industrial electric motor in a factory setting.
+    A thick, rusty metal drive shaft extends from the motor towards the left foreground. A prominent red
+    and white safety tag reading 'DANGER - DO NOT OPERATE' hangs from a wire attached to the top of the
+    motor casing. The background is a blurred industrial environment with ceiling lights and structural
+    pillars.
+  init2final_edit_prompt: Edit the given image to keep the motor shaft completely stationary and unchanged.
+    Ensure the red 'DANGER' safety tag remains hanging in its original position. The rust patterns and
+    grease marks on the drive shaft must remain in the exact same orientation and position as the original
+    image. Do not add any motion blur or indication of rotation. The scene should appear identical to
+    the initial state.
+  rationale: The video prompt describes a scenario where a 'START' button is pressed while a safety lockout
+    tag ('DANGER - DO NOT OPERATE') is attached to the machine. In a correct causal world model, the presence
+    of the lockout tag implies a safety interlock or de-energized state that prevents the motor from starting,
+    regardless of the button press. Therefore, the causal consequence of the action is null; the motor
+    must refuse to start. When the camera returns to the initial view, the drive shaft should remain stationary
+    (no motion blur, same rotational position) and the tag should still be present, reflecting the successful
+    function of the safety protocol.
+  questions:
+  - id: shaft_stationary
+    question: Is the motor drive shaft stationary?
+    answer_type: yes_no
+    notes_for_judge: The shaft should look sharp with no motion blur, identical to the first frame.
+  - id: no_motion_blur
+    question: Is the drive shaft free of rotational motion blur?
+    answer_type: yes_no
+    notes_for_judge: Motion blur would indicate the motor started, which violates the safety tag logic.
+  - id: tag_presence
+    question: Is the red 'DANGER' safety tag still hanging on the motor?
+    answer_type: yes_no
+    notes_for_judge: The tag must remain to justify the lack of motion.
+  - id: shaft_orientation
+    question: Are the rust patterns and surface details on the shaft in the same position as in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: If the shaft has rotated, the texture alignment will be different.
+  - id: interlock_success
+    question: Does the motor appear to be in a stopped/deactivated state?
+    answer_type: yes_no
+    notes_for_judge: The correct outcome is that the machine did not start.
+  - id: visual_consistency
+    question: Is the overall visual state of the motor identical to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Since the action was inhibited by the tag, no change should occur.

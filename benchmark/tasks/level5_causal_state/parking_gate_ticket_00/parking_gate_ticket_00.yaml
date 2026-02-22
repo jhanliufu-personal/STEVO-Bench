@@ -1,0 +1,68 @@
+id: parking_gate_ticket_00
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: parking_gate_ticket
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: Edit the image to add a grey ticket payment column with a clearly visible black
+    insertion slot in the foreground on the right side of the image. The column should be positioned so
+    it is distinct from the background and lit consistently with the sunny parking lot environment.
+  video_WM: The video presents a static shot of a parking lot exit. On the left is a yellow barrier arm
+    in the lowered position. On the right is a ticket payment column. A hand holding a parking ticket
+    enters the frame and inserts the ticket into the slot on the column. The camera does not move, keeping
+    both the barrier and the payment column in the frame at all times. STOP.
+  camera_WM: The video presents a static shot of a parking lot exit. On the left is a yellow barrier arm
+    in the lowered position. On the right is a ticket payment column. A hand holding a parking ticket
+    enters the frame and inserts the ticket into the slot on the column. The camera does not move, keeping
+    both the barrier and the payment column in the frame at all times. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A static eye-level shot of a parking lot exit lane. On the left, there is a
+    bright yellow barrier housing with a red and white striped barrier arm extending horizontally across
+    the frame, blocking the path. On the right, there is a silver metal ticket column with a black interface
+    area and a ticket slot. In the background, parked cars and trees are visible under daylight conditions.
+    Shadows indicate a sunny day.
+  init2final_edit_prompt: Edit the given image to show the red and white barrier arm in a raised, vertical
+    position, pointing towards the sky. The barrier arm should no longer be horizontal or blocking the
+    lane. The yellow housing and silver column should remain in place.
+  rationale: The video prompt describes a causal interaction where a ticket is inserted into the payment
+    column. In a functional parking system, this action triggers the validation mechanism, which subsequently
+    activates the barrier motor to lift the arm. Therefore, the final state must show the barrier arm
+    transitioning from the closed (horizontal) position to the open (vertical) position to allow exit.
+  questions:
+  - id: barrier_raised
+    question: Is the red and white barrier arm in a raised position compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The arm should be angled upwards or vertical, not horizontal.
+  - id: barrier_not_horizontal
+    question: Is the barrier arm no longer horizontal?
+    answer_type: yes_no
+    notes_for_judge: Check if the arm has rotated away from the parallel-to-ground position.
+  - id: lane_unblocked
+    question: Is the path between the yellow housing and the ticket column largely unblocked by the barrier
+      arm?
+    answer_type: yes_no
+    notes_for_judge: The arm should be moved out of the way to allow a car to pass.
+  - id: arm_orientation_change
+    question: Has the orientation of the barrier arm changed from horizontal to vertical or diagonal?
+    answer_type: yes_no
+    notes_for_judge: Focus on the angle of the red and white bar.
+  - id: mechanism_activation
+    question: Does the barrier system appear to be in the 'open' state?
+    answer_type: yes_no
+    notes_for_judge: Open state implies the arm is lifted.
+  - id: consistency_yellow_housing
+    question: Is the yellow barrier housing still present on the left side?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: consistency_silver_column
+    question: Is the silver ticket column still present on the right side?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

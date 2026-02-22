@@ -1,0 +1,64 @@
+id: turnstile_coin_unlock_07
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: turnstile_coin_unlock
+variation_type: precondition_failure
+variation_description: Indicator light is smashed/broken; system appears damaged.
+changes:
+  occlusion_method: null
+  dynamic_conditions: System damage prevents operation.
+  expected_outcome_change: Final state is unchanged (Broken/Locked).
+prompts:
+  init_frame_edit_prompt: Edit the image so the red indicator light looks smashed and broken, with no
+    light emitting.
+  video_WM: The camera starts centered on the locked turnstile arm with a broken, smashed indicator. The
+    camera rotates right at constant speed until the turnstile exits the view. The camera continues rotating,
+    revealing a coin slot mechanism. A hand enters and inserts a token into the slot. The damaged system
+    fails to register the payment. The insertion occurs while the turnstile arm remains out of camera
+    view. Then the camera rotates left smoothly back to the original viewpoint, bringing the turnstile
+    arm back into center view. STOP.
+  camera_WM: The scene starts on the turnstile arm with a broken indicator. A hand inserts a token into
+    the coin slot. The system is damaged. The action occurs while the turnstile is not visible. The scene
+    returns to the turnstile arm. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up view of a stainless steel subway turnstile. The turnstile features
+    a tripod barrier arm mechanism with the top bar in a horizontal blocking position. Above the arms,
+    a vertical panel displays the word 'LOCKED' in white text on a dark background, accompanied by a down
+    arrow. Below the 'LOCKED' sign, there is a square panel with smashed, broken glass. In the background,
+    a tiled subway station wall and several commuters are visible.
+  init2final_edit_prompt: Edit the given image to show the turnstile arm remaining in the horizontal locked
+    position. Ensure the 'LOCKED' indicator is still illuminated and the smashed glass on the front panel
+    remains visible and unchanged.
+  rationale: The video sequence involves a camera panning away to reveal a coin slot, a token being inserted,
+    and the system failing to register the payment due to damage. The camera then pans back to the original
+    view. Because the payment failed, the turnstile state does not change. Therefore, in the final frame,
+    the turnstile arm must remain locked in the horizontal position, the 'LOCKED' indicator must still
+    be active, and the broken glass must remain unchanged.
+  questions:
+  - id: turnstile_locked_state
+    question: Is the turnstile arm still in the horizontal blocking position?
+    answer_type: yes_no
+    notes_for_judge: The system failed to unlock, so the arm should not have rotated or dropped.
+  - id: indicator_text
+    question: Does the indicator panel still display the word 'LOCKED'?
+    answer_type: yes_no
+    notes_for_judge: The status should not change to 'GO' or 'OPEN'.
+  - id: broken_glass_persistence
+    question: Is the smashed glass on the front of the turnstile still visible?
+    answer_type: yes_no
+    notes_for_judge: The physical damage should persist.
+  - id: barrier_orientation
+    question: Is the top bar of the tripod mechanism still parallel to the ground?
+    answer_type: yes_no
+    notes_for_judge: Verifies the arm hasn't rotated to an open position.
+  - id: indicator_light
+    question: Is the red signal or 'LOCKED' text still illuminated?
+    answer_type: yes_no
+    notes_for_judge: The light should not have turned green.
+  - id: overall_status
+    question: Does the turnstile appear to be in the same locked state as the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The causal action (token insertion) failed to produce a state change.

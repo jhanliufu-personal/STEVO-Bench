@@ -1,0 +1,70 @@
+id: safety_interlock_motor_02
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: safety_interlock_motor
+variation_type: initial_state
+variation_description: Motor starts running; trigger is an Emergency Cutoff switch.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Initial state is ON. Trigger is an emergency cutoff. Action stops the motor.
+  expected_outcome_change: The motor shaft should be stationary at the end.
+prompts:
+  init_frame_edit_prompt: Edit the image to show the motor shaft spinning (motion blur). Add a large yellow
+    'EMERGENCY CUTOFF' box with a mushroom button on the wall or machinery background.
+  video_WM: The camera starts centered on the spinning motor drive shaft. The camera rotates right at
+    constant speed until the shaft exits the view. The camera continues rotating, revealing a yellow Emergency
+    Cutoff button. A hand enters the frame and slaps the cutoff button down. The action occurs while the
+    motor shaft remains out of camera view. Then the camera rotates left smoothly at the same rate back
+    to the original viewpoint, bringing the motor drive shaft back into center view. No zoom, no cut,
+    no scene change. STOP.
+  camera_WM: The scene features a spinning motor drive shaft and an Emergency Cutoff button. A hand activates
+    the cutoff button while the shaft is out of view. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up, slightly low-angle shot of a large green industrial electric motor
+    in a workshop. The motor's metal drive shaft extends to the left and exhibits significant rotational
+    motion blur, indicating it is spinning rapidly. In the background, mounted on a concrete pillar to
+    the left, is a yellow box labeled 'EMERGENCY CUTOFF' with a large, prominent red mushroom-head push
+    button. The floor is concrete, and wrenches are visible on the ground.
+  init2final_edit_prompt: Edit the given image to show the motor drive shaft completely stopped and stationary.
+    Remove all motion blur from the cylindrical metal shaft, rendering its surface texture, rust spots,
+    and scratches as sharp and distinct. Modify the red emergency button on the yellow background box
+    to appear pushed in or depressed, sitting flush against the housing.
+  rationale: The video sequence depicts a safety intervention where the camera pans away, a hand presses
+    the emergency cutoff button, and the camera pans back. The causal mechanism is the emergency stop
+    cutting power to the motor. Consequently, the motor, which was initially spinning (indicated by motion
+    blur), will have coasted to a stop during the elapsed time of the camera movement. The final state
+    should show the motor shaft as static (sharp, no blur) and the emergency button in the activated (depressed)
+    position.
+  questions:
+  - id: shaft_sharpness
+    question: Is the metal drive shaft sharp and free of motion blur?
+    answer_type: yes_no
+    notes_for_judge: In the initial frame, the shaft is blurred due to rotation. In the final frame, it
+      should be sharp.
+  - id: shaft_texture
+    question: Are the surface details of the shaft, such as rust or scratches, clearly visible and distinct?
+    answer_type: yes_no
+    notes_for_judge: Spinning shafts smear details; a stopped shaft shows distinct texture.
+  - id: button_state
+    question: Does the red emergency button appear pushed in or depressed compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The action was a 'slap' on the button, which should leave it in the depressed state.
+  - id: motor_stopped
+    question: Does the motor drive shaft appear to be stationary?
+    answer_type: yes_no
+    notes_for_judge: Judge based on the lack of directional blur.
+  - id: visual_change_blur
+    question: Has the rotational blur on the central metal component been removed?
+    answer_type: yes_no
+    notes_for_judge: Direct comparison of the shaft area.
+  - id: consistency_housing
+    question: Is the green motor housing still in the same position?
+    answer_type: yes_no
+    notes_for_judge: The motor itself should not move, only the internal rotor stops spinning.
+  - id: consistency_box
+    question: Is the yellow emergency cutoff box still visible in the background?
+    answer_type: yes_no
+    notes_for_judge: The camera returns to the original view, so the background objects should remain.

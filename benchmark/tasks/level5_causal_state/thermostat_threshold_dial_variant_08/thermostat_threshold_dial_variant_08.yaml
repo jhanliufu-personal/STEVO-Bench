@@ -1,0 +1,72 @@
+id: thermostat_threshold_dial_variant_08
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: thermostat_threshold_dial
+variation_type: repeated_activation
+variation_description: Thermostat is turned up, then immediately back down.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Action reversed before result is observed. Net state change is zero.
+  expected_outcome_change: Heater remains OFF (same as start).
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The camera starts centered on the inactive red heating element. The camera rotates right at
+    constant speed until the heating element exits the view. The camera continues rotating, revealing
+    a round analog thermostat dial mounted on the wall. The current temperature needle shows 60 degrees.
+    The setting dial is currently at 50 degrees. A hand enters the frame and rotates the setting dial
+    clockwise to 80 degrees, pauses briefly, and then rotates it counter-clockwise back to the original
+    50 degrees position. The dial manipulation occurs while the heating element remains out of camera
+    view. Then the camera rotates left smoothly at the same rate back to the original viewpoint, bringing
+    the heating element back into center view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The camera starts on the heating element, then rotates to the thermostat dial. A hand rotates
+    the setting dial from 50 to 80 degrees and then back to 50 degrees. The dial rotation occurs while
+    the heating element is not visible. The camera then returns to the heating element. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up view of an electric space heater's front grille and heating element.
+    The heater features a reflective metal housing with a vertical chrome strip on the left and right.
+    A horizontal wire guard grille protects the internal components. Inside, a coiled heating element
+    (tubular sheath type) winds back and forth. The element is currently inactive, appearing dark, dusty,
+    and metallic (brownish-grey) with no visible glow. The interior back panel is also metallic and textured.
+    The scene is lit by ambient light, and the background is out of focus.
+  init2final_edit_prompt: Edit the given image to ensure the heating element coils remain completely inactive
+    and dark. The coils should retain their original dusty, grey-brown metallic color with absolutely
+    no orange, red, or yellow glow. The scene should look identical to the state of a cold, unpowered
+    heater. Maintain the original lighting, the position of the wire grille, and the texture of the metal
+    housing.
+  rationale: The video depicts a user interacting with a thermostat but ultimately returning it to an
+    'off' state. The ambient temperature is 60 degrees. The user turns the dial to 80 (which would trigger
+    the heater), pauses briefly, but then immediately turns it back to 50. Since the final setting (50)
+    is below the current temperature (60), the thermostat switch is open (off). Even if the brief excursion
+    to 80 triggered the heater for a second, the subsequent deactivation and the time taken for the camera
+    to rotate back would allow any incipient glow to fade completely. Therefore, the correct final state
+    is that the heater is off and the coils are dark, identical to the initial frame. This tests the model's
+    ability to follow the full sequence of logic (on then off) rather than just associating 'thermostat
+    interaction' with 'heat'.
+  questions:
+  - id: heater_is_inactive
+    question: Is the heating element currently inactive and non-glowing?
+    answer_type: yes_no
+    notes_for_judge: The coils should be dark/grey/brown, not red or orange.
+  - id: coils_are_dark
+    question: Do the heating coils appear dark in color?
+    answer_type: yes_no
+    notes_for_judge: Verifying the absence of incandescence.
+  - id: no_visible_glow
+    question: Is the image free of any orange or red light emitting from the coils?
+    answer_type: yes_no
+    notes_for_judge: Check for any sign of heating.
+  - id: state_unchanged
+    question: Does the heater appear to be in the same state as it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Since the dial was returned to 50 (below 60), the state should revert to off.
+  - id: grille_consistency
+    question: Is the horizontal wire grille still present in front of the coils?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: housing_consistency
+    question: Are the vertical metal strips on the sides of the heater still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

@@ -19,3 +19,42 @@ prompts:
     to the register display. STOP.
 camera_control:
   HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up view of a beige electronic cash register. The center features a green
+    backlit digital LCD display showing '$0.00'. To the left of the display is a receipt printer with
+    a paper receipt visible. Below the display is a numeric keypad with grey buttons. In the background,
+    blurred shelves with various snack products and candy bars are visible on the left and right sides.
+  init2final_edit_prompt: Edit the given image to change the numbers on the green digital display from
+    $0.00 to a positive price value, such as $4.29 or $3.50. The display should clearly show a non-zero
+    dollar amount indicating a scanned item.
+  rationale: The video describes a sequence where the camera pans away to reveal a barcode scanning action.
+    A product (cereal box) is scanned, which triggers the point-of-sale system to look up the price and
+    update the current total. When the camera pans back to the register, the display must reflect this
+    state change by showing the price of the item instead of the initial $0.00. The physical location
+    of the register remains unchanged.
+  questions:
+  - id: display_change_nonzero
+    question: Does the cash register display now show a value other than $0.00?
+    answer_type: yes_no
+    notes_for_judge: The display should show a price (e.g., $3.50, $4.99) instead of the initial zero
+      state.
+  - id: display_value_increase
+    question: Is the dollar amount shown on the digital screen higher than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Check if the number is greater than 0.00.
+  - id: display_update_evidence
+    question: Does the register screen show evidence of an item being added to the transaction?
+    answer_type: yes_no
+    notes_for_judge: Any positive price indicates the scan was registered.
+  - id: digits_changed
+    question: Have the digits on the green display changed from their initial state?
+    answer_type: yes_no
+    notes_for_judge: They should no longer be 0.00.
+  - id: register_position_invariant
+    question: Is the cash register still in the same position and orientation as the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The camera returns to the original viewpoint.
+  - id: background_invariant
+    question: Are the background snack items still visible in the same relative locations?
+    answer_type: yes_no
+    notes_for_judge: Background objects should not move.

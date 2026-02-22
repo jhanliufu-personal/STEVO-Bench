@@ -4,9 +4,67 @@ category: causal_mechanism
 mechanism_type: rotary_switch_activation
 tags: []
 prompts:
-  image_gen_prompt: A car dashboard is visible with instrument cluster showing no illuminated lights. The dashboard is dark. The steering column is partially visible. The camera view is centered on the dashboard instruments.
-  video_WM: The camera starts centered on the dark dashboard instrument cluster. The camera rotates right at constant speed until the dashboard exits the view. The camera continues rotating right, revealing the steering column and ignition cylinder with a key inserted at the OFF position. A hand grips the key and turns it clockwise from the OFF position to the ACC or ON position. The ignition cylinder contains a rotary switch with multiple contact positions. As the key rotates, internal contacts align differently at each position. The ACC/ON position closes specific electrical circuits that were open in the OFF position. These circuits supply power to the dashboard instruments and indicator lights. Each dashboard light has a dedicated circuit that receives power when the ignition is in the appropriate position. The key turning occurs while the dashboard remains out of camera view. Then the camera rotates left smoothly at the same rate back to the original viewpoint, bringing the dashboard instrument cluster back into center view. No zoom, no cut, no scene change. STOP.
-  camera_WM: The camera starts on the dark dashboard, then rotates to the ignition cylinder. A hand turns the key from OFF to ACC/ON position. The ignition cylinder contains a rotary switch with multiple contact positions. Different positions close different electrical circuits. The ACC/ON position circuits supply power to dashboard instruments. The key turn occurs while the dashboard is not visible. The camera then returns to the dashboard. STOP.
+  image_gen_prompt: A first-person view from the driver's seat of a car in daylight. The steering wheel
+    is centered in the frame with the instrument cluster directly behind it. The entire dashboard and
+    all instrument cluster displays are completely dark and unilluminated — the car is off. A car key
+    is inserted into the ignition cylinder on the right side of the steering column, positioned at the
+    OFF mark. The surrounding environment is visible through the windshield and side windows in daylight.
+  video_WM: Driver's upright POV. The steering wheel is centered and the dark instrument cluster is fully
+    visible — the car is off. The driver leans forward toward the dashboard; the side windows and surrounding
+    environment are no longer visible. The ignition cylinder on the right side of the steering column
+    comes into view with the key at the OFF position. A hand grips the key and turns it clockwise from
+    OFF to the ON position. The ignition cylinder is a rotary switch with distinct contact positions;
+    the position of the key determines which electrical circuits are engaged. The driver leans back to
+    the upright seated position. No zoom, no cut, no scene change. STOP.
+  camera_WM: The camera starts in upright driver POV with a completely dark dashboard and instrument cluster
+    — car is off. The driver leans forward, camera pitches down and moves toward the dashboard, revealing
+    the ignition cylinder with the key at OFF. A hand turns the key clockwise to ON. The ignition cylinder
+    is a rotary switch; the key position determines which electrical circuits are engaged. The action
+    occurs while the windows are not visible. The driver leans back to the original seated position. STOP.
 camera_control:
-  HY-WorldPlay: s-3, right-30, left-30
+  HY-WorldPlay: s-3, down-15, w-15, s-15, up-15
   Genie: null
+evaluation:
+  init_frame_description: A driver's eye view from inside a car, looking over the steering wheel. The
+    steering wheel is centered. Behind it, the instrument cluster (speedometer, tachometer) is dark and
+    unlit, indicating the car is off. To the right of the steering column, a key is inserted into the
+    ignition cylinder. The dashboard, center console, and door panel are visible. Through the windshield,
+    a suburban street with houses and green lawns is visible.
+  init2final_edit_prompt: Edit the given image to show the car's instrument cluster in the active 'ON'
+    state. Illuminate the dashboard panel with glowing warning lights (such as red or amber battery, oil,
+    and check engine symbols) and turn on the gauge backlighting. Ensure the speedometer and tachometer
+    needles remain at zero, but the panel itself should look powered up. The key in the ignition should
+    appear rotated clockwise.
+  rationale: 'The video describes the driver turning the ignition key from the OFF to the ON position.
+    This action activates the vehicle''s electrical systems without starting the engine. Although the
+    camera moves closer to the ignition during the action, it returns to the original upright position
+    at the end. Therefore, the final frame should be visually identical to the initial frame in terms
+    of viewpoint and object placement, but the instrument cluster must show functional evidence of the
+    state change: illuminated warning lights and active electronics.'
+  questions:
+  - id: dashboard_lights_on
+    question: Is the instrument cluster illuminated with warning lights or backlighting?
+    answer_type: yes_no
+    notes_for_judge: Look for red, amber, or green lights on the dashboard panel behind the steering wheel.
+  - id: warning_indicators_visible
+    question: Are there visible warning indicators (like battery or check engine icons) on the dashboard
+      that were not lit in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The initial frame has a dark cluster; the final frame should have specific icon lights
+      lit up.
+  - id: cluster_powered
+    question: Does the instrument panel appear to be powered on compared to the initial dark state?
+    answer_type: yes_no
+    notes_for_judge: Assess the overall state of the dashboard display.
+  - id: viewpoint_consistency
+    question: Is the camera view still from the driver's upright seated position?
+    answer_type: yes_no
+    notes_for_judge: The camera should have returned to the original wide view after the action.
+  - id: steering_wheel_pos
+    question: Is the steering wheel in the same position as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The steering wheel should not have turned, only the key.
+  - id: tachometer_zero
+    question: Is the tachometer needle still at or near zero?
+    answer_type: yes_no
+    notes_for_judge: The engine was not started, only the electronics were turned on.

@@ -1,0 +1,66 @@
+id: gas_pump_nozzle_trigger_03
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: gas_pump_nozzle_trigger
+variation_type: initial_state
+variation_description: The display shows an ERROR state. Squeezing the trigger acts as a system reset.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Initial state is ERROR. Trigger acts as Reset.
+  expected_outcome_change: Display changes from ERROR to 0.00 (Ready).
+prompts:
+  init_frame_edit_prompt: Edit the pump display to show a flashing red 'ERROR' message instead of numbers.
+  video_WM: The camera starts centered on the gas pump display showing an ERROR message. The camera rotates
+    right until the display exits the view, revealing the fuel nozzle. A hand enters the frame and squeezes
+    the nozzle trigger handle. In this state, the trigger acts as a system reset. The action occurs while
+    the display is out of view. The camera rotates left smoothly back to the original viewpoint, bringing
+    the pump display screen back into center view. STOP.
+  camera_WM: The camera starts on the display showing error, then rotates to the nozzle. A hand squeezes
+    the trigger. The camera returns to the display. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up view of a black gas pump interface. The main focus is a digital LCD
+    screen displaying the word 'ERROR' in bright red segmented LED letters on the top line. To the left
+    of the top line is a printed dollar sign '$'. Below 'ERROR', the screen displays '0.00' in smaller
+    red LED digits. To the right of the numbers is the printed text 'gallons'. On the far left of the
+    frame is a vertical column of silver square buttons. On the right, a black rubber hose runs vertically.
+    The background is a blurred outdoor gas station environment.
+  init2final_edit_prompt: Edit the given image to reflect a system reset on the gas pump display. Replace
+    the red text 'ERROR' on the top line of the screen with the numbers '0.00' in the same red segmented
+    LED font style. The screen should now display '0.00' on the top line (next to the '$' sign) and '0.00'
+    on the bottom line (next to 'gallons'). Maintain the lighting, reflections, and all surrounding physical
+    elements like the buttons and hose exactly as they are.
+  rationale: 'The video prompt describes a camera movement that pans away from the display to the nozzle,
+    where a ''system reset'' action (squeezing the trigger) is performed. When the camera pans back to
+    the original view, the causal effect of this action must be visible: the ''ERROR'' state should be
+    cleared and replaced by a standard reset state (typically all zeros). The evaluation checks if the
+    world model correctly updates the unobserved state of the display based on the described functional
+    logic.'
+  questions:
+  - id: error_text_removed
+    question: Is the word 'ERROR' absent from the digital display screen?
+    answer_type: yes_no
+    notes_for_judge: The primary success criteria is the removal of the error message.
+  - id: numeric_reset_state
+    question: Does the top line of the display now show numbers (e.g., 0.00) instead of text?
+    answer_type: yes_no
+    notes_for_judge: The state should transition from text (ERROR) to numbers (price/volume).
+  - id: functional_state_change
+    question: Does the display show a standard operating state (digits) rather than an error state?
+    answer_type: yes_no
+    notes_for_judge: Verifies the functional transition described in the prompt.
+  - id: gallons_consistency
+    question: Is the '0.00' on the bottom line (gallons) still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check; this part of the screen was already 0.00 and should
+      remain so or similar.
+  - id: buttons_consistency
+    question: Are the silver buttons on the left side of the pump still present and unchanged?
+    answer_type: yes_no
+    notes_for_judge: Ensures the edit didn't hallucinate changes to the physical hardware.
+  - id: hose_consistency
+    question: Is the black hose on the right side still visible in the same position?
+    answer_type: yes_no
+    notes_for_judge: Checks for scene stability outside the display area.

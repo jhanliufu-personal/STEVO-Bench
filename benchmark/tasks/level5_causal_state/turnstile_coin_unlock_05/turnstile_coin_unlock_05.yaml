@@ -1,0 +1,68 @@
+id: turnstile_coin_unlock_05
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: turnstile_coin_unlock
+variation_type: precondition_failure
+variation_description: Large 'Out of Order' sign on the turnstile.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Machine is out of order. Coin insertion is ignored.
+  expected_outcome_change: Final state is unchanged (Locked/Red with sign).
+prompts:
+  init_frame_edit_prompt: Edit the image to place a large yellow 'OUT OF ORDER' sign hanging over the
+    turnstile arm.
+  video_WM: The camera starts centered on the locked turnstile arm with an 'Out of Order' sign. The camera
+    rotates right at constant speed until the turnstile exits the view. The camera continues rotating,
+    revealing a coin slot mechanism. A hand enters and inserts a token into the slot despite the warning.
+    The mechanism is disabled. The insertion occurs while the turnstile arm remains out of camera view.
+    Then the camera rotates left smoothly back to the original viewpoint, bringing the turnstile arm and
+    sign back into center view. STOP.
+  camera_WM: The scene starts on the turnstile arm with an 'Out of Order' sign. A hand inserts a token
+    into the coin slot. The mechanism is disabled. The action occurs while the turnstile is not visible.
+    The scene returns to the turnstile arm. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a metallic subway turnstile. A yellow 'OUT OF
+    ORDER' sign hangs by a string from the horizontal bar of the turnstile arm. To the right, a vertical
+    metal panel features a circular red indicator light which is illuminated. Below the red light, the
+    word 'LOCKED' is visible on a dark label. The background is a tiled subway station with other turnstiles
+    and a person in a dark coat standing in the distance.
+  init2final_edit_prompt: Edit the image to change the illuminated circular red indicator light on the
+    turnstile panel to a bright green light. Keep the 'OUT OF ORDER' sign hanging on the turnstile arm
+    and the 'LOCKED' label below the light unchanged. Maintain the metallic texture, lighting, and background
+    details exactly as they are.
+  rationale: 'The video prompt describes a user inserting a token into the turnstile slot despite the
+    warning sign. The subsequent statement ''The mechanism is disabled'' is interpreted in the context
+    of a locking mechanism: disabling the lock means disengaging it to allow entry (unlocking). Therefore,
+    the functional state change is the transition from a locked state (red light) to an unlocked state
+    (green light). The ''Out of Order'' sign remains visible as the prompt explicitly states the arm and
+    sign are brought back into view, creating a state where the physical sign contradicts the active signal
+    light.'
+  questions:
+  - id: light_is_green
+    question: Is the circular indicator light on the turnstile now green?
+    answer_type: yes_no
+    notes_for_judge: The light should have changed color from red to green to indicate the mechanism unlocked.
+  - id: red_light_off
+    question: Is the red light on the panel turned off?
+    answer_type: yes_no
+    notes_for_judge: If the light is green or off, the answer is yes. If it remains red, the answer is
+      no.
+  - id: sign_visible
+    question: Is the 'OUT OF ORDER' sign still visible on the turnstile arm?
+    answer_type: yes_no
+    notes_for_judge: The prompt indicates the sign is brought back into view.
+  - id: label_present
+    question: Is the label with text (originally 'LOCKED') still present below the light?
+    answer_type: yes_no
+    notes_for_judge: The physical label sticker should remain, even if the light changes.
+  - id: arm_position
+    question: Is the turnstile arm in the same position as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The arm has been unlocked but not yet pushed/rotated by a person.
+  - id: light_state_change
+    question: Does the turnstile indicator show a different state than the initial red light?
+    answer_type: yes_no
+    notes_for_judge: Checks for any functional state change (Green, Off, White, etc.).

@@ -1,0 +1,67 @@
+id: atm_card_screen_02
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: atm_card_screen
+variation_type: initial_state
+variation_description: Screen starts in 'Maintenance Mode' with admin card inserted; action is removing
+  card.
+changes:
+  occlusion_method: null
+  dynamic_conditions: The system is in admin mode. Removing the admin key-card returns it to user mode.
+  expected_outcome_change: Screen changes from 'MAINTENANCE MODE' to 'INSERT CARD TO BEGIN'.
+prompts:
+  init_frame_edit_prompt: Edit the ATM screen to display 'MAINTENANCE MODE' with a yellow warning triangle.
+  video_WM: The camera starts centered on the ATM screen showing 'MAINTENANCE MODE'. The camera rotates
+    right at constant speed until the screen exits the view. The camera continues rotating, revealing
+    the ATM card insertion slot where a white technician card is inserted. A hand enters the frame and
+    removes the technician card. The ATM detects the removal and exits maintenance mode. The action occurs
+    while the screen remains out of camera view. Then the camera rotates left smoothly at the same rate
+    back to the original viewpoint, bringing the ATM screen back into center view. No zoom, no cut, no
+    scene change. STOP.
+  camera_WM: The camera starts on the ATM screen, then rotates to the card slot. A hand removes a technician
+    card. The system detects removal. The action occurs while the screen is not visible. The camera then
+    returns to the ATM screen. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up view of an ATM machine. The screen is centered and displays a large
+    yellow warning triangle with an exclamation mark, and the text 'MAINTENANCE MODE' in a pixelated yellow
+    font against a dark background. To the right of the screen are vertical function buttons. Below the
+    screen is a keypad and a card reader slot illuminated with a blue light. The setting appears to be
+    outdoors or near a street window with blurred city reflections.
+  init2final_edit_prompt: Edit the given image to show the ATM in its normal operating state. Replace
+    the screen content (the 'MAINTENANCE MODE' text and yellow warning triangle) with a standard ATM welcome
+    screen, such as 'Welcome' or 'Please Insert Card' on a blue background. Ensure the screen no longer
+    displays any warning icons. Keep the physical ATM casing, keypad, card slot, and background reflections
+    exactly unchanged.
+  rationale: The prompt describes a causal chain where the removal of a technician access card triggers
+    the ATM to exit 'Maintenance Mode'. The camera rotates away to show the card removal action and then
+    returns to the initial view. Therefore, in the final frame, the physical environment and camera angle
+    are identical to the start, but the digital state of the screen must have transitioned from the maintenance
+    warning to a standard user interface (e.g., a welcome screen).
+  questions:
+  - id: screen_text_change
+    question: Is the 'MAINTENANCE MODE' text no longer visible on the screen?
+    answer_type: yes_no
+    notes_for_judge: The screen should now show a standard interface, not the maintenance text.
+  - id: screen_icon_change
+    question: Has the yellow warning triangle icon been removed from the display?
+    answer_type: yes_no
+    notes_for_judge: The warning icon is specific to the initial maintenance state.
+  - id: screen_state_functional
+    question: Does the screen now display a standard customer interface (e.g., 'Welcome' or 'Insert Card')?
+    answer_type: yes_no
+    notes_for_judge: The system should have reverted to normal operation.
+  - id: screen_content_diff
+    question: Is the visual content of the screen different from the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Checks for the state transition.
+  - id: camera_view_consistency
+    question: Is the camera view centered on the screen, matching the initial framing?
+    answer_type: yes_no
+    notes_for_judge: The camera rotates back to the original position.
+  - id: keypad_consistency
+    question: Are the physical keypad and buttons unchanged?
+    answer_type: yes_no
+    notes_for_judge: Only the screen content should change; hardware remains static.

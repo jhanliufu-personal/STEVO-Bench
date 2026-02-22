@@ -1,0 +1,70 @@
+id: keycard_reader_insertion_05
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: keycard_reader_insertion
+variation_type: precondition_failure
+variation_description: The reader has visible cut wires, indicating no power. The action (swipe) happens
+  but has no effect.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Power is disconnected. Reader cannot process card.
+  expected_outcome_change: The LED remains dim/unchanged due to lack of power.
+prompts:
+  init_frame_edit_prompt: Edit the image to show the reader faceplate slightly askew with colorful wires
+    hanging loosely from the bottom, disconnected.
+  video_WM: The camera starts centered on the damaged keycard reader with disconnected wires. The camera
+    rotates right at constant speed until the reader exits the view. The camera continues rotating, showing
+    the area near the reader. A hand holding a white plastic keycard enters the frame and slides the keycard
+    into the slot of the reader and then quickly removes it. The reader is disconnected from power. The
+    keycard swipe occurs while the reader's status LED remains out of camera view. Then the camera rotates
+    left smoothly at the same rate back to the original viewpoint, bringing the reader and its status
+    LED back into center view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The camera starts on the disconnected keycard reader, then rotates away. A hand swipes a
+    keycard through the reader slot. The reader has no power. The camera then returns to the reader and
+    status LED. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a brushed metal keycard reader mounted on a beige,
+    textured wallpapered wall. The reader features a black horizontal card slot at the top. A rectangular
+    hole has been cut or broken into the lower half of the metal faceplate, exposing the wall cavity.
+    From this hole, a bundle of multicolored wires (red, blue, green, black, white, yellow) hangs loosely;
+    the wire ends are stripped of insulation and are clearly disconnected from any terminal. To the left
+    of the reader, a vertical brown wooden door frame is partially visible.
+  init2final_edit_prompt: Edit the given image to show the keycard reader exactly as it appeared initially.
+    Ensure the black card slot at the top is empty with no card inserted. Keep the colored wires (red,
+    blue, green, black, white, yellow) hanging disconnected from the bottom opening, appearing unchanged.
+    Ensure that no status lights, LEDs, or indicators are illuminated on the device, reflecting its unpowered
+    state. The view should remain centered on the reader with the wooden frame on the left.
+  rationale: 'The video sequence involves a camera rotation that occludes the reader, followed by a hand
+    inserting and removing a keycard, and finally a rotation back to the starting view. Crucially, the
+    prompt states the reader is disconnected from power (visually confirmed by the loose wires). Therefore,
+    the causal action (swiping the card) must fail to trigger any electronic response. The final state
+    should show the reader exactly as it started: unlit, unpowered, with wires disconnected and the card
+    slot empty. Any illumination of LEDs would be a hallucination violating the physical constraints.'
+  questions:
+  - id: q1_functional_status
+    question: Is the status light or LED on the reader currently unlit?
+    answer_type: yes_no
+    notes_for_judge: The device is unpowered; any glowing light (green/red) is a failure.
+  - id: q2_wires_state
+    question: Are the colored wires still visible and disconnected?
+    answer_type: yes_no
+    notes_for_judge: Wires should still be hanging from the hole, not reconnected.
+  - id: q3_slot_empty
+    question: Is the card slot empty, with no keycard visible?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the card was removed.
+  - id: q4_power_evidence
+    question: Does the device appear to be in a powered-off state?
+    answer_type: yes_no
+    notes_for_judge: Check for lack of lights or digital displays.
+  - id: q5_camera_return
+    question: Is the metal faceplate of the reader centered in the frame?
+    answer_type: yes_no
+    notes_for_judge: Verifies the camera returned to the original viewpoint.
+  - id: q6_environment_consistency
+    question: Is the brown wooden door frame visible on the left side?
+    answer_type: yes_no
+    notes_for_judge: Verifies scene consistency.

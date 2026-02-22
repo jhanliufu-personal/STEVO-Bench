@@ -1,0 +1,67 @@
+id: car_headlight_switch_07
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: car_headlight_switch
+variation_type: precondition_failure
+variation_description: Wires under the steering column are cut/disconnected.
+changes:
+  occlusion_method: null
+  dynamic_conditions: The circuit is physically interrupted by cut wires.
+  expected_outcome_change: The environment remains dark.
+prompts:
+  init_frame_edit_prompt: Edit the image to show a bundle of cut, colorful wires hanging loosely from
+    under the steering column cover.
+  video_WM: Driver's upright POV at night. The lit dashboard is visible with loose wires hanging beneath
+    the steering column, and the environment is dark. The driver leans forward toward the dashboard; the
+    windows and dark exterior are no longer visible. The headlight control switch on the left steering
+    column stalk comes into view. A hand rotates the headlight switch from OFF to ON. The headlight switch
+    depends on intact wiring to function. The driver leans back to the upright seated position, bringing
+    the windshield and exterior environment back into view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The camera starts in upright driver POV at night — lit dashboard with loose wires, dark exterior.
+    A hand rotates the switch from OFF to ON. The headlight switch depends on intact wiring. The action
+    occurs while the windows are not visible. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A view from the driver's seat of a car interior at night. The dashboard is illuminated
+    with orange backlit gauges and a digital display. A black steering wheel is prominent on the right
+    side of the frame. A bundle of multi-colored loose wires hangs conspicuously from beneath the steering
+    column plastic casing. To the left of the steering wheel on the dashboard, a side mirror control panel
+    is visible. The windshield reveals a completely dark exterior environment with no external illumination.
+  init2final_edit_prompt: Edit the given image to maintain the completely dark exterior view through the
+    windshield, ensuring no headlight beams or illuminated road surfaces are visible. Keep the loose wires
+    hanging beneath the steering column exactly as they are. The dashboard gauges should remain lit in
+    orange. The overall lighting must reflect that the headlights have failed to turn on, leaving the
+    environment outside pitch black.
+  rationale: The video depicts a driver attempting to turn on the headlights by rotating the switch on
+    the stalk. However, the initial frame clearly shows a bundle of loose, disconnected wires hanging
+    from the steering column, and the prompt establishes that the switch depends on intact wiring to function.
+    Because the wiring is compromised, the causal action of turning the switch fails to complete the circuit.
+    Therefore, when the driver leans back to the initial viewpoint, the headlights should not be illuminated,
+    and the exterior environment must remain as dark as it was in the initial frame.
+  questions:
+  - id: q1
+    question: Is the exterior environment seen through the windshield still completely dark?
+    answer_type: yes_no
+    notes_for_judge: The headlights should fail to turn on due to the broken wiring.
+  - id: q2
+    question: Does the road ahead remain unlit, showing no evidence of headlight beams?
+    answer_type: yes_no
+    notes_for_judge: The causal link is broken; no light should appear.
+  - id: q3
+    question: Is the lighting outside the car consistent with the headlights being off or non-functional?
+    answer_type: yes_no
+    notes_for_judge: The scene should remain dark outside.
+  - id: q4
+    question: Is the view through the windshield free of any cone of light projecting forward?
+    answer_type: yes_no
+    notes_for_judge: Verifying absence of light.
+  - id: q5
+    question: Are the loose wires still visible hanging beneath the steering column?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: q6
+    question: Does the dashboard illumination remain the primary light source in the image?
+    answer_type: yes_no
+    notes_for_judge: Since external lights fail, internal dash lights remain dominant.

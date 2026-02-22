@@ -1,0 +1,68 @@
+id: fuse_box_completion_06
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: fuse_box_completion
+variation_type: precondition_failure
+variation_description: Fan has a local switch set to OFF.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Local switch is OFF. Main power (fuse) does not activate fan.
+  expected_outcome_change: Fan remains OFF (stationary).
+prompts:
+  init_frame_edit_prompt: Edit the image to add a prominent control box on the fan's stand with a large
+    red switch set to the 'OFF' position.
+  video_WM: The camera starts centered on the stationary industrial floor fan, showing a local switch
+    set to OFF. The camera rotates right at constant speed until the fan exits the view. The camera continues
+    rotating, revealing an open industrial fuse box mounted on the wall. One circuit is missing its ceramic
+    fuse. A hand enters the frame holding a new ceramic fuse and presses it firmly into the empty gap.
+    The fuse insertion occurs while the fan remains out of camera view. Then the camera rotates left smoothly
+    at the same rate back to the original viewpoint, bringing the industrial fan back into center view.
+    No zoom, no cut, no scene change. STOP.
+  camera_WM: The camera starts on the fan with the local switch OFF, then rotates to the fuse box. A hand
+    inserts a ceramic fuse. The action occurs while the fan is not visible. The camera then returns to
+    the fan. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A large industrial floor fan centered in the frame. The fan has a circular wire
+    mesh cage and three metal blades. Attached to the front of the motor housing is a grey metal switch
+    box with a red toggle switch. The red toggle is in the down position, pointing towards the label 'OFF'.
+    The background features a brick wall on the left, industrial windows at the top, and workshop equipment
+    on the right. The floor is concrete.
+  init2final_edit_prompt: Edit the given image to show the industrial fan remaining completely stationary.
+    Ensure the fan blades are sharp, distinct, and free of any motion blur. Keep the red toggle switch
+    on the fan's control box in the down (OFF) position. Maintain the original lighting, shadows, and
+    background details exactly as they are.
+  rationale: 'The initial frame explicitly shows the fan''s local switch set to the ''OFF'' position.
+    The video prompt describes a causal action (inserting a fuse) that occurs at a separate location (the
+    wall-mounted fuse box) while the fan is out of view. While inserting the fuse restores the potential
+    for power, the fan''s local control switch is never toggled to ''ON'' in the description. According
+    to standard causal logic (Device State = Power Supply AND Local Switch), the fan must remain off because
+    the local switch is still off. Therefore, the final frame should show the fan in the exact same state
+    as the initial frame: stationary and switched off.'
+  questions:
+  - id: fan_stationary
+    question: Is the industrial fan stationary?
+    answer_type: yes_no
+    notes_for_judge: The fan should not be spinning. Blades should be distinct.
+  - id: blades_sharp
+    question: Are the fan blades sharp and distinct, indicating no motion?
+    answer_type: yes_no
+    notes_for_judge: Motion blur would indicate spinning, which is incorrect.
+  - id: switch_position
+    question: Is the red toggle switch on the fan still in the down/OFF position?
+    answer_type: yes_no
+    notes_for_judge: The switch was not touched; it must remain OFF.
+  - id: fan_inactive
+    question: Does the fan appear to be powered off?
+    answer_type: yes_no
+    notes_for_judge: Checks for overall inactive state.
+  - id: cage_visibility
+    question: Is the wire mesh cage clearly visible without vibration or blur?
+    answer_type: yes_no
+    notes_for_judge: Verifies stability.
+  - id: background_consistency
+    question: Is the brick wall on the left side still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

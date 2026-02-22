@@ -1,0 +1,79 @@
+id: conveyor_reverse_lever_01
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: conveyor_reverse_lever
+variation_type: initial_state
+variation_description: The lever starts in the REVERSE position (conveyor active). The hand moves it to
+  NEUTRAL (stopping the conveyor).
+changes:
+  occlusion_method: null
+  dynamic_conditions: Initial state is active (reverse). Action stops the mechanism.
+  expected_outcome_change: The conveyor belt stops moving. The box should be stationary in the final frame,
+    whereas it was moving in the initial state.
+prompts:
+  init_frame_edit_prompt: Edit the image so the control lever on the side of the conveyor is in the pulled-back
+    REVERSE position instead of the middle neutral position.
+  video_WM: The camera starts centered on the cardboard box on the conveyor belt. The camera rotates right
+    at constant speed until the box exits the view. The camera continues rotating, revealing a control
+    lever on the side of the conveyor. The lever is currently in the REVERSE position. A hand enters the
+    frame and pushes the control lever to the middle NEUTRAL position. The motor deactivates and the transmission
+    disengages. The lever movement occurs while the cardboard box remains out of camera view. Then the
+    camera rotates left smoothly at the same rate back to the original viewpoint, bringing the cardboard
+    box on the belt back into center view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The camera starts on the box, then rotates to the control lever. A hand shifts the lever
+    from REVERSE to NEUTRAL position. The transmission disengages. The lever movement occurs while the
+    box is not visible. The camera then returns to the box on the belt. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A medium-shot view of a brown cardboard box centered on a flat conveyor belt
+    in a warehouse. The box has shipping labels and clear tape. The conveyor belt runs longitudinally
+    from the foreground into the background and is flanked by metal frames with rollers. The background
+    shows a warehouse interior with concrete floors, metal support beams, overhead industrial lighting,
+    and stacks of wooden pallets, some loaded with blue goods.
+  init2final_edit_prompt: Edit the given image to move the cardboard box to a different position along
+    the conveyor belt. Place the box further away from the camera (deeper into the scene) along the belt's
+    path, making it appear slightly smaller due to perspective. The box should remain sitting flat on
+    the belt surface. Do not change the background, lighting, or the structure of the conveyor belt itself.
+  rationale: The video establishes that the conveyor control lever is initially in the 'REVERSE' position,
+    which implies the belt is actively moving. The camera pans away from the box, and during this occlusion,
+    the belt continues to run until a hand switches the lever to 'NEUTRAL', stopping the motor. Because
+    the belt was active for a duration of time, the box must have been transported along the belt. When
+    the camera returns to the original viewpoint, the box should be in a different longitudinal position
+    (displaced) compared to the initial frame, reflecting the movement that occurred before the system
+    was stopped.
+  questions:
+  - id: box_displaced
+    question: Is the cardboard box in a different position on the conveyor belt compared to the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: The box should have moved along the belt due to the motor being active.
+  - id: box_not_centered
+    question: Is the box no longer centered in the frame as it was initially?
+    answer_type: yes_no
+    notes_for_judge: It should have shifted longitudinally.
+  - id: box_moved_longitudinally
+    question: Has the box moved along the depth axis of the conveyor belt?
+    answer_type: yes_no
+    notes_for_judge: Movement should be along the track, not sideways off the belt.
+  - id: box_present
+    question: Is the cardboard box still visible on the conveyor belt?
+    answer_type: yes_no
+    notes_for_judge: The box should be displaced but not vanished.
+  - id: background_static
+    question: Are the wooden pallets and warehouse background in the same position as the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Only the box on the belt should move.
+  - id: conveyor_structure_static
+    question: Is the structure of the conveyor belt (rollers, frame) unchanged?
+    answer_type: yes_no
+    notes_for_judge: The environment is static.
+  - id: box_not_rotated_randomly
+    question: Is the box sitting flat on the belt rather than tumbling or floating?
+    answer_type: yes_no
+    notes_for_judge: Physics check.
+  - id: box_same_location_neg
+    question: Is the box in the exact same location as it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The answer must be NO. If it hasn't moved, the causal link (motor active) failed.

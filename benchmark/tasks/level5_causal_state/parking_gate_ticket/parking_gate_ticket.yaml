@@ -20,3 +20,48 @@ prompts:
     barrier arm. STOP.
 camera_control:
   HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A view of a parking lot exit lane featuring a yellow barrier housing on the
+    left with a red and white striped barrier arm extending horizontally across the frame in the closed
+    position. The barrier arm is a dual-rail structure. In the background, there is asphalt pavement,
+    a grey ticket machine column further back, and several parked cars including a red hatchback and a
+    dark blue sedan.
+  init2final_edit_prompt: Edit the given image to show the parking barrier arm in the raised, open position.
+    The red and white striped arm should be pivoted upwards to a near-vertical angle, clearing the lane.
+    Keep the yellow housing, the asphalt ground, and the background cars exactly as they are, only changing
+    the position of the movable barrier arm to be open.
+  rationale: 'The video prompt describes a functional causal sequence: a ticket is inserted into the payment
+    machine, which triggers the barrier mechanism. Although the barrier is out of view during the insertion,
+    the system''s logic dictates that a validated ticket causes the gate to open. Therefore, when the
+    camera pans back to the initial viewpoint, the barrier arm must be in the raised (open) state, having
+    transitioned from closed to open during the occlusion.'
+  questions:
+  - id: barrier_raised
+    question: Is the red and white barrier arm now in a raised position?
+    answer_type: yes_no
+    notes_for_judge: The arm should be pointing upwards or significantly lifted compared to the horizontal
+      initial state.
+  - id: barrier_not_horizontal
+    question: Is the barrier arm no longer horizontal?
+    answer_type: yes_no
+    notes_for_judge: It should be angled upwards to indicate opening.
+  - id: path_clear
+    question: Does the position of the barrier arm now allow a vehicle to pass underneath?
+    answer_type: yes_no
+    notes_for_judge: The lane should be unblocked.
+  - id: angle_change
+    question: Is the angle of the barrier arm significantly higher than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the angle relative to the ground.
+  - id: state_transition
+    question: Has the barrier transitioned from a closed state to an open state?
+    answer_type: yes_no
+    notes_for_judge: Closed is horizontal/blocking; Open is raised/clearing.
+  - id: housing_consistent
+    question: Is the yellow barrier housing still present and in the same location?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: background_consistent
+    question: Are the parked cars in the background still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

@@ -1,0 +1,66 @@
+id: atm_card_screen_07
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: atm_card_screen
+variation_type: precondition_failure
+variation_description: Screen is physically smashed/cracked.
+changes:
+  occlusion_method: null
+  dynamic_conditions: The display is destroyed. Even if the machine works, the output cannot change legibly.
+  expected_outcome_change: Screen remains smashed/static.
+prompts:
+  init_frame_edit_prompt: Edit the image to make the ATM screen look heavily cracked and smashed, with
+    distorted spiderweb patterns.
+  video_WM: The camera starts centered on the smashed ATM screen. The camera rotates right at constant
+    speed until the screen exits the view. The camera continues rotating, revealing the ATM card insertion
+    slot. A hand holding a bank card enters the frame and slides the card into the slot. The display is
+    physically damaged and cannot show the interface. The card insertion occurs while the screen remains
+    out of camera view. Then the camera rotates left smoothly at the same rate back to the original viewpoint,
+    bringing the ATM screen back into center view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The camera starts on the smashed ATM screen, then rotates to the card slot. A hand inserts
+    a bank card. The screen is damaged. The insertion occurs while the screen is not visible. The camera
+    then returns to the ATM screen. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up view of a damaged ATM machine. The screen is heavily smashed with
+    a spiderweb pattern of cracks radiating from multiple impact points. Behind the cracked glass, a digital
+    display shows the blue pixelated text 'INSERT CARD TO BEGIN'. The screen is surrounded by a weathered
+    metallic bezel. Reflections of a street scene are visible on the glass and metal surfaces.
+  init2final_edit_prompt: Edit the given image to remove the blue text 'INSERT CARD TO BEGIN' from the
+    screen. The display area behind the cracks should appear dark or blank, as if the screen has been
+    cleared. Preserve the spiderweb cracks, the glass texture, and the metallic bezel exactly as they
+    are. Do not add any new text, UI elements, or error messages to the screen.
+  rationale: The video describes a user inserting a bank card into the ATM. This action triggers the ATM's
+    internal system to transition from the 'Idle' state to the 'Active' state, which causes the 'INSERT
+    CARD TO BEGIN' prompt to be cleared. However, the prompt specifies that the display is physically
+    damaged and 'cannot show the interface', meaning the expected 'ENTER PIN' screen fails to render.
+    Consequently, the correct final state is a blank or dark screen behind the cracks (the old text is
+    gone, but no new text appears). The camera returns to the original viewpoint, so the physical damage
+    and framing remain identical.
+  questions:
+  - id: text_removed
+    question: Is the blue text 'INSERT CARD TO BEGIN' no longer visible on the screen?
+    answer_type: yes_no
+    notes_for_judge: The text should be gone, indicating the machine reacted to the card insertion.
+  - id: screen_blank
+    question: Is the screen display area free of any readable text or instructions?
+    answer_type: yes_no
+    notes_for_judge: The screen should be blank/dark behind the cracks, not showing a new menu.
+  - id: no_pin_prompt
+    question: Is the screen free of an 'ENTER PIN' or password request interface?
+    answer_type: yes_no
+    notes_for_judge: The prompt specifies the interface cannot be shown due to damage.
+  - id: cracks_persist
+    question: Are the spiderweb cracks still present and in the same pattern as the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Physical damage should not heal or change.
+  - id: bezel_consistency
+    question: Is the metallic bezel surrounding the screen unchanged?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: state_transition_evidence
+    question: Does the screen state indicate that the initial 'Idle' prompt has been cleared?
+    answer_type: yes_no
+    notes_for_judge: Checks if the system transitioned out of the initial state.

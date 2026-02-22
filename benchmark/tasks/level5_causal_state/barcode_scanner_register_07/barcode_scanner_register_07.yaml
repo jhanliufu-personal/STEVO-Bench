@@ -1,0 +1,70 @@
+id: barcode_scanner_register_07
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: barcode_scanner_register
+variation_type: precondition_failure
+variation_description: Product has no barcode
+changes:
+  occlusion_method: null
+  dynamic_conditions: The trigger condition (readable barcode) is missing.
+  expected_outcome_change: The register display will remain unchanged at $0.00.
+prompts:
+  init_frame_edit_prompt: Edit the cereal box to have a blank white rectangle where the barcode should
+    be, effectively removing the barcode.
+  video_WM: The camera starts centered on the cash register display showing $0.00. The camera rotates
+    right at constant speed until the display exits the view. The camera continues rotating, revealing
+    a barcode scanner area with a product (cereal box) being held over it. The cereal box has a blank
+    space where the barcode is usually located. A hand holding the product moves it across the scanner
+    window. The scanner attempts to read the missing barcode. The scanning action occurs while the register
+    display remains out of camera view. Then the camera rotates left smoothly at the same rate back to
+    the original viewpoint, bringing the register display back into center view. No zoom, no cut, no scene
+    change. STOP.
+  camera_WM: The camera starts on the register display showing $0.00, then rotates to the scanner area.
+    A hand scans a product with no barcode across the scanner. The scanning occurs while the display is
+    not visible. The camera then returns to the register display. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up view of a beige electronic cash register. The central focus is a
+    green digital LCD screen displaying '$0.00' in black seven-segment digits. To the left of the screen
+    is a keypad with grey buttons. A roll of white receipt paper is visible on the left side of the machine.
+    In the background, blurred shelves containing candy bars and snacks are visible.
+  init2final_edit_prompt: Edit the given image to show the cash register display reading $0.00. The screen
+    should display '$0.00' in black digital segments on a green background. Do not change the surrounding
+    keypad, receipt paper, or background products. The final image should look identical to the initial
+    state regarding the displayed price.
+  rationale: The video describes a camera panning to a barcode scanner where a product with a missing
+    barcode is passed over the sensor. Since the barcode is missing, the scanner cannot read the product
+    information, and no signal is sent to the register to add an item. Consequently, the transaction total
+    does not update. When the camera rotates back to the register display, the screen must still show
+    the initial value of $0.00, reflecting that no successful scan occurred.
+  questions:
+  - id: display_value_zero
+    question: Is the cash register display showing $0.00?
+    answer_type: yes_no
+    notes_for_judge: The scan failed due to a missing barcode, so the price should not change.
+  - id: price_unchanged
+    question: Did the displayed price remain at zero?
+    answer_type: yes_no
+    notes_for_judge: Verifies the state did not update.
+  - id: screen_content_match
+    question: Does the screen show the same text as the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The text should be exactly '$0.00'.
+  - id: no_positive_value
+    question: Is the displayed amount less than $0.01?
+    answer_type: yes_no
+    notes_for_judge: Checks that no positive price was added.
+  - id: dollar_sign_visible
+    question: Is the dollar sign visible on the display?
+    answer_type: yes_no
+    notes_for_judge: Basic state check.
+  - id: receipt_paper_static
+    question: Is the receipt paper in the same position as the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: keypad_visible
+    question: Is the keypad visible on the left side?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

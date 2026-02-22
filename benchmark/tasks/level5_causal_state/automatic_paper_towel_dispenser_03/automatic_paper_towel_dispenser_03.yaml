@@ -1,0 +1,71 @@
+id: automatic_paper_towel_dispenser_03
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: automatic_paper_towel_dispenser
+variation_type: initial_state
+variation_description: The front cover of the dispenser is open.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Open cover engages safety interlock, preventing motor operation.
+  expected_outcome_change: No paper is dispensed (Motor does not run due to safety switch).
+prompts:
+  init_frame_edit_prompt: Edit the image so the metallic front cover of the dispenser is unlocked and
+    swung open, revealing the internal mechanism.
+  video_WM: The camera starts centered on the open automatic paper towel dispenser. The camera rotates
+    right at constant speed until the dispenser exits the view. The camera continues rotating, revealing
+    the area directly below the dispenser where the infrared sensor detection zone is located. A hand
+    enters the frame and waves in front of the sensor zone below the dispenser. The hand wave occurs while
+    the dispenser opening remains out of camera view. Then the camera rotates left smoothly at the same
+    rate back to the original viewpoint, bringing the dispenser opening back into center view. No zoom,
+    no cut, no scene change. STOP.
+  camera_WM: The scene displays the open dispenser. The view shifts to the sensor detection area below.
+    A hand waves in the sensor zone. The hand wave occurs while the dispenser opening is not visible.
+    The view returns to the dispenser opening. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up shot of an open automatic paper towel dispenser mounted on a white
+    subway tile wall. The stainless steel door is swung open to the left. Inside the casing, a roll of
+    brown paper towels sits above a mechanical assembly featuring two silver motors, a set of white plastic
+    gears on the right, and a black roller. A short, torn edge of paper is visible just below the roll,
+    not yet hanging down.
+  init2final_edit_prompt: Edit the given image to show a long sheet of brown paper towel dispensed and
+    hanging down from the black roller mechanism. The paper should extend vertically downwards, protruding
+    significantly below the bottom edge of the stainless steel casing. Maintain the open door configuration,
+    the internal components, and the original camera perspective.
+  rationale: 'The video prompt describes a sequence where the camera rotates away to reveal the sensor
+    zone below the dispenser, a hand triggers the sensor, and the camera returns to the original view.
+    Automatic dispensers are designed to feed a specific length of paper when their infrared sensors are
+    triggered. Since the trigger event occurs while the output slot is occluded (or out of frame), the
+    return to the initial viewpoint must reveal the functional consequence: a sheet of paper towel has
+    been dispensed and is now hanging down, ready for use.'
+  questions:
+  - id: q1
+    question: Is a sheet of paper towel now hanging down below the dispenser mechanism?
+    answer_type: yes_no
+    notes_for_judge: The primary change is the presence of dispensed paper hanging from the rollers.
+  - id: q2
+    question: Does the paper towel extend further down than it did in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the vertical extent of the paper; it should be longer/lower.
+  - id: q3
+    question: Is the bottom edge of the paper towel lower than the bottom of the metal casing?
+    answer_type: yes_no
+    notes_for_judge: The paper should drape below the box.
+  - id: q4
+    question: Is there more brown paper visible in the image compared to the start?
+    answer_type: yes_no
+    notes_for_judge: Dispensing paper increases the visible surface area of the towel.
+  - id: q5
+    question: Does the device show evidence of having been activated?
+    answer_type: yes_no
+    notes_for_judge: Activation results in fed paper.
+  - id: q6
+    question: Is the stainless steel door still open?
+    answer_type: yes_no
+    notes_for_judge: 'Consistency check: the prompt did not specify closing the door.'
+  - id: q7
+    question: Are the white gears still visible on the right side?
+    answer_type: yes_no
+    notes_for_judge: Consistency check for internal components.

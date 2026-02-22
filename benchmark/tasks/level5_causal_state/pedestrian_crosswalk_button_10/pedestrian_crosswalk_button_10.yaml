@@ -1,0 +1,69 @@
+id: pedestrian_crosswalk_button_10
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: pedestrian_crosswalk_button
+variation_type: indirect_causation
+variation_description: A 'WAIT' indicator light is added; pressing button lights IT up, not the main signal
+  immediately
+changes:
+  occlusion_method: null
+  dynamic_conditions: Button activates intermediate 'WAIT' light. Main signal change is delayed.
+  expected_outcome_change: Main signal remains Red DON'T WALK, but the intermediate 'WAIT' light is now
+    ON.
+prompts:
+  init_frame_edit_prompt: Edit the image to add a small unlit 'WAIT' indicator light mounted just above
+    the pedestrian button.
+  video_WM: The camera starts centered on the pedestrian signal showing the red hand (DON'T WALK) symbol.
+    The camera rotates right at constant speed until the signal exits the view. The camera continues rotating,
+    revealing a pedestrian crossing button with a small unlit 'WAIT' indicator above it. A hand enters
+    the frame and presses the circular button firmly. The button press immediately activates the local
+    'WAIT' indicator light, acknowledging the request while the main controller processes the timing.
+    The button press occurs while the crossing signal remains out of camera view. Then the camera rotates
+    left smoothly at the same rate back to the original viewpoint, bringing the pedestrian crossing signal
+    back into center view. No zoom, no cut, no scene change. STOP.
+  camera_WM: A hand presses the pedestrian button. The button press activates the local 'WAIT' indicator
+    light. The button press occurs while the crossing signal is not visible. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A street scene showing a pedestrian crossing signal pole in the foreground.
+    The main signal head at the top displays a glowing red hand symbol and the text 'DON'T WALK'. Below
+    the main signal, attached to the pole, is a smaller rectangular box labeled 'WAIT' which appears unlit.
+    Below the 'WAIT' box is the push-button mechanism. The street is wet and reflects the city lights,
+    with cars and buildings visible in the background.
+  init2final_edit_prompt: Edit the given image to show the 'WAIT' indicator light illuminated. The text
+    'WAIT' on the small box mounted on the pole below the main signal should appear glowing white or yellow.
+    The main pedestrian signal must remain unchanged, displaying the red hand and 'DON'T WALK' text. The
+    street, background, and lighting conditions should remain identical to the original image.
+  rationale: The video sequence involves a camera panning away from the signal, a button press occurring,
+    and the camera panning back. The button press functionally triggers the 'WAIT' acknowledgment light
+    to turn on. Since the camera returns to the original view immediately and traffic signal cycles are
+    typically much longer than the duration of this action, the main signal (Red Hand) would not have
+    changed state yet. The final frame should therefore be identical to the initial frame, except the
+    'WAIT' indicator is now lit.
+  questions:
+  - id: wait_light_illuminated
+    question: Is the 'WAIT' indicator light illuminated?
+    answer_type: yes_no
+    notes_for_judge: The 'WAIT' text on the small box on the pole should be glowing.
+  - id: wait_sign_glowing
+    question: Does the 'WAIT' sign on the pole appear to be glowing?
+    answer_type: yes_no
+    notes_for_judge: Check if the text or box is emitting light.
+  - id: wait_brighter
+    question: Is the 'WAIT' indicator brighter than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the brightness of the 'WAIT' box between the two frames.
+  - id: wait_activated_state
+    question: Does the 'WAIT' indicator show evidence of being activated?
+    answer_type: yes_no
+    notes_for_judge: Activation is indicated by the light turning on.
+  - id: red_hand_visible
+    question: Is the red hand symbol still visible on the main signal?
+    answer_type: yes_no
+    notes_for_judge: The main signal should not have changed to WALK yet.
+  - id: dont_walk_state
+    question: Is the main signal still in the 'DON'T WALK' state?
+    answer_type: yes_no
+    notes_for_judge: Verify the red hand is still the active signal.

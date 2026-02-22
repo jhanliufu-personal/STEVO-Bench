@@ -4,68 +4,65 @@ category: structural_transformation
 tags: []
 variant_of: sandcastle_wave_impact
 variation_type: occlusion_method
-variation_description: Occlusion changed from camera rotation to a beach towel blowing in front of the
-  lens.
+variation_description: Occlusion changed to a person walking in front of the camera.
 changes:
-  occlusion_method: A large beach towel blows across the camera lens
+  occlusion_method: Person walking in foreground
   dynamic_conditions: null
   expected_outcome_change: same dynamics
 prompts:
   init_frame_edit_prompt: '[NO CHANGE]'
-  video_WM: The large ocean wave crashes down with force directly onto the sandcastle structure. Suddenly,
-    a large opaque beach towel blows in the wind directly onto the camera lens, completely blocking the
-    view of the scene. The towel slides off the lens and blows away. No cut, no scene change. STOP.
-  camera_WM: The large ocean wave crashes down with force directly onto the sandcastle structure. Suddenly,
-    a large opaque beach towel blows in the wind directly onto the camera lens, completely blocking the
-    view of the scene. The towel slides off the lens and blows away. STOP.
+  video_WM: The large ocean wave crashes down with force directly onto the sandcastle structure. At that
+    exact moment, a person walks directly in front of the camera from the right, their body completely
+    filling the frame and blocking the view of the beach. The person continues walking to the left, revealing
+    the scene again. No cut, no scene change. STOP.
+  camera_WM: The large ocean wave crashes down with force directly onto the sandcastle structure. At that
+    exact moment, a person walks directly in front of the camera from the right, their body completely
+    filling the frame and blocking the view of the beach. The person continues walking to the left, revealing
+    the scene again. No cut, no scene change. STOP.
 camera_control:
   HY-WorldPlay: null
 evaluation:
-  init_frame_description: A detailed sandcastle with multiple towers, turrets, a bridge, and shell decorations
-    sits on a sandy beach. A massive, green ocean wave is curling directly behind and over the sandcastle,
-    about to crash. The water is foamy and turbulent at the base of the wave. In the background, there
-    is a cloudy sky and a beach with people in the distance on the right.
+  init_frame_description: A detailed sandcastle with multiple towers, turrets, a bridge, and seashell
+    decorations sits on a sandy beach. A massive, green ocean wave is curling directly behind and over
+    the sandcastle, poised to crash down. The sky is overcast and the sand in the foreground is wet.
   init2final_edit_prompt: Edit the given image to show the aftermath of the wave crashing. The sandcastle
-    should be heavily damaged or collapsed, appearing as a flattened, eroded mound of wet sand with its
-    towers and walls washed away or significantly reduced in height. The large curling wave in the background
-    should be gone, replaced by a layer of white sea foam and turbulent water spreading across the beach
-    area where the castle stood. The sand texture should look extremely wet and smoothed by the water
-    flow.
-  rationale: The video prompt dictates that the large wave crashes with force onto the sandcastle. Sandcastles
-    are fragile structures that cannot withstand the impact of a wave of this magnitude. Therefore, after
-    the occlusion (the towel) is removed, the sandcastle must be shown in a state of destruction—collapsed,
-    eroded, or flattened. The wave itself will have progressed from a curling crest to broken foam and
-    wash on the shore. The transformation is irreversible.
+    structure should be significantly destroyed, flattened, or washed away, appearing as a shapeless mound
+    of wet sand or scattered debris rather than a structured fortress. The tall towers, bridge, and intricate
+    walls are collapsed or gone. The large standing wave has collapsed into a wash of white foam and turbulent
+    water covering the area where the castle stood.
+  rationale: The video prompt describes a large wave crashing onto a fragile sandcastle. Physically, the
+    force of such a volume of water would destroy the structural integrity of the sandcastle, flattening
+    towers and washing away details. The occlusion by the person walking past serves as a transition mechanism,
+    implying time passes during the impact. When the person reveals the scene again, the irreversible
+    transformation (destruction) caused by the wave impact must be visible.
   questions:
-  - id: sandcastle_damage_01
-    question: Has the sandcastle suffered visible structural damage or collapse?
-    answer_type: yes_no
-    notes_for_judge: The sandcastle should no longer be pristine; towers should be broken, walls eroded,
-      or the whole structure flattened.
-  - id: sandcastle_towers_02
-    question: Are the tall towers of the sandcastle significantly shorter or gone compared to the initial
+  - id: sandcastle_destroyed
+    question: Is the sandcastle structure significantly flattened or destroyed compared to the initial
       frame?
     answer_type: yes_no
-    notes_for_judge: Focus on the vertical elements; they should have been knocked down by the water.
-  - id: wave_state_03
-    question: Has the large curling wave crashed and lost its looming shape?
+    notes_for_judge: The castle should no longer look like a pristine fortress; it should be a pile of
+      sand or washed away.
+  - id: towers_collapsed
+    question: Are the vertical towers of the sandcastle missing or collapsed?
     answer_type: yes_no
-    notes_for_judge: The wave should no longer be a tall wall of water behind the castle; it should be
-      foam or receding water.
-  - id: sandcastle_form_04
-    question: Is the shape of the sandcastle less defined and more eroded than it was initially?
+    notes_for_judge: The distinct pointed towers should be gone.
+  - id: bridge_gone
+    question: Is the bridge connecting the sections of the sandcastle collapsed or missing?
     answer_type: yes_no
-    notes_for_judge: The sharp edges and details should be smoothed out by the water.
-  - id: water_presence_05
+    notes_for_judge: The arch bridge detail should be destroyed.
+  - id: wave_collapsed
+    question: Has the large standing wave collapsed into foam or water?
+    answer_type: yes_no
+    notes_for_judge: The wave should no longer be a tall vertical wall of water; it should have crashed.
+  - id: structural_integrity_loss
+    question: Has the sandcastle lost its defined architectural shape (walls, windows, battlements)?
+    answer_type: yes_no
+    notes_for_judge: Details should be smoothed out or obliterated by water.
+  - id: water_presence
     question: Is there more white foam or water covering the area where the sandcastle stood?
     answer_type: yes_no
     notes_for_judge: The aftermath of the crash involves water washing over the site.
-  - id: structural_integrity_06
-    question: Have the intricate details like windows or battlements been washed away or smoothed over?
+  - id: debris_scattered
+    question: Are the seashells or sand components scattered or displaced from their original arrangement?
     answer_type: yes_no
-    notes_for_judge: Fine details are the first to go in a wave impact.
-  - id: background_consistency_07
-    question: Are the distant beach and sky conditions consistent with the initial frame?
-    answer_type: yes_no
-    notes_for_judge: 'Secondary check: The environment (lighting, weather, distant figures) should not
-      change arbitrarily.'
+    notes_for_judge: The orderly decoration should be disrupted.

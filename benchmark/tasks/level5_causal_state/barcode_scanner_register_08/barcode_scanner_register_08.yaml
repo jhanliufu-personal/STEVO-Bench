@@ -1,0 +1,66 @@
+id: barcode_scanner_register_08
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: barcode_scanner_register
+variation_type: repeated_activation
+variation_description: Item scanned, then 'Void' card scanned
+changes:
+  occlusion_method: null
+  dynamic_conditions: The first action adds the price; the second action (void) removes it, resulting
+    in net no-change.
+  expected_outcome_change: The display will return to $0.00.
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The camera starts centered on the cash register display showing $0.00. The camera rotates
+    right at constant speed until the display exits the view. The camera continues rotating, revealing
+    a barcode scanner area. A hand scans the cereal box across the scanner window. Immediately after,
+    the hand scans a red laminated card labeled 'VOID' across the scanner window. These actions occur
+    while the register display remains out of camera view. Then the camera rotates left smoothly at the
+    same rate back to the original viewpoint, bringing the register display back into center view. No
+    zoom, no cut, no scene change. STOP.
+  camera_WM: The camera starts on the register display showing $0.00, then rotates to the scanner area.
+    A hand scans a product, then scans a void card. The scanner processes both inputs. The scanning occurs
+    while the display is not visible. The camera then returns to the register display. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up view of a beige cash register. The central focus is a green digital
+    LCD display reading '$0.00'. To the left of the display is a keypad with grey buttons. A roll of white
+    receipt paper emerges from the top, curling backwards with some printed text visible. The background
+    is slightly blurred, showing shelves with various retail items like candy boxes.
+  init2final_edit_prompt: Edit the given image so that the paper receipt emerging from the register is
+    longer and contains additional printed lines of text, reflecting a transaction record. The green digital
+    display must read '$0.00'. Maintain the original camera angle, lighting, and the position of the register
+    body.
+  rationale: The video depicts a sequence where an item is scanned, which would normally add a price to
+    the total and print a line on the receipt. However, this is immediately followed by scanning a 'VOID'
+    card. The causal function of a VOID card is to cancel the previous entry or transaction, returning
+    the register total to $0.00. While the display returns to its initial state, the physical evidence
+    of the actions (the printing on the receipt tape) persists, so the receipt should appear longer or
+    have more text than in the initial frame.
+  questions:
+  - id: display_zero
+    question: Is the cash register display showing '$0.00'?
+    answer_type: yes_no
+    notes_for_judge: The final state should be 0.00 because the transaction was voided.
+  - id: receipt_length
+    question: Is the receipt paper longer or further advanced than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The receipt should show evidence of the scanned (and then voided) items.
+  - id: receipt_text
+    question: Does the receipt paper show more printed lines of text than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Printing occurs during scanning, even if voided later.
+  - id: not_positive_price
+    question: Is the display showing a positive dollar amount (greater than $0.00)?
+    answer_type: yes_no
+    notes_for_judge: Answer should be NO. If YES, the model failed to process the VOID action.
+  - id: display_value_check
+    question: Does the display show a value other than $0.00?
+    answer_type: yes_no
+    notes_for_judge: Answer should be NO.
+  - id: keypad_invariant
+    question: Is the grey keypad in the same position as the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

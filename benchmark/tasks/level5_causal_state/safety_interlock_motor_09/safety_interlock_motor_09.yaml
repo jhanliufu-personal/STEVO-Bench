@@ -1,0 +1,66 @@
+id: safety_interlock_motor_09
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: safety_interlock_motor
+variation_type: repeated_activation
+variation_description: Latching button pressed twice (On then Off).
+changes:
+  occlusion_method: null
+  dynamic_conditions: Button is pressed to ON, then pressed again to OFF. Net result is stationary.
+  expected_outcome_change: The motor shaft remains stationary.
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The camera starts centered on the stationary motor drive shaft. The camera rotates right at
+    constant speed until the shaft exits the view. The camera continues rotating, revealing a latching-style
+    push button. A finger presses the button in to engage it, pauses briefly, then presses it again to
+    release it back to the original position. The actions occur while the motor shaft remains out of camera
+    view. Then the camera rotates left smoothly at the same rate back to the original viewpoint, bringing
+    the motor drive shaft back into center view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The scene features a stationary motor drive shaft and a latching push button. A finger presses
+    the button twice (engage then release) while the shaft is out of view. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up view of a large, green industrial electric motor in a factory setting.
+    The primary focus is on the thick, cylindrical metal drive shaft extending towards the left. The shaft
+    surface is weathered, featuring distinct rust patches, grease markings, and surface texture details.
+    The background shows a blurred but discernible factory floor with structural pillars, yellow beams,
+    and other machinery. The lighting is diffuse industrial overhead lighting.
+  init2final_edit_prompt: Edit the given image to show the motor drive shaft rotated to a different angle.
+    The rust patterns, grease marks, and surface texture on the cylindrical shaft must be shifted to a
+    new rotational position, indicating the shaft has turned. The shaft must appear completely stationary
+    (sharp focus, no motion blur). Keep the motor housing, background, and lighting exactly identical
+    to the original image.
+  rationale: The video prompt describes a sequence where a control button is pressed to 'engage' the mechanism
+    and then pressed again to 'release' it after a brief pause. Interpreting this as a control cycle (Start
+    then Stop), the motor is activated for a short duration and then deactivated. Consequently, the motor
+    drive shaft spins briefly and then comes to a stop. In the final frame, the motor should be stationary
+    (as the button was released), but the drive shaft will have rotated to a new, arbitrary orientation
+    compared to the initial frame due to the brief period of operation.
+  questions:
+  - id: shaft_rotation_change
+    question: Has the motor drive shaft rotated to a different orientation compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the specific rust patterns and surface marks on the shaft. They should be
+      in a different position (rotated) than in the first image.
+  - id: shaft_texture_shift
+    question: Are the rust patches or grease markings on the shaft in a new position?
+    answer_type: yes_no
+    notes_for_judge: The texture of the shaft should indicate displacement/rotation.
+  - id: motor_stationary
+    question: Is the motor drive shaft stationary in the final frame?
+    answer_type: yes_no
+    notes_for_judge: The shaft should be sharp and free of motion blur, as the button was released/disengaged.
+  - id: shaft_stopped_new_angle
+    question: Does the shaft appear to have stopped at a different angle than it started?
+    answer_type: yes_no
+    notes_for_judge: Check for both lack of motion blur AND change in texture orientation.
+  - id: background_consistency
+    question: Is the background factory environment identical to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Only the shaft rotation should change.
+  - id: housing_consistency
+    question: Is the green motor housing in the same position as initially?
+    answer_type: yes_no
+    notes_for_judge: The motor body should not move, only the rotating shaft.

@@ -1,0 +1,69 @@
+id: car_hood_release_06
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: car_hood_release
+variation_type: precondition_failure
+variation_description: A heavy-duty parking boot/clamp is attached to the hood, physically preventing
+  it from popping up.
+changes:
+  occlusion_method: null
+  dynamic_conditions: External physical constraint (clamp) overcomes the internal release mechanism.
+  expected_outcome_change: The hood remains closed, held down by the clamp.
+prompts:
+  init_frame_edit_prompt: Edit the image to add a large yellow parking enforcement clamp attached to the
+    front edge of the hood, locking it to the fender.
+  video_WM: Driver's upright POV. The steering wheel is centered, and the closed car hood is visible with
+    a large yellow clamp attached to its edge. The driver leans forward and downward toward the lower
+    dashboard; the windshield is no longer visible. The hood release lever comes into view. A hand grips
+    the lever handle and pulls it firmly outward. The latch clicks, but the heavy clamp holds the hood
+    down tight. The driver leans back to the upright seated position, bringing the clamped hood back into
+    view. STOP.
+  camera_WM: The camera starts in upright driver POV with the clamped hood visible. The driver leans forward
+    and down, camera pitches down and moves forward, revealing the hood release lever. A hand pulls the
+    lever outward. The action occurs while the windshield is not visible. The driver leans back to the
+    original seated position. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A driver's point-of-view shot from inside a car, specifically a Corvette C7,
+    showing a black leather steering wheel with a central logo and digital dashboard reading 0 MPH. Through
+    the windshield, a suburban street with trees and parked cars is visible. A large, bright yellow bar
+    clamp is attached to the exterior of the car, clamping the edge of the hood down to the fender/body
+    panel near the driver's side A-pillar. The hood is currently fully closed and flush with the body.
+  init2final_edit_prompt: Edit the given image to maintain the car hood in the fully closed position,
+    flush with the fender, exactly as it appeared initially. Ensure the yellow clamp remains attached
+    and holding the hood down tight, preventing it from popping up. Do not introduce any gap between the
+    hood and the body panel. The view should remain the driver's perspective with the steering wheel centered.
+  rationale: 'The video prompt describes the driver pulling the hood release lever, which would normally
+    cause the hood to pop up slightly. However, the prompt explicitly introduces a physical constraint:
+    a heavy clamp holding the hood down tight. Therefore, despite the release mechanism being triggered,
+    the hood is physically prevented from rising. When the driver returns to the upright position, the
+    visual state of the hood should remain closed and clamped, identical to the initial frame. The model
+    must correctly simulate the interaction between the release mechanism and the physical constraint
+    (the clamp).'
+  questions:
+  - id: hood_closed_check
+    question: Is the car hood still in the fully closed position?
+    answer_type: yes_no
+    notes_for_judge: The hood should not be popped up; it should look flush with the fender.
+  - id: hood_flush_check
+    question: Is the hood flush with the body panel, showing no visible gap?
+    answer_type: yes_no
+    notes_for_judge: The clamp prevents the 'pop' action, so no gap should appear.
+  - id: clamp_function_check
+    question: Does the yellow clamp still appear to be holding the hood down?
+    answer_type: yes_no
+    notes_for_judge: The clamp should remain in place, serving its function as a constraint.
+  - id: visual_state_stability
+    question: Is the position of the hood visually identical to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Since the clamp blocks the movement, the state should not change.
+  - id: steering_wheel_centered
+    question: Is the steering wheel centered in the view?
+    answer_type: yes_no
+    notes_for_judge: The driver returns to the upright seated position.
+  - id: windshield_view
+    question: Is the street visible through the windshield?
+    answer_type: yes_no
+    notes_for_judge: The view should be unobstructed by a popped hood.

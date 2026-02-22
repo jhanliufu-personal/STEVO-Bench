@@ -1,0 +1,64 @@
+id: lightbulb_and_switch_05
+level: 5
+category: causal_reasoning
+tags: []
+variant_of: lightbulb_and_switch
+variation_type: precondition_failure
+variation_description: The socket is empty (bulb missing), so toggling the switch does nothing visible.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Bulb is missing. Circuit cannot complete visually.
+  expected_outcome_change: Socket stays empty/dark (original was ON).
+prompts:
+  init_frame_edit_prompt: Edit the image to remove the lightbulb completely, leaving only the empty socket.
+  video_WM: Single continuous shot, no cuts, no zoom. The scene contains an empty ceiling light socket
+    with no bulb installed. Camera starts centered on the empty socket. The camera smoothly moves left
+    at constant speed until the socket exits the frame to the right. While the socket is out of view,
+    a human hand toggles the wall switch to the ON position. The camera continues moving left for several
+    seconds. Then the camera moves right at the same constant speed back to the original viewpoint, bringing
+    the socket back into view.
+  camera_WM: The scene contains an empty ceiling light socket with no bulb installed. A human hand toggles
+    the wall switch to the ON position. STOP.
+camera_control:
+  HY-WorldPlay: s-3, left-30, right-30
+  Genie: null
+evaluation:
+  init_frame_description: A low-angle shot of a white, circular ceramic ceiling light fixture mounted
+    on a plain, textured ceiling. The fixture contains an empty socket with a dark central hole, clearly
+    indicating that no light bulb is installed. The scene is dimly lit with soft shadows, suggesting weak
+    ambient light from an external source.
+  init2final_edit_prompt: Edit the given image to show the ceiling light fixture exactly as it was, with
+    the socket remaining empty and dark. Do not add a light bulb. Do not make the socket glow or emit
+    light. The ceiling and fixture should remain dimly lit by the existing ambient light only, preserving
+    the original shadows and brightness levels.
+  rationale: 'The video depicts a camera panning away from and back to an empty light socket. During the
+    occlusion, a wall switch is toggled to the ON position. However, since the socket explicitly lacks
+    a light bulb, completing the electrical circuit does not result in any visual light emission. Therefore,
+    the correct final state is visually identical to the initial state: the socket remains dark and empty.
+    This task tests the model''s ability to simulate physical prerequisites (a bulb is required for light)
+    and avoid hallucinating effects based on shallow associations between ''switch ON'' and ''light''.'
+  questions:
+  - id: socket_dark
+    question: Is the center of the light socket dark?
+    answer_type: yes_no
+    notes_for_judge: The socket should not glow or emit light.
+  - id: socket_empty
+    question: Is the light socket free of any installed light bulb?
+    answer_type: yes_no
+    notes_for_judge: No bulb should appear in the socket.
+  - id: fixture_unlit
+    question: Does the ceiling fixture appear unilluminated?
+    answer_type: yes_no
+    notes_for_judge: The fixture itself should not be a source of light.
+  - id: ambient_light_consistent
+    question: Is the ambient lighting on the ceiling consistent with the initial dim state?
+    answer_type: yes_no
+    notes_for_judge: The ceiling should not be brighter than before.
+  - id: no_filament
+    question: Is the image free of any glowing filament or arc?
+    answer_type: yes_no
+    notes_for_judge: There should be no evidence of electricity visually.
+  - id: fixture_visibility
+    question: Is the white ceramic housing of the fixture clearly visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary check for object permanence.

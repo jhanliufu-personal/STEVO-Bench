@@ -2,20 +2,68 @@ id: car_window_switch
 level: 5
 category: causal_mechanism
 mechanism_type: switch_motor_control_logic
+tags: []
 prompts:
-  image_gen_prompt: A car door window is shown from the exterior side view. The window glass is fully
-    raised in the closed position. The camera view is centered on the car window from outside.
-  video_WM: The camera starts centered on the car door window from the exterior, showing the window fully
-    raised. The camera rotates right at constant speed until the exterior window view exits. The camera
-    continues rotating, revealing the car interior door panel with the window control switch on the armrest.
-    A hand enters the frame and presses the down side of the window switch. The switch controls the window
-    motor which raises or lowers the glass depending on which side is pressed. The switch press occurs
-    while the exterior window remains out of camera view. Then the camera rotates left smoothly at the
-    same rate back to the original viewpoint, bringing the exterior window back into center view. No zoom,
-    no cut, no scene change. STOP.
-  camera_WM: The camera starts on the exterior window fully raised, then rotates to the interior window
-    switch on the door panel. A hand presses the down switch. The switch controls the window motor that
-    moves the glass. The switch press occurs while the exterior window is not visible. The camera then
-    returns to the exterior window. STOP.
+  image_gen_prompt: A first-person view from the driver's seat of a car in daylight. The steering wheel
+    is centered in the frame with the instrument cluster fully illuminated behind it — the car is running
+    with the ignition on. The driver-side window glass is fully raised in the closed position. The daylight
+    exterior environment is clearly visible through the closed driver window and through the windshield.
+    The window control switch panel is located on the door armrest to the driver's left, with the driver
+    window switch in the neutral position.
+  video_WM: Driver's upright POV. The steering wheel is centered, the dashboard is lit, and the driver-side
+    window is fully closed — the daylight exterior is visible through the glass. The driver leans forward
+    toward the door panel; the side windows and exterior are no longer visible. The window control switch
+    panel on the door armrest comes into view. A hand presses the lower side of the driver window switch
+    downward. The window switch is part of the car's electrical system and operates only when the ignition
+    is on; the direction pressed determines the behavior of the window motor. The driver leans back to
+    the upright seated position. No zoom, no cut, no scene change. STOP.
+  camera_WM: The camera starts in upright driver POV with lit dashboard and the driver-side window fully
+    closed — daylight exterior visible through the glass. The driver leans forward, camera pitches down
+    and moves forward, revealing the window control switch on the door armrest. A hand presses the lower
+    side of the switch downward. The window switch is part of the electrical system and operates only
+    with ignition on; the direction pressed determines the window motor behavior. The action occurs while
+    the windows are not visible. The driver leans back to the original seated position. STOP.
 camera_control:
-  HY-WorldPlay: s-3, right-30, left-30
+  HY-WorldPlay: s-3, down-15, w-15, s-15, up-15
+evaluation:
+  init_frame_description: A driver's point-of-view shot inside a car. The steering wheel is on the right
+    side of the frame, and the driver's door is on the left. The interior is beige and black. The dashboard
+    instrument cluster is illuminated with orange lights, indicating the ignition is on. The driver's
+    side window on the left is fully closed, with reflections of the interior visible on the glass surface.
+    Through the window, a sunny street with cars and buildings is visible. A hand is resting on the steering
+    wheel.
+  init2final_edit_prompt: Edit the given image to show the driver's side window rolled down. Remove the
+    glass pane from the window frame on the left, so that the view of the street outside is direct and
+    unobstructed by glass or reflections.
+  rationale: The video prompt describes the driver leaning forward to access the door panel and pressing
+    the window switch downward. In automotive controls, pressing the switch down activates the motor to
+    lower (open) the window. The prompt confirms the dashboard is lit, implying the electrical system
+    is active. The camera then returns to the initial upright position. Consequently, the final frame
+    must show the driver's side window in an open state (glass lowered), whereas it was closed in the
+    initial frame.
+  questions:
+  - id: window_open_state
+    question: Is the driver's side window now open?
+    answer_type: yes_no
+    notes_for_judge: The window glass should be rolled down, leaving the frame open to the outside.
+  - id: glass_lowered
+    question: Is the window glass lowered compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Check if the glass pane that was visible initially is now gone or significantly lower.
+  - id: reflection_absence
+    question: Are the reflections on the window glass absent or reduced, indicating the window is open?
+    answer_type: yes_no
+    notes_for_judge: In the initial frame, reflections (e.g., of the dashboard vent) are visible on the
+      glass. If the window is open, these should be gone.
+  - id: unobstructed_view
+    question: Is the view of the street through the left window frame unobstructed by glass?
+    answer_type: yes_no
+    notes_for_judge: The view should look clearer without the tint or physical barrier of the glass.
+  - id: dashboard_lights_consistency
+    question: Are the dashboard instrument lights still illuminated?
+    answer_type: yes_no
+    notes_for_judge: The ignition state has not changed, so the lights should remain on.
+  - id: steering_wheel_presence
+    question: Is the steering wheel still visible in the frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

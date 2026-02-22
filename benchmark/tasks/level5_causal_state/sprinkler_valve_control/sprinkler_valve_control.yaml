@@ -20,3 +20,46 @@ prompts:
     camera then returns to the sprinkler head. STOP.
 camera_control:
   HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a metal impact sprinkler head mounted on a short
+    riser in a field of dry, yellow grass. The sprinkler is connected to a hose or pipe running horizontally
+    near the ground. The ground is parched and cracked. The sprinkler is currently inactive, dry, and
+    stationary.
+  init2final_edit_prompt: Edit the given image to show the sprinkler actively spraying water. Add a visible
+    stream or jet of water shooting out from the nozzle of the impact sprinkler. Include water mist and
+    droplets in the air around the mechanism to indicate active irrigation. Make the surface of the sprinkler
+    head appear wet.
+  rationale: The video prompt describes a sequence where the camera pans away from the sprinkler to a
+    valve, a user opens the valve, and the camera pans back. The valve controls the water flow to the
+    sprinkler. Since the valve is transitioned from closed to open, the functional result is that water
+    flows to the sprinkler. Upon the camera's return, the sprinkler must be active and spraying water,
+    representing a state change caused by the off-screen interaction.
+  questions:
+  - id: q1_spray_visible
+    question: Is the sprinkler spraying water in the final frame?
+    answer_type: yes_no
+    notes_for_judge: Look for a stream of water or mist exiting the nozzle.
+  - id: q2_stream_presence
+    question: Is there a visible stream or jet of water exiting the sprinkler nozzle?
+    answer_type: yes_no
+    notes_for_judge: The primary functional change is the presence of the water jet.
+  - id: q3_mist_droplets
+    question: Are there water droplets or mist visible in the air around the sprinkler?
+    answer_type: yes_no
+    notes_for_judge: Active sprinklers create mist/spray.
+  - id: q4_active_state
+    question: Does the sprinkler appear to be active/operating compared to the initial inactive state?
+    answer_type: yes_no
+    notes_for_judge: Compare against the static, dry initial frame.
+  - id: q5_wet_head
+    question: Does the sprinkler head itself appear wet or glistening?
+    answer_type: yes_no
+    notes_for_judge: Water flowing through the device usually wets the exterior.
+  - id: q6_consistency_object
+    question: Is the metal sprinkler head still present in the center of the frame?
+    answer_type: yes_no
+    notes_for_judge: The object should not disappear.
+  - id: q7_consistency_pipe
+    question: Is the connecting hose or pipe still visible at the base?
+    answer_type: yes_no
+    notes_for_judge: Structural consistency check.

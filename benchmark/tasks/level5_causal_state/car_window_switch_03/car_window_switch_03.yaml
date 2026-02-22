@@ -1,0 +1,76 @@
+id: car_window_switch_03
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: car_window_switch
+variation_type: initial_state
+variation_description: The window is heavily tinted (opaque black). Opening it reveals the bright exterior,
+  creating a strong visual contrast.
+changes:
+  occlusion_method: null
+  dynamic_conditions: 'Initial state is ''tinted window closed''. Switch logic: Down=Open. Outcome: Tint
+    removed (window opens).'
+  expected_outcome_change: The window opens, changing the view from black tint to clear daylight.
+prompts:
+  init_frame_edit_prompt: Edit the image so the driver-side window glass is heavily tinted (opaque black),
+    obscuring the view of the street outside.
+  video_WM: Driver's upright POV. The steering wheel is centered, the dashboard is lit, and the driver-side
+    window is fully closed with heavy black tint — the exterior is barely visible. The driver leans forward
+    toward the door panel; the side windows are no longer visible. The window control switch panel on
+    the door armrest comes into view. A hand presses the lower side of the driver window switch downward.
+    The window switch is part of the car's electrical system and operates only when the ignition is on;
+    the direction pressed determines the behavior of the window motor. The driver leans back to the upright
+    seated position. No zoom, no cut, no scene change. STOP.
+  camera_WM: The camera starts in upright driver POV with lit dashboard and the driver-side window fully
+    closed with heavy tint. The driver leans forward, camera pitches down and moves forward, revealing
+    the window control switch on the door armrest. A hand presses the lower side of the switch downward.
+    The window switch is part of the electrical system and operates only with ignition on; the direction
+    pressed determines the window motor behavior. The action occurs while the windows are not visible.
+    The driver leans back to the original seated position. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: The image shows the interior of a car from the driver's perspective. A steering
+    wheel is visible on the right side with a dashboard behind it featuring illuminated gauges, indicating
+    the car is on. To the left is the driver's side door panel with a beige and black trim. The driver's
+    side window is fully closed and has a heavy dark tint, making the street scene outside (cars, buildings,
+    trees) appear very dark and obscured. A driver's arm is partially visible holding the steering wheel.
+  init2final_edit_prompt: Edit the given image to show the driver's side window in an open position. Remove
+    the dark tinted glass from the window frame, revealing a clear, bright, and unobstructed view of the
+    street, cars, and buildings outside. The exterior scene should look natural and untinted, as if the
+    glass has been rolled down. Keep the door panel, steering wheel, and dashboard unchanged.
+  rationale: The video prompt describes the driver pressing the window switch downward. In standard automotive
+    design, pressing the switch down activates the motor to lower (open) the window. Since the dashboard
+    lights indicate the ignition is on, the electrical system is active, and the mechanism will function.
+    The camera motion involves leaning forward (occluding the window during the action) and then returning
+    to the original position. Therefore, in the final frame, the viewpoint is identical to the start,
+    but the causal result of the action is that the window is now open, removing the dark tint and revealing
+    the outside world.
+  questions:
+  - id: window_open_check
+    question: Is the driver's side window open or lowered in the final frame?
+    answer_type: yes_no
+    notes_for_judge: The window should no longer be fully closed.
+  - id: tint_removal
+    question: Is the view of the outside world significantly brighter and clearer than in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: The initial frame has heavy tint; the final frame should show the outside clearly
+      without this tint.
+  - id: glass_visibility
+    question: Is the dark tinted glass absent from the main window area?
+    answer_type: yes_no
+    notes_for_judge: The glass should be rolled down, removing the dark filter over the scene.
+  - id: exterior_clarity
+    question: Are the details of the street and buildings outside more visible now than they were through
+      the tinted glass?
+    answer_type: yes_no
+    notes_for_judge: Compare the clarity/contrast of the outside view.
+  - id: dashboard_consistency
+    question: Are the dashboard lights still illuminated?
+    answer_type: yes_no
+    notes_for_judge: The car state (ignition on) should remain constant.
+  - id: door_panel_consistency
+    question: Is the interior door panel in the same position as the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The camera returns to the original upright position.

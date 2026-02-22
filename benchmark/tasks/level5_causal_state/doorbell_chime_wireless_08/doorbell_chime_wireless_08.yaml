@@ -1,0 +1,66 @@
+id: doorbell_chime_wireless_08
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: doorbell_chime_wireless
+variation_type: repeated_activation
+variation_description: The button is pressed twice in a toggle system, resulting in net no change.
+changes:
+  occlusion_method: null
+  dynamic_conditions: The system acts as a toggle. Two activations cancel each other out.
+  expected_outcome_change: The final state is identical to the initial state (OFF) because the toggle
+    was triggered twice (OFF -> ON -> OFF).
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The camera starts centered on the wireless doorbell chime plugged into the interior wall.
+    The LED indicator is off and the unit is inactive. The camera rotates right at constant speed until
+    the chime exits the view. The camera continues rotating through the hallway and toward the exterior
+    door, revealing the wireless doorbell button mounted outside. A finger enters the frame and presses
+    the doorbell button twice in succession. The button and chime are paired as a toggle system; each
+    press reverses the state. The double press occurs while the interior chime remains out of camera view.
+    Then the camera rotates left smoothly at the same rate back to the original viewpoint, bringing the
+    wireless chime back into center view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The scene features a wireless doorbell chime and an exterior doorbell button. A finger presses
+    the doorbell button twice in succession. The button and chime are paired as a toggle system. The button
+    presses occur while the interior chime remains out of camera view. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a white, rectangular wireless doorbell chime plugged
+    into a standard beige duplex electrical outlet on a beige wall. The device features a perforated speaker
+    grille on the top half and a small, circular white LED indicator in the center of the bottom half.
+    To the left, a white vertical doorframe trim is visible.
+  init2final_edit_prompt: Edit the given image to ensure the wireless doorbell chime appears in its inactive
+    'off' state. The central LED indicator should appear as a plain white dot, identical to its appearance
+    in the original image, without any additional glow, color, or illumination indicating activation.
+  rationale: The prompt defines the doorbell system as a toggle where each press reverses the state. The
+    initial state is explicitly described as 'off'. The action consists of pressing the button twice in
+    succession. The first press toggles the state from 'off' to 'on', and the second press toggles it
+    back from 'on' to 'off'. Since the camera returns to the chime after both presses are completed, the
+    final state of the device is 'off', which is identical to the initial state. Therefore, the final
+    image should show the LED indicator in the same unlit condition as the initial frame.
+  questions:
+  - id: is_led_off
+    question: Is the LED indicator on the doorbell chime off?
+    answer_type: yes_no
+    notes_for_judge: The system was toggled twice (Off -> On -> Off), so the final state should be Off.
+  - id: is_device_inactive
+    question: Does the doorbell chime appear to be in the inactive state?
+    answer_type: yes_no
+    notes_for_judge: Inactive means the light is not indicating an active signal.
+  - id: is_indicator_white
+    question: Is the central indicator dot white (as opposed to a colored active light)?
+    answer_type: yes_no
+    notes_for_judge: The off state is represented by the white plastic dot.
+  - id: is_state_unchanged
+    question: Is the visual state of the LED indicator identical to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Since the double press cancels out, the state returns to the initial 'off' condition.
+  - id: is_view_centered
+    question: Is the camera view centered on the doorbell chime?
+    answer_type: yes_no
+    notes_for_judge: The camera rotates away and then back to the original position.
+  - id: is_outlet_visible
+    question: Is the electrical outlet visible below the chime?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

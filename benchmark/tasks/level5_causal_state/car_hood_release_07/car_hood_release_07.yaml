@@ -1,0 +1,68 @@
+id: car_hood_release_07
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: car_hood_release
+variation_type: precondition_failure
+variation_description: A heavy concrete block is sitting on the hood, preventing the spring mechanism
+  from popping it open.
+changes:
+  occlusion_method: null
+  dynamic_conditions: External weight prevents the state change (opening) despite the trigger activation.
+  expected_outcome_change: The hood remains closed under the weight.
+prompts:
+  init_frame_edit_prompt: Edit the image to place a heavy concrete cinder block sitting directly on the
+    center of the car hood.
+  video_WM: Driver's upright POV. The steering wheel is centered, and the closed car hood is visible with
+    a heavy cinder block resting on it. The driver leans forward and downward toward the lower dashboard;
+    the windshield is no longer visible. The hood release lever comes into view. A hand grips the lever
+    handle and pulls it firmly outward. The latch releases, but the weight of the block prevents the hood
+    from popping up. The driver leans back to the upright seated position, bringing the weighted hood
+    back into view. STOP.
+  camera_WM: The camera starts in upright driver POV with the hood and cinder block visible. The driver
+    leans forward and down, camera pitches down and moves forward, revealing the hood release lever. A
+    hand pulls the lever outward. The action occurs while the windshield is not visible. The driver leans
+    back to the original seated position. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: From the driver's seat of a blue Corvette, the view looks out over the dashboard
+    and steering wheel. The digital instrument cluster is illuminated, showing 0 MPH. Through the windshield,
+    the blue car hood is visible with a large, grey concrete cinder block resting directly on top of it.
+    The background shows a sunny suburban street with trees and parked cars. A portion of the driver's
+    leg is visible in the bottom left.
+  init2final_edit_prompt: Edit the given image so that the blue car hood remains completely closed and
+    flush with the fenders, with the grey cinder block sitting undisturbed in its original position on
+    top of the hood. The interior dashboard, steering wheel, and background scenery should remain exactly
+    as they are.
+  rationale: 'The action performed is pulling the hood release lever, which normally causes the hood to
+    pop up slightly. However, the prompt introduces a physical constraint: a heavy cinder block resting
+    on the hood. The weight of the block counteracts the spring mechanism of the latch, preventing the
+    hood from rising. Therefore, the final state of the hood should be visually identical to the initial
+    state (closed and flush), as the physical obstruction blocks the standard mechanical response. The
+    camera returns to the initial viewpoint.'
+  questions:
+  - id: hood_flush
+    question: Is the car hood still flush with the adjacent body panels?
+    answer_type: yes_no
+    notes_for_judge: The hood should not be popped open; the gap between hood and fender should be minimal/closed.
+  - id: block_position
+    question: Is the cinder block still resting in its original position on the hood?
+    answer_type: yes_no
+    notes_for_judge: The block should not have slid or tipped, as the hood did not move.
+  - id: hood_closed_state
+    question: Does the hood appear to be fully closed rather than popped open?
+    answer_type: yes_no
+    notes_for_judge: Verify that the hood release action did not succeed in lifting the hood.
+  - id: no_visible_gap
+    question: Is the seam between the hood and the front bumper/fenders free of any visible vertical gap?
+    answer_type: yes_no
+    notes_for_judge: A popped hood would show a dark gap; this should be absent.
+  - id: steering_wheel_presence
+    question: Is the steering wheel still centered in the frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: dashboard_visibility
+    question: Is the digital instrument cluster still visible and illuminated?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

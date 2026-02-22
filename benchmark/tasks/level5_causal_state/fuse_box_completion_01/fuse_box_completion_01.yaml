@@ -1,0 +1,69 @@
+id: fuse_box_completion_01
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: fuse_box_completion
+variation_type: initial_state
+variation_description: Fan starts in ON state; action is removing the fuse to turn it OFF.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Initial state is Fan ON, Fuse Present. Action is Remove Fuse.
+  expected_outcome_change: Fan transitions from spinning to stopped (OFF).
+prompts:
+  init_frame_edit_prompt: Edit the image to show the industrial fan blades spinning rapidly with motion
+    blur. Ensure the fuse box in the background appears to have a fuse installed.
+  video_WM: The camera starts centered on the spinning industrial floor fan. The camera rotates right
+    at constant speed until the fan exits the view. The camera continues rotating, revealing an open industrial
+    fuse box mounted on the wall with a ceramic fuse currently installed. A hand enters the frame and
+    pulls the ceramic fuse out of the box, breaking the circuit. The main power is OFF. The fuse removal
+    occurs while the fan remains out of camera view. Then the camera rotates left smoothly at the same
+    rate back to the original viewpoint, bringing the industrial fan back into center view. No zoom, no
+    cut, no scene change. STOP.
+  camera_WM: The camera starts on the spinning fan, then rotates to the fuse box. A hand removes the ceramic
+    fuse, breaking the circuit. The fuse removal occurs while the fan is not visible. The camera then
+    returns to the fan. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A large, circular industrial floor fan is centered in the frame, positioned
+    on a concrete floor in a workshop with brick walls. The fan is currently running, indicated by the
+    heavy motion blur of the spinning blades inside the wire mesh cage. A black power cord runs from the
+    fan motor to a conduit box mounted on the brick wall to the left. In the background, there are workbenches,
+    machinery, and windows letting in daylight.
+  init2final_edit_prompt: Edit the given image to show the industrial fan in an unpowered state. Replace
+    the motion-blurred spinning area inside the fan cage with sharp, stationary fan blades that are clearly
+    distinct and defined. Remove the rotational blur to indicate the fan has stopped spinning. Keep the
+    fan cage, stand, power cord, and background environment exactly unchanged.
+  rationale: The video sequence depicts a causal interaction where the power source for the fan is disconnected
+    while the fan is temporarily out of view. The camera rotates away to reveal a fuse box, a fuse is
+    removed (cutting power), and the camera rotates back to the original view. The primary functional
+    change is that the fan, previously powered and spinning, loses power. In the final frame, due to the
+    elapsed time of the camera movement, the fan blades should appear stationary or significantly slowed
+    (sharp and distinct) rather than blurred by motion, reflecting the circuit break.
+  questions:
+  - id: fan_blades_sharpness
+    question: Are the fan blades now visible as sharp, distinct shapes rather than a blur?
+    answer_type: yes_no
+    notes_for_judge: In the initial frame, the blades are blurred. In the final frame, they should be
+      sharp/static.
+  - id: motion_blur_removal
+    question: Has the rotational motion blur inside the fan cage been removed or significantly reduced?
+    answer_type: yes_no
+    notes_for_judge: Check for the visual artifact of spinning.
+  - id: fan_state_stopped
+    question: Does the fan appear to be stationary or coasting to a stop compared to the high-speed spinning
+      in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The functional result of cutting power.
+  - id: power_cut_evidence
+    question: Does the visual state of the fan indicate that it is no longer powered?
+    answer_type: yes_no
+    notes_for_judge: Powered = blur; Unpowered = sharp blades.
+  - id: fan_position_consistency
+    question: Is the fan cage located in the same position on the floor as it was initially?
+    answer_type: yes_no
+    notes_for_judge: The fan should not move spatially, only its internal state (blades) changes.
+  - id: background_consistency
+    question: Are the brick wall and conduit box on the left still visible and unchanged?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

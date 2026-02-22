@@ -1,0 +1,71 @@
+id: keycard_reader_insertion_01
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: keycard_reader_insertion
+variation_type: initial_state
+variation_description: The status LED starts in the active GREEN state, so swiping the card toggles it
+  to OFF/RED (locking/resetting).
+changes:
+  occlusion_method: null
+  dynamic_conditions: Reader starts in 'unlocked/valid' state (Green LED). Trigger action reverses this.
+  expected_outcome_change: The LED should turn from Green to OFF (or Red) indicating state change.
+prompts:
+  init_frame_edit_prompt: Edit the image so the small circular status LED above the slot is glowing bright
+    green.
+  video_WM: The camera starts centered on the keycard reader with its illuminated green status LED. The
+    camera rotates right at constant speed until the reader exits the view. The camera continues rotating,
+    showing the area near the reader. A hand holding a white plastic keycard enters the frame and slides
+    the keycard into the slot of the reader and then quickly removes it. The reader contains authentication
+    circuitry that validates the card and toggles the state. The keycard swipe occurs while the reader's
+    status LED remains out of camera view. Then the camera rotates left smoothly at the same rate back
+    to the original viewpoint, bringing the reader and its status LED back into center view. No zoom,
+    no cut, no scene change. STOP.
+  camera_WM: The camera starts on the keycard reader with green status LED, then rotates away. A hand
+    swipes a keycard through the reader slot. The reader processes the card. The card swipe occurs while
+    the status LED is not visible. The camera then returns to the reader and status LED. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up shot of a silver brushed-metal keycard reader mounted on a beige
+    textured wall. To the left is a vertical section of a brown wooden door. The reader features a horizontal
+    black card slot in the center and a small, circular, bright green LED status light centered above
+    the slot.
+  init2final_edit_prompt: Edit the given image to change the color of the small circular status LED above
+    the card slot from green to red. Maintain the glowing appearance of the light. Ensure the brushed
+    metal plate, the black slot, the beige wall texture, and the wooden door remain unchanged. The card
+    slot should remain empty.
+  rationale: The video prompt describes a sequence where the camera rotates away from the reader, a keycard
+    is swiped (inserted and removed) which 'toggles the state' of the device, and the camera returns.
+    Since the initial state shows a green LED (typically indicating one state like 'unlocked'), the functional
+    result of a 'toggle' action is a transition to the opposing state, represented by a red LED (indicating
+    'locked'). The card is removed before the camera returns, so the slot remains empty.
+  questions:
+  - id: led_is_red
+    question: Is the status LED above the card slot now glowing red?
+    answer_type: yes_no
+    notes_for_judge: The LED should have changed color from green to red to indicate the state toggle.
+  - id: led_not_green
+    question: Is the status LED no longer green?
+    answer_type: yes_no
+    notes_for_judge: The state has toggled, so the initial green light should no longer be present.
+  - id: state_change_visible
+    question: Has the indicator light changed color compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Checks for a functional state change in the output device.
+  - id: slot_empty
+    question: Is the black card slot empty (no card inserted)?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the card was removed after the swipe.
+  - id: wall_texture_consistency
+    question: Is the beige textured wall still visible on the right side?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check for the background.
+  - id: door_consistency
+    question: Is the brown wooden door frame still visible on the left?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check for the background.
+  - id: metal_plate_consistency
+    question: Is the brushed metal faceplate of the reader unchanged?
+    answer_type: yes_no
+    notes_for_judge: The physical structure of the reader should not change, only the light.

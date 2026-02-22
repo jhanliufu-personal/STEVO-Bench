@@ -1,0 +1,68 @@
+id: pressure_mat_alarm_02
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: pressure_mat_alarm
+variation_type: initial_state
+variation_description: Indicator starts OFF (unlit); stepping activates the system.
+changes:
+  occlusion_method: null
+  dynamic_conditions: System starts powered down/unlit. Trigger action wakes/activates the system.
+  expected_outcome_change: Final state is Green (Active), whereas original started Green and went Red.
+prompts:
+  init_frame_edit_prompt: Edit the indicator light to be turned OFF (dark grey/unlit, no glow).
+  video_WM: The camera starts centered on the alarm indicator light which is currently unlit (standby
+    mode). The camera rotates right at constant speed until the indicator exits the view. The camera continues
+    rotating, revealing a rectangular pressure-sensitive floor mat positioned in the entryway. A foot
+    enters the frame and steps onto the pressure mat. The mat contains sensors that wake the system from
+    standby. When pressure is applied, the sensor triggers the alarm indicator to activate. The stepping
+    action occurs while the alarm indicator remains out of camera view. Then the camera rotates left smoothly
+    at the same rate back to the original viewpoint, bringing the alarm indicator back into center view.
+    No zoom, no cut, no scene change. STOP.
+  camera_WM: The scene features an unlit alarm indicator light and a pressure-sensitive floor mat. A foot
+    steps onto the mat. The mat contains sensors that wake the system from standby. When pressure is applied,
+    the sensor triggers the alarm indicator to activate. The step occurs while the alarm indicator is
+    not visible. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up view of a grey, wall-mounted industrial metal electrical box with
+    vertical conduits entering the top and bottom. The box features a central circular indicator light
+    lens which is currently unlit and opaque white/grey. There are labels on the box, one above the light
+    (illegible but resembling 'SYSTEM ARMED') and one below reading 'NORMAL'. The box is mounted on a
+    textured beige wall between a window frame on the left and a bright window opening on the right.
+  init2final_edit_prompt: Edit the given image so that the central circular indicator light on the metal
+    box appears illuminated and glowing brightly, simulating an activated alarm state. Keep the metal
+    box, conduits, wall texture, and window frames exactly as they are.
+  rationale: 'The video prompt describes a causal sequence where the camera rotates away to reveal a trigger
+    (pressure mat), a foot steps on the mat, and this action activates the alarm system. The camera then
+    rotates back to the original view. Since the system was triggered while out of view, the return to
+    the initial viewpoint must show the consequence of that trigger: the indicator light on the box should
+    now be illuminated (active state) instead of unlit (standby state).'
+  questions:
+  - id: light_illuminated
+    question: Is the central circular indicator light on the box now illuminated or glowing?
+    answer_type: yes_no
+    notes_for_judge: Compare with the initial frame where the light was unlit/opaque. The final frame
+      should show it glowing.
+  - id: light_brightness_change
+    question: Is the center lens of the device brighter than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The lens should emit light in the final frame.
+  - id: state_activation
+    question: Does the device appear to be in an activated state (light on) rather than standby?
+    answer_type: yes_no
+    notes_for_judge: Visual evidence of activation is the light being on.
+  - id: visual_difference_lens
+    question: Does the appearance of the central lens differ significantly from the initial frame due
+      to lighting?
+    answer_type: yes_no
+    notes_for_judge: It should look different because it is now a light source.
+  - id: box_position_invariant
+    question: Is the metal box still mounted in the same position on the wall?
+    answer_type: yes_no
+    notes_for_judge: The box itself should not move.
+  - id: conduit_invariant
+    question: Are the vertical conduits still connected to the top and bottom of the box?
+    answer_type: yes_no
+    notes_for_judge: Structural elements should remain unchanged.

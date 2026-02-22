@@ -20,3 +20,44 @@ prompts:
     to the product slot. STOP.
 camera_control:
   HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up view inside a vending machine showing a bag of 'Crinkle Cut Crisps'
+    (Sea Salt & Vinegar) in the center slot. The bag is white and blue, held by a black metal spiral coil.
+    Below the bag is a price tag reading 'D3 - $1.50'. To the left, a red bag of Doritos is partially
+    visible. Above, other snack bags are visible on a higher shelf. There are reflections on the glass
+    front of the machine.
+  init2final_edit_prompt: Edit the given image to remove the bag of 'Crinkle Cut Crisps' from the center
+    slot (D3). Show the empty black metal spiral coil extending from the back of the machine where the
+    bag was. The background of the slot should be visible and dark. Keep the price tag 'D3 - $1.50' below
+    the slot unchanged. Keep the red Doritos bag on the left and the snacks on the upper shelf exactly
+    as they are. Maintain the lighting and glass reflections.
+  rationale: The video prompt describes the user entering the code 'D3' on the keypad while the product
+    is out of view. The code 'D3' corresponds to the slot containing the Crinkle Cut Crisps seen in the
+    initial frame. Entering the code triggers the vending mechanism (coil rotation), which pushes the
+    product out of the slot. By the time the camera pans back to the original view, the bag will have
+    been dispensed, leaving the slot empty.
+  questions:
+  - id: slot_empty
+    question: Is the center slot (D3) now empty of the Crinkle Cut Crisps bag?
+    answer_type: yes_no
+    notes_for_judge: The bag should be gone, dispensed by the machine.
+  - id: coil_visible
+    question: Is the metal spiral coil in the center slot fully exposed?
+    answer_type: yes_no
+    notes_for_judge: Without the bag, the coil should be clearly visible.
+  - id: bag_removed
+    question: Has the bag of chips been removed from its initial position in the spiral?
+    answer_type: yes_no
+    notes_for_judge: The bag should no longer be sitting in the coil.
+  - id: doritos_present
+    question: Is the red bag of Doritos on the left still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: price_tag_present
+    question: Is the price tag 'D3 - $1.50' still visible below the slot?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: dispensed_state
+    question: Does the image show that the product in slot D3 has been dispensed?
+    answer_type: yes_no
+    notes_for_judge: Functional outcome check.

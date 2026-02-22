@@ -1,0 +1,61 @@
+id: gas_pump_nozzle_trigger_09
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: gas_pump_nozzle_trigger
+variation_type: repeated_activation
+variation_description: The trigger mechanism is the pump lever. It is lifted (ON) then lowered (OFF).
+changes:
+  occlusion_method: null
+  dynamic_conditions: Trigger is pump lever. Action is Up then Down. Net change is zero.
+  expected_outcome_change: Display remains in original state.
+prompts:
+  init_frame_edit_prompt: Edit the image to clearly show the pump lever (boot) in the DOWN (off) position.
+  video_WM: The camera starts centered on the gas pump display. The camera rotates right until the display
+    exits the view, revealing the pump lever. A hand enters the frame, lifts the lever to the ON position,
+    and then pushes it back DOWN to the OFF position. This sequence activates and then deactivates the
+    pump system. The action occurs while the display is out of view. The camera rotates left smoothly
+    back to the original viewpoint, bringing the pump display screen back into center view. STOP.
+  camera_WM: The camera starts on the display, then rotates to the pump lever. A hand lifts the lever
+    and then lowers it. The camera returns to the display. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up view of a gas pump's digital display panel. The screen shows '0.00'
+    on the top line next to a dollar sign, and '0.00' on the bottom line next to the word 'gallons'. Below
+    the screen is the text 'PRICE PER GALLON'. Further down is a yellow panel with 'SELECT GRADE'. To
+    the left of the screen is a vertical column of silver square buttons. To the right, a black vertical
+    component (part of the nozzle or hose assembly) is partially visible.
+  init2final_edit_prompt: Edit the given image to show the gas pump display with both the price and gallon
+    counters reading exactly 0.00. The image should remain a close-up centered on the digital screen with
+    the same composition as the original.
+  rationale: The video depicts a sequence where the camera rotates away to the pump lever, which is flipped
+    ON and then immediately back OFF. Crucially, the prompt does not describe squeezing the nozzle trigger
+    or dispensing fuel. Physically, activating and then deactivating the pump without dispensing fuel
+    results in the counters remaining at (or resetting to) zero. Therefore, when the camera rotates back
+    to the display, the numbers must read 0.00.
+  questions:
+  - id: price_zero
+    question: Does the top line of the display read 0.00?
+    answer_type: yes_no
+    notes_for_judge: The price should be 0.00 as no fuel was dispensed.
+  - id: gallons_zero
+    question: Does the bottom line of the display read 0.00?
+    answer_type: yes_no
+    notes_for_judge: The gallons should be 0.00 as no fuel was dispensed.
+  - id: zero_transaction
+    question: Does the display indicate a zero-value transaction?
+    answer_type: yes_no
+    notes_for_judge: Both numbers should be zero.
+  - id: no_change_in_value
+    question: Are the digital numbers unchanged from the initial 0.00 state?
+    answer_type: yes_no
+    notes_for_judge: The state should be identical to the start.
+  - id: view_centered
+    question: Is the view centered on the digital display screen?
+    answer_type: yes_no
+    notes_for_judge: The camera rotates back to the original viewpoint.
+  - id: buttons_visible
+    question: Are the silver buttons visible on the left side of the frame?
+    answer_type: yes_no
+    notes_for_judge: Checks for geometric consistency after camera move.

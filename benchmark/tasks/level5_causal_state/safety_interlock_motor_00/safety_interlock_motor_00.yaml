@@ -1,0 +1,64 @@
+id: safety_interlock_motor_00
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: safety_interlock_motor
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: Edit the image to add an industrial control box mounted on the side of the green
+    motor housing, clearly visible to the right of the drive shaft. The control box should feature a large
+    green START button situated next to a clear plastic safety guard that is currently flipped down in
+    the closed position. Ensure the new control box matches the dirty, industrial aesthetic, lighting,
+    and perspective of the existing machinery.
+  video_WM: The camera remains completely stationary, framing the industrial motor with its metal drive
+    shaft visible on the left and the control box with the green START button and closed safety guard
+    on the right. A hand enters the frame and presses the green START button. STOP.
+  camera_WM: The camera remains completely stationary, framing the industrial motor with its metal drive
+    shaft visible on the left and the control box with the green START button and closed safety guard
+    on the right. A hand enters the frame and presses the green START button. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A large green industrial motor in a factory setting. On the left, a thick, rusty
+    metal drive shaft protrudes. On the right, a control box is mounted to the motor housing, featuring
+    a green START button and a red STOP button encased behind a closed transparent plastic safety cover.
+  init2final_edit_prompt: Edit the given image to show the motor in an active state. Apply strong rotational
+    motion blur to the metal drive shaft on the left to indicate it is spinning rapidly. Show the transparent
+    safety cover on the control box in an open position, with a hand visible pressing the green START
+    button.
+  rationale: 'The prompt describes a causal action: pressing the START button. This triggers the motor
+    to run. The primary functional change is the rotation of the drive shaft, which is visually represented
+    by motion blur replacing the static texture. Mechanically, the user must open the safety guard to
+    access the button, so the guard''s state transitions from closed to open. The final frame captures
+    the moment of activation or immediately after, showing the motor running and the necessary configuration
+    of the controls.'
+  questions:
+  - id: shaft_motion_blur
+    question: Does the metal drive shaft on the left exhibit motion blur?
+    answer_type: yes_no
+    notes_for_judge: Look for streaking or blurring of the rust/texture on the shaft indicating rotation.
+  - id: shaft_spinning
+    question: Does the drive shaft appear to be spinning compared to the stationary initial frame?
+    answer_type: yes_no
+    notes_for_judge: The shaft should not look static/sharp.
+  - id: safety_guard_open
+    question: Is the transparent safety cover on the control box open?
+    answer_type: yes_no
+    notes_for_judge: The cover was initially closed; it must be open to press the button.
+  - id: hand_presence
+    question: Is a hand visible interacting with the control box?
+    answer_type: yes_no
+    notes_for_judge: The prompt explicitly mentions a hand entering and pressing the button.
+  - id: shaft_texture_change
+    question: Has the texture of the drive shaft changed from sharp details to rotational streaks?
+    answer_type: yes_no
+    notes_for_judge: Verifies the visual implementation of the functional state change.
+  - id: background_consistency
+    question: Are the background factory elements (lights, pillars) still stationary and unblurred?
+    answer_type: yes_no
+    notes_for_judge: The camera is stationary; only the motor parts should move.

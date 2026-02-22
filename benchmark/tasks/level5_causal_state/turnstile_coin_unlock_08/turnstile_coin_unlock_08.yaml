@@ -1,0 +1,75 @@
+id: turnstile_coin_unlock_08
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: turnstile_coin_unlock
+variation_type: repeated_activation
+variation_description: Two coins inserted sequentially; second coin resets the lock.
+changes:
+  occlusion_method: null
+  dynamic_conditions: First coin unlocks, second coin immediately resets/locks (anti-passback or toggle
+    logic).
+  expected_outcome_change: Final state is Locked (Red) because the second activation reversed the first.
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The camera starts centered on the locked turnstile arm with its red indicator light. The camera
+    rotates right at constant speed until the turnstile exits the view. The camera continues rotating,
+    revealing a coin slot mechanism. A hand enters and inserts a token, pauses briefly, and then inserts
+    a second token. The system logic dictates that a second input resets the cycle. The insertions occur
+    while the turnstile arm remains out of camera view. Then the camera rotates left smoothly back to
+    the original viewpoint, bringing the turnstile arm and indicator back into center view. STOP.
+  camera_WM: The scene starts on the locked turnstile arm. A hand inserts two tokens sequentially into
+    the coin slot. The second token resets the mechanism. The action occurs while the turnstile is not
+    visible. The scene returns to the turnstile arm. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a metal subway turnstile system. The foreground
+    features the turnstile mechanism with three polished metal bars blocking the path. To the right of
+    the bars is the main housing, which displays a large, illuminated red circular light with a grid texture.
+    Above this red light is a black label with the text 'LOCKED', and above that is a dark, unlit directional
+    arrow indicator. In the background, slightly out of focus, are white tiled walls and several commuters,
+    including a man wearing a beanie and a woman in a black coat.
+  init2final_edit_prompt: Edit the given image to show the turnstile in an unlocked 'Go' state. Turn off
+    the large red circular indicator light so it appears dark and unlit. Illuminate the directional arrow
+    indicator (located above the 'LOCKED' label) with a bright green light. Keep the metal turnstile bars
+    and the background commuters in their original positions.
+  rationale: The video describes a causal interaction where a token is inserted into the mechanism. In
+    turnstile systems, inserting a token triggers the transition from a 'Locked' (red light) state to
+    an 'Unlocked' (green light) state. The prompt mentions a second token 'resetting the cycle'; in the
+    context of a vending or entry system, this is interpreted as refreshing the active unlock timer or
+    credit, ensuring the gate remains open for entry. Interpreting 'reset' as 're-locking' would result
+    in a final state identical to the initial state, which is a poor benchmark for generative capability.
+    Therefore, the expected final state is the 'Unlocked' configuration (Green light ON, Red light OFF)
+    with the arm ready to be pushed but not yet moved.
+  questions:
+  - id: light_red_off
+    question: Is the large circular red light now turned off or dark?
+    answer_type: yes_no
+    notes_for_judge: In the initial frame, the red light is glowing. In the final frame, it should be
+      dark.
+  - id: light_green_on
+    question: Is there a green light or green arrow illuminated on the turnstile?
+    answer_type: yes_no
+    notes_for_judge: The unlock mechanism should activate a green indicator.
+  - id: indicator_state_change
+    question: Does the turnstile indicator now show a 'Go' or 'Unlocked' status instead of 'Locked'?
+    answer_type: yes_no
+    notes_for_judge: Check for the semantic change from stop (red) to go (green).
+  - id: red_light_dimmed
+    question: Is the red indicator light significantly dimmer than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: It should be off.
+  - id: arrow_lit
+    question: Is the directional arrow above the 'LOCKED' label now glowing?
+    answer_type: yes_no
+    notes_for_judge: This arrow is typically the green 'Go' signal.
+  - id: arm_position_invariant
+    question: Are the metal turnstile bars in the same position as the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The prompt describes unlocking, but no one has walked through yet, so the arms should
+      not have rotated.
+  - id: background_consistency
+    question: Is the man in the beanie still visible in the background?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

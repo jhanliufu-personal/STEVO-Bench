@@ -1,0 +1,68 @@
+id: barcode_scanner_register_02
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: barcode_scanner_register
+variation_type: initial_state
+variation_description: Register display starts with a high value ($99.99)
+changes:
+  occlusion_method: null
+  dynamic_conditions: The register starts with a high total; scanning adds to it.
+  expected_outcome_change: The final display will show a total greater than $99.99.
+prompts:
+  init_frame_edit_prompt: Edit the register display to show '$99.99' in green digital text.
+  video_WM: The camera starts centered on the cash register display showing $99.99. The camera rotates
+    right at constant speed until the display exits the view. The camera continues rotating, revealing
+    a barcode scanner area with a product (cereal box) being held over it. A hand holding the product
+    moves it across the scanner window. The scanner uses an optical sensor to read barcodes, looks up
+    product data in the database, and transmits price information to the register display. The scanning
+    action occurs while the register display remains out of camera view. Then the camera rotates left
+    smoothly at the same rate back to the original viewpoint, bringing the register display back into
+    center view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The camera starts on the register display showing $99.99, then rotates to the scanner area.
+    A hand scans a product barcode across the scanner. The scanner reads barcodes and sends product data
+    to update the display. The scanning occurs while the display is not visible. The camera then returns
+    to the register display. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up, slightly high-angle shot of a beige electronic cash register. The
+    central focus is a green LCD screen displaying the digital text '$99.99' in black seven-segment numerals.
+    Below the screen is a keypad with grey and blue buttons. To the left of the screen, a white paper
+    receipt is visible coming out of a printer slot. In the background, slightly out of focus, are shelves
+    stocked with colorful candy bars and snack boxes.
+  init2final_edit_prompt: Edit the given image to change the numbers displayed on the green digital screen.
+    Replace the text '$99.99' with a different dollar amount, such as '$104.49' or '$3.99', to reflect
+    a new transaction state. Maintain the exact same digital font style, size, and alignment on the screen.
+    Keep the cash register chassis, keypad, receipt paper, and background shelves exactly unchanged.
+  rationale: The video sequence describes a causal chain where the camera rotates away from the register,
+    a product is scanned (an action that inputs data into the system), and the camera returns to the register.
+    The scanning action functionally updates the transaction state of the register. Although the display
+    was occluded during the scan, the system state has changed. Therefore, when the camera returns to
+    the initial viewpoint, the display must show a different value (either the item price or a new total)
+    compared to the initial '$99.99', providing evidence that the mechanism processed the scan.
+  questions:
+  - id: display_change_check
+    question: Does the green display screen now show a different number than '$99.99'?
+    answer_type: yes_no
+    notes_for_judge: The primary evidence of the scan is that the display value has updated.
+  - id: text_difference
+    question: Is the text on the digital display different from the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Any change in the digits indicates the system state updated.
+  - id: value_update
+    question: Does the register display show a new dollar amount?
+    answer_type: yes_no
+    notes_for_judge: The value should be a valid currency format but different from the start.
+  - id: mechanism_evidence
+    question: Does the output display show evidence of a transaction update?
+    answer_type: yes_no
+    notes_for_judge: Evidence is defined as a change in the displayed numerical value.
+  - id: register_position
+    question: Is the cash register chassis in the same position as the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The camera returned to the original viewpoint; the object should not have moved.
+  - id: background_consistency
+    question: Are the candy shelves in the background still visible and unchanged?
+    answer_type: yes_no
+    notes_for_judge: The environment should remain stable.

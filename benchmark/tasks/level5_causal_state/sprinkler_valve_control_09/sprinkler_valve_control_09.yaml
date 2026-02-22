@@ -1,0 +1,66 @@
+id: sprinkler_valve_control_09
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: sprinkler_valve_control
+variation_type: repeated_activation
+variation_description: The valve is toggled open and closed as a mechanical check.
+changes:
+  occlusion_method: null
+  dynamic_conditions: 'Valve: Closed -> Open -> Closed. Net state: Closed.'
+  expected_outcome_change: Sprinkler remains inactive.
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: 'The camera starts centered on the inactive sprinkler head on the dry grass. The camera rotates
+    right at constant speed until the sprinkler exits the view. The camera continues rotating, revealing
+    a manual water valve mounted on a pipe near the wall. The valve handle is currently in the closed
+    position. A hand enters the frame and cycles the valve: turning it counterclockwise to open it, then
+    immediately turning it clockwise to close it again. This action tests the valve mechanism without
+    leaving the water running. The cycling occurs while the sprinkler head remains out of camera view.
+    Then the camera rotates left smoothly at the same rate back to the original viewpoint, bringing the
+    sprinkler head back into center view. No zoom, no cut, no scene change. STOP.'
+  camera_WM: 'The scene features an inactive sprinkler head and a manual water valve. A hand cycles the
+    valve: turning it to open, then immediately closing it again. This action tests the valve mechanism.
+    STOP.'
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a metal impact sprinkler head mounted on a short
+    vertical pipe. The sprinkler is weathered and slightly rusty. It is surrounded by dry, yellow-brown
+    grass and parched dirt. The lighting is bright and sunny, casting hard shadows. The ground is completely
+    dry, and the sprinkler is inactive.
+  init2final_edit_prompt: Edit the given image to make the grass and the metal sprinkler head appear wet
+    and damp. Darken the soil and grass to simulate moisture from recent water contact. Add subtle water
+    droplets or a glistening sheen to the sprinkler head surface. Do not add any active water spray, jets,
+    or mist in the air; the sprinkler must appear inactive but wet.
+  rationale: The video sequence involves panning to a manual valve, opening it (activating the sprinkler
+    off-screen), and then immediately closing it before panning back. The causal action of opening the
+    valve releases water, wetting the sprinkler and surrounding area. Since the valve is closed before
+    the camera returns, the final state must show the physical aftermath (wet surfaces) without the active
+    process (no spraying water). This tests the model's ability to track off-screen state changes and
+    their persistent effects on the environment.
+  questions:
+  - id: wetness_ground
+    question: Is the grass or ground darker and wet-looking compared to the initial dry state?
+    answer_type: yes_no
+    notes_for_judge: The ground should look damp/darker due to the water cycle.
+  - id: wetness_object
+    question: Does the sprinkler head appear wet, glistening, or covered in droplets?
+    answer_type: yes_no
+    notes_for_judge: The metal surface should show signs of recent water contact.
+  - id: state_inactive
+    question: Is the sprinkler currently inactive (no water spraying in the air)?
+    answer_type: yes_no
+    notes_for_judge: The valve was closed, so there should be no active spray.
+  - id: no_active_flow
+    question: Is the scene free of active water jets or streams?
+    answer_type: yes_no
+    notes_for_judge: Verifies the valve closure was respected.
+  - id: evidence_of_action
+    question: Does the image show evidence that water recently flowed (e.g., wet surfaces)?
+    answer_type: yes_no
+    notes_for_judge: Checks for the causal consequence of the off-screen action.
+  - id: object_persistence
+    question: Is the metal sprinkler head still present in the center of the frame?
+    answer_type: yes_no
+    notes_for_judge: Basic consistency check.

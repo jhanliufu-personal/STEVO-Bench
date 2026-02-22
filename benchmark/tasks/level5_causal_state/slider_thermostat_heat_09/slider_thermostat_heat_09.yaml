@@ -1,0 +1,77 @@
+id: slider_thermostat_heat_09
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: slider_thermostat_heat
+variation_type: repeated_activation
+variation_description: The slider is quickly slid up and down, ending at the original position.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Repeated activation (MIN -> MAX -> MIN). Net state change is zero.
+  expected_outcome_change: The vent remains inactive (same as initial state).
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The camera starts centered on the inactive heater vent. The camera rotates right at constant
+    speed until the vent exits the view. The camera continues rotating, revealing a wall-mounted heater
+    control with a horizontal slider. The slider is currently at the far left MIN position. A finger enters
+    the frame and quickly slides the control bar to the far right MAX position and immediately returns
+    it to the far left MIN position. The slider remains at the minimum setting. The thermostat engages
+    the heating circuit only when set above a threshold. The slider movements occur while the heater vent
+    remains out of camera view. Then the camera rotates left smoothly at the same rate back to the original
+    viewpoint, bringing the heater vent back into center view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The camera starts on the heater vent, then rotates to the temperature slider control. A finger
+    moves the slider from MIN to MAX and back to MIN position. The thermostat engages heating only above
+    threshold. The slider movements occur while the vent is not visible. The camera then returns to the
+    heater vent. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up, straight-on view of a rectangular, beige metal air vent mounted
+    on a textured beige wall. The vent features two columns of horizontal louvers (slats) that are fixed
+    in position. The paint on the vent is worn and chipped, revealing dark underlying material, particularly
+    along the edges and around the two mounting screws on the left and right sides. The interior spaces
+    between the louvers are dark, indicating no internal light source.
+  init2final_edit_prompt: Edit the given image to show the heater vent in a completely inactive state.
+    Ensure there is no red glow, orange light, or illumination coming from inside the louvers. The metal
+    slats should appear cool and beige, identical to the original state, with no heat distortion or blurring
+    in the air. The interior shadows between the slats should remain dark.
+  rationale: The video prompt describes a sequence where the camera pans away from the vent to a thermostat,
+    the slider is moved to the MAX position and then immediately returned to the MIN position, and then
+    the camera pans back to the vent. The thermostat logic dictates that the heating circuit is only engaged
+    when the setting is above a threshold. Since the slider is returned to the minimum setting (below
+    threshold) before the camera returns to the vent, the heating circuit should be disengaged in the
+    final frame. The vent should therefore appear inactive, with no visible glow or heat distortion, matching
+    its initial state.
+  questions:
+  - id: is_inactive
+    question: Is the heater vent currently inactive?
+    answer_type: yes_no
+    notes_for_judge: The vent should not show signs of operation.
+  - id: no_glow
+    question: Is the interior of the vent dark, without any red or orange glow?
+    answer_type: yes_no
+    notes_for_judge: Active heaters often glow; this one should be off.
+  - id: no_distortion
+    question: Is the air around the vent free of heat distortion or shimmering?
+    answer_type: yes_no
+    notes_for_judge: Heat haze would indicate the heater is on.
+  - id: louvers_color
+    question: Do the metal louvers retain their original beige color without heat discoloration?
+    answer_type: yes_no
+    notes_for_judge: Check for color shifts indicating heat.
+  - id: state_reverted
+    question: Does the vent appear to be in the same cool state as the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The system was turned on and then off; final state should be off.
+  - id: no_light_emission
+    question: Is the vent free of any light emission from behind the slats?
+    answer_type: yes_no
+    notes_for_judge: No light should be visible.
+  - id: wall_texture
+    question: Is the textured wall surface around the vent visible and unchanged?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: screws_visible
+    question: Are the mounting screws on the sides of the vent still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

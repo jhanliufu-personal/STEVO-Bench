@@ -1,0 +1,72 @@
+id: conveyor_reverse_lever_06
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: conveyor_reverse_lever
+variation_type: precondition_failure
+variation_description: The drive belt connecting the motor to the rollers is broken/snapped.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Mechanical failure. Motor may spin but rollers do not turn.
+  expected_outcome_change: The conveyor belt surface does not move. The box remains stationary.
+prompts:
+  init_frame_edit_prompt: Edit the image to show the rubber drive belt hanging loose and broken under
+    the conveyor rollers.
+  video_WM: The camera starts centered on the stationary cardboard box on the conveyor belt. The camera
+    rotates right at constant speed until the box exits the view. The camera continues rotating, revealing
+    a control lever on the side of the conveyor. The lever is currently in the middle NEUTRAL position.
+    A hand enters the frame and pulls the control lever all the way to the REVERSE position. The lever
+    movement occurs while the cardboard box remains out of camera view. Then the camera rotates left smoothly
+    at the same rate back to the original viewpoint, bringing the cardboard box on the belt back into
+    center view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The camera starts on the box, then rotates to the control lever. A hand shifts the lever
+    from NEUTRAL to REVERSE position. The lever movement occurs while the box is not visible. The camera
+    then returns to the box on the belt. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A large industrial warehouse setting featuring a conveyor belt system in the
+    foreground. A medium-sized brown cardboard box with shipping labels sits stationary in the center
+    of the conveyor belt. The conveyor belt has a textured fabric or rubber surface and is flanked by
+    black guide rails. In the background, there are stacks of wooden pallets, additional boxes, and warehouse
+    shelving under overhead industrial lighting.
+  init2final_edit_prompt: Edit the given image to show the cardboard box shifted to a new position along
+    the conveyor belt, either closer to the foreground or further into the background, ensuring it is
+    displaced from its original centered location to simulate movement along the belt.
+  rationale: The video prompt describes a sequence where a control lever is pulled to the 'REVERSE' position
+    while the box is out of view. This action activates the conveyor belt, causing the stationary box
+    to move along the belt's path. When the camera returns to the original viewpoint, the box should no
+    longer be in its initial position; it must have shifted along the conveyor axis (either backwards
+    or forwards depending on the specific mechanics of 'reverse' for this system) due to the belt's movement
+    during the occlusion.
+  questions:
+  - id: box_position_change
+    question: Is the cardboard box in a different position along the conveyor belt compared to the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: The box should have moved along the belt axis (closer or further) due to the conveyor
+      activation.
+  - id: box_displacement_relative_to_background
+    question: Has the cardboard box shifted its location relative to the stationary background objects
+      (like pallets or pillars)?
+    answer_type: yes_no
+    notes_for_judge: Compare the box's position against fixed background landmarks.
+  - id: box_not_centered
+    question: Is the cardboard box no longer in the exact center of the frame where it started?
+    answer_type: yes_no
+    notes_for_judge: The camera returned to the original view, but the box should have moved, so it shouldn't
+      be perfectly centered anymore.
+  - id: conveyor_movement_evidence
+    question: Does the final image show evidence that the conveyor belt has transported the box to a new
+      location?
+    answer_type: yes_no
+    notes_for_judge: The box should be displaced along the track of the conveyor.
+  - id: box_still_on_belt
+    question: Is the cardboard box still situated on the conveyor belt surface (even if in a different
+      spot)?
+    answer_type: yes_no
+    notes_for_judge: The box should move along the belt, not vanish or float.
+  - id: background_consistency
+    question: Are the stacks of pallets in the background still in the same position?
+    answer_type: yes_no
+    notes_for_judge: 'Secondary check: background should be static.'

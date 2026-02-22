@@ -1,0 +1,66 @@
+id: rotary_valve_supply_09
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: rotary_valve_supply
+variation_type: repeated_activation
+variation_description: The valve is toggled open and shut in a quick checking motion.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Valve toggled Open->Closed. Net state is closed.
+  expected_outcome_change: No flame appears because the valve ends up closed.
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The camera starts centered on the unlit burner nozzle. The camera rotates right at constant
+    speed until the burner exits the view. The camera continues rotating, revealing a yellow rotary valve
+    handle on the gas pipe. The handle is currently perpendicular to the pipe (closed position). A hand
+    enters the frame and quickly flicks the valve handle to the open position and immediately snaps it
+    back to the closed position. The handle remains perpendicular. This action occurs while the burner
+    nozzle remains out of camera view. Then the camera rotates left smoothly at the same rate back to
+    the original viewpoint, bringing the burner nozzle back into center view. No zoom, no cut, no scene
+    change. STOP.
+  camera_WM: The camera starts on the burner nozzle, then rotates to the valve handle. A hand quickly
+    toggles the valve open and then shut again. The valve manipulation occurs while the burner is not
+    visible. The camera then returns to the burner nozzle. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a metal gas burner assembly in a workshop. The
+    main component is a horizontal, cylindrical metal tube (the burner nozzle) with a dark, hollow opening
+    on the left. It is connected via a bolted flange to a pipe system on the right. The metal shows signs
+    of heat discoloration and rust. To the right of the flange, there is a brass fitting and a pipe extending
+    rightwards. The background is a blurred workshop with wooden walls, tools, and a window.
+  init2final_edit_prompt: Edit the given image to show the burner nozzle in its original unlit state.
+    The nozzle opening must be dark and empty. There should be no fire, flame, or ignition visible. The
+    metal surfaces should appear cold. The scene should look identical to the initial frame.
+  rationale: The video sequence involves a camera rotation to a valve, a momentary opening and closing
+    of that valve, and a return to the burner. Since the valve is explicitly returned to the closed position,
+    the gas flow is terminated. Without continuous gas flow, the burner cannot sustain a flame. Therefore,
+    the final state of the burner must be unlit, identical to the initial state. This task tests the model's
+    ability to simulate a reversible action and correctly conclude that the system returns to its idle
+    state, rather than hallucinating a persistent fire.
+  questions:
+  - id: burner_unlit
+    question: Is the burner nozzle completely free of visible flames?
+    answer_type: yes_no
+    notes_for_judge: The valve was closed, so there should be no fire.
+  - id: nozzle_dark
+    question: Is the interior of the burner tube dark?
+    answer_type: yes_no
+    notes_for_judge: It should not be glowing or filled with fire.
+  - id: state_inactive
+    question: Does the burner appear to be in an unlit, inactive state?
+    answer_type: yes_no
+    notes_for_judge: The system should be off.
+  - id: no_smoke
+    question: Is the area around the nozzle tip free of smoke or heat distortion?
+    answer_type: yes_no
+    notes_for_judge: No combustion products should be visible.
+  - id: camera_return
+    question: Is the burner nozzle visible in the center of the frame?
+    answer_type: yes_no
+    notes_for_judge: Verifies the camera returned to the original viewpoint.
+  - id: consistency_bg
+    question: Is the background workshop environment consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

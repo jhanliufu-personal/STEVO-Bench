@@ -1,0 +1,69 @@
+id: elevator_call_button_press_07
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: elevator_call_button_press
+variation_type: precondition_failure
+variation_description: The Up button is physically broken/smashed.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Mechanical failure of the interface.
+  expected_outcome_change: The button remains unlit (no change).
+prompts:
+  init_frame_edit_prompt: Edit the image so the Up button's plastic face is cracked, dark, and visibly
+    damaged.
+  video_WM: The camera starts centered on the elevator call button panel, where the Up button appears
+    smashed and damaged. The camera rotates right at constant speed until the button panel exits the view.
+    The camera continues rotating right, showing the wall and surroundings. While the button is out of
+    view, a hand reaches to the button location and attempts to press the damaged Up call button. Due
+    to the physical damage to the interface mechanism, the switch cannot engage properly to send a signal
+    to the controller. The light circuit remains inactive. The button press attempt occurs while the button
+    panel remains out of camera view. Then the camera rotates left smoothly at the same rate back to the
+    original viewpoint, bringing the button panel back into center view. No zoom, no cut, no scene change.
+    STOP.
+  camera_WM: The camera starts on the damaged button panel. While out of view, the button is pressed.
+    The physical damage prevents the switch from engaging the controller or light circuit. The button
+    press occurs while the button is not visible. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A close-up view of a metal elevator call button panel mounted on a rough concrete
+    wall. The panel contains two circular buttons arranged vertically. The top button, featuring an 'Up'
+    arrow, is severely damaged with a smashed center and cracked surrounding metal; it is currently unlit
+    (dark). The bottom button, featuring a 'Down' arrow, is intact and is illuminated with a bright orange/yellow
+    light.
+  init2final_edit_prompt: Edit the given image to show the elevator button panel in the same state as
+    the original. The top damaged button must remain completely unlit and dark. The bottom button must
+    remain illuminated with an orange glow. The metal panel and concrete wall texture should remain unchanged.
+  rationale: 'The camera rotates away from the panel and then returns to the original view. During the
+    occlusion, an agent attempts to press the top ''Up'' button. However, the prompt specifies that the
+    button is physically damaged and the switch mechanism fails to engage, meaning the light circuit remains
+    inactive. Therefore, the visual state of the buttons in the final frame is identical to the initial
+    frame: the top button remains broken and dark, and the bottom button remains lit (assuming no elevator
+    arrived to cancel it). The camera returns to the exact starting position.'
+  questions:
+  - id: top_button_unlit
+    question: Is the top 'Up' button unlit in the final frame?
+    answer_type: yes_no
+    notes_for_judge: The button is damaged and should not light up despite the press attempt.
+  - id: top_button_dark
+    question: Does the top button appear dark, without any internal illumination?
+    answer_type: yes_no
+    notes_for_judge: Verifies the functional failure of the switch.
+  - id: damage_visible
+    question: Is the physical damage (cracks/dents) on the top button still visible?
+    answer_type: yes_no
+    notes_for_judge: The damage should persist.
+  - id: bottom_button_lit
+    question: Is the bottom 'Down' button still illuminated with an orange/yellow light?
+    answer_type: yes_no
+    notes_for_judge: The bottom button started lit and should remain lit as it was not interacted with.
+  - id: panel_state_unchanged
+    question: Is the overall state of the button panel identical to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Since the action failed, no state change should occur.
+  - id: wall_texture
+    question: Is the concrete wall texture visible and consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

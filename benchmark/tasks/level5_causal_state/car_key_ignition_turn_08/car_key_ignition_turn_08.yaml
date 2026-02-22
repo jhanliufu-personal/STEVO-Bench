@@ -1,0 +1,70 @@
+id: car_key_ignition_turn_08
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: car_key_ignition_turn
+variation_type: repeated_activation
+variation_description: Key is turned ON then immediately back OFF.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Trigger activated twice (OFF -> ON -> OFF). Net state change is zero.
+  expected_outcome_change: The dashboard will remain dark because the key was returned to the OFF position.
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: Driver's upright POV. The steering wheel is centered and the dark instrument cluster is fully
+    visible. The driver leans forward toward the dashboard; the surroundings are no longer visible. The
+    ignition cylinder comes into view with the key at the OFF position. A hand grips the key, turns it
+    clockwise to the ON position, and then immediately turns it counter-clockwise back to the OFF position.
+    The ignition cylinder is a rotary switch. The driver leans back to the upright seated position. No
+    zoom, no cut, no scene change. STOP.
+  camera_WM: The camera starts in upright driver POV with a dark dashboard. The driver leans forward,
+    camera pitches down and moves toward the dashboard, revealing the ignition cylinder with the key at
+    OFF. A hand turns the key to ON, then immediately back to OFF. The action occurs while the windows
+    are not visible. The driver leans back to the original seated position. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A driver's perspective view from inside a car. A black three-spoke steering
+    wheel is centered in the frame. Behind the wheel, a dark instrument cluster contains a speedometer,
+    tachometer, and other gauges. To the right of the steering column, the ignition cylinder is visible
+    with a key inserted in the vertical OFF position; a key fob hangs from it. Through the windshield,
+    a sunny suburban street with houses, driveways, and green lawns is visible.
+  init2final_edit_prompt: Edit the given image to show the ignition key in the vertical OFF position.
+    Ensure the instrument cluster gauges are dark and unlit with no warning lights illuminated. The view
+    should remain the original upright driver's perspective showing the full steering wheel and the street
+    background.
+  rationale: 'The video prompt describes a sequence of actions where the driver leans in, turns the key
+    to the ON position, and then immediately turns it back to the OFF position before leaning back. The
+    ''ON'' position would activate dashboard lights and rotate the key, but the subsequent ''back to OFF''
+    action reverses these changes. The ''lean back'' action restores the original camera viewpoint. Therefore,
+    the final state is functionally and visually identical to the initial state: the key is vertical (OFF),
+    the dashboard is dark, and the view is the upright driver''s perspective. The benchmark tests the
+    model''s ability to track the full cycle of state changes and return to the correct initial configuration
+    rather than getting stuck in the intermediate ''ON'' or ''leaned in'' states.'
+  questions:
+  - id: key_position_vertical
+    question: Is the ignition key oriented vertically in the OFF position?
+    answer_type: yes_no
+    notes_for_judge: The key should be roughly vertical, matching the initial frame, not rotated clockwise
+      to the ON position.
+  - id: cluster_dark
+    question: Is the instrument cluster dark with no warning lights illuminated?
+    answer_type: yes_no
+    notes_for_judge: Since the key was turned back to OFF, the dashboard lights should be off.
+  - id: key_state_restored
+    question: Is the key in the same position as it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare with the initial frame; the key should have returned to its starting angle.
+  - id: view_upright
+    question: Is the view from the upright driver's perspective?
+    answer_type: yes_no
+    notes_for_judge: The camera should have returned from the 'lean forward' position.
+  - id: steering_wheel_visible
+    question: Is the steering wheel centered and fully visible?
+    answer_type: yes_no
+    notes_for_judge: Checks if the camera zoomed back out to the initial framing.
+  - id: background_visible
+    question: Is the suburban street visible through the windshield?
+    answer_type: yes_no
+    notes_for_judge: Ensures the view is not obstructed or zoomed in on the dashboard.

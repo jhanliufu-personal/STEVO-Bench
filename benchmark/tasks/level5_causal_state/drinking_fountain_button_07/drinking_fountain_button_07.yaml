@@ -1,0 +1,67 @@
+id: drinking_fountain_button_07
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: drinking_fountain_button
+variation_type: precondition_failure
+variation_description: Spout is clogged with debris
+changes:
+  occlusion_method: null
+  dynamic_conditions: 'Precondition failure: Debris blocks the outlet.'
+  expected_outcome_change: 'No water flow (Final state: OFF)'
+prompts:
+  init_frame_edit_prompt: Edit the image to show the fountain spout basin filled with trash and the spout
+    itself plugged with debris.
+  video_WM: The camera starts centered on the drinking fountain spout which is clogged with debris. The
+    camera rotates right at constant speed until the spout exits the view. The camera continues rotating,
+    revealing the push button on the side. A hand enters the frame and presses the button firmly. The
+    valve opens but the debris completely blocks the water flow. The button press occurs while the fountain
+    spout remains out of camera view. Then the camera rotates left smoothly at the same rate back to the
+    original viewpoint, bringing the fountain spout back into center view. No zoom, no cut, no scene change.
+    STOP.
+  camera_WM: The camera starts on the clogged spout, then rotates to the side button. A hand presses the
+    button. The clog prevents flow. The camera then returns to the fountain spout. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up, slightly high-angle shot of a stainless steel drinking fountain
+    basin. The basin is filled with murky brownish water and accumulated trash, including a red Coca-Cola
+    bottle, a green Sprite bottle, a crumpled yogurt cup, cigarette butts, and various pieces of paper
+    and plastic wrappers. In the center stands the chrome bubbler (spout). The nozzle of the spout is
+    visibly stuffed with a wad of brownish-white paper or debris, completely plugging the opening. The
+    metal surfaces are grimy.
+  init2final_edit_prompt: Edit the given image to show the drinking fountain spout remaining clogged with
+    the debris in the nozzle. Ensure there is no water stream, arc, or jet coming from the spout. The
+    wad of debris must still be visible plugging the opening. The water level and trash in the basin should
+    remain static, with no signs of splashing or active flow. Keep the original camera angle and lighting.
+  rationale: 'The video depicts a causal chain where an action (button press) is attempted on a compromised
+    system (clogged spout). The prompt explicitly states that the debris ''completely blocks the water
+    flow''. This is a functional constraint test: the model must reason that the physical blockage inhibits
+    the standard effect of the button press (water flowing). Therefore, the correct final state must show
+    the spout still clogged and devoid of a water stream, resisting the generative bias to produce water
+    when a fountain button is pressed.'
+  questions:
+  - id: q1
+    question: Is the spout nozzle still blocked by the debris?
+    answer_type: yes_no
+    notes_for_judge: The debris should remain in the nozzle as the prompt states it blocks the flow.
+  - id: q2
+    question: Is the area directly above the spout free of a water stream?
+    answer_type: yes_no
+    notes_for_judge: There should be no water arc; the blockage prevents it.
+  - id: q3
+    question: Is the water flow from the fountain completely absent?
+    answer_type: yes_no
+    notes_for_judge: The prompt specifies the flow is completely blocked.
+  - id: q4
+    question: Does the debris appear to be stuck in the spout opening?
+    answer_type: yes_no
+    notes_for_judge: Verifies the blockage persists.
+  - id: q5
+    question: Is the water surface in the basin calm, without splashing from a jet?
+    answer_type: yes_no
+    notes_for_judge: Since no water comes out, the basin water should not be agitated by a stream.
+  - id: q6
+    question: Is the red bottle still present in the basin?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

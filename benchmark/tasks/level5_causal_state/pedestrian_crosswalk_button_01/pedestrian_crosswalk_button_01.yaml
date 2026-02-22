@@ -1,0 +1,65 @@
+id: pedestrian_crosswalk_button_01
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: pedestrian_crosswalk_button
+variation_type: initial_state
+variation_description: Signal starts in WALK state (White Man) instead of DON'T WALK
+changes:
+  occlusion_method: null
+  dynamic_conditions: Initial state is WALK. Pressing button toggles/resets system to DON'T WALK.
+  expected_outcome_change: Signal changes from White WALK to Red DON'T WALK (Hand).
+prompts:
+  init_frame_edit_prompt: Edit the pedestrian signal to show the white 'walking man' (WALK) symbol instead
+    of the red hand.
+  video_WM: The camera starts centered on the pedestrian signal showing the white walking man (WALK) symbol.
+    The camera rotates right at constant speed until the signal exits the view. The camera continues rotating,
+    revealing a pedestrian crossing button mounted on a pole at the curb. A hand enters the frame and
+    presses the circular button firmly. The button sends a request signal to the traffic light controller.
+    The button press occurs while the crossing signal remains out of camera view. Then the camera rotates
+    left smoothly at the same rate back to the original viewpoint, bringing the pedestrian crossing signal
+    back into center view. No zoom, no cut, no scene change. STOP.
+  camera_WM: A hand presses the pedestrian button. The button sends a request to the traffic controller.
+    The button press occurs while the crossing signal is not visible. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up view of a yellow pedestrian traffic signal box mounted on a metal
+    pole. The signal face is black and displays a bright, illuminated white icon of a walking person (the
+    'WALK' symbol). The background depicts a rainy city street with wet pavement, blurred cars, a building
+    facade on the left, and green construction scaffolding on the right.
+  init2final_edit_prompt: Edit the given image to change the pedestrian signal state from 'Walk' to 'Don't
+    Walk'. Replace the illuminated white walking man symbol with a bright orange hand symbol. Ensure the
+    orange hand is centered within the black signal face. Keep the yellow signal housing, the metal pole,
+    and the rainy street background exactly unchanged.
+  rationale: The video prompt describes a sequence where the camera pans away, a button is pressed, and
+    the camera pans back. This sequence of events implies a significant passage of time (likely 10-20
+    seconds). Since pedestrian 'WALK' phases are typically short duration, the most logical state evolution
+    is that the signal has timed out and transitioned to the 'DON'T WALK' phase (represented by an orange
+    hand) by the time the camera returns. The button press registers a request for the next cycle, but
+    the immediate visual result of the elapsed time is the expiration of the current walk signal.
+  questions:
+  - id: signal_state_hand
+    question: Is the pedestrian signal now displaying an orange hand symbol?
+    answer_type: yes_no
+    notes_for_judge: The signal should show the standard 'Don't Walk' hand icon.
+  - id: signal_color_change
+    question: Is the illuminated icon on the signal orange instead of white?
+    answer_type: yes_no
+    notes_for_judge: Check for the specific color shift from white to orange.
+  - id: signal_symbol_change
+    question: Has the white walking man symbol disappeared?
+    answer_type: yes_no
+    notes_for_judge: The walking man should be replaced by the hand.
+  - id: signal_meaning
+    question: Does the signal clearly indicate a 'Don't Walk' or stop state?
+    answer_type: yes_no
+    notes_for_judge: Interpret the semantic meaning of the displayed icon.
+  - id: housing_consistency
+    question: Is the yellow signal housing still visible and unchanged?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: background_consistency
+    question: Are the background scaffolding and rainy street still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

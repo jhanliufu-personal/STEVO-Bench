@@ -1,0 +1,70 @@
+id: parking_gate_ticket_03
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: parking_gate_ticket
+variation_type: initial_state
+variation_description: The barrier is raised and a green light is visible. The trigger action is implied
+  to close the gate (toggle logic).
+changes:
+  occlusion_method: null
+  dynamic_conditions: Barrier starts UP with green light. Trigger closes it.
+  expected_outcome_change: Barrier should be lowered (closed) upon return.
+prompts:
+  init_frame_edit_prompt: Edit the image so the barrier arm is raised vertically and a small green signal
+    light is visible on the barrier housing.
+  video_WM: The camera starts centered on the raised parking barrier arm with a green signal light. The
+    camera rotates right at constant speed until the barrier exits the view. The camera continues rotating,
+    revealing a ticket payment machine. A hand holding a validated parking ticket enters the frame and
+    inserts the ticket into the slot. The machine contains validation circuitry that reads tickets and
+    controls the barrier motor. The ticket insertion occurs while the barrier arm remains out of camera
+    view. Then the camera rotates left smoothly at the same rate back to the original viewpoint, bringing
+    the barrier arm back into center view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The scene features a raised parking barrier arm with a green signal light and a ticket payment
+    machine. A hand inserts a validated parking ticket into the slot. The machine validates tickets and
+    controls the barrier motor. The ticket insertion occurs while the barrier is not visible.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A yellow parking barrier housing with a green circular LED signal light. A white
+    and red striped barrier arm is in the vertical (raised) position. A grey pole stands next to the barrier.
+    The ground is asphalt with a concrete island curb. Parked cars are visible in the background.
+  init2final_edit_prompt: Edit the given image to show the parking barrier arm in a lowered, horizontal
+    position, extending across the lane to block it. Change the circular signal light on the yellow housing
+    from green to red. Ensure the barrier arm remains white with red stripes but is now parallel to the
+    ground.
+  rationale: The initial frame shows the barrier in the open (raised) state. The video prompt describes
+    a ticket insertion event that activates the barrier motor while the arm is out of view. Since the
+    barrier is already open, the activation of the motor for a new transaction implies a state change
+    to the closed position (e.g., a system reset, anti-tailgating closure, or validation check). Therefore,
+    the final frame must show the barrier arm lowered and the signal light switched to red to reflect
+    the new state.
+  questions:
+  - id: barrier_position_horizontal
+    question: Is the barrier arm now in a horizontal position?
+    answer_type: yes_no
+    notes_for_judge: The arm should be parallel to the ground, blocking the lane.
+  - id: light_color_red
+    question: Is the signal light on the barrier housing red?
+    answer_type: yes_no
+    notes_for_judge: The light should have changed from green to red.
+  - id: barrier_blocking_lane
+    question: Does the barrier arm block the vehicle lane?
+    answer_type: yes_no
+    notes_for_judge: It should be down, preventing passage.
+  - id: barrier_not_vertical
+    question: Is the barrier arm no longer in the vertical raised position?
+    answer_type: yes_no
+    notes_for_judge: It should have moved from the initial vertical state.
+  - id: light_not_green
+    question: Is the signal light no longer green?
+    answer_type: yes_no
+    notes_for_judge: The state change should be reflected in the light color.
+  - id: housing_consistency
+    question: Is the yellow barrier housing still present and in the same location?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: background_consistency
+    question: Are the parked cars in the background unchanged?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

@@ -1,0 +1,70 @@
+id: barcode_scanner_register_10
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: barcode_scanner_register
+variation_type: indirect_causation
+variation_description: Scanner transmits to a wireless receiver unit which updates the display
+changes:
+  occlusion_method: null
+  dynamic_conditions: The causal chain includes an intermediate wireless receiver that must receive the
+    signal.
+  expected_outcome_change: The display will show the price, but the causal path is visually mediated by
+    the receiver.
+prompts:
+  init_frame_edit_prompt: Edit the image to include a small white wireless receiver unit with an antenna
+    and a status light sitting next to the register display.
+  video_WM: The camera starts centered on the cash register display showing $0.00 and a wireless receiver
+    unit next to it. The camera rotates right at constant speed until the display exits the view. The
+    camera continues rotating, revealing a barcode scanner area with a product (cereal box) being held
+    over it. A hand holding the product moves it across the scanner window. The scanner wirelessly transmits
+    the product data; the receiver unit (now out of view) receives the signal to update the register.
+    The scanning action occurs while the register display remains out of camera view. Then the camera
+    rotates left smoothly at the same rate back to the original viewpoint, bringing the register display
+    and the wireless receiver back into center view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The camera starts on the register display and receiver, then rotates to the scanner area.
+    A hand scans a product barcode. The scanner transmits data to the receiver. The scanning occurs while
+    the display is not visible. The camera then returns to the register display. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a beige electronic cash register. The center of
+    the frame is dominated by a green LCD customer display showing '$0.00'. To the immediate right of
+    the display, a small white rectangular wireless receiver box is attached vertically, featuring a black
+    antenna pointing upwards and a small red LED indicator light near the bottom. To the left, a portion
+    of the register's keypad with grey buttons is visible. The background is slightly out of focus, showing
+    shelves stocked with various snacks and candy bars.
+  init2final_edit_prompt: Edit the given image to change the numbers on the green cash register display
+    to show a positive price, such as '$3.99' or '$4.50', replacing the original '$0.00'.
+  rationale: The video sequence involves the camera panning away from the register to capture a scanning
+    action. A product (cereal box) is scanned while the register is occluded. The causal mechanism described
+    is that the scanner transmits data to the receiver, which updates the register. Therefore, when the
+    camera pans back to the original view, the state of the register must have transitioned from the idle
+    '$0.00' state to showing the price of the scanned item. The final frame must reflect this functional
+    update.
+  questions:
+  - id: display_value_changed
+    question: Is the value shown on the cash register display different from '$0.00'?
+    answer_type: yes_no
+    notes_for_judge: The display should show a price (e.g., $3.99, $4.50) instead of the initial zero
+      state.
+  - id: display_is_positive
+    question: Does the green screen display a dollar amount greater than zero?
+    answer_type: yes_no
+    notes_for_judge: Check for non-zero digits indicating a scanned item.
+  - id: digits_updated
+    question: Have the digits on the display changed compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The initial frame shows 0.00; the final frame should show new numbers.
+  - id: transaction_started
+    question: Does the register state indicate that an item has been added to the transaction?
+    answer_type: yes_no
+    notes_for_judge: A non-zero price indicates an item was registered.
+  - id: receiver_presence
+    question: Is the white wireless receiver with the antenna still visible on the right side of the register?
+    answer_type: yes_no
+    notes_for_judge: 'Consistency check: the device should still be attached.'
+  - id: keypad_visibility
+    question: Are the grey keypad buttons still visible on the left side?
+    answer_type: yes_no
+    notes_for_judge: Consistency check for camera return.

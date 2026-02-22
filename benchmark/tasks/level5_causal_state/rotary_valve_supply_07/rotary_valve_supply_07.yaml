@@ -1,0 +1,65 @@
+id: rotary_valve_supply_07
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: rotary_valve_supply
+variation_type: precondition_failure
+variation_description: A padlock prevents the valve handle from turning.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Valve locked. Hand fails to open it.
+  expected_outcome_change: No flame appears because the valve remains closed.
+prompts:
+  init_frame_edit_prompt: Edit the image to add a red padlock looped through the yellow valve handle and
+    the pipe flange, visually preventing rotation.
+  video_WM: The camera starts centered on the unlit burner nozzle. The camera rotates right at constant
+    speed until the burner exits the view. The camera continues rotating, revealing a yellow rotary valve
+    handle secured by a red padlock. The handle is currently perpendicular (closed). A hand enters the
+    frame and grabs the handle, attempting to force it open, but the padlock restricts movement. The handle
+    remains in the closed position. The failed attempt occurs while the burner nozzle remains out of camera
+    view. Then the camera rotates left smoothly at the same rate back to the original viewpoint, bringing
+    the burner nozzle back into center view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The camera starts on the burner nozzle, then rotates to the valve handle. A hand attempts
+    to rotate the valve but is stopped by a padlock. The valve remains closed. The camera then returns
+    to the burner nozzle. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A workshop scene featuring a horizontal metal pipe assembly. On the left, there
+    is a brass burner nozzle pointing leftwards. In the center, a T-junction connects the pipes. On the
+    right, a ball valve is visible with a yellow handle oriented perpendicular to the pipe, indicating
+    a closed position. A red padlock is locked through the valve's flange, physically preventing the handle
+    from being turned.
+  init2final_edit_prompt: Edit the given image to show the burner nozzle remaining completely unlit, with
+    no flame or fire visible. Ensure the yellow valve handle remains in the perpendicular, closed position,
+    and the red padlock is still present and attached to the valve mechanism.
+  rationale: 'The video describes an attempt to open the gas valve, but the action is blocked by the red
+    padlock (a physical constraint). Because the valve cannot be opened, no gas flows to the burner. When
+    the camera returns to the original viewpoint, the state of the system must be identical to the start:
+    the valve remains closed and the burner remains unlit. The model must correctly identify that the
+    padlock prevents the causal chain of ''turn valve -> light fire'' from completing.'
+  questions:
+  - id: burner_unlit
+    question: Is the burner nozzle unlit?
+    answer_type: yes_no
+    notes_for_judge: The burner should not have a flame because the valve was locked.
+  - id: no_fire_visible
+    question: Is the scene free of any visible fire or flames?
+    answer_type: yes_no
+    notes_for_judge: Verifies that the gas was not ignited.
+  - id: valve_perpendicular
+    question: Is the yellow valve handle perpendicular to the pipe?
+    answer_type: yes_no
+    notes_for_judge: The handle should remain in the closed (perpendicular) position.
+  - id: valve_closed_state
+    question: Is the valve handle in the closed position?
+    answer_type: yes_no
+    notes_for_judge: Checks if the handle orientation indicates 'closed'.
+  - id: padlock_present
+    question: Is the red padlock still visible on the valve?
+    answer_type: yes_no
+    notes_for_judge: The padlock should not disappear.
+  - id: state_unchanged
+    question: Does the burner nozzle appear in the same unlit state as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Comparative check for state stability.

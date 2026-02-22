@@ -4,9 +4,65 @@ category: causal_mechanism
 mechanism_type: proximity_sensor_trigger
 tags: []
 prompts:
-  image_gen_prompt: A ceiling light fixture is mounted on the ceiling and currently off (dark). The room has plain walls. The camera view is centered on the light fixture.
-  video_WM: The camera starts centered on the dark ceiling light fixture. The camera rotates right at constant speed until the light fixture exits the view. The camera continues rotating right, revealing a motion sensor mounted on the wall. A hand enters the frame and waves in front of the motion sensor. The sensor is a passive infrared (PIR) detector that monitors for changes in infrared radiation patterns. When a warm object moves within the detection zone, the sensor registers a change in the IR field. The sensor is wired to a relay that controls the ceiling light circuit. The relay has two states - open or closed. When the sensor detects motion above its threshold, it can trigger the relay to change state. The hand waves while the ceiling light remains out of view. Then the camera rotates left smoothly at the same rate back to the original viewpoint, bringing the ceiling light fixture back into center view. No zoom, no cut, no scene change. STOP.
-  camera_WM: The camera starts on the ceiling light, then rotates to the motion sensor. A hand waves in front of the sensor. The sensor is a PIR detector monitoring IR radiation patterns. When motion is detected above threshold, it can trigger a relay controlling the light circuit. The relay has two states. The hand motion occurs while the light is not visible. The camera then returns to the light fixture. STOP.
+  image_gen_prompt: A ceiling light fixture is mounted on the ceiling and currently off (dark). The room
+    has plain walls. The camera view is centered on the light fixture.
+  video_WM: The camera starts centered on the dark ceiling light fixture. The camera rotates right at
+    constant speed until the light fixture exits the view. The camera continues rotating right, revealing
+    a motion sensor mounted on the wall. A hand enters the frame and waves in front of the motion sensor.
+    The sensor is a passive infrared (PIR) detector that monitors for changes in infrared radiation patterns.
+    When a warm object moves within the detection zone, the sensor registers a change in the IR field.
+    The sensor is wired to a relay that controls the ceiling light circuit. The relay has two states -
+    open or closed. When the sensor detects motion above its threshold, it can trigger the relay to change
+    state. The hand waves while the ceiling light remains out of view. Then the camera rotates left smoothly
+    at the same rate back to the original viewpoint, bringing the ceiling light fixture back into center
+    view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The camera starts on the ceiling light, then rotates to the motion sensor. A hand waves in
+    front of the sensor. The sensor is a PIR detector monitoring IR radiation patterns. When motion is
+    detected above threshold, it can trigger a relay controlling the light circuit. The relay has two
+    states. The hand motion occurs while the light is not visible. The camera then returns to the light
+    fixture. STOP.
 camera_control:
   HY-WorldPlay: s-3, right-30, left-30
   Genie: null
+evaluation:
+  init_frame_description: A low-angle shot of a room with peeling white paint on the walls and a wooden
+    floor. In the center of the ceiling, there is an industrial-style light fixture with a metal base,
+    a wire cage, and a glass enclosure containing a light bulb. The light bulb is currently off (dark).
+    Parts of windows are visible on the far left and right edges of the frame.
+  init2final_edit_prompt: Edit the given image so that the ceiling light fixture is turned on. The light
+    bulb inside the glass enclosure should be glowing brightly. The glass enclosure should appear illuminated
+    from within, and the light should cast a glow onto the immediate surrounding ceiling area.
+  rationale: The video establishes a functional connection between a motion sensor and the ceiling light.
+    The sequence begins with the light off. The camera pans to reveal the sensor, and a hand waves in
+    front of it, providing the trigger input. Motion sensors typically activate connected lighting when
+    motion is detected. Therefore, when the camera returns to the initial view, the causal consequence
+    of the action is that the light fixture should now be illuminated.
+  questions:
+  - id: light_state_on
+    question: Is the light bulb inside the ceiling fixture now illuminated?
+    answer_type: yes_no
+    notes_for_judge: The light should be glowing, indicating it has been turned on.
+  - id: fixture_glowing
+    question: Does the glass enclosure of the fixture appear to be glowing from the inside?
+    answer_type: yes_no
+    notes_for_judge: Check for visual evidence of the light source being active within the glass.
+  - id: functional_activation
+    question: Does the ceiling light fixture appear to be turned on compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare with the initial dark state.
+  - id: ceiling_illumination
+    question: Is the ceiling area immediately surrounding the fixture brighter than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The activated light should cast some illumination on the nearby surface.
+  - id: bulb_visibility
+    question: Is the filament or the bulb itself brighter than it was initially?
+    answer_type: yes_no
+    notes_for_judge: The bulb should no longer look dark/grey.
+  - id: invariant_cage
+    question: Is the metal cage around the glass enclosure still visible?
+    answer_type: yes_no
+    notes_for_judge: 'Secondary consistency check: the structure should remain.'
+  - id: invariant_windows
+    question: Are the window frames on the edges of the image still present?
+    answer_type: yes_no
+    notes_for_judge: 'Secondary consistency check: the room geometry should not change.'

@@ -1,0 +1,67 @@
+id: automatic_toilet_flush_05
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: automatic_toilet_flush
+variation_type: precondition_failure
+variation_description: The sensor lens is covered with tape, preventing detection.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Sensor is occluded by tape. It cannot detect the hand wave.
+  expected_outcome_change: The water remains stable (no flush) because the sensor was not triggered.
+prompts:
+  init_frame_edit_prompt: Edit the image to show a piece of opaque gray duct tape covering the black sensor
+    window on the flush module.
+  video_WM: The camera starts centered on the toilet bowl with stable water level. The camera rotates
+    right at constant speed until the bowl exits the view. The camera continues rotating, revealing the
+    automatic flush sensor module, which has tape covering its lens. A hand enters the frame and waves
+    in front of the taped sensor. The hand wave occurs while the toilet bowl remains out of camera view.
+    Then the camera rotates left smoothly back to the original viewpoint, bringing the toilet bowl back
+    into center view. STOP.
+  camera_WM: The scene features a toilet bowl and a taped-over flush sensor. A hand waves in front of
+    the sensor, but the lens is blocked. This action occurs while the bowl is not visible. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A high-angle, close-up view of a white ceramic toilet bowl with the seat down.
+    The bowl contains clear water at a normal resting level with a calm, flat surface. Located on the
+    back rim of the bowl, centered beneath the seat hinge, is a black rectangular automatic flush sensor.
+    A strip of grey duct tape is adhered horizontally over the sensor window, completely occluding it.
+    The floor surrounding the toilet is tiled in light beige, and a beige shag rug is partially visible
+    at the bottom of the frame.
+  init2final_edit_prompt: Edit the given image to show the toilet bowl in a calm, resting state. The water
+    in the bowl must be still, clear, and flat, with no ripples, swirling, or bubbles. The water level
+    should remain at the same resting height as the original image. The grey duct tape must remain adhered
+    to the sensor on the back rim. The final image should depict the toilet exactly as it was, showing
+    no evidence of a flush having occurred.
+  rationale: 'The initial frame displays an automatic flush sensor that has been intentionally disabled
+    by covering its lens with opaque duct tape. The video prompt describes a hand waving in front of this
+    taped sensor. Because the tape blocks the infrared signal required to detect motion, the sensor will
+    not trigger the flush mechanism. Therefore, despite the hand wave action, the toilet will not flush.
+    When the camera returns to the bowl, the water state must remain identical to the initial frame: calm,
+    still, and at the resting level, with no swirling or draining.'
+  questions:
+  - id: water_calmness
+    question: Is the water in the toilet bowl still calm and undisturbed?
+    answer_type: yes_no
+    notes_for_judge: The water should be flat and still, not swirling.
+  - id: no_swirling
+    question: Is the water surface free of swirling, bubbling, or turbulence?
+    answer_type: yes_no
+    notes_for_judge: Any evidence of flushing motion makes the answer No.
+  - id: water_level_stable
+    question: Does the water level appear stable and unchanged from the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The level should not be lower (draining) or higher (refilling).
+  - id: tape_presence
+    question: Is the grey duct tape still visible covering the sensor?
+    answer_type: yes_no
+    notes_for_judge: The tape should not have been removed.
+  - id: non_flush_state
+    question: Does the toilet appear to be in a resting, non-flushing state?
+    answer_type: yes_no
+    notes_for_judge: The scene should look static compared to the start.
+  - id: water_clarity
+    question: Is the water clear and free of motion blur?
+    answer_type: yes_no
+    notes_for_judge: Motion blur would indicate flushing.

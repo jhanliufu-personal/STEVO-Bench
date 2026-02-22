@@ -1,0 +1,71 @@
+id: string_pull_lamp_04
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: string_pull_lamp
+variation_type: precondition_failure
+variation_description: The power wire leading to the lamp is visibly severed, preventing the light from
+  turning on.
+changes:
+  occlusion_method: null
+  dynamic_conditions: 'Broken precondition: Power cut. Trigger action has no effect.'
+  expected_outcome_change: The lamp will remain OFF (dark) due to lack of power.
+prompts:
+  init_frame_edit_prompt: Edit the image to show the electrical wire leading into the top of the lamp
+    fixture is clearly severed and hanging loose, disconnected from power.
+  video_WM: The camera starts centered on the dark lamp bulb, showing the severed wire above it. The camera
+    rotates right at constant speed until the bulb exits the view. The camera continues rotating, revealing
+    the beaded pull-string hanging down. A hand enters the frame, grabs the beaded string, and pulls it
+    downward firmly until a mechanical click is heard, then releases it. The lamp contains an internal
+    toggle switch mechanism. The string pull occurs while the lamp bulb remains out of camera view. Then
+    the camera rotates left smoothly at the same rate back to the original viewpoint, bringing the lamp
+    bulb and broken wire back into center view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The camera starts on the lamp bulb and wire, then rotates to the pull-string. A hand pulls
+    the string downward to engage the internal toggle switch. The string pull occurs while the bulb is
+    not visible. The camera then returns to the lamp bulb. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a vintage industrial pendant lamp hanging in a
+    workshop. The lamp features a flat, galvanized metal shade and a wire cage guard surrounding a clear,
+    teardrop-shaped filament bulb which is currently dark (off). Emerging from the top of the lamp fixture
+    is a twisted, fabric-covered power cord that loops upward but terminates abruptly in frayed, severed
+    ends, clearly disconnected from any power source or ceiling rose. The background shows blurred wooden
+    beams and workshop tools.
+  init2final_edit_prompt: Edit the given image to show the lamp hanging at a slight angle, tilted off-center
+    as if it is swinging from a recent disturbance. The bulb must remain completely dark and unlit, with
+    no glow from the filament. The severed wire ends above the lamp should remain visible and disconnected.
+    Maintain the original background and lighting, changing only the lamp's physical orientation.
+  rationale: The rollout involves a physical interaction (pulling the string) that triggers a mechanical
+    switch (click). However, the initial frame and prompt explicitly establish that the lamp's power wire
+    is severed and disconnected. Therefore, a causally consistent world model must determine that the
+    electrical circuit cannot be completed. The correct final state involves a kinetic change (the lamp
+    swinging due to the force of the pull) but no photonic change (the bulb remains dark). The model must
+    resist the correlation between 'pull string' and 'light on' in favor of the physical constraint of
+    the cut wire.
+  questions:
+  - id: bulb_state_dark
+    question: Is the light bulb still completely dark?
+    answer_type: yes_no
+    notes_for_judge: The bulb must not be glowing. The wire is severed, so the light cannot turn on.
+  - id: lamp_motion_swing
+    question: Is the lamp tilted or in a different orientation compared to the center of the frame?
+    answer_type: yes_no
+    notes_for_judge: The lamp was pulled firmly, so it should be swinging or displaced from its original
+      perfectly centered static position.
+  - id: filament_unlit
+    question: Is the internal filament of the bulb unlit and dark?
+    answer_type: yes_no
+    notes_for_judge: Check for any orange or yellow glow; there should be none.
+  - id: no_illumination_change
+    question: Did the lamp remain off despite the string pull?
+    answer_type: yes_no
+    notes_for_judge: 'This tests causal reasoning: action (pull) + broken state (cut wire) = no light.'
+  - id: wire_condition_visible
+    question: Are the severed ends of the wire still visible above the lamp?
+    answer_type: yes_no
+    notes_for_judge: 'Secondary consistency check: the wires should not have magically repaired themselves.'
+  - id: cage_orientation
+    question: Is the wire cage around the bulb tilted along with the lamp?
+    answer_type: yes_no
+    notes_for_judge: Verifies the physical object moved as a rigid body.

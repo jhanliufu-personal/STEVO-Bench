@@ -1,0 +1,83 @@
+id: string_pull_lamp_10
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: string_pull_lamp
+variation_type: indirect_causation
+variation_description: A master wall switch is visible in the background in the OFF position, preventing
+  the pull-string from activating the lamp.
+changes:
+  occlusion_method: null
+  dynamic_conditions: 'Mediated causation: The lamp requires both the master switch AND the pull string.
+    Master is OFF.'
+  expected_outcome_change: The lamp will remain OFF (dark) because the master circuit is open.
+prompts:
+  init_frame_edit_prompt: Edit the image to include a visible wall switch in the background that is toggled
+    to the 'OFF' (down) position, labeled 'MASTER POWER'.
+  video_WM: The camera starts centered on the dark lamp bulb, with a master wall switch visible in the
+    background in the OFF position. The camera rotates right at constant speed until the bulb exits the
+    view. The camera continues rotating, revealing the beaded pull-string hanging down. A hand enters
+    the frame, grabs the beaded string, and pulls it downward firmly until a mechanical click is heard,
+    then releases it. The lamp contains an internal toggle switch mechanism dependent on the master power.
+    The string pull occurs while the lamp bulb remains out of camera view. Then the camera rotates left
+    smoothly at the same rate back to the original viewpoint, bringing the lamp bulb back into center
+    view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The camera starts on the lamp bulb and background switch, then rotates to the pull-string.
+    A hand pulls the string downward to engage the internal toggle switch. The string pull occurs while
+    the bulb is not visible. The camera then returns to the lamp bulb. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a vintage industrial pendant lamp hanging in a
+    workshop. The lamp features a galvanized metal shade and a wire cage protecting a clear, unlit Edison-style
+    bulb with visible vertical filaments. In the background, slightly out of focus, is a wooden wall with
+    a brass switch plate labeled 'MASTER POWER'. The toggle switch on the plate is in the down (off) position.
+    The environment is dimly lit with natural light, and various tools and shelves are visible in the
+    blurred background.
+  init2final_edit_prompt: Edit the given image so that the central light bulb remains completely dark
+    and unlit. The internal filament must appear dark and non-glowing. The background 'MASTER POWER' switch
+    must remain in the down position. Maintain the existing natural lighting of the scene without any
+    artificial light emanating from the lamp, ensuring the bulb glass remains clear and transparent.
+  rationale: The video prompt establishes that the master wall switch in the background is in the OFF
+    position. Although the camera motion reveals a pull-string and a hand toggles the lamp's internal
+    switch, the electrical circuit is broken at the master switch. Therefore, the causal action of pulling
+    the string results in no illumination change. The final frame must show the bulb remaining unlit and
+    dark, identical to the initial state, demonstrating the model's understanding of the dependency on
+    the master power.
+  questions:
+  - id: bulb_state_dark
+    question: Is the light bulb still unlit in the final frame?
+    answer_type: yes_no
+    notes_for_judge: The bulb should not be glowing.
+  - id: filament_dark
+    question: Is the filament inside the bulb dark?
+    answer_type: yes_no
+    notes_for_judge: The filament should not be orange or yellow.
+  - id: lamp_off_appearance
+    question: Does the lamp appear to be powered off?
+    answer_type: yes_no
+    notes_for_judge: General appearance of the device.
+  - id: master_switch_position
+    question: Is the master power switch in the background still in the down position?
+    answer_type: yes_no
+    notes_for_judge: The switch should not have moved.
+  - id: glass_glow_check
+    question: Is the glass of the bulb free from any glow?
+    answer_type: yes_no
+    notes_for_judge: Check for emission.
+  - id: shade_interior_dark
+    question: Is the interior of the metal shade dark?
+    answer_type: yes_no
+    notes_for_judge: No light reflection inside the shade.
+  - id: cage_illumination
+    question: Is the wire cage surrounding the bulb free from direct illumination by the bulb?
+    answer_type: yes_no
+    notes_for_judge: The cage should not be lit up.
+  - id: label_visibility
+    question: Is the 'MASTER POWER' label still visible on the switch plate?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: ambient_light_check
+    question: Is the background free from the warm cast of an incandescent light?
+    answer_type: yes_no
+    notes_for_judge: The environment lighting should not change.

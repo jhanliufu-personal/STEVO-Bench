@@ -1,0 +1,74 @@
+id: sprinkler_valve_control_01
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: sprinkler_valve_control
+variation_type: initial_state
+variation_description: The sprinkler starts in the active state (spraying water), so the valve action
+  turns it OFF.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Sprinkler is initially spraying water. Valve is initially OPEN. Hand rotates valve
+    CLOCKWISE to CLOSE it.
+  expected_outcome_change: The sprinkler stops spraying and returns to an inactive state.
+prompts:
+  init_frame_edit_prompt: Edit the image to show the sprinkler head actively spraying water, with the
+    surrounding grass appearing wet and darkened by moisture.
+  video_WM: The camera starts centered on the active sprinkler head spraying water onto the wet grass.
+    The camera rotates right at constant speed until the sprinkler exits the view. The camera continues
+    rotating, revealing a manual water valve mounted on a pipe near the wall. The valve handle is currently
+    in the open position (parallel to the pipe). A hand enters the frame and rotates the valve handle
+    clockwise from the open position to the closed position. The sprinkler is connected to a pressurized
+    water line controlled by this valve. Closing the valve stops the water flow through the system to
+    the sprinkler head. The valve rotation occurs while the sprinkler head remains out of camera view.
+    Then the camera rotates left smoothly at the same rate back to the original viewpoint, bringing the
+    sprinkler head back into center view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The scene features an active sprinkler head spraying water and a manual water valve. A hand
+    closes the valve by rotating it clockwise. The valve controls water flow to the pressurized line connected
+    to the sprinkler. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a metal impact sprinkler head mounted on a vertical
+    riser in a field of dry, yellow-brown grass. The sprinkler is currently active, spraying a forceful,
+    blurry stream of white water to the left. A beige garden hose lies on the ground connected to the
+    base of the sprinkler. The scene is brightly lit with natural sunlight.
+  init2final_edit_prompt: Edit the given image to stop the water flow. Remove the white spray of water,
+    jet, and mist entirely from the air. Show the metal sprinkler head in an inactive state with no water
+    emerging from the nozzle. Keep the sprinkler hardware, the hose on the ground, and the dry grass background
+    exactly the same as the original, but ensure the water stream is completely gone.
+  rationale: The video describes a causal sequence where the camera pans to a control valve, a user closes
+    the valve to cut off the water supply, and the camera pans back to the sprinkler. Since the valve
+    controlling the pressurized water line was closed, the water flow to the sprinkler stops. Therefore,
+    in the final frame, the sprinkler must be inactive, showing no water spray, while the environment
+    and camera position remain identical to the start.
+  questions:
+  - id: water_flow_stopped
+    question: Is the stream of water that was spraying from the nozzle absent in the final frame?
+    answer_type: yes_no
+    notes_for_judge: The water jet should be gone.
+  - id: sprinkler_inactive
+    question: Does the sprinkler head appear to be inactive (not spraying) compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Active spraying vs inactive static object.
+  - id: mist_cleared
+    question: Is the air around the sprinkler free of the water mist and droplets seen in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: Check for removal of the spray effect.
+  - id: functional_state_change
+    question: Has the water flow stopped?
+    answer_type: yes_no
+    notes_for_judge: Direct test of the causal outcome.
+  - id: sprinkler_presence
+    question: Is the metal sprinkler head still visible in the same location?
+    answer_type: yes_no
+    notes_for_judge: Consistency check.
+  - id: hose_consistency
+    question: Is the hose connected to the sprinkler still visible on the ground?
+    answer_type: yes_no
+    notes_for_judge: Consistency check.
+  - id: background_consistency
+    question: Is the dry grass background consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Consistency check.

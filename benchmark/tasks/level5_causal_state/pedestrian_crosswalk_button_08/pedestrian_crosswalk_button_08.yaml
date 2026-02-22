@@ -1,0 +1,71 @@
+id: pedestrian_crosswalk_button_08
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: pedestrian_crosswalk_button
+variation_type: repeated_activation
+variation_description: Button is pressed twice (toggle on, then toggle off/reset)
+changes:
+  occlusion_method: null
+  dynamic_conditions: Trigger activated twice. Net state change is zero.
+  expected_outcome_change: Signal remains Red DON'T WALK (No Change).
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The camera starts centered on the pedestrian signal showing the red hand (DON'T WALK) symbol.
+    The camera rotates right at constant speed until the signal exits the view. The camera continues rotating,
+    revealing a pedestrian crossing button mounted on a pole at the curb. A hand enters the frame, presses
+    the circular button firmly, releases it, and then presses it a second time. The double activation
+    sends a toggle-and-reset signal sequence to the controller. These actions occur while the crossing
+    signal remains out of camera view. Then the camera rotates left smoothly at the same rate back to
+    the original viewpoint, bringing the pedestrian crossing signal back into center view. No zoom, no
+    cut, no scene change. STOP.
+  camera_WM: A hand presses the pedestrian button twice. The double activation sends a signal sequence
+    to the controller. The actions occur while the crossing signal is not visible. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up view of a yellow pedestrian signal box mounted on a grey metal pole.
+    The signal is currently displaying a bright red hand symbol and the red text 'DON'T WALK'. The background
+    shows a wet, rainy city street with reflections on the pavement, blurred cars, and pedestrians holding
+    umbrellas.
+  init2final_edit_prompt: Edit the given image to change the pedestrian signal to the 'Walk' state. Replace
+    the illuminated red hand symbol with an illuminated white walking person symbol. Change the text display
+    so that 'DON'T' is no longer illuminated and 'WALK' is illuminated in white. Keep the yellow signal
+    housing, the metal pole, and the rainy street background exactly as they are.
+  rationale: The video prompt describes a causal interaction where a button is pressed to trigger a signal
+    change. The 'toggle-and-reset' sequence sent to the controller functions as the mechanism to switch
+    the signal's state. Consequently, the primary state change is the transition of the pedestrian signal
+    from 'Don't Walk' (red hand) to 'Walk' (white person). The camera movement pans away and returns to
+    the original view, meaning the final frame should be identical to the initial frame in composition
+    and background, differing only in the signal's displayed state.
+  questions:
+  - id: signal_icon_change
+    question: Is the illuminated red hand symbol replaced by a white walking person symbol?
+    answer_type: yes_no
+    notes_for_judge: The primary indicator of the state change is the icon switching from the red stop
+      hand to the white walk figure.
+  - id: text_state_change
+    question: Is the word 'DON'T' no longer illuminated on the signal?
+    answer_type: yes_no
+    notes_for_judge: In the 'Walk' state, the prohibitive 'DON'T' text should turn off.
+  - id: walk_text_color
+    question: Is the text 'WALK' now illuminated in white?
+    answer_type: yes_no
+    notes_for_judge: The text color typically changes from red (in 'DON'T WALK') to white (in 'WALK')
+      or just the 'WALK' portion lights up white.
+  - id: functional_state_go
+    question: Does the signal now indicate that it is safe for pedestrians to cross?
+    answer_type: yes_no
+    notes_for_judge: 'Functional check: Red hand means stop, White person means go.'
+  - id: red_light_off
+    question: Are the red light elements on the signal face turned off?
+    answer_type: yes_no
+    notes_for_judge: The red hand and red text should be extinguished.
+  - id: housing_consistency
+    question: Is the signal housing still yellow?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: background_consistency
+    question: Are the wet street reflections still visible in the background?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

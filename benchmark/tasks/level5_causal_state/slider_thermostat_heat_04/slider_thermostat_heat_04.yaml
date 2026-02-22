@@ -1,0 +1,71 @@
+id: slider_thermostat_heat_04
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: slider_thermostat_heat
+variation_type: precondition_failure
+variation_description: A severed wire is visible near the vent, preventing the circuit from completing.
+changes:
+  occlusion_method: null
+  dynamic_conditions: 'Precondition failed (severed wire). Action is MIN -> MAX. Logic: Circuit broken,
+    no power reaches heater.'
+  expected_outcome_change: The vent remains inactive despite the slider being moved to MAX.
+prompts:
+  init_frame_edit_prompt: Edit the image to show a severed electrical wire hanging loose from the wall
+    directly below the vent, with frayed ends visible.
+  video_WM: The camera starts centered on the inactive heater vent with a visible broken wire below it.
+    The camera rotates right at constant speed until the vent exits the view. The camera continues rotating,
+    revealing a wall-mounted heater control with a horizontal slider. The slider is currently at the far
+    left MIN position. A finger enters the frame and slides the control bar all the way to the far right
+    MAX position. The slider remains at the maximum setting. The thermostat engages the heating circuit
+    when set above a threshold. The slider movement occurs while the heater vent remains out of camera
+    view. Then the camera rotates left smoothly at the same rate back to the original viewpoint, bringing
+    the heater vent back into center view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The camera starts on the heater vent, then rotates to the temperature slider control. A finger
+    moves the slider from MIN to MAX position. The thermostat engages heating above threshold. The slider
+    movement occurs while the vent is not visible. The camera then returns to the heater vent. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a beige, wall-mounted heater vent with horizontal
+    louvers. Directly below the vent, a thick black electrical cable protrudes from the wall; the wire
+    is severed and frayed, hanging loosely, indicating a broken power connection. The interior of the
+    vent is dark and shadowy. The wall has a textured, off-white or beige finish.
+  init2final_edit_prompt: Edit the given image to show the heater vent remaining completely inactive.
+    The interior of the vent between the louvers must remain dark and shadowy, with absolutely no glowing
+    coils, orange light, or heat visible. The broken black wire below the vent must remain severed and
+    hanging as in the original. The lighting and appearance of the wall and vent should remain identical
+    to the initial state.
+  rationale: The initial frame establishes that the heater has a broken physical connection (the severed
+    wire). Although the video prompt describes a causal action where the thermostat is set to the 'MAX'
+    position, the physical reality of the broken wire prevents the electrical circuit from completing.
+    Therefore, the heater cannot activate. This task tests whether the world model can integrate the 'broken'
+    state constraint (observed initially) with the control action (observed later) to correctly predict
+    a null result. A naive model might associate 'thermostat MAX' with 'glowing heater' and ignore the
+    broken wire, especially since the vent is out of view during the adjustment. The correct prediction
+    is that the heater remains dark and inactive.
+  questions:
+  - id: q1_state_dark
+    question: Is the interior of the heater vent still dark?
+    answer_type: yes_no
+    notes_for_judge: The heater should not glow because the wire is broken.
+  - id: q2_state_no_glow
+    question: Is the heater vent free of any glowing orange or red elements?
+    answer_type: yes_no
+    notes_for_judge: Check for absence of heat visuals.
+  - id: q3_state_inactive
+    question: Does the heater appear to be completely inactive?
+    answer_type: yes_no
+    notes_for_judge: The device should look off.
+  - id: q4_invariant_wire
+    question: Is the broken wire still visible and severed below the vent?
+    answer_type: yes_no
+    notes_for_judge: The wire should not be fixed or disappear.
+  - id: q5_lighting_cast
+    question: Is the wall surrounding the vent free of any warm light cast?
+    answer_type: yes_no
+    notes_for_judge: No light should be emitted.
+  - id: q6_consistency
+    question: Is the visual state of the heater identical to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Since it's broken, nothing should change.

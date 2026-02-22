@@ -1,0 +1,63 @@
+id: vending_machine_selection_04
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: vending_machine_selection
+variation_type: precondition_failure
+variation_description: The vending machine is powered down (display dark), preventing the mechanism from
+  working.
+changes:
+  occlusion_method: null
+  dynamic_conditions: No power means the keypad input is ignored and the motor does not turn.
+  expected_outcome_change: The bag of chips remains hanging in slot D3; it does not drop.
+prompts:
+  init_frame_edit_prompt: Edit the image so the digital display on the keypad is completely black and
+    dark, indicating the machine is powered off.
+  video_WM: The camera starts centered on the bag of chips in slot D3. The camera rotates right at constant
+    speed until the product exits the view. The camera continues rotating, revealing the keypad which
+    has a dark, unlit display. A hand enters the frame and presses D, then 3. The code entry occurs while
+    the product remains out of camera view. Then the camera rotates left smoothly back to the original
+    viewpoint, bringing the product slot back into center view. STOP.
+  camera_WM: The camera starts on the product in slot D3. A hand enters code D-3 on the keypad, which
+    has a dark display. The code entry occurs while the product is not visible. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up view of a vending machine interior seen through the glass. In the
+    center, slot D3 contains a blue and white bag of 'Crinkle Cut Crisps - Sea Salt & Vinegar' held in
+    a metal spiral coil. Above the bag is a label reading 'D3'. To the left, a red/orange bag of 'Doritos'
+    is partially visible. The background is dark, and there are reflections on the glass front.
+  init2final_edit_prompt: Edit the given image to remove the bag of 'Crinkle Cut Crisps' from the center
+    slot D3, leaving the slot empty. Show the empty metal spiral coil extending back into the machine
+    where the bag previously was. Keep the 'D3' label above the slot and the 'Doritos' bag on the left
+    unchanged. Maintain the original lighting and reflections.
+  rationale: The video prompt describes a user entering the code 'D3' on the keypad while the product
+    slot is temporarily out of view. Entering the code triggers the vending mechanism, causing the coil
+    to rotate and dispense the selected item. By the time the camera rotates back to the original viewpoint,
+    the dispensing cycle would be complete or nearly complete, resulting in the bag of chips falling out
+    of the slot. Therefore, the final frame should show the D3 slot empty.
+  questions:
+  - id: q1
+    question: Is the bag of 'Crinkle Cut Crisps' missing from the center slot?
+    answer_type: yes_no
+    notes_for_judge: The bag should be dispensed, leaving the slot empty.
+  - id: q2
+    question: Is the metal spiral coil in slot D3 now empty?
+    answer_type: yes_no
+    notes_for_judge: The coil should be visible without the bag inside it.
+  - id: q3
+    question: Has the product in slot D3 been dispensed?
+    answer_type: yes_no
+    notes_for_judge: Dispensed means the bag is no longer held in the coil.
+  - id: q4
+    question: Is the space below the 'D3' label empty of chips?
+    answer_type: yes_no
+    notes_for_judge: Check for the absence of the specific bag.
+  - id: q5
+    question: Is the 'Doritos' bag still visible on the left side?
+    answer_type: yes_no
+    notes_for_judge: Consistency check for unselected item.
+  - id: q6
+    question: Is the 'D3' label still present above the slot?
+    answer_type: yes_no
+    notes_for_judge: Consistency check for static labels.

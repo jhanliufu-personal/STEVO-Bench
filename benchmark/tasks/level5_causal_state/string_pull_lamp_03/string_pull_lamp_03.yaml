@@ -1,0 +1,72 @@
+id: string_pull_lamp_03
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: string_pull_lamp
+variation_type: initial_state
+variation_description: The lamp starts in the ON state (dim orange filament), so pulling the string turns
+  it OFF.
+changes:
+  occlusion_method: null
+  dynamic_conditions: 'Initial state inverted: Lamp is ON. Mechanism is a toggle. Action should turn it
+    OFF.'
+  expected_outcome_change: The lamp will be OFF (dark) at the end.
+prompts:
+  init_frame_edit_prompt: Edit the image so the lamp bulb filament is glowing a dim orange, indicating
+    it is powered on but dim.
+  video_WM: The camera starts centered on the glowing lamp bulb. The camera rotates right at constant
+    speed until the bulb exits the view. The camera continues rotating, revealing the beaded pull-string
+    hanging down. A hand enters the frame, grabs the beaded string, and pulls it downward firmly until
+    a mechanical click is heard, then releases it. The lamp contains an internal toggle switch mechanism
+    that changes state with each pull. The string pull occurs while the lamp bulb remains out of camera
+    view. Then the camera rotates left smoothly at the same rate back to the original viewpoint, bringing
+    the lamp bulb back into center view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The camera starts on the lamp bulb, then rotates to the pull-string. A hand pulls the string
+    downward to engage the internal toggle switch. The string pull occurs while the bulb is not visible.
+    The camera then returns to the lamp bulb. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A vintage industrial pendant light hanging in a workshop, featuring a galvanized
+    metal shade and a wire cage guard. Inside the cage, an Edison-style filament bulb is illuminated,
+    emitting a bright, warm orange glow. The light illuminates the interior of the metal shade and the
+    wire guard. The background is a cluttered workshop with wooden beams, shelves, and tools, slightly
+    out of focus.
+  init2final_edit_prompt: Edit the given image to turn the light bulb off. The filament inside the bulb
+    should appear dark and unlit, with no orange glow. The interior of the metal shade and the wire cage
+    should be darker, reflecting the absence of the internal light source. Maintain the exact position
+    and structure of the lamp and background objects, changing only the illumination state of the bulb
+    and its immediate lighting effects.
+  rationale: The initial frame shows the lamp in an ON state. The prompt describes a sequence where the
+    camera pans away, a hand pulls the pull-string (a toggle mechanism), and the camera returns. A single
+    pull on a toggle switch changes the state from ON to OFF. Therefore, when the camera returns to the
+    initial viewpoint, the bulb must be extinguished.
+  questions:
+  - id: bulb_state_off
+    question: Is the light bulb unlit in the final frame?
+    answer_type: yes_no
+    notes_for_judge: The bulb should no longer be glowing.
+  - id: filament_glow_gone
+    question: Has the bright orange glow of the filament disappeared?
+    answer_type: yes_no
+    notes_for_judge: Compare with the initial frame where the filament is bright orange.
+  - id: filament_dark
+    question: Does the filament appear dark or grey instead of glowing?
+    answer_type: yes_no
+    notes_for_judge: The physical filament structure should be visible but not emitting light.
+  - id: shade_darker
+    question: Is the interior of the metal shade darker than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Without the bulb on, the underside of the shade should be in shadow.
+  - id: cage_lighting
+    question: Is the wire cage guard less illuminated than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The metal wires should reflect less light.
+  - id: object_permanence_lamp
+    question: Is the vintage lamp (shade and cage) still present in the center of the frame?
+    answer_type: yes_no
+    notes_for_judge: The object itself should not disappear, only its state changes.
+  - id: background_consistency
+    question: Is the workshop background still visible and consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The environment should not change.

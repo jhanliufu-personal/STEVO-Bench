@@ -1,0 +1,66 @@
+id: fire_alarm_pull_station_02
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: fire_alarm_pull_station
+variation_type: initial_state
+variation_description: The system is defined as an emergency light test; starts OFF, pulling turns it
+  ON.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Initial state is OFF. Mechanism is a test switch. Action turns output ON.
+  expected_outcome_change: The indicator light should turn ON (white or green) from a dark state.
+prompts:
+  init_frame_edit_prompt: Edit the image so the indicator light is OFF (dark/unlit).
+  video_WM: The camera starts centered on the ceiling-mounted emergency indicator light which is currently
+    off (dark). The camera rotates right at constant speed until the indicator exits the view. The camera
+    continues rotating, revealing a red pull station mounted on the wall. A hand enters the frame and
+    pulls down the handle on the pull station firmly. This station is wired to activate the emergency
+    lighting circuit when pulled. The handle pull occurs while the ceiling indicator remains out of camera
+    view. Then the camera rotates left smoothly at the same rate back to the original viewpoint, bringing
+    the ceiling indicator back into center view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The ceiling indicator is off. A hand pulls down the handle on the wall-mounted station. The
+    station activates the lighting circuit. The action occurs while the indicator is not visible. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up view of a white, circular fire alarm indicator mounted on a textured
+    white ceiling. The device features a central dark green glossy dome lens surrounded by a white ring
+    containing the text 'SYSTEM ARMED' at the top and 'FIRE ALARM INDICATOR' at the bottom. The central
+    dome is currently dark (unlit) and reflects a window and the photographer.
+  init2final_edit_prompt: Edit the given image to show the central green dome of the device glowing brightly,
+    indicating that the light has been activated. The dome should appear internally illuminated, emitting
+    a bright light that makes it significantly lighter and more vibrant than its original dark, unlit
+    state. Keep the surrounding white casing, text, and ceiling texture unchanged.
+  rationale: The video sequence describes a causal chain where the camera pans away to reveal a manual
+    pull station, which is then physically activated by a hand. The prompt explicitly states that this
+    station is wired to activate the emergency lighting circuit. Consequently, when the camera pans back
+    to the initial view, the indicator light (which was previously off/dark) must now be illuminated/on
+    to reflect the triggered state of the system.
+  questions:
+  - id: q1_state_change
+    question: Is the central dome of the indicator now illuminated or glowing?
+    answer_type: yes_no
+    notes_for_judge: The dome should look like a light source is active inside it, rather than being dark
+      and reflective.
+  - id: q2_brightness
+    question: Is the central lens significantly brighter than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the luminance of the central green area; it should be higher in the final
+      frame.
+  - id: q3_activation
+    question: Does the device appear to be in an 'on' or triggered state?
+    answer_type: yes_no
+    notes_for_judge: The visual cue is the light being on.
+  - id: q4_visual_appearance
+    question: Has the appearance of the dome changed from dark/glossy to bright/emitting light?
+    answer_type: yes_no
+    notes_for_judge: Focus on the material appearance change due to internal lighting.
+  - id: q5_consistency_text
+    question: Is the text 'SYSTEM ARMED' still visible on the device?
+    answer_type: yes_no
+    notes_for_judge: Consistency check for the static parts of the object.
+  - id: q6_consistency_position
+    question: Is the device still centered on the textured white background?
+    answer_type: yes_no
+    notes_for_judge: Consistency check for camera return accuracy.

@@ -1,0 +1,70 @@
+id: doorbell_chime_wireless_01
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: doorbell_chime_wireless
+variation_type: initial_state
+variation_description: Chime starts in the active state (Blue LED ON), so the toggle action turns it OFF.
+changes:
+  occlusion_method: null
+  dynamic_conditions: The chime starts with its LED indicator illuminated blue (active state). The button
+    acts as a toggle switch.
+  expected_outcome_change: The final state will be the chime turning OFF (LED dark) because the initial
+    state was ON and the button toggles the state.
+prompts:
+  init_frame_edit_prompt: Edit the image so the LED indicator on the center of the chime is glowing bright
+    blue.
+  video_WM: The camera starts centered on the wireless doorbell chime plugged into the interior wall.
+    The LED indicator is currently illuminated blue and the unit is active. The camera rotates right at
+    constant speed until the chime exits the view. The camera continues rotating through the hallway and
+    toward the exterior door, revealing the wireless doorbell button mounted outside. A finger enters
+    the frame and presses the doorbell button. The button and chime are paired as a toggle system; pressing
+    the button reverses the chime's current state. The button press occurs while the interior chime remains
+    out of camera view. Then the camera rotates left smoothly at the same rate back to the original viewpoint,
+    bringing the wireless chime back into center view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The scene features a wireless doorbell chime with a blue illuminated LED and an exterior
+    doorbell button. A finger presses the doorbell button. The button and chime are paired as a toggle
+    system. The button press occurs while the interior chime remains out of camera view. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up view of a white wireless doorbell receiver plugged into the bottom
+    socket of a standard electrical outlet on a light gray wall. The device is rectangular with rounded
+    corners, featuring a circular speaker grille pattern on the top half and a circular LED indicator
+    light in the center. The LED is currently illuminated, glowing a bright cyan-blue. To the left is
+    a white vertical doorframe or window trim. To the right, the background shows a blurred view of a
+    window with muntins.
+  init2final_edit_prompt: Edit the given image to turn off the blue LED indicator light on the white plug-in
+    device. The circular indicator area should appear unlit (dark, gray, or white plastic) rather than
+    glowing blue. Remove any blue light reflections or glow from the device surface. Keep the device plugged
+    into the wall outlet in the exact same position and ensure the background and wall remain unchanged.
+  rationale: The prompt defines the system as a toggle mechanism where the button press reverses the chime's
+    state. The initial state shows the chime active with the blue LED on. The camera rotates away to reveal
+    the button, a finger presses it, and the camera returns. Because the action is a toggle and the initial
+    state was 'on', the causal consequence of the button press is that the chime turns 'off'. Therefore,
+    in the final frame, the LED must be extinguished. The device itself does not move.
+  questions:
+  - id: q1_state_change
+    question: Is the blue LED indicator light on the device now turned off?
+    answer_type: yes_no
+    notes_for_judge: The light should no longer be glowing blue.
+  - id: q2_state_change
+    question: Does the circular indicator area appear unlit or dark?
+    answer_type: yes_no
+    notes_for_judge: It should look like unlit plastic or a dark sensor window, not a light source.
+  - id: q3_state_change
+    question: Is the blue glow absent from the center of the device?
+    answer_type: yes_no
+    notes_for_judge: Check for the absence of the cyan/blue emission seen in the first frame.
+  - id: q4_consistency
+    question: Is the device still plugged into the bottom socket of the outlet?
+    answer_type: yes_no
+    notes_for_judge: The device should not have moved or been unplugged.
+  - id: q5_consistency
+    question: Is the speaker grille pattern still visible on the top half of the device?
+    answer_type: yes_no
+    notes_for_judge: Structural features should remain unchanged.
+  - id: q6_consistency
+    question: Is the white vertical trim still visible on the left side?
+    answer_type: yes_no
+    notes_for_judge: Background consistency check.

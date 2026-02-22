@@ -1,0 +1,72 @@
+id: motion_sensor_ceiling_light_04
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: motion_sensor_ceiling_light
+variation_type: precondition_failure
+variation_description: The lightbulb is missing from the socket. Triggering the sensor has no visible
+  effect.
+changes:
+  occlusion_method: null
+  dynamic_conditions: 'Precondition failure: No bulb to emit light.'
+  expected_outcome_change: No change (light remains dark/empty).
+prompts:
+  init_frame_edit_prompt: Edit the image to remove the lightbulb from the fixture, showing an empty socket
+    inside the glass cage.
+  video_WM: The camera starts centered on the empty ceiling light fixture. The camera rotates right at
+    constant speed until the light fixture exits the view. The camera continues rotating right, revealing
+    a motion sensor mounted on the wall. A hand enters the frame and waves in front of the motion sensor.
+    The sensor is a passive infrared (PIR) detector that monitors for changes in infrared radiation patterns
+    to trigger the light circuit. The hand waves while the ceiling light remains out of view. Then the
+    camera rotates left smoothly at the same rate back to the original viewpoint, bringing the ceiling
+    light fixture back into center view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The camera starts on the empty ceiling light socket, then rotates to the motion sensor. A
+    hand waves in front of the sensor. The sensor monitors for motion to trigger the circuit. The hand
+    motion occurs while the light is not visible. The camera then returns to the light fixture. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A central, vintage-style industrial ceiling light fixture mounted on a white
+    ceiling. The fixture has a metal base and a wire cage protecting a clear glass jar enclosure. Inside
+    the glass, a light bulb is visible but currently turned off (dark). The room has distressed walls
+    with peeling paint, wooden floorboards, and parts of two windows visible on the far left and right
+    edges.
+  init2final_edit_prompt: Edit the given image so that the light bulb inside the central ceiling fixture
+    is turned on and glowing brightly. Add a warm luminous glow inside the glass jar enclosure and ensure
+    the light casts illumination onto the surrounding ceiling and the metal cage of the fixture.
+  rationale: The video prompt describes a causal chain where a motion sensor is revealed and triggered
+    by a waving hand while the light is occluded. Motion sensors of this type are functionally linked
+    to the lighting circuit they control. Therefore, triggering the sensor causes the light to switch
+    from its initial 'off' state to an 'on' state. When the camera returns to the original viewpoint,
+    the only significant change is that the ceiling light fixture should now be illuminated.
+  questions:
+  - id: light_state_on
+    question: Is the light bulb inside the ceiling fixture now glowing?
+    answer_type: yes_no
+    notes_for_judge: The bulb should appear bright and active, contrasting with the dark bulb in the initial
+      frame.
+  - id: fixture_illumination
+    question: Does the glass enclosure of the fixture appear illuminated from the inside?
+    answer_type: yes_no
+    notes_for_judge: The glass jar should be filled with light.
+  - id: ceiling_glow
+    question: Is there a glow cast onto the ceiling immediately surrounding the fixture?
+    answer_type: yes_no
+    notes_for_judge: Turning on the light should affect the lighting on the nearby surface.
+  - id: bulb_brightness_change
+    question: Is the center of the light fixture significantly brighter than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Comparative check for state change.
+  - id: functional_activation
+    question: Does the ceiling light appear to be turned on?
+    answer_type: yes_no
+    notes_for_judge: General functional assessment.
+  - id: consistency_fixture_structure
+    question: Is the metal cage surrounding the glass jar still present and intact?
+    answer_type: yes_no
+    notes_for_judge: Consistency check for the object structure.
+  - id: consistency_room_layout
+    question: Are the windows on the left and right edges still visible in the same positions?
+    answer_type: yes_no
+    notes_for_judge: Consistency check for the camera view returning to the start.

@@ -1,0 +1,68 @@
+id: remote_control_pairing_05
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: remote_control_pairing
+variation_type: precondition_failure
+variation_description: The robot's battery compartment is open and clearly empty, preventing operation.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Power source missing on receiver (robot).
+  expected_outcome_change: The robot does not move (no power).
+prompts:
+  init_frame_edit_prompt: Edit the image to show the robot's battery compartment on its side hanging open,
+    revealing an empty slot with no batteries inside.
+  video_WM: The camera starts centered on the motionless toy robot labeled Channel A with its empty battery
+    compartment visible. The camera rotates right at constant speed until the robot exits the view. The
+    camera continues rotating, revealing a handheld remote control also labeled Channel A. A hand enters
+    the frame and presses the large FORWARD button on the remote control. The remote transmits radio signals
+    when buttons are pressed. The button press occurs while the toy robot remains out of camera view.
+    Then the camera rotates left smoothly at the same rate back to the original viewpoint, bringing the
+    toy robot back into center view. No zoom, no cut, no scene change. STOP.
+  camera_WM: A handheld remote control labeled Channel A is revealed. A hand enters the frame and presses
+    the large FORWARD button on the remote control. The remote transmits radio signals when buttons are
+    pressed. The button press occurs while the toy robot remains out of camera view. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A rear view of a grey, retro-style toy robot with tank treads sitting on a wooden
+    table. The robot has a boxy head with two antennas and a boxy body. The back of the robot features
+    an open battery compartment that is clearly empty, revealing springs but no batteries. A rectangular
+    battery cover is detached and leaning against the robot's left tread, resting on the table. The background
+    is blurred, showing a room with books and a window.
+  init2final_edit_prompt: Edit the given image to keep the toy robot and the detached battery cover in
+    exactly the same position and configuration as the original image. Ensure the battery compartment
+    remains empty and the robot does not move forward. The scene should look identical to the initial
+    state, with the robot stationary and the cover still leaning against the tread.
+  rationale: The initial frame explicitly shows the robot's battery compartment is empty, meaning it has
+    no power source. Although a remote control button is pressed while the robot is out of view, the robot
+    cannot receive the signal or actuate its motors without batteries. Therefore, the causal trigger (button
+    press) fails to produce a mechanical response due to the missing enabling condition (power). The robot
+    must remain completely motionless, and the detached battery cover must remain in its original position.
+  questions:
+  - id: robot_position_static
+    question: Is the robot in the exact same position on the table as it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The robot should not have moved because it has no batteries.
+  - id: battery_cover_position
+    question: Is the detached battery cover still leaning against the left tread in its original position?
+    answer_type: yes_no
+    notes_for_judge: If the robot moved, the leaning cover would likely fall or shift. It should remain
+      unchanged.
+  - id: no_forward_motion
+    question: Did the robot remain stationary instead of moving forward?
+    answer_type: yes_no
+    notes_for_judge: The correct answer is YES (it remained stationary). If it moved forward, answer NO.
+  - id: compartment_empty
+    question: Is the battery compartment still visible and empty?
+    answer_type: yes_no
+    notes_for_judge: Batteries should not appear; the compartment should remain empty.
+  - id: tread_position
+    question: Are the robot's treads in the same position relative to the wood grain as in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: Checks for subtle movement.
+  - id: antenna_orientation
+    question: Are the robot's antennas in the same orientation as initially?
+    answer_type: yes_no
+    notes_for_judge: Checks for any incidental motion.

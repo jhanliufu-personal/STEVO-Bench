@@ -1,0 +1,70 @@
+id: remote_control_pairing_09
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: remote_control_pairing
+variation_type: repeated_activation
+variation_description: The remote commands Forward then immediately Reverse, returning the robot to its
+  starting position.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Equal and opposite movements cancel out displacement.
+  expected_outcome_change: The robot is in the same position as the start.
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The camera starts centered on the motionless toy robot labeled Channel A. The camera rotates
+    right at constant speed until the robot exits the view. The camera continues rotating, revealing a
+    handheld remote control also labeled Channel A. A hand enters the frame and presses the FORWARD button
+    for two seconds, then immediately presses the REVERSE button for two seconds. The remote transmits
+    radio signals when buttons are pressed. The button presses occur while the toy robot remains out of
+    camera view. Then the camera rotates left smoothly at the same rate back to the original viewpoint,
+    bringing the toy robot back into center view. No zoom, no cut, no scene change. STOP.
+  camera_WM: A handheld remote control labeled Channel A is revealed. A hand enters the frame and presses
+    the FORWARD button for two seconds, then immediately presses the REVERSE button for two seconds. The
+    remote transmits radio signals when buttons are pressed. The button presses occur while the toy robot
+    remains out of camera view. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up, eye-level shot centered on the back of a grey, retro-style toy robot
+    with tank treads sitting on a scratched wooden table. The robot has a boxy torso with a panel labeled
+    'CHANNEL A' in red text, and a head with two small antennae. It is facing away from the camera, towards
+    a background that contains blurred vertical book spines and a window, suggesting a desk setting.
+  init2final_edit_prompt: Edit the given image to show the toy robot positioned closer to the camera viewpoint.
+    The robot should appear larger in the frame and lower on the table surface, indicating it has moved
+    forward towards the viewer. Maintain the robot's orientation facing away from the camera (showing
+    the 'CHANNEL A' label on its back). The background books and lighting should remain consistent, but
+    the robot's scale and position must reflect a net movement towards the camera.
+  rationale: The robot and remote are both set to Channel A, so the robot responds to the commands. The
+    robot is facing away from the camera (indicated by the back panel label and lack of face). The 'Forward'
+    command drives the robot away from the camera for 2 seconds. Given the desktop environment and the
+    duration, the robot likely encounters the background clutter (books) which limits its travel distance.
+    The subsequent 2-second 'Reverse' command drives it back towards the camera without obstruction. Because
+    the outward journey was truncated by the obstacle, the return journey brings the robot further back
+    than its starting point, resulting in a final position closer to the camera and appearing larger.
+  questions:
+  - id: robot_closer
+    question: Is the robot positioned closer to the camera than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The robot should appear larger and lower in the frame, indicating movement towards
+      the viewpoint.
+  - id: robot_larger
+    question: Does the robot appear larger in the frame compared to the initial view?
+    answer_type: yes_no
+    notes_for_judge: Due to moving closer to the camera lens.
+  - id: robot_orientation
+    question: Is the robot still facing away from the camera?
+    answer_type: yes_no
+    notes_for_judge: The robot moved forward and reversed, maintaining its general heading.
+  - id: label_visible
+    question: Is the 'CHANNEL A' label still visible on the robot?
+    answer_type: yes_no
+    notes_for_judge: The robot should not have turned around completely.
+  - id: robot_on_table
+    question: Is the robot still positioned on the wooden table surface?
+    answer_type: yes_no
+    notes_for_judge: It should not have fallen off or disappeared.
+  - id: background_consistency
+    question: Are the books in the background still visible?
+    answer_type: yes_no
+    notes_for_judge: The environment should remain stable.

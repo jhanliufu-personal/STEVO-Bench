@@ -1,0 +1,68 @@
+id: keycard_reader_insertion_07
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: keycard_reader_insertion
+variation_type: precondition_failure
+variation_description: An 'OUT OF ORDER' sign is attached. The user swipes, but the system is disabled.
+changes:
+  occlusion_method: null
+  dynamic_conditions: System is logically disabled. Swipe has no effect.
+  expected_outcome_change: The LED remains dim/unchanged.
+prompts:
+  init_frame_edit_prompt: Edit the image to add a yellow sticky note attached to the reader that reads
+    'OUT OF ORDER'.
+  video_WM: The camera starts centered on the keycard reader which has an 'OUT OF ORDER' sign attached.
+    The camera rotates right at constant speed until the reader exits the view. The camera continues rotating,
+    showing the area near the reader. A hand holding a white plastic keycard enters the frame and slides
+    the keycard into the slot of the reader and then quickly removes it. The reader is currently disabled.
+    The keycard swipe occurs while the reader's status LED remains out of camera view. Then the camera
+    rotates left smoothly at the same rate back to the original viewpoint, bringing the reader and its
+    status LED back into center view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The camera starts on the keycard reader with an 'OUT OF ORDER' sign, then rotates away. A
+    hand swipes a keycard through the reader slot. The reader is disabled. The camera then returns to
+    the reader and status LED. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a wall-mounted keycard reader. The device features
+    a brushed metal faceplate with a black plastic bezel in the center containing the card slot. A yellow
+    sticky note with the handwritten text 'OUT OF ORDER' is adhered directly over the center of the black
+    bezel, obscuring the slot. Above the bezel is a small, circular status LED which is currently dark
+    (unlit). To the left, a vertical section of a brown wooden door frame is visible against the textured
+    beige wall.
+  init2final_edit_prompt: Edit the given image to show the yellow sticky note crumpled, creased, or partially
+    peeled away from the black bezel, appearing disturbed as if a card was pushed into the slot underneath
+    it. The black card slot should be partially revealed where the note is lifted. The small circular
+    status LED above the slot must remain dark and unlit. Do not change the surrounding wall or door frame.
+  rationale: The video depicts a user inserting a keycard into a reader that is marked 'OUT OF ORDER'.
+    The camera rotates away during the action, but the physical insertion of the card into the covered
+    slot must disturb the sticky note (crumpling or lifting it). Since the reader is explicitly described
+    as 'disabled', the functional outcome is that the status LED does NOT change state; it must remain
+    unlit (dark) rather than turning green or red. The camera returns to the original viewpoint, revealing
+    the physical evidence of the attempt (the disturbed note) and the lack of electronic response.
+  questions:
+  - id: note_disturbance
+    question: Is the yellow sticky note crumpled, bent, or peeled compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The note should show signs of physical disturbance from the card insertion.
+  - id: led_state
+    question: Does the status LED remain dark/unlit?
+    answer_type: yes_no
+    notes_for_judge: The reader is disabled, so the light should not activate.
+  - id: slot_exposure
+    question: Is the black card slot more visible or exposed than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The displacement of the note should reveal part of the slot.
+  - id: note_flatness
+    question: Is the sticky note no longer lying completely flat against the reader?
+    answer_type: yes_no
+    notes_for_judge: It should be lifted, creased, or pushed aside.
+  - id: sign_presence
+    question: Is the 'OUT OF ORDER' sticky note still present on the reader (even if disturbed)?
+    answer_type: yes_no
+    notes_for_judge: The note should not vanish, just be disturbed.
+  - id: door_frame_consistency
+    question: Is the wooden door frame still visible on the left side?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

@@ -3,8 +3,59 @@ level: 5
 category: causal_mechanism
 mechanism_type: threshold_logic
 prompts:
-  image_gen_prompt: A heater vent is mounted on the wall. The vent is currently not emitting heat (inactive). The camera view is centered on the heater vent.
-  video_WM: The camera starts centered on the inactive heater vent. The camera rotates right at constant speed until the vent exits the view. The camera continues rotating, revealing a wall-mounted heater control with a horizontal slider. The slider is currently at the far left MIN position. A finger enters the frame and slides the control bar all the way to the far right MAX position. The slider remains at the maximum setting. The thermostat engages the heating circuit when set above a threshold. The slider movement occurs while the heater vent remains out of camera view. Then the camera rotates left smoothly at the same rate back to the original viewpoint, bringing the heater vent back into center view. No zoom, no cut, no scene change. STOP.
-  camera_WM: The camera starts on the heater vent, then rotates to the temperature slider control. A finger moves the slider from MIN to MAX position. The thermostat engages heating above threshold. The slider movement occurs while the vent is not visible. The camera then returns to the heater vent. STOP.
+  image_gen_prompt: A heater vent is mounted on the wall. The vent is currently not emitting heat (inactive).
+    The camera view is centered on the heater vent.
+  video_WM: The camera starts centered on the inactive heater vent. The camera rotates right at constant
+    speed until the vent exits the view. The camera continues rotating, revealing a wall-mounted heater
+    control with a horizontal slider. The slider is currently at the far left MIN position. A finger enters
+    the frame and slides the control bar all the way to the far right MAX position. The slider remains
+    at the maximum setting. The thermostat engages the heating circuit when set above a threshold. The
+    slider movement occurs while the heater vent remains out of camera view. Then the camera rotates left
+    smoothly at the same rate back to the original viewpoint, bringing the heater vent back into center
+    view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The camera starts on the heater vent, then rotates to the temperature slider control. A finger
+    moves the slider from MIN to MAX position. The thermostat engages heating above threshold. The slider
+    movement occurs while the vent is not visible. The camera then returns to the heater vent. STOP.
 camera_control:
   HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up, centered view of a rectangular, cream-colored metal air vent (register)
+    mounted on a textured beige wall. The vent has two columns of horizontal louvers. There is visible
+    wear, including chipped paint on the top edge and left side of the frame, revealing dark metal underneath.
+    Two mounting screws are visible on the left and right sides. The interior of the louvers is dark and
+    the vent appears inactive.
+  init2final_edit_prompt: Edit the given image to show the heater vent in an active, heating state. Add
+    a visible heat shimmer or air distortion effect in front of the vent louvers to simulate hot air blowing
+    out. Add a faint warm orange or reddish glow inside the dark gaps between the louvers to visually
+    indicate the heating element is active. Maintain the original wall texture and vent structure, only
+    modifying the lighting and air clarity to depict heat.
+  rationale: The video depicts a causal interaction where the camera rotates to reveal a thermostat, a
+    user moves the slider from MIN to MAX, and the camera rotates back to the vent. This action engages
+    the heating circuit. Therefore, when the vent comes back into view, it should be emitting hot air.
+    Since airflow is invisible, the active state is visually represented by heat distortion (shimmer)
+    and a warm glow, distinguishing it from the inactive initial state.
+  questions:
+  - id: heat_shimmer_visible
+    question: Is there visible heat shimmer or air distortion in front of the vent?
+    answer_type: yes_no
+    notes_for_judge: Look for waviness or blur characteristic of hot air.
+  - id: warm_glow_inside
+    question: Is there a warm or reddish glow visible inside the vent louvers?
+    answer_type: yes_no
+    notes_for_judge: Check the dark gaps between the slats for orange/red light.
+  - id: vent_active_state
+    question: Does the vent appear to be emitting heat or hot air?
+    answer_type: yes_no
+    notes_for_judge: General assessment of active state vs inactive.
+  - id: visual_difference_active
+    question: Is the visual state of the vent different from the inactive initial frame?
+    answer_type: yes_no
+    notes_for_judge: The final frame should show activity (heat) compared to the static start.
+  - id: paint_chips_consistency
+    question: Are the paint chips on the vent frame still visible in the same locations?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: vent_centered
+    question: Is the vent still centered in the frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

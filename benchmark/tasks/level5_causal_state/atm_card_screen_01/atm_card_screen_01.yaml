@@ -1,0 +1,69 @@
+id: atm_card_screen_01
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: atm_card_screen
+variation_type: initial_state
+variation_description: Screen starts in 'Take Card' state with card inserted; action is removing card.
+changes:
+  occlusion_method: null
+  dynamic_conditions: The system starts at the end of a session. The action (removing card) resets it
+    to standby.
+  expected_outcome_change: Screen changes from 'PLEASE TAKE CARD' to 'INSERT CARD TO BEGIN'.
+prompts:
+  init_frame_edit_prompt: Edit the ATM screen to display text saying 'PLEASE TAKE CARD' in green blinking
+    text.
+  video_WM: The camera starts centered on the ATM screen showing 'PLEASE TAKE CARD'. The camera rotates
+    right at constant speed until the screen exits the view. The camera continues rotating, revealing
+    the ATM card insertion slot below the screen, which already has a bank card inserted. A hand enters
+    the frame and pulls the card out of the slot. The ATM sensor detects card removal and signals the
+    display controller to reset. The card removal occurs while the screen remains out of camera view.
+    Then the camera rotates left smoothly at the same rate back to the original viewpoint, bringing the
+    ATM screen back into center view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The camera starts on the ATM screen, then rotates to the card slot. A hand removes an inserted
+    bank card from the slot. The card reader detects removal. The removal occurs while the screen is not
+    visible. The camera then returns to the ATM screen. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up view of a metal ATM machine face. The central CRT monitor displays
+    the text 'PLEASE TAKE CARD' in green pixelated characters against a dark background. To the right
+    of the screen is a vertical column of silver function buttons. Below the screen area, there is a numeric
+    keypad and a card reader slot illuminated by a bright blue circular light. The reflection in the screen
+    and the background suggest an outdoor urban setting at dusk.
+  init2final_edit_prompt: Edit the given image to change the text displayed on the ATM screen. Replace
+    the green text 'PLEASE TAKE CARD' with the text 'WELCOME' or 'INSERT CARD' to represent the machine
+    resetting to its idle state. Keep the metal casing, buttons, keypad, blue light, and background exactly
+    the same.
+  rationale: The video prompt describes a sequence where the camera pans away from the screen, a user
+    physically removes the card from the slot, and the camera pans back. In ATM logic, the 'PLEASE TAKE
+    CARD' message is a conditional state that persists only until the sensor detects card removal. Once
+    the card is pulled, the system immediately transitions to the idle or 'Welcome' screen. Therefore,
+    when the camera returns to the initial viewpoint, the screen must display a reset state (e.g., 'WELCOME')
+    instead of the previous instruction.
+  questions:
+  - id: atm_text_change_01
+    question: Is the text 'PLEASE TAKE CARD' no longer visible on the ATM screen?
+    answer_type: yes_no
+    notes_for_judge: The screen should have transitioned to a new state, so the old text must be gone.
+  - id: atm_text_content_02
+    question: Does the ATM screen now display a welcome message or idle prompt (e.g., 'WELCOME', 'INSERT
+      CARD')?
+    answer_type: yes_no
+    notes_for_judge: The machine resets after card removal, so it should show an introductory screen.
+  - id: atm_state_diff_03
+    question: Is the content of the digital display different from the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The screen pixels must change to reflect the state transition.
+  - id: atm_screen_reset_04
+    question: Does the screen indicate that the previous transaction is finished?
+    answer_type: yes_no
+    notes_for_judge: The removal of the 'Take Card' prompt indicates the transaction cycle ended.
+  - id: atm_consistency_05
+    question: Are the silver buttons to the right of the screen in the same position as initially?
+    answer_type: yes_no
+    notes_for_judge: Structural consistency check.
+  - id: atm_consistency_06
+    question: Is the blue illuminated circle still visible in the same location?
+    answer_type: yes_no
+    notes_for_judge: Lighting/structure consistency check.

@@ -1,0 +1,75 @@
+id: car_hood_release_09
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: car_hood_release
+variation_type: repeated_activation
+variation_description: The lever is reinterpreted as a windshield wiper control. Activating it twice cycles
+  the wipers, which return to the rest position.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Wipers perform a cycle and return to rest. Final state matches initial state.
+  expected_outcome_change: The windshield wipers are at rest at the bottom of the windshield.
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: Driver's upright POV. The steering wheel is centered, and the windshield wipers are at rest
+    at the bottom of the glass. The driver leans forward and downward toward the lower dashboard; the
+    windshield is no longer visible. The lever under the left dashboard (acting as a manual wiper mist
+    trigger) comes into view. A hand pulls the lever TWICE. The wipers perform two wipe cycles while out
+    of view and return to the rest position. The driver leans back to the upright seated position, bringing
+    the windshield and wipers back into view. STOP.
+  camera_WM: The camera starts in upright driver POV with the windshield visible. The driver leans forward
+    and down, camera pitches down and moves forward, revealing the lever. A hand pulls the lever twice.
+    The action occurs while the windshield is out of view. The driver leans back to the original seated
+    position. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A driver's point-of-view shot from inside a Corvette C7. The black leather steering
+    wheel is centered with the Corvette logo visible. The dashboard is visible, showing a speedometer
+    at 0 MPH. Through the windshield, a sunny suburban residential street is visible with green trees,
+    sidewalks, and parked cars. The windshield wipers are black and positioned at the very bottom of the
+    windshield in the rest position. The windshield glass appears clean and dry.
+  init2final_edit_prompt: Edit the given image to show the windshield with water droplets, mist residue,
+    or streaks on the glass, indicating that the windshield washers have just been used. Ensure the windshield
+    wipers are positioned at the rest position at the bottom of the windshield. The car hood must remain
+    closed, keeping the view of the street unobstructed. Maintain the original lighting, steering wheel
+    position, and background scenery.
+  rationale: The video prompt describes a sequence where the driver triggers a 'manual wiper mist' function.
+    In an automotive context, triggering a 'mist' or 'wash' cycle—especially by pulling a lever—typically
+    engages the washer fluid pump, spraying water onto the windshield. Although the wipers perform two
+    cycles, the prompt explicitly states they return to the rest position. Therefore, the primary visual
+    evidence of the functional state change in the final frame is the presence of water residue (droplets
+    or streaks) on the glass. Additionally, the prompt redefines the lever (physically located where a
+    hood release would be) as a wiper trigger; thus, the correct functional outcome is that the hood remains
+    closed while the windshield becomes wet.
+  questions:
+  - id: q1_wetness
+    question: Is the windshield wet or streaked with water?
+    answer_type: yes_no
+    notes_for_judge: Look for droplets, streaks, or mist residue on the glass.
+  - id: q2_droplets
+    question: Are there visible water droplets or residue on the windshield?
+    answer_type: yes_no
+    notes_for_judge: The glass should not be perfectly clean/dry.
+  - id: q3_fluid_evidence
+    question: Does the windshield show evidence of washer fluid usage?
+    answer_type: yes_no
+    notes_for_judge: Checks for the functional consequence of the 'mist' trigger.
+  - id: q4_hood_closed
+    question: Is the car hood closed?
+    answer_type: yes_no
+    notes_for_judge: The hood should not be popped up; the view of the road should be unobstructed by
+      the hood panel.
+  - id: q5_view_unobstructed
+    question: Is the view of the street unobstructed by the hood?
+    answer_type: yes_no
+    notes_for_judge: Verifies the hood did not open.
+  - id: q6_wipers_rest
+    question: Are the windshield wipers at the rest position at the bottom of the windshield?
+    answer_type: yes_no
+    notes_for_judge: The wipers should have completed their cycle and returned to the bottom.
+  - id: q7_steering_centered
+    question: Is the steering wheel centered?
+    answer_type: yes_no
+    notes_for_judge: Invariant check.

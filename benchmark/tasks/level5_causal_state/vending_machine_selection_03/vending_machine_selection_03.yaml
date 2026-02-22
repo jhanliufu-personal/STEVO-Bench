@@ -1,0 +1,65 @@
+id: vending_machine_selection_03
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: vending_machine_selection
+variation_type: initial_state
+variation_description: The bag of chips is already sitting at the bottom of the retrieval bin, and slot
+  D3 is empty.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Product is already dispensed. Triggering the empty slot releases nothing new.
+  expected_outcome_change: The final state is identical to the initial state (bag at bottom, slot empty).
+prompts:
+  init_frame_edit_prompt: Edit the image to show slot D3 empty, and place the bag of chips sitting at
+    the bottom of the vending machine delivery bin.
+  video_WM: The camera starts centered on the empty slot D3 and the bag of chips already at the bottom
+    of the bin. The camera rotates right at constant speed until the product area exits the view. The
+    camera continues rotating, revealing the keypad. A hand enters the frame and presses D, then 3. The
+    code entry occurs while the product area remains out of camera view. Then the camera rotates left
+    smoothly back to the original viewpoint, bringing the empty slot and retrieval bin back into center
+    view. STOP.
+  camera_WM: The camera starts on the empty slot D3 and the bag at the bottom. A hand enters code D-3
+    on the keypad. The code entry occurs while the product area is not visible. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up view through the glass of a vending machine. In the center, a shelf
+    labeled 'D3 - $1.50' contains an empty metal spiral coil. Below this shelf, resting at the bottom
+    of the retrieval bin, is a blue and white bag of 'Crinkle Cut Crisps - Sea Salt & Vinegar'. To the
+    left of the empty D3 slot, a red 'Doritos' bag is partially visible on the shelf. The lighting is
+    artificial, creating reflections on the glass.
+  init2final_edit_prompt: Edit the given image to show the empty metal coil in slot D3, potentially rotated
+    to a different angle. Keep the slot labeled D3 empty. Maintain the bag of 'Crinkle Cut Crisps' at
+    the bottom of the bin in its exact original position. Ensure no new products have been added to the
+    retrieval bin.
+  rationale: 'The initial frame shows that slot D3 is empty. The user enters the code D3 on the keypad.
+    While the vending machine''s motor will activate and spin the coil for D3, the physical precondition
+    of the slot being empty means no product can be dispensed. Consequently, the state of the retrieval
+    bin must remain unchanged: the bag already at the bottom stays there, and no new bag appears. The
+    only potential visual change is the rotation of the empty coil in slot D3.'
+  questions:
+  - id: q1
+    question: Is the slot labeled D3 still empty?
+    answer_type: yes_no
+    notes_for_judge: The slot was empty initially and should remain empty.
+  - id: q2
+    question: Is the bag of Sea Salt & Vinegar chips still visible at the bottom of the bin?
+    answer_type: yes_no
+    notes_for_judge: The existing bag should not disappear.
+  - id: q3
+    question: Is the number of bags in the retrieval bin the same as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: No new bag should fall because the selected slot was empty.
+  - id: q4
+    question: Is the retrieval bin free of any newly dispensed items?
+    answer_type: yes_no
+    notes_for_judge: Checks that the model did not hallucinate a product falling from the empty slot.
+  - id: q5
+    question: Is the red Doritos bag still visible on the shelf to the left?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: q6
+    question: Is the metal coil in slot D3 still visible?
+    answer_type: yes_no
+    notes_for_judge: Verifies the mechanism is still present.

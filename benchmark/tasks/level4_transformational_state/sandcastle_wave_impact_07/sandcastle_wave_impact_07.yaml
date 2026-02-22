@@ -4,70 +4,72 @@ category: structural_transformation
 tags: []
 variant_of: sandcastle_wave_impact
 variation_type: combined
-variation_description: Small ripple condition combined with fog occlusion.
+variation_description: Gentle ripple condition + Fog occlusion.
 changes:
-  occlusion_method: Thick fog rolls in
-  dynamic_conditions: Wave energy reduced to minimal ripple
+  occlusion_method: Thick sea fog
+  dynamic_conditions: 'Wave intensity: High -> Low (Gentle ripple)'
   expected_outcome_change: Sandcastle remains intact
 prompts:
-  init_frame_edit_prompt: Edit the image to replace the large looming wave with a very small, gentle ripple
-    of water just inches high, barely reaching the sandcastle.
-  video_WM: The small gentle ripple of water washes slowly towards the base of the sandcastle. Suddenly,
-    a dense bank of sea fog rolls in rapidly, completely whitening out the view and hiding the beach.
-    The fog slowly lifts. No cut, no scene change. STOP.
-  camera_WM: The small gentle ripple of water washes slowly towards the base of the sandcastle. Suddenly,
-    a dense bank of sea fog rolls in rapidly, completely whitening out the view and hiding the beach.
-    The fog slowly lifts. STOP.
+  init_frame_edit_prompt: Edit the image to change the large crashing wave into a very small, gentle ripple
+    of water.
+  video_WM: A small, gentle ripple of water washes slowly towards the sandcastle. Suddenly, a thick bank
+    of white sea fog rolls in rapidly, completely obscuring the entire scene in white mist. The fog slowly
+    clears to reveal the view again. No cut, no scene change. STOP.
+  camera_WM: A small, gentle ripple of water washes slowly towards the sandcastle. Suddenly, a thick bank
+    of white sea fog rolls in rapidly, completely obscuring the entire scene in white mist. The fog slowly
+    clears to reveal the view again. No cut, no scene change. STOP.
 camera_control:
   HY-WorldPlay: null
 evaluation:
-  init_frame_description: A large, elaborate sandcastle stands on a sandy beach near the water's edge.
-    The castle features multiple towers with pointed roofs, fortified walls, a bridge, and decorative
-    seashells placed along the lower perimeter. The sand is dark and packed. To the left, the ocean has
-    small waves and ripples. The sky is overcast with heavy, dark clouds. In the background to the right,
-    several people are standing or walking on the beach.
-  init2final_edit_prompt: Edit the given image to show the sandcastle after being washed by a gentle wave.
-    The base of the sandcastle, particularly on the left side facing the ocean, should appear eroded,
-    smoothed, and melted. The sharp architectural details of the lower walls and moat area should be softened
-    or lost due to water contact. The sand surrounding the base should look very wet, flattened, and spread
-    out. Some of the shells near the bottom may be displaced or partially buried in wet sludge. The upper
-    towers should remain mostly standing but may show slight sagging or loss of crisp definition.
-  rationale: 'The prompt describes a ripple of water moving towards the sandcastle, followed by a period
-    of occlusion caused by fog. Physically, when water contacts a sand structure, it causes irreversible
-    erosion, smoothing, and loss of form (melting). The fog serves as a transition period. When the view
-    clears, the sandcastle must show the aftermath of this interaction: it should not be pristine. The
-    base should be eroded and the sand wet, reflecting the irreversible structural damage caused by the
-    water.'
+  init_frame_description: A detailed, multi-towered sandcastle on a beach, featuring a bridge, arched
+    windows, and seashell decorations along the base. The sandcastle is constructed of packed sand with
+    sharp, distinct edges and textures. The background shows a calm ocean with small waves and a cloudy
+    sky.
+  init2final_edit_prompt: Edit the given image to show the sandcastle partially eroded and damaged by
+    water. The sharp edges of the towers, walls, and bridge should appear smoothed, melted, or softened.
+    The base of the sandcastle should look washed out or dissolved, and the surrounding sand should appear
+    wet and flattened. Some structural elements may be partially collapsed or deformed due to the water
+    impact.
+  rationale: The prompt describes a ripple of water washing towards the sandcastle, followed by a period
+    of occlusion by fog. In a physical world model, water contacting a sandcastle causes immediate, irreversible
+    erosion (melting of the sand structure). Although the fog obscures the process, the final state must
+    reveal the aftermath of this interaction. The sandcastle should exhibit signs of structural degradation,
+    smoothing, and wetness consistent with being hit by a gentle wave.
   questions:
   - id: erosion_visible
-    question: Does the sandcastle show visible signs of erosion or water damage?
+    question: Does the sandcastle show visible signs of erosion or melting?
     answer_type: yes_no
-    notes_for_judge: Look for smoothing, melting, or collapse of the sand structure.
-  - id: base_smoothing
-    question: Is the base of the sandcastle smoother and less defined than in the initial frame?
+    notes_for_judge: Look for smoothing of textures or loss of sharp edges.
+  - id: structural_damage
+    question: Has the structural integrity of the sandcastle been compromised compared to the initial
+      frame?
     answer_type: yes_no
-    notes_for_judge: The sharp edges at the bottom should be washed out.
+    notes_for_judge: Check if walls, towers, or the bridge are deformed or collapsed.
+  - id: edges_softened
+    question: Are the previously sharp edges of the sandcastle now smoothed or rounded?
+    answer_type: yes_no
+    notes_for_judge: Sandcastles lose definition when wet.
+  - id: wet_sand
+    question: Does the sand immediately surrounding or constituting the castle appear wet?
+    answer_type: yes_no
+    notes_for_judge: Wet sand is darker and smoother.
+  - id: base_washed_out
+    question: Is the base of the sandcastle less defined or washed out compared to the start?
+    answer_type: yes_no
+    notes_for_judge: Water usually attacks the base first.
   - id: detail_loss
-    question: Have the sharp architectural details of the lower walls been softened or lost?
+    question: Have the intricate details (like windows or brick textures) become less distinct?
     answer_type: yes_no
-    notes_for_judge: Compare the crispness of the initial walls to the final state.
-  - id: wet_sand_spread
-    question: Is the sand at the immediate base of the castle wetter or more spread out than initially?
+    notes_for_judge: Erosion removes fine detail.
+  - id: partial_collapse
+    question: Is there evidence of partial collapse in any of the towers or walls?
     answer_type: yes_no
-    notes_for_judge: Water contact creates a slurry of wet sand at the base.
-  - id: structural_compromise
-    question: Has the structural integrity of the sandcastle been compromised compared to the start?
+    notes_for_judge: Structural failure is a key sign of water damage.
+  - id: background_consistency
+    question: Is the ocean still visible in the background?
     answer_type: yes_no
-    notes_for_judge: It should look damaged, not perfect.
-  - id: water_side_damage
-    question: Are the parts of the sandcastle facing the water more degraded than the top towers?
+    notes_for_judge: Secondary consistency check.
+  - id: sky_consistency
+    question: Does the sky remain cloudy?
     answer_type: yes_no
-    notes_for_judge: The damage should be concentrated where the water hit (the base/side).
-  - id: invariant_horizon
-    question: Is the horizon line consistent with the initial frame?
-    answer_type: yes_no
-    notes_for_judge: The camera angle should not have shifted significantly.
-  - id: invariant_location
-    question: Is the sandcastle in the same general location on the beach?
-    answer_type: yes_no
-    notes_for_judge: It should not have moved, only eroded in place.
+    notes_for_judge: Secondary consistency check.

@@ -1,0 +1,68 @@
+id: sprinkler_valve_control_05
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: sprinkler_valve_control
+variation_type: precondition_failure
+variation_description: A heavy rock is crushing the hose, preventing water flow.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Hose is blocked by a heavy rock. Valve opens normally. Flow is obstructed.
+  expected_outcome_change: Sprinkler remains inactive due to blockage.
+prompts:
+  init_frame_edit_prompt: Edit the image to show a large, heavy rock sitting directly on top of the garden
+    hose near the sprinkler, crushing it flat.
+  video_WM: The camera starts centered on the inactive sprinkler head and a heavy rock crushing the supply
+    hose on the dry grass. The camera rotates right at constant speed until the sprinkler exits the view.
+    The camera continues rotating, revealing a manual water valve mounted on a pipe near the wall. The
+    valve handle is currently in the closed position. A hand enters the frame and rotates the valve handle
+    counterclockwise to the open position. The valve allows water into the line, but the rock obstructs
+    the flow to the sprinkler. The valve rotation occurs while the sprinkler head remains out of camera
+    view. Then the camera rotates left smoothly at the same rate back to the original viewpoint, bringing
+    the sprinkler head back into center view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The scene features an inactive sprinkler head with a hose crushed by a rock and a manual
+    water valve. A hand opens the valve by rotating it counterclockwise. The valve allows water into the
+    line, but the rock obstructs the flow. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a rusty metal impact sprinkler head mounted on
+    a short riser in a field of dry, yellow grass. A grey garden hose connects to the base of the sprinkler
+    and extends to the right. A large, heavy, dark-grey rock sits directly on top of the hose a short
+    distance from the sprinkler, visibly crushing and pinching the hose against the ground. The scene
+    is sunlit with hard shadows, and the sprinkler is completely dry and inactive.
+  init2final_edit_prompt: Edit the given image to ensure the sprinkler head remains completely inactive
+    and dry. Do not add any water spray, mist, or droplets coming from the nozzle. Keep the grass yellow
+    and dry. Ensure the rock continues to crush the hose, preventing any water flow. The final image should
+    look identical to the initial state regarding the lack of water activity.
+  rationale: 'The video sequence involves opening a water valve, which would normally activate the sprinkler.
+    However, the prompt explicitly states that the rock crushing the hose obstructs the flow to the sprinkler.
+    This is a causal reasoning test: the model must prioritize the physical constraint (the obstruction)
+    over the functional trigger (opening the valve). Therefore, despite the valve being opened off-screen,
+    the water cannot reach the sprinkler, and the final state must show the sprinkler remaining inactive
+    and dry, identical to the initial state.'
+  questions:
+  - id: sprinkler_inactive
+    question: Is the sprinkler head free of any spraying water?
+    answer_type: yes_no
+    notes_for_judge: The sprinkler should not be spraying because the rock obstructs the flow.
+  - id: ground_dry
+    question: Is the grass surrounding the sprinkler still dry?
+    answer_type: yes_no
+    notes_for_judge: There should be no wet spots or puddles.
+  - id: no_mist
+    question: Is the scene free of visible water mist or droplets?
+    answer_type: yes_no
+    notes_for_judge: Check for any atmospheric effects of water spray.
+  - id: sprinkler_state
+    question: Does the sprinkler appear to be in a resting, inactive state?
+    answer_type: yes_no
+    notes_for_judge: The impact arm should not be blurred by motion.
+  - id: rock_position
+    question: Is the rock still positioned on top of the hose?
+    answer_type: yes_no
+    notes_for_judge: The rock should not have moved.
+  - id: hose_integrity
+    question: Is the hose still crushed under the rock without visible leaking?
+    answer_type: yes_no
+    notes_for_judge: The obstruction should hold; no geysers at the rock.

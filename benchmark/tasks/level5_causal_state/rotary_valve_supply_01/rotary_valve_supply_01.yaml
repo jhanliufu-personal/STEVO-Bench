@@ -1,0 +1,77 @@
+id: rotary_valve_supply_01
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: rotary_valve_supply
+variation_type: initial_state
+variation_description: The burner starts lit and the valve starts open; the action closes the valve.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Valve starts open (parallel) and burner is lit. Action closes valve.
+  expected_outcome_change: The flame extinguishes (starts ON, ends OFF).
+prompts:
+  init_frame_edit_prompt: Edit the image so a steady blue flame is emitting from the burner nozzle on
+    the left, and the yellow valve handle on the right is rotated 90 degrees to be parallel with the pipe
+    (open position).
+  video_WM: The camera starts centered on the lit burner nozzle, which is emitting a blue flame. The camera
+    rotates right at constant speed until the burner exits the view. The camera continues rotating, revealing
+    a yellow rotary valve handle on the gas pipe. The handle is currently parallel to the pipe (open position).
+    A hand enters the frame, grabs the yellow handle, and rotates it 90 degrees so that it becomes perpendicular
+    with the pipe. The handle remains in the perpendicular position. When the valve is perpendicular,
+    the internal passage blocks the gas flow. The valve rotation occurs while the burner nozzle remains
+    out of camera view. Then the camera rotates left smoothly at the same rate back to the original viewpoint,
+    bringing the burner nozzle back into center view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The camera starts on the lit burner nozzle, then rotates to the valve handle. A hand rotates
+    the valve 90 degrees from parallel (open) to perpendicular (closed position). The valve rotation occurs
+    while the burner is not visible. The camera then returns to the burner nozzle. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up view of a metal pipe assembly in a workshop setting. On the left,
+    a brass burner nozzle is emitting a bright blue flame. The nozzle is attached to a T-junction fitting,
+    which has a supply line connected at the bottom. To the right of the T-junction is a flanged connection
+    leading to a pipe section with a yellow-handled ball valve. The yellow handle is currently aligned
+    parallel to the pipe, indicating the valve is in the open position. The background is a blurred workshop
+    interior with a window and tools.
+  init2final_edit_prompt: Edit the given image to show the system in a deactivated state. Remove the blue
+    flame completely from the burner nozzle on the left, leaving the metal nozzle unlit. Rotate the yellow
+    valve handle on the right pipe 90 degrees so that it is perpendicular to the pipe, indicating the
+    closed position. Ensure the lighting on the nozzle reflects the absence of the flame.
+  rationale: The video describes a sequence where the camera pans to the valve, a hand closes the valve,
+    and the camera pans back. Closing the valve (turning it perpendicular) physically blocks the gas flow
+    to the burner. Therefore, the causal result of this action is that the flame must be extinguished.
+    When the camera returns to the initial viewpoint, the final state must show the valve handle in the
+    closed (perpendicular) position and the burner nozzle with no flame.
+  questions:
+  - id: flame_extinguished
+    question: Is the blue flame no longer visible coming from the nozzle?
+    answer_type: yes_no
+    notes_for_judge: The flame should be completely gone.
+  - id: handle_position
+    question: Is the yellow valve handle perpendicular to the pipe?
+    answer_type: yes_no
+    notes_for_judge: The handle should be rotated 90 degrees from its initial parallel state.
+  - id: burner_state
+    question: Is the burner nozzle unlit?
+    answer_type: yes_no
+    notes_for_judge: Check for the absence of fire.
+  - id: handle_orientation_change
+    question: Is the yellow handle in a different orientation than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: It was parallel, now it should be perpendicular.
+  - id: gas_supply_cut
+    question: Does the image show that the gas supply has been cut off (no flame)?
+    answer_type: yes_no
+    notes_for_judge: Infer from the lack of flame.
+  - id: valve_closed
+    question: Is the valve handle in the closed position (perpendicular)?
+    answer_type: yes_no
+    notes_for_judge: Perpendicular indicates closed for this type of valve.
+  - id: background_consistency
+    question: Is the window in the background still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: pipe_structure
+    question: Is the flanged connection between the burner and the valve still present?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

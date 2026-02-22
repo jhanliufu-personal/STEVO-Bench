@@ -1,0 +1,73 @@
+id: doorbell_chime_wireless_03
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: doorbell_chime_wireless
+variation_type: initial_state
+variation_description: Chime starts in the active state (Red LED ON), so the toggle action turns it OFF.
+changes:
+  occlusion_method: null
+  dynamic_conditions: The chime starts with its LED indicator illuminated red (active state). The button
+    acts as a toggle switch.
+  expected_outcome_change: The final state will be the chime turning OFF (LED dark) because the initial
+    state was ON and the button toggles the state.
+prompts:
+  init_frame_edit_prompt: Edit the image so the LED indicator on the center of the chime is glowing bright
+    red.
+  video_WM: The camera starts centered on the wireless doorbell chime plugged into the interior wall.
+    The LED indicator is currently illuminated red and the unit is active. The camera rotates right at
+    constant speed until the chime exits the view. The camera continues rotating through the hallway and
+    toward the exterior door, revealing the wireless doorbell button mounted outside. A finger enters
+    the frame and presses the doorbell button. The button and chime are paired as a toggle system; pressing
+    the button reverses the chime's current state. The button press occurs while the interior chime remains
+    out of camera view. Then the camera rotates left smoothly at the same rate back to the original viewpoint,
+    bringing the wireless chime back into center view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The scene features a wireless doorbell chime with a red illuminated LED and an exterior doorbell
+    button. A finger presses the doorbell button. The button and chime are paired as a toggle system.
+    The button press occurs while the interior chime remains out of camera view. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A white wireless doorbell chime plugged into the bottom socket of a standard
+    white electrical outlet on a beige wall. The device features a perforated speaker grille on its upper
+    half. In the center, below the grille, a bright red LED indicator light is currently illuminated.
+    To the left is a white vertical door frame or trim. To the right is a blurred background showing a
+    window.
+  init2final_edit_prompt: Edit the given image to turn off the red LED indicator light on the wireless
+    doorbell chime. The small round light in the center of the device should no longer be glowing red;
+    it should appear dark or unlit, blending with the white plastic surface. Keep the device plugged into
+    the wall outlet and maintain the original camera angle, lighting, and background details.
+  rationale: The video prompt establishes a functional relationship where the exterior button toggles
+    the state of the interior chime. The chime begins in an active state with the red LED illuminated.
+    The camera pans away, a finger presses the button (triggering the toggle), and the camera pans back.
+    Since the system is a toggle, the button press reverses the state from 'on' to 'off'. Therefore, in
+    the final frame, the red LED on the chime must be extinguished.
+  questions:
+  - id: q1
+    question: Is the red LED indicator on the doorbell chime now turned off?
+    answer_type: yes_no
+    notes_for_judge: The red light visible in the center of the device in the first frame should be gone.
+  - id: q2
+    question: Is the center of the device dark or unlit where it was previously glowing red?
+    answer_type: yes_no
+    notes_for_judge: Check for the absence of the red glow.
+  - id: q3
+    question: Has the red light been extinguished compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: 'Comparative check: light was on, now it should be off.'
+  - id: q4
+    question: Does the device appear to be in an inactive state (no light) rather than an active state?
+    answer_type: yes_no
+    notes_for_judge: Functional state check.
+  - id: q5
+    question: Is the small circular area below the speaker grille unlit?
+    answer_type: yes_no
+    notes_for_judge: Specific location check for the indicator.
+  - id: q6
+    question: Is the doorbell chime still plugged into the wall outlet?
+    answer_type: yes_no
+    notes_for_judge: 'Consistency check: the device should not have moved.'
+  - id: q7
+    question: Is the speaker grille pattern on the top half of the device still visible?
+    answer_type: yes_no
+    notes_for_judge: 'Consistency check: object details should remain.'

@@ -1,0 +1,77 @@
+id: elevator_call_button_press_10
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: elevator_call_button_press
+variation_type: indirect_causation
+variation_description: A card reader is added. The user swipes a card before pressing the button.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Access control requires a card swipe to enable the button.
+  expected_outcome_change: The Up button turns ON (because the card was swiped).
+prompts:
+  init_frame_edit_prompt: Edit the image to add a black RFID card reader mounted on the wall directly
+    next to the metal button panel.
+  video_WM: The camera starts centered on the unlit elevator call button panel, which has a card reader
+    mounted beside it. The camera rotates right at constant speed until the button panel exits the view.
+    The camera continues rotating right, showing the wall and surroundings. While the button is out of
+    view, a hand holding an access card taps the card against the reader, and then presses the Up call
+    button. The card reader validates access and enables the call button circuit, allowing the controller
+    to register the press and send power to the indicator light. The sequence of actions occurs while
+    the button panel remains out of camera view. Then the camera rotates left smoothly at the same rate
+    back to the original viewpoint, bringing the button panel back into center view. No zoom, no cut,
+    no scene change. STOP.
+  camera_WM: The camera starts on the panel with an adjacent card reader. While out of view, a card is
+    tapped on the reader, followed by a button press. The valid card swipe enables the button to function
+    and the controller to activate the light. The actions occur while the button is not visible. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: 'A close-up view of a concrete wall featuring a brushed metal elevator button
+    panel on the left and a black card reader on the right. The elevator panel has two circular buttons:
+    a top button with an Up arrow which is currently unlit (dark), and a bottom button with a Down arrow
+    which is currently illuminated with an orange/yellow glow. The card reader has a small red LED light
+    illuminated in its top left corner and a white contactless payment symbol in the center.'
+  init2final_edit_prompt: Edit the given image to make the top elevator button (the Up arrow) illuminated
+    with a bright orange-yellow glow, matching the appearance of the already lit bottom button. Ensure
+    the Up arrow symbol remains visible against the glow. Keep the bottom button illuminated as it is.
+    Keep the card reader and the concrete wall texture unchanged.
+  rationale: The video describes a sequence where the camera looks away, and during that time, a user
+    taps an access card and presses the Up button. The system logic dictates that a successful press latches
+    the call, causing the button's indicator light to turn on. Since the camera returns to the original
+    view after these events, the primary visible change is that the previously unlit Up button is now
+    illuminated. The Down button was already lit and remains so (assuming the elevator hasn't arrived
+    yet). The card reader's validation signal is typically transient, so the most reliable persistent
+    state change is the elevator button lighting up.
+  questions:
+  - id: q1_up_button_lit
+    question: Is the top elevator button (Up arrow) now illuminated?
+    answer_type: yes_no
+    notes_for_judge: The top button was dark in the initial frame but should be glowing orange/yellow
+      in the final frame.
+  - id: q2_up_button_state_change
+    question: Does the Up arrow button appear to be in an 'active' or 'on' state compared to the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: Check for the visual indicator of the button being pressed/active (light).
+  - id: q3_both_buttons_lit
+    question: Are both the Up and Down arrow buttons illuminated in the final frame?
+    answer_type: yes_no
+    notes_for_judge: The Down button was already lit; the Up button should now also be lit.
+  - id: q4_light_color_match
+    question: Does the light from the top button match the orange/yellow color of the bottom button?
+    answer_type: yes_no
+    notes_for_judge: The lighting style should be consistent between the two buttons.
+  - id: q5_down_button_persistence
+    question: Is the bottom elevator button (Down arrow) still illuminated?
+    answer_type: yes_no
+    notes_for_judge: 'Secondary consistency check: The down button was already on and should remain on.'
+  - id: q6_reader_presence
+    question: Is the black card reader still visible to the right of the button panel?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: q7_wall_texture
+    question: Is the concrete wall texture consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

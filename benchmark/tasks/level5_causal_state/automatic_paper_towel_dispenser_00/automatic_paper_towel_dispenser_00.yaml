@@ -1,0 +1,59 @@
+id: automatic_paper_towel_dispenser_00
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: automatic_paper_towel_dispenser
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: Edit the image to add a white push-button switch on the tiled wall to the right
+    of the paper towel dispenser.
+  video_WM: The camera is completely stationary. The frame shows the motorized paper towel dispenser and
+    a wall-mounted push button to its right. A hand enters the view and presses the button. STOP.
+  camera_WM: The camera is completely stationary. The frame shows the motorized paper towel dispenser
+    and a wall-mounted push button to its right. A hand enters the view and presses the button. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a stainless steel Tork brand paper towel dispenser
+    mounted on a white tiled wall. The dispenser has a translucent horizontal window showing a roll of
+    brown paper inside. Below the main body is a black sensor and dispensing slot area. To the right of
+    the dispenser, a white square push-button switch is mounted on the tiles. In the lower right, a portion
+    of a white ceramic sink and faucet is visible. A window frame is partially visible on the far right.
+  init2final_edit_prompt: Edit the given image to show a human hand pressing the white square button on
+    the wall. Crucially, modify the paper towel dispenser to show a length of brown paper towel hanging
+    down from the bottom dispensing slot.
+  rationale: The video prompt describes a hand pressing the button next to the dispenser. In this context,
+    the button acts as a manual trigger or accessibility switch for the motorized dispenser. The causal
+    consequence of pressing the button is the activation of the dispenser mechanism. Therefore, the final
+    state must show the button being pressed (or having just been pressed) and, most importantly, a sheet
+    of paper towel dispensed and hanging from the machine.
+  questions:
+  - id: paper_hanging
+    question: Is there a sheet of paper towel hanging from the bottom of the dispenser?
+    answer_type: yes_no
+    notes_for_judge: Check for brown paper extending downwards from the slot.
+  - id: slot_occupied
+    question: Is the area directly below the dispenser slot occupied by paper?
+    answer_type: yes_no
+    notes_for_judge: Initially empty, now should have paper.
+  - id: paper_exposed_change
+    question: Is the amount of exposed paper towel greater than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare with initial state where no paper was hanging out.
+  - id: paper_visible_outside
+    question: Is the brown paper towel visible outside the metal casing?
+    answer_type: yes_no
+    notes_for_judge: Verifies the paper has exited the machine.
+  - id: hand_interaction
+    question: Is a hand visible interacting with the white button?
+    answer_type: yes_no
+    notes_for_judge: The prompt specifies a hand presses the button.
+  - id: sink_invariant
+    question: Is the white sink still visible in the bottom right corner?
+    answer_type: yes_no
+    notes_for_judge: Invariant check.

@@ -1,0 +1,68 @@
+id: barcode_scanner_register_05
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: barcode_scanner_register
+variation_type: precondition_failure
+variation_description: A 'Lane Closed' sign blocks the operation
+changes:
+  occlusion_method: null
+  dynamic_conditions: The lane is closed, implying the register system is inactive.
+  expected_outcome_change: The register display will remain unchanged.
+prompts:
+  init_frame_edit_prompt: Edit the image to place a small plastic sign reading 'LANE CLOSED' on the counter
+    near the scanner.
+  video_WM: The camera starts centered on the cash register display showing $0.00. The camera rotates
+    right at constant speed until the display exits the view. The camera continues rotating, revealing
+    a barcode scanner area with a product (cereal box) being held over it. A hand holding the product
+    moves it across the scanner window, maneuvering around a 'LANE CLOSED' sign sitting on the counter.
+    The scanning action occurs while the register display remains out of camera view. Then the camera
+    rotates left smoothly at the same rate back to the original viewpoint, bringing the register display
+    back into center view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The camera starts on the register display showing $0.00, then rotates to the scanner area.
+    A hand scans a product barcode across the scanner near a 'LANE CLOSED' sign. The scanning occurs while
+    the display is not visible. The camera then returns to the register display. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up view of a beige electronic cash register. The central focus is a
+    green LCD screen displaying '$0.00' in black digital segments. To the left of the screen is a receipt
+    printer with a slip of white paper protruding, and below that is a numeric keypad. To the right of
+    the register, a white sign with black text reads 'LANE CLOSED'. The background is slightly out of
+    focus, showing shelves stocked with colorful products like candy or snacks.
+  init2final_edit_prompt: Edit the green LCD screen on the cash register to display a positive dollar
+    amount (e.g., $3.89 or $4.50) instead of '$0.00'. Ensure the new numbers maintain the same digital
+    font style and perspective as the original text. Keep the 'LANE CLOSED' sign, the receipt paper, and
+    the surrounding background exactly as they appear in the original image.
+  rationale: The video describes a camera panning away to reveal a scanning action and then panning back
+    to the original view. The causal action is the scanning of a cereal box. In a functional cash register
+    system, scanning an item triggers a state change in the register, updating the display from the idle
+    state ($0.00) to the price of the item. Since the camera returns to the exact starting position, the
+    visual environment (sign, background, register body) remains unchanged, but the information on the
+    display must reflect the completed action.
+  questions:
+  - id: display_changed
+    question: Does the cash register display show a value different from $0.00?
+    answer_type: yes_no
+    notes_for_judge: The screen should now show a price (e.g., $3.xx, $4.xx) instead of the initial zero
+      state.
+  - id: positive_value
+    question: Is the dollar amount shown on the green screen greater than zero?
+    answer_type: yes_no
+    notes_for_judge: Any positive number indicates the scan was registered.
+  - id: transaction_active
+    question: Does the display indicate that a transaction is now in progress (non-zero total)?
+    answer_type: yes_no
+    notes_for_judge: Checks if the state transitioned from idle ($0.00) to active.
+  - id: text_difference
+    question: Has the text on the digital display changed from the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Direct comparison of the LCD text.
+  - id: sign_presence
+    question: Is the 'LANE CLOSED' sign still visible to the right of the register?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check; the sign was an obstacle but not removed.
+  - id: receipt_consistency
+    question: Is the receipt paper still visible in the printer slot on the left?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

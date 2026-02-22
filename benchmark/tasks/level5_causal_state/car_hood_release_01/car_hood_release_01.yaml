@@ -1,0 +1,72 @@
+id: car_hood_release_01
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: car_hood_release
+variation_type: initial_state
+variation_description: The hood starts in the unlatched 'popped' state. Pulling the release lever again
+  has no effect on the state.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Hood is already unlatched. The mechanical release action is redundant.
+  expected_outcome_change: The hood remains in the popped (slightly open) state, identical to the initial
+    frame.
+prompts:
+  init_frame_edit_prompt: Edit the image so the car hood is already unlatched and popped up slightly,
+    showing a visible gap at the front edge.
+  video_WM: Driver's upright POV. The steering wheel is centered, and the car hood is visible through
+    the windshield, already unlatched and slightly popped open. The driver leans forward and downward
+    toward the lower dashboard; the windshield is no longer visible. The hood release lever under the
+    left side of the dashboard comes into view. A hand grips the lever handle and pulls it firmly outward.
+    Since the hood is already unlatched, the cable offers little resistance. The driver leans back to
+    the upright seated position, bringing the hood back into view. STOP.
+  camera_WM: The camera starts in upright driver POV with the car hood visible. The driver leans forward
+    and down, camera pitches down and moves forward, revealing the hood release lever. A hand pulls the
+    lever outward. The action occurs while the windshield is not visible. The driver leans back to the
+    original seated position. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A first-person view from the driver's seat of a blue Chevrolet Corvette C7.
+    The black leather steering wheel with the Corvette logo is centered. The digital dashboard cluster
+    is illuminated, showing 0 MPH. Through the windshield, the blue hood is visible; it is slightly elevated
+    at the rear edge near the windshield wipers, creating a visible gap that indicates it is already unlatched
+    (popped). A suburban street with trees and parked cars is visible in the background.
+  init2final_edit_prompt: Edit the given image to show the driver's view from the same position. The blue
+    car hood must remain in the exact same unlatched, slightly popped position as the original image,
+    with the rear edge elevated and the gap visible. Do not open the hood further and do not close it.
+    The steering wheel, dashboard, and background street scene should remain unchanged.
+  rationale: The prompt establishes that the hood is already unlatched (popped) in the initial state.
+    In a vehicle, the interior hood release lever mechanically disengages the primary latch. Since the
+    primary latch is already disengaged, pulling the lever again performs no mechanical work on the hood
+    and does not release the secondary safety catch (which requires manual operation from outside). Therefore,
+    the hood remains in its existing 'popped' state. The driver returns to the original upright seating
+    position, restoring the initial camera view. Consequently, the final frame should be visually identical
+    to the initial frame regarding the hood's position.
+  questions:
+  - id: hood_status_popped
+    question: Is the hood still in the popped (slightly open) position?
+    answer_type: yes_no
+    notes_for_judge: The hood should remain slightly elevated at the rear edge, identical to the initial
+      frame.
+  - id: hood_not_fully_open
+    question: Is the view through the windshield still unobstructed by the hood (i.e., hood is not fully
+      open)?
+    answer_type: yes_no
+    notes_for_judge: The hood should not have raised up to block the driver's view.
+  - id: hood_position_unchanged
+    question: Does the hood appear to be in the same position as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Since the action was redundant, the hood position should not change.
+  - id: hood_gap_visible
+    question: Is the gap at the rear edge of the hood (near the wipers) still visible?
+    answer_type: yes_no
+    notes_for_judge: Verifies the hood has not closed.
+  - id: dashboard_active
+    question: Is the dashboard instrument cluster still illuminated?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: steering_wheel_centered
+    question: Is the steering wheel still centered?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

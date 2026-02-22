@@ -1,0 +1,61 @@
+id: doorbell_chime_wireless_00
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: doorbell_chime_wireless
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: Edit the image to add a white wireless doorbell button mounted on the wall to
+    the right of the plug-in chime. The button should be rectangular, match the clean white aesthetic
+    of the chime, and appear adhered to the beige wall surface next to the outlet plate.
+  video_WM: The camera is completely stationary, framing a wall outlet with a plugged-in wireless chime
+    and a paired doorbell button mounted on the wall beside it. The chime's indicator light is off. A
+    hand enters the view, presses the doorbell button firmly, and then pulls away. STOP.
+  camera_WM: The camera is completely stationary, framing a wall outlet with a plugged-in wireless chime
+    and a paired doorbell button mounted on the wall beside it. The chime's indicator light is off. A
+    hand enters the view, presses the doorbell button firmly, and then pulls away. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A white wireless doorbell chime plugged into a beige wall outlet. To the right,
+    a white rectangular doorbell button is mounted on the wall. The chime has a perforated speaker grille
+    and a small circular indicator lens in the center which appears inactive (white plastic, not glowing).
+  init2final_edit_prompt: Edit the given image to make the small circular indicator light on the front
+    of the wireless chime glow brightly, appearing illuminated. Keep the rest of the scene unchanged.
+  rationale: The video prompt describes a causal interaction where a button press triggers the wireless
+    chime. Since the hand presses the button and then pulls away, the final frame should show the scene
+    without the hand, but with the chime's state changed to 'active'. The primary visual indicator of
+    a ringing wireless chime is the illumination of its LED indicator light. The button itself is momentary
+    and returns to its original position.
+  questions:
+  - id: chime_light_active
+    question: Is the circular indicator light on the chime glowing or illuminated?
+    answer_type: yes_no
+    notes_for_judge: The light should appear to be emitting light (bright white, blue, or amber) compared
+      to the dull white plastic in the initial frame.
+  - id: chime_light_change
+    question: Is the indicator light on the chime brighter than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the brightness/glow of the small central dot on the chime.
+  - id: chime_state_signaling
+    question: Does the chime unit show visual evidence of being triggered (e.g., a lit indicator)?
+    answer_type: yes_no
+    notes_for_judge: The causal action (button press) should result in the output device (chime) activating.
+  - id: hand_absent
+    question: Is the scene free of any hands?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the hand 'pulls away', so the final frame should be empty like
+      the initial frame.
+  - id: button_position
+    question: Is the doorbell button still mounted on the wall in its original position?
+    answer_type: yes_no
+    notes_for_judge: The button should not have moved or fallen.
+  - id: chime_plugged_in
+    question: Is the chime unit still plugged into the wall outlet?
+    answer_type: yes_no
+    notes_for_judge: The chime should remain stationary.

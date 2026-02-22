@@ -1,0 +1,73 @@
+id: motion_sensor_ceiling_light_01
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: motion_sensor_ceiling_light
+variation_type: initial_state
+variation_description: The ceiling light starts in the ON state (warm glow). The trigger action (wave)
+  toggles it OFF.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Light starts ON. Sensor logic is a toggle (State A -> State B).
+  expected_outcome_change: Light turns OFF (opposite of original).
+prompts:
+  init_frame_edit_prompt: Edit the image so the ceiling light is turned on, emitting a warm, soft glow.
+  video_WM: The camera starts centered on the illuminated ceiling light fixture. The camera rotates right
+    at constant speed until the light fixture exits the view. The camera continues rotating right, revealing
+    a motion sensor mounted on the wall. A hand enters the frame and waves in front of the motion sensor.
+    The sensor is a passive infrared (PIR) detector configured to toggle the light circuit state upon
+    detecting motion. When a warm object moves within the detection zone, the sensor triggers the relay
+    to switch states. The hand waves while the ceiling light remains out of view. Then the camera rotates
+    left smoothly at the same rate back to the original viewpoint, bringing the ceiling light fixture
+    back into center view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The camera starts on the illuminated ceiling light, then rotates to the motion sensor. A
+    hand waves in front of the sensor. The sensor is a PIR detector configured to toggle the light state.
+    The hand motion occurs while the light is not visible. The camera then returns to the light fixture.
+    STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A centered view of a vintage industrial-style ceiling light fixture with a metal
+    base, glass globe, and wire cage. The light bulb inside is illuminated, emitting a bright warm glow
+    that lights up the surrounding beige ceiling. The room has distressed walls with peeling paint, dark
+    wooden floorboards, and windows visible on the far left and right edges.
+  init2final_edit_prompt: Edit the given image to turn off the central ceiling light fixture. Make the
+    light bulb inside the glass globe appear dark and unlit. Remove the bright warm glow and the artificial
+    illumination cast on the surrounding ceiling. Ensure the scene lighting reflects that the bulb is
+    extinguished, relying on the natural light from the windows. Keep the camera angle and composition
+    identical to the original image.
+  rationale: The initial frame shows the light turned on. The prompt describes a camera rotation that
+    reveals a motion sensor configured to 'toggle' the light circuit. A hand waves in front of the sensor,
+    triggering the toggle action. Since the light started in the ON state, the toggle action switches
+    it to the OFF state. The camera then rotates back to the original viewpoint. Therefore, the final
+    frame must show the exact same composition as the start, but with the light fixture extinguished.
+  questions:
+  - id: light_state_off
+    question: Is the central ceiling light fixture turned off?
+    answer_type: yes_no
+    notes_for_judge: The light should no longer be emitting light.
+  - id: bulb_dark
+    question: Does the light bulb inside the cage appear unlit and dark?
+    answer_type: yes_no
+    notes_for_judge: The filament/bulb should not be glowing.
+  - id: glow_removed
+    question: Is the bright glow that was surrounding the fixture in the initial frame gone?
+    answer_type: yes_no
+    notes_for_judge: Compare with the initial frame's halo/glow.
+  - id: glass_darker
+    question: Does the glass globe of the fixture appear darker than it did initially?
+    answer_type: yes_no
+    notes_for_judge: Without internal illumination, the glass should look duller.
+  - id: ceiling_illumination
+    question: Is the artificial light cast on the ceiling directly around the fixture reduced or absent?
+    answer_type: yes_no
+    notes_for_judge: The ceiling should not be brightly lit by the bulb anymore.
+  - id: camera_centering
+    question: Is the camera framing still centered on the light fixture?
+    answer_type: yes_no
+    notes_for_judge: Verifies the camera returned to the starting position.
+  - id: windows_visible
+    question: Are the windows on the left and right edges still visible in the same positions?
+    answer_type: yes_no
+    notes_for_judge: Checks for geometric consistency.

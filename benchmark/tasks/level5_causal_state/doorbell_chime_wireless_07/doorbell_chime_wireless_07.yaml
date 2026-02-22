@@ -1,0 +1,72 @@
+id: doorbell_chime_wireless_07
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: doorbell_chime_wireless
+variation_type: precondition_failure
+variation_description: The outlet is visibly charred and damaged, implying no power.
+changes:
+  occlusion_method: null
+  dynamic_conditions: The power source is destroyed (burned outlet).
+  expected_outcome_change: The chime will remain inactive because the outlet is damaged and provides no
+    power.
+prompts:
+  init_frame_edit_prompt: Edit the image so the wall outlet appears blackened and charred, with the chime
+    plugged into this damaged socket.
+  video_WM: The camera starts centered on the wireless doorbell chime plugged into a visibly blackened
+    and charred wall outlet. The outlet appears damaged and unpowered. The camera rotates right at constant
+    speed until the chime exits the view. The camera continues rotating through the hallway and toward
+    the exterior door, revealing the wireless doorbell button mounted outside. A finger enters the frame
+    and presses the doorbell button. The button transmits a signal, but the chime lacks power from the
+    damaged outlet. The button press occurs while the interior chime remains out of camera view. Then
+    the camera rotates left smoothly at the same rate back to the original viewpoint, bringing the chime
+    back into center view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The scene features a wireless doorbell chime plugged into a charred, damaged outlet and an
+    exterior doorbell button. A finger presses the doorbell button. The button transmits a signal, but
+    the chime lacks power. The button press occurs while the interior chime remains out of camera view.
+    STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a white, rectangular wireless doorbell chime plugged
+    into a standard duplex wall outlet. The outlet and the surrounding beige wall are severely damaged,
+    featuring heavy black soot and char marks radiating outward from the sockets. The chime has a perforated
+    speaker grille on its upper half and a small, single white dot (indicator light or reflection) visible
+    near the bottom center. To the left, a white vertical doorframe molding is visible. The scene appears
+    static with natural lighting.
+  init2final_edit_prompt: Edit the given image to show the final state of the scene after a failed activation
+    attempt. The image should remain visually identical to the original. The doorbell chime must not light
+    up, flash, or change appearance. The soot, wall damage, and the small white dot on the chime must
+    remain exactly as they were in the initial frame. Maintain the original camera viewpoint and framing.
+  rationale: 'The prompt sets up a causal sequence where a trigger (pressing the doorbell button) occurs,
+    but the necessary condition for the effect (power from the outlet) is absent due to the visible damage.
+    The text explicitly states the chime lacks power. Therefore, the functional outcome is a non-event:
+    the chime fails to ring or activate. Since the camera returns to the original viewpoint, the final
+    frame should be visually indistinguishable from the initial frame, correctly simulating the failure
+    of the device to respond.'
+  questions:
+  - id: state_identity
+    question: Is the doorbell chime visually identical to how it appeared in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The chime should not have changed state (e.g., no new lights, no change in shape/position).
+  - id: no_activation
+    question: Does the chime remain in a static, non-activated state without any new glowing indicators?
+    answer_type: yes_no
+    notes_for_judge: The button press failed due to lack of power, so no 'ringing' visualization should
+      appear.
+  - id: indicator_persistence
+    question: Is the small white dot near the bottom of the chime still present exactly as it was initially?
+    answer_type: yes_no
+    notes_for_judge: The scene should be unchanged; the dot (whether light or reflection) should persist.
+  - id: damage_consistency
+    question: Is the wall outlet still covered in black soot and charring?
+    answer_type: yes_no
+    notes_for_judge: The damage is a permanent feature and should not be repaired or altered.
+  - id: camera_return
+    question: Is the camera framing centered on the chime, matching the initial view?
+    answer_type: yes_no
+    notes_for_judge: The prompt specifies the camera rotates back to the original viewpoint.
+  - id: causal_failure
+    question: Did the scene remain static despite the attempted activation described in the prompt?
+    answer_type: yes_no
+    notes_for_judge: This tests if the model correctly predicted 'no change' as the outcome.

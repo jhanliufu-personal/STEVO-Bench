@@ -1,0 +1,73 @@
+id: slider_thermostat_heat_07
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: slider_thermostat_heat
+variation_type: precondition_failure
+variation_description: The vent is heavily rusted and clogged with debris, physically preventing operation.
+changes:
+  occlusion_method: null
+  dynamic_conditions: 'Precondition failed (mechanical blockage/damage). Action is MIN -> MAX. Logic:
+    Vent cannot open or function.'
+  expected_outcome_change: The vent remains inactive and motionless.
+prompts:
+  init_frame_edit_prompt: Edit the image to make the vent look severely rusted, corroded, and clogged
+    with heavy dust and cobwebs, appearing completely seized up.
+  video_WM: The camera starts centered on the rusted, inactive heater vent. The camera rotates right at
+    constant speed until the vent exits the view. The camera continues rotating, revealing a wall-mounted
+    heater control with a horizontal slider. The slider is currently at the far left MIN position. A finger
+    enters the frame and slides the control bar all the way to the far right MAX position. The slider
+    remains at the maximum setting. The thermostat engages the heating circuit when set above a threshold.
+    The slider movement occurs while the heater vent remains out of camera view. Then the camera rotates
+    left smoothly at the same rate back to the original viewpoint, bringing the heater vent back into
+    center view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The camera starts on the heater vent, then rotates to the temperature slider control. A finger
+    moves the slider from MIN to MAX position. The thermostat engages heating above threshold. The slider
+    movement occurs while the vent is not visible. The camera then returns to the heater vent. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up, straight-on view of a heavily rusted rectangular metal heater vent
+    mounted on a beige wall. The vent has horizontal louvers and is covered in thick cobwebs and dust.
+    The metal shows significant corrosion and peeling paint. The interior behind the louvers is dark and
+    unlit.
+  init2final_edit_prompt: Edit the given image to show the heater in an active state. Make the heating
+    coils behind the rusted grille glow with a bright orange-red light, indicating intense heat. The interior
+    of the vent should be illuminated by this warm glow, contrasting with the previously dark interior.
+    Keep the rusted metal texture, the cobwebs, and the wall details exactly as they are, but backlight
+    the grille with the glow of the heating elements.
+  rationale: The video sequence establishes a functional connection between a thermostat slider and the
+    heater vent. The camera pans to the thermostat, a user moves the slider from MIN to MAX, activating
+    the heating circuit, and then the camera pans back to the vent. The world model must infer that this
+    action turns the heater on. Therefore, the final frame must depict the heater in an active state,
+    visually represented by the glowing of internal heating elements, which were previously cold and dark.
+  questions:
+  - id: glow_visible
+    question: Is there a bright orange or red glow visible inside the vent?
+    answer_type: yes_no
+    notes_for_judge: The heating elements should be glowing, indicating the heater is on.
+  - id: interior_illumination
+    question: Is the interior space behind the louvers significantly brighter than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The initial frame has a dark interior; the final frame should be lit by the heating
+      coils.
+  - id: active_state
+    question: Does the heater appear to be active and generating heat?
+    answer_type: yes_no
+    notes_for_judge: Look for visual evidence of heat, specifically the glow of coils.
+  - id: backlighting
+    question: Are the rusted louvers or cobwebs illuminated from behind by an internal light source?
+    answer_type: yes_no
+    notes_for_judge: The internal glow should cast light on the grille structure.
+  - id: coil_visibility
+    question: Are glowing heating coils visible through the gaps in the vent?
+    answer_type: yes_no
+    notes_for_judge: Specific check for the mechanism of heating.
+  - id: wall_consistency
+    question: Does the surrounding wall texture and color remain consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: rust_consistency
+    question: Is the rust pattern on the vent frame the same as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

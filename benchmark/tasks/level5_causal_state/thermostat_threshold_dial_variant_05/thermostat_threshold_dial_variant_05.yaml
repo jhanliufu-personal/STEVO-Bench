@@ -1,0 +1,66 @@
+id: thermostat_threshold_dial_variant_05
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: thermostat_threshold_dial
+variation_type: precondition_failure
+variation_description: Internal wiring is visibly severed, preventing activation.
+changes:
+  occlusion_method: null
+  dynamic_conditions: 'Broken precondition: broken circuit.'
+  expected_outcome_change: Heater remains OFF.
+prompts:
+  init_frame_edit_prompt: Edit the image to show that the wiring connecting the heating coils is severed
+    and broken.
+  video_WM: The camera starts centered on the inactive heating element which has visibly severed wiring.
+    The camera rotates right at constant speed until the heating element exits the view. The camera continues
+    rotating, revealing a round analog thermostat dial mounted on the wall. The current temperature needle
+    shows 60 degrees. The setting dial is currently at 50 degrees. A hand enters the frame and rotates
+    the setting dial clockwise until the marker reaches 80 degrees. The dial rotation occurs while the
+    heating element remains out of camera view. Then the camera rotates left smoothly at the same rate
+    back to the original viewpoint, bringing the heating element back into center view. No zoom, no cut,
+    no scene change. STOP.
+  camera_WM: The camera starts on the damaged heating element, then rotates to the thermostat dial. A
+    hand rotates the setting dial from 50 to 80 degrees. The dial rotation occurs while the heating element
+    is not visible. The camera then returns to the heating element. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up view of an old electric heater with a metal casing. The central heating
+    element is a coiled metal tube that is visibly broken and severed in multiple places, with frayed
+    wire ends exposed. The coils are a dull, dark reddish-brown color, indicating the heater is currently
+    inactive and cold. Dust is visible on the bottom surface of the heater housing.
+  init2final_edit_prompt: Edit the given image to show the heating element remaining completely inactive
+    and cold. The coils must appear dull and dark reddish-brown, with absolutely no orange glow or incandescence.
+    The severed wiring and physical breaks in the coil must remain visible and unchanged.
+  rationale: The video prompt describes a thermostat being adjusted to 80 degrees while the current temperature
+    is 60 degrees. Under normal circumstances, this would trigger the heating element to turn on and glow.
+    However, the initial frame clearly shows that the heating element is physically broken with severed
+    wiring. Because the electrical circuit is open due to the damage, the control signal from the thermostat
+    cannot activate the heater. Therefore, the correct final state is for the heater to remain completely
+    inactive, dark, and cold, overriding the thermostat's input.
+  questions:
+  - id: heater_state_inactive
+    question: Is the heating element currently unlit and dark?
+    answer_type: yes_no
+    notes_for_judge: The heater should not be glowing because the wires are cut.
+  - id: no_glow_check
+    question: Are the metal coils free of any bright orange or red glow?
+    answer_type: yes_no
+    notes_for_judge: Check for absence of incandescence.
+  - id: functional_failure_check
+    question: Did the heater fail to activate?
+    answer_type: yes_no
+    notes_for_judge: The correct outcome is a failure to activate due to broken hardware.
+  - id: physical_damage_persistence
+    question: Are the severed ends of the heating coil still visible?
+    answer_type: yes_no
+    notes_for_judge: The physical damage should not be spontaneously repaired.
+  - id: visual_consistency_cold
+    question: Does the heating element appear to be the same temperature (cold) as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare color/brightness to initial frame.
+  - id: lighting_environment
+    question: Is the surrounding metal casing free of reflections from a glowing light source?
+    answer_type: yes_no
+    notes_for_judge: If the heater were on, the metal walls would reflect the orange light.

@@ -1,0 +1,68 @@
+id: sprinkler_valve_control_00
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: sprinkler_valve_control
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: Edit the image to add a manual water valve connected to the hose lying on the
+    dry grass to the right of the sprinkler head. The valve should be clearly visible, appearing as part
+    of the water supply line, with a handle that can be operated.
+  video_WM: The camera is completely stationary, framing both the sprinkler head and the manual water
+    valve connected to the hose. A hand enters the frame and rotates the valve handle counterclockwise
+    from the closed position to the open position. STOP.
+  camera_WM: The camera is completely stationary, framing both the sprinkler head and the manual water
+    valve connected to the hose. A hand enters the frame and rotates the valve handle counterclockwise
+    from the closed position to the open position. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up, ground-level shot of a metal impact sprinkler head mounted on a
+    vertical pipe riser in a dry field. To the right of the riser, a horizontal pipe connects to a brass
+    gate valve with a red, wheel-shaped handle. A hose is attached to the input side of the valve. The
+    ground is covered in dry, yellow grass and cracked earth. The background is blurred, showing more
+    dry vegetation.
+  init2final_edit_prompt: Edit the given image to show the sprinkler actively spraying water. Add a forceful
+    stream of water jetting out from the sprinkler nozzle. Rotate the red valve handle to a different
+    orientation to indicate it is in the open position. The ground immediately around the sprinkler may
+    appear slightly wet from the spray.
+  rationale: The prompt describes a manual interaction where a hand turns the valve handle to the open
+    position. The causal mechanism is the valve controlling water flow. Opening the valve allows pressurized
+    water from the hose to reach the sprinkler head. Therefore, the primary functional state change is
+    the transition from an inactive, dry state to an active state with water spraying from the nozzle.
+    The valve handle will also be rotated, but the water spray is the definitive evidence of the functional
+    change.
+  questions:
+  - id: water_spraying
+    question: Is water visible spraying from the sprinkler head?
+    answer_type: yes_no
+    notes_for_judge: Look for a stream, jet, or spray of water exiting the nozzle.
+  - id: stream_visible
+    question: Is there a stream of water exiting the nozzle?
+    answer_type: yes_no
+    notes_for_judge: The water should be distinct against the background.
+  - id: system_active
+    question: Does the sprinkler system appear to be active and releasing water?
+    answer_type: yes_no
+    notes_for_judge: Active state implies water flow.
+  - id: valve_handle_moved
+    question: Is the red valve handle in a different orientation than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the spokes of the red handle to the initial frame.
+  - id: ground_wetness
+    question: Is there evidence of water, such as spray or wetness, in the air or on the ground?
+    answer_type: yes_no
+    notes_for_judge: Any visual sign of water introduced to the scene.
+  - id: invariant_sprinkler_mount
+    question: Is the metal sprinkler head still mounted on the vertical pipe?
+    answer_type: yes_no
+    notes_for_judge: The structure should remain intact.
+  - id: invariant_hose_connection
+    question: Is the hose still connected to the valve assembly?
+    answer_type: yes_no
+    notes_for_judge: The plumbing connections should not break.

@@ -1,0 +1,69 @@
+id: barcode_scanner_register_06
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: barcode_scanner_register
+variation_type: precondition_failure
+variation_description: Register display is cracked and dark
+changes:
+  occlusion_method: null
+  dynamic_conditions: The output device (display) is broken.
+  expected_outcome_change: The display will remain dark/broken, showing no price.
+prompts:
+  init_frame_edit_prompt: Edit the register display screen to appear cracked and completely dark (off).
+  video_WM: The camera starts centered on the broken, dark cash register display. The camera rotates right
+    at constant speed until the display exits the view. The camera continues rotating, revealing a barcode
+    scanner area with a product (cereal box) being held over it. A hand holding the product moves it across
+    the scanner window. The scanner uses an optical sensor to read barcodes and transmits data. The scanning
+    action occurs while the register display remains out of camera view. Then the camera rotates left
+    smoothly at the same rate back to the original viewpoint, bringing the broken register display back
+    into center view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The camera starts on the broken register display, then rotates to the scanner area. A hand
+    scans a product barcode across the scanner. The scanner reads barcodes and sends data. The scanning
+    occurs while the display is not visible. The camera then returns to the register display. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up, eye-level shot of an old, beige electronic cash register. The central
+    focus is a rectangular LCD screen that is completely dark (black) and heavily damaged with a spiderweb
+    pattern of cracks. To the left of the screen is a built-in receipt printer with a short strip of white
+    receipt paper emerging from the slot. Below the screen and printer is a standard keypad with grey
+    and blue buttons. The background is slightly out of focus, showing shelves stocked with convenience
+    store items like candy bars and boxes.
+  init2final_edit_prompt: Edit the given image to make the cash register screen appear active and illuminated.
+    The screen should emit a glow or display a user interface (such as text or numbers) visible through
+    the existing cracks, changing its state from dark to lit. Additionally, extend the length of the white
+    receipt paper coming out of the printer on the left, making it appear as though a new line has been
+    printed and the paper has advanced. Keep the cracks on the screen and the surrounding objects unchanged.
+  rationale: 'The video describes a functional interaction where a product is scanned using an optical
+    sensor that transmits data to the register. In a functioning Point of Sale system, receiving scan
+    data typically wakes the system from sleep or updates the current transaction. This causal trigger
+    results in two visible state changes: the display activates (turning on the backlight and showing
+    transaction data) and the receipt printer advances to record the item. The final frame reflects this
+    updated state after the camera returns to the original view.'
+  questions:
+  - id: screen_illuminated
+    question: Is the cash register screen now illuminated or glowing?
+    answer_type: yes_no
+    notes_for_judge: The screen should appear lit (backlight on) or show text/graphics, contrasting with
+      the initial dark/black state.
+  - id: receipt_length
+    question: Is the receipt paper longer than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The paper strip should extend further out of the printer slot.
+  - id: screen_active
+    question: Does the display show evidence of being active (e.g., light, text, or UI elements)?
+    answer_type: yes_no
+    notes_for_judge: Any visual indication that the screen is powered on counts as Yes.
+  - id: cracks_visible
+    question: Are the cracks on the screen still visible?
+    answer_type: yes_no
+    notes_for_judge: The physical damage should persist even if the screen is lit.
+  - id: keypad_position
+    question: Is the keypad in the same position as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Check for consistency in the static parts of the object.
+  - id: receipt_printed
+    question: Does the receipt printer appear to have printed more paper?
+    answer_type: yes_no
+    notes_for_judge: Comparative question focusing on the quantity of visible paper.

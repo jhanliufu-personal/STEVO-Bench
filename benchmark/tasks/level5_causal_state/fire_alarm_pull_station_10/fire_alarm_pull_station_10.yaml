@@ -1,0 +1,69 @@
+id: fire_alarm_pull_station_10
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: fire_alarm_pull_station
+variation_type: indirect_causation
+variation_description: A visible countdown timer is added; pulling the handle starts the timer, but the
+  light doesn't change yet.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Intermediate delay element added. Effect is delayed.
+  expected_outcome_change: The light remains Green (for now) while the timer counts down.
+prompts:
+  init_frame_edit_prompt: Edit the image to add a digital timer display mounted next to the light showing
+    the number '60'.
+  video_WM: The camera starts centered on the ceiling-mounted fire alarm indicator light showing steady
+    green, located next to a digital delay timer display showing '60'. The camera rotates right at constant
+    speed until the indicator exits the view. The camera continues rotating, revealing a red fire alarm
+    pull station on the wall. A hand enters the frame and pulls down the handle on the pull station firmly.
+    This initiates the 60-second system countdown. The handle pull occurs while the ceiling indicator
+    remains out of camera view. Then the camera rotates left smoothly at the same rate back to the original
+    viewpoint, bringing the ceiling alarm indicator back into center view. No zoom, no cut, no scene change.
+    STOP.
+  camera_WM: The ceiling indicator shows green next to a delay timer. A hand pulls down the handle on
+    the wall-mounted station. The countdown begins. The action occurs while the indicator is not visible.
+    STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up view of a white, circular ceiling-mounted fire alarm indicator. The
+    device has a central glowing green light and text reading 'SYSTEM ARMED' at the top and 'FIRE ALARM
+    INDICATOR' at the bottom. To the right of the circular unit is a small, square white module containing
+    a red 7-segment digital display showing the number '60'. The background is a textured white wall.
+  init2final_edit_prompt: Edit the given image to change the red number on the digital display from '60'
+    to '56'. Keep the central green light illuminated and the surrounding wall unchanged.
+  rationale: The video prompt describes a sequence where the camera rotates away, a manual pull station
+    is activated, and the camera rotates back. The activation of the pull station explicitly 'initiates
+    the 60-second system countdown'. Since the camera movement and action take a non-zero amount of time
+    (likely several seconds), the timer must have decremented from its initial value of 60 by the time
+    the camera returns. The system is in a countdown/delay phase, so the 'System Armed' green light remains
+    active until the countdown completes.
+  questions:
+  - id: timer_decreased
+    question: Is the number displayed on the digital timer strictly less than 60?
+    answer_type: yes_no
+    notes_for_judge: The countdown was initiated, so the value must be lower than the starting value of
+      60.
+  - id: timer_changed
+    question: Has the digital display changed to show a different number than '60'?
+    answer_type: yes_no
+    notes_for_judge: Verifies that the state of the timer has updated in response to the trigger.
+  - id: timer_positive
+    question: Is the number on the digital display greater than 0?
+    answer_type: yes_no
+    notes_for_judge: The camera rotation should not take a full 60 seconds, so the countdown should still
+      be in progress.
+  - id: light_color_green
+    question: Is the central indicator light still glowing green?
+    answer_type: yes_no
+    notes_for_judge: During the countdown delay, the system typically remains in the 'armed' state (green)
+      before switching to alarm (red) at zero.
+  - id: text_consistency
+    question: Are the words 'SYSTEM ARMED' still visible on the circular device?
+    answer_type: yes_no
+    notes_for_judge: Checks for preservation of static object details.
+  - id: display_visibility
+    question: Is the red digital display clearly visible and legible?
+    answer_type: yes_no
+    notes_for_judge: Ensures the object of interest is not obscured or distorted.

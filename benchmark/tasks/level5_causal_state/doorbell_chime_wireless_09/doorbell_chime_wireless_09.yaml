@@ -1,0 +1,69 @@
+id: doorbell_chime_wireless_09
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: doorbell_chime_wireless
+variation_type: repeated_activation
+variation_description: The button is pressed, then pressed again after a pause, returning the toggle system
+  to start.
+changes:
+  occlusion_method: null
+  dynamic_conditions: The system acts as a toggle. Two activations cancel each other out.
+  expected_outcome_change: The final state is identical to the initial state (OFF) because the toggle
+    was triggered twice.
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The camera starts centered on the wireless doorbell chime plugged into the interior wall.
+    The LED indicator is off and the unit is inactive. The camera rotates right at constant speed until
+    the chime exits the view. The camera continues rotating through the hallway and toward the exterior
+    door, revealing the wireless doorbell button mounted outside. A finger enters the frame and presses
+    the doorbell button, pauses for a moment, and then presses it again. The button and chime are paired
+    as a toggle system. The actions occur while the interior chime remains out of camera view. Then the
+    camera rotates left smoothly at the same rate back to the original viewpoint, bringing the wireless
+    chime back into center view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The scene features a wireless doorbell chime and an exterior doorbell button. A finger presses
+    the doorbell button, pauses, and presses it again. The button and chime are paired as a toggle system.
+    The actions occur while the interior chime remains out of camera view. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A white rectangular wireless doorbell chime plugged into the top socket of a
+    beige duplex wall outlet. The device has a circular speaker grille pattern on the upper half. Below
+    the grille, there is a small, circular LED indicator light that is currently illuminated, glowing
+    bright white.
+  init2final_edit_prompt: Edit the given image to turn off the LED indicator light on the wireless doorbell
+    chime. The bright white glowing circle in the center of the device, below the speaker grille, should
+    be changed to appear unlit, looking like a dark grey or neutral-colored plastic sensor or lens. Do
+    not change the wall, the outlet, or the shape of the device.
+  rationale: 'The initial frame visually depicts the chime with the LED indicator illuminated (ON). However,
+    the video prompt specifies that the system starts in the ''off'' state and functions as a ''toggle
+    system''. The action involves pressing the button twice: the first press toggles the system from OFF
+    to ON, and the second press toggles it back from ON to OFF. Therefore, the logical final state of
+    the system is OFF (inactive). To match this final state, the initial image (which shows the LED ON)
+    must be edited to show the LED in the OFF state.'
+  questions:
+  - id: led_state_off
+    question: Is the LED indicator light on the doorbell chime off?
+    answer_type: yes_no
+    notes_for_judge: The small circular light below the speaker grille should be dark/unlit, not glowing
+      white.
+  - id: indicator_dark
+    question: Does the small circular indicator below the speaker grille appear dark or unlit?
+    answer_type: yes_no
+    notes_for_judge: Verify the absence of the bright white glow seen in the initial frame.
+  - id: device_inactive
+    question: Is the wireless chime showing an inactive state with no lights illuminated?
+    answer_type: yes_no
+    notes_for_judge: The device should look powered down or in standby.
+  - id: glow_removed
+    question: Has the bright white glow been removed from the center of the device?
+    answer_type: yes_no
+    notes_for_judge: Compare with the initial frame where the dot is bright white.
+  - id: outlet_visible
+    question: Is the wall outlet socket below the device still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: chime_position
+    question: Is the doorbell chime still plugged into the top socket?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

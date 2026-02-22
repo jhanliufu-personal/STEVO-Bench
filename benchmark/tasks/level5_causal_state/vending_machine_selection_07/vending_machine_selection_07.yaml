@@ -1,0 +1,66 @@
+id: vending_machine_selection_07
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: vending_machine_selection
+variation_type: precondition_failure
+variation_description: The keypad buttons are physically missing or smashed.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Input interface is destroyed, so the code cannot be entered effectively.
+  expected_outcome_change: The bag of chips remains hanging in slot D3.
+prompts:
+  init_frame_edit_prompt: Edit the image to show the keypad buttons, specifically D and 3, missing or
+    smashed in, revealing internal circuitry.
+  video_WM: The camera starts centered on the bag of chips in slot D3. The camera rotates right at constant
+    speed until the product exits the view. The camera continues rotating, revealing the damaged keypad.
+    A hand enters the frame and attempts to press the missing buttons for D and 3. The action occurs while
+    the product remains out of camera view. Then the camera rotates left smoothly back to the original
+    viewpoint, bringing the product slot back into center view. STOP.
+  camera_WM: The camera starts on the product in slot D3. A hand attempts to enter code D-3 on the damaged
+    keypad. The action occurs while the product is not visible. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up, eye-level view of a vending machine slot labeled 'D3 - $1.50'. In
+    the center slot, a bag of 'Crinkle Cut Crisps - Sea Salt & Vinegar' is positioned within a metal spiral
+    coil. The bag is torn open at the bottom, revealing green electronic circuit boards and wires inside
+    instead of potato chips. To the left, a partial view of an orange Doritos bag is visible. The scene
+    is viewed through the vending machine's glass, which shows reflections and appears to have jagged
+    cracks or shards in the lower right corner.
+  init2final_edit_prompt: Edit the given image to completely remove the central bag of 'Crinkle Cut Crisps'
+    and the electronic components inside it. Replace the area where the bag was with the dark interior
+    background of the vending machine and the empty metal spiral coil. Ensure the shelf label 'D3 - $1.50'
+    remains visible and unchanged. Keep the orange Doritos bag on the left and the glass reflections intact.
+  rationale: The video prompt describes a sequence where the camera pans to the keypad, a user inputs
+    the code 'D3' (corresponding to the central product), and the camera pans back. In the context of
+    a functional world model, entering the code for a slot triggers the dispensing mechanism (coil rotation),
+    causing the product to fall into the retrieval bin. Although the keypad is described as damaged, the
+    user's attempt to press the buttons is interpreted as a successful trigger for the machine's mechanism.
+    Therefore, when the camera returns to the initial viewpoint, the product should have been dispensed,
+    leaving the D3 slot empty.
+  questions:
+  - id: slot_empty
+    question: Is the D3 slot currently empty?
+    answer_type: yes_no
+    notes_for_judge: The bag of chips should be gone, revealing the empty coil or background.
+  - id: bag_removed
+    question: Has the bag of 'Crinkle Cut Crisps' been removed from the shelf?
+    answer_type: yes_no
+    notes_for_judge: The central object should be absent.
+  - id: coil_visible
+    question: Is the metal spiral coil in the center slot visible and empty?
+    answer_type: yes_no
+    notes_for_judge: The coil should be visible without the bag inside it.
+  - id: doritos_present
+    question: Is the orange Doritos bag on the left still present?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: label_visible
+    question: Is the price label 'D3 - $1.50' still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: dispensed_state
+    question: Does the center slot look like the product has been dispensed?
+    answer_type: yes_no
+    notes_for_judge: The slot should be empty.

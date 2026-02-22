@@ -21,3 +21,48 @@ prompts:
     to the interior chime. STOP.
 camera_control:
   HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up view of a white wireless doorbell chime plugged into a standard electrical
+    outlet on a beige wall. The device has a perforated speaker grille on the upper half and a small,
+    circular LED indicator light in the center of the lower half, which appears as a solid white dot (inactive
+    state).
+  init2final_edit_prompt: Edit the given image to show the wireless doorbell chime in an activated state.
+    The small circular LED indicator on the front of the device should be glowing brightly (e.g., emitting
+    a bright white or blue light with a soft glow effect) to indicate that the doorbell has been triggered.
+    Keep the device body, the electrical outlet, and the surrounding wall exactly as they are.
+  rationale: The video sequence depicts a causal chain where an external trigger (pressing the doorbell
+    button outside) activates the indoor receiver via a wireless signal. Although the button press occurs
+    while the receiver is occluded by camera rotation, the functional relationship dictates that the receiver
+    must be in an 'active' state when the camera returns. Visually, this state change is represented by
+    the LED indicator turning on (glowing). The physical position of the plugged-in device remains constant.
+  questions:
+  - id: led_state_active
+    question: Is the circular LED indicator on the doorbell chime glowing or illuminated?
+    answer_type: yes_no
+    notes_for_judge: The initial frame shows the LED as a matte white dot (off). The final frame should
+      show it emitting light (on).
+  - id: led_change_comparative
+    question: Is the indicator light brighter or more distinct than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the luminosity of the small circular dot on the device.
+  - id: device_activation_status
+    question: Does the doorbell chime appear to be activated (e.g., light on)?
+    answer_type: yes_no
+    notes_for_judge: Activation is signaled by the visual indicator light.
+  - id: visual_feedback_trigger
+    question: Has the device state changed to provide visual feedback (light)?
+    answer_type: yes_no
+    notes_for_judge: The change should be from no glow to glowing.
+  - id: indicator_color_change
+    question: Does the indicator light show evidence of being powered/lit (e.g., bloom, color, or high
+      brightness)?
+    answer_type: yes_no
+    notes_for_judge: Look for visual artifacts of light emission.
+  - id: wall_consistency
+    question: Is the wall color and texture consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: device_plugged_in
+    question: Is the doorbell chime still plugged into the outlet?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

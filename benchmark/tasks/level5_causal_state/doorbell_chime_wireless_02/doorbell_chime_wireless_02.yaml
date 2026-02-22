@@ -1,0 +1,75 @@
+id: doorbell_chime_wireless_02
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: doorbell_chime_wireless
+variation_type: initial_state
+variation_description: Chime starts in the active state (Green LED ON), so the toggle action turns it
+  OFF.
+changes:
+  occlusion_method: null
+  dynamic_conditions: The chime starts with its LED indicator illuminated green (active state). The button
+    acts as a toggle switch.
+  expected_outcome_change: The final state will be the chime turning OFF (LED dark) because the initial
+    state was ON and the button toggles the state.
+prompts:
+  init_frame_edit_prompt: Edit the image so the LED indicator on the center of the chime is glowing bright
+    green.
+  video_WM: The camera starts centered on the wireless doorbell chime plugged into the interior wall.
+    The LED indicator is currently illuminated green and the unit is active. The camera rotates right
+    at constant speed until the chime exits the view. The camera continues rotating through the hallway
+    and toward the exterior door, revealing the wireless doorbell button mounted outside. A finger enters
+    the frame and presses the doorbell button. The button and chime are paired as a toggle system; pressing
+    the button reverses the chime's current state. The button press occurs while the interior chime remains
+    out of camera view. Then the camera rotates left smoothly at the same rate back to the original viewpoint,
+    bringing the wireless chime back into center view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The scene features a wireless doorbell chime with a green illuminated LED and an exterior
+    doorbell button. A finger presses the doorbell button. The button and chime are paired as a toggle
+    system. The button press occurs while the interior chime remains out of camera view. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up view of a white wireless doorbell chime plugged into the top socket
+    of a standard duplex wall outlet. The device has a perforated speaker grille on its upper half and
+    a bright green LED indicator light illuminated in the center. The outlet is mounted on a beige wall.
+    To the left, white door trim and a window are visible; to the right, an open doorway leads to another
+    room.
+  init2final_edit_prompt: Edit the given image to turn off the green LED indicator light on the wireless
+    doorbell chime. The circular light in the center of the device should appear dark and unlit, removing
+    the green glow completely. Maintain the appearance of the white plastic casing, the wall outlet, and
+    the surrounding wall and trim exactly as they are.
+  rationale: The video prompt defines the system as a toggle mechanism where pressing the button reverses
+    the chime's state. The initial state shows the chime as active with the green LED illuminated. During
+    the camera rotation, a finger presses the button off-screen. Following the defined causal logic, this
+    action toggles the chime to inactive. Therefore, when the camera returns to the initial view, the
+    green LED must be off.
+  questions:
+  - id: q1
+    question: Is the green LED indicator light on the chime turned off?
+    answer_type: yes_no
+    notes_for_judge: The light should be dark/unlit, contrasting with the initial frame where it was glowing
+      green.
+  - id: q2
+    question: Does the circular indicator on the front of the device appear dark?
+    answer_type: yes_no
+    notes_for_judge: Check if the specific spot that was green is now dark/neutral.
+  - id: q3
+    question: Is the green illumination absent from the device?
+    answer_type: yes_no
+    notes_for_judge: Verify that the glow effect is gone.
+  - id: q4
+    question: Has the device transitioned to an unlit state?
+    answer_type: yes_no
+    notes_for_judge: 'Functional check: active (lit) -> inactive (unlit).'
+  - id: q5
+    question: Is the center of the device free of any glowing light?
+    answer_type: yes_no
+    notes_for_judge: Confirm no light is being emitted.
+  - id: q6
+    question: Is the wireless chime still plugged into the wall outlet?
+    answer_type: yes_no
+    notes_for_judge: Consistency check.
+  - id: q7
+    question: Is the white window trim still visible on the left side?
+    answer_type: yes_no
+    notes_for_judge: Consistency check.

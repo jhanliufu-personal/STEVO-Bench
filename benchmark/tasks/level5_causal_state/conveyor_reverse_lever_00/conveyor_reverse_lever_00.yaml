@@ -1,0 +1,67 @@
+id: conveyor_reverse_lever_00
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: conveyor_reverse_lever
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: Edit the image to add an industrial control box with a vertical lever attached
+    to the right side of the green metal conveyor frame in the foreground. The lever should be depicted
+    in the center neutral position.
+  video_WM: The camera is stationary, keeping both the cardboard box on the conveyor belt and the control
+    lever on the side frame in view. A hand enters the frame and pulls the control lever from the center
+    neutral position to the reverse position. STOP.
+  camera_WM: The camera is stationary, keeping both the cardboard box on the conveyor belt and the control
+    lever on the side frame in view. A hand enters the frame and pulls the control lever from the center
+    neutral position to the reverse position. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A warehouse scene featuring a cardboard box sitting centrally on a stationary
+    conveyor belt. To the right of the belt, in the foreground, is a gray metal control box with a black-handled
+    lever currently in a vertical, neutral position. The background contains stacked wooden pallets and
+    industrial shelving. The lighting is overhead industrial lighting.
+  init2final_edit_prompt: Edit the given image to show the black control lever on the right tilted at
+    an angle, indicating it has been switched out of the vertical neutral position. Include a human hand
+    visible grasping the lever handle. The cardboard box on the conveyor belt should be shifted to a different
+    position along the belt, indicating that the conveyor has moved.
+  rationale: 'The video prompt describes a causal chain: a hand interacts with the control mechanism (the
+    lever), changing its state from neutral (vertical) to reverse (angled). This functional change in
+    the switch state activates the conveyor belt motor, causing the physical object (the box) resting
+    on the belt to move. Therefore, the final frame must show the lever in a non-vertical position, the
+    presence of the hand as the causal agent, and the box displaced from its original location.'
+  questions:
+  - id: lever_state_change
+    question: Is the control lever handle now tilted at an angle rather than standing vertically?
+    answer_type: yes_no
+    notes_for_judge: The lever was vertical in the init frame; it should be angled in the final frame.
+  - id: hand_presence
+    question: Is a human hand visible interacting with the control lever?
+    answer_type: yes_no
+    notes_for_judge: The prompt specifies a hand enters and pulls the lever.
+  - id: box_movement
+    question: Has the cardboard box moved from its original position on the conveyor belt?
+    answer_type: yes_no
+    notes_for_judge: Activating the lever should cause the belt to move, displacing the box.
+  - id: lever_not_neutral
+    question: Is the control lever no longer in the center neutral position?
+    answer_type: yes_no
+    notes_for_judge: Check for deviation from the initial vertical state.
+  - id: box_displacement_visible
+    question: Is the position of the box different relative to the side rails or background compared to
+      the first frame?
+    answer_type: yes_no
+    notes_for_judge: Verifies the functional outcome of the belt moving.
+  - id: background_consistency
+    question: Are the wooden pallets in the background still visible and in the same location?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: control_box_integrity
+    question: Is the gray metal box housing the lever still present and attached to the frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

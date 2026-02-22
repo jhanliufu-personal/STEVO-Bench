@@ -1,0 +1,68 @@
+id: safety_interlock_motor_06
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: safety_interlock_motor
+variation_type: precondition_failure
+variation_description: Circuit breaker is open/tripped.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Circuit breaker open. No power reaches motor. Trigger has no effect.
+  expected_outcome_change: The motor shaft remains stationary.
+prompts:
+  init_frame_edit_prompt: Edit the image to show a wall-mounted circuit breaker box in the background
+    with its door open and the main switch in the OFF/TRIPPED position.
+  video_WM: The camera starts centered on the stationary motor drive shaft. An open circuit breaker box
+    is visible in the background. The camera rotates right at constant speed until the shaft exits the
+    view. The camera continues rotating, revealing the green START button. A finger enters the frame and
+    presses the green START button. The button press occurs while the motor shaft remains out of camera
+    view. Then the camera rotates left smoothly at the same rate back to the original viewpoint, bringing
+    the motor drive shaft back into center view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The scene features a stationary motor drive shaft, an open circuit breaker, and a START button.
+    A finger presses the START button while the shaft is out of view. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up industrial shot featuring a large green electric motor in the foreground.
+    A thick, rusty cylindrical drive shaft extends from the motor towards the left side of the frame.
+    The shaft is stationary, with sharp, well-defined rust textures and no motion blur. In the upper-left
+    background, there is an inset image of an open electrical control box. Inside the box, a large central
+    circuit breaker has a red toggle switch positioned downwards, with the text 'OFF' clearly visible
+    in white on the red background.
+  init2final_edit_prompt: Edit the given image to ensure the motor drive shaft remains completely stationary.
+    The rust patterns and surface details on the shaft must remain sharp, distinct, and in focus, with
+    absolutely no motion blur or rotational streaking. The circuit breaker in the background must remain
+    in the 'OFF' position with the red switch toggled down. The scene should appear visually identical
+    to the initial state, reflecting that the motor has not started.
+  rationale: The initial frame explicitly shows the main power circuit breaker in the 'OFF' position (red
+    switch down, text 'OFF' visible). The video prompt describes a finger pressing a 'START' button, but
+    it does not mention turning on the main breaker. In this safety interlock scenario, pressing the start
+    button while the main power is disconnected results in no action. Therefore, the motor must not start.
+    The correct final state is for the drive shaft to remain completely stationary with no motion blur,
+    identical to the initial frame, as the causal conditions for motor activation were not met.
+  questions:
+  - id: motor_stationary
+    question: Is the motor drive shaft stationary?
+    answer_type: yes_no
+    notes_for_judge: The motor should not be spinning. Look for a lack of motion blur.
+  - id: no_motion_blur
+    question: Are the rust details on the drive shaft sharp and distinct, without motion blur?
+    answer_type: yes_no
+    notes_for_judge: If the shaft is spinning, the rust spots would be blurred streaks. They should be
+      sharp.
+  - id: breaker_state
+    question: Is the circuit breaker switch in the background still in the 'OFF' position?
+    answer_type: yes_no
+    notes_for_judge: The breaker was not interacted with; it should remain OFF.
+  - id: motor_not_spinning
+    question: Is the motor drive shaft spinning?
+    answer_type: yes_no
+    notes_for_judge: The correct answer is NO. The power was off.
+  - id: visual_change_check
+    question: Does the motor shaft look identical to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Since the motor didn't start, there should be no visual change in the shaft's state.
+  - id: mechanism_response
+    question: Did the motor activate in response to the button press?
+    answer_type: yes_no
+    notes_for_judge: The correct answer is NO because the breaker was off.

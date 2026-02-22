@@ -1,0 +1,64 @@
+id: gas_pump_nozzle_trigger_06
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: gas_pump_nozzle_trigger
+variation_type: precondition_failure
+variation_description: The nozzle hose is visibly severed or disconnected.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Fluid path broken. Sensor at pump does not register flow or pump detects leak and
+    won't start.
+  expected_outcome_change: Display remains at 0.00.
+prompts:
+  init_frame_edit_prompt: Edit the image to show the black rubber hose connecting the nozzle to the pump
+    is severed or disconnected.
+  video_WM: The camera starts centered on the gas pump display showing $0.00. The camera rotates right
+    until the display exits the view, revealing the fuel nozzle with a severed hose. A hand enters the
+    frame and squeezes the nozzle trigger handle. Due to the disconnection, the pump system does not engage.
+    The action occurs while the display is out of view. The camera rotates left smoothly back to the original
+    viewpoint, bringing the pump display screen back into center view. STOP.
+  camera_WM: The camera starts on the display, then rotates to the nozzle with severed hose. A hand squeezes
+    the trigger. The camera returns to the display. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up view of a black gas pump interface. The digital LCD screen is centered,
+    displaying '$ 0.00' in large digits at the top and '0.00' for gallons below it. The text 'gallons'
+    is printed to the right of the lower numbers. Below the screen, white text reads 'PRICE PER GALLON'.
+    To the right of the main panel, a black rubber hose hangs vertically, ending abruptly in a ragged,
+    severed tip. A portion of a green fuel nozzle handle is visible in the bottom right corner.
+  init2final_edit_prompt: Edit the given image to ensure the gas pump display continues to show exactly
+    $0.00 and 0.00 gallons. Maintain the digital numbers as zero. Keep the severed hose visible on the
+    right side with its ragged end. Maintain the original camera angle, lighting, and composition without
+    any changes to the displayed values.
+  rationale: The video involves a camera movement that temporarily occludes the display to show a trigger
+    squeeze action. However, the prompt explicitly states that the hose is severed and the pump system
+    does not engage due to this disconnection. Consequently, no fuel flows through the metering system,
+    and the electronic display should not register any increase in price or volume. The final frame, returning
+    to the original view, must show the display state unchanged at 0.00.
+  questions:
+  - id: price_zero
+    question: Is the price displayed on the screen still $0.00?
+    answer_type: yes_no
+    notes_for_judge: The system should not engage, so the price must remain 0.00.
+  - id: gallons_zero
+    question: Is the gallon counter still showing 0.00?
+    answer_type: yes_no
+    notes_for_judge: The system should not engage, so the volume must remain 0.00.
+  - id: no_change_digits
+    question: Are the digital numbers on the display identical to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Check for any incrementation; there should be none.
+  - id: display_indicates_no_flow
+    question: Does the display indicate that zero fuel has been dispensed?
+    answer_type: yes_no
+    notes_for_judge: Values should be zero.
+  - id: hose_visible
+    question: Is the severed hose still visible on the right side?
+    answer_type: yes_no
+    notes_for_judge: The hose should remain in the frame as the camera returns to the start position.
+  - id: text_legibility
+    question: Is the 'PRICE PER GALLON' text still visible below the screen?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

@@ -1,0 +1,67 @@
+id: elevator_call_button_press_09
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: elevator_call_button_press
+variation_type: repeated_activation
+variation_description: The lit Down button is pressed TWICE.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Double toggle returns system to initial state (On -> Off -> On).
+  expected_outcome_change: The button remains lit (net no change).
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: 'The camera starts centered on the elevator call button panel, where the Down button is currently
+    illuminated. The camera rotates right at constant speed until the button panel exits the view. The
+    camera continues rotating right, showing the wall and surroundings. While the button is out of view,
+    a hand reaches to the button location and presses the Down call button, pauses, and presses it again.
+    This system uses toggle logic: the first press cancels the existing call, and the second press re-registers
+    it. The controller follows these commands sequentially. The double press occurs while the button panel
+    remains out of camera view. Then the camera rotates left smoothly at the same rate back to the original
+    viewpoint, bringing the button panel back into center view. No zoom, no cut, no scene change. STOP.'
+  camera_WM: The camera starts on the illuminated Down button. While out of view, the button is pressed
+    twice. The toggle logic means the first press cancels the call and the second reinstates it. The interactions
+    occur while the button is not visible. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, straight-on view of a brushed metal elevator call button panel mounted
+    on a textured grey concrete wall. The panel contains two circular buttons arranged vertically. The
+    top button features an upward-pointing arrow and is currently unlit (dark). The bottom button features
+    a downward-pointing arrow and is illuminated with a bright orange/amber glow. The metal plate has
+    visible scratches and wear.
+  init2final_edit_prompt: Edit the given image to show the elevator button panel with the bottom 'Down'
+    button illuminated with an orange glow. Ensure the top 'Up' button remains unlit and dark. The concrete
+    wall and metal panel details should remain identical to the original view.
+  rationale: 'The initial state shows the Down button illuminated (call active). The camera rotates away,
+    occluding the panel. While occluded, the Down button is pressed twice. According to the specified
+    toggle logic, the first press cancels the call (turning the light off), and the second press re-registers
+    the call (turning the light back on). The camera then returns to the original viewpoint. Therefore,
+    the final state is functionally identical to the initial state: the Down button is illuminated, and
+    the Up button is unlit.'
+  questions:
+  - id: down_button_lit
+    question: Is the bottom 'Down' button illuminated?
+    answer_type: yes_no
+    notes_for_judge: The button should be glowing orange/amber.
+  - id: down_arrow_glowing
+    question: Is the downward-pointing arrow glowing orange?
+    answer_type: yes_no
+    notes_for_judge: Check for the specific orange light on the bottom button.
+  - id: up_button_unlit
+    question: Is the top 'Up' button unlit?
+    answer_type: yes_no
+    notes_for_judge: The top button should remain dark/black.
+  - id: call_active_state
+    question: Does the panel indicate that a downward call is currently active?
+    answer_type: yes_no
+    notes_for_judge: Active state is indicated by the light being on.
+  - id: no_hands_visible
+    question: Is the view free of human hands or obstructions?
+    answer_type: yes_no
+    notes_for_judge: The hand acted while occluded and should not be in the final frame.
+  - id: panel_centered
+    question: Is the metal button panel centered in the frame?
+    answer_type: yes_no
+    notes_for_judge: The camera returned to the original viewpoint.

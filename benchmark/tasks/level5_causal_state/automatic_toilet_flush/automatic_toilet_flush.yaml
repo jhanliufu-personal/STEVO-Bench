@@ -6,15 +6,59 @@ prompts:
   image_gen_prompt: A toilet bowl is shown from the front. The water level is stable and calm, not flushing.
     The camera view is centered on the toilet bowl.
   video_WM: The camera starts centered on the toilet bowl with stable water level. The camera rotates
-    right at constant speed until the bowl exits the view. The camera continues rotating, revealing
-    the automatic flush sensor module mounted on the flush valve pipe on the wall. A hand enters the
-    frame and waves in front of the sensor. The sensor uses infrared detection to identify when a user
-    has moved away from the detection zone, triggering the flush valve solenoid to release water. The
-    hand wave occurs while the toilet bowl remains out of camera view. Then the camera rotates left
-    smoothly at the same rate back to the original viewpoint, bringing the toilet bowl back into center
-    view. No zoom, no cut, no scene change. STOP.
+    right at constant speed until the bowl exits the view. The camera continues rotating, revealing the
+    automatic flush sensor module mounted on the flush valve pipe on the wall. A hand enters the frame
+    and waves in front of the sensor. The sensor uses infrared detection to identify when a user has moved
+    away from the detection zone, triggering the flush valve solenoid to release water. The hand wave
+    occurs while the toilet bowl remains out of camera view. Then the camera rotates left smoothly at
+    the same rate back to the original viewpoint, bringing the toilet bowl back into center view. No zoom,
+    no cut, no scene change. STOP.
   camera_WM: The camera starts on the toilet bowl, then rotates to the flush sensor on the wall pipe.
     A hand waves in front of the sensor. The sensor detects presence changes and triggers the flush valve.
     The hand wave occurs while the bowl is not visible. The camera then returns to the toilet bowl. STOP.
 camera_control:
   HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A high-angle close-up view of a white ceramic toilet bowl. The toilet seat is
+    down, and the lid is up. Inside the bowl, the water is calm and still, with a faint mineral stain
+    ring visible near the water line. The floor is tiled with light-colored square tiles, and a beige
+    bath mat is positioned at the base of the toilet. To the right, a white cabinet or wall is visible.
+  init2final_edit_prompt: Edit the given image to show the toilet in the middle of an active flush cycle.
+    The water in the bowl should appear turbulent, swirling, and agitated, with visible motion or ripples,
+    replacing the calm still water. Keep the toilet seat, lid, floor tiles, rug, and cabinet exactly as
+    they are in the original image.
+  rationale: The video prompt describes a sequence where the camera pans away to reveal a flush sensor,
+    a hand triggers the sensor, and the camera pans back to the toilet bowl. The causal mechanism is the
+    activation of the automatic flush sensor, which releases water into the bowl. Therefore, when the
+    camera returns to the initial viewpoint, the state of the toilet must have transitioned from 'idle/still'
+    to 'flushing'. The final frame should depict the water in motion (swirling or turbulent) as a direct
+    result of the sensor trigger.
+  questions:
+  - id: water_agitation
+    question: Is the water in the toilet bowl agitated, swirling, or turbulent?
+    answer_type: yes_no
+    notes_for_judge: The initial frame shows still water. The final frame should show active flushing.
+  - id: flush_active
+    question: Does the image show evidence that the toilet is currently flushing?
+    answer_type: yes_no
+    notes_for_judge: Look for motion blur in the water or disturbed surface tension.
+  - id: water_surface_change
+    question: Is the surface of the water different from the calm, flat surface in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The water should no longer be still.
+  - id: water_motion
+    question: Does the water appear to be moving rather than standing still?
+    answer_type: yes_no
+    notes_for_judge: Primary indicator of the flush mechanism activating.
+  - id: seat_position_invariant
+    question: Is the toilet seat still in the down position?
+    answer_type: yes_no
+    notes_for_judge: 'Secondary check: The seat should not move.'
+  - id: rug_invariant
+    question: Is the beige bath mat still visible at the base of the toilet?
+    answer_type: yes_no
+    notes_for_judge: 'Secondary check: The environment should remain stable.'
+  - id: cabinet_invariant
+    question: Is the white cabinet/wall to the right still present?
+    answer_type: yes_no
+    notes_for_judge: 'Secondary check: Camera view returns to original framing.'

@@ -1,0 +1,68 @@
+id: drinking_fountain_button_05
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: drinking_fountain_button
+variation_type: precondition_failure
+variation_description: Spout is taped over preventing flow
+changes:
+  occlusion_method: null
+  dynamic_conditions: 'Precondition failure: Physical blockage (tape) prevents water from exiting.'
+  expected_outcome_change: 'No water flow (Final state: OFF)'
+prompts:
+  init_frame_edit_prompt: Edit the image to show the metal spout wrapped tightly in silver duct tape.
+  video_WM: The camera starts centered on the drinking fountain spout which is wrapped in duct tape. The
+    camera rotates right at constant speed until the spout exits the view. The camera continues rotating,
+    revealing the push button on the side. A hand enters the frame and presses the button firmly. The
+    valve opens, but the tape blockage prevents water from exiting the spout. The button press occurs
+    while the fountain spout remains out of camera view. Then the camera rotates left smoothly at the
+    same rate back to the original viewpoint, bringing the taped fountain spout back into center view.
+    No zoom, no cut, no scene change. STOP.
+  camera_WM: The camera starts on the taped spout, then rotates to the side button. A hand presses the
+    button. The blockage prevents flow. The camera then returns to the fountain spout. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a stainless steel drinking fountain spout. The
+    curved metal nozzle is heavily wrapped in multiple layers of silver duct tape, completely sealing
+    the opening where water would normally exit. The spout is positioned over a circular stainless steel
+    basin. The background features a blurred wall with light-colored square tiles.
+  init2final_edit_prompt: Edit the given image to show the drinking fountain spout exactly as it appeared
+    initially, with the silver duct tape still securely wrapped around the nozzle. Ensure that no water
+    is flowing from the spout and the tape remains intact, blocking any liquid release. The scene should
+    look identical to the start, with no visible water stream.
+  rationale: The video describes a causal chain where a button press activates the water valve, but a
+    physical constraint (the duct tape) prevents the water from exiting. The camera rotates away to show
+    the trigger event (button press) and then returns to the spout. Since the prompt explicitly states
+    the blockage prevents water from exiting, the final state must show the tape intact and the fountain
+    dry (or at least not flowing). The world model must correctly simulate that the physical blockage
+    overrides the hydraulic activation, resulting in a null visual change regarding water flow.
+  questions:
+  - id: tape_presence
+    question: Is the silver duct tape still wrapped around the nozzle of the spout?
+    answer_type: yes_no
+    notes_for_judge: The tape should not disappear or fall off.
+  - id: no_water_flow
+    question: Is the spout free of any visible stream of water?
+    answer_type: yes_no
+    notes_for_judge: There should be no water jet; the blockage holds.
+  - id: tape_integrity
+    question: Does the duct tape appear intact, without having burst open?
+    answer_type: yes_no
+    notes_for_judge: The tape should not be ripped or exploded.
+  - id: blockage_function
+    question: Is the opening of the spout still completely covered by the tape?
+    answer_type: yes_no
+    notes_for_judge: The tape must cover the hole to prevent flow.
+  - id: basin_dryness
+    question: Is the basin free of a splashing water stream?
+    answer_type: yes_no
+    notes_for_judge: Since no water exits, the basin should not show a stream hitting it.
+  - id: spout_material
+    question: Is the visible part of the spout still metallic/silver?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: background_consistency
+    question: Are the tiled walls in the background still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

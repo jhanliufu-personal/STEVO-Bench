@@ -1,0 +1,73 @@
+id: sprinkler_valve_control_07
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: sprinkler_valve_control
+variation_type: precondition_failure
+variation_description: The pipe leading to the sprinkler is visibly broken/severed.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Pipe is broken. Valve opens. Water leaks at break (off-screen or low visibility)
+    but does not reach sprinkler.
+  expected_outcome_change: Sprinkler remains inactive.
+prompts:
+  init_frame_edit_prompt: Edit the image to show the metal pipe feeding the sprinkler broken in half,
+    with a clear gap between the two pieces.
+  video_WM: The camera starts centered on the inactive sprinkler head and the severed supply pipe on the
+    dry grass. The camera rotates right at constant speed until the sprinkler exits the view. The camera
+    continues rotating, revealing a manual water valve mounted on a pipe near the wall. The valve handle
+    is currently in the closed position. A hand enters the frame and rotates the valve handle counterclockwise
+    to the open position. The valve releases water into the pipe, but the break prevents it from reaching
+    the sprinkler. The valve rotation occurs while the sprinkler head remains out of camera view. Then
+    the camera rotates left smoothly at the same rate back to the original viewpoint, bringing the sprinkler
+    head back into center view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The scene features an inactive sprinkler head with a severed supply pipe and a manual water
+    valve. A hand opens the valve by rotating it counterclockwise. The valve releases water into the pipe,
+    but the break prevents it from reaching the sprinkler. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a rusty metal impact sprinkler head mounted on
+    a short vertical riser pipe. The sprinkler is situated in a field of dry, yellowed grass. To the right
+    of the riser, a severed section of hose or pipe lies on the ground, clearly disconnected from the
+    fitting on the riser. The ground is parched and dusty.
+  init2final_edit_prompt: Edit the given image to show a stream of water gushing out of the open end of
+    the severed pipe lying on the ground to the right. The water should be flowing onto the dry grass,
+    creating a dark, wet muddy patch on the ground near the pipe opening. Ensure the metal sprinkler head
+    itself remains completely dry and inactive, with no water coming from its nozzle. The scene should
+    depict a water leak at the disconnection point.
+  rationale: The video describes a sequence where the camera pans to a valve which is then opened. The
+    prompt explicitly states that the valve releases water into the pipe, but the break (visible in the
+    initial frame) prevents water from reaching the sprinkler. Causal logic dictates that water will flow
+    from the supply side of the break (the pipe leading from the valve) and spill onto the ground, while
+    the sprinkler head itself remains inactive because it is disconnected from the water pressure. The
+    final frame must show this leak and the resulting wet ground, without the sprinkler functioning.
+  questions:
+  - id: water_flow_existence
+    question: Is water flowing out of the severed pipe on the ground?
+    answer_type: yes_no
+    notes_for_judge: Check for a stream of water exiting the broken pipe end.
+  - id: ground_wetness
+    question: Is the ground near the broken pipe wet or darker than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Look for dark patches indicating mud or wet soil near the leak.
+  - id: sprinkler_inactive
+    question: Is the metal sprinkler head inactive (not spraying water)?
+    answer_type: yes_no
+    notes_for_judge: The sprinkler head must NOT be spraying. If it is spraying, the answer is NO.
+  - id: sprinkler_dry
+    question: Is the sprinkler head dry?
+    answer_type: yes_no
+    notes_for_judge: Verify that no water is coming from the sprinkler nozzle itself.
+  - id: leak_evidence
+    question: Does the scene show evidence of a water leak at the disconnection point?
+    answer_type: yes_no
+    notes_for_judge: Water should be spilling at the break.
+  - id: sprinkler_presence
+    question: Is the rusty sprinkler head still visible in the center of the frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: pipe_presence
+    question: Is the severed pipe still visible on the ground?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

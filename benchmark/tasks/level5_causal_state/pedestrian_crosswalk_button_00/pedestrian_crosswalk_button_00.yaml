@@ -1,0 +1,67 @@
+id: pedestrian_crosswalk_button_00
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: pedestrian_crosswalk_button
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: Edit the image to mount a pedestrian crossing push-button box on the grey metal
+    pole in the foreground, positioned vertically below the yellow 'DON'T WALK' signal box. The button
+    should be clearly visible, facing the viewer, and integrated naturally into the rainy street scene.
+  video_WM: The camera is completely stationary, framing the pedestrian signal showing the red hand symbol
+    and the crossing button mounted on the pole below it. A hand enters the frame, reaches for the crossing
+    button, and presses it firmly. The camera remains fixed on the scene with both the signal and the
+    button visible. STOP.
+  camera_WM: The camera is completely stationary, framing the pedestrian signal showing the red hand symbol
+    and the crossing button mounted on the pole below it. A hand enters the frame, reaches for the crossing
+    button, and presses it firmly. The camera remains fixed on the scene with both the signal and the
+    button visible. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A yellow pedestrian signal box mounted on a silver pole in a city environment.
+    The signal displays a glowing red hand symbol and the text 'DON'T WALK'. Below the signal box is a
+    yellow push-button unit with a directional arrow and a central circular button which is currently
+    unlit. The background shows a wet city street with crosswalk markings, cars, and buildings, indicating
+    rainy weather.
+  init2final_edit_prompt: Edit the given image to show a human hand entering the frame and firmly pressing
+    the central button on the yellow push-button unit. The small red indicator light in the center of
+    the button should be illuminated and glowing bright red to indicate activation. The upper signal box
+    must remain unchanged, still displaying the red hand symbol and 'DON'T WALK' text.
+  rationale: The video prompt describes a hand pressing the crosswalk button. Functionally, this action
+    triggers the request for a walk signal, which is typically acknowledged immediately by the button's
+    indicator light turning on. However, traffic signal cycles are timed and do not change instantly upon
+    a button press; therefore, the overhead signal should remain in the 'DON'T WALK' state (red hand)
+    in the immediate aftermath of the press. The final frame should show the hand interaction and the
+    button activation light, while preserving the red signal state.
+  questions:
+  - id: hand_visible
+    question: Is a human hand visible in the frame?
+    answer_type: yes_no
+    notes_for_judge: The hand should be present as per the prompt.
+  - id: hand_pressing
+    question: Is the hand touching or pressing the crosswalk button unit?
+    answer_type: yes_no
+    notes_for_judge: The hand should be in contact with the button mechanism.
+  - id: button_light
+    question: Is the red indicator light on the button illuminated or glowing?
+    answer_type: yes_no
+    notes_for_judge: The button usually lights up when pressed. If the hand partially obscures it, a glow
+      should still be visible.
+  - id: signal_state_symbol
+    question: Does the pedestrian signal still display the red hand symbol?
+    answer_type: yes_no
+    notes_for_judge: The signal should NOT have changed to a walking man yet; traffic cycles take time.
+  - id: signal_state_text
+    question: Is the text 'DON'T WALK' still visible on the signal?
+    answer_type: yes_no
+    notes_for_judge: The text should remain unchanged.
+  - id: background_consistency
+    question: Is the street background still wet and rainy?
+    answer_type: yes_no
+    notes_for_judge: Environmental conditions should remain consistent.

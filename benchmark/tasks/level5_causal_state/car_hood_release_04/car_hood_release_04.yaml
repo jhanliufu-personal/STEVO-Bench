@@ -1,0 +1,66 @@
+id: car_hood_release_04
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: car_hood_release
+variation_type: precondition_failure
+variation_description: The release cable is snapped and dangling, so pulling the lever does not activate
+  the latch.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Mechanical failure (broken cable) prevents force transfer to the latch.
+  expected_outcome_change: The hood remains fully closed and latched.
+prompts:
+  init_frame_edit_prompt: Edit the image to show a snapped, frayed steel cable dangling loosely beneath
+    the dashboard near the hood release lever.
+  video_WM: Driver's upright POV. The steering wheel is centered, and the closed car hood is visible through
+    the windshield. The driver leans forward and downward toward the lower dashboard; the windshield is
+    no longer visible. The hood release lever comes into view, with a severed cable hanging visibly beneath
+    it. A hand grips the lever handle and pulls it outward. The lever moves with zero resistance due to
+    the broken cable. The driver leans back to the upright seated position, bringing the hood back into
+    view. STOP.
+  camera_WM: The camera starts in upright driver POV with the closed hood visible. The driver leans forward
+    and down, camera pitches down and moves forward, revealing the hood release lever and a dangling cable.
+    A hand pulls the lever outward. The action occurs while the windshield is not visible. The driver
+    leans back to the original seated position. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up view of the lower dashboard and footwell area of a car. A black plastic
+    hood release lever is mounted on the panel. A thick, multi-strand metal cable is visibly severed and
+    frayed, hanging loosely from the lever mechanism. To the right, the steering column and metal pedals
+    are partially visible against the dark carpet.
+  init2final_edit_prompt: Edit the given image to show the view through the car windshield from the driver's
+    upright seated position. The steering wheel and the top of the dashboard should be visible in the
+    foreground. The car hood should be visible through the glass and must be completely closed and flush
+    with the car body.
+  rationale: The initial frame shows the hood release lever with a severed cable. The video prompt describes
+    the driver pulling this lever and then leaning back to an upright position. Because the cable is broken,
+    the mechanical connection to the hood latch is severed, so pulling the lever will not release the
+    latch. Therefore, in the final frame, the hood should remain completely closed (not popped up) as
+    the driver views it through the windshield.
+  questions:
+  - id: q1
+    question: Is the view in the final frame looking through the windshield?
+    answer_type: yes_no
+    notes_for_judge: The camera should have moved from the footwell to the upright driving position.
+  - id: q2
+    question: Is the car hood visible in the final frame?
+    answer_type: yes_no
+    notes_for_judge: The hood should be visible through the windshield.
+  - id: q3
+    question: Is the car hood completely closed?
+    answer_type: yes_no
+    notes_for_judge: The hood should not be popped open because the release cable was broken.
+  - id: q4
+    question: Is the hood flush with the surrounding car body panels?
+    answer_type: yes_no
+    notes_for_judge: Verifies the hood is in the fully closed state.
+  - id: q5
+    question: Does the hood appear to remain latched rather than popped open?
+    answer_type: yes_no
+    notes_for_judge: The broken cable prevents the latch from releasing.
+  - id: q6
+    question: Is the hood release lever no longer the primary focus of the image?
+    answer_type: yes_no
+    notes_for_judge: The view should have shifted away from the footwell.

@@ -1,0 +1,62 @@
+id: drinking_fountain_button_00
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: drinking_fountain_button
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: Edit the image to add a stainless steel push button on the side of the fountain
+    body, clearly visible within the frame.
+  video_WM: The camera is completely stationary, framing both the drinking fountain spout and the push
+    button on the side. A hand enters the view and firmly presses the push button. STOP.
+  camera_WM: The camera is completely stationary, framing both the drinking fountain spout and the push
+    button on the side. A hand enters the view and firmly presses the push button. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up shot of a stainless steel drinking fountain. The frame features a
+    circular basin with a curved metal spout (bubbler) in the center and a large circular push button
+    mounted on the vertical side of the housing. The background is a tiled wall with a grid pattern. The
+    fountain is currently inactive, meaning no water is flowing from the spout.
+  init2final_edit_prompt: Edit the given image to show a human hand firmly pressing the circular push
+    button on the side of the fountain. Render a clear stream of water arcing out of the metal spout and
+    falling into the basin, indicating the fountain is active. Ensure the button appears depressed or
+    interacted with by the hand.
+  rationale: 'The video prompt specifies a causal action: a hand pressing the activation button. In a
+    functional drinking fountain, this mechanical input directly causes the valve to open and water to
+    flow. Therefore, the final state must depict the immediate functional consequence of the action: the
+    button being pressed and a stream of water flowing from the spout.'
+  questions:
+  - id: q1_water_flow
+    question: Is water flowing from the spout?
+    answer_type: yes_no
+    notes_for_judge: Check for a stream of water exiting the bubbler/spout.
+  - id: q2_water_arc
+    question: Is there a visible arc of water falling into the basin?
+    answer_type: yes_no
+    notes_for_judge: The water should form a trajectory typical of a drinking fountain.
+  - id: q3_hand_presence
+    question: Is a hand visible in the frame?
+    answer_type: yes_no
+    notes_for_judge: The prompt requires a hand to enter and press the button.
+  - id: q4_button_interaction
+    question: Is the hand touching or pressing the push button?
+    answer_type: yes_no
+    notes_for_judge: Verify the causal agent (hand) is interacting with the trigger (button).
+  - id: q5_active_state
+    question: Does the fountain appear to be in an active state?
+    answer_type: yes_no
+    notes_for_judge: Active state implies water dispensing.
+  - id: q6_spout_visibility
+    question: Is the metal spout still visible?
+    answer_type: yes_no
+    notes_for_judge: The spout should not be removed, only dispensing water.
+  - id: q7_background_consistency
+    question: Is the tiled wall background consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The environment should not change.

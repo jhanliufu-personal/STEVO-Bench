@@ -1,0 +1,66 @@
+id: vending_machine_selection_06
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: vending_machine_selection
+variation_type: precondition_failure
+variation_description: The metal coil holding the chips is visibly broken/disconnected.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Mechanical failure prevents the coil from pushing the product.
+  expected_outcome_change: The bag of chips remains in the slot.
+prompts:
+  init_frame_edit_prompt: Edit the image to show the metal spiral coil in slot D3 broken and hanging loose,
+    disconnected from the motor mount.
+  video_WM: The camera starts centered on the bag of chips in slot D3, where the metal coil appears broken.
+    The camera rotates right at constant speed until the product exits the view. The camera continues
+    rotating, revealing the keypad. A hand enters the frame and presses D, then 3. The keypad attempts
+    to activate the mechanism while the product remains out of camera view. Then the camera rotates left
+    smoothly back to the original viewpoint, bringing the product slot back into center view. STOP.
+  camera_WM: The camera starts on the product in slot D3 with a broken coil. A hand enters code D-3 on
+    the keypad. The code entry occurs while the product is not visible. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up view of a vending machine slot labeled 'D3'. A blue and white bag
+    of 'Crinkle Cut Crisps - Sea Salt & Vinegar' is positioned in the center, held behind a metal spiral
+    coil. A price tag reading 'D3 - $1.50' is visible on the shelf edge below the product. The metal coil
+    appears to end abruptly in front of the bag.
+  init2final_edit_prompt: Edit the given image to show the final state where the bag of chips remains
+    in slot D3. The bag should be in the same position as the initial frame, as the mechanism failed to
+    dispense it. Ensure the lighting, composition, and product placement are identical to the original
+    view. Do not remove the bag or leave the slot empty.
+  rationale: The prompt explicitly states that the metal coil in slot D3 'appears broken'. In a causal
+    reasoning task, this condition implies that the mechanism is faulty. When the keypad activates the
+    mechanism (D3), the broken coil fails to push the product forward. Therefore, the expected outcome
+    is a failure to dispense. When the camera returns to the original viewpoint, the bag of chips should
+    still be present in the slot, unchanged from the initial state.
+  questions:
+  - id: bag_presence
+    question: Is the bag of chips still visible in slot D3?
+    answer_type: yes_no
+    notes_for_judge: The bag should remain in the slot because the coil was described as broken.
+  - id: slot_not_empty
+    question: Is the slot D3 currently occupied by a product?
+    answer_type: yes_no
+    notes_for_judge: The slot should not be empty.
+  - id: dispense_failure
+    question: Did the bag of chips fail to dispense?
+    answer_type: yes_no
+    notes_for_judge: If the bag is still in the slot, the answer is Yes.
+  - id: bag_position
+    question: Is the 'Crinkle Cut Crisps' text still visible in the center of the frame?
+    answer_type: yes_no
+    notes_for_judge: The bag should not have fallen.
+  - id: no_drop
+    question: Is the bottom of the slot obscured by the bag (meaning the bag did not drop)?
+    answer_type: yes_no
+    notes_for_judge: If the bag dropped, we would see the empty shelf/coil bottom.
+  - id: product_identity
+    question: Is the blue and white packaging still the primary object in the view?
+    answer_type: yes_no
+    notes_for_judge: Verifies the object persists.
+  - id: price_tag_consistency
+    question: Is the price tag 'D3 - $1.50' still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

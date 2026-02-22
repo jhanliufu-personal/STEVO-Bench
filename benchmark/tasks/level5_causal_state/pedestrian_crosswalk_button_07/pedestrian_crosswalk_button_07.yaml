@@ -1,0 +1,65 @@
+id: pedestrian_crosswalk_button_07
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: pedestrian_crosswalk_button
+variation_type: precondition_failure
+variation_description: Button is covered by a locked clear safety box
+changes:
+  occlusion_method: null
+  dynamic_conditions: Trigger is inaccessible. Action fails to actuate button.
+  expected_outcome_change: Signal remains Red DON'T WALK (No Change).
+prompts:
+  init_frame_edit_prompt: Edit the image to place a clear, locked plastic cover over the pedestrian button.
+  video_WM: The camera starts centered on the pedestrian signal showing the red hand (DON'T WALK) symbol.
+    The camera rotates right at constant speed until the signal exits the view. The camera continues rotating,
+    revealing a pedestrian crossing button enclosed in a locked clear cover. A hand enters the frame and
+    attempts to press the button but is blocked by the cover, failing to actuate the mechanism. The button
+    press attempt occurs while the crossing signal remains out of camera view. Then the camera rotates
+    left smoothly at the same rate back to the original viewpoint, bringing the pedestrian crossing signal
+    back into center view. No zoom, no cut, no scene change. STOP.
+  camera_WM: A hand attempts to press the pedestrian button but is blocked by a locked cover. The mechanism
+    is not actuated. The action occurs while the crossing signal is not visible. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up view of a yellow pedestrian traffic signal mounted on a metal pole.
+    The signal is currently illuminated with a red hand icon and the text 'DON'T WALK'. Below the signal
+    head on the same pole is a silver pedestrian push-button box enclosed in a clear plastic cover secured
+    with a yellow padlock. The background shows a wet city street with cars, scaffolding, and buildings,
+    indicating rainy weather.
+  init2final_edit_prompt: Edit the given image to show the pedestrian signal remaining in the 'DON'T WALK'
+    state. The red hand icon and the 'DON'T WALK' text must remain illuminated. The white 'WALK' symbol
+    must remain unlit. The clear plastic cover over the button box should remain closed and locked. The
+    background street scene should remain rainy with wet pavement.
+  rationale: The video describes a camera movement that temporarily occludes the signal to focus on the
+    button. An agent attempts to press the button but fails because the clear cover is locked. Since the
+    causal mechanism (the button press) was not successfully actuated, the signal state should not change.
+    Therefore, when the camera returns to the initial view, the signal must still display the 'DON'T WALK'
+    state, identical to the initial frame. The time elapsed is short, so the background weather and general
+    traffic conditions remain consistent.
+  questions:
+  - id: signal_state_red_hand
+    question: Is the red hand symbol still illuminated on the pedestrian signal?
+    answer_type: yes_no
+    notes_for_judge: The signal should not have changed to WALK because the button press failed.
+  - id: signal_text_dont_walk
+    question: Is the 'DON'T WALK' text still illuminated?
+    answer_type: yes_no
+    notes_for_judge: Verifies the specific text component of the signal state.
+  - id: signal_phase_unchanged
+    question: Does the signal still indicate that pedestrians should stop or wait?
+    answer_type: yes_no
+    notes_for_judge: Functional check of the signal's meaning.
+  - id: walk_symbol_unlit
+    question: Is the white 'WALK' (walking person) symbol currently unlit?
+    answer_type: yes_no
+    notes_for_judge: Checks that the alternative state was NOT triggered.
+  - id: cover_state
+    question: Is the clear cover over the button still closed?
+    answer_type: yes_no
+    notes_for_judge: The action was blocked by the cover, so it should remain closed.
+  - id: overall_state_maintenance
+    question: Is the pedestrian signal in the same state as it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Global check for state persistence after failed interaction.

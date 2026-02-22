@@ -1,0 +1,73 @@
+id: car_key_ignition_turn_10
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: car_key_ignition_turn
+variation_type: indirect_causation
+variation_description: A breathalyzer interlock is added; turning key without using it prevents start.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Intermediate condition (interlock) not satisfied. Trigger action implies no result.
+  expected_outcome_change: The dashboard will remain dark because the interlock device was not utilized
+    before turning the key.
+prompts:
+  init_frame_edit_prompt: Edit the dashboard to include a breathalyzer interlock device with a mouthpiece
+    attached to the steering column via a coiled cord.
+  video_WM: Driver's upright POV. The steering wheel is centered and the dark instrument cluster is visible.
+    A breathalyzer interlock device is attached to the steering column. The driver leans forward toward
+    the dashboard; the surroundings are no longer visible. The ignition cylinder comes into view with
+    the key at the OFF position. A hand grips the key and turns it clockwise from OFF to the ON position
+    without interacting with the interlock device. The ignition cylinder is a rotary switch. The driver
+    leans back to the upright seated position. No zoom, no cut, no scene change. STOP.
+  camera_WM: The camera starts in upright driver POV with a dark dashboard and visible interlock device.
+    The driver leans forward, camera pitches down and moves toward the dashboard, revealing the ignition
+    cylinder with the key at OFF. A hand turns the key to ON. The action occurs while the windows are
+    not visible. The driver leans back to the original seated position. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A driver's point-of-view shot inside a car. A black steering wheel is centered
+    with a coiled cable wrapped around the bottom spoke. To the left of the steering column, a black breathalyzer
+    interlock device with a clear mouthpiece is attached; its small digital screen is dark. Behind the
+    wheel, the instrument cluster is dark and unlit. To the right of the steering column, a set of keys
+    hangs from the ignition cylinder. Through the windshield, a residential street with houses and green
+    lawns is visible.
+  init2final_edit_prompt: Edit the given image to show the vehicle in the 'ON' ignition state. Illuminate
+    the instrument cluster with dashboard warning lights (such as battery, check engine, or oil pressure
+    indicators) and backlighting for the gauges. Make the digital screen on the breathalyzer device attached
+    to the steering column appear powered on and glowing (e.g., displaying text or a backlight). Rotate
+    the keys hanging from the ignition cylinder clockwise to reflect the turned position. Keep the steering
+    wheel position, background scenery, and camera angle identical to the original image.
+  rationale: The driver turns the ignition key from OFF to ON. This action closes the car's electrical
+    circuit. Functionally, this causes the instrument cluster to light up (warning lights and gauge backlights)
+    and powers on the breathalyzer interlock device (screen turns on). Physically, the key rotates clockwise.
+    Since the driver leans back to the original position, the viewpoint and background remain unchanged.
+  questions:
+  - id: dash_lights_on
+    question: Is the instrument cluster dashboard illuminated with lights that were previously off?
+    answer_type: yes_no
+    notes_for_judge: Look for warning lights, backlighting, or digital displays on the dashboard behind
+      the steering wheel.
+  - id: breathalyzer_screen_on
+    question: Is the screen on the breathalyzer device now illuminated or glowing?
+    answer_type: yes_no
+    notes_for_judge: The device is the black box with the clear tube on the left of the steering column.
+      Its screen should be on.
+  - id: key_rotation
+    question: Are the keys in the ignition rotated clockwise compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the angle of the dangling keys/keychain. They should be angled differently
+      (clockwise turn).
+  - id: warning_indicators_visible
+    question: Are specific dashboard warning icons (like battery, oil, or check engine) visible?
+    answer_type: yes_no
+    notes_for_judge: These lights typically appear when the key is in the ON position.
+  - id: steering_wheel_static
+    question: Is the steering wheel in the same position as the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The wheel should not have rotated; only the key turned.
+  - id: background_consistency
+    question: Is the view of the street through the windshield consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The driver returned to the original seating position.

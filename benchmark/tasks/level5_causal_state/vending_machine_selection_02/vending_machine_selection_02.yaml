@@ -1,0 +1,68 @@
+id: vending_machine_selection_02
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: vending_machine_selection
+variation_type: initial_state
+variation_description: Slot D3 contains a 'SOLD OUT' marker instead of chips.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Slot contains a static marker. Mechanism may activate or reject code, but no chips
+    dispense.
+  expected_outcome_change: The final state shows the 'SOLD OUT' marker still in place or the slot unchanged;
+    no chips dispense.
+prompts:
+  init_frame_edit_prompt: Edit the image to replace the bag of chips in slot D3 with a small plastic 'SOLD
+    OUT' marker placed on the coil.
+  video_WM: The camera starts centered on the 'SOLD OUT' marker in slot D3. The camera rotates right at
+    constant speed until the slot exits the view. The camera continues rotating, revealing the keypad.
+    A hand enters the frame and presses D, then 3. The code entry occurs while the slot remains out of
+    camera view. Then the camera rotates left smoothly back to the original viewpoint, bringing slot D3
+    back into center view. STOP.
+  camera_WM: The camera starts on the 'SOLD OUT' marker in slot D3. A hand enters code D-3 on the keypad.
+    The code entry occurs while the slot is not visible. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up view of a vending machine shelf through the glass. The central focus
+    is slot D3, which is empty of product. A silver metal spiral coil occupies the slot. A white plastic
+    tag with bold black text 'SOLD OUT' is clipped onto the front loop of the coil. Below the slot, a
+    black price label reads 'D3 - $1.50'. To the left, a portion of an orange Doritos bag is visible in
+    the adjacent slot. The lighting is artificial, with reflections on the glass surface.
+  init2final_edit_prompt: Edit the given image to show the result of the vending machine motor activating
+    in slot D3. Rotate the silver metal spiral coil in the center slot to a new angular position. Change
+    the orientation of the white 'SOLD OUT' tag clipped to the coil so it appears tilted, rotated, or
+    displaced, reflecting the movement of the spiral mechanism. Ensure the coil wire ends are in a different
+    position on the clock face compared to the original. Keep the neighboring Doritos bag and the price
+    tag unchanged.
+  rationale: The video prompt describes a user entering the code 'D3' on the keypad while the slot is
+    out of view. This input is the specific causal trigger for the motor in slot D3. We assume that the
+    machine attempts to vend (e.g., due to a test mode, lack of sensor, or mechanical override) despite
+    the 'SOLD OUT' label. Consequently, the motor turns the spiral coil. Since the 'SOLD OUT' tag is physically
+    clipped to the coil, the rotation of the mechanism causes the tag to rotate, tilt, or shift position.
+    The final frame must show this physical response to the keypad input.
+  questions:
+  - id: tag_orientation
+    question: Is the 'SOLD OUT' tag in a different orientation or angle than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The tag should be tilted, rotated, or upside down due to the coil turning.
+  - id: coil_rotation
+    question: Does the metal spiral coil in slot D3 appear to have rotated to a new position?
+    answer_type: yes_no
+    notes_for_judge: Look for the position of the wire end or the phase of the spiral.
+  - id: mechanism_response
+    question: Does the center slot show visual evidence that the motor mechanism was triggered?
+    answer_type: yes_no
+    notes_for_judge: Evidence includes movement of the coil or the attached tag.
+  - id: tag_displacement
+    question: Is the 'SOLD OUT' tag no longer perfectly horizontal and centered as it was initially?
+    answer_type: yes_no
+    notes_for_judge: It should have moved with the coil.
+  - id: neighbor_consistency
+    question: Is the Doritos bag on the left still in the same position?
+    answer_type: yes_no
+    notes_for_judge: The action was specific to D3; D1/neighbor should not move.
+  - id: label_consistency
+    question: Is the price label 'D3 - $1.50' still visible and unchanged?
+    answer_type: yes_no
+    notes_for_judge: Static element.

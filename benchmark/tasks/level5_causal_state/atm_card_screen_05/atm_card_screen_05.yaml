@@ -1,0 +1,65 @@
+id: atm_card_screen_05
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: atm_card_screen
+variation_type: precondition_failure
+variation_description: Screen displays 'OUT OF SERVICE'.
+changes:
+  occlusion_method: null
+  dynamic_conditions: The software is in a failure state. Card insertion is ignored or blocked physically.
+  expected_outcome_change: Screen remains displaying 'OUT OF SERVICE'.
+prompts:
+  init_frame_edit_prompt: Edit the ATM screen to display a large 'OUT OF SERVICE' message in red block
+    letters.
+  video_WM: The camera starts centered on the ATM screen showing 'OUT OF SERVICE'. The camera rotates
+    right at constant speed until the screen exits the view. The camera continues rotating, revealing
+    the ATM card insertion slot. A hand holding a bank card enters the frame and attempts to slide the
+    card into the slot. The reader is disabled, so the card may not seat or trigger a response. The action
+    occurs while the screen remains out of camera view. Then the camera rotates left smoothly at the same
+    rate back to the original viewpoint, bringing the ATM screen back into center view. No zoom, no cut,
+    no scene change. STOP.
+  camera_WM: The camera starts on the 'OUT OF SERVICE' screen, then rotates to the card slot. A hand attempts
+    to insert a bank card. The system is disabled. The action occurs while the screen is not visible.
+    The camera then returns to the ATM screen. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up view of a metallic ATM interface. The central screen displays the
+    text 'OUT OF SERVICE' in large red sans-serif capital letters against a black background. Below the
+    screen is a silver numeric keypad. To the right of the keypad is a card insertion slot surrounded
+    by an illuminated blue ring. Reflections of the street are visible on the screen and metal surfaces.
+  init2final_edit_prompt: Edit the given image to ensure the ATM screen still displays the 'OUT OF SERVICE'
+    text in large red letters. The card reader slot to the right should be empty with no card inserted.
+    The screen content must remain an error message and should not show a 'Welcome' or 'Enter PIN' interface.
+  rationale: 'The ATM is initially in a broken state (''OUT OF SERVICE''). The video prompt describes
+    an attempt to insert a card while the screen is out of view, but explicitly states the reader is disabled
+    and the action triggers no response. This tests the world model''s ability to handle conditional logic:
+    the ''Out of Service'' state inhibits the standard ''Card Inserted -> Welcome Screen'' transition.
+    Therefore, the correct final state is the persistence of the initial error screen, demonstrating that
+    the model did not hallucinate a functional response to the card insertion.'
+  questions:
+  - id: screen_text_persistence
+    question: Is the text 'OUT OF SERVICE' still clearly visible on the screen?
+    answer_type: yes_no
+    notes_for_judge: The screen should not have changed to a transaction interface.
+  - id: no_transaction_interface
+    question: Is the screen free of any 'Welcome', 'Enter PIN', or transaction prompts?
+    answer_type: yes_no
+    notes_for_judge: The machine is broken; it should not show a working UI.
+  - id: error_state_maintenance
+    question: Does the screen indicate that the machine is still non-functional?
+    answer_type: yes_no
+    notes_for_judge: The error state must persist despite the card insertion attempt.
+  - id: slot_empty
+    question: Is the card reader slot empty (no card inserted)?
+    answer_type: yes_no
+    notes_for_judge: The prompt implies the card did not seat; the slot should be clear.
+  - id: text_color_check
+    question: Is the text on the screen still red?
+    answer_type: yes_no
+    notes_for_judge: Checks if the specific error message style was preserved.
+  - id: blue_light_consistency
+    question: Is the blue light ring around the card slot still illuminated?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check; the light was on initially.

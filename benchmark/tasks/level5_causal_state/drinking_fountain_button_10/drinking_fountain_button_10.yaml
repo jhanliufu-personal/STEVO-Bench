@@ -1,0 +1,71 @@
+id: drinking_fountain_button_10
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: drinking_fountain_button
+variation_type: indirect_causation
+variation_description: Hand turns safety valve before pressing button
+changes:
+  occlusion_method: null
+  dynamic_conditions: 'Indirect causation: Two steps required. Hand enables the supply via valve, then
+    activates the button.'
+  expected_outcome_change: 'Water flows (Final state: ON)'
+prompts:
+  init_frame_edit_prompt: Edit the image to add a small red shut-off valve handle visible on the wall
+    or side of the fountain near the button.
+  video_WM: The camera starts centered on the drinking fountain spout with no water flowing. The camera
+    rotates right at constant speed until the spout exits the view. The camera continues rotating, revealing
+    the push button and a red shut-off valve nearby. A hand enters the frame, turns the red valve to the
+    open position, and then presses the push button firmly. The valve enables the water supply, allowing
+    the button to activate the flow. The actions occur while the fountain spout remains out of camera
+    view. Then the camera rotates left smoothly at the same rate back to the original viewpoint, bringing
+    the fountain spout back into center view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The camera starts on the spout, then rotates to the side button and valve. A hand opens the
+    valve and presses the button. The sequence enables and activates the flow. The camera then returns
+    to the fountain spout. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up view of a stainless steel drinking fountain. The central chrome spout
+    is dry with no water flowing. A red lever-style valve handle is attached to the right side of the
+    spout mechanism, currently in a horizontal position. The background consists of light-colored square
+    wall tiles.
+  init2final_edit_prompt: Edit the given image to show a clear stream of water arcing out of the drinking
+    fountain spout and falling into the basin. The water flow should look active and continuous. Rotate
+    the red valve handle to a different angle (e.g., vertical or diagonal) to indicate it has been turned
+    to the open position.
+  rationale: The video describes a sequence where the camera pans away, a user opens a shut-off valve
+    and presses a button to activate the water, and the camera pans back. The causal result of these actions
+    is that the water supply is enabled and the flow is activated. Therefore, in the final frame, water
+    must be flowing from the spout. Since the red valve is visible in the initial frame and was explicitly
+    turned, its handle should be in a different position (open state) compared to the initial closed state.
+  questions:
+  - id: water_flowing_1
+    question: Is water flowing from the fountain spout?
+    answer_type: yes_no
+    notes_for_judge: Check for a visible stream or arc of water coming from the nozzle.
+  - id: water_arc_2
+    question: Is there a visible arc of water falling into the basin?
+    answer_type: yes_no
+    notes_for_judge: The water should form a trajectory typical of a drinking fountain.
+  - id: fountain_active_3
+    question: Is the drinking fountain currently dispensing water?
+    answer_type: yes_no
+    notes_for_judge: The state should be active (water on) rather than idle (water off).
+  - id: valve_position_4
+    question: Is the red valve handle in a different position than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The handle was horizontal initially; it should now be rotated (e.g., vertical or
+      diagonal) to indicate it was turned.
+  - id: state_change_5
+    question: Has the fountain transitioned from a dry state to a wet, flowing state?
+    answer_type: yes_no
+    notes_for_judge: Compare with the initial dry spout.
+  - id: basin_presence_6
+    question: Is the stainless steel basin still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: background_tiles_7
+    question: Are the wall tiles in the background still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

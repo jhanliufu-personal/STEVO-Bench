@@ -1,0 +1,67 @@
+id: fire_alarm_pull_station_00
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: fire_alarm_pull_station
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: Edit the image to add a red fire alarm pull station mounted on the surface to
+    the right of the circular green indicator light.
+  video_WM: The camera remains completely stationary, framing a white textured surface with a circular
+    fire alarm indicator light glowing green and a red fire alarm pull station mounted next to it. A hand
+    enters the frame and firmly pulls down the handle on the red fire alarm station. STOP.
+  camera_WM: The camera remains completely stationary, framing a white textured surface with a circular
+    fire alarm indicator light glowing green and a red fire alarm pull station mounted next to it. A hand
+    enters the frame and firmly pulls down the handle on the red fire alarm station. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up view of a white textured wall featuring two mounted fire safety devices.
+    On the left is a circular white fixture with a central glowing green light; text on its rim reads
+    'SYSTEM ARMED' at the top and 'FIRE ALARM INDICATOR' at the bottom. On the right is a red rectangular
+    manual pull station with white text 'FIRE ALARM' at the top and a white T-shaped handle labeled 'PULL'
+    in the center. The handle is currently in the horizontal 'up' position. Small instructional text at
+    the bottom of the red station reads 'IN CASE OF FIRE LIFT COVER AND PULL'.
+  init2final_edit_prompt: Edit the given image so that the white T-shaped handle on the red fire alarm
+    station is in the pulled-down position. Change the color of the glowing light in the circular indicator
+    on the left from green to red.
+  rationale: The video prompt describes a hand pulling the handle of the fire alarm station. This physical
+    action results in the handle moving from the horizontal 'up' position to the vertical 'down' position.
+    Functionally, activating the manual pull station triggers the alarm system, causing the status indicator
+    light to transition from the 'System Armed' state (green) to an 'Alarm' state (red). The final frame
+    depicts the mechanical result of the pull and the functional response of the indicator light.
+  questions:
+  - id: handle_position_down
+    question: Is the white T-shaped handle on the red station in the down position?
+    answer_type: yes_no
+    notes_for_judge: The handle should be vertical or significantly lower than the initial horizontal
+      position.
+  - id: handle_lower
+    question: Is the handle labeled 'PULL' positioned lower than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the vertical position of the white handle relative to the red box.
+  - id: light_color_red
+    question: Is the circular indicator light glowing red?
+    answer_type: yes_no
+    notes_for_judge: The light should have changed from green to red to indicate activation.
+  - id: light_changed_state
+    question: Has the indicator light changed color from its initial green state?
+    answer_type: yes_no
+    notes_for_judge: Any change from green (e.g., to red or flashing) indicates a functional response.
+  - id: handle_not_horizontal
+    question: Is the white handle no longer in the horizontal up position?
+    answer_type: yes_no
+    notes_for_judge: It should be pulled down.
+  - id: station_red_visible
+    question: Is the red rectangular casing of the fire alarm station still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: indicator_fixture_present
+    question: Is the circular white fixture on the left still present on the wall?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

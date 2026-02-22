@@ -1,0 +1,73 @@
+id: car_key_ignition_turn_02
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: car_key_ignition_turn
+variation_type: initial_state
+variation_description: Nighttime scene with dashboard fully glowing; action turns it off.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Initial state is ON (glowing dashboard) at night. Trigger action is ON to OFF.
+  expected_outcome_change: The glowing dashboard lights will extinguish, resulting in a dark interior.
+prompts:
+  init_frame_edit_prompt: Edit the image to appear as a night scene with the dashboard gauges and instrument
+    cluster fully illuminated and glowing.
+  video_WM: Driver's upright POV in a nighttime setting. The steering wheel is centered and the instrument
+    cluster is glowing brightly — the car is on. The driver leans forward toward the dashboard; the side
+    windows are dark. The ignition cylinder on the right side of the steering column comes into view with
+    the key at the ON position. A hand grips the key and turns it counter-clockwise from the ON position
+    to the OFF position. The ignition cylinder is a rotary switch. The driver leans back to the upright
+    seated position. No zoom, no cut, no scene change. STOP.
+  camera_WM: The camera starts in upright driver POV at night with a glowing dashboard — car is on. The
+    driver leans forward, camera pitches down and moves toward the dashboard, revealing the ignition cylinder
+    with the key at ON. A hand turns the key counter-clockwise to OFF. The action occurs while the windows
+    are not visible. The driver leans back to the original seated position. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A driver's point-of-view shot inside a car at night. A black steering wheel
+    is centered in the frame. Behind the wheel, the instrument cluster is brightly illuminated with orange
+    backlighting. The tachometer on the left indicates the engine is idling (needle near 1000 RPM), and
+    the speedometer is on the right. To the right of the steering column, climate control indicators are
+    also glowing orange. A left hand is visible gripping the steering wheel. Through the windshield, a
+    quiet suburban street is visible with streetlights and houses.
+  init2final_edit_prompt: Edit the given image to show the car's dashboard in an unpowered state. Turn
+    off the bright orange illumination of the instrument cluster gauges (speedometer, tachometer) and
+    the climate control panel, making them appear dark and unlit. Position the tachometer needle at zero.
+    Keep the nighttime street visible through the windshield and the steering wheel in the foreground.
+  rationale: The prompt describes the driver turning the ignition key from 'ON' to 'OFF'. This action
+    cuts electrical power to the dashboard and stops the engine. Therefore, the primary visual change
+    is the extinguishing of the instrument cluster lights and other dashboard indicators, transitioning
+    them from glowing orange to dark. Additionally, the tachometer needle will drop from its idle position
+    to zero as the engine stops. Since the driver leans back to the original position, the camera view
+    returns to the initial framing.
+  questions:
+  - id: q1
+    question: Is the instrument cluster illumination turned off?
+    answer_type: yes_no
+    notes_for_judge: The gauges should no longer be glowing orange.
+  - id: q2
+    question: Are the dashboard gauges dark compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Check for the absence of the bright orange light.
+  - id: q3
+    question: Is the tachometer needle at the zero position?
+    answer_type: yes_no
+    notes_for_judge: The needle should have dropped from ~800 RPM to 0.
+  - id: q4
+    question: Are the climate control lights on the right side extinguished?
+    answer_type: yes_no
+    notes_for_judge: The small orange lights to the right of the wheel should be off.
+  - id: q5
+    question: Is the tachometer needle lower than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: It should drop to the bottom of the gauge.
+  - id: q6
+    question: Is the steering wheel still visible in the foreground?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: q7
+    question: Is the street outside still visible through the windshield?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

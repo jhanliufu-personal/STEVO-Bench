@@ -3,8 +3,67 @@ level: 5
 category: causal_mechanism
 mechanism_type: threshold_logic
 prompts:
-  image_gen_prompt: A red heating element is visible. The heating element is currently off (not glowing). The camera view is centered on the heating element.
-  video_WM: The camera starts centered on the inactive red heating element. The camera rotates right at constant speed until the heating element exits the view. The camera continues rotating, revealing a round analog thermostat dial mounted on the wall. The current temperature needle shows 60 degrees. The setting dial is currently at 50 degrees (below ambient). A hand enters the frame and rotates the setting dial clockwise until the marker reaches 80 degrees, well past the current temperature needle. When the thermostat setting exceeds the ambient temperature, the circuit can engage heating. The dial rotation occurs while the heating element remains out of camera view. Then the camera rotates left smoothly at the same rate back to the original viewpoint, bringing the heating element back into center view. No zoom, no cut, no scene change. STOP.
-  camera_WM: The camera starts on the heating element, then rotates to the thermostat dial. A hand rotates the setting dial from 50 to 80 degrees, surpassing the ambient temperature of 60 degrees. The thermostat engages heating when setting exceeds ambient. The dial rotation occurs while the heating element is not visible. The camera then returns to the heating element. STOP.
+  image_gen_prompt: A red heating element is visible. The heating element is currently off (not glowing).
+    The camera view is centered on the heating element.
+  video_WM: The camera starts centered on the inactive red heating element. The camera rotates right at
+    constant speed until the heating element exits the view. The camera continues rotating, revealing
+    a round analog thermostat dial mounted on the wall. The current temperature needle shows 60 degrees.
+    The setting dial is currently at 50 degrees (below ambient). A hand enters the frame and rotates the
+    setting dial clockwise until the marker reaches 80 degrees, well past the current temperature needle.
+    When the thermostat setting exceeds the ambient temperature, the circuit can engage heating. The dial
+    rotation occurs while the heating element remains out of camera view. Then the camera rotates left
+    smoothly at the same rate back to the original viewpoint, bringing the heating element back into center
+    view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The camera starts on the heating element, then rotates to the thermostat dial. A hand rotates
+    the setting dial from 50 to 80 degrees, surpassing the ambient temperature of 60 degrees. The thermostat
+    engages heating when setting exceeds ambient. The dial rotation occurs while the heating element is
+    not visible. The camera then returns to the heating element. STOP.
 camera_control:
   HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up, centered view of an electric space heater. The main focus is a coiled
+    metal heating element (calrod) which is currently a dull, dark reddish-brown color and covered in
+    dust, indicating it is cold and inactive. A horizontal wire safety grill protects the element. The
+    heater is housed in a silver metal casing with visible wear and dust.
+  init2final_edit_prompt: Edit the given image to make the coiled heating element glow bright orange and
+    red, indicating it is intensely hot and active. The coils should appear incandescent and emit light.
+    Ensure the surrounding metal casing and wire grill remain structurally unchanged, though they may
+    reflect the warm orange glow from the active element.
+  rationale: 'The video sequence depicts a causal interaction where a thermostat is adjusted from a setting
+    below ambient temperature (50 degrees) to one above ambient temperature (80 degrees, with ambient
+    at 60). This action closes the electrical circuit for the heater. Although the heater is occluded
+    during the adjustment, the return of the camera to the original view should reveal the functional
+    consequence of this action: the heating element should have transitioned from a cold, dull state to
+    a hot, glowing state.'
+  questions:
+  - id: q1_glow_check
+    question: Is the coiled heating element glowing bright orange or red?
+    answer_type: yes_no
+    notes_for_judge: The element should exhibit incandescence (emitting light), looking like a hot stove
+      coil.
+  - id: q2_state_change_brightness
+    question: Is the heating element significantly brighter and more vivid than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the dull, dusty initial state to the final state. The final state should
+      look like a light source.
+  - id: q3_functional_status
+    question: Does the heater appear to be turned on and generating heat?
+    answer_type: yes_no
+    notes_for_judge: Infer status from the visual cue of the glowing element.
+  - id: q4_light_emission
+    question: Does the heating coil appear to be emitting light?
+    answer_type: yes_no
+    notes_for_judge: The coil should not just be red paint color, but actually glowing/emitting light.
+  - id: q5_color_temperature
+    question: Has the color of the coil shifted towards bright orange/yellow compared to the initial dark
+      brown/red?
+    answer_type: yes_no
+    notes_for_judge: Check for the color shift associated with high heat.
+  - id: q6_consistency_grill
+    question: Is the horizontal wire safety grill still visible in front of the element?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: q7_consistency_casing
+    question: Is the silver metal casing of the heater still present?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

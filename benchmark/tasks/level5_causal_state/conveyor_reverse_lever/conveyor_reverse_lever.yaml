@@ -3,8 +3,68 @@ level: 5
 category: causal_mechanism
 mechanism_type: mechanical_logic
 prompts:
-  image_gen_prompt: A cardboard box sits stationary on a conveyor belt. The belt is currently not moving. The camera view is centered on the box on the belt.
-  video_WM: The camera starts centered on the stationary cardboard box on the conveyor belt. The camera rotates right at constant speed until the box exits the view. The camera continues rotating, revealing a control lever on the side of the conveyor. The lever is currently in the middle NEUTRAL position. A hand enters the frame and pulls the control lever all the way to the REVERSE position. The motor is active and the transmission engages in the selected direction. The lever movement occurs while the cardboard box remains out of camera view. Then the camera rotates left smoothly at the same rate back to the original viewpoint, bringing the cardboard box on the belt back into center view. No zoom, no cut, no scene change. STOP.
-  camera_WM: The camera starts on the box, then rotates to the control lever. A hand shifts the lever from NEUTRAL to REVERSE position. The transmission engages in the selected direction. The lever movement occurs while the box is not visible. The camera then returns to the box on the belt. STOP.
+  image_gen_prompt: A cardboard box sits stationary on a conveyor belt. The belt is currently not moving.
+    The camera view is centered on the box on the belt.
+  video_WM: The camera starts centered on the stationary cardboard box on the conveyor belt. The camera
+    rotates right at constant speed until the box exits the view. The camera continues rotating, revealing
+    a control lever on the side of the conveyor. The lever is currently in the middle NEUTRAL position.
+    A hand enters the frame and pulls the control lever all the way to the REVERSE position. The motor
+    is active and the transmission engages in the selected direction. The lever movement occurs while
+    the cardboard box remains out of camera view. Then the camera rotates left smoothly at the same rate
+    back to the original viewpoint, bringing the cardboard box on the belt back into center view. No zoom,
+    no cut, no scene change. STOP.
+  camera_WM: The camera starts on the box, then rotates to the control lever. A hand shifts the lever
+    from NEUTRAL to REVERSE position. The transmission engages in the selected direction. The lever movement
+    occurs while the box is not visible. The camera then returns to the box on the belt. STOP.
 camera_control:
   HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A medium shot of a warehouse interior focused on a conveyor belt system. A cubic
+    brown cardboard box with shipping labels is sitting stationary in the center of the conveyor belt
+    in the foreground. The belt itself is a wide, textured fabric or rubber surface. To the right of the
+    conveyor, there are tall stacks of wooden pallets, some blue and some natural wood. To the left, there
+    are more boxes and pallets in the background. The warehouse has a concrete floor, high ceilings with
+    industrial lighting, and metal support beams. The view looks down the length of the conveyor into
+    the depth of the warehouse.
+  init2final_edit_prompt: Edit the given image to show the cardboard box moved significantly further back
+    along the conveyor belt, away from the camera. The box should be positioned deeper into the scene,
+    appearing smaller due to perspective, leaving the original foreground position on the belt empty.
+    Ensure the surrounding pallets, warehouse background, lighting, and camera perspective remain exactly
+    unchanged.
+  rationale: The video prompt describes a sequence where the camera pans to reveal a control lever, which
+    is then pulled to the 'REVERSE' position, activating the conveyor motor. This action engages the transmission
+    and moves the belt. Although the camera pans away and returns to the original viewpoint, the activation
+    of the motor means the conveyor belt has moved during the interval. Consequently, the box resting
+    on the belt must be displaced from its initial stationary position. The edit assumes 'reverse' moves
+    the item away from the camera (or simply along the belt axis), resulting in the box being in a new
+    position further down the line.
+  questions:
+  - id: box_moved_position
+    question: Is the cardboard box in a different position on the conveyor belt compared to the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: The box should no longer be in the exact center foreground.
+  - id: box_displacement_longitudinal
+    question: Has the box moved along the length of the conveyor belt?
+    answer_type: yes_no
+    notes_for_judge: Check for movement along the axis of the belt (depth-wise).
+  - id: original_spot_empty
+    question: Is the specific spot on the belt where the box was originally sitting now empty?
+    answer_type: yes_no
+    notes_for_judge: The foreground center of the belt should be clear.
+  - id: box_further_away
+    question: Is the box positioned further away from the camera than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The box should appear deeper in the scene/smaller.
+  - id: conveyor_active_evidence
+    question: Does the final state of the box indicate that the conveyor belt has been active?
+    answer_type: yes_no
+    notes_for_judge: Displacement implies activity.
+  - id: pallets_invariant
+    question: Are the stacks of pallets on the right side of the image in the same position as initially?
+    answer_type: yes_no
+    notes_for_judge: Static objects should not move.
+  - id: lighting_invariant
+    question: Is the lighting in the warehouse consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: No lighting changes described.

@@ -1,0 +1,77 @@
+id: remote_control_pairing_07
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: remote_control_pairing
+variation_type: precondition_failure
+variation_description: The robot is missing its tracks/treads, so even if the motor runs, it cannot move.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Locomotion mechanism broken.
+  expected_outcome_change: The robot remains in the same position (cannot drive).
+prompts:
+  init_frame_edit_prompt: Edit the image to remove the rubber treads from the robot's wheels, leaving
+    only the bare metal sprockets visible.
+  video_WM: The camera starts centered on the motionless toy robot labeled Channel A which is missing
+    its rubber treads. The camera rotates right at constant speed until the robot exits the view. The
+    camera continues rotating, revealing a handheld remote control also labeled Channel A. A hand enters
+    the frame and presses the large FORWARD button on the remote control. The remote transmits radio signals
+    when buttons are pressed. The button press occurs while the toy robot remains out of camera view.
+    Then the camera rotates left smoothly at the same rate back to the original viewpoint, bringing the
+    toy robot back into center view. No zoom, no cut, no scene change. STOP.
+  camera_WM: A handheld remote control labeled Channel A is revealed. A hand enters the frame and presses
+    the large FORWARD button on the remote control. The remote transmits radio signals when buttons are
+    pressed. The button press occurs while the toy robot remains out of camera view. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A grey, retro-style toy robot stands on a scratched wooden table. The robot
+    has a boxy head with two antennae and a body featuring a panel labeled 'CHANNEL A' in red text. The
+    robot is equipped with tank-like drive systems on its sides, but the rubber treads are missing, leaving
+    the metal sprockets exposed and resting directly on the wood surface. The background is blurred, showing
+    vertical book spines on the left and a bright window area.
+  init2final_edit_prompt: Edit the given image to show the toy robot in a new position, having moved forward
+    towards the camera. The robot should appear significantly closer to the viewer, making it look larger
+    and positioned lower in the frame relative to the background. Ensure the robot's wheels still lack
+    rubber treads and that the metal sprockets are visible. The background, lighting, and table texture
+    should remain unchanged, but the robot's placement on the table surface must reflect this forward
+    displacement.
+  rationale: The video establishes a functional pairing between the remote control (Channel A) and the
+    robot (Channel A). When the 'FORWARD' button is pressed, the robot receives the signal and activates
+    its motors. Although the robot is missing its rubber treads, the metal sprockets interacting with
+    the wooden table surface provide sufficient friction and traction to propel the robot forward. Since
+    the robot is facing the camera (indicated by the front-facing label), the 'FORWARD' command causes
+    it to move closer to the viewpoint. The camera returns to the exact initial angle, so the final frame
+    must show the robot displaced from its original position towards the camera.
+  questions:
+  - id: robot_moved_closer
+    question: Is the robot closer to the camera than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The robot should appear larger and lower in the frame, indicating movement towards
+      the viewer.
+  - id: robot_position_change
+    question: Has the robot moved from its original position on the table?
+    answer_type: yes_no
+    notes_for_judge: Compare the robot's position relative to the table scratches or background landmarks.
+  - id: robot_size_increase
+    question: Does the robot appear larger in the final frame compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Forward movement towards the camera should increase the apparent size of the object.
+  - id: robot_lower_in_frame
+    question: Is the base of the robot positioned lower in the image frame than initially?
+    answer_type: yes_no
+    notes_for_judge: As the robot moves closer to the camera, its contact point with the table should
+      move down in the 2D image.
+  - id: treads_still_missing
+    question: Are the rubber treads still missing from the robot's wheels?
+    answer_type: yes_no
+    notes_for_judge: The robot should not spontaneously regenerate treads; the sprockets should remain
+      exposed.
+  - id: label_consistency
+    question: Is the 'CHANNEL A' label still visible on the robot?
+    answer_type: yes_no
+    notes_for_judge: The robot should not have rotated away; it moved forward.
+  - id: background_consistency
+    question: Are the books in the background still in the same position relative to the frame edges?
+    answer_type: yes_no
+    notes_for_judge: The camera returned to the original viewpoint, so the static background should align.

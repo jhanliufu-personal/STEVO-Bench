@@ -1,0 +1,67 @@
+id: string_pull_lamp_00
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: string_pull_lamp
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: Edit the image to add a beaded metal pull-chain hanging down from the lamp's
+    socket assembly. The chain should hang vertically on the right side of the metal shade, extending
+    down past the bottom of the wire cage, appearing as a natural part of the vintage lamp mechanism.
+  video_WM: The camera remains completely stationary, framing the unlit industrial lamp and the hanging
+    beaded pull-string. A hand enters the view, grasps the beaded string, and pulls it downward firmly.
+    The lamp assembly sways slightly from the force of the interaction. The hand releases the string and
+    withdraws from the frame. STOP.
+  camera_WM: The camera remains completely stationary, framing the unlit industrial lamp and the hanging
+    beaded pull-string. A hand enters the view, grasps the beaded string, and pulls it downward firmly.
+    The lamp assembly sways slightly from the force of the interaction. The hand releases the string and
+    withdraws from the frame. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a hanging industrial pendant lamp in a workshop.
+    The lamp features a galvanized metal shade and a wire cage guard surrounding a clear, unlit Edison-style
+    light bulb. A beaded metal pull-chain hangs down from the socket assembly. The background is out of
+    focus, showing wooden beams, shelves, and various tools.
+  init2final_edit_prompt: Edit the given image to show the light bulb illuminated. The filament inside
+    the bulb should be glowing brightly with a warm orange or yellow light. The light should cast a glow
+    on the wire cage and the underside of the metal shade. Ensure no hand is visible in the frame.
+  rationale: The video prompt describes the physical action of pulling a switch cord on a lamp. This is
+    the causal mechanism for toggling the lamp's power state. Since the lamp starts unlit, the pull action
+    causes it to turn on. The hand withdraws after the interaction, leaving the lamp illuminated and hanging
+    freely.
+  questions:
+  - id: light_state_on
+    question: Is the light bulb now illuminated?
+    answer_type: yes_no
+    notes_for_judge: The bulb should be emitting light, appearing bright compared to the unlit initial
+      state.
+  - id: filament_glow
+    question: Is the filament inside the bulb glowing?
+    answer_type: yes_no
+    notes_for_judge: The internal filament should be bright yellow/orange.
+  - id: cage_illumination
+    question: Is the wire cage illuminated by the bulb?
+    answer_type: yes_no
+    notes_for_judge: The metal cage surrounding the bulb should reflect the light source.
+  - id: shade_illumination
+    question: Is the underside of the metal shade brighter than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The light from the bulb should cast light onto the shade above it.
+  - id: hand_absent
+    question: Is the hand absent from the frame?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the hand withdraws.
+  - id: string_presence
+    question: Is the beaded pull-string visible?
+    answer_type: yes_no
+    notes_for_judge: The string should remain attached to the lamp.
+  - id: lamp_structure_consistency
+    question: Is the metal shade still present above the bulb?
+    answer_type: yes_no
+    notes_for_judge: The structure of the lamp should remain unchanged.

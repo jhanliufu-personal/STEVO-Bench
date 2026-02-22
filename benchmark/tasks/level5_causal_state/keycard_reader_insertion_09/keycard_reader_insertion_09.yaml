@@ -1,0 +1,65 @@
+id: keycard_reader_insertion_09
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: keycard_reader_insertion
+variation_type: repeated_activation
+variation_description: The card is inserted and removed, then inserted and removed again. Net result is
+  no change.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Repeated trigger returns system to initial state.
+  expected_outcome_change: The LED returns to its initial dim state.
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The camera starts centered on the keycard reader with its dim status LED. The camera rotates
+    right at constant speed until the reader exits the view. The camera continues rotating, showing the
+    area near the reader. A hand holding a white plastic keycard enters the frame. The hand inserts the
+    card fully into the reader, pulls it out, and then immediately inserts it and pulls it out again.
+    The reader processes the repeated signals. The actions occur while the reader's status LED remains
+    out of camera view. Then the camera rotates left smoothly at the same rate back to the original viewpoint,
+    bringing the reader and its status LED back into center view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The camera starts on the keycard reader status LED, then rotates away. A hand inserts and
+    removes a keycard twice. The camera then returns to the reader and status LED. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up view of a brushed metal keycard reader mounted on a beige textured
+    wall. The device features a horizontal black card slot in the center and a small, circular, unlit
+    status LED above the slot. A vertical section of a brown wooden door frame is visible on the left
+    edge.
+  init2final_edit_prompt: Edit the given image to make the small circular status LED above the black card
+    slot appear illuminated and glowing green. Keep the card slot empty and maintain the original lighting
+    and texture of the metal plate and wall.
+  rationale: The video describes a sequence where the camera rotates away, a keycard is inserted and removed
+    to trigger the reader, and then the camera rotates back. The causal interaction (swiping the card)
+    activates the reader's electronic mechanism. Therefore, in the final frame, the status LED—which was
+    initially dark—should be illuminated (glowing) to indicate that the signal was processed. Since the
+    prompt specifies the card is pulled out, the slot remains empty.
+  questions:
+  - id: led_illuminated
+    question: Is the circular status LED above the card slot now illuminated?
+    answer_type: yes_no
+    notes_for_judge: The LED should appear glowing or lit up, contrasting with the dark state in the initial
+      frame.
+  - id: led_glowing
+    question: Does the small light indicator on the metal plate appear to be glowing?
+    answer_type: yes_no
+    notes_for_judge: Check for visual evidence of light emission (bloom, bright color) from the small
+      circle above the slot.
+  - id: led_state_change
+    question: Is the status light brighter than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare with the initial frame where the LED was dark/off.
+  - id: slot_empty
+    question: Is the black card slot empty?
+    answer_type: yes_no
+    notes_for_judge: The card was inserted and then pulled out, so the slot should not contain a card.
+  - id: wall_texture_consistency
+    question: Is the textured beige wall background still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: plate_material_consistency
+    question: Does the device still appear to be made of brushed metal?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

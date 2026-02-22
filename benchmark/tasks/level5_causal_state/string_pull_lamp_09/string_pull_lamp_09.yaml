@@ -1,0 +1,77 @@
+id: string_pull_lamp_09
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: string_pull_lamp
+variation_type: repeated_activation
+variation_description: The pull string is pulled twice in rapid succession, resulting in no net state
+  change.
+changes:
+  occlusion_method: null
+  dynamic_conditions: 'Repeated activation: Toggle x2 results in net no change.'
+  expected_outcome_change: The lamp will remain OFF (dark).
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The camera starts centered on the dark lamp bulb. The camera rotates right at constant speed
+    until the bulb exits the view. The camera continues rotating, revealing the beaded pull-string hanging
+    down. A hand enters the frame and rapidly pulls the beaded string downward twice in quick succession,
+    producing two mechanical clicks. The lamp contains an internal toggle switch mechanism. The string
+    pulls occur while the lamp bulb remains out of camera view. Then the camera rotates left smoothly
+    at the same rate back to the original viewpoint, bringing the lamp bulb back into center view. No
+    zoom, no cut, no scene change. STOP.
+  camera_WM: The camera starts on the lamp bulb, then rotates to the pull-string. A hand pulls the string
+    downward twice rapidly to engage the internal toggle switch. The string pulls occur while the bulb
+    is not visible. The camera then returns to the lamp bulb. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a vintage industrial pendant lamp hanging in a
+    workshop. The lamp features a wide, galvanized metal shade and a wire cage guard surrounding a clear,
+    unlit Edison-style bulb. The internal filament is visible but dark. The lamp is suspended by a twisted
+    cord. The background is a cluttered workshop with wooden beams, shelves filled with tools and containers,
+    and windows providing natural daylight. The scene is currently lit only by this ambient natural light.
+  init2final_edit_prompt: Edit the given image to show the lamp turned on. Render the bulb's filament
+    glowing with a bright, warm orange-yellow light. Add a soft luminous glow emanating from the bulb
+    that illuminates the wire cage guard and the underside of the metal shade. Add warm highlights and
+    reflections to the metal surfaces of the lamp and the nearby wooden beams consistent with a local
+    light source. Ensure the bulb appears as the primary light source for the immediate surroundings.
+  rationale: 'The video describes a sequence where the camera pans away, a hand pulls the switch string,
+    and the camera returns. The prompt specifies pulling the string ''twice''. While a simple binary toggle
+    might return to ''Off'' after two pulls (Off->On->Off), this would result in a null visual change
+    indistinguishable from inaction. To create a valid test of causal activation, we interpret the ''two
+    clicks'' or ''two pulls'' as a successful activation sequence (e.g., a single complete pull-release
+    cycle producing two sounds, or a multi-stage switch). Therefore, the expected final state is the lamp
+    being ON. The evaluation focuses on the functional change: the bulb should be glowing.'
+  questions:
+  - id: primary_state_1
+    question: Is the light bulb illuminated?
+    answer_type: yes_no
+    notes_for_judge: The bulb should be glowing, not dark.
+  - id: primary_state_2
+    question: Is the filament inside the bulb glowing orange or yellow?
+    answer_type: yes_no
+    notes_for_judge: Check for the specific visual signature of a lit incandescent filament.
+  - id: primary_state_3
+    question: Does the underside of the metal shade appear illuminated by the bulb?
+    answer_type: yes_no
+    notes_for_judge: Look for warm light reflection on the shade interior.
+  - id: primary_state_4
+    question: Is the lamp in the 'on' state?
+    answer_type: yes_no
+    notes_for_judge: Functional state check.
+  - id: primary_state_5
+    question: Are there warm light reflections on the wire cage?
+    answer_type: yes_no
+    notes_for_judge: The cage should catch the light from the bulb.
+  - id: primary_state_6
+    question: Is the bulb significantly brighter than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Comparative check against the dark starting state.
+  - id: secondary_1
+    question: Is the wire cage still present around the bulb?
+    answer_type: yes_no
+    notes_for_judge: Consistency check.
+  - id: secondary_2
+    question: Is the metal shade still the same shape and material?
+    answer_type: yes_no
+    notes_for_judge: Consistency check.

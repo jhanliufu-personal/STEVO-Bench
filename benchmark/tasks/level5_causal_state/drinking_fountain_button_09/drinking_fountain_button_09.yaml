@@ -1,0 +1,64 @@
+id: drinking_fountain_button_09
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: drinking_fountain_button
+variation_type: repeated_activation
+variation_description: Button is pressed and released (momentary logic)
+changes:
+  occlusion_method: null
+  dynamic_conditions: 'Repeated activation: Pressing and releasing a momentary switch results in no flow
+    at the end.'
+  expected_outcome_change: 'No water flow (Final state: OFF)'
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The camera starts centered on the drinking fountain spout with no water flowing. The camera
+    rotates right at constant speed until the spout exits the view. The camera continues rotating, revealing
+    the push button on the side. A hand enters the frame, presses the button firmly, holds it briefly,
+    and then releases it completely. The valve opens only while pressed and closes upon release. The action
+    occurs while the fountain spout remains out of camera view. Then the camera rotates left smoothly
+    at the same rate back to the original viewpoint, bringing the fountain spout back into center view.
+    No zoom, no cut, no scene change. STOP.
+  camera_WM: The camera starts on the spout, then rotates to the side button. A hand presses and releases
+    the button. The valve closes upon release. The camera then returns to the fountain spout. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a stainless steel drinking fountain. The image
+    focuses on the round metal basin and the chrome bubbler spout positioned in the center. The surfaces
+    are dry, with a matte metallic sheen on the basin and reflections on the chrome spout. The background
+    shows a grid of off-white square wall tiles.
+  init2final_edit_prompt: Edit the given image to show the drinking fountain basin and spout as wet, with
+    visible water droplets and a wet sheen on the stainless steel surfaces. Do not show an active stream
+    of water arching through the air; the water flow should be completely stopped, leaving only residual
+    wetness.
+  rationale: The video prompt describes a sequence where the camera rotates away from the spout, a button
+    is pressed (activating water) and then released (stopping water), and finally the camera rotates back.
+    Because the button is released before the camera returns, the active water stream must be off in the
+    final frame. However, the activation caused water to flow, so the functional state change is that
+    the previously dry basin and spout are now wet with droplets and residual moisture.
+  questions:
+  - id: is_basin_wet
+    question: Does the stainless steel basin appear wet or covered in droplets?
+    answer_type: yes_no
+    notes_for_judge: Compare with the initial dry state. Look for scattered droplets or a wet sheen.
+  - id: are_droplets_on_spout
+    question: Are there water droplets visible on the chrome spout?
+    answer_type: yes_no
+    notes_for_judge: The spout should show signs of recent water contact.
+  - id: is_water_flow_off
+    question: Is the active water stream turned off (no arching water)?
+    answer_type: yes_no
+    notes_for_judge: The button was released, so there should be no active flow, only residual wetness.
+  - id: evidence_of_use
+    question: Does the fountain show evidence of having been recently used (wet surfaces)?
+    answer_type: yes_no
+    notes_for_judge: This is the primary state change from the initial dry frame.
+  - id: background_consistency
+    question: Is the tiled wall background still visible and consistent?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: spout_position
+    question: Is the spout still in the center of the frame?
+    answer_type: yes_no
+    notes_for_judge: The camera returned to the original viewpoint.

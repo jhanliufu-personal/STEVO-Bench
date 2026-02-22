@@ -1,0 +1,71 @@
+id: remote_control_pairing_03
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: remote_control_pairing
+variation_type: initial_state
+variation_description: The robot's arm starts in a raised position, and the remote command lowers it.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Robot arm is initially UP. Remote action is DOWN.
+  expected_outcome_change: The robot's arm moves to the down position.
+prompts:
+  init_frame_edit_prompt: Edit the image so the robot's left arm is raised high in the air instead of
+    resting at its side.
+  video_WM: The camera starts centered on the motionless toy robot labeled Channel A with its arm raised.
+    The camera rotates right at constant speed until the robot exits the view. The camera continues rotating,
+    revealing a handheld remote control also labeled Channel A. A hand enters the frame and presses the
+    'ARM DOWN' button on the remote control. The remote transmits radio signals when buttons are pressed.
+    The button press occurs while the toy robot remains out of camera view. Then the camera rotates left
+    smoothly at the same rate back to the original viewpoint, bringing the toy robot back into center
+    view. No zoom, no cut, no scene change. STOP.
+  camera_WM: A handheld remote control labeled Channel A is revealed. A hand enters the frame and presses
+    the 'ARM DOWN' button on the remote control. The remote transmits radio signals when buttons are pressed.
+    The button press occurs while the toy robot remains out of camera view. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A grey, retro-style toy robot with tank treads standing on a scratched wooden
+    table. The robot has a boxy head with two antennas and a boxy torso featuring a sticker that reads
+    'CHANNEL A' in red text. The robot's arm on the left side of the image is raised upwards, while the
+    arm on the right side is down by its side. The background features blurred books and a window.
+  init2final_edit_prompt: Edit the given image so that the robot's raised arm is lowered to its side.
+    The arm on the left side of the image should now be pointing downwards, parallel to the body, matching
+    the position of the other arm. Ensure the robot remains in the same location on the table with the
+    'CHANNEL A' label clearly visible.
+  rationale: The video prompt describes a causal interaction where a remote control labeled 'Channel A'
+    is used to send an 'ARM DOWN' command to the robot, which is also labeled 'Channel A'. Although the
+    robot is occluded during the button press, the functional relationship dictates that the robot must
+    execute the command. Therefore, when the camera returns to the initial view, the robot's previously
+    raised arm must be in the lowered position.
+  questions:
+  - id: q1_primary_state
+    question: Is the arm on the left side of the image now lowered?
+    answer_type: yes_no
+    notes_for_judge: The arm was raised in the initial frame. The command 'ARM DOWN' was sent. It should
+      now be down.
+  - id: q2_primary_state
+    question: Is the arm that was previously pointing up now pointing downwards?
+    answer_type: yes_no
+    notes_for_judge: Checks for the specific change in the arm's orientation.
+  - id: q3_primary_state
+    question: Are both of the robot's arms now positioned down by its sides?
+    answer_type: yes_no
+    notes_for_judge: One was already down; the other should now join it.
+  - id: q4_primary_state
+    question: Has the robot's silhouette changed due to the arm being lowered?
+    answer_type: yes_no
+    notes_for_judge: The vertical extent of the robot should be lower.
+  - id: q5_primary_state
+    question: Is the robot's left arm (viewer's perspective) in a different position compared to the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: Verifies state transition occurred.
+  - id: q6_secondary_invariant
+    question: Is the 'CHANNEL A' label still visible on the robot's chest?
+    answer_type: yes_no
+    notes_for_judge: The identity of the robot should not change.
+  - id: q7_secondary_invariant
+    question: Is the robot standing in the same location on the wooden table?
+    answer_type: yes_no
+    notes_for_judge: The robot should not have moved location, only moved its arm.

@@ -1,0 +1,69 @@
+id: thermostat_threshold_dial_variant_06
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: thermostat_threshold_dial
+variation_type: precondition_failure
+variation_description: A fuse is visibly missing from the unit, preventing activation.
+changes:
+  occlusion_method: null
+  dynamic_conditions: 'Broken precondition: open circuit due to missing fuse.'
+  expected_outcome_change: Heater remains OFF.
+prompts:
+  init_frame_edit_prompt: Edit the image to add an open fuse holder on the heater casing with the fuse
+    missing.
+  video_WM: The camera starts centered on the inactive heating element, showing an empty fuse holder on
+    the casing. The camera rotates right at constant speed until the heating element exits the view. The
+    camera continues rotating, revealing a round analog thermostat dial mounted on the wall. The current
+    temperature needle shows 60 degrees. The setting dial is currently at 50 degrees. A hand enters the
+    frame and rotates the setting dial clockwise until the marker reaches 80 degrees. The dial rotation
+    occurs while the heating element remains out of camera view. Then the camera rotates left smoothly
+    at the same rate back to the original viewpoint, bringing the heating element back into center view.
+    No zoom, no cut, no scene change. STOP.
+  camera_WM: The camera starts on the heating element with missing fuse, then rotates to the thermostat
+    dial. A hand rotates the setting dial from 50 to 80 degrees. The dial rotation occurs while the heating
+    element is not visible. The camera then returns to the heating element. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up view of an electric space heater. The central focus is a coiled metal
+    heating element which appears dull, dark, and cold. Behind the element is a metallic reflector casing,
+    and in front is a horizontal wire safety grill. In the bottom right corner of the casing, there is
+    a black rectangular component with exposed brass contacts, resembling an empty fuse socket or connector
+    block.
+  init2final_edit_prompt: Edit the given image to show the electric heater in an active, powered-on state.
+    The coiled metal heating element should be glowing with a bright red and orange incandescence, indicating
+    intense heat. The glow from the coils should cast warm light reflections onto the metal reflector
+    behind them and the wire grill in front. Keep the black component at the bottom right and the surrounding
+    casing unchanged.
+  rationale: 'The video prompt describes a clear causal interaction: a thermostat is adjusted to 80 degrees
+    while the current temperature is 60 degrees. In a functional system, raising the set point above the
+    ambient temperature triggers the heating mechanism. Although the initial frame depicts an empty fuse
+    holder, the narrative intent of the control action implies the device is functional and should respond.
+    Therefore, the return to the initial view should show the heating element glowing, representing the
+    state transition from ''off'' to ''on'' that occurred during the occlusion.'
+  questions:
+  - id: q1_primary_state
+    question: Is the heating element glowing red or orange?
+    answer_type: yes_no
+    notes_for_judge: The coils should show visible incandescence (red/orange color) indicating heat.
+  - id: q2_primary_state
+    question: Does the heating element appear to be emitting light?
+    answer_type: yes_no
+    notes_for_judge: Look for self-illumination of the coils compared to the dull initial state.
+  - id: q3_primary_state
+    question: Are the coils brighter than they were in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The active state should be significantly brighter due to the glow.
+  - id: q4_primary_state
+    question: Has the heater transitioned to an active state?
+    answer_type: yes_no
+    notes_for_judge: Active state is defined by the visual evidence of heat (glowing).
+  - id: q5_secondary_consistency
+    question: Is the black component at the bottom right still visible?
+    answer_type: yes_no
+    notes_for_judge: The socket/fuse holder should not disappear.
+  - id: q6_secondary_consistency
+    question: Is the wire grill still present in front of the heating element?
+    answer_type: yes_no
+    notes_for_judge: Structural elements should remain unchanged.

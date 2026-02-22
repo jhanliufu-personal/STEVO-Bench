@@ -1,0 +1,77 @@
+id: keycard_reader_insertion_04
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: keycard_reader_insertion
+variation_type: precondition_failure
+variation_description: The card slot is covered with tape, preventing insertion. The action fails.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Slot is physically blocked. Card cannot be inserted. No state change.
+  expected_outcome_change: The LED remains dim/unchanged because the card was never read.
+prompts:
+  init_frame_edit_prompt: Edit the image to show a piece of silver duct tape completely covering the black
+    card slot.
+  video_WM: The camera starts centered on the keycard reader which has its slot taped over. The camera
+    rotates right at constant speed until the reader exits the view. The camera continues rotating, showing
+    the area near the reader. A hand holding a white plastic keycard enters the frame and attempts to
+    slide the keycard into the slot, but is blocked by the tape. The hand pulls the card back. The attempted
+    swipe occurs while the reader's status LED remains out of camera view. Then the camera rotates left
+    smoothly at the same rate back to the original viewpoint, bringing the reader and its status LED back
+    into center view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The camera starts on the taped-over keycard reader, then rotates away. A hand attempts to
+    swipe a keycard but is blocked by tape. The camera then returns to the reader and status LED. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a silver metal keycard reader mounted on a beige,
+    textured wallpaper wall. To the left, a vertical section of a brown wooden door frame is visible.
+    The card reader features a small, dark, circular status LED near the top center. The card insertion
+    slot in the middle of the metal plate is completely covered by a horizontal strip of silver duct tape.
+    The tape appears flat and securely attached. The lighting is even and indoor.
+  init2final_edit_prompt: Edit the given image to show the duct tape still securely covering the card
+    reader slot. The tape may show a slight horizontal indentation or scuff mark in the center consistent
+    with a blocked card insertion attempt, but it must not be torn, peeled away, or removed. The small
+    circular status LED above the tape must remain dark and unlit, identical to its initial state. Ensure
+    no hand or keycard is visible in the frame. The metal plate, textured wall, and wooden door frame
+    should remain unchanged in appearance and position.
+  rationale: The video describes a camera movement that returns to the exact original viewpoint, so the
+    final framing is identical to the initial state. During the occlusion, a hand attempts to insert a
+    keycard but is physically blocked by the duct tape covering the slot. Because the card cannot enter
+    the reader to trigger the internal sensor, the device's status LED does not change state and remains
+    off (dark). The hand retracts and leaves the scene. The only potential physical change is a minor
+    indentation or mark on the tape from the attempted insertion, but the tape remains intact and the
+    reader remains inactive.
+  questions:
+  - id: led_state_dark
+    question: Is the status LED above the tape still dark?
+    answer_type: yes_no
+    notes_for_judge: The LED should not be illuminated (green or red) because the card swipe was blocked.
+  - id: tape_blocking
+    question: Does the duct tape still completely cover the card slot?
+    answer_type: yes_no
+    notes_for_judge: The tape blocked the card, so it should still be in place.
+  - id: led_consistency
+    question: Is the status LED in the same unlit state as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Verifies the functional outcome of 'no read'.
+  - id: tape_integrity
+    question: Is the tape intact, without any large holes or tears?
+    answer_type: yes_no
+    notes_for_judge: The tape blocked the card; it should not be destroyed.
+  - id: no_hand_visible
+    question: Is the scene free of any visible hands or keycards?
+    answer_type: yes_no
+    notes_for_judge: The hand pulled back and the camera returned to the start.
+  - id: reader_inactive
+    question: Is the keycard reader free of any active illumination?
+    answer_type: yes_no
+    notes_for_judge: Checks for hallucinations of activation.
+  - id: door_frame_visible
+    question: Is the wooden door frame still visible on the left side?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: wall_texture
+    question: Is the textured wallpaper still visible in the background?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

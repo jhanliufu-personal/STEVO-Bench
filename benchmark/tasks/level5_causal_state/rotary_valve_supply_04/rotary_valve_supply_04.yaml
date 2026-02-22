@@ -1,0 +1,72 @@
+id: rotary_valve_supply_04
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: rotary_valve_supply
+variation_type: precondition_failure
+variation_description: The supply hose is disconnected, so opening the valve does not supply gas.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Supply hose disconnected. Opening valve releases gas into room but not to nozzle.
+  expected_outcome_change: No flame appears at the nozzle because the supply is broken.
+prompts:
+  init_frame_edit_prompt: Edit the image to show the braided metal hose at the bottom disconnected from
+    the T-junction, hanging loosely with a clear gap between the hose and the fitting.
+  video_WM: The camera starts centered on the unlit burner nozzle. The camera rotates right at constant
+    speed until the burner exits the view. The camera continues rotating, revealing a yellow rotary valve
+    handle on the gas pipe and a disconnected supply hose hanging below it. The handle is currently perpendicular
+    to the pipe (closed position). A hand enters the frame, grabs the yellow handle, and rotates it 90
+    degrees so that it becomes parallel with the pipe. The handle remains in the parallel position. The
+    valve rotation occurs while the burner nozzle remains out of camera view. Then the camera rotates
+    left smoothly at the same rate back to the original viewpoint, bringing the burner nozzle back into
+    center view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The camera starts on the burner nozzle, then rotates to the valve handle. A hand rotates
+    the valve 90 degrees to the open position, though the supply hose is visibly disconnected. The valve
+    rotation occurs while the burner is not visible. The camera then returns to the burner nozzle. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: The image shows a close-up of a metal burner assembly in a workshop. On the
+    left is a cylindrical brass nozzle opening. This connects to a black T-shaped junction in the center.
+    A small threaded port points downward from the T-junction, and a braided metal hose hangs disconnected
+    below it. To the right of the T-junction is a bolted flange connecting to a rusty horizontal pipe
+    that extends out of the frame to the right. The background is a blurred workshop interior with tools
+    and a window.
+  init2final_edit_prompt: Edit the given image to show the burner in an active, ignited state. Add a bright,
+    horizontal jet of flame shooting out from the open end of the brass nozzle on the left side. The flame
+    should be substantial and directed towards the left. Ensure the braided hose hanging at the bottom
+    remains disconnected and in its original position. Do not change the position of the metal pipes or
+    the background.
+  rationale: The video sequence describes a camera panning to reveal a gas supply valve on the pipe, a
+    user opening that valve, and the camera panning back to the burner. The causal action of opening the
+    gas valve enables fuel flow, which functionally results in the burner igniting. Therefore, the final
+    frame (which returns to the initial viewpoint) must show the burner firing with a visible flame. The
+    disconnected hose mentioned in the prompt is not interacted with during the sequence, so it must remain
+    disconnected in the final state.
+  questions:
+  - id: flame_visible
+    question: Is there a flame visible coming out of the brass nozzle?
+    answer_type: yes_no
+    notes_for_judge: Look for a jet of fire or flame projecting from the left side of the cylindrical
+      nozzle.
+  - id: burner_ignited
+    question: Is the burner currently ignited?
+    answer_type: yes_no
+    notes_for_judge: The burner should be active, indicated by the presence of fire.
+  - id: flame_direction
+    question: Is the fire directed towards the left side of the frame?
+    answer_type: yes_no
+    notes_for_judge: The flame should follow the orientation of the nozzle, shooting left.
+  - id: hose_disconnected
+    question: Is the braided hose at the bottom still disconnected from the port?
+    answer_type: yes_no
+    notes_for_judge: The hose should be hanging with a gap between it and the threaded port, just as in
+      the initial frame.
+  - id: pipe_position
+    question: Is the rusty pipe on the right in the same position as initially?
+    answer_type: yes_no
+    notes_for_judge: The structural components should not have moved.
+  - id: nozzle_presence
+    question: Is the brass nozzle still visible (though potentially obscured by flame)?
+    answer_type: yes_no
+    notes_for_judge: The nozzle structure itself should still be present.

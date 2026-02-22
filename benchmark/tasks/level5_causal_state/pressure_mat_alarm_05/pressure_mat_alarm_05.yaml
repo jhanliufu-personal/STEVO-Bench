@@ -1,0 +1,67 @@
+id: pressure_mat_alarm_05
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: pressure_mat_alarm
+variation_type: precondition_failure
+variation_description: A bypass switch is visible and active; system ignores input.
+changes:
+  occlusion_method: null
+  dynamic_conditions: System is in Bypass mode. Input is ignored.
+  expected_outcome_change: Final state is Green (Unchanged).
+prompts:
+  init_frame_edit_prompt: Edit the image to add a small industrial toggle switch labeled 'BYPASS' in the
+    ON position attached to the side of the box.
+  video_WM: The camera starts centered on the alarm indicator light showing green, with a visible bypass
+    switch set to the ON position. The camera rotates right at constant speed until the indicator exits
+    the view. The camera continues rotating, revealing a rectangular pressure-sensitive floor mat positioned
+    in the entryway. A foot enters the frame and steps onto the pressure mat. The mat contains weight
+    sensors connected to the alarm circuit. The stepping action occurs while the alarm indicator remains
+    out of camera view. Then the camera rotates left smoothly at the same rate back to the original viewpoint,
+    bringing the alarm indicator back into center view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The scene features a green alarm indicator with a bypass switch enabled and a pressure-sensitive
+    floor mat. A foot steps onto the mat. The mat contains weight sensors connected to the alarm circuit.
+    The step occurs while the alarm indicator is not visible. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up view of a wall-mounted industrial control box on a textured beige
+    wall. The main unit features a circular pilot light glowing bright green in the center. A label above
+    the light reads 'SYSTEM STATUS' and a label below reads 'NORMAL'. Attached to the right side is a
+    smaller switch housing labeled 'BYPASS' at the top and 'ON' at the bottom. A metal toggle switch is
+    in the down position. Metal conduit pipes run vertically into the top and out of the bottom of the
+    enclosure.
+  init2final_edit_prompt: Edit the given image to change the central indicator light from glowing green
+    to glowing red. The light should appear as a bright red alarm signal instead of the original green.
+    Maintain the exact position of the box, the toggle switch, the conduit, and the wall texture. Only
+    the color of the emitted light should change to reflect an alarm state.
+  rationale: The video describes a causal chain where a pressure-sensitive mat, connected to the alarm
+    circuit, is stepped on while the indicator is out of view. This physical action triggers the alarm
+    system. Consequently, when the camera returns to the initial viewpoint, the system status light must
+    reflect this state change by transitioning from the 'Normal' green state to an 'Alarm' red state.
+    The bypass switch was not interacted with, so it remains in its original position.
+  questions:
+  - id: primary_state_red
+    question: Is the indicator light now glowing red?
+    answer_type: yes_no
+    notes_for_judge: The light should be red to indicate the alarm was triggered.
+  - id: primary_change_color
+    question: Has the indicator light changed color from green to red?
+    answer_type: yes_no
+    notes_for_judge: Compare with the initial frame where the light was green.
+  - id: primary_not_green
+    question: Is the light emitting a color other than green?
+    answer_type: yes_no
+    notes_for_judge: It should no longer be green.
+  - id: primary_alarm_state
+    question: Does the system status indicator show an alarm state (red light)?
+    answer_type: yes_no
+    notes_for_judge: Red indicates alarm.
+  - id: secondary_switch_pos
+    question: Is the toggle switch still in the down position?
+    answer_type: yes_no
+    notes_for_judge: The switch was not touched during the video.
+  - id: secondary_conduit
+    question: Is the vertical electrical conduit still visible?
+    answer_type: yes_no
+    notes_for_judge: Structural elements should remain unchanged.

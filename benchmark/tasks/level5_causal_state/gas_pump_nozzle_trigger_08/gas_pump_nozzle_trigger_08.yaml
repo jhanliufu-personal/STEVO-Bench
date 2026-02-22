@@ -1,0 +1,64 @@
+id: gas_pump_nozzle_trigger_08
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: gas_pump_nozzle_trigger
+variation_type: repeated_activation
+variation_description: The trigger is squeezed and then released. The flow indicator (spinner) spins then
+  stops, returning to static state.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Action is Squeeze then Release. Net state change is zero (Static -> Flow -> Static).
+  expected_outcome_change: Display flow indicator is stationary (same as start).
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The camera starts centered on the gas pump display showing $0.00. The camera rotates right
+    until the display exits the view, revealing the fuel nozzle. A hand enters the frame, squeezes the
+    nozzle trigger handle to open the valve, and then immediately releases it, allowing the valve to close.
+    The trigger manipulation occurs while the pump display remains out of camera view. Then the camera
+    rotates left smoothly back to the original viewpoint, bringing the pump display screen back into center
+    view. STOP.
+  camera_WM: The camera starts on the display, then rotates to the nozzle. A hand squeezes and then releases
+    the trigger. The camera returns to the display. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up view of a black gas pump interface. The central focus is a digital
+    LCD screen showing '$ 0.00' on the top line and '0.00 gallons' on the bottom line. To the left of
+    the screen is a vertical column of square silver buttons. Below the screen, white text reads 'PRICE
+    PER GALLON' and 'SELECT GRADE'. On the far right edge, a black hose and part of a green nozzle handle
+    are visible. The background is a blurred outdoor scene with trees and a building.
+  init2final_edit_prompt: Edit the given image to update the digital numbers on the gas pump display.
+    Change the top price display from 0.00 to a small positive number (e.g., 0.45). Change the bottom
+    gallons display from 0.00 to a small positive number (e.g., 0.15). Maintain the original LCD font
+    style and color. Keep the pump casing, buttons, hose, and background exactly unchanged.
+  rationale: The video describes a sequence where the camera looks away, a user squeezes the gas nozzle
+    trigger to dispense fuel, and then the camera looks back. Squeezing the trigger activates the pump
+    and dispenses gasoline, which causes the electronic counters on the display to increment. Since the
+    trigger was squeezed and released, the final state must show a non-zero price and volume on the screen,
+    reflecting the fuel dispensed during the occlusion.
+  questions:
+  - id: price_change
+    question: Is the price displayed on the top line greater than $0.00?
+    answer_type: yes_no
+    notes_for_judge: The digits should no longer be 0.00.
+  - id: gallons_change
+    question: Is the gallon amount displayed on the bottom line greater than 0.00?
+    answer_type: yes_no
+    notes_for_judge: The digits should no longer be 0.00.
+  - id: state_transition
+    question: Have the numbers on the display changed from the initial zeroed state?
+    answer_type: yes_no
+    notes_for_judge: Compare with initial frame where both are 0.00.
+  - id: functional_evidence
+    question: Does the display indicate that fuel has been dispensed?
+    answer_type: yes_no
+    notes_for_judge: Non-zero numbers indicate fuel flow.
+  - id: consistency_buttons
+    question: Is the column of buttons on the left still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: consistency_text
+    question: Is the text 'PRICE PER GALLON' still visible below the screen?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

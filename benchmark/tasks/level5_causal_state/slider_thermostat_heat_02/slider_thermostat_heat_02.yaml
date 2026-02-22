@@ -1,0 +1,68 @@
+id: slider_thermostat_heat_02
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: slider_thermostat_heat
+variation_type: initial_state
+variation_description: The vent starts with visible heat shimmer (ON state); slider starts at MAX and
+  is moved to MIN.
+changes:
+  occlusion_method: null
+  dynamic_conditions: 'Initial state is ACTIVE (heat shimmer). Action is MAX -> MIN. Logic: Turning thermostat
+    down stops heat.'
+  expected_outcome_change: The heat shimmer visual distortion should disappear (ON -> OFF).
+prompts:
+  init_frame_edit_prompt: Edit the image to show strong heat shimmer distortion around the vent to indicate
+    hot air is currently blasting out.
+  video_WM: The camera starts centered on the active heater vent, surrounded by heat shimmer. The camera
+    rotates right at constant speed until the vent exits the view. The camera continues rotating, revealing
+    a wall-mounted heater control with a horizontal slider. The slider is currently at the far right MAX
+    position. A finger enters the frame and slides the control bar all the way to the far left MIN position.
+    The slider remains at the minimum setting. The thermostat disengages the heating circuit when set
+    below a threshold. The slider movement occurs while the heater vent remains out of camera view. Then
+    the camera rotates left smoothly at the same rate back to the original viewpoint, bringing the heater
+    vent back into center view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The camera starts on the heater vent, then rotates to the temperature slider control. A finger
+    moves the slider from MAX to MIN position. The thermostat disengages heating below threshold. The
+    slider movement occurs while the vent is not visible. The camera then returns to the heater vent.
+    STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A rectangular metal air vent with horizontal louvers mounted on a beige, textured
+    wall. White wispy steam or heat shimmer is emanating from the vent, indicating that hot air is actively
+    blowing.
+  init2final_edit_prompt: Edit the given image to remove the white steam, smoke, and heat shimmer emanating
+    from the vent. The air vent and the surrounding wall should appear clear and static, with no visible
+    airflow effects or distortion. Keep the vent geometry, wall texture, and lighting exactly the same
+    as the original.
+  rationale: The video describes a causal interaction where the camera rotates to reveal a thermostat,
+    a user moves the slider to the minimum position (turning the heater off), and the camera rotates back
+    to the vent. Since the heating circuit is disengaged by the user's action, the physical output (hot
+    air) stops. By the time the camera returns to the vent, the steam and heat shimmer visible in the
+    initial frame should have dissipated, leaving the vent inactive.
+  questions:
+  - id: state_change_shimmer_gone
+    question: Is the white steam or heat shimmer visible in the initial frame absent in the final frame?
+    answer_type: yes_no
+    notes_for_judge: The primary change is the cessation of the heating effect.
+  - id: state_change_inactive
+    question: Does the air vent appear inactive, with no visible wisps of steam or smoke?
+    answer_type: yes_no
+    notes_for_judge: The vent should look 'off'.
+  - id: state_change_clarity
+    question: Is the area directly in front of the vent clear of the visual distortion or fog seen initially?
+    answer_type: yes_no
+    notes_for_judge: Check for clarity of the air.
+  - id: state_change_wall_visibility
+    question: Is the wall texture above the vent clearly visible without being obscured by steam?
+    answer_type: yes_no
+    notes_for_judge: The steam in the first frame obscures parts of the wall; this should be gone.
+  - id: consistency_vent_position
+    question: Is the metal vent in the same position and orientation as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The camera returns to the original viewpoint.
+  - id: consistency_wall_color
+    question: Is the color and texture of the wall consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Only the steam should change; the environment is static.

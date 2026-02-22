@@ -1,0 +1,68 @@
+id: car_window_switch_07
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: car_window_switch
+variation_type: precondition_failure
+variation_description: The door panel is disassembled with a visible disconnected wire harness, breaking
+  the circuit.
+changes:
+  occlusion_method: null
+  dynamic_conditions: 'Precondition: Circuit broken (disconnected wire).'
+  expected_outcome_change: The window remains closed.
+prompts:
+  init_frame_edit_prompt: Edit the image to show the door armrest panel partially pried open with a visible
+    disconnected wire harness hanging near the switch controls.
+  video_WM: Driver's upright POV. The steering wheel is centered, the dashboard is lit, and the driver-side
+    window is fully closed. The driver leans forward toward the door panel; the side windows are no longer
+    visible. The window control switch panel comes into view, which is loose with a disconnected wire
+    harness visible nearby. A hand presses the lower side of the driver window switch downward. The window
+    switch is part of the car's electrical system and requires intact wiring to operate. The driver leans
+    back to the upright seated position. No zoom, no cut, no scene change. STOP.
+  camera_WM: The camera starts in upright driver POV with lit dashboard and the driver-side window fully
+    closed. The driver leans forward, camera pitches down and moves forward, revealing the window control
+    switch and a disconnected wire harness. A hand presses the lower side of the switch downward. The
+    window switch is part of the electrical system. The action occurs while the windows are not visible.
+    The driver leans back to the original seated position. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A first-person view from the driver's seat of a car. The steering wheel is centered
+    with a hand resting on it. The dashboard is illuminated. To the left, the driver's side door panel
+    is visible. The driver's side window is fully closed, with the street visible through the glass. On
+    the door armrest, the window switch panel area appears disassembled, with a bundle of wires and a
+    connector hanging loose and disconnected from the mounting point.
+  init2final_edit_prompt: Edit the given image to show the driver's side window remaining fully closed.
+    The glass should completely cover the window opening, reflecting the environment and showing the street
+    through it. The disconnected wire harness should remain hanging from the door panel in the same state.
+  rationale: The video prompt describes the driver pressing the window switch to open the window. However,
+    the prompt and the visual evidence in the initial frame explicitly establish that the wire harness
+    for the switch is disconnected. Without the electrical connection, the switch cannot signal the window
+    motor to operate. Therefore, despite the physical action of pressing the switch, the functional result
+    is null. The window must remain fully closed in the final frame as the driver returns to the initial
+    upright position.
+  questions:
+  - id: window_closed_check
+    question: Is the driver's side window fully closed?
+    answer_type: yes_no
+    notes_for_judge: The window should not have opened because the wiring was disconnected.
+  - id: glass_visibility
+    question: Is the window glass visible covering the entire window opening?
+    answer_type: yes_no
+    notes_for_judge: Check for reflections or tint indicating the glass is still up.
+  - id: wire_state
+    question: Is the wire harness still visible and disconnected?
+    answer_type: yes_no
+    notes_for_judge: The wiring should not have spontaneously reconnected.
+  - id: window_position_invariant
+    question: Is the top edge of the window glass still fully seated in the upper frame?
+    answer_type: yes_no
+    notes_for_judge: The window should not have moved down.
+  - id: street_view_through_glass
+    question: Is the view of the street seen through the window glass?
+    answer_type: yes_no
+    notes_for_judge: If the window opened, the view would be direct, not through glass.
+  - id: functional_failure_check
+    question: Does the window height appear unchanged compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The mechanism failed to operate, so the state should be invariant.

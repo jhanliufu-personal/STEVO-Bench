@@ -1,0 +1,71 @@
+id: turnstile_coin_unlock_01
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: turnstile_coin_unlock
+variation_type: initial_state
+variation_description: Turnstile starts in Unlocked/Green state; coin insertion acts as a toggle to Lock
+  it.
+changes:
+  occlusion_method: null
+  dynamic_conditions: The turnstile starts unlocked (Green). The mechanism is defined as a toggle state
+    switch. Inserting a coin switches it to Locked (Red).
+  expected_outcome_change: Final state is Locked (Red light) instead of Unlocked.
+prompts:
+  init_frame_edit_prompt: Edit the image to change the turnstile indicator light from red to bright GREEN.
+    The turnstile arm should appear ready for entry.
+  video_WM: The camera starts centered on the unlocked turnstile arm with its green indicator light. The
+    camera rotates right at constant speed until the turnstile exits the view. The camera continues rotating,
+    revealing a coin slot mechanism. A hand enters and inserts a token into the slot. In this configuration,
+    the token acts as a locking toggle. The insertion occurs while the turnstile arm remains out of camera
+    view. Then the camera rotates left smoothly back to the original viewpoint, bringing the turnstile
+    arm and indicator back into center view. STOP.
+  camera_WM: The scene starts on the unlocked turnstile arm with a green light. A hand inserts a token
+    into the coin slot. The mechanism acts as a toggle. The action occurs while the turnstile is not visible.
+    The scene returns to the turnstile arm. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up view of a metal subway turnstile in the foreground. The turnstile
+    has a three-arm rotating mechanism made of metal bars. On the front face of the turnstile body, there
+    is a bright green circular LED indicator light that is illuminated. In the background, there is a
+    subway station environment with white tiled walls, other turnstile units, and several people standing
+    or walking, including a person in a black jacket to the left and another person in a dark hat to the
+    right.
+  init2final_edit_prompt: Edit the given image to change the color of the illuminated circular indicator
+    light on the foreground turnstile from green to red. The light should appear as a glowing red signal
+    indicating a locked state, replacing the original green signal. Keep the position of the metal turnstile
+    arms and the background details exactly as they are.
+  rationale: The video prompt specifies a sequence where the camera pans away, a token is inserted acting
+    as a 'locking toggle', and the camera returns. The initial state shows a green light, which universally
+    signifies 'unlocked' or 'go'. The action is explicitly defined as a 'locking toggle', meaning the
+    state transitions from unlocked to locked. The visual representation of a locked turnstile is a red
+    light (or 'stop' signal). Since no one walked through the turnstile, the physical arms remain in their
+    original position. The final frame should therefore show the original view but with the indicator
+    light changed from green to red.
+  questions:
+  - id: light_is_red
+    question: Is the turnstile indicator light now glowing red?
+    answer_type: yes_no
+    notes_for_judge: The primary state change is the color of the LED indicator.
+  - id: light_not_green
+    question: Is the green indicator light from the initial frame no longer illuminated?
+    answer_type: yes_no
+    notes_for_judge: The light should have changed state, so it should not be green anymore.
+  - id: status_locked
+    question: Does the turnstile display a red signal indicating a locked state?
+    answer_type: yes_no
+    notes_for_judge: Checks for the functional outcome of the locking toggle.
+  - id: arms_stationary
+    question: Are the metal turnstile arms in the same position as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The action was a toggle of the lock, not a passage through the turnstile, so arms
+      should not move.
+  - id: background_consistency
+    question: Are the white tiled walls in the background still visible?
+    answer_type: yes_no
+    notes_for_judge: Checks for scene consistency.
+  - id: indicator_changed
+    question: Has the color of the circular light on the turnstile changed compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: General check for state transition.

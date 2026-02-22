@@ -1,0 +1,71 @@
+id: remote_control_pairing_01
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: remote_control_pairing
+variation_type: initial_state
+variation_description: The robot starts in an active/ON state (glowing eyes/lights), so the remote power
+  button turns it OFF.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Robot is initially powered ON. Remote action is a power toggle.
+  expected_outcome_change: The robot's lights should turn OFF (opposite of original activation).
+prompts:
+  init_frame_edit_prompt: Edit the image to make the robot's eyes glow bright red and add a small illuminated
+    green status light on its chest, indicating it is currently powered on.
+  video_WM: The camera starts centered on the motionless but illuminated toy robot labeled Channel A.
+    The camera rotates right at constant speed until the robot exits the view. The camera continues rotating,
+    revealing a handheld remote control also labeled Channel A. A hand enters the frame and presses the
+    POWER button on the remote control. The remote transmits radio signals when buttons are pressed. The
+    button press occurs while the toy robot remains out of camera view. Then the camera rotates left smoothly
+    at the same rate back to the original viewpoint, bringing the toy robot back into center view. No
+    zoom, no cut, no scene change. STOP.
+  camera_WM: A handheld remote control labeled Channel A is revealed. A hand enters the frame and presses
+    the POWER button on the remote control. The remote transmits radio signals when buttons are pressed.
+    The button press occurs while the toy robot remains out of camera view. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A retro-style grey toy robot standing on a wooden table. The robot has a boxy
+    head with two glowing red circular eyes and two antennae. Its chest is a square metal box featuring
+    a label with the text 'CHANNEL A' in red. Below the chest, on the lower chassis between the tank treads,
+    there is a bright glowing green circular indicator light. The background is a blurred workshop setting
+    with books and tools.
+  init2final_edit_prompt: Edit the given image to show the robot in a powered-off state. Change the glowing
+    red eyes to appear dark and unlit. Change the glowing green indicator light on the lower chassis to
+    appear dark and inactive. Keep the robot's position, pose, and the background exactly the same.
+  rationale: The video establishes a functional pairing between the robot and the remote control via the
+    matching 'Channel A' labels. The robot begins in an active state, indicated by its illuminated eyes
+    and chassis light. The action performed is pressing the 'POWER' button on the remote. Following standard
+    causal logic for electronic devices, pressing the power button on an active device toggles it to the
+    off state. Since the robot is occluded during the button press, the world model must track this state
+    change and render the robot with its lights extinguished when the camera returns to the initial view.
+  questions:
+  - id: q1_eyes_state
+    question: Are the robot's eyes now dark and unlit?
+    answer_type: yes_no
+    notes_for_judge: The eyes should no longer be glowing red.
+  - id: q2_chassis_light_state
+    question: Is the green indicator light on the lower chassis turned off?
+    answer_type: yes_no
+    notes_for_judge: The green light should be dark/grey, not glowing.
+  - id: q3_overall_power
+    question: Does the robot appear to be deactivated compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Check for the absence of illuminated lights.
+  - id: q4_red_glow_absence
+    question: Is the red glow absent from the robot's face?
+    answer_type: yes_no
+    notes_for_judge: Verify the light source in the eyes is extinguished.
+  - id: q5_green_glow_absence
+    question: Is the green glow absent from the bottom of the robot?
+    answer_type: yes_no
+    notes_for_judge: Verify the chassis light is extinguished.
+  - id: q6_position_consistency
+    question: Is the robot still in the same position on the table?
+    answer_type: yes_no
+    notes_for_judge: The robot should not have moved, only changed power state.
+  - id: q7_label_consistency
+    question: Is the 'CHANNEL A' label still visible on the robot's chest?
+    answer_type: yes_no
+    notes_for_judge: The text should remain unchanged.

@@ -1,0 +1,65 @@
+id: parking_gate_ticket_06
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: parking_gate_ticket
+variation_type: precondition_failure
+variation_description: The ticket machine is covered with an 'Out of Order' bag. The user attempts to
+  use it anyway, but it won't work.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Machine disabled/maintenance mode.
+  expected_outcome_change: Barrier remains lowered (no change).
+prompts:
+  init_frame_edit_prompt: Edit the image to show a yellow 'OUT OF ORDER' bag covering the top of the ticket
+    machine.
+  video_WM: The camera starts centered on the lowered parking barrier arm blocking the exit. The camera
+    rotates right at constant speed until the barrier exits the view. The camera continues rotating, revealing
+    a ticket payment machine covered by a yellow 'OUT OF ORDER' bag. A hand holding a validated parking
+    ticket enters the frame and attempts to insert the ticket through a gap in the bag. The machine's
+    validation circuitry is covered and disabled. The attempt occurs while the barrier arm remains out
+    of camera view. Then the camera rotates left smoothly at the same rate back to the original viewpoint,
+    bringing the barrier arm back into center view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The scene features a lowered barrier arm and a ticket machine covered by an 'OUT OF ORDER'
+    bag. A hand attempts to insert a ticket through a gap in the bag. The machine's validation circuitry
+    is covered and disabled. The attempt occurs while the barrier is not visible.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A yellow rectangular barrier housing stands on the left, supporting a red and
+    white striped barrier arm that extends horizontally across the frame, blocking a paved lane. In the
+    background, a second yellow cover with 'OUT OF ORDER' text is visible over a ticket machine. Several
+    parked cars are visible in the distance on an asphalt lot.
+  init2final_edit_prompt: Edit the given image to show the red and white parking barrier arm remaining
+    in the lowered, horizontal position, blocking the lane. Ensure the barrier arm has not been raised
+    and appears identical to its state in the initial frame.
+  rationale: The video prompt describes a camera rotation that reveals an 'OUT OF ORDER' sign on the ticket
+    machine. While a hand attempts to insert a ticket, the prompt explicitly states that the validation
+    circuitry is disabled. Because the mechanism is broken and disabled, the causal trigger for opening
+    the gate fails. Therefore, when the camera returns to the initial view, the barrier arm must remain
+    in the lowered, closed position, reflecting the lack of functional activation.
+  questions:
+  - id: barrier_lowered
+    question: Is the red and white barrier arm in the lowered horizontal position?
+    answer_type: yes_no
+    notes_for_judge: The barrier should not have raised because the machine was out of order.
+  - id: barrier_blocking
+    question: Does the barrier arm still block the lane?
+    answer_type: yes_no
+    notes_for_judge: The path should remain obstructed.
+  - id: barrier_orientation
+    question: Is the barrier arm positioned horizontally rather than vertically?
+    answer_type: yes_no
+    notes_for_judge: It should be horizontal (closed).
+  - id: state_unchanged
+    question: Is the barrier arm in the same closed state as the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The state should be unchanged.
+  - id: housing_visible
+    question: Is the yellow barrier housing on the left still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: sign_visible
+    question: Is the yellow 'OUT OF ORDER' cover visible in the background?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

@@ -1,0 +1,72 @@
+id: car_headlight_switch_06
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: car_headlight_switch
+variation_type: precondition_failure
+variation_description: Electrical system failure indicated by warning light.
+changes:
+  occlusion_method: null
+  dynamic_conditions: A system fault prevents headlight operation.
+  expected_outcome_change: The environment remains dark due to the electrical fault.
+prompts:
+  init_frame_edit_prompt: Edit the image to add a bright red 'ELECTRICAL FAULT' warning text and a battery
+    icon on the instrument cluster display.
+  video_WM: Driver's upright POV at night. The dashboard is lit, displaying a prominent electrical fault
+    warning, and the surrounding environment is dark. The driver leans forward toward the dashboard; the
+    windows and dark exterior are no longer visible. The headlight control switch on the left steering
+    column stalk comes into view. A hand rotates the headlight switch from OFF to ON. The headlight switch
+    is part of the car's electrical system. The driver leans back to the upright seated position, bringing
+    the windshield and exterior environment back into view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The camera starts in upright driver POV at night — lit dashboard with fault warning, dark
+    exterior. A hand rotates the switch from OFF to ON. The headlight switch is part of the electrical
+    system. The action occurs while the windows are not visible. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A view from the driver's seat of a car at night. The interior is dark, but the
+    dashboard is illuminated with orange backlighting. A prominent red digital text overlay reads 'ELECTRICAL
+    FAULT' in the center of the instrument cluster. A red battery warning light is illuminated on the
+    left gauge. The steering wheel features a Toyota logo. Through the windshield and side window, the
+    exterior environment is pitch black, indicating it is night and the headlights are currently off.
+    A side mirror is visible on the left.
+  init2final_edit_prompt: Edit the given image to show the car's headlights turned on. The previously
+    pitch-black exterior view through the windshield and side window should now be illuminated by bright
+    headlight beams, revealing the texture of the road or ground ahead. The interior dashboard, including
+    the 'ELECTRICAL FAULT' warning and battery light, should remain illuminated and unchanged. The camera
+    angle and driver's position should remain identical to the original view.
+  rationale: The video depicts a driver leaning forward to turn the headlight switch from OFF to ON, then
+    returning to the initial upright position. The primary causal result of this action is the activation
+    of the headlights. Despite the pre-existing 'ELECTRICAL FAULT' warning on the dashboard, the functional
+    intent of the action is to illuminate the exterior. Therefore, the final frame should show the exterior
+    environment lit by the headlights, while the interior state (including the fault warning) remains
+    consistent with the initial frame.
+  questions:
+  - id: q1
+    question: Is the exterior environment outside the windshield illuminated?
+    answer_type: yes_no
+    notes_for_judge: The exterior should no longer be pitch black; it should show light from the headlights.
+  - id: q2
+    question: Is the road or ground surface visible through the windshield?
+    answer_type: yes_no
+    notes_for_judge: The ground should be visible due to the headlights being on.
+  - id: q3
+    question: Do the headlights appear to be switched on?
+    answer_type: yes_no
+    notes_for_judge: Check for visual evidence of headlight beams illuminating the scene.
+  - id: q4
+    question: Is the area visible through the side window brighter than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The ambient light from the headlights should brighten the peripheral view.
+  - id: q5
+    question: Has the darkness outside been replaced by illuminated scenery?
+    answer_type: yes_no
+    notes_for_judge: Compare the exterior darkness of the init frame to the final frame.
+  - id: q6
+    question: Is the 'ELECTRICAL FAULT' warning still visible on the dashboard?
+    answer_type: yes_no
+    notes_for_judge: The warning text should persist.
+  - id: q7
+    question: Is the steering wheel in the same position as the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The driver returned to the initial position, so the view should be unchanged.

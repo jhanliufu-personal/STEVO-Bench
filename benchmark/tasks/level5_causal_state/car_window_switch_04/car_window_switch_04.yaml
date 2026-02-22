@@ -1,0 +1,79 @@
+id: car_window_switch_04
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: car_window_switch
+variation_type: precondition_failure
+variation_description: The car ignition is off (dashboard dark), so the electric windows will not operate.
+changes:
+  occlusion_method: null
+  dynamic_conditions: 'Precondition: Electrical system off. Switch action has no effect.'
+  expected_outcome_change: The window remains closed.
+prompts:
+  init_frame_edit_prompt: Edit the image to turn off all dashboard lights, indicators, and displays, making
+    the instrument cluster appear completely dark and unlit.
+  video_WM: Driver's upright POV. The steering wheel is centered, the dashboard is dark (ignition off),
+    and the driver-side window is fully closed. The driver leans forward toward the door panel; the side
+    windows are no longer visible. The window control switch panel on the door armrest comes into view.
+    A hand presses the lower side of the driver window switch downward. The window switch is part of the
+    car's electrical system and operates only when the ignition is on. The driver leans back to the upright
+    seated position. No zoom, no cut, no scene change. STOP.
+  camera_WM: The camera starts in upright driver POV with a dark dashboard (ignition off) and the driver-side
+    window fully closed. The driver leans forward, camera pitches down and moves forward, revealing the
+    window control switch on the door armrest. A hand presses the lower side of the switch downward. The
+    window switch is part of the electrical system and operates only with ignition on. The action occurs
+    while the windows are not visible. The driver leans back to the original seated position. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: View from the driver's seat of a car with a right-hand drive configuration.
+    The steering wheel is on the right side. The dashboard instrument cluster is visible behind the steering
+    wheel and is dark (unlit), with needles at zero. The driver-side window (right) is fully closed, indicated
+    by reflections on the glass and a slight tint. The side mirror is visible through the closed window.
+    The door panel with window controls is visible on the right. Outside, there is a city street with
+    cars and buildings.
+  init2final_edit_prompt: Edit the given image to show the state of the car interior after a failed attempt
+    to open the window. The driver-side window must remain fully closed, with the glass clearly visible
+    covering the opening. The dashboard instrument cluster must remain dark and unlit. Ensure the reflections
+    on the window glass are still present. The steering wheel and door panel should remain in their original
+    positions. The view outside may show slight progression of traffic, but the car's internal state must
+    be identical to the start.
+  rationale: 'The video prompt specifies that the window switch is pressed, but it also establishes a
+    critical precondition: the switch only operates when the ignition is on. The initial frame shows the
+    dashboard is dark (ignition off). Therefore, the causal mechanism (the electrical switch) fails to
+    activate the window motor. When the driver leans back to the initial view, the window must remain
+    fully closed, unchanged from the initial state. This tests the model''s ability to handle conditional
+    causal logic (Action + Precondition = Result).'
+  questions:
+  - id: window_closed_primary
+    question: Is the driver-side window still fully closed?
+    answer_type: yes_no
+    notes_for_judge: The window should not have moved down; the glass should fully cover the opening.
+  - id: glass_visible
+    question: Is the window glass still visible covering the opening to the side mirror?
+    answer_type: yes_no
+    notes_for_judge: Look for reflections or tint that indicate the presence of glass.
+  - id: dashboard_state
+    question: Does the dashboard instrument cluster remain dark and unlit?
+    answer_type: yes_no
+    notes_for_judge: The ignition was off and should remain off.
+  - id: window_top_edge
+    question: Is the top edge of the window glass still positioned at the top of the door frame?
+    answer_type: yes_no
+    notes_for_judge: If the window opened even slightly, the top edge would be lower.
+  - id: reflection_presence
+    question: Are there still reflections visible on the driver-side window glass?
+    answer_type: yes_no
+    notes_for_judge: Absence of reflections might indicate the window is open/gone.
+  - id: mirror_view_through_glass
+    question: Is the side mirror still viewed through the window glass rather than through an open gap?
+    answer_type: yes_no
+    notes_for_judge: The visual quality of the mirror reflection should imply it is seen through glass.
+  - id: steering_wheel_pos
+    question: Is the steering wheel still in the centered position?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: door_panel_pos
+    question: Is the door panel armrest visible in the same position as the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

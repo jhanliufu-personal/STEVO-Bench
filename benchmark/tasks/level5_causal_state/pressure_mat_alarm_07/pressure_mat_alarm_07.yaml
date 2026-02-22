@@ -1,0 +1,67 @@
+id: pressure_mat_alarm_07
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: pressure_mat_alarm
+variation_type: precondition_failure
+variation_description: An 'Out of Service' tag is attached; system is deactivated.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Administrative lockout (Out of Service). System is deactivated.
+  expected_outcome_change: Final state is Green (Unchanged).
+prompts:
+  init_frame_edit_prompt: Edit the image to add a yellow tag hanging from the conduit that reads 'OUT
+    OF SERVICE'.
+  video_WM: The camera starts centered on the alarm indicator light showing green, with a yellow 'OUT
+    OF SERVICE' tag hanging from it. The camera rotates right at constant speed until the indicator exits
+    the view. The camera continues rotating, revealing a rectangular pressure-sensitive floor mat positioned
+    in the entryway. A foot enters the frame and steps onto the pressure mat. The mat contains weight
+    sensors connected to the alarm circuit. The stepping action occurs while the alarm indicator remains
+    out of camera view. Then the camera rotates left smoothly at the same rate back to the original viewpoint,
+    bringing the alarm indicator back into center view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The scene features a green alarm indicator marked with an 'OUT OF SERVICE' tag and a pressure-sensitive
+    floor mat. A foot steps onto the mat. The mat contains weight sensors connected to the alarm circuit.
+    The step occurs while the alarm indicator is not visible. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up, slightly low-angle shot of a gray, wall-mounted electrical box with
+    a vertical conduit pipe extending upwards. The box features a circular indicator light that is currently
+    illuminated bright green. A yellow tag labeled 'OUT OF SERVICE' in black text hangs from the box,
+    suspended by a wire. To the right, a blurred window frame allows daylight to enter, illuminating the
+    textured, beige wall. To the left, a portion of a white window frame is visible.
+  init2final_edit_prompt: Edit the given image to change the color of the circular indicator light on
+    the electrical box from green to red. The light should appear illuminated in red to indicate an alarm
+    state. Keep the yellow 'OUT OF SERVICE' tag, the conduit, the wall texture, and the window details
+    exactly as they are in the original image.
+  rationale: The video describes a causal chain where a pressure-sensitive mat, connected to the alarm
+    circuit, is stepped on. In industrial alarm systems, a green light typically indicates a 'Normal'
+    or 'Safe' state, while a red light indicates an 'Alarm' or 'Triggered' state. Since the foot steps
+    on the mat (triggering the sensor) while the camera is looked away, the system transitions from Normal
+    (Green) to Alarm (Red). When the camera returns to the initial view, the indicator light must reflect
+    this state change by glowing red. The 'OUT OF SERVICE' tag is a physical object that remains unchanged.
+  questions:
+  - id: light_is_red
+    question: Is the indicator light on the box now glowing red?
+    answer_type: yes_no
+    notes_for_judge: The light should have changed color from green to red to indicate the alarm was triggered.
+  - id: light_changed_color
+    question: Has the indicator light changed color compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: It was green initially; it should now be red.
+  - id: green_light_gone
+    question: Is the green illumination absent from the indicator light?
+    answer_type: yes_no
+    notes_for_judge: The light should no longer be green.
+  - id: tag_present
+    question: Is the yellow 'OUT OF SERVICE' tag still hanging from the box?
+    answer_type: yes_no
+    notes_for_judge: The tag is a static object and should remain visible.
+  - id: conduit_visible
+    question: Is the vertical conduit pipe still visible above the box?
+    answer_type: yes_no
+    notes_for_judge: Structural elements should remain unchanged.
+  - id: wall_texture_preserved
+    question: Does the wall retain its original texture and color?
+    answer_type: yes_no
+    notes_for_judge: Background details should be consistent.

@@ -3,8 +3,60 @@ level: 5
 category: causal_mechanism
 mechanism_type: authentication_logic
 prompts:
-  image_gen_prompt: A hotel-style keycard reader is mounted next to a door. The reader has a status LED that is currently dim (off). The camera view is centered on the reader and its status LED.
-  video_WM: The camera starts centered on the keycard reader with its dim status LED. The camera rotates right at constant speed until the reader exits the view. The camera continues rotating, showing the area near the reader. A hand holding a white plastic keycard enters the frame and slides the keycard into the slot of the reader and then quickly removes it. The reader contains authentication circuitry that validates the card and can signal lock mechanisms or status indicators. The keycard swipe occurs while the reader's status LED remains out of camera view. Then the camera rotates left smoothly at the same rate back to the original viewpoint, bringing the reader and its status LED back into center view. No zoom, no cut, no scene change. STOP.
-  camera_WM: The camera starts on the keycard reader status LED, then rotates away. A hand swipes a keycard through the reader slot. The reader validates the card and can trigger authentication signals. The card swipe occurs while the status LED is not visible. The camera then returns to the reader and status LED. STOP.
+  image_gen_prompt: A hotel-style keycard reader is mounted next to a door. The reader has a status LED
+    that is currently dim (off). The camera view is centered on the reader and its status LED.
+  video_WM: The camera starts centered on the keycard reader with its dim status LED. The camera rotates
+    right at constant speed until the reader exits the view. The camera continues rotating, showing the
+    area near the reader. A hand holding a white plastic keycard enters the frame and slides the keycard
+    into the slot of the reader and then quickly removes it. The reader contains authentication circuitry
+    that validates the card and can signal lock mechanisms or status indicators. The keycard swipe occurs
+    while the reader's status LED remains out of camera view. Then the camera rotates left smoothly at
+    the same rate back to the original viewpoint, bringing the reader and its status LED back into center
+    view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The camera starts on the keycard reader status LED, then rotates away. A hand swipes a keycard
+    through the reader slot. The reader validates the card and can trigger authentication signals. The
+    card swipe occurs while the status LED is not visible. The camera then returns to the reader and status
+    LED. STOP.
 camera_control:
   HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up view of a brushed metal keycard reader mounted on a beige textured
+    wall. To the left is a vertical section of a brown wooden door frame. The reader has a black horizontal
+    slot in the center and a small, circular, unlit (dark/grey) status LED centered above the slot.
+  init2final_edit_prompt: Edit the given image to make the small circular status LED above the card slot
+    glow bright green. The LED should appear illuminated and active. Keep the brushed metal faceplate,
+    the black card slot, the beige wall texture, and the brown door frame exactly as they are in the original
+    image. Do not add any objects or hands.
+  rationale: The video sequence involves a camera panning away from the reader, followed by a physical
+    interaction (card swipe) occurring while the reader is out of view. The prompt states the card is
+    inserted and then removed, and that the reader validates the card. In functional terms, a validated
+    keycard swipe triggers the status indicator on the reader. Therefore, when the camera pans back to
+    the original view, the physical state of the reader itself (metal, slot) remains unchanged and empty,
+    but the functional state (the LED) must change from off (dark) to on (illuminated/green) to reflect
+    the successful authentication event.
+  questions:
+  - id: led_illuminated
+    question: Is the small circular status LED above the slot now illuminated?
+    answer_type: yes_no
+    notes_for_judge: The LED was dark in the initial frame. After the card swipe, it should be glowing
+      (likely green).
+  - id: led_color_change
+    question: Does the status light emit a bright color (e.g., green) compared to the initial dark state?
+    answer_type: yes_no
+    notes_for_judge: Checks for the specific functional feedback of the device.
+  - id: led_state_diff
+    question: Is the indicator light in a different state than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: General check for state transition.
+  - id: slot_empty
+    question: Is the card slot empty (i.e., no keycard is currently inserted)?
+    answer_type: yes_no
+    notes_for_judge: The prompt specifies the card was removed after insertion.
+  - id: wall_texture_consistency
+    question: Is the beige textured wallpaper still visible and consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: door_frame_consistency
+    question: Is the brown wooden door frame still visible on the left side?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

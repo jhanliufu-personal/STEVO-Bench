@@ -1,0 +1,66 @@
+id: barcode_scanner_register_01
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: barcode_scanner_register
+variation_type: initial_state
+variation_description: Register display starts with a price already shown ($5.00) instead of $0.00
+changes:
+  occlusion_method: null
+  dynamic_conditions: The register already has an item registered; scanning adds another item to the total.
+  expected_outcome_change: The final display will show a sum greater than $5.00, rather than just the
+    single item price.
+prompts:
+  init_frame_edit_prompt: Edit the register display to show '$5.00' in green digital text instead of '$0.00'.
+  video_WM: The camera starts centered on the cash register display showing $5.00. The camera rotates
+    right at constant speed until the display exits the view. The camera continues rotating, revealing
+    a barcode scanner area with a product (cereal box) being held over it. A hand holding the product
+    moves it across the scanner window. The scanner uses an optical sensor to read barcodes, looks up
+    product data in the database, and transmits price information to the register display to add to the
+    current total. The scanning action occurs while the register display remains out of camera view. Then
+    the camera rotates left smoothly at the same rate back to the original viewpoint, bringing the register
+    display back into center view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The camera starts on the register display showing $5.00, then rotates to the scanner area.
+    A hand scans a product barcode across the scanner. The scanner reads barcodes and sends product data
+    to update the display. The scanning occurs while the display is not visible. The camera then returns
+    to the register display. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up view of a beige electronic cash register. The center features a green
+    digital display showing the price '$5.00'. To the left of the display is a numeric keypad with grey
+    buttons. A roll of white receipt paper is visible on the left side. The background is slightly out
+    of focus, showing shelves stocked with various candy bars and snacks.
+  init2final_edit_prompt: Edit the given image to change the number displayed on the green screen from
+    '$5.00' to '$9.49'. Keep the cash register casing, keypad, receipt paper, and background exactly the
+    same.
+  rationale: The video depicts a transaction where a new item (a cereal box) is scanned while the display
+    is temporarily out of view. The functional mechanism of a cash register dictates that scanning an
+    item adds its price to the current total. Therefore, when the camera returns to the initial view of
+    the display, the shown amount must be higher than the initial $5.00, reflecting the addition of the
+    cereal box's price.
+  questions:
+  - id: price_increase_check
+    question: Is the dollar amount shown on the green display higher than $5.00?
+    answer_type: yes_no
+    notes_for_judge: The initial value was 5.00. After scanning a product, the total should increase.
+  - id: display_change_check
+    question: Is the number on the digital display different from the initial '$5.00'?
+    answer_type: yes_no
+    notes_for_judge: The state must update to reflect the transaction.
+  - id: value_format_check
+    question: Does the display still show a number formatted as currency (e.g., with a decimal point)?
+    answer_type: yes_no
+    notes_for_judge: The display should show a valid price, not garbage or blank.
+  - id: keypad_consistency
+    question: Is the numeric keypad visible in the same location as the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: background_consistency
+    question: Are the candy bars in the background still visible and in the same arrangement?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: screen_illumination
+    question: Is the green display screen still illuminated?
+    answer_type: yes_no
+    notes_for_judge: The machine should remain on.

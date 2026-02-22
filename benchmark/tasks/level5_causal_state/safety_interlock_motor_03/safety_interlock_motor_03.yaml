@@ -1,0 +1,63 @@
+id: safety_interlock_motor_03
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: safety_interlock_motor
+variation_type: initial_state
+variation_description: Motor starts running; trigger is a toggle switch flipped to OFF.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Initial state is ON. Trigger is a toggle switch. Action flips it to OFF.
+  expected_outcome_change: The motor shaft should be stationary at the end.
+prompts:
+  init_frame_edit_prompt: Edit the image to show the motor shaft spinning. Add a large industrial toggle
+    switch in the 'UP' (ON) position to the machinery.
+  video_WM: The camera starts centered on the spinning motor drive shaft. The camera rotates right at
+    constant speed until the shaft exits the view. The camera continues rotating, revealing an industrial
+    toggle switch currently in the UP position. A hand enters and flips the switch DOWN to the OFF position.
+    The action occurs while the motor shaft remains out of camera view. Then the camera rotates left smoothly
+    at the same rate back to the original viewpoint, bringing the motor drive shaft back into center view.
+    No zoom, no cut, no scene change. STOP.
+  camera_WM: The scene features a spinning motor drive shaft and a toggle switch. A hand flips the switch
+    to the OFF position while the shaft is out of view. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A large green industrial electric motor is the central subject. A thick, cylindrical
+    metal drive shaft extends towards the left foreground; it has circumferential streaks or texture.
+    To the right, attached to the motor housing, is a metal control box with a toggle switch. The toggle
+    switch is currently in the UP position. A label 'UP' is visible above the switch, and a red plate
+    with 'ON' is below it. The background shows a factory interior with high ceilings and other machinery.
+  init2final_edit_prompt: Edit the given image to flip the toggle switch on the right side to the DOWN
+    position. Modify the metal drive shaft to appear completely stationary and stopped, ensuring there
+    is no motion blur.
+  rationale: The video prompt describes a causal interaction where a switch is flipped to the OFF (DOWN)
+    position. This action cuts power to the motor. The camera rotates away during the interaction and
+    then returns. In the final state, the switch must be visible in the DOWN position, and as a functional
+    consequence of cutting the power, the motor drive shaft should be stationary (stopped spinning).
+  questions:
+  - id: switch_down
+    question: Is the toggle switch on the right side now in the DOWN position?
+    answer_type: yes_no
+    notes_for_judge: The switch handle should be pointing downwards.
+  - id: switch_not_up
+    question: Is the toggle switch handle no longer pointing UP?
+    answer_type: yes_no
+    notes_for_judge: It should be flipped down.
+  - id: motor_stopped
+    question: Does the metal drive shaft appear to be stationary?
+    answer_type: yes_no
+    notes_for_judge: The shaft should look static, with no motion blur.
+  - id: motor_not_spinning
+    question: Has the motor drive shaft stopped spinning?
+    answer_type: yes_no
+    notes_for_judge: Compare to the initial state which was described as spinning; the final state should
+      be stopped.
+  - id: switch_off_state
+    question: Does the switch position indicate the 'OFF' state (down)?
+    answer_type: yes_no
+    notes_for_judge: Down is conventionally OFF for this type of switch.
+  - id: shaft_blur_removed
+    question: Is the drive shaft free of motion blur?
+    answer_type: yes_no
+    notes_for_judge: A stopped motor should be sharp.

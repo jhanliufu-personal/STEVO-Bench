@@ -1,0 +1,67 @@
+id: safety_interlock_motor_07
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: safety_interlock_motor
+variation_type: precondition_failure
+variation_description: Guard open indicator light is active.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Safety guard is open (indicated by light and visual). Interlock prevents start.
+  expected_outcome_change: The motor shaft remains stationary.
+prompts:
+  init_frame_edit_prompt: Edit the image to add a bright red warning light on the motor chassis labeled
+    'GUARD OPEN' that is illuminated.
+  video_WM: The camera starts centered on the stationary motor drive shaft. A red 'GUARD OPEN' light is
+    illuminated on the housing. The camera rotates right at constant speed until the shaft exits the view.
+    The camera continues rotating, revealing the green START button and the safety guard, which is currently
+    flipped UP in the open position. A finger enters the frame and presses the green START button. The
+    button press occurs while the motor shaft remains out of camera view. Then the camera rotates left
+    smoothly at the same rate back to the original viewpoint, bringing the motor drive shaft back into
+    center view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The scene features a stationary motor drive shaft, a 'GUARD OPEN' warning light, a START
+    button, and an open safety guard. A finger presses the START button while the shaft is out of view.
+    STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up view of a large, green industrial electric motor. A thick, stationary
+    metal drive shaft extends to the left, featuring visible rust, grease, and a keyway slot. On the side
+    of the motor housing, a red warning light is illuminated. Below the light is a white sign with black
+    text reading 'GUARD OPEN'. The background shows a blurred factory interior.
+  init2final_edit_prompt: Edit the given image to ensure the motor shaft remains completely stationary,
+    with sharp, distinct textures and no motion blur. The red 'GUARD OPEN' light must remain illuminated.
+    The overall appearance of the motor, including the shaft details and the warning light, should remain
+    unchanged from the original state.
+  rationale: The video prompt establishes a safety interlock scenario. The initial state shows the 'GUARD
+    OPEN' light is on, and the prompt explicitly states the safety guard is 'flipped UP in the open position'.
+    In industrial machinery, a safety interlock prevents the motor from starting if the guard is open.
+    Therefore, when the finger presses the START button, the command is functionally ignored by the system.
+    The motor shaft must remain stationary (no motion blur), and the 'GUARD OPEN' light must remain illuminated.
+    The final frame should be visually identical to the initial frame, reflecting the system's refusal
+    to start.
+  questions:
+  - id: motor_stationary
+    question: Is the motor shaft stationary?
+    answer_type: yes_no
+    notes_for_judge: The shaft should be sharp and distinct, with no evidence of rotation.
+  - id: no_motion_blur
+    question: Is the metal shaft free of rotational motion blur?
+    answer_type: yes_no
+    notes_for_judge: Motion blur would indicate the motor started, which violates the safety logic.
+  - id: light_illuminated
+    question: Is the red 'GUARD OPEN' light illuminated?
+    answer_type: yes_no
+    notes_for_judge: The light indicates the guard status, which has not changed.
+  - id: shaft_details_sharp
+    question: Are the rust patterns and textures on the shaft sharp and distinct?
+    answer_type: yes_no
+    notes_for_judge: Blurring would indicate motion.
+  - id: keyway_visible
+    question: Is the keyway slot on the shaft clearly defined?
+    answer_type: yes_no
+    notes_for_judge: A spinning shaft would blur this detail.
+  - id: system_state_unchanged
+    question: Does the motor appear to be in the same stopped state as the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The system should not respond to the start button due to the open guard.

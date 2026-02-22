@@ -1,0 +1,62 @@
+id: fuse_box_completion_03
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: fuse_box_completion
+variation_type: initial_state
+variation_description: Fan starts ON; action is disconnecting a power cable.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Initial state Fan ON. Action is disconnect cable.
+  expected_outcome_change: Fan stops spinning.
+prompts:
+  init_frame_edit_prompt: Edit the image to show the industrial fan blades spinning with motion blur.
+    Show a connected power cable at the fuse box location.
+  video_WM: The camera starts centered on the spinning industrial floor fan. The camera rotates right
+    at constant speed until the fan exits the view. The camera continues rotating, revealing the power
+    connection box on the wall. A hand enters the frame and firmly unplugs the main power cable from the
+    box, cutting the power. The disconnection occurs while the fan remains out of camera view. Then the
+    camera rotates left smoothly at the same rate back to the original viewpoint, bringing the industrial
+    fan back into center view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The camera starts on the spinning fan, then rotates to the power connection box. A hand unplugs
+    the power cable. The action occurs while the fan is not visible. The camera then returns to the fan.
+    STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A large industrial floor fan is centered in the foreground with a metal wire
+    cage. The fan blades are spinning rapidly, appearing as a translucent blur. A black power cable connects
+    the fan motor to an electrical box on the brick wall to the left. The environment is a workshop with
+    tools and a workbench in the background.
+  init2final_edit_prompt: Edit the image to show the industrial fan in a powered-off state. Replace the
+    blurred spinning blades with distinct, sharp, and stationary fan blades inside the wire cage. Keep
+    the background, lighting, and camera angle exactly the same.
+  rationale: The video prompt describes the main power cable being unplugged, which cuts power to the
+    fan. During the time taken for the camera to pan away, the disconnection to occur, and the camera
+    to pan back, the fan would lose momentum and spin down. In the final frame, the fan should appear
+    stopped or significantly slowed, meaning the motion blur should be replaced by visible, distinct blades.
+  questions:
+  - id: fan_stopped
+    question: Do the fan blades appear to be stationary?
+    answer_type: yes_no
+    notes_for_judge: The fan should no longer have motion blur; blades should be sharp.
+  - id: blades_distinct
+    question: Are the individual fan blades clearly distinct and sharp?
+    answer_type: yes_no
+    notes_for_judge: In the initial frame they are blurred; in the final they should be defined.
+  - id: blur_removed
+    question: Has the motion blur inside the fan cage disappeared?
+    answer_type: yes_no
+    notes_for_judge: Check for the absence of the translucent spinning effect.
+  - id: fan_state_off
+    question: Does the fan appear to be turned off?
+    answer_type: yes_no
+    notes_for_judge: Visual evidence is the lack of motion.
+  - id: fan_position
+    question: Is the fan still centered in the frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: background_consistency
+    question: Is the brick wall background visible and unchanged?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

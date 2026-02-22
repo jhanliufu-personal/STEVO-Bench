@@ -1,0 +1,72 @@
+id: parking_gate_ticket_04
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: parking_gate_ticket
+variation_type: precondition_failure
+variation_description: The ticket machine screen is black/dead, indicating a power failure. The trigger
+  action should have no effect.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Power failure. Machine cannot validate.
+  expected_outcome_change: Barrier remains lowered (no change) because the machine is unpowered.
+prompts:
+  init_frame_edit_prompt: Edit the image so the ticket machine's LCD display screen is completely black
+    and dark, indicating it is powered off.
+  video_WM: The camera starts centered on the lowered parking barrier arm blocking the exit. The camera
+    rotates right at constant speed until the barrier exits the view. The camera continues rotating, revealing
+    a ticket payment machine with a dark, unpowered screen. A hand holding a validated parking ticket
+    enters the frame and inserts the ticket into the slot. The machine relies on power to validate tickets
+    and control the barrier motor. The ticket insertion occurs while the barrier arm remains out of camera
+    view. Then the camera rotates left smoothly at the same rate back to the original viewpoint, bringing
+    the barrier arm back into center view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The scene features a lowered barrier arm and a ticket machine with a dark, unpowered screen.
+    A hand inserts a validated parking ticket into the slot. The machine relies on power to validate tickets
+    and control the barrier motor. The ticket insertion occurs while the barrier is not visible.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A yellow parking barrier housing stands on the left side of the foreground.
+    Attached to it is a red and white striped barrier arm extending horizontally to the right, completely
+    blocking the exit lane. The arm has a visible folding joint in the middle. In the background, there
+    is a paved parking lot with several parked cars (silver, red, and dark blue) and a grey ticket machine
+    column standing behind the barrier arm.
+  init2final_edit_prompt: Edit the given image to keep the parking barrier arm in the exact same lowered,
+    horizontal position as the initial frame. The red and white striped arm must still block the path.
+    Do not raise the arm. The scene should appear identical to the initial frame with no change in the
+    barrier's state.
+  rationale: The video prompt describes a causal sequence where a ticket is inserted into a machine. However,
+    the prompt explicitly states that the machine has a 'dark, unpowered screen' and that the machine
+    'relies on power' to validate tickets and control the motor. Because the necessary precondition (power)
+    is absent, the trigger (ticket insertion) fails to activate the opening mechanism. Therefore, the
+    barrier arm must remain in its initial lowered (closed) state when the camera returns to the original
+    view.
+  questions:
+  - id: parking_gate_ticket_04_q1
+    question: Is the barrier arm still in the lowered, horizontal position?
+    answer_type: yes_no
+    notes_for_judge: The barrier should not open because the machine was unpowered.
+  - id: parking_gate_ticket_04_q2
+    question: Is the exit path still blocked by the barrier arm?
+    answer_type: yes_no
+    notes_for_judge: The barrier should remain closed.
+  - id: parking_gate_ticket_04_q3
+    question: Is the red and white striped arm in the same position as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: No movement should occur due to lack of power.
+  - id: parking_gate_ticket_04_q4
+    question: Did the barrier arm remain closed?
+    answer_type: yes_no
+    notes_for_judge: Checks if the arm stayed down.
+  - id: parking_gate_ticket_04_q5
+    question: Is the barrier arm horizontal rather than vertical?
+    answer_type: yes_no
+    notes_for_judge: Vertical would imply it opened, which is incorrect here.
+  - id: parking_gate_ticket_04_q6
+    question: Is the yellow housing still visible on the left?
+    answer_type: yes_no
+    notes_for_judge: Consistency check.
+  - id: parking_gate_ticket_04_q7
+    question: Are the parked cars in the background still in the same positions?
+    answer_type: yes_no
+    notes_for_judge: Consistency check.

@@ -1,0 +1,72 @@
+id: parking_gate_ticket_07
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: parking_gate_ticket
+variation_type: precondition_failure
+variation_description: The barrier arm is physically detached from the pivot mechanism and lying on the
+  ground.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Mechanism broken. Pivot may turn, but arm is disconnected.
+  expected_outcome_change: Barrier arm remains lying on the ground (no change in position).
+prompts:
+  init_frame_edit_prompt: Edit the image so the barrier arm is detached from the pivot mechanism and is
+    lying flat on the asphalt ground.
+  video_WM: The camera starts centered on the detached barrier arm lying on the ground. The camera rotates
+    right at constant speed until the barrier exits the view. The camera continues rotating, revealing
+    a ticket payment machine. A hand holding a validated parking ticket enters the frame and inserts the
+    ticket into the slot. The machine controls the barrier pivot motor based on payment status. The ticket
+    insertion occurs while the detached barrier arm remains out of camera view. Then the camera rotates
+    left smoothly at the same rate back to the original viewpoint, bringing the barrier arm back into
+    center view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The scene features a detached barrier arm lying on the ground and a ticket payment machine.
+    A hand inserts a validated parking ticket into the slot. The machine controls the barrier pivot motor.
+    The ticket insertion occurs while the detached barrier is not visible.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A parking lot scene featuring a bright yellow barrier gate housing on the left
+    and a detached red-and-white striped barrier arm lying flat on the asphalt ground in the center. A
+    grey ticket machine stands behind the yellow housing. Several parked cars are visible in the background.
+  init2final_edit_prompt: Edit the given image to show the red and white barrier arm remaining lying flat
+    on the ground in its exact original position. Do not raise the barrier arm or reattach it to the yellow
+    housing. The arm must remain detached and resting on the asphalt.
+  rationale: The video prompt describes a ticket insertion that activates the gate mechanism. However,
+    the initial frame clearly shows the barrier arm is physically detached from the lifting mechanism
+    (the yellow housing) and lying on the ground. Because there is no physical connection between the
+    motor and the arm, the activation of the motor cannot lift the arm. Therefore, the correct final state
+    is that the barrier arm remains stationary on the ground, unchanged by the mechanism's activation.
+  questions:
+  - id: parking_gate_ticket_07_q1
+    question: Is the barrier arm still lying on the ground?
+    answer_type: yes_no
+    notes_for_judge: The arm is detached and should not move even if the motor activates.
+  - id: parking_gate_ticket_07_q2
+    question: Is the barrier arm in the same position as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: It should not have moved.
+  - id: parking_gate_ticket_07_q3
+    question: Does the barrier arm remain detached from the yellow housing?
+    answer_type: yes_no
+    notes_for_judge: The arm should not magically reattach.
+  - id: parking_gate_ticket_07_q4
+    question: Is the red and white pole resting on the asphalt?
+    answer_type: yes_no
+    notes_for_judge: It should be on the ground.
+  - id: parking_gate_ticket_07_q5
+    question: Has the barrier arm remained unraised?
+    answer_type: yes_no
+    notes_for_judge: It should not be in the air.
+  - id: parking_gate_ticket_07_q6
+    question: Is the barrier arm still disconnected from the lifting mechanism?
+    answer_type: yes_no
+    notes_for_judge: Verifying physical consistency.
+  - id: parking_gate_ticket_07_q7
+    question: Is the yellow barrier housing still in the same location?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: parking_gate_ticket_07_q8
+    question: Are the parked cars in the background unchanged?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

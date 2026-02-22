@@ -1,0 +1,66 @@
+id: fuse_box_completion_10
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: fuse_box_completion
+variation_type: indirect_causation
+variation_description: Fuse activates a timer light first; fan activation is delayed.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Intermediate 'Wait' light activates. Fan requires delay.
+  expected_outcome_change: Fan remains OFF (stationary), but indicator light is ON.
+prompts:
+  init_frame_edit_prompt: Edit the image to add a red indicator light labeled 'DELAY TIMER' next to the
+    fuse box.
+  video_WM: The camera starts centered on the stationary industrial floor fan. The camera rotates right
+    at constant speed until the fan exits the view. The camera continues rotating, revealing an open industrial
+    fuse box and a red indicator light on the wall. A hand enters the frame and inserts a ceramic fuse
+    into the empty gap. The red indicator light turns ON immediately, indicating a delay cycle. The action
+    occurs while the fan remains out of camera view. Then the camera rotates left smoothly at the same
+    rate back to the original viewpoint, bringing the industrial fan back into center view. No zoom, no
+    cut, no scene change. STOP.
+  camera_WM: The camera starts on the fan, then rotates to the fuse box with an indicator light. A hand
+    inserts a ceramic fuse. The indicator light turns on. The action occurs while the fan is not visible.
+    The camera then returns to the fan. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A large metal industrial floor fan stands in the center of a workshop. To the
+    left, mounted on a brick wall, is a metal electrical control box with a power cord running to the
+    fan. A red dome-shaped indicator light is mounted next to the box, above a label that reads 'DELAY
+    TIMER'. The red light is currently off (dark red). The background shows a workshop with shelves and
+    machinery.
+  init2final_edit_prompt: Edit the given image to make the red dome indicator light on the left wall (labeled
+    'DELAY TIMER') glow brightly, appearing illuminated. The light should emit a strong red glow to indicate
+    it is active. Keep the industrial fan stationary and the rest of the scene exactly as they are.
+  rationale: The video describes a sequence where the camera pans away, a fuse is inserted into a circuit,
+    and a red indicator light turns on to signal a 'delay cycle'. When the camera returns to the initial
+    view, the 'DELAY TIMER' light on the wall (which controls the fan) must be illuminated to reflect
+    the restored power and active delay state. Since the system is in a delay cycle, the fan typically
+    waits before starting, so it remains stationary in the final frame.
+  questions:
+  - id: light_state_1
+    question: Is the red indicator light on the wall glowing?
+    answer_type: yes_no
+    notes_for_judge: The red light on the left wall should appear illuminated/bright red, contrasting
+      with the dark state in the initial frame.
+  - id: light_state_2
+    question: Does the red light labeled 'DELAY TIMER' appear to be in an 'on' state?
+    answer_type: yes_no
+    notes_for_judge: Look for evidence of light emission or brightness in the red dome.
+  - id: light_brightness
+    question: Is the red indicator light brighter than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the luminance of the red dome between the two frames.
+  - id: fan_motion
+    question: Is the industrial fan stationary?
+    answer_type: yes_no
+    notes_for_judge: The fan blades should not show motion blur; the system is in a delay cycle.
+  - id: fan_position
+    question: Is the fan in the same position as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The camera returns to the original viewpoint.
+  - id: cord_connection
+    question: Is the power cord still connected to the box on the wall?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

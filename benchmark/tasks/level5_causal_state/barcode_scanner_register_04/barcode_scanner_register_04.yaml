@@ -1,0 +1,66 @@
+id: barcode_scanner_register_04
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: barcode_scanner_register
+variation_type: precondition_failure
+variation_description: Scanner power cord is unplugged
+changes:
+  occlusion_method: null
+  dynamic_conditions: The scanner is disconnected from power, so scanning the item generates no data.
+  expected_outcome_change: The register display will remain unchanged at $0.00.
+prompts:
+  init_frame_edit_prompt: Edit the image to show the black power cord for the scanner disconnected and
+    lying loosely on the counter.
+  video_WM: The camera starts centered on the cash register display showing $0.00. The camera rotates
+    right at constant speed until the display exits the view. The camera continues rotating, revealing
+    a barcode scanner area with a product (cereal box) being held over it. A hand holding the product
+    moves it across the scanner window. The power cord for the scanner is visible lying unplugged on the
+    counter. The scanning action occurs while the register display remains out of camera view. Then the
+    camera rotates left smoothly at the same rate back to the original viewpoint, bringing the register
+    display back into center view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The camera starts on the register display showing $0.00, then rotates to the scanner area.
+    A hand scans a product barcode across the unplugged scanner. The scanning occurs while the display
+    is not visible. The camera then returns to the register display. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up view of a beige electronic cash register on a wooden counter. The
+    central focus is a green backlit digital display showing '$0.00'. To the left of the display is a
+    keypad and a roll of receipt paper. To the right of the register, a black power cord ending in a plug
+    is coiled and lying unplugged on the counter surface. In the background, blurred shelves with merchandise
+    are visible.
+  init2final_edit_prompt: Edit the given image to ensure the cash register display continues to read exactly
+    '$0.00'. The black power cord on the right side of the counter must remain lying unplugged in its
+    original position. Do not alter the numbers on the screen. Ensure the view of the display is unobstructed
+    and the scene appears identical to the initial state.
+  rationale: The video describes a scanning action where a product is moved across a barcode scanner.
+    However, the prompt explicitly states that the scanner's power cord is lying unplugged on the counter.
+    Since the scanner lacks power, it cannot read the barcode or transmit data to the register. Consequently,
+    the cash register's total should not update. When the camera returns to the initial view, the display
+    must remain at $0.00, and the cord must remain unplugged.
+  questions:
+  - id: display_value_zero
+    question: Does the cash register display still show '$0.00'?
+    answer_type: yes_no
+    notes_for_judge: The scanner was unplugged, so the price should not have updated.
+  - id: display_unchanged
+    question: Is the dollar amount on the screen unchanged from the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Verifies that the state remained static due to the unpowered scanner.
+  - id: no_price_added
+    question: Does the display indicate that no price was added to the total?
+    answer_type: yes_no
+    notes_for_judge: Checks for the absence of a transaction update.
+  - id: cord_unplugged
+    question: Is the black power cord on the right still unplugged?
+    answer_type: yes_no
+    notes_for_judge: The cord should remain in its unplugged state as described.
+  - id: screen_digits
+    question: Does the screen remain free of any non-zero digits?
+    answer_type: yes_no
+    notes_for_judge: Ensures no random numbers were hallucinated.
+  - id: receipt_position
+    question: Is the receipt paper still in the same position as initially?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

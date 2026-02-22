@@ -1,0 +1,67 @@
+id: slider_thermostat_heat_03
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: slider_thermostat_heat
+variation_type: initial_state
+variation_description: The vent starts with a piece of paper taped to it flapping (ON state); slider starts
+  at MAX and is moved to MIN.
+changes:
+  occlusion_method: null
+  dynamic_conditions: 'Initial state is ACTIVE (flapping paper). Action is MAX -> MIN. Logic: Turning
+    thermostat down stops airflow.'
+  expected_outcome_change: The paper should fall flat against the vent (ON -> OFF).
+prompts:
+  init_frame_edit_prompt: Edit the image to add a small piece of white paper taped to the top of the vent,
+    flapping upwards to indicate air pressure from within.
+  video_WM: The camera starts centered on the active heater vent with a paper flapping in the airflow.
+    The camera rotates right at constant speed until the vent exits the view. The camera continues rotating,
+    revealing a wall-mounted heater control with a horizontal slider. The slider is currently at the far
+    right MAX position. A finger enters the frame and slides the control bar all the way to the far left
+    MIN position. The slider remains at the minimum setting. The thermostat disengages the heating circuit
+    when set below a threshold. The slider movement occurs while the heater vent remains out of camera
+    view. Then the camera rotates left smoothly at the same rate back to the original viewpoint, bringing
+    the heater vent back into center view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The camera starts on the heater vent, then rotates to the temperature slider control. A finger
+    moves the slider from MAX to MIN position. The thermostat disengages heating below threshold. The
+    slider movement occurs while the vent is not visible. The camera then returns to the heater vent.
+    STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up view of a beige wall-mounted air vent with horizontal metal slats.
+    A piece of white paper is taped to the top edge of the vent frame. The paper is currently lifted and
+    billowing outward away from the wall, indicating active airflow blowing from the vent.
+  init2final_edit_prompt: Edit the given image so that the white paper is hanging limp and flat against
+    the vent slats, pointing straight down, instead of being blown outward and lifted. The paper should
+    appear to be resting against the grille due to the absence of airflow.
+  rationale: The video sequence depicts a causal interaction where the camera pans to a thermostat and
+    a user moves the slider from MAX to MIN, effectively turning off the heating system. This action cuts
+    power to the blower fan. When the camera pans back to the vent, the airflow that was previously holding
+    the paper up has stopped. Consequently, gravity causes the paper to fall and hang flat against the
+    vent, signaling the change in the system's functional state.
+  questions:
+  - id: paper_state_flat
+    question: Is the piece of paper hanging flat against the vent grille?
+    answer_type: yes_no
+    notes_for_judge: In the final state, the paper should be limp and vertical, not curved outward.
+  - id: paper_airflow_stopped
+    question: Is the paper no longer blown outward or lifted away from the wall?
+    answer_type: yes_no
+    notes_for_judge: The paper should not show signs of active airflow (billowing/lifting).
+  - id: paper_position_gravity
+    question: Is the bottom edge of the paper lower than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Without air pressure, the paper hangs lower due to gravity.
+  - id: paper_covering_slats
+    question: Does the paper cover the vent slats directly below where it is taped?
+    answer_type: yes_no
+    notes_for_judge: It should hang straight down over the slats.
+  - id: functional_indicator
+    question: Does the image indicate that the airflow from the vent has stopped?
+    answer_type: yes_no
+    notes_for_judge: This is inferred from the limp state of the paper.
+  - id: vent_consistency
+    question: Are the vent frame and wall texture consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary check for scene consistency.

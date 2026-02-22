@@ -1,0 +1,71 @@
+id: parking_gate_ticket_08
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: parking_gate_ticket
+variation_type: repeated_activation
+variation_description: The user inserts a ticket (open), waits, then inserts another ticket (close). Net
+  result is no change.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Toggle activated twice (Open -> Close).
+  expected_outcome_change: Barrier returns to lowered state (net no change).
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The camera starts centered on the lowered parking barrier arm blocking the exit. The camera
+    rotates right at constant speed until the barrier exits the view. The camera continues rotating, revealing
+    a ticket payment machine. A hand enters the frame, inserts a validated ticket, waits for a moment,
+    and then inserts a second ticket into the slot. The machine processes both inputs sequentially, toggling
+    the barrier state each time. These actions occur while the barrier arm remains out of camera view.
+    Then the camera rotates left smoothly at the same rate back to the original viewpoint, bringing the
+    barrier arm back into center view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The scene features a lowered barrier arm and a ticket payment machine. A hand inserts a validated
+    ticket, waits, and then inserts a second ticket. The machine processes both inputs sequentially, toggling
+    the barrier state. These actions occur while the barrier is not visible.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A yellow rectangular barrier housing stands on the left side of the foreground.
+    A red and white striped barrier arm extends horizontally to the right, blocking the paved exit lane.
+    The word 'STOP' is printed on the arm. In the background, a parking lot contains several parked cars,
+    including a red car and a blue car. A grey vertical ticket machine pillar is visible in the background
+    behind the barrier arm.
+  init2final_edit_prompt: Edit the given image to ensure the parking barrier arm is in the lowered, horizontal
+    position. The red and white striped arm should extend straight across the lane, blocking the path,
+    appearing in the closed state exactly as it was initially.
+  rationale: The video prompt describes a sequence where the camera rotates away from the barrier, and
+    then two distinct causal interactions occur with the ticket machine. The barrier starts in the closed
+    (down) state. The first ticket insertion toggles the barrier state (Closed -> Open). The second ticket
+    insertion toggles the barrier state again (Open -> Closed). The camera then rotates back to the original
+    view. Therefore, the correct final state is that the barrier is lowered and horizontal, identical
+    to the initial state. This task tests if the model correctly tracks the double-negation logic rather
+    than defaulting to a generic 'gate opens' outcome.
+  questions:
+  - id: barrier_lowered
+    question: Is the parking barrier arm in the lowered position?
+    answer_type: yes_no
+    notes_for_judge: The arm should be down, not raised.
+  - id: barrier_horizontal
+    question: Is the red and white striped arm oriented horizontally?
+    answer_type: yes_no
+    notes_for_judge: It should be parallel to the ground, not vertical.
+  - id: path_blocked
+    question: Is the exit lane blocked by the barrier arm?
+    answer_type: yes_no
+    notes_for_judge: The arm should obstruct the path.
+  - id: arm_extension
+    question: Does the barrier arm extend from the yellow housing across the lane?
+    answer_type: yes_no
+    notes_for_judge: Check for the physical presence of the arm in the closed position.
+  - id: barrier_state_closed
+    question: Is the barrier in the closed state?
+    answer_type: yes_no
+    notes_for_judge: Closed means blocking traffic.
+  - id: housing_consistency
+    question: Is the yellow barrier housing visible on the left?
+    answer_type: yes_no
+    notes_for_judge: Consistency check for the static object.
+  - id: arm_pattern_consistency
+    question: Is the red and white striping visible on the barrier arm?
+    answer_type: yes_no
+    notes_for_judge: Consistency check for object attributes.

@@ -4,68 +4,63 @@ category: structural_transformation
 tags: []
 variant_of: sandcastle_wave_impact
 variation_type: dynamic_condition
-variation_description: Wave changed from a crashing breaker to a small gentle ripple.
+variation_description: Wave changed to a gentle ripple (low force).
 changes:
   occlusion_method: null
-  dynamic_conditions: Wave energy reduced to minimal ripple
-  expected_outcome_change: Sandcastle remains intact; minor wetting at base
+  dynamic_conditions: 'Wave intensity: High -> Low (Gentle ripple)'
+  expected_outcome_change: Sandcastle remains intact (erosion only, no destruction)
 prompts:
-  init_frame_edit_prompt: Edit the image to replace the large looming wave with a very small, gentle ripple
-    of water just inches high, barely reaching the sandcastle.
-  video_WM: The small gentle ripple of water washes slowly towards the base of the sandcastle. The camera
-    rotates right until the sandcastle completely exits the view, then rotates toward the left smoothly
-    at the same rate until the sandcastle location is back in the center of view. No zoom, no cut, no
-    scene change. STOP.
-  camera_WM: The small gentle ripple of water washes slowly towards the base of the sandcastle. STOP.
+  init_frame_edit_prompt: Edit the image to change the large crashing wave into a very small, gentle ripple
+    of water barely rising above the sand.
+  video_WM: A small, gentle ripple of water washes slowly towards the sandcastle. The camera rotates right
+    until the sandcastle location completely exits the view, then rotates toward the left smoothly at
+    the same rate until the sandcastle location is back in the center of view. No zoom, no cut, no scene
+    change. STOP.
+  camera_WM: A small, gentle ripple of water washes slowly towards the sandcastle. STOP.
 camera_control:
   HY-WorldPlay: s-3, right-30, left-30
 evaluation:
-  init_frame_description: A detailed sandcastle sits on a sandy beach near the water's edge. The castle
-    features multiple towers with conical roofs, arched bridges, and walls decorated with seashells. The
-    sand forming the castle is light brown and appears mostly dry and structurally sound. The background
-    shows a calm ocean with small waves, a cloudy sky, and a few people standing on the beach in the distance
-    to the right.
-  init2final_edit_prompt: Edit the given image to show the sandcastle after being hit by a gentle wave.
-    The base of the sandcastle should appear wet and darker in color. The lower walls, moat, and details
-    near the ground should look eroded, smoothed out, or partially collapsed due to water impact. The
-    sand immediately surrounding the castle should be wet and flat. The upper towers and higher structures
-    should remain standing and mostly intact, contrasting with the water-damaged foundation.
-  rationale: 'The video prompt describes a ''small gentle ripple'' washing towards the sandcastle while
-    the camera pans away and then returns. This implies that during the time the sandcastle is out of
-    view (occluded), the water makes contact with the structure. Sandcastles are fragile and water causes
-    immediate, irreversible degradation: the sand turns dark (wet), sharp edges smooth out (erosion),
-    and structural elements at the base may collapse or dissolve. Since the ripple is ''gentle'', the
-    destruction should be partial—affecting the base primarily while leaving the upper towers largely
-    intact but structurally compromised at the foundation.'
+  init_frame_description: A detailed sandcastle sits on a wet sandy beach with the ocean in the background
+    under a cloudy sky. The sandcastle features a central keep with multiple towers topped with conical
+    roofs, surrounded by a lower perimeter wall and a moat. Seashells are embedded in the lower walls
+    for decoration. A small bridge connects the main structure to an outer tower on the right side. The
+    texture of the sandcastle is granular and sharp.
+  init2final_edit_prompt: Edit the given image to show the sandcastle after a gentle wave has washed over
+    its base. The lower walls and the moat area should appear eroded, smoothed, and significantly wetter.
+    The sharp architectural details at the bottom should be softened or washed away by the water. The
+    sand surrounding the castle should look flatter and saturated. The upper towers should remain largely
+    intact, but the foundation must show visible signs of water damage and erosion.
+  rationale: The prompt describes a ripple of water moving towards the sandcastle while the camera rotates
+    away. During the period of occlusion (when the camera is looking right), the water physically reaches
+    the sandcastle. When the camera returns to the initial view, the irreversible physical transformation
+    caused by the water—erosion of the sand, smoothing of details, and wetting of the base—must be visible.
+    The state change is the degradation of the structure due to fluid interaction.
   questions:
-  - id: base_erosion
-    question: Does the base of the sandcastle show visible signs of erosion or smoothing?
+  - id: erosion_check
+    question: Does the base of the sandcastle appear eroded or smoothed compared to the initial frame?
     answer_type: yes_no
-    notes_for_judge: Look for loss of detail, rounded edges, or collapsed sand at the bottom of the structure.
-  - id: wet_sand_darkening
-    question: Is the sand at the foundation of the castle darker and wetter than in the initial frame?
+    notes_for_judge: Look for loss of sharp detail and rounding of forms at the bottom of the structure.
+  - id: wetness_check
+    question: Is the sand immediately surrounding the sandcastle wetter than it was initially?
     answer_type: yes_no
-    notes_for_judge: Wet sand is significantly darker than dry sand.
-  - id: detail_loss_lower
-    question: Have the lower architectural details (such as walls or arches near the ground) lost their
-      sharpness or definition?
+    notes_for_judge: The sand should look darker, glossier, or smoother due to water saturation.
+  - id: detail_loss
+    question: Have the lower architectural details of the sandcastle lost their sharpness?
     answer_type: yes_no
-    notes_for_judge: Compare the crispness of the initial lower features to the final frame.
-  - id: structural_damage
-    question: Is there visible structural damage to the bottom section of the sandcastle?
+    notes_for_judge: Compare the crispness of the initial lower walls to the final frame.
+  - id: structural_integrity
+    question: Has the structural integrity of the moat or lower walls been compromised?
     answer_type: yes_no
-    notes_for_judge: Damage includes crumbling, melting appearance, or washing away of material.
-  - id: surrounding_wetness
-    question: Is the sand immediately surrounding the sandcastle wet?
+    notes_for_judge: Check for collapse, filling in of the moat, or washing away of walls.
+  - id: texture_change
+    question: Is the texture of the sand at the base smoother than in the starting image?
     answer_type: yes_no
-    notes_for_judge: The ground around the castle should show evidence of the wave's reach.
-  - id: upper_structure_intact
-    question: Are the upper towers of the sandcastle still standing?
+    notes_for_judge: Water flow smooths out granular sand textures.
+  - id: upper_consistency
+    question: Are the tops of the upper towers still standing?
     answer_type: yes_no
-    notes_for_judge: The ripple was gentle, so the top should not be completely obliterated. This checks
-      that the damage is appropriate to the prompt.
-  - id: background_consistency
-    question: Is the ocean horizon still visible in the background?
+    notes_for_judge: The wave was described as gentle, so total destruction of the upper parts is unlikely.
+  - id: object_permanence
+    question: Is the sandcastle still the central object in the frame?
     answer_type: yes_no
-    notes_for_judge: Ensures the camera returned to a similar angle and the scene wasn't hallucinated
-      away.
+    notes_for_judge: The camera returns to the center; the object should still be there, even if damaged.

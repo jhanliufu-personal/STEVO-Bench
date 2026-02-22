@@ -1,0 +1,72 @@
+id: slider_thermostat_heat_10
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: slider_thermostat_heat
+variation_type: indirect_causation
+variation_description: An intermediate status light is added next to the vent. The light indicates the
+  system state.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Indirect causation. Slider -> Circuit -> Status Light -> Vent. The light provides
+    immediate feedback of the state change.
+  expected_outcome_change: The status light should turn ON (e.g., green or red) to indicate the system
+    is now active.
+prompts:
+  init_frame_edit_prompt: Edit the image to add a small, unlit circular indicator light labeled 'SYSTEM
+    STATUS' mounted on the wall directly next to the heater vent.
+  video_WM: The camera starts centered on the inactive heater vent and the unlit status light next to
+    it. The camera rotates right at constant speed until the vent exits the view. The camera continues
+    rotating, revealing a wall-mounted heater control with a horizontal slider. The slider is currently
+    at the far left MIN position. A finger enters the frame and slides the control bar all the way to
+    the far right MAX position. The slider remains at the maximum setting. The thermostat engages the
+    heating circuit and status indicator when set above a threshold. The slider movement occurs while
+    the heater vent remains out of camera view. Then the camera rotates left smoothly at the same rate
+    back to the original viewpoint, bringing the heater vent and status light back into center view. No
+    zoom, no cut, no scene change. STOP.
+  camera_WM: The camera starts on the heater vent, then rotates to the temperature slider control. A finger
+    moves the slider from MIN to MAX position. The thermostat engages heating and status indicator above
+    threshold. The slider movement occurs while the vent is not visible. The camera then returns to the
+    heater vent. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up view of a beige wall featuring a rectangular metal air vent with
+    horizontal louvers. To the right of the vent is a small circular indicator light with a metal rim,
+    situated above a label reading 'SYSTEM STATUS'. The indicator light is currently dark (unlit), appearing
+    as a dull grey or black glass bulb.
+  init2final_edit_prompt: Edit the given image to make the circular 'SYSTEM STATUS' indicator light appear
+    illuminated. Change the center of the small bulb to a glowing red or orange color to indicate the
+    system is active. Keep the air vent, the wall texture, and the 'SYSTEM STATUS' text label exactly
+    as they are, only modifying the light bulb to look turned on.
+  rationale: The video prompt describes a causal chain where the camera pans away to reveal a thermostat,
+    a user turns the thermostat from minimum to maximum, and the camera pans back. The logic dictates
+    that maximizing the thermostat setting engages the heating circuit. Therefore, when the camera returns
+    to the initial view, the 'SYSTEM STATUS' light, which was initially off, must now be illuminated to
+    reflect the active state of the heater.
+  questions:
+  - id: light_illuminated
+    question: Is the 'SYSTEM STATUS' light now illuminated or glowing?
+    answer_type: yes_no
+    notes_for_judge: The light should appear red, orange, or bright, contrasting with the dark initial
+      state.
+  - id: light_state_change
+    question: Does the indicator light appear to be ON compared to the initial frame where it was OFF?
+    answer_type: yes_no
+    notes_for_judge: Check for visual evidence of activation (glow/color).
+  - id: light_color_change
+    question: Has the center of the status light changed color (e.g., to red or orange)?
+    answer_type: yes_no
+    notes_for_judge: It was grey/black initially.
+  - id: vent_presence
+    question: Is the louvered air vent still visible in the frame?
+    answer_type: yes_no
+    notes_for_judge: The camera returns to the original view, so the vent must be there.
+  - id: label_readability
+    question: Is the text 'SYSTEM STATUS' still legible below the light?
+    answer_type: yes_no
+    notes_for_judge: Text should remain unchanged.
+  - id: light_brightness
+    question: Is the status light brighter than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Active lights are brighter than inactive ones.

@@ -1,0 +1,68 @@
+id: motion_sensor_ceiling_light_00
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: motion_sensor_ceiling_light
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: Edit the image to add a white, wall-mounted motion sensor on the back wall,
+    positioned to the right of the central ceiling light fixture. The sensor should look like a standard
+    PIR detector and blend with the room's lighting.
+  video_WM: The camera is completely stationary, framing the dark ceiling light fixture and the wall-mounted
+    motion sensor. A hand enters the view and waves back and forth in front of the motion sensor. The
+    sensor is a passive infrared detector wired to the relay that controls the ceiling light circuit.
+    The hand continues to wave to trigger the sensor's detection threshold. STOP.
+  camera_WM: The camera is completely stationary, framing the dark ceiling light fixture and the wall-mounted
+    motion sensor. A hand enters the view and waves back and forth in front of the motion sensor. The
+    sensor is a passive infrared detector wired to the relay that controls the ceiling light circuit.
+    The hand continues to wave to trigger the sensor's detection threshold. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: An interior room with peeling paint on the walls and a wooden floor. In the
+    center of the ceiling, there is an industrial-style light fixture with a caged bulb, which is currently
+    dark (off). On the back wall, to the right of the light fixture, a white rectangular motion sensor
+    is mounted. There are windows visible on the far left and far right edges of the frame.
+  init2final_edit_prompt: Edit the given image to show the central ceiling light fixture turned on, with
+    the bulb glowing brightly and casting light on the ceiling. Add a human hand waving in front of the
+    white motion sensor on the back wall.
+  rationale: The video prompt establishes a functional relationship where the motion sensor controls the
+    ceiling light. The action of the hand waving in front of the sensor serves as the trigger for this
+    mechanism. Therefore, the state of the world evolves from the light being off to the light being on.
+    Since the prompt states the hand continues to wave, the final frame must show the light illuminated
+    and the hand present near the sensor.
+  questions:
+  - id: light_state_1
+    question: Is the ceiling light fixture illuminated?
+    answer_type: yes_no
+    notes_for_judge: The light should be glowing/on.
+  - id: light_state_2
+    question: Is the bulb inside the metal cage emitting light?
+    answer_type: yes_no
+    notes_for_judge: Check for emission of light from the bulb.
+  - id: light_impact_1
+    question: Does the ceiling area around the fixture appear brighter than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The light being on should cast a glow.
+  - id: trigger_presence_1
+    question: Is a hand visible in the frame?
+    answer_type: yes_no
+    notes_for_judge: The prompt describes a hand waving.
+  - id: trigger_location_1
+    question: Is the hand positioned near the wall-mounted motion sensor?
+    answer_type: yes_no
+    notes_for_judge: The hand must be waving in front of the sensor.
+  - id: consistency_sensor
+    question: Is the white motion sensor still visible on the wall?
+    answer_type: yes_no
+    notes_for_judge: The sensor should not disappear.
+  - id: consistency_windows
+    question: Are the windows on the left and right sides still present?
+    answer_type: yes_no
+    notes_for_judge: Structural elements should remain unchanged.

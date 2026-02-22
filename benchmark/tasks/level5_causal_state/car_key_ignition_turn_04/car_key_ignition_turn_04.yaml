@@ -1,0 +1,71 @@
+id: car_key_ignition_turn_04
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: car_key_ignition_turn
+variation_type: precondition_failure
+variation_description: The car hood is open, implying maintenance or disconnected battery.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Precondition broken (hood open/maintenance). Trigger action (turning key) has no
+    effect.
+  expected_outcome_change: The dashboard will remain dark despite the key turn because the battery is
+    likely disconnected for maintenance.
+prompts:
+  init_frame_edit_prompt: Edit the view through the windshield to show the car's hood is popped open and
+    raised, blocking the lower view of the street.
+  video_WM: Driver's upright POV. The steering wheel is centered and the instrument cluster is dark. Through
+    the windshield, the car's hood is visibly raised. The driver leans forward toward the dashboard; the
+    hood and surroundings are no longer visible. The ignition cylinder comes into view with the key at
+    the OFF position. A hand grips the key and turns it clockwise from OFF to the ON position. The ignition
+    cylinder is a rotary switch. The driver leans back to the upright seated position. No zoom, no cut,
+    no scene change. STOP.
+  camera_WM: The camera starts in upright driver POV with a dark dashboard and the hood visibly raised
+    outside. The driver leans forward, camera pitches down and moves toward the dashboard, revealing the
+    ignition cylinder with the key at OFF. A hand turns the key clockwise to ON. The action occurs while
+    the windows are not visible. The driver leans back to the original seated position. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A view from the driver's seat of a car. A red car hood is raised and visible
+    through the windshield, blocking the lower view of the suburban street ahead. A black three-spoke
+    steering wheel is centered. Behind the wheel, the instrument cluster is visible but dark and unlit,
+    with the speedometer and tachometer needles at rest.
+  init2final_edit_prompt: Edit the given image to show the car's instrument cluster in the active 'ON'
+    state. Illuminate the dashboard warning lights (such as the battery, oil, check engine, and brake
+    indicators) within the instrument panel. Ensure the cluster appears powered on with visible indicator
+    lights. Keep the red hood raised and the steering wheel centered. Maintain the original camera perspective
+    and exterior background.
+  rationale: The video depicts the driver leaning forward to turn the ignition key to the 'ON' position
+    and then returning to the original upright seating position. The causal action of turning the key
+    activates the car's electrical systems. Therefore, in the final frame, the instrument cluster must
+    be illuminated with dashboard warning lights (standard behavior for the 'ON' position without the
+    engine running). The camera returns to the initial viewpoint, so the hood remains raised and the spatial
+    configuration is identical to the start, with the only change being the state of the dashboard lights.
+  questions:
+  - id: dash_lights_on
+    question: Is the instrument cluster illuminated with warning lights?
+    answer_type: yes_no
+    notes_for_judge: The dashboard should show lit icons (battery, oil, etc.) which were dark in the initial
+      frame.
+  - id: indicators_visible
+    question: Are dashboard indicators (like battery, oil, or check engine symbols) visible?
+    answer_type: yes_no
+    notes_for_judge: Check for the presence of distinct illuminated symbols on the dashboard.
+  - id: cluster_state_change
+    question: Does the instrument panel appear powered on compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare with the initial dark state.
+  - id: hood_position
+    question: Is the red hood still raised?
+    answer_type: yes_no
+    notes_for_judge: The hood should remain in the open position as seen initially.
+  - id: viewpoint_return
+    question: Is the steering wheel fully visible and centered?
+    answer_type: yes_no
+    notes_for_judge: The camera should have returned to the original wide shot.
+  - id: environment_consistency
+    question: Is the suburban street background still visible on the sides?
+    answer_type: yes_no
+    notes_for_judge: The surroundings should not have changed.

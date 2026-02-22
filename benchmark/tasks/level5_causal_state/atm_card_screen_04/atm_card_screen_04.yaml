@@ -1,0 +1,73 @@
+id: atm_card_screen_04
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: atm_card_screen
+variation_type: precondition_failure
+variation_description: ATM screen is completely black (power off).
+changes:
+  occlusion_method: null
+  dynamic_conditions: The machine has no power. Inserting a card triggers no response.
+  expected_outcome_change: The screen remains black/off.
+prompts:
+  init_frame_edit_prompt: Edit the image to make the ATM screen completely black and dark, as if powered
+    off.
+  video_WM: The camera starts centered on the dark, powered-off ATM screen. The camera rotates right at
+    constant speed until the screen exits the view. The camera continues rotating, revealing the ATM card
+    insertion slot. A hand holding a bank card enters the frame and slides the card into the slot. The
+    machine is unpowered, so the reader does not activate. The card insertion occurs while the screen
+    remains out of camera view. Then the camera rotates left smoothly at the same rate back to the original
+    viewpoint, bringing the ATM screen back into center view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The camera starts on the dark ATM screen, then rotates to the card slot. A hand inserts a
+    bank card. The machine is unpowered. The insertion occurs while the screen is not visible. The camera
+    then returns to the ATM screen. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up view of an ATM machine. The center is dominated by a large, black,
+    powered-off display screen reflecting a street scene at dusk. To the right of the screen is a vertical
+    column of four silver buttons. Below the screen is a metal panel featuring a numeric keypad in the
+    center and a card reader slot with a glowing blue LED ring in the bottom right corner. The machine
+    casing is brushed metal.
+  init2final_edit_prompt: Edit the given image to show a plastic bank card inserted into the card reader
+    slot on the bottom right. The card should be partially sticking out of the slot, as if manually inserted
+    but not swallowed. The central screen must remain completely black and blank, appearing powered off.
+    Do not add any text, graphics, menus, or light to the screen. Keep the blue light ring on the card
+    reader illuminated.
+  rationale: 'The video prompt describes a sequence where a card is inserted while the screen is occluded.
+    Crucially, the prompt specifies that the machine is unpowered and the reader does not activate. This
+    creates a negative causal test: normally, inserting a card wakes the ATM screen. Here, due to the
+    ''unpowered'' condition, the screen must remain black (state persistence). Additionally, since the
+    reader motor does not activate to swallow the card, the card should remain partially visible in the
+    slot. The camera returns to the original viewpoint, so the final frame is the initial view plus the
+    inserted card.'
+  questions:
+  - id: screen_state_black
+    question: Is the ATM screen completely black?
+    answer_type: yes_no
+    notes_for_judge: The screen must not show any UI, text, or backlight.
+  - id: screen_content_empty
+    question: Is the screen devoid of any text, logos, or user interface elements?
+    answer_type: yes_no
+    notes_for_judge: Verifies the screen did not turn on.
+  - id: card_visibility
+    question: Is a bank card visible in the card reader slot?
+    answer_type: yes_no
+    notes_for_judge: The card should be sticking out of the slot in the bottom right.
+  - id: card_insertion_evidence
+    question: Does the card reader slot appear to be occupied by a card?
+    answer_type: yes_no
+    notes_for_judge: Checks for the physical result of the insertion action.
+  - id: screen_power_off
+    question: Does the screen appear to be powered off?
+    answer_type: yes_no
+    notes_for_judge: Should look identical to the initial dark state.
+  - id: blue_light_consistency
+    question: Is the blue light ring around the card reader still illuminated?
+    answer_type: yes_no
+    notes_for_judge: Consistency check; the prompt implies the screen is unpowered but the image edit
+      should preserve the scene lighting unless explicitly told otherwise.
+  - id: keypad_consistency
+    question: Is the numeric keypad still visible in the bottom center?
+    answer_type: yes_no
+    notes_for_judge: Consistency check for camera return.

@@ -1,0 +1,68 @@
+id: fuse_box_completion_02
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: fuse_box_completion
+variation_type: initial_state
+variation_description: Fan starts ON; mechanism is a switch that is flipped to OFF.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Initial state Fan ON. Mechanism is a switch in ON position. Action is toggle OFF.
+  expected_outcome_change: Fan transitions from spinning to stopped (OFF).
+prompts:
+  init_frame_edit_prompt: Edit the image to show the industrial fan blades spinning with motion blur.
+    Modify the fuse box to feature a large toggle switch currently in the UP (ON) position.
+  video_WM: The camera starts centered on the spinning industrial floor fan. The camera rotates right
+    at constant speed until the fan exits the view. The camera continues rotating, revealing a wall-mounted
+    control box with a switch in the ON position. A hand enters the frame and flips the switch down to
+    the OFF position. The switch toggle occurs while the fan remains out of camera view. Then the camera
+    rotates left smoothly at the same rate back to the original viewpoint, bringing the industrial fan
+    back into center view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The camera starts on the spinning fan, then rotates to the control box. A hand flips the
+    switch to the OFF position. The action occurs while the fan is not visible. The camera then returns
+    to the fan. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A workshop scene featuring a large industrial floor fan in the center. The fan
+    is active, with its blades appearing as a transparent, circular motion blur due to high-speed rotation.
+    To the left, mounted on a brick wall, is a metal electrical control box with a lever switch in the
+    UP (ON) position. Black cables run from the box down towards the floor and the fan. The background
+    contains workshop equipment, including shelves and a lathe on the right, illuminated by natural light
+    from windows.
+  init2final_edit_prompt: Edit the given image to show the industrial fan in a powered-off state. Replace
+    the circular motion blur of the spinning fan with clearly visible, distinct, and stationary fan blades.
+    Change the position of the lever on the wall-mounted switch box to the left so it is flipped down
+    (OFF position). Keep the background, lighting, and camera angle exactly the same.
+  rationale: The video prompt describes a causal chain where a control switch is flipped to the OFF position.
+    Although the camera momentarily looks away to capture the switch interaction, the functional consequence
+    of this action is that power to the fan is cut. Therefore, when the camera returns to the initial
+    view, the fan should no longer be spinning at full speed. The visual representation of this state
+    change is the transition from motion blur to distinct, sharp fan blades. For consistency, the visible
+    control switch is also updated to the OFF (down) position.
+  questions:
+  - id: fan_blades_visibility
+    question: Are the individual blades of the fan clearly visible and distinct?
+    answer_type: yes_no
+    notes_for_judge: In the initial frame, the blades are a blur. In the final frame, they should be sharp
+      and distinct.
+  - id: fan_motion_blur
+    question: Is the circular motion blur from the fan blades absent or significantly reduced?
+    answer_type: yes_no
+    notes_for_judge: The fan should look like it has stopped or slowed down significantly.
+  - id: fan_state_stopped
+    question: Does the fan appear to be stationary or spinning down rather than running at full speed?
+    answer_type: yes_no
+    notes_for_judge: Functional check of the power-off action.
+  - id: switch_position
+    question: Is the lever on the wall-mounted box in the down position?
+    answer_type: yes_no
+    notes_for_judge: The switch should be flipped down to indicate OFF.
+  - id: switch_change
+    question: Is the switch lever in a different position compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: It was UP initially, should be DOWN now.
+  - id: fan_center_view
+    question: Is the industrial fan centered in the frame?
+    answer_type: yes_no
+    notes_for_judge: Verifies the camera returned to the original viewpoint.

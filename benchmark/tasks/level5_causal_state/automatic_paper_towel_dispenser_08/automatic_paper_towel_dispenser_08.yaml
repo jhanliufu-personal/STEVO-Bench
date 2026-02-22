@@ -1,0 +1,73 @@
+id: automatic_paper_towel_dispenser_08
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: automatic_paper_towel_dispenser
+variation_type: repeated_activation
+variation_description: The sensor is triggered twice.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Dispenser logic is cumulative. Two triggers = two dispense cycles.
+  expected_outcome_change: Two lengths of paper are dispensed (or one very long piece).
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The camera starts centered on the automatic paper towel dispenser opening with no paper hanging
+    out. The camera rotates right at constant speed until the dispenser exits the view. The camera continues
+    rotating, revealing the area directly below the dispenser where the infrared sensor detection zone
+    is located. A hand enters the frame and waves in front of the sensor zone TWICE. The hand pauses briefly
+    between waves to allow the sensor to reset. The dispenser activates the motor for each trigger. The
+    hand waves occur while the dispenser opening remains out of camera view. Then the camera rotates left
+    smoothly at the same rate back to the original viewpoint, bringing the dispenser opening back into
+    center view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The scene displays the dispenser opening. The view shifts to the sensor detection area below.
+    A hand waves in the sensor zone twice. The sensor detects proximity and triggers the motor each time.
+    The hand waves occur while the dispenser opening is not visible. The view returns to the dispenser
+    opening. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up of a stainless steel Tork paper towel dispenser mounted on a white
+    subway tile wall. The dispenser has a semi-transparent window showing a roll of brown paper towels
+    inside. Below the window is the Tork logo and a black sensor strip. The dispensing slot at the bottom
+    is visible and currently has no paper hanging out. To the right, a blurred window and sink area are
+    partially visible.
+  init2final_edit_prompt: Edit the given image to show a length of brown paper towel hanging down from
+    the bottom dispensing slot of the stainless steel unit. The paper should extend downwards, appearing
+    as if it has just been dispensed. The texture and color of the hanging paper should match the roll
+    visible inside the window. Keep the camera angle, lighting, and background tiles identical to the
+    original.
+  rationale: The video prompt describes a sequence where the camera rotates away from the dispenser, a
+    hand triggers the infrared sensor twice, and the camera rotates back. The functional mechanism of
+    the dispenser is to feed paper when the sensor is triggered. Since the sensor was activated twice,
+    the motor would have run to dispense paper. Therefore, in the final frame, a significant length of
+    paper towel must be visible hanging from the bottom slot, changing the state from 'empty slot' to
+    'paper dispensed'.
+  questions:
+  - id: paper_hanging_presence
+    question: Is there a piece of paper towel hanging out of the dispenser slot?
+    answer_type: yes_no
+    notes_for_judge: The initial frame shows no paper. The final frame must show paper hanging down.
+  - id: paper_visibility_below_unit
+    question: Is brown paper visible extending below the bottom edge of the metal dispenser?
+    answer_type: yes_no
+    notes_for_judge: Check for the presence of the dispensed material below the casing.
+  - id: state_change_dispensed
+    question: Does the dispenser appear to have been activated compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Activation is evidenced by the presence of dispensed paper.
+  - id: paper_length_comparison
+    question: Is the length of exposed paper greater than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Initially zero/minimal length. Finally, visible length.
+  - id: slot_occupancy
+    question: Is the dispensing opening occupied by a sheet of paper?
+    answer_type: yes_no
+    notes_for_judge: The slot was empty initially.
+  - id: invariant_logo
+    question: Is the Tork logo still visible on the front of the dispenser?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: invariant_tiles
+    question: Are the white subway tiles in the background unchanged?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

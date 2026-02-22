@@ -1,0 +1,73 @@
+id: string_pull_lamp_08
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: string_pull_lamp
+variation_type: repeated_activation
+variation_description: The pull string is pulled twice, toggling the lamp ON then immediately back OFF.
+changes:
+  occlusion_method: null
+  dynamic_conditions: 'Repeated activation: Toggle x2 results in net no change.'
+  expected_outcome_change: The lamp will remain OFF (dark) because the second pull reversed the first.
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The camera starts centered on the dark lamp bulb. The camera rotates right at constant speed
+    until the bulb exits the view. The camera continues rotating, revealing the beaded pull-string hanging
+    down. A hand enters the frame, grabs the beaded string, and pulls it downward firmly until a click
+    is heard, then releases it. A moment later, the hand grabs the string again, pulls it downward a second
+    time until another click is heard, and releases it. The lamp contains an internal toggle switch mechanism.
+    The string pulls occur while the lamp bulb remains out of camera view. Then the camera rotates left
+    smoothly at the same rate back to the original viewpoint, bringing the lamp bulb back into center
+    view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The camera starts on the lamp bulb, then rotates to the pull-string. A hand pulls the string
+    downward twice to engage the internal toggle switch two times. The string pulls occur while the bulb
+    is not visible. The camera then returns to the lamp bulb. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a vintage industrial pendant lamp hanging in a
+    workshop. The lamp features a weathered silver or grey metal shade and a wire cage guard surrounding
+    a large, teardrop-shaped Edison bulb. The bulb is currently unlit (off), with visible vertical filaments
+    that appear dark or amber-tinted but are not glowing. The background is a cluttered workshop with
+    wooden beams, shelves, and tools, illuminated by natural daylight. A twisted fabric cord suspends
+    the lamp, but no pull-chain is visible in the central view.
+  init2final_edit_prompt: Edit the given image to ensure the light bulb remains completely unlit and dark.
+    The filaments inside the bulb should remain distinct and non-glowing, appearing exactly as they did
+    in the original state. Do not add any glow, brightness, or illumination to the bulb or the surrounding
+    cage. The lighting on the metal shade and background should remain consistent with natural daylight,
+    with no light casting from the bulb.
+  rationale: The lamp begins in the OFF state. The prompt describes a sequence of two distinct pull actions
+    on a toggle switch mechanism. The first pull toggles the lamp from OFF to ON. The second pull toggles
+    the lamp from ON back to OFF. Since the camera returns to the original viewpoint after the second
+    pull, the final state of the lamp is OFF, visually identical to the initial state regarding the bulb's
+    illumination. This task tests the model's ability to track discrete state transitions (0 -> 1 -> 0)
+    rather than simply applying a generic 'turn on' effect upon detecting an action.
+  questions:
+  - id: bulb_state_off
+    question: Is the light bulb unlit in the final frame?
+    answer_type: yes_no
+    notes_for_judge: The bulb should be off (dark filaments).
+  - id: filaments_dark
+    question: Are the filaments inside the bulb dark and non-glowing?
+    answer_type: yes_no
+    notes_for_judge: Filaments should not be white, yellow, or glowing.
+  - id: no_glare
+    question: Is the wire cage visible without being obscured by light glare?
+    answer_type: yes_no
+    notes_for_judge: If the light were on, the glare would likely obscure the cage details.
+  - id: ambient_light_only
+    question: Is the workshop environment lit only by natural light, without warm lamp illumination?
+    answer_type: yes_no
+    notes_for_judge: Check for absence of warm light casting on the shade or background.
+  - id: return_to_state
+    question: Does the lamp appear to be in the same unlit state as the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The state should be identical (OFF).
+  - id: shade_consistency
+    question: Is the metal shade still silver/grey in color?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: bulb_clarity
+    question: Is the glass of the bulb clear, showing the internal structure?
+    answer_type: yes_no
+    notes_for_judge: The bulb should not be 'blown out' by brightness.

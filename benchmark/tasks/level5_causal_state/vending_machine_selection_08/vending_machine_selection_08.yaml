@@ -1,0 +1,62 @@
+id: vending_machine_selection_08
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: vending_machine_selection
+variation_type: repeated_activation
+variation_description: The user presses the selection button but immediately presses 'Clear/Cancel', resulting
+  in no vend.
+changes:
+  occlusion_method: null
+  dynamic_conditions: The cancellation signal overrides the selection before the motor engages.
+  expected_outcome_change: The bag of chips remains hanging in slot D3 (Net no change).
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The camera starts centered on the bag of chips in slot D3. The camera rotates right at constant
+    speed until the product exits the view. The camera continues rotating, revealing the keypad. A hand
+    enters the frame, presses D, then 3, but immediately presses the red 'CLEAR' button. The keypad input
+    and cancellation occur while the product remains out of camera view. Then the camera rotates left
+    smoothly back to the original viewpoint, bringing the product slot back into center view. STOP.
+  camera_WM: The camera starts on the product in slot D3. A hand enters code D-3 then presses 'CLEAR'
+    on the keypad. The action occurs while the product is not visible. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up view of a vending machine shelf. The center slot, labeled 'D3', contains
+    a blue and white bag of 'Crinkle Cut Crisps Sea Salt & Vinegar' held by a metal spiral coil. To the
+    left is an orange bag of Doritos. The background is dark with reflections on the glass front. A price
+    tag reading '$1.50' is visible above the chips.
+  init2final_edit_prompt: Edit the given image to show the vending machine slot D3 in its original state.
+    The blue and white 'Crinkle Cut Crisps' bag must remain sitting in the metal coil in the exact same
+    position and orientation as the start. Ensure the metal coil has not rotated and the bag has not been
+    dispensed, tilted, or moved forward. The scene should appear identical to the initial view.
+  rationale: The video prompt describes a sequence where a user selects slot 'D3' but immediately presses
+    the 'CLEAR' button. On a standard vending machine, pressing 'CLEAR' immediately after input cancels
+    the selection and resets the system before the vending motor activates. Therefore, the causal chain
+    for dispensing the product is broken. When the camera returns to the product, the coil should not
+    have rotated, and the bag of chips should remain in its original, undispensed position.
+  questions:
+  - id: bag_presence
+    question: Is the 'Crinkle Cut Crisps' bag still present in slot D3?
+    answer_type: yes_no
+    notes_for_judge: The bag should not have been dispensed.
+  - id: bag_position_static
+    question: Is the bag of chips in the exact same position as it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The bag should not have moved forward or fallen.
+  - id: coil_orientation
+    question: Is the metal coil holding the chips in the same rotational orientation as the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The motor should not have activated.
+  - id: undispensed_check
+    question: Is the bag of chips still sitting on the shelf rather than at the bottom of the machine?
+    answer_type: yes_no
+    notes_for_judge: Verifies the vend was cancelled.
+  - id: slot_occupancy
+    question: Is the space inside the D3 coil still occupied by the product?
+    answer_type: yes_no
+    notes_for_judge: The slot should not be empty.
+  - id: neighboring_object
+    question: Is the orange Doritos bag to the left still visible in its original position?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

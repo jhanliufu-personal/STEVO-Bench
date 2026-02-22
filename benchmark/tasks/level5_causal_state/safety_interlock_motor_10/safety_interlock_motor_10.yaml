@@ -1,0 +1,66 @@
+id: safety_interlock_motor_10
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: safety_interlock_motor
+variation_type: indirect_causation
+variation_description: Soft-start mechanism adds a visible delay/ramp-up.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Trigger activates a soft-start controller. Motor ramp-up is delayed/gradual compared
+    to direct start.
+  expected_outcome_change: The motor shaft is seen just beginning to rotate or accelerating, rather than
+    at full speed immediately.
+prompts:
+  init_frame_edit_prompt: Edit the image to add a digital control box mounted on the motor with a display
+    reading 'READY'.
+  video_WM: The camera starts centered on the stationary motor drive shaft. The camera rotates right at
+    constant speed until the shaft exits the view. The camera continues rotating, revealing the green
+    START button. A finger presses the button. A 'RAMPING UP' indicator on the nearby control box begins
+    flashing. The action occurs while the motor shaft remains out of camera view. Then the camera rotates
+    left smoothly at the same rate back to the original viewpoint, bringing the motor drive shaft back
+    into center view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The scene features a stationary motor drive shaft, a control box, and a START button. A finger
+    presses the button while the shaft is out of view. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A large industrial green electric motor sitting on a factory floor. A thick,
+    rusty metal drive shaft extends horizontally to the left. Mounted on the side of the motor is a control
+    box with a digital display showing the word 'READY' in blue LED text. Below the display are several
+    control buttons, including a green button.
+  init2final_edit_prompt: Edit the given image to show the motor in an active, running state. Change the
+    blue text on the digital display from 'READY' to 'RAMPING UP'. Apply strong rotational motion blur
+    to the large metal drive shaft on the left to simulate high-speed spinning, smearing the rust and
+    grease details horizontally.
+  rationale: The video prompt describes a sequence where the camera pans away from the motor shaft to
+    focus on the control panel, a start button is pressed, and the camera pans back to the original view.
+    The causal action (pressing start) triggers the motor to turn on. Therefore, in the final frame, the
+    physical state of the motor must change from stationary to operating. This is visually represented
+    by the drive shaft spinning (manifesting as motion blur) and the status indicator on the control box
+    updating from 'READY' to 'RAMPING UP'.
+  questions:
+  - id: shaft_motion_blur
+    question: Does the large metal drive shaft appear to be spinning, indicated by motion blur?
+    answer_type: yes_no
+    notes_for_judge: The shaft should look blurred or smeared compared to the sharp initial frame.
+  - id: display_text_ramping
+    question: Does the digital display clearly show the text 'RAMPING UP'?
+    answer_type: yes_no
+    notes_for_judge: The text should be legible and read 'RAMPING UP'.
+  - id: display_text_changed
+    question: Is the text 'READY' absent from the digital display?
+    answer_type: yes_no
+    notes_for_judge: The display should no longer show the initial state text.
+  - id: shaft_texture_smear
+    question: Are the surface details (rust/grease) on the drive shaft smeared horizontally due to rotation?
+    answer_type: yes_no
+    notes_for_judge: Check for directional blurring of the texture.
+  - id: background_consistency
+    question: Is the factory background (ceiling, windows, distant machinery) structurally unchanged?
+    answer_type: yes_no
+    notes_for_judge: The environment should remain stable.
+  - id: motor_housing_consistency
+    question: Does the green motor housing retain its original shape and color?
+    answer_type: yes_no
+    notes_for_judge: Only the moving parts and display should change.

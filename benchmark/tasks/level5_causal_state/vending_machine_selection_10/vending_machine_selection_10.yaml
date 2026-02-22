@@ -1,0 +1,67 @@
+id: vending_machine_selection_10
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: vending_machine_selection
+variation_type: indirect_causation
+variation_description: A payment step is added; the user inserts a bill before the selection works.
+changes:
+  occlusion_method: null
+  dynamic_conditions: The mechanism requires credit (bill insertion) to enable the keypad selection.
+  expected_outcome_change: The bag of chips drops (same as original, but cause is mediated by payment).
+prompts:
+  init_frame_edit_prompt: 'Edit the image to show a dollar bill validator slot with a red light next to
+    the keypad, and a ''Credit: $0.00'' display.'
+  video_WM: The camera starts centered on the bag of chips in slot D3. The camera rotates right at constant
+    speed until the product exits the view. The camera continues rotating, revealing the keypad and bill
+    validator. A hand enters the frame, inserts a dollar bill into the validator, and then presses D,
+    then 3 on the keypad. The payment and code entry occur while the product remains out of camera view.
+    Then the camera rotates left smoothly back to the original viewpoint, bringing the product slot back
+    into center view. STOP.
+  camera_WM: The camera starts on the product in slot D3. A hand inserts a bill and enters code D-3 on
+    the keypad. The keypad controls the dispensing mechanism. The action occurs while the product is not
+    visible. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: 'A close-up view of a vending machine interior. In the center is slot D3 containing
+    a white and blue bag of ''Crinkle Cut Crisps - Sea Salt & Vinegar''. The bag is held by a metal spiral
+    coil. Below the bag is a price label reading ''D3 - $1.50''. To the left, a red bag of ''Doritos''
+    is partially visible. To the right is the machine''s control panel, featuring a digital display reading
+    ''Credit: $0.00'', a bill validator slot with a red light, and a coin return lever.'
+  init2final_edit_prompt: Edit the given image to show the center vending machine slot (D3) as empty.
+    Remove the bag of 'Crinkle Cut Crisps' completely, revealing the empty metal spiral coil behind where
+    the bag was. The slot should appear as if the product has been successfully dispensed. Keep the surrounding
+    items, such as the Doritos bag on the left and the price label 'D3 - $1.50' below, exactly as they
+    are.
+  rationale: The video describes a sequence where the camera rotates away, a user inserts money, and enters
+    the code 'D3'. Although the price tag reads $1.50 and the prompt mentions 'a dollar bill', in the
+    context of a causal action benchmark, we assume the payment action implies sufficient funds to trigger
+    the mechanism. The code 'D3' corresponds to the center bag of chips. The mechanism (motor and coil)
+    activates while the product is occluded by the camera rotation. When the camera returns to the original
+    view, the causal outcome is that the bag has been dispensed and the slot is now empty.
+  questions:
+  - id: primary_dispensed_1
+    question: Is the bag of 'Crinkle Cut Crisps' missing from the center slot?
+    answer_type: yes_no
+    notes_for_judge: The bag was in slot D3 initially. After the selection D3, it should be dispensed.
+  - id: primary_dispensed_2
+    question: Is the metal spiral coil in slot D3 now visible and empty?
+    answer_type: yes_no
+    notes_for_judge: With the bag gone, the empty coil should be clearly visible.
+  - id: primary_dispensed_3
+    question: Does the center slot appear empty compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Check for the absence of the main product.
+  - id: primary_dispensed_4
+    question: Has the product associated with the label 'D3' been removed?
+    answer_type: yes_no
+    notes_for_judge: The label D3 is below the center slot.
+  - id: secondary_invariant_1
+    question: Is the 'Doritos' bag on the left still present?
+    answer_type: yes_no
+    notes_for_judge: Only the selected item (D3) should change. Other items should remain.
+  - id: secondary_invariant_2
+    question: Is the price label 'D3 - $1.50' still visible?
+    answer_type: yes_no
+    notes_for_judge: The physical label on the shelf should not disappear.

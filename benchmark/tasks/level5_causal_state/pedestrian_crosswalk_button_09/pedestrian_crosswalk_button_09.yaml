@@ -1,0 +1,69 @@
+id: pedestrian_crosswalk_button_09
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: pedestrian_crosswalk_button
+variation_type: repeated_activation
+variation_description: Button is pressed four times rapidly
+changes:
+  occlusion_method: null
+  dynamic_conditions: Trigger activated even number of times. Net state change is zero.
+  expected_outcome_change: Signal remains Red DON'T WALK (No Change).
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The camera starts centered on the pedestrian signal showing the red hand (DON'T WALK) symbol.
+    The camera rotates right at constant speed until the signal exits the view. The camera continues rotating,
+    revealing a pedestrian crossing button mounted on a pole at the curb. A hand enters the frame and
+    rapidly presses the circular button four times in succession. The repeated even-numbered activation
+    results in a net zero state change request to the controller. These actions occur while the crossing
+    signal remains out of camera view. Then the camera rotates left smoothly at the same rate back to
+    the original viewpoint, bringing the pedestrian crossing signal back into center view. No zoom, no
+    cut, no scene change. STOP.
+  camera_WM: A hand rapidly presses the pedestrian button four times. The repeated activation is sent
+    to the controller. The actions occur while the crossing signal is not visible. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up view of a yellow pedestrian traffic signal mounted on a silver pole
+    in a city environment. The signal is currently displaying a bright orange hand symbol (the 'DON'T
+    WALK' icon) and the illuminated text 'DON'T WALK' below it. The background shows a wet city street
+    with scaffolding, buildings, and blurred cars, indicating rainy weather.
+  init2final_edit_prompt: Edit the given image to show the pedestrian signal in the 'DON'T WALK' state.
+    The signal must display the illuminated orange hand symbol and the illuminated 'DON'T WALK' text.
+    Ensure the white 'WALK' symbol is NOT illuminated. The signal's appearance should remain identical
+    to the initial state, with the same lighting and background context.
+  rationale: The video prompt describes a sequence where a button is pressed four times. Crucially, the
+    prompt specifies that 'repeated even-numbered activation results in a net zero state change request'.
+    This logic dictates that the four presses (an even number) cancel out any activation request or toggle
+    the system back to its original state. Since the initial state was 'DON'T WALK', and the net change
+    is zero, the final state must remain 'DON'T WALK'. The model must demonstrate adherence to this specific
+    causal logic rather than assuming a generic 'button press equals state change' outcome.
+  questions:
+  - id: signal_hand_visible
+    question: Is the orange hand symbol illuminated on the pedestrian signal?
+    answer_type: yes_no
+    notes_for_judge: The signal should show the stop hand.
+  - id: signal_text_visible
+    question: Is the text 'DON'T WALK' illuminated on the signal?
+    answer_type: yes_no
+    notes_for_judge: The text below the hand should be lit.
+  - id: signal_phase_stop
+    question: Does the signal indicate that pedestrians should wait or stop?
+    answer_type: yes_no
+    notes_for_judge: It should be in the Don't Walk phase.
+  - id: signal_walk_off
+    question: Is the white walking person symbol turned off?
+    answer_type: yes_no
+    notes_for_judge: The walk signal should NOT be visible.
+  - id: state_unchanged
+    question: Is the signal state identical to the state shown in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The state should not have changed due to the 'net zero' logic.
+  - id: housing_visible
+    question: Is the yellow housing of the signal visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: weather_wet
+    question: Does the street appear wet from rain?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

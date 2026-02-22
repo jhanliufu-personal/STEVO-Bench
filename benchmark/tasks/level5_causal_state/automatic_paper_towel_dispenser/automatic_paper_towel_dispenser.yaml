@@ -20,3 +20,44 @@ prompts:
     opening. STOP.
 camera_control:
   HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A stainless steel Tork paper towel dispenser mounted on a wall with white subway
+    tiles. The dispenser features a semi-transparent horizontal window showing a roll of brown paper towels
+    inside. Below the window is a small black sensor area and the Tork logo. At the bottom of the unit
+    is the dispensing slot, which is currently empty with no paper hanging out. To the right, a window
+    frame and part of a white porcelain sink are visible.
+  init2final_edit_prompt: Edit the given image to show a length of brown paper towel hanging down from
+    the dispensing slot at the bottom of the stainless steel dispenser. The paper should extend vertically
+    downwards into the space above the sink. Ensure the hanging paper matches the color and texture of
+    the brown roll visible through the dispenser window.
+  rationale: 'The video prompt describes a causal chain where the camera rotates away, a hand triggers
+    the dispenser''s proximity sensor, and the camera rotates back. The functional mechanism of the device
+    is that sensor activation causes the motor to advance paper. Therefore, when the camera returns to
+    the initial viewpoint, the state of the world must have changed: a sheet of paper towel should now
+    be dispensed and hanging from the bottom slot, whereas it was empty initially.'
+  questions:
+  - id: paper_hanging_presence
+    question: Is there a sheet of paper towel hanging from the bottom of the dispenser?
+    answer_type: yes_no
+    notes_for_judge: The primary change is the presence of dispensed paper.
+  - id: slot_state_change
+    question: Is the dispensing slot at the bottom of the unit now occupied by paper, whereas it was empty
+      initially?
+    answer_type: yes_no
+    notes_for_judge: Checks the specific location of the change.
+  - id: paper_color_match
+    question: Is the hanging paper brown, matching the roll visible inside the dispenser window?
+    answer_type: yes_no
+    notes_for_judge: Verifies consistency between the internal state (roll) and output (sheet).
+  - id: paper_orientation
+    question: Does the paper extend vertically downwards below the metal casing?
+    answer_type: yes_no
+    notes_for_judge: Checks for physical gravity/hanging behavior.
+  - id: dispenser_integrity
+    question: Is the stainless steel dispenser still mounted in the same position on the wall?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: background_consistency
+    question: Are the white subway tiles and the sink area unchanged?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

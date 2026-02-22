@@ -1,0 +1,67 @@
+id: car_headlight_switch_02
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: car_headlight_switch
+variation_type: initial_state
+variation_description: High beams are ON (blue icon), action turns them OFF.
+changes:
+  occlusion_method: null
+  dynamic_conditions: High beams are active. The switch is toggled to deactivate them.
+  expected_outcome_change: The blue high-beam icon disappears and the exterior lighting dims to standard
+    low beams or turns off.
+prompts:
+  init_frame_edit_prompt: Edit the image to show a blue 'high beam' icon illuminated on the instrument
+    cluster and make the environment outside the windows intensely bright.
+  video_WM: Driver's upright POV at night. The dashboard is lit with a blue high-beam indicator visible,
+    and the outside is intensely bright. The driver leans forward toward the dashboard; the windows and
+    exterior are no longer visible. The headlight control stalk comes into view. A hand manipulates the
+    stalk to toggle the lighting state. The switch position determines the state of the headlight circuit.
+    The driver leans back to the upright seated position, bringing the windshield and exterior view back
+    into frame. No zoom, no cut, no scene change. STOP.
+  camera_WM: The camera starts in upright driver POV at night — lit dashboard with high beam icon, bright
+    exterior. A hand manipulates the stalk to toggle the lighting state. The action occurs while the windows
+    are not visible. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: Interior view of a car from the driver's perspective. A Toyota steering wheel
+    is prominent in the foreground. The dashboard instrument cluster is illuminated with amber backlighting.
+    A distinct blue high-beam indicator light is lit in the center of the cluster between the tachometer
+    and speedometer. The view through the windshield is blown out and intensely bright white. The center
+    console with radio and climate controls is visible to the right.
+  init2final_edit_prompt: Edit the given image to turn off the blue high-beam indicator light in the center
+    of the instrument cluster, leaving that area dark like the surrounding gauge background. Darken the
+    view through the windshield significantly to represent a reduction in exterior illumination, changing
+    the bright white exterior to a dimmer, darker tone consistent with high beams being deactivated.
+  rationale: The video sequence describes a driver toggling the headlight stalk. The initial state shows
+    the high beams are active (indicated by the blue dashboard light and the intensely bright exterior
+    view). The action of toggling the switch causes the high beams to turn off. Therefore, in the final
+    frame, the blue high-beam indicator must be extinguished, and the exterior lighting seen through the
+    windshield must become dimmer as the high-intensity illumination is removed. The camera returns to
+    the original position, preserving the interior geometry.
+  questions:
+  - id: q1_indicator_state
+    question: Is the blue high-beam indicator light on the dashboard now off?
+    answer_type: yes_no
+    notes_for_judge: The blue light in the center of the instrument cluster should be gone or dark.
+  - id: q2_exterior_brightness
+    question: Is the view through the windshield darker than the initial bright white?
+    answer_type: yes_no
+    notes_for_judge: The exterior should dim as high beams are turned off.
+  - id: q3_indicator_extinguished
+    question: Has the blue light in the center of the instrument cluster disappeared?
+    answer_type: yes_no
+    notes_for_judge: Verifies the specific indicator state change.
+  - id: q4_lighting_change
+    question: Does the dashboard display indicate that the high beams are deactivated?
+    answer_type: yes_no
+    notes_for_judge: Absence of the blue symbol indicates deactivation.
+  - id: q5_steering_wheel_pos
+    question: Is the steering wheel in the same position as the initial frame?
+    answer_type: yes_no
+    notes_for_judge: 'Secondary check: The driver leaned back, so the wheel should be visible and unchanged.'
+  - id: q6_console_visibility
+    question: Are the center console controls still visible to the right?
+    answer_type: yes_no
+    notes_for_judge: 'Secondary check: Scene geometry should be preserved.'

@@ -1,0 +1,69 @@
+id: sprinkler_valve_control_04
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: sprinkler_valve_control
+variation_type: precondition_failure
+variation_description: The hose is disconnected from the sprinkler, so opening the valve does not activate
+  the sprinkler.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Hose is physically disconnected. Valve opens normally. Water does not reach sprinkler.
+  expected_outcome_change: Sprinkler remains dry/inactive despite valve opening.
+prompts:
+  init_frame_edit_prompt: Edit the image to show the garden hose disconnected from the sprinkler head,
+    with the metal connector lying on the grass a few inches away from the sprinkler inlet.
+  video_WM: The camera starts centered on the inactive sprinkler head and the disconnected hose lying
+    nearby on the dry grass. The camera rotates right at constant speed until the sprinkler exits the
+    view. The camera continues rotating, revealing a manual water valve mounted on a pipe near the wall.
+    The valve handle is currently in the closed position. A hand enters the frame and rotates the valve
+    handle counterclockwise from the closed position to the open position. The valve controls water flow
+    into the hose, but the hose is not connected to the sprinkler. The valve rotation occurs while the
+    sprinkler head remains out of camera view. Then the camera rotates left smoothly at the same rate
+    back to the original viewpoint, bringing the sprinkler head and disconnected hose back into center
+    view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The scene features an inactive sprinkler head with a disconnected hose and a manual water
+    valve. A hand opens the valve by rotating it counterclockwise. The valve controls water flow into
+    the hose. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a rusty metal impact sprinkler mounted on a short
+    stand in a field of dry, yellowed grass. To the right of the sprinkler, a garden hose with a silver
+    metal coupling lies on the ground, clearly disconnected from the sprinkler's inlet. The ground is
+    parched and cracked.
+  init2final_edit_prompt: Edit the given image to show a stream of water flowing out of the open end of
+    the disconnected hose coupling. Render the water pouring onto the ground immediately next to the hose.
+    Make the grass and soil where the water lands appear darker and wet. Ensure the sprinkler head itself
+    remains completely dry and inactive, with no water spraying from its nozzle.
+  rationale: The video prompt describes a causal chain where a water valve is opened off-screen. This
+    valve controls the flow to the hose visible in the initial frame. Since the hose is disconnected from
+    the sprinkler, the functional result of opening the valve is water flowing directly out of the hose
+    end onto the ground, rather than activating the sprinkler mechanism. The final frame must show this
+    water flow and the resulting wet ground, while the sprinkler head remains inactive.
+  questions:
+  - id: q1
+    question: Is water visible flowing out of the disconnected hose?
+    answer_type: yes_no
+    notes_for_judge: Check for a stream of water exiting the hose coupling.
+  - id: q2
+    question: Is the ground near the hose opening wet or darker than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Look for darkened soil/grass indicating moisture.
+  - id: q3
+    question: Does the sprinkler head remain inactive (not spraying water)?
+    answer_type: yes_no
+    notes_for_judge: The sprinkler should NOT be spraying because the hose is disconnected. If it is spraying,
+      answer NO.
+  - id: q4
+    question: Is the water flow originating from the hose coupling rather than the sprinkler nozzle?
+    answer_type: yes_no
+    notes_for_judge: Verify the source of the water is the hose on the ground.
+  - id: q5
+    question: Is the hose still disconnected from the sprinkler stand?
+    answer_type: yes_no
+    notes_for_judge: The hose should not have magically connected itself.
+  - id: q6
+    question: Is there a visible puddle or wet spot forming on the ground?
+    answer_type: yes_no
+    notes_for_judge: Check for accumulation of water on the dry ground.

@@ -1,0 +1,71 @@
+id: car_headlight_switch_10
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: car_headlight_switch
+variation_type: indirect_causation
+variation_description: Fog lights are toggled, which requires headlights to be ON (mediated condition).
+changes:
+  occlusion_method: null
+  dynamic_conditions: Headlights are ON (precondition met). Action toggles the secondary fog light ring.
+  expected_outcome_change: The foreground lighting becomes brighter/wider due to fog lights activating.
+prompts:
+  init_frame_edit_prompt: Edit the image so the environment is illuminated by standard low-beam headlights,
+    and the stalk has a visible inner ring labeled with a fog light icon.
+  video_WM: Driver's upright POV at night. The lit dashboard is visible and the environment is illuminated
+    by low-beam headlights. The driver leans forward toward the dashboard; the windows and exterior are
+    no longer visible. The headlight stalk with an inner fog-light control ring comes into view. A hand
+    rotates the inner fog light ring to the ON position. The fog lights operate only when the main headlights
+    are active. The driver leans back to the upright seated position, bringing the windshield and exterior
+    environment back into view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The camera starts in upright driver POV at night — lit dashboard, low-beam illuminated exterior.
+    A hand rotates the inner fog light ring to the ON position. The fog lights operate only when the main
+    headlights are active. The action occurs while the windows are not visible. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A nighttime view from the driver's seat of a car, likely a Toyota, looking out
+    the windshield. The dashboard is illuminated with orange backlighting, showing a speedometer and tachometer.
+    A steering wheel with the Toyota logo is in the center. To the left of the steering wheel, a headlight
+    control stalk is visible. Through the windshield, a two-lane road is visible, illuminated by the car's
+    low-beam headlights against a dark background.
+  init2final_edit_prompt: Edit the given image to show the effects of activating the car's fog lights.
+    Increase the brightness and intensity of the light projected onto the road surface visible through
+    the windshield, particularly in the immediate foreground and to the sides of the lane. Add a small,
+    illuminated fog light indicator icon (typically green) to the dashboard instrument cluster. Maintain
+    the original camera angle and the position of the steering wheel and dashboard elements.
+  rationale: 'The video describes a sequence where the driver leans forward to interact with the headlight
+    stalk and then returns to the original upright position. The action performed is turning the fog light
+    ring to the ON position. Since the low-beam headlights are already active (as stated in the prompt
+    and visible in the init frame), the fog lights will activate. The final frame should show the view
+    returned to the initial perspective, but with the functional consequences of the action: brighter/wider
+    road illumination consistent with fog lights, and a lit fog light indicator on the dash.'
+  questions:
+  - id: road_brightness_increase
+    question: Is the road surface visible through the windshield brighter or more intensely illuminated
+      than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the road surface illumination. Fog lights add light to the foreground.
+  - id: fog_indicator_lit
+    question: Is there a new illuminated indicator light (likely green or orange) visible on the dashboard
+      instrument cluster?
+    answer_type: yes_no
+    notes_for_judge: Check the dashboard gauges for a new symbol indicating fog lights.
+  - id: lighting_spread
+    question: Does the light beam on the road appear wider or cover more of the immediate foreground compared
+      to the initial view?
+    answer_type: yes_no
+    notes_for_judge: Fog lights typically illuminate the sides and area directly in front of the bumper.
+  - id: view_restored
+    question: Is the windshield and the road ahead clearly visible, indicating the driver is back in the
+      upright position?
+    answer_type: yes_no
+    notes_for_judge: The driver leaned forward but returned to the upright position.
+  - id: steering_wheel_pos
+    question: Is the steering wheel in the same position and orientation as it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The driver moved their body, not the car's controls (other than the switch).
+  - id: exterior_darkness_invariant
+    question: Does the sky and distant background remain dark, similar to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Fog lights affect the road, not the sky. The time of day is still night.

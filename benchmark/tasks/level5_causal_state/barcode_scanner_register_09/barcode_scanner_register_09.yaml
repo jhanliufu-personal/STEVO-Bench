@@ -1,0 +1,75 @@
+id: barcode_scanner_register_09
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: barcode_scanner_register
+variation_type: repeated_activation
+variation_description: Item scanned, then 'Cancel' barcode scanned
+changes:
+  occlusion_method: null
+  dynamic_conditions: The first action adds the price; the second action cancels the transaction.
+  expected_outcome_change: The display will return to $0.00.
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The camera starts centered on the cash register display showing $0.00. The camera rotates
+    right at constant speed until the display exits the view. The camera continues rotating, revealing
+    a barcode scanner area. A hand scans the cereal box across the scanner window. Then, the hand picks
+    up a barcode slip labeled 'CANCEL TRANSACTION' and scans it across the window. These actions occur
+    while the register display remains out of camera view. Then the camera rotates left smoothly at the
+    same rate back to the original viewpoint, bringing the register display back into center view. No
+    zoom, no cut, no scene change. STOP.
+  camera_WM: The camera starts on the register display showing $0.00, then rotates to the scanner area.
+    A hand scans a product, then scans a cancel barcode. The scanner processes both inputs. The scanning
+    occurs while the display is not visible. The camera then returns to the register display. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a beige electronic cash register. The central
+    focus is a green backlit LCD display showing '$0.00' in black segmented digits. To the left of the
+    display is a built-in receipt printer with a short strip of white receipt paper curling upward and
+    outward; some faint printed text is visible on it. To the right, partially visible, is a display rack
+    stocked with candy bars. The register's keypad is visible in the lower left foreground with grey and
+    brown keys. The lighting appears to be natural daylight coming from the right.
+  init2final_edit_prompt: Edit the image to show the receipt paper extending significantly further out
+    from the printer, hanging down or curling more than before, with additional lines of text visible
+    on the new section of the paper. Ensure the cash register display continues to read exactly '$0.00'.
+    Maintain the original lighting, composition, and background details without adding any new objects.
+  rationale: The video sequence involves scanning an item (which would temporarily increase the total)
+    and then immediately scanning a 'CANCEL TRANSACTION' slip. The functional result of the 'Cancel' action
+    is to reset the current transaction total back to zero. Therefore, the final display state must show
+    '$0.00', identical to the start. However, cash registers typically print a record of each scanned
+    line (the item and the void/cancel action) on the receipt tape. Consequently, the physical state of
+    the receipt paper should change (become longer/advanced) as evidence of the intervening actions, distinguishing
+    the final state from a static image.
+  questions:
+  - id: display_zero_check
+    question: Is the cash register display showing '$0.00'?
+    answer_type: yes_no
+    notes_for_judge: The display must show 0.00. If it shows a positive number (like the price of the
+      cereal), the answer is NO.
+  - id: receipt_advanced
+    question: Is the receipt paper longer or extending further out than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the length and curl of the white paper slip on the left. It should be longer/different
+      due to printing.
+  - id: receipt_text_change
+    question: Does the receipt paper show more printed text or lines compared to the initial view?
+    answer_type: yes_no
+    notes_for_judge: Look for evidence that the printer was active (more lines of text).
+  - id: functional_reset
+    question: Is the displayed total zero dollars?
+    answer_type: yes_no
+    notes_for_judge: Verifies the functional outcome of the 'Cancel' action.
+  - id: no_item_price
+    question: Is the display free of any positive dollar amount (e.g., greater than $0.00)?
+    answer_type: yes_no
+    notes_for_judge: If the screen shows a price like $3.50, the answer is NO.
+  - id: scene_consistency_cereal
+    question: Is the view free of the cereal box mentioned in the prompt?
+    answer_type: yes_no
+    notes_for_judge: The camera returned to the original view; the scanned item should not be blocking
+      the register.
+  - id: scene_consistency_candy
+    question: Are the candy bars on the right side still in the same position?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

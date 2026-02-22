@@ -4,69 +4,63 @@ category: structural_transformation
 tags: []
 variant_of: sandcastle_wave_impact
 variation_type: combined
-variation_description: Receding tide condition combined with person blocking view.
+variation_description: No wave condition + Camera pan occlusion.
 changes:
-  occlusion_method: Person walks in front of camera
-  dynamic_conditions: Water receding instead of incoming
-  expected_outcome_change: Sandcastle remains intact
+  occlusion_method: Camera 360 turn
+  dynamic_conditions: 'Wave: Present -> Absent (Calm day)'
+  expected_outcome_change: No change to sandcastle
 prompts:
-  init_frame_edit_prompt: Edit the image to show the wave gone, with the water level low and receding
-    away from the castle, leaving wet sand in the foreground.
-  video_WM: The ocean water recedes calmly down the beach. A person walks directly in front of the camera,
-    their body completely blocking the view of the sandcastle and beach. The person continues walking
-    until the view is clear again. No cut, no scene change. STOP.
-  camera_WM: The ocean water recedes calmly down the beach. A person walks directly in front of the camera,
-    their body completely blocking the view of the sandcastle and beach. The person continues walking
-    until the view is clear again. STOP.
+  init_frame_edit_prompt: Edit the image to remove the wave entirely, showing calm flat water and dry
+    sand around the castle.
+  video_WM: The scene is calm with no wave approaching. The camera rotates 180 degrees to face away from
+    the ocean towards the beach dunes, then rotates back 180 degrees to face the sandcastle again. No
+    zoom, no cut, no scene change. STOP.
+  camera_WM: The scene is calm with no wave approaching. STOP.
 camera_control:
   HY-WorldPlay: null
 evaluation:
-  init_frame_description: A large, elaborate sandcastle sits on a wet beach under a cloudy sky. The sandcastle
-    features multiple tall towers with conical roofs, fortified walls, a bridge with an arch, and is decorated
-    with numerous white seashells. The sand around the castle is dark and wet, and the ocean with small
-    waves is visible in the background.
-  init2final_edit_prompt: Edit the given image to show the sandcastle in a significantly eroded and collapsed
-    state. The tall towers should be slumped and shortened, losing their sharp peaks and vertical definition.
-    The bridge arch should be collapsed or broken. The intricate walls and details should appear smoothed
-    out and melted, resembling a mound of wet sand rather than a structured fortress. The surrounding
-    moat and sand should look washed over and flattened, consistent with water having receded from the
-    area.
-  rationale: 'The video prompt describes the ocean water receding, which implies that the water level
-    was high enough to reach the sandcastle. In a physical simulation, even calm receding water in the
-    swash zone would saturate and erode a sand structure, causing it to slump, melt, or collapse. The
-    occlusion by the person walking in front of the camera provides a temporal window for this irreversible
-    structural transformation to occur unobserved. Therefore, the final frame should depict the aftermath
-    of the water''s impact: a damaged and eroded sandcastle.'
+  init_frame_description: A detailed, multi-tiered sandcastle stands on a sandy beach. It features a central
+    cluster of tall towers with conical roofs, a bridge connecting the main structure to a smaller outpost,
+    and a surrounding fortified wall. The base of the castle is decorated with a row of white seashells.
+    The surrounding sand is smooth and tan. In the background, a calm ocean meets a cloudy, grey-blue
+    sky.
+  init2final_edit_prompt: Edit the given image to show the sandcastle completely intact and unchanged.
+    Ensure all towers, the bridge, and the outer walls remain standing and structurally sound. The seashells
+    along the base must be present in their original positions. The sand around the castle should appear
+    dry and undisturbed, with no signs of water erosion or flattening. The ocean background should remain
+    calm.
+  rationale: The video prompt explicitly states that the scene is calm and no wave is approaching. The
+    camera action involves rotating 180 degrees away to the dunes and then returning to the sandcastle.
+    Since no destructive force (like a wave or wind) is described and the duration of a simple pan is
+    short, the physical state of the sandcastle must remain invariant. This task tests object permanence
+    and the model's ability to maintain structural integrity during occlusion without hallucinating a
+    destructive event based on context.
   questions:
-  - id: structural_collapse
-    question: Has the sandcastle undergone visible structural collapse or slumping?
+  - id: castle_intact
+    question: Is the sandcastle structure still fully standing?
     answer_type: yes_no
-    notes_for_judge: Look for a loss of height and verticality in the towers.
-  - id: eroded_details
-    question: Are the sharp architectural details of the castle walls now smoothed out or lost?
+    notes_for_judge: The castle should not be collapsed or flattened.
+  - id: towers_vertical
+    question: Are the tall central towers still vertical and unbroken?
     answer_type: yes_no
-    notes_for_judge: The crisp edges should be gone, looking like melted wax or wet sand.
-  - id: arch_collapse
-    question: Is the sand bridge or arch structure collapsed or broken?
+    notes_for_judge: Check for toppling or crumbling of the spires.
+  - id: bridge_presence
+    question: Is the bridge connecting the castle sections still intact?
     answer_type: yes_no
-    notes_for_judge: The arch connecting parts of the castle should no longer be intact.
-  - id: tower_height
-    question: Are the towers significantly shorter than they were in the initial frame?
+    notes_for_judge: The bridge arch should be visible and unbroken.
+  - id: shells_visible
+    question: Are the decorative seashells along the base still visible?
     answer_type: yes_no
-    notes_for_judge: Compare the height of the peaks relative to the base.
-  - id: water_damage_appearance
-    question: Does the sandcastle appear to have been washed over or damaged by water?
+    notes_for_judge: They should not be washed away or buried.
+  - id: no_erosion
+    question: Is the sandcastle free from visible signs of water damage or melting?
     answer_type: yes_no
-    notes_for_judge: The texture should look wetter and more amorphous.
-  - id: base_flattening
-    question: Is the base of the sandcastle more flattened or spread out than initially?
+    notes_for_judge: The edges should remain sharp, not rounded by water.
+  - id: dry_sand
+    question: Does the sand immediately surrounding the castle appear dry?
     answer_type: yes_no
-    notes_for_judge: Material from the top should have slumped to the bottom.
-  - id: sky_consistency
-    question: Is the sky still overcast and cloudy?
+    notes_for_judge: There should be no puddles or dark wet sand indicating a wave hit.
+  - id: structural_preservation
+    question: Has the sandcastle retained its original complex shape?
     answer_type: yes_no
-    notes_for_judge: Secondary consistency check.
-  - id: ocean_presence
-    question: Is the ocean still visible in the background?
-    answer_type: yes_no
-    notes_for_judge: Secondary consistency check.
+    notes_for_judge: It should look identical to the initial frame.

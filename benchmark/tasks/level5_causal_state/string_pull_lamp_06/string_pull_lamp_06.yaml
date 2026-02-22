@@ -1,0 +1,78 @@
+id: string_pull_lamp_06
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: string_pull_lamp
+variation_type: precondition_failure
+variation_description: The glass of the bulb is shattered, indicating it is broken and will not light
+  up.
+changes:
+  occlusion_method: null
+  dynamic_conditions: 'Broken precondition: Damaged output object. Trigger action has no effect.'
+  expected_outcome_change: The broken bulb will remain dark.
+prompts:
+  init_frame_edit_prompt: Edit the image so the glass of the light bulb appears shattered and broken,
+    with jagged edges visible.
+  video_WM: The camera starts centered on the broken, dark lamp bulb. The camera rotates right at constant
+    speed until the bulb exits the view. The camera continues rotating, revealing the beaded pull-string
+    hanging down. A hand enters the frame, grabs the beaded string, and pulls it downward firmly until
+    a mechanical click is heard, then releases it. The lamp contains an internal toggle switch mechanism.
+    The string pull occurs while the bulb remains out of camera view. Then the camera rotates left smoothly
+    at the same rate back to the original viewpoint, bringing the broken bulb back into center view. No
+    zoom, no cut, no scene change. STOP.
+  camera_WM: The camera starts on the broken bulb, then rotates to the pull-string. A hand pulls the string
+    downward to engage the internal toggle switch. The string pull occurs while the bulb is not visible.
+    The camera then returns to the bulb. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up view of a vintage industrial pendant lamp hanging in a workshop.
+    The lamp has a weathered silver metal shade and a wire cage guard. Inside the cage, the light bulb
+    is broken, with shattered glass shards visible at the base and resting at the bottom of the cage,
+    exposing the internal stem and filament structure. The lamp is currently off (dark). The background
+    shows wooden beams, shelves cluttered with tools, and a window providing ambient natural light.
+  init2final_edit_prompt: Edit the given image to make the lamp appear turned on. The exposed central
+    stem and filament area of the broken bulb should be glowing brightly with a warm, intense light. The
+    light should illuminate the underside of the metal shade and create bright highlights on the wire
+    cage. The surrounding wooden beams and workshop background should appear warmer and more illuminated
+    due to the light emitted from the lamp. Keep the bulb glass shattered as in the original image, but
+    illuminated.
+  rationale: The video sequence establishes the lamp is initially off. The camera pans away to reveal
+    the lamp's pull-string switch, which is then pulled by a hand. This action toggles the electrical
+    state of the lamp. Since the lamp was initially off, the toggle action turns it on. The camera then
+    pans back to the original view. The expected functional outcome is that the lamp is now powered and
+    emitting light, demonstrating the causal link between the switch and the bulb, even though the bulb
+    is physically broken (testing causal state tracking over strict real-world physics of filament oxidation).
+  questions:
+  - id: primary_light_emission
+    question: Is the lamp emitting light?
+    answer_type: yes_no
+    notes_for_judge: Look for a clear light source coming from the bulb area.
+  - id: primary_filament_glow
+    question: Is the central part of the broken bulb glowing?
+    answer_type: yes_no
+    notes_for_judge: The filament or stem structure should be bright/glowing.
+  - id: primary_shade_illumination
+    question: Is the underside of the metal shade illuminated by the bulb?
+    answer_type: yes_no
+    notes_for_judge: The interior of the shade should be brighter than in the initial dark frame.
+  - id: primary_cage_highlights
+    question: Are the bars of the wire cage highlighted by the light?
+    answer_type: yes_no
+    notes_for_judge: The cage should catch the light from the glowing bulb.
+  - id: primary_environment_brightness
+    question: Is the surrounding workshop environment brighter or warmer than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The light from the lamp should cast light on the nearby wood/background.
+  - id: primary_state_change
+    question: Has the lamp transitioned from an 'off' state to an 'on' state?
+    answer_type: yes_no
+    notes_for_judge: Compare with the initial dark state.
+  - id: secondary_broken_glass
+    question: Is the bulb still broken with shattered glass visible?
+    answer_type: yes_no
+    notes_for_judge: The glass should not be repaired; shards should still be present.
+  - id: secondary_cage_presence
+    question: Is the wire cage guard still present around the bulb?
+    answer_type: yes_no
+    notes_for_judge: The structure of the lamp should remain unchanged.

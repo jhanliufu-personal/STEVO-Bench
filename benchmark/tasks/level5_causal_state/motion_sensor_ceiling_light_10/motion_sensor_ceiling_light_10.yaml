@@ -1,0 +1,69 @@
+id: motion_sensor_ceiling_light_10
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: motion_sensor_ceiling_light
+variation_type: indirect_causation
+variation_description: A visible safety switch is in the OFF position, preventing the sensor from activating
+  the light (mediated causation).
+changes:
+  occlusion_method: null
+  dynamic_conditions: Causal chain broken by intermediate element (safety switch OFF).
+  expected_outcome_change: No change (light remains OFF).
+prompts:
+  init_frame_edit_prompt: Edit the image to add a large industrial safety switch box on the wall next
+    to the light, with its lever in the 'OFF' position.
+  video_WM: The camera starts centered on the dark ceiling light fixture and the adjacent safety switch
+    box. The camera rotates right at constant speed until the light fixture exits the view. The camera
+    continues rotating right, revealing a motion sensor mounted on the wall. A hand enters the frame and
+    waves in front of the motion sensor. The sensor is wired in series with the safety switch to control
+    the light. When the sensor detects motion, it attempts to close the circuit, but the current must
+    also pass through the safety switch. The hand waves while the ceiling light remains out of view. Then
+    the camera rotates left smoothly at the same rate back to the original viewpoint, bringing the ceiling
+    light fixture and safety switch back into center view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The camera starts on the ceiling light and safety switch, then rotates to the motion sensor.
+    A hand waves in front of the sensor. The sensor is wired in series with the safety switch. The hand
+    motion occurs while the light is not visible. The camera then returns to the light fixture. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A room corner featuring a ceiling-mounted industrial light fixture with a glass
+    jar enclosure and a metal cage. The light bulb inside is dark and unlit. To the left, a grey metal
+    safety switch box is mounted on the wall, connected to the light by metal conduit. The red handle
+    on the switch box is in the down position, and the word 'OFF' is visible on the box face.
+  init2final_edit_prompt: Edit the given image to ensure the ceiling light fixture remains completely
+    dark and unlit. Keep the safety switch handle in the down position corresponding to the 'OFF' label.
+    Do not add any glow, illumination, or light to the bulb. The final image should look visually identical
+    to the initial state regarding the light and switch configuration.
+  rationale: The prompt describes a series circuit where the light is controlled by both the motion sensor
+    and the safety switch. In a series circuit, current can only flow if ALL switches are closed. The
+    initial frame clearly shows the safety switch in the 'OFF' position (handle down). Although the hand
+    wave triggers the motion sensor (closing that part of the circuit), the safety switch remains open
+    because it was never toggled. Therefore, the circuit remains incomplete, and the light must remain
+    off when the camera returns.
+  questions:
+  - id: light_state_dark
+    question: Is the ceiling light fixture still dark?
+    answer_type: yes_no
+    notes_for_judge: The light should remain off because the safety switch is open.
+  - id: bulb_unlit
+    question: Is the light bulb inside the glass enclosure unlit?
+    answer_type: yes_no
+    notes_for_judge: Check for absence of filament glow or light emission.
+  - id: switch_position
+    question: Is the safety switch handle in the down position?
+    answer_type: yes_no
+    notes_for_judge: The switch was not toggled, so it should remain down (OFF).
+  - id: no_illumination_change
+    question: Is the room free of any new artificial light source from the ceiling fixture?
+    answer_type: yes_no
+    notes_for_judge: The room lighting should not change.
+  - id: glass_casing_dark
+    question: Is the glass jar around the bulb free of any glow?
+    answer_type: yes_no
+    notes_for_judge: The glass should not be illuminated.
+  - id: switch_label_consistency
+    question: Does the safety switch appear to be in the 'OFF' state?
+    answer_type: yes_no
+    notes_for_judge: Based on handle position and visual similarity to the initial frame.

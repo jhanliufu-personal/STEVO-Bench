@@ -1,0 +1,69 @@
+id: slider_thermostat_heat_06
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: slider_thermostat_heat
+variation_type: precondition_failure
+variation_description: An 'OUT OF ORDER' tag is taped across the vent.
+changes:
+  occlusion_method: null
+  dynamic_conditions: 'Precondition failed (system disabled/broken). Action is MIN -> MAX. Logic: System
+    is flagged as inoperable.'
+  expected_outcome_change: The vent remains inactive.
+prompts:
+  init_frame_edit_prompt: Edit the image to place a large red tag labeled 'OUT OF ORDER' taped diagonally
+    across the heater vent.
+  video_WM: The camera starts centered on the inactive heater vent labeled 'OUT OF ORDER'. The camera
+    rotates right at constant speed until the vent exits the view. The camera continues rotating, revealing
+    a wall-mounted heater control with a horizontal slider. The slider is currently at the far left MIN
+    position. A finger enters the frame and slides the control bar all the way to the far right MAX position.
+    The slider remains at the maximum setting. The thermostat engages the heating circuit when set above
+    a threshold. The slider movement occurs while the heater vent remains out of camera view. Then the
+    camera rotates left smoothly at the same rate back to the original viewpoint, bringing the heater
+    vent back into center view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The camera starts on the heater vent, then rotates to the temperature slider control. A finger
+    moves the slider from MIN to MAX position. The thermostat engages heating above threshold. The slider
+    movement occurs while the vent is not visible. The camera then returns to the heater vent. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up view of a beige wall featuring a rectangular metal air vent with
+    horizontal slats. A red rectangular paper sign with the white text 'OUT OF ORDER' is taped diagonally
+    across the front of the vent. The sign is secured with pieces of beige masking tape at its corners
+    and lies flat against the vent grille.
+  init2final_edit_prompt: Edit the given image to show the red paper sign bulging and billowing outward
+    away from the wall. The paper should appear convex, as if strong airflow from the vent is pushing
+    it from behind. The masking tape at the corners should appear strained or slightly peeling due to
+    the pressure, but the sign should remain attached. The text on the sign should follow the curvature
+    of the bulging paper.
+  rationale: The video sequence depicts a user adjusting a thermostat to the maximum setting while the
+    vent is temporarily out of view. The prompt explicitly states that this action engages the heating
+    circuit. Consequently, the HVAC blower fan activates, forcing air through the vent. When the camera
+    returns to the initial view, the physical evidence of this state change is the air pressure pushing
+    against the paper sign, causing it to billow outward. The 'Out of Order' sign serves as a visual indicator
+    for the airflow rather than a negation of the mechanism's function.
+  questions:
+  - id: sign_bulging
+    question: Is the red paper sign bulging outward away from the wall?
+    answer_type: yes_no
+    notes_for_judge: The sign should look convex or billowed due to airflow, not flat.
+  - id: airflow_evidence
+    question: Does the sign appear to be pushed by airflow coming from the vent?
+    answer_type: yes_no
+    notes_for_judge: Look for visual cues of pressure from behind the paper.
+  - id: sign_flatness
+    question: Is the sign no longer flat against the vent grille?
+    answer_type: yes_no
+    notes_for_judge: The initial state was flat; the final state should be 3D/curved outward.
+  - id: tape_strain
+    question: Does the sign show evidence of tension or movement at the taped corners?
+    answer_type: yes_no
+    notes_for_judge: The tape might be pulled tight or peeling slightly due to the billowing.
+  - id: text_visibility
+    question: Is the text 'OUT OF ORDER' still visible on the sign?
+    answer_type: yes_no
+    notes_for_judge: The text should remain, even if distorted by the shape.
+  - id: vent_presence
+    question: Is the metal vent still visible behind or around the sign?
+    answer_type: yes_no
+    notes_for_judge: The vent itself should not disappear, though it is partially covered.

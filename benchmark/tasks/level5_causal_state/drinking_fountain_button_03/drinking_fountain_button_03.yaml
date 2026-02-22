@@ -1,0 +1,67 @@
+id: drinking_fountain_button_03
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: drinking_fountain_button
+variation_type: initial_state
+variation_description: Fountain starts ON; button press stops flow
+changes:
+  occlusion_method: null
+  dynamic_conditions: Initial state is active. Button press acts as a stop command.
+  expected_outcome_change: 'Water should stop flowing (Final state: OFF)'
+prompts:
+  init_frame_edit_prompt: Edit the image to show a steady stream of water coming from the fountain spout.
+  video_WM: The camera starts centered on the drinking fountain spout with water flowing. The camera rotates
+    right at constant speed until the spout exits the view. The camera continues rotating, revealing the
+    push button on the side. A hand enters the frame and presses the button firmly. The mechanism is designed
+    to stop flow when the button is engaged. The button press occurs while the fountain spout remains
+    out of camera view. Then the camera rotates left smoothly at the same rate back to the original viewpoint,
+    bringing the fountain spout back into center view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The camera starts on the flowing spout, then rotates to the side button. A hand presses the
+    button. The action stops the water flow. The camera then returns to the fountain spout. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up view of a stainless steel drinking fountain spout. A clear, continuous
+    arc of water is streaming from the nozzle on the right into the basin on the left. The background
+    consists of a grid of light-colored square wall tiles. The metal surface of the fountain has visible
+    water droplets and signs of wear.
+  init2final_edit_prompt: Edit the given image to stop the water flow. Completely remove the arc of water
+    streaming from the nozzle. The spout should appear inactive, with no water jet visible. Keep the stainless
+    steel spout, the basin, and the tiled background exactly as they are, but remove the dynamic water
+    stream.
+  rationale: 'The video prompt establishes a specific causal rule: the mechanism stops the water flow
+    when the button is engaged. The sequence involves the camera rotating away from the flowing spout,
+    a hand pressing the button (triggering the stop mechanism), and the camera rotating back to the original
+    view. Therefore, the final frame must show the functional result of this action: the water flow must
+    be ceased. The button and hand are likely out of frame in the returned view, leaving the stopped water
+    as the primary evidence of the state change.'
+  questions:
+  - id: water_stopped
+    question: Is the arc of water absent from the spout?
+    answer_type: yes_no
+    notes_for_judge: The water stream should be gone.
+  - id: fountain_inactive
+    question: Is the drinking fountain currently turned off?
+    answer_type: yes_no
+    notes_for_judge: The spout should not be spraying water.
+  - id: flow_ceased
+    question: Has the water flow stopped compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare with the initial flowing state.
+  - id: nozzle_clear
+    question: Is the nozzle of the spout free of a flowing water stream?
+    answer_type: yes_no
+    notes_for_judge: Check the tip of the spout for the absence of the jet.
+  - id: space_empty
+    question: Is the space above the basin clear of the water jet?
+    answer_type: yes_no
+    notes_for_judge: The area where the arc was should be empty.
+  - id: spout_visible
+    question: Is the stainless steel spout still visible in the center?
+    answer_type: yes_no
+    notes_for_judge: Invariant check.
+  - id: background_consistent
+    question: Is the tiled wall background still visible?
+    answer_type: yes_no
+    notes_for_judge: Invariant check.

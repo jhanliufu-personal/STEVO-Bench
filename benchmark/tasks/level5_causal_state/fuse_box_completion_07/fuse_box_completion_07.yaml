@@ -1,0 +1,70 @@
+id: fuse_box_completion_07
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: fuse_box_completion
+variation_type: precondition_failure
+variation_description: Fuse box is damaged/corroded, preventing proper connection.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Fuse box contacts broken. Inserting fuse does not complete circuit.
+  expected_outcome_change: Fan remains OFF (stationary).
+prompts:
+  init_frame_edit_prompt: Edit the fuse box to appear heavily rusted and damaged, with visible corrosion
+    on the fuse contacts.
+  video_WM: The camera starts centered on the stationary industrial floor fan. The camera rotates right
+    at constant speed until the fan exits the view. The camera continues rotating, revealing a rusted
+    and damaged industrial fuse box. One circuit is missing its fuse. A hand enters the frame holding
+    a new ceramic fuse and presses it into the corroded gap. The fuse insertion occurs while the fan remains
+    out of camera view. Then the camera rotates left smoothly at the same rate back to the original viewpoint,
+    bringing the industrial fan back into center view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The camera starts on the fan, then rotates to the damaged fuse box. A hand inserts a ceramic
+    fuse. The action occurs while the fan is not visible. The camera then returns to the fan. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: The image displays an industrial workshop setting. In the center, a large metal
+    floor fan stands stationary, with its three blades clearly defined and sharp behind a wire safety
+    cage. To the left, mounted on a brick wall, is a rusted industrial fuse box with its front cover open,
+    revealing three vertical slots; the middle slot appears empty or dark, while the others show signs
+    of old components or corrosion. A black power cord runs from the fan motor across the concrete floor
+    towards the left wall, directly connecting the fan's location to the fuse box area. On the right side
+    of the frame, a green industrial lathe and shelving units are visible.
+  init2final_edit_prompt: Edit the given image to show the central industrial fan turned on, with its
+    blades spinning rapidly to create a strong circular motion blur that makes the individual blades indistinguishable.
+    Add a clean white ceramic fuse inserted into the empty slot of the rusted fuse box on the left wall.
+  rationale: The video prompt describes a repair sequence where a missing fuse is replaced, which causally
+    restores power to the connected equipment. The fan's power cord runs towards the fuse box on the left,
+    implying it is the device controlled by that circuit. Although the camera pans away during the insertion,
+    the functional result of the action (inserting the fuse) is that the circuit is completed. When the
+    camera returns to the initial view, the fan should no longer be stationary but should be powered on
+    and spinning. The fuse box should also visually reflect the insertion of the new component.
+  questions:
+  - id: fan_spinning
+    question: Is the industrial fan spinning in the final frame?
+    answer_type: yes_no
+    notes_for_judge: Look for motion blur on the blades indicating rotation.
+  - id: fan_blur
+    question: Do the fan blades appear blurred due to motion?
+    answer_type: yes_no
+    notes_for_judge: The blades should not be sharp and distinct as they were in the initial frame.
+  - id: fan_powered
+    question: Does the fan appear to be powered on?
+    answer_type: yes_no
+    notes_for_judge: Stationary fans are off; spinning fans are on.
+  - id: fan_state_change
+    question: Is the fan in a different state (moving) compared to the initial frame (stationary)?
+    answer_type: yes_no
+    notes_for_judge: Compare the sharpness of the blades between frames.
+  - id: fuse_visible
+    question: Is a new fuse visible in the fuse box on the left?
+    answer_type: yes_no
+    notes_for_judge: Check for a new component (likely white/clean) in the rusted box.
+  - id: fan_cage_invariant
+    question: Is the wire safety cage of the fan still visible?
+    answer_type: yes_no
+    notes_for_judge: The cage should remain, only the blades inside should change.
+  - id: lathe_invariant
+    question: Is the green machine on the right still visible?
+    answer_type: yes_no
+    notes_for_judge: Background objects should remain unchanged.

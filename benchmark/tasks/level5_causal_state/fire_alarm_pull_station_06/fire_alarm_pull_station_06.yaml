@@ -1,0 +1,65 @@
+id: fire_alarm_pull_station_06
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: fire_alarm_pull_station
+variation_type: precondition_failure
+variation_description: An 'OUT OF ORDER' tag hangs on the system, indicating it is disabled.
+changes:
+  occlusion_method: null
+  dynamic_conditions: System is tagged as disabled. Causal chain inhibited.
+  expected_outcome_change: The light remains Green (no change) as the system is disabled.
+prompts:
+  init_frame_edit_prompt: Edit the image to add a yellow tag hanging from the light fixture that reads
+    'OUT OF ORDER'.
+  video_WM: The camera starts centered on the ceiling-mounted fire alarm indicator light showing steady
+    green, with a yellow 'OUT OF ORDER' tag hanging from it. The camera rotates right at constant speed
+    until the indicator exits the view. The camera continues rotating, revealing a red fire alarm pull
+    station on the wall. A hand enters the frame and pulls down the handle on the pull station firmly.
+    The system is currently disabled for maintenance. The handle pull occurs while the ceiling indicator
+    remains out of camera view. Then the camera rotates left smoothly at the same rate back to the original
+    viewpoint, bringing the ceiling indicator back into center view. No zoom, no cut, no scene change.
+    STOP.
+  camera_WM: The ceiling indicator shows green with an 'OUT OF ORDER' tag. A hand pulls down the handle
+    on the wall-mounted station. The system is disabled. The action occurs while the indicator is not
+    visible. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up view of a white, circular ceiling-mounted fire alarm indicator. The
+    central lens is illuminated with a steady green light. Text on the device reads 'SYSTEM ARMED' at
+    the top and 'FIRE ALARM INDICATOR' at the bottom. A yellow tag with 'OUT OF ORDER' printed in black
+    hangs from the device by a string, partially overlapping the green light.
+  init2final_edit_prompt: Edit the given image to show the central indicator light glowing steady green.
+    The yellow 'OUT OF ORDER' tag should be hanging from the device in the same manner. The device should
+    appear exactly as it did initially, with the green light illuminated and no red alarm indication visible.
+  rationale: The video prompt explicitly states that the fire alarm system is 'disabled for maintenance,'
+    a fact visually supported by the 'OUT OF ORDER' tag. Although a hand pulls the fire alarm handle while
+    the indicator is out of view, the disabled status of the system breaks the causal link between the
+    trigger and the output. Therefore, the indicator light should not change to red or flash; it must
+    remain in its initial green state, reflecting that the alarm signal was not processed.
+  questions:
+  - id: light_color_green
+    question: Is the central indicator light glowing green?
+    answer_type: yes_no
+    notes_for_judge: The system is disabled, so the light should remain green despite the trigger.
+  - id: light_color_consistency
+    question: Is the color of the indicator light the same as it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: It should remain green.
+  - id: no_red_alarm
+    question: Is the indicator light free of any red coloration?
+    answer_type: yes_no
+    notes_for_judge: Red would indicate a failed simulation of the 'disabled' state.
+  - id: state_unchanged
+    question: Does the device appear to be in the same non-alarm state as the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The functional state should not change.
+  - id: tag_presence
+    question: Is the yellow 'OUT OF ORDER' tag still visible hanging from the device?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: system_armed_text
+    question: Is the 'SYSTEM ARMED' text still visible on the device?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

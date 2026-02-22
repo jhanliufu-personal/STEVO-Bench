@@ -1,0 +1,73 @@
+id: atm_card_screen_06
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: atm_card_screen
+variation_type: precondition_failure
+variation_description: Screen displays a Blue Screen of Death (system crash).
+changes:
+  occlusion_method: null
+  dynamic_conditions: The operating system has crashed. The card reader driver is not running.
+  expected_outcome_change: Screen remains on the BSOD image.
+prompts:
+  init_frame_edit_prompt: Edit the ATM screen to display a Windows Blue Screen of Death (BSOD) with white
+    error text.
+  video_WM: The camera starts centered on the ATM screen showing a system crash (BSOD). The camera rotates
+    right at constant speed until the screen exits the view. The camera continues rotating, revealing
+    the ATM card insertion slot. A hand holding a bank card enters the frame and slides the card into
+    the slot. Due to the system crash, the reader does not process the card. The card insertion occurs
+    while the screen remains out of camera view. Then the camera rotates left smoothly at the same rate
+    back to the original viewpoint, bringing the ATM screen back into center view. No zoom, no cut, no
+    scene change. STOP.
+  camera_WM: The camera starts on the crashed ATM screen, then rotates to the card slot. A hand inserts
+    a bank card. The system is crashed. The insertion occurs while the screen is not visible. The camera
+    then returns to the ATM screen. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up view of an ATM machine. The main screen is displaying a Windows 'Blue
+    Screen of Death' (BSOD) with white error text on a solid blue background. The text includes technical
+    error codes and messages like 'A problem has been detected'. Below the screen is a metallic keypad.
+    To the right of the keypad is a card reader slot surrounded by an illuminated blue circular light.
+    The machine appears to be made of brushed metal. The background reflects in the metal and shows a
+    blurred outdoor city street scene at dusk.
+  init2final_edit_prompt: Edit the given image to show the ATM screen still displaying the Blue Screen
+    of Death (BSOD) with white text, exactly as it appeared initially. The card reader slot in the bottom
+    right should be visible and appear empty (as the card is fully inserted). The screen must NOT show
+    a 'Welcome', 'Enter PIN', or transaction menu. The scene should look visually identical to the initial
+    frame, maintaining the system error state.
+  rationale: The video depicts a user inserting a bank card into an ATM that is currently experiencing
+    a system crash (BSOD). The prompt explicitly states that due to the crash, the reader does not process
+    the card. In a functional ATM, card insertion would trigger a state change to a PIN entry or Welcome
+    screen. However, because the system is crashed, the screen state must remain invariant (still showing
+    the BSOD). The camera returns to the original viewpoint, so the final frame should be visually indistinguishable
+    from the initial frame, confirming that the system failed to respond to the input.
+  questions:
+  - id: screen_bsod_check
+    question: Is the ATM screen still displaying the Blue Screen of Death?
+    answer_type: yes_no
+    notes_for_judge: The screen should show the blue background with white error text, not a banking interface.
+  - id: screen_text_color
+    question: Is the text on the screen white against a blue background?
+    answer_type: yes_no
+    notes_for_judge: Verifies the visual characteristics of the BSOD are preserved.
+  - id: no_transaction_menu
+    question: Does the screen remain in the error state rather than showing a transaction menu?
+    answer_type: yes_no
+    notes_for_judge: The screen should NOT show options like 'Withdraw Cash' or 'Enter PIN'.
+  - id: error_text_visible
+    question: Is the system error message text still visible on the screen?
+    answer_type: yes_no
+    notes_for_judge: The text starting with 'A problem has been detected...' should be present.
+  - id: no_welcome_screen
+    question: Is the screen free of 'Welcome' or 'Enter PIN' prompts?
+    answer_type: yes_no
+    notes_for_judge: Checks that the standard functional response did NOT occur.
+  - id: slot_visibility
+    question: Is the card reader slot visible in the bottom right corner?
+    answer_type: yes_no
+    notes_for_judge: 'Secondary consistency check: the camera returned to the original view.'
+  - id: keypad_visibility
+    question: Is the metallic keypad visible below the screen?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

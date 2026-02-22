@@ -1,0 +1,72 @@
+id: car_hood_release_10
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: car_hood_release
+variation_type: indirect_causation
+variation_description: A secondary safety button is added. The lever requires the button to be held simultaneously
+  to work. The hand does not press the button.
+changes:
+  occlusion_method: null
+  dynamic_conditions: 'AND-gate logic: Output requires Input A (Lever) + Input B (Button). Input B is
+    missing.'
+  expected_outcome_change: The hood remains closed.
+prompts:
+  init_frame_edit_prompt: Edit the image to add a clearly visible red safety button mounted directly next
+    to the hood release lever.
+  video_WM: Driver's upright POV. The steering wheel is centered, and the closed car hood is visible through
+    the windshield. The driver leans forward and downward toward the lower dashboard; the windshield is
+    no longer visible. The hood release lever and a red safety button next to it come into view. A hand
+    grips the lever handle and pulls it outward, but the hand does NOT press the red safety button required
+    to disengage the lock. The mechanism remains locked. The driver leans back to the upright seated position,
+    bringing the hood back into view. STOP.
+  camera_WM: The camera starts in upright driver POV with the closed hood visible. The driver leans forward
+    and down, camera pitches down and moves forward, revealing the hood release lever and a safety button.
+    A hand pulls the lever but does not press the button. The action occurs while the windshield is not
+    visible. The driver leans back to the original seated position. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A driver's point-of-view shot from inside a car, featuring a black leather steering
+    wheel with a Corvette logo in the center. The dashboard displays a digital instrument cluster showing
+    0 MPH. To the left of the steering wheel, a prominent red button labeled 'STOP' is mounted on the
+    dashboard. Through the windshield, the car's blue hood is visible in a closed position, sitting flush
+    with the fenders. The background shows a sunny suburban street with trees and parked cars.
+  init2final_edit_prompt: Edit the given image to show the car hood remaining fully closed and latched.
+    Ensure the hood sits flush with the surrounding body panels with no visible gap or elevation. The
+    view through the windshield should show the hood in the exact same position as the original image,
+    reflecting that it has not been opened.
+  rationale: 'The video prompt describes a conditional causal chain where the driver attempts to open
+    the hood but fails to satisfy the safety condition (pressing the red button). Because the button was
+    not pressed, the locking mechanism does not disengage, and the hood remains locked. The driver then
+    returns to the initial upright seating position. Therefore, the final state of the world is visually
+    identical to the initial state regarding the hood: it must remain fully closed and latched.'
+  questions:
+  - id: hood_closed
+    question: Is the car hood visible through the windshield fully closed?
+    answer_type: yes_no
+    notes_for_judge: The hood should not be popped up or unlatched.
+  - id: hood_flush
+    question: Is the hood flush with the surrounding body panels?
+    answer_type: yes_no
+    notes_for_judge: There should be no vertical gap indicating the hood has been released.
+  - id: hood_position
+    question: Does the hood appear to be in the same latched position as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare with initial frame; the state should be unchanged.
+  - id: view_unobstructed
+    question: Is the view of the street over the hood unobstructed by the hood being raised?
+    answer_type: yes_no
+    notes_for_judge: If the hood were open, it would block more of the street view.
+  - id: hood_visible
+    question: Is the car hood visible again through the windshield?
+    answer_type: yes_no
+    notes_for_judge: The driver has returned to the upright position, bringing the hood back into view.
+  - id: steering_wheel_centered
+    question: Is the steering wheel centered?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: stop_button_visible
+    question: Is the red 'STOP' button on the dashboard still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

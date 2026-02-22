@@ -1,0 +1,74 @@
+id: car_headlight_switch_04
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: car_headlight_switch
+variation_type: precondition_failure
+variation_description: Car battery is dead (dashboard dark), preventing lights from turning on.
+changes:
+  occlusion_method: null
+  dynamic_conditions: System power is absent. The switch mechanism functions but the electrical circuit
+    cannot complete.
+  expected_outcome_change: The environment remains dark because the battery is dead.
+prompts:
+  init_frame_edit_prompt: Edit the image to make the entire dashboard, including the instrument cluster
+    and amber backlights, completely dark and unlit, simulating a dead battery.
+  video_WM: Driver's upright POV at night. The dashboard is completely dark and unlit, and the surrounding
+    environment is pitch black. The driver leans forward toward the dashboard; the windows and dark exterior
+    are no longer visible. The headlight control switch on the left steering column stalk comes into view.
+    A hand rotates the headlight switch from OFF to ON. The headlight switch is part of the car's electrical
+    system and operates only when power is available. The driver leans back to the upright seated position,
+    bringing the windshield and exterior environment back into view. No zoom, no cut, no scene change.
+    STOP.
+  camera_WM: The camera starts in upright driver POV at night — unlit dashboard, dark exterior. A hand
+    rotates the switch from OFF to ON. The headlight switch is part of the electrical system and operates
+    only when power is available. The action occurs while the windows are not visible. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A dark interior view of a car from the driver's seat at night. A Toyota steering
+    wheel is in the center. The dashboard, instrument cluster, and center console are unlit and barely
+    visible. The view through the windshield and the driver's side window is pitch black, indicating no
+    external lighting. A side mirror is visible on the left.
+  init2final_edit_prompt: Edit the given image to show the car's headlights and interior dashboard lights
+    turned on. Illuminate the road or ground ahead through the windshield with bright headlight beams,
+    replacing the pitch blackness. Light up the instrument cluster gauges (speedometer and tachometer)
+    behind the steering wheel with their internal backlighting. Illuminate the buttons and display on
+    the center console to show they are active. Keep the camera angle and steering wheel position identical
+    to the original image.
+  rationale: 'The video prompt describes a causal action where the driver turns the headlight switch from
+    OFF to ON. Although the camera moves closer to the dashboard to perform the action, it returns to
+    the initial upright position at the end. Therefore, the final frame must match the initial composition
+    but reflect the functional state change: the headlights should illuminate the environment outside,
+    and the dashboard instrument cluster should be backlit, as these systems are electrically linked in
+    a vehicle.'
+  questions:
+  - id: headlights_illuminating_road
+    question: Is the area outside the windshield illuminated by headlight beams?
+    answer_type: yes_no
+    notes_for_judge: The initial frame is pitch black outside. The final frame should show light on the
+      road/ground.
+  - id: dashboard_lit
+    question: Are the instrument cluster gauges illuminated?
+    answer_type: yes_no
+    notes_for_judge: The gauges should be glowing or backlit, unlike the dark initial state.
+  - id: exterior_visibility
+    question: Is the view through the windshield significantly brighter than the pitch-black initial state?
+    answer_type: yes_no
+    notes_for_judge: Check for visibility of the environment due to lights.
+  - id: console_lights
+    question: Are the center console buttons or display illuminated?
+    answer_type: yes_no
+    notes_for_judge: Interior dash lights usually turn on with headlights.
+  - id: functional_state_change
+    question: Does the image show evidence that the car's lighting system has been activated?
+    answer_type: yes_no
+    notes_for_judge: Look for both interior and exterior lighting changes.
+  - id: steering_wheel_consistency
+    question: Is the steering wheel in the same position as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The driver sat back down, so the view should be the same.
+  - id: mirror_consistency
+    question: Is the side mirror still visible on the left side of the frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary object consistency check.

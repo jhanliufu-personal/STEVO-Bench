@@ -1,0 +1,73 @@
+id: doorbell_chime_wireless_05
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: doorbell_chime_wireless
+variation_type: precondition_failure
+variation_description: The chime unit is completely missing from the outlet.
+changes:
+  occlusion_method: null
+  dynamic_conditions: The output object (chime) is absent.
+  expected_outcome_change: No activation occurs because the receiver unit is not present.
+prompts:
+  init_frame_edit_prompt: Edit the image to remove the chime completely, showing only the empty wall outlet.
+  video_WM: The camera starts centered on the empty wall outlet where the wireless doorbell chime is usually
+    plugged in; the unit is missing. The camera rotates right at constant speed until the outlet exits
+    the view. The camera continues rotating through the hallway and toward the exterior door, revealing
+    the wireless doorbell button mounted outside. A finger enters the frame and presses the doorbell button.
+    The button transmits a radio signal into the empty house. The button press occurs while the interior
+    outlet remains out of camera view. Then the camera rotates left smoothly at the same rate back to
+    the original viewpoint, bringing the empty outlet back into center view. No zoom, no cut, no scene
+    change. STOP.
+  camera_WM: The scene features an empty wall outlet (missing chime) and an exterior doorbell button.
+    A finger presses the doorbell button. The button transmits a signal. The button press occurs while
+    the interior outlet remains out of camera view. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up view of a standard white duplex electrical outlet mounted on a beige
+    or light gray wall. To the left of the outlet is a vertical white door frame or trim. To the right,
+    the background is out of focus, showing a window with white muntins. The outlet contains two sockets,
+    both of which are empty with nothing plugged in.
+  init2final_edit_prompt: Edit the given image to ensure the wall outlet remains completely empty, with
+    no devices, plugs, or chimes inserted into the sockets. The appearance should be identical to the
+    original state, showing the bare outlet faceplate and exposed sockets.
+  rationale: 'The video depicts a camera panning away from an empty outlet, showing a doorbell button
+    being pressed outside, and then panning back to the outlet. Crucially, the prompt states that the
+    doorbell chime unit is missing from the outlet initially and is never plugged in. Therefore, the button
+    press transmits a signal to an empty house with no receiver to activate. The final state must show
+    the outlet exactly as it was initially: empty, with no device plugged in and no activation lights
+    or sounds, demonstrating that the model correctly tracks the absence of the receiver mechanism.'
+  questions:
+  - id: outlet_empty
+    question: Is the wall outlet still completely empty?
+    answer_type: yes_no
+    notes_for_judge: The outlet should have nothing plugged into it.
+  - id: top_socket_visible
+    question: Is the top socket of the outlet visible and unplugged?
+    answer_type: yes_no
+    notes_for_judge: Verify the top set of holes is visible.
+  - id: bottom_socket_visible
+    question: Is the bottom socket of the outlet visible and unplugged?
+    answer_type: yes_no
+    notes_for_judge: Verify the bottom set of holes is visible.
+  - id: no_device_plugged
+    question: Is the image free of any plugged-in doorbell chime unit or electronic device?
+    answer_type: yes_no
+    notes_for_judge: The prompt specifies the unit is missing; the model should not hallucinate one appearing.
+  - id: faceplate_visible
+    question: Is the white faceplate of the outlet fully visible without obstruction?
+    answer_type: yes_no
+    notes_for_judge: No object should cover the outlet.
+  - id: no_activation_lights
+    question: Does the outlet remain free of any glowing lights or indicators?
+    answer_type: yes_no
+    notes_for_judge: Since there is no device, there should be no light activation.
+  - id: trim_consistency
+    question: Is the white vertical trim still visible on the left side of the frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: window_consistency
+    question: Is the blurred window background still visible on the right?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

@@ -1,0 +1,71 @@
+id: car_key_ignition_turn_09
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: car_key_ignition_turn
+variation_type: repeated_activation
+variation_description: Key is turned to START (crank) then released back to OFF.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Trigger activated then reversed (OFF -> START -> OFF). Net state change is zero.
+  expected_outcome_change: The dashboard will remain dark because the key was returned to the OFF position.
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: Driver's upright POV. The steering wheel is centered and the dark instrument cluster is fully
+    visible. The driver leans forward toward the dashboard; the surroundings are no longer visible. The
+    ignition cylinder comes into view with the key at the OFF position. A hand grips the key, turns it
+    fully clockwise to the START position, holds it briefly, and then turns it back to the OFF position.
+    The ignition cylinder is a rotary switch. The driver leans back to the upright seated position. No
+    zoom, no cut, no scene change. STOP.
+  camera_WM: The camera starts in upright driver POV with a dark dashboard. The driver leans forward,
+    camera pitches down and moves toward the dashboard, revealing the ignition cylinder with the key at
+    OFF. A hand turns the key to START, then returns it to OFF. The action occurs while the windows are
+    not visible. The driver leans back to the original seated position. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A driver's point-of-view shot from inside a car. A black steering wheel is centered
+    in the frame. Behind the wheel, the instrument cluster is visible, featuring a tachometer on the left,
+    a speedometer in the center, and fuel/temperature gauges on the right; all gauge needles are at their
+    zero or resting positions. To the right of the steering column, an ignition cylinder is visible with
+    a car key inserted; the key has a black plastic head and is in the OFF position. Through the windshield,
+    a sunny suburban street with houses and green lawns is visible.
+  init2final_edit_prompt: Edit the image to show the car in the OFF state. Ensure the ignition key is
+    in the OFF position (not rotated to the ON or START position). The tachometer and speedometer needles
+    must be pointing to zero. The dashboard lights should be off. The perspective should be the original
+    upright driver's view, showing the steering wheel and the street scene through the windshield.
+  rationale: 'The video prompt describes a sequence where the driver leans in, cycles the ignition key
+    (Off -> Start -> Off), and then leans back to the original position. Although the engine is temporarily
+    cranked, the explicit instruction to turn the key ''back to the OFF position'' means the final functional
+    state is identical to the initial state: the engine is off and the electrical system is deactivated.
+    The camera also returns to the initial upright viewpoint. Therefore, the final frame must show the
+    gauges at zero, the key in the OFF position, and the full wide view of the interior and street, verifying
+    that the model correctly simulated the return action and did not leave the car running or the camera
+    zoomed in.'
+  questions:
+  - id: q1_engine_state
+    question: Is the tachometer needle pointing to zero?
+    answer_type: yes_no
+    notes_for_judge: The engine should be off, so the RPM gauge (left) should be at 0.
+  - id: q2_key_position
+    question: Is the ignition key in the OFF position?
+    answer_type: yes_no
+    notes_for_judge: The key should be returned to its initial resting angle, not rotated clockwise to
+      ON or START.
+  - id: q3_camera_return
+    question: Is the street visible through the windshield?
+    answer_type: yes_no
+    notes_for_judge: The driver leaned back, so the view should not be blocked or zoomed in on the dashboard.
+  - id: q4_electrical_state
+    question: Are the dashboard warning lights off?
+    answer_type: yes_no
+    notes_for_judge: Since the key is in the OFF position, no dashboard indicators should be illuminated.
+  - id: q5_viewpoint_consistency
+    question: Is the steering wheel centered in the frame?
+    answer_type: yes_no
+    notes_for_judge: Verifies the camera returned to the upright driving position.
+  - id: q6_speedometer_check
+    question: Is the speedometer needle at zero?
+    answer_type: yes_no
+    notes_for_judge: Secondary check for vehicle state.

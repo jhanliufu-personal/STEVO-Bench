@@ -1,0 +1,67 @@
+id: remote_control_pairing_02
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: remote_control_pairing
+variation_type: initial_state
+variation_description: The robot is initially moving forward, so the remote STOP button halts it.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Robot is initially in motion. Remote action is STOP.
+  expected_outcome_change: The robot stops moving (opposite of original start-to-move).
+prompts:
+  init_frame_edit_prompt: Edit the image to apply motion blur to the robot's treads and add small dust
+    particles kicking up behind it, indicating the robot is currently moving forward.
+  video_WM: The camera starts centered on the moving toy robot labeled Channel A. The camera rotates right
+    at constant speed until the robot exits the view. The camera continues rotating, revealing a handheld
+    remote control also labeled Channel A. A hand enters the frame and presses the large STOP button on
+    the remote control. The remote transmits radio signals when buttons are pressed. The button press
+    occurs while the toy robot remains out of camera view. Then the camera rotates left smoothly at the
+    same rate back to the original viewpoint, bringing the toy robot back into center view. No zoom, no
+    cut, no scene change. STOP.
+  camera_WM: A handheld remote control labeled Channel A is revealed. A hand enters the frame and presses
+    the large STOP button on the remote control. The remote transmits radio signals when buttons are pressed.
+    The button press occurs while the toy robot remains out of camera view. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A retro-style grey toy robot with tank treads on a wooden table. The robot has
+    a panel on its back reading 'CHANNEL A' in red text. The robot is currently in motion, evidenced by
+    motion blur on the treads and a cloud of dust and debris kicking up behind the tracks. The background
+    features blurred books and a window.
+  init2final_edit_prompt: Edit the given image to make the toy robot appear completely stationary. Remove
+    all dust clouds, flying debris, and particles around the tank treads. Remove any motion blur from
+    the treads and the robot's body, ensuring all edges are sharp and in focus. Do not move the robot
+    or change the background perspective.
+  rationale: The video sequence depicts a causal interaction where a remote control is used to stop the
+    moving robot. Initially, the robot is moving (generating dust and blur). The camera pans to a remote,
+    a STOP button is pressed, and the signal transmits to the robot. When the camera pans back to the
+    robot, the functional state change is that the robot has ceased movement. Therefore, the final frame
+    must show the robot in a static state, without the visual indicators of motion (dust, debris, blur)
+    present in the initial frame.
+  questions:
+  - id: q1
+    question: Is the dust cloud around the robot's treads absent in the final frame?
+    answer_type: yes_no
+    notes_for_judge: In the initial frame, there is dust kicking up. In the final frame, the robot should
+      be stopped, so no dust should be visible.
+  - id: q2
+    question: Does the robot appear to be stationary compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The stop button was pressed, so the robot should no longer be moving.
+  - id: q3
+    question: Are the robot's treads sharp and free of motion blur?
+    answer_type: yes_no
+    notes_for_judge: Motion blur indicates movement; a stopped robot should have sharp details.
+  - id: q4
+    question: Is the flying debris behind the tracks gone?
+    answer_type: yes_no
+    notes_for_judge: Debris is a sign of active motion which should have ceased.
+  - id: q5
+    question: Is the 'CHANNEL A' label still visible on the robot's back?
+    answer_type: yes_no
+    notes_for_judge: Consistency check.
+  - id: q6
+    question: Is the robot still on the wooden surface?
+    answer_type: yes_no
+    notes_for_judge: Consistency check.

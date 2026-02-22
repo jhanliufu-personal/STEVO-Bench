@@ -1,0 +1,63 @@
+id: vending_machine_selection_09
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: vending_machine_selection
+variation_type: repeated_activation
+variation_description: The user enters an invalid code (0-0) instead of the correct one, resulting in
+  no action.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Invalid input triggers no mechanism response.
+  expected_outcome_change: The bag of chips remains hanging in slot D3 (Net no change).
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The camera starts centered on the bag of chips in slot D3. The camera rotates right at constant
+    speed until the product exits the view. The camera continues rotating, revealing the keypad. A hand
+    enters the frame and presses 0, then 0, which is an invalid code for this machine. The keypad entry
+    occurs while the product remains out of camera view. Then the camera rotates left smoothly back to
+    the original viewpoint, bringing the product slot back into center view. STOP.
+  camera_WM: The camera starts on the product in slot D3. A hand enters invalid code 0-0 on the keypad.
+    The action occurs while the product is not visible. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up view of a vending machine interior. In the center, a blue and white
+    bag of 'Crinkle Cut Crisps - Sea Salt & Vinegar' sits in a metal spiral coil in slot D3. Above the
+    bag is a label reading 'D3 - $1.50'. To the left, a red bag of Fritos is partially visible. Above,
+    other snack bags are partially visible. The glass front reflects a faint silhouette of a person.
+  init2final_edit_prompt: Edit the given image so that the bag of Crinkle Cut Crisps in slot D3 remains
+    in its exact original position. The metal coil holding the bag must appear unchanged and unrotated.
+    The bag must not have dropped, tilted, or moved. The scene should look identical to the initial state,
+    with the product still securely held in the slot.
+  rationale: The video prompt describes a camera rotation to a keypad where an invalid code ('00') is
+    entered. Since the code is invalid for the machine (which uses alphanumeric codes like D3), the vending
+    mechanism is not triggered. When the camera rotates back to the initial view, the physical state of
+    the product and the coil must remain exactly unchanged. No dispensing action occurred.
+  questions:
+  - id: product_presence
+    question: Is the bag of Crinkle Cut Crisps still present in slot D3?
+    answer_type: yes_no
+    notes_for_judge: The bag should not have disappeared or fallen out of view.
+  - id: product_position_static
+    question: Is the bag of chips in the same vertical position as it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: It should not have dropped down.
+  - id: coil_rotation_static
+    question: Does the metal coil holding the chips appear to be in the same orientation as the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: The coil should not have spun, as the code was invalid.
+  - id: no_dispense
+    question: Is the bag of chips still suspended in the coil rather than resting at the bottom of the
+      machine?
+    answer_type: yes_no
+    notes_for_judge: The product should not be dispensed.
+  - id: neighboring_object_consistency
+    question: Is the Fritos bag on the left still visible in its original position?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: overall_state_unchanged
+    question: Does the scene appear functionally identical to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Since the code was invalid, no state change should occur.

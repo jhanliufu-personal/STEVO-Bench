@@ -1,0 +1,69 @@
+id: car_hood_release_02
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: car_hood_release
+variation_type: initial_state
+variation_description: The hood starts fully raised (open). Pulling the release lever does not close it.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Hood is fully open. The release lever only releases the latch, it does not close
+    the hood.
+  expected_outcome_change: The hood remains fully open.
+prompts:
+  init_frame_edit_prompt: Edit the image so the car hood is fully raised and open, blocking the view of
+    the road ahead.
+  video_WM: Driver's upright POV. The steering wheel is centered, and the raised hood fills the view through
+    the windshield. The driver leans forward and downward toward the lower dashboard; the windshield is
+    no longer visible. The hood release lever under the left side of the dashboard comes into view. A
+    hand grips the lever handle and pulls it firmly outward. The mechanism activates, but the hood is
+    already open. The driver leans back to the upright seated position, bringing the raised hood back
+    into view. STOP.
+  camera_WM: The camera starts in upright driver POV with the raised hood visible. The driver leans forward
+    and down, camera pitches down and moves forward, revealing the hood release lever. A hand pulls the
+    lever outward. The action occurs while the windshield is not visible. The driver leans back to the
+    original seated position. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: The image displays the interior of a car from the driver's perspective. A black
+    leather steering wheel with a central Corvette logo is prominent in the foreground. Behind the wheel,
+    a digital dashboard displays a speedometer at 0 MPH and a tachometer. Through the windshield, a bright
+    blue car hood is fully raised, obstructing the upper portion of the view and revealing its underside
+    structure. Below the raised hood, a residential street scene with a sidewalk, grass, and parked cars
+    is visible. The driver's left leg, wearing shorts, is partially visible in the bottom left corner.
+  init2final_edit_prompt: Edit the given image to show the view from the driver's upright seated position.
+    The blue car hood must remain fully raised and open, occupying the same position in the windshield
+    as in the original image. The steering wheel, dashboard, and interior details should remain unchanged.
+    The background street scene should remain visible beneath the raised hood.
+  rationale: The video describes a driver pulling the hood release lever. However, the initial frame shows
+    that the hood is already fully raised and open. Mechanically, pulling the hood release lever unlatches
+    a closed hood but has no effect on a hood that is already open (it does not close the hood or release
+    the hydraulic struts/prop rod holding it up). Since the driver returns to the original upright seating
+    position after the action, the final visual state should be identical to the initial state, with the
+    hood remaining open.
+  questions:
+  - id: hood_state_open
+    question: Is the blue car hood still in the raised, open position?
+    answer_type: yes_no
+    notes_for_judge: The hood was already open initially; pulling the release lever should not close it.
+  - id: hood_position_static
+    question: Does the hood occupy the same position in the view as it did in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The hood should not have moved.
+  - id: underside_visible
+    question: Is the underside structure of the hood still visible through the windshield?
+    answer_type: yes_no
+    notes_for_judge: Verifies the hood is still up.
+  - id: viewpoint_return
+    question: Is the steering wheel centered in the frame?
+    answer_type: yes_no
+    notes_for_judge: Verifies the camera returned to the upright driver position.
+  - id: dashboard_invariant
+    question: Is the digital instrument cluster still visible behind the steering wheel?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: street_visible
+    question: Is the street scene still visible underneath the raised hood?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

@@ -1,0 +1,74 @@
+id: lightbulb_and_switch_08
+level: 5
+category: causal_reasoning
+tags: []
+variant_of: lightbulb_and_switch
+variation_type: repeated_activation
+variation_description: The switch is toggled twice (ON then OFF), resulting in no net change.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Switch is toggled twice (Down -> Up -> Down).
+  expected_outcome_change: Light stays OFF (original was ON).
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: Single continuous shot, no cuts, no zoom. The scene contains one functioning ceiling light.
+    Camera starts centered on the ceiling light. The camera smoothly moves left at constant speed until
+    the ceiling light exits the frame to the right. While the light is out of view, a human hand toggles
+    the wall switch TWICE (flipping it up and then immediately back down). The camera continues moving
+    left for several seconds. Then the camera moves right at the same constant speed back to the original
+    viewpoint, bringing the ceiling light back into view.
+  camera_WM: The scene contains one functioning ceiling light. A human hand toggles the wall switch TWICE
+    (flipping it up and then immediately back down). STOP.
+camera_control:
+  HY-WorldPlay: s-3, left-30, right-30
+  Genie: null
+evaluation:
+  init_frame_description: A low-angle shot of a dimly lit, empty room. In the center of the ceiling, there
+    is a white ceramic light fixture holding a single bare incandescent light bulb. The bulb is currently
+    off, appearing transparent and grey rather than glowing. The ceiling and walls are painted white but
+    appear grey and shadowy due to the low light. There are visible cracks in the wall plaster. The floor
+    consists of wooden planks. The corners of the room are shrouded in shadow.
+  init2final_edit_prompt: Edit the given image to show the ceiling light bulb remaining in an off state.
+    The light bulb should appear unlit, with the glass looking transparent or dark grey, not glowing or
+    emitting light. The overall room lighting should remain dim and shadowy, consistent with the light
+    being off.
+  rationale: The video prompt describes a camera panning away from the light, followed by a human hand
+    toggling the wall switch twice (up then down). Assuming the standard configuration where the initial
+    'off' state corresponds to the switch being down, flipping it up turns the light on, and flipping
+    it immediately back down turns the light off again. Since the switch is toggled twice, the net change
+    to the system state is zero. Therefore, when the camera returns to the original viewpoint, the light
+    bulb must be off, identical to the initial state.
+  questions:
+  - id: light_state_off
+    question: Is the ceiling light bulb off?
+    answer_type: yes_no
+    notes_for_judge: The light should be unlit, similar to the initial frame.
+  - id: bulb_appearance
+    question: Does the glass of the light bulb appear transparent or dark, rather than glowing bright
+      white?
+    answer_type: yes_no
+    notes_for_judge: The bulb should not be emitting light.
+  - id: room_brightness
+    question: Is the room dimly lit, similar to the lighting in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The room should not be illuminated by the central light.
+  - id: no_glow
+    question: Is the filament or interior of the bulb visible without a bright glow?
+    answer_type: yes_no
+    notes_for_judge: Check for absence of incandescence.
+  - id: shadow_consistency
+    question: Are the corners of the room still shadowy and dark?
+    answer_type: yes_no
+    notes_for_judge: If the light were on, the shadows would be different or illuminated.
+  - id: state_identity
+    question: Does the light fixture appear to be in the same unlit state as it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The double toggle results in no net state change.
+  - id: floor_visibility
+    question: Are the wooden floorboards visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: fixture_integrity
+    question: Is the white ceramic fixture still holding the bulb?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

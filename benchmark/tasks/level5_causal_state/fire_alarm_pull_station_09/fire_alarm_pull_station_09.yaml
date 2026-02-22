@@ -1,0 +1,64 @@
+id: fire_alarm_pull_station_09
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: fire_alarm_pull_station
+variation_type: repeated_activation
+variation_description: The handle is pulled and then manually pushed back up, resulting in no net change.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Action is reversed manually. Net state change is zero.
+  expected_outcome_change: The light remains Green (original state).
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The camera starts centered on the ceiling-mounted fire alarm indicator light showing steady
+    green. The camera rotates right at constant speed until the indicator exits the view. The camera continues
+    rotating, revealing a red fire alarm pull station on the wall. A hand enters the frame, pulls the
+    handle down, and then immediately pushes it back up to the original position. The switch activates
+    briefly and then deactivates. The action occurs while the ceiling alarm indicator remains out of camera
+    view. Then the camera rotates left smoothly at the same rate back to the original viewpoint, bringing
+    the ceiling alarm indicator back into center view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The ceiling indicator shows green. A hand pulls the handle down and pushes it back up. The
+    switch toggles back and forth. The action occurs while the indicator is not visible. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up, low-angle shot of a circular, ceiling-mounted fire alarm indicator.
+    The device features a white plastic housing with black text reading 'SYSTEM ARMED' at the top and
+    'FIRE ALARM INDICATOR' at the bottom. In the center, a translucent dome is illuminated with a bright,
+    steady green light. The device is mounted on a white, textured ceiling.
+  init2final_edit_prompt: Edit the given image to change the color of the central illuminated dome light
+    from green to bright red. The dome should appear to be glowing red. Keep the white plastic housing,
+    the printed black text, and the surrounding ceiling texture exactly as they are.
+  rationale: The video describes a user triggering a fire alarm pull station. In real-world fire alarm
+    systems, activating the pull station triggers a latching circuit in the control panel. Even though
+    the handle is pushed back up and the physical switch 'deactivates' (opens), the system's alarm state
+    remains active until manually reset with a key or at the panel. Therefore, the status indicator light,
+    which monitors the system state, must transition from 'Armed' (green) to 'Alarm' (red) and remain
+    red when the camera returns to the initial view.
+  questions:
+  - id: light_is_red
+    question: Is the central indicator light now glowing red?
+    answer_type: yes_no
+    notes_for_judge: The light should have changed from green to red to indicate the alarm state.
+  - id: light_not_green
+    question: Is the green illumination no longer visible in the central dome?
+    answer_type: yes_no
+    notes_for_judge: The green 'Armed' state should be replaced by the red 'Alarm' state.
+  - id: state_change_occurred
+    question: Has the indicator light changed color compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Verifies that the causal action (pulling the alarm) had a visible effect on the system
+      state.
+  - id: alarm_indication
+    question: Does the device currently show a red light indicating an active alarm?
+    answer_type: yes_no
+    notes_for_judge: Red is the standard convention for fire alarm activation.
+  - id: text_persistence
+    question: Is the text 'SYSTEM ARMED' still visible on the device housing?
+    answer_type: yes_no
+    notes_for_judge: The text is printed on the plastic and should not change.
+  - id: ceiling_texture
+    question: Is the white textured ceiling background preserved?
+    answer_type: yes_no
+    notes_for_judge: The environment should remain stable.

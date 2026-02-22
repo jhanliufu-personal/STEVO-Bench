@@ -1,0 +1,69 @@
+id: car_window_switch_08
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: car_window_switch
+variation_type: repeated_activation
+variation_description: The switch is pressed down (open) and then immediately pulled up (close), resulting
+  in no net change.
+changes:
+  occlusion_method: null
+  dynamic_conditions: 'Action sequence: Open -> Close. Net result: Closed.'
+  expected_outcome_change: The window remains closed (opens briefly while occluded, then closes).
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: Driver's upright POV. The steering wheel is centered, the dashboard is lit, and the driver-side
+    window is fully closed — the daylight exterior is visible through the glass. The driver leans forward
+    toward the door panel; the side windows are no longer visible. The window control switch panel on
+    the door armrest comes into view. A hand presses the lower side of the driver window switch downward,
+    pauses briefly, and then pulls the switch button upward. The window switch is part of the car's electrical
+    system; the direction pressed determines the behavior of the window motor. The driver leans back to
+    the upright seated position. No zoom, no cut, no scene change. STOP.
+  camera_WM: The camera starts in upright driver POV with lit dashboard and the driver-side window fully
+    closed. The driver leans forward, camera pitches down and moves forward, revealing the window control
+    switch on the door armrest. A hand presses the switch downward, pauses, and pulls it upward. The window
+    switch is part of the electrical system; the direction pressed determines the window motor behavior.
+    The action occurs while the windows are not visible. The driver leans back to the original seated
+    position. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A view from the driver's seat of a car (left-hand drive). The driver-side door
+    panel is visible on the left, featuring a beige armrest and a black window switch panel. The driver's
+    window is fully closed, with visible reflections of the interior and a slight tint affecting the view
+    of the street, cars, and trees outside. A side mirror is visible through the glass. On the right,
+    a black steering wheel and a lit dashboard are visible. The car is on a city street during the day.
+  init2final_edit_prompt: Edit the given image to show the driver-side window rolled down. Remove the
+    glass from the window frame so that the view of the street, cars, and buildings outside is clear,
+    direct, and free of the reflections and tint present on the closed window in the original image. Keep
+    the door panel, side mirror, steering wheel, and dashboard unchanged.
+  rationale: The driver presses the window switch downward, which activates the motor to open the window.
+    The subsequent brief pause and upward pull are interpreted as a control input to stop the window's
+    descent (canceling an auto-down function) or a partial adjustment that leaves the window in an open
+    state rather than fully closing it. Therefore, the final state shows the window rolled down (open),
+    representing a functional change from the initial closed state.
+  questions:
+  - id: window_open
+    question: Is the driver-side window open?
+    answer_type: yes_no
+    notes_for_judge: The window should be rolled down, meaning the glass is retracted.
+  - id: glass_retracted
+    question: Is the window glass retracted into the door panel?
+    answer_type: yes_no
+    notes_for_judge: Check if the glass pane is absent from the frame.
+  - id: reflections_gone
+    question: Is the view through the driver's window free of glass reflections?
+    answer_type: yes_no
+    notes_for_judge: The initial frame has reflections on the glass; the final frame should be clear.
+  - id: state_change
+    question: Has the window state changed from closed to open?
+    answer_type: yes_no
+    notes_for_judge: Compare with the initial closed state.
+  - id: invariant_steering
+    question: Is the steering wheel in the same position as the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The steering wheel should not have moved.
+  - id: invariant_mirror
+    question: Is the side mirror still visible?
+    answer_type: yes_no
+    notes_for_judge: The mirror itself should remain, even if the view through the window changes.

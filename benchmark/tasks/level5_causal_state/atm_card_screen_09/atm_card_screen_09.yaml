@@ -1,0 +1,67 @@
+id: atm_card_screen_09
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: atm_card_screen
+variation_type: repeated_activation
+variation_description: Hand inserts card partially and removes it, effectively cancelling the action.
+changes:
+  occlusion_method: null
+  dynamic_conditions: The user changes their mind or performs a dip-read that fails to latch. Net state
+    is standby.
+  expected_outcome_change: Screen remains 'INSERT CARD TO BEGIN'.
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The camera starts centered on the ATM screen showing 'INSERT CARD TO BEGIN'. The camera rotates
+    right at constant speed until the screen exits the view. The camera continues rotating, revealing
+    the ATM card insertion slot. A hand holding a card approaches, inserts the card halfway, and then
+    immediately withdraws it. The reader does not latch onto the card. This action occurs while the screen
+    remains out of camera view. Then the camera rotates left smoothly at the same rate back to the original
+    viewpoint, bringing the ATM screen back into center view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The camera starts on the ATM screen, then rotates to the card slot. A hand inserts a card
+    partially and withdraws it. The reader does not latch. The action occurs while the screen is not visible.
+    The camera then returns to the ATM screen. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up view of a brushed metal ATM interface. The center screen displays
+    the text 'INSERT CARD TO BEGIN' in cyan pixelated font on a black background. To the right of the
+    screen is a vertical column of four silver function buttons. Below the screen is a card reader slot
+    surrounded by a glowing blue circular bezel. Below the card reader is a numeric keypad. The metal
+    surface shows scratches and wear, and reflections of a street scene at dusk are visible on the screen
+    and bezel.
+  init2final_edit_prompt: Edit the given image to show the ATM screen in its idle state, displaying the
+    text 'INSERT CARD TO BEGIN' in cyan. Ensure the card reader slot is empty and the blue circular light
+    around the slot is illuminated. The image should look identical to the initial frame, with no changes
+    to the screen text or the physical configuration of the machine.
+  rationale: The action described involves inserting a card only halfway and immediately withdrawing it
+    without the reader latching. This constitutes a failed or insufficient input for a motorized card
+    reader, which requires full insertion to trigger the latch and read the magnetic stripe or chip. Consequently,
+    the ATM software will not receive a valid 'card read' signal and will not transition to the 'Enter
+    PIN' state. When the camera returns to the original view, the machine must remain in (or revert to)
+    its initial idle state, displaying the welcome message.
+  questions:
+  - id: screen_text_presence
+    question: Is the text 'INSERT CARD TO BEGIN' visible on the screen?
+    answer_type: yes_no
+    notes_for_judge: The screen should not have changed to 'ENTER PIN' or a menu.
+  - id: slot_empty
+    question: Is the card reader slot empty?
+    answer_type: yes_no
+    notes_for_judge: The card was withdrawn before the camera returned.
+  - id: state_persistence
+    question: Does the screen display the same welcome message as the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Tests that the state did not falsely advance.
+  - id: no_pin_entry
+    question: Is the screen free of any request to enter a PIN?
+    answer_type: yes_no
+    notes_for_judge: Verifies the negative result of the partial insertion.
+  - id: blue_light_active
+    question: Is the blue light around the card reader bezel illuminated?
+    answer_type: yes_no
+    notes_for_judge: The light typically remains on or flashes during the idle state.
+  - id: overall_consistency
+    question: Does the ATM appear to be in the exact same state as it was initially?
+    answer_type: yes_no
+    notes_for_judge: The functional outcome of the action is null.

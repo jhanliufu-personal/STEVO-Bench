@@ -1,0 +1,67 @@
+id: parking_gate_ticket_09
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: parking_gate_ticket
+variation_type: repeated_activation
+variation_description: The user inserts a ticket, then immediately presses a cancel/close button. Net
+  result is no change.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Activation followed by immediate cancellation.
+  expected_outcome_change: Barrier returns to lowered state (net no change).
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The camera starts centered on the lowered parking barrier arm blocking the exit. The camera
+    rotates right at constant speed until the barrier exits the view. The camera continues rotating, revealing
+    a ticket payment machine. A hand enters the frame, inserts a validated ticket, and then immediately
+    presses the red 'CANCEL' button on the interface. The machine processes the validation and then the
+    cancellation command. These actions occur while the barrier arm remains out of camera view. Then the
+    camera rotates left smoothly at the same rate back to the original viewpoint, bringing the barrier
+    arm back into center view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The scene features a lowered barrier arm and a ticket payment machine. A hand inserts a ticket
+    and then presses the 'CANCEL' button. The machine processes the validation and then the cancellation.
+    These actions occur while the barrier is not visible.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A yellow parking barrier housing stands on the left side of the frame. Attached
+    to it is a red and white striped barrier arm that is currently in the lowered, horizontal position,
+    extending across the frame to the right and blocking the paved exit lane. In the background, there
+    is a parking lot with several parked cars (silver, red, blue) and a grey vertical column which appears
+    to be a ticket machine or terminal.
+  init2final_edit_prompt: Edit the given image so that the parking barrier arm remains in the lowered,
+    horizontal position. The red and white striped arm should be fully extended to the right, blocking
+    the exit lane, appearing identical to the initial state.
+  rationale: The video prompt describes a user inserting a ticket but immediately pressing the 'CANCEL'
+    button. In a functional access control system, pressing 'CANCEL' aborts the transaction (payment or
+    validation). Consequently, the gate opening mechanism should not be triggered, or if triggered, should
+    immediately revert. Since the user cancelled the action required to exit, the final state of the barrier
+    must be closed (lowered) to prevent unauthorized exit. The camera returns to the original view, so
+    the final frame should show the barrier in its original lowered position.
+  questions:
+  - id: barrier_lowered
+    question: Is the parking barrier arm in the lowered position?
+    answer_type: yes_no
+    notes_for_judge: The arm should be horizontal, not vertical.
+  - id: barrier_horizontal
+    question: Is the red and white barrier arm oriented horizontally?
+    answer_type: yes_no
+    notes_for_judge: It should be parallel to the ground.
+  - id: lane_blocked
+    question: Is the exit lane currently blocked by the barrier arm?
+    answer_type: yes_no
+    notes_for_judge: The path should be obstructed.
+  - id: barrier_raised_check
+    question: Is the barrier arm raised to a vertical position?
+    answer_type: yes_no
+    notes_for_judge: The answer must be NO. If the arm is up, the model failed to process the 'Cancel'
+      command.
+  - id: path_clear_check
+    question: Is the path clear for a vehicle to drive through?
+    answer_type: yes_no
+    notes_for_judge: The answer must be NO.
+  - id: state_maintenance
+    question: Does the barrier arm appear to be in the same closed state as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The state should be unchanged due to the cancellation.

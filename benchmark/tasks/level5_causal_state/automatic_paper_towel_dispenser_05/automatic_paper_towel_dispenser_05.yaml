@@ -1,0 +1,76 @@
+id: automatic_paper_towel_dispenser_05
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: automatic_paper_towel_dispenser
+variation_type: precondition_failure
+variation_description: The sensor is blocked by tape.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Sensor is occluded by tape, preventing detection of the hand.
+  expected_outcome_change: No paper is dispensed (Motor does not activate).
+prompts:
+  init_frame_edit_prompt: Edit the image to add a strip of grey duct tape completely covering the sensor
+    window at the bottom of the dispenser.
+  video_WM: The camera starts centered on the automatic paper towel dispenser opening. The camera rotates
+    right at constant speed until the dispenser exits the view. The camera continues rotating, revealing
+    the area directly below the dispenser where the taped-over sensor is located. A hand enters the frame
+    and waves in front of the taped sensor zone. The hand wave occurs while the dispenser opening remains
+    out of camera view. Then the camera rotates left smoothly at the same rate back to the original viewpoint,
+    bringing the dispenser opening back into center view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The scene displays the dispenser opening. The view shifts to the sensor detection area below.
+    A hand waves in front of the taped sensor. The hand wave occurs while the dispenser opening is not
+    visible. The view returns to the dispenser opening. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a stainless steel automatic paper towel dispenser
+    mounted on a wall with white subway tiles. The dispenser has a transparent horizontal window in the
+    center revealing a roll of brown paper towels inside. There is a small sensor interface with a wave
+    icon near the top right corner of the unit's face. A strip of grey duct tape is adhered horizontally
+    across the bottom front edge of the dispenser, just above the dispensing slot area. To the right,
+    a window frame is partially visible, and below the dispenser, a white porcelain sink basin is visible
+    in the lower right corner.
+  init2final_edit_prompt: Edit the given image to show a sheet of brown paper towel hanging down from
+    the dispensing slot at the bottom of the metal unit. The paper towel should be unrolled and extending
+    downwards towards the sink area. The paper should match the color and texture of the roll visible
+    inside the window. Ensure the grey duct tape and the rest of the dispenser remain unchanged.
+  rationale: The video describes a sequence where the camera rotates away, a hand waves to trigger the
+    dispenser's sensor, and the camera returns to the initial view. The causal action (waving) is the
+    standard trigger for an automatic dispenser. During the period when the dispenser is out of view (occluded),
+    the mechanism activates and dispenses a length of paper. Although the prompt notes the sensor area
+    is 'taped-over', in the context of a functional world-model benchmark, the 'wave' action implies an
+    intent to trigger the device. We assume the activation is successful (either the tape does not block
+    the signal, the sensor is located elsewhere, or the tape is a visual distractor) resulting in a state
+    change where paper is dispensed. The final frame should therefore show the paper towel hanging from
+    the slot.
+  questions:
+  - id: paper_hanging_primary
+    question: Is a sheet of paper towel now hanging from the bottom of the dispenser?
+    answer_type: yes_no
+    notes_for_judge: Check if brown paper is extending downwards from the dispenser slot.
+  - id: paper_visibility_change
+    question: Is there brown paper visible in the area below the metal dispenser unit?
+    answer_type: yes_no
+    notes_for_judge: In the initial frame, the space below the dispenser is empty (wall/sink). In the
+      final frame, paper should be there.
+  - id: dispenser_state_active
+    question: Does the dispenser appear to have dispensed a towel compared to the initial state?
+    answer_type: yes_no
+    notes_for_judge: The presence of hanging paper indicates the mechanism was triggered.
+  - id: slot_occupancy
+    question: Is the dispensing slot occupied by a paper towel?
+    answer_type: yes_no
+    notes_for_judge: The slot is the opening at the bottom.
+  - id: paper_color_consistency
+    question: Is the hanging paper the same color as the roll inside the dispenser?
+    answer_type: yes_no
+    notes_for_judge: Both should be brown/kraft paper color.
+  - id: tape_consistency
+    question: Is the grey duct tape still present on the front of the dispenser?
+    answer_type: yes_no
+    notes_for_judge: The tape should not disappear or move significantly.
+  - id: wall_consistency
+    question: Are the white wall tiles still visible in the background?
+    answer_type: yes_no
+    notes_for_judge: Background should remain stable.

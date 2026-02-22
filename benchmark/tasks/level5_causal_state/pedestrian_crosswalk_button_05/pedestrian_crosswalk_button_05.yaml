@@ -1,0 +1,66 @@
+id: pedestrian_crosswalk_button_05
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: pedestrian_crosswalk_button
+variation_type: precondition_failure
+variation_description: The conduit wire leading to the button is visibly cut
+changes:
+  occlusion_method: null
+  dynamic_conditions: Connection is severed. Signal cannot reach controller.
+  expected_outcome_change: Signal remains Red DON'T WALK (No Change).
+prompts:
+  init_frame_edit_prompt: Edit the image to show the conduit pipe/wire leading to the pedestrian button
+    is severed/cut.
+  video_WM: The camera starts centered on the pedestrian signal showing the red hand (DON'T WALK) symbol.
+    The camera rotates right at constant speed until the signal exits the view. The camera continues rotating,
+    revealing a pedestrian crossing button with a severed wire conduit. A hand enters the frame and presses
+    the circular button firmly. Because the wire is cut, the request signal does not reach the traffic
+    light controller. The button press occurs while the crossing signal remains out of camera view. Then
+    the camera rotates left smoothly at the same rate back to the original viewpoint, bringing the pedestrian
+    crossing signal back into center view. No zoom, no cut, no scene change. STOP.
+  camera_WM: A hand presses the pedestrian button. The request signal does not reach the controller due
+    to a severed wire. The button press occurs while the crossing signal is not visible. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up view of a yellow pedestrian traffic signal pole on a rainy city street.
+    The signal head is illuminated with a steady orange-red hand symbol indicating 'DON'T WALK'. Attached
+    to the pole below the signal head is a yellow metal conduit that is clearly severed and broken, with
+    loose wires hanging out from the open end. The background features a wet crosswalk, city buildings,
+    and blurred traffic.
+  init2final_edit_prompt: Edit the given image to ensure the pedestrian signal continues to display the
+    illuminated orange-red hand 'DON'T WALK' symbol. Keep the signal state exactly as it is, with the
+    hand symbol lit and the 'WALK' symbol unlit. Preserve the appearance of the broken yellow conduit
+    and exposed wires on the pole.
+  rationale: 'The video describes a camera rotation that reveals a button press, followed by a return
+    to the original view. Crucially, the prompt specifies that the wire connecting the button to the controller
+    is severed. Therefore, the causal chain is broken: the button press cannot trigger a signal change.
+    Consequently, the final state of the traffic signal must remain ''DON''T WALK'' (red hand), identical
+    to the initial state. The model must demonstrate an understanding of the physical mechanism (the cut
+    wire) preventing the functional change.'
+  questions:
+  - id: signal_state_hand
+    question: Is the orange-red hand symbol still illuminated on the pedestrian signal?
+    answer_type: yes_no
+    notes_for_judge: The signal should remain in the 'DON'T WALK' state because the wire is cut.
+  - id: signal_state_text
+    question: Does the signal still indicate 'DON'T WALK'?
+    answer_type: yes_no
+    notes_for_judge: Verifies the state has not changed.
+  - id: signal_state_walk_off
+    question: Is the white 'WALK' symbol (walking person) currently unlit?
+    answer_type: yes_no
+    notes_for_judge: The signal should NOT have changed to 'WALK'.
+  - id: mechanism_broken
+    question: Are the severed wires still visible on the yellow conduit?
+    answer_type: yes_no
+    notes_for_judge: Checks for consistency of the broken mechanism.
+  - id: state_persistence
+    question: Is the pedestrian signal in the same state as it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The state should persist due to the broken connection.
+  - id: no_functional_change
+    question: Did the signal remain unchanged despite the button press?
+    answer_type: yes_no
+    notes_for_judge: 'This is the core causal test: the broken wire prevents the change.'

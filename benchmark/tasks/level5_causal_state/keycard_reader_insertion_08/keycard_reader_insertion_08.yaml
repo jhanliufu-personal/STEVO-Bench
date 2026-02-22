@@ -1,0 +1,67 @@
+id: keycard_reader_insertion_08
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: keycard_reader_insertion
+variation_type: repeated_activation
+variation_description: The card is swiped twice, toggling the system ON then back OFF (or simply resetting
+  state).
+changes:
+  occlusion_method: null
+  dynamic_conditions: Two activations cancel each other out or return to standby.
+  expected_outcome_change: The LED returns to its initial dim state.
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The camera starts centered on the keycard reader with its dim status LED. The camera rotates
+    right at constant speed until the reader exits the view. The camera continues rotating, showing the
+    area near the reader. A hand holding a white plastic keycard enters the frame. The hand slides the
+    keycard into the slot and removes it, then pauses briefly and slides the keycard into the slot and
+    removes it a second time. The reader processes both interactions. The double swipe occurs while the
+    reader's status LED remains out of camera view. Then the camera rotates left smoothly at the same
+    rate back to the original viewpoint, bringing the reader and its status LED back into center view.
+    No zoom, no cut, no scene change. STOP.
+  camera_WM: The camera starts on the keycard reader status LED, then rotates away. A hand swipes a keycard
+    through the reader slot twice in succession. The camera then returns to the reader and status LED.
+    STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a brushed metal keycard reader mounted on a beige,
+    textured wall. To the left, a portion of a brown wooden door frame is visible. The reader features
+    a horizontal black plastic card slot in the center and a small, circular, unlit (dark grey) status
+    LED centered above the slot. The metal faceplate shows vertical brushing texture and minor wear.
+  init2final_edit_prompt: Edit the given image to show the small circular status LED above the black card
+    slot illuminated with a bright green glow. Keep the card slot empty and ensure the surrounding metal
+    texture, wall, and door frame remain unchanged.
+  rationale: The video prompt describes a sequence where the camera rotates away from the reader, a hand
+    performs a double keycard swipe (a causal trigger) while the device is occluded, and then the camera
+    rotates back. In the real world, swiping a keycard triggers the reader's status indicator to light
+    up (typically green for access). Therefore, in the final frame, the previously unlit LED should be
+    illuminated to reflect the processed interaction. The card is removed after the swipe, so the slot
+    remains empty.
+  questions:
+  - id: led_illuminated
+    question: Is the small circular status LED above the card slot illuminated?
+    answer_type: yes_no
+    notes_for_judge: The LED was dark in the initial frame; it should now be glowing (likely green) to
+      indicate activation.
+  - id: led_state_change
+    question: Has the status light changed from dark to glowing compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the LED in the initial frame (off) to the final frame (on).
+  - id: led_brightness
+    question: Is the light above the slot brighter than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: It should be emitting light.
+  - id: slot_empty
+    question: Is the black card slot empty (no card inside)?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the card was removed.
+  - id: wall_texture_consistency
+    question: Is the beige textured wall still visible in the background?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: door_frame_consistency
+    question: Is the brown wooden door frame visible on the left side?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

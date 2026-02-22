@@ -3,8 +3,67 @@ level: 5
 category: causal_mechanism
 mechanism_type: binary_routing_logic
 prompts:
-  image_gen_prompt: A gas burner nozzle connected to a pipe. The burner is currently off (no flame visible). The camera view is centered on the burner nozzle.
-  video_WM: The camera starts centered on the unlit burner nozzle. The camera rotates right at constant speed until the burner exits the view. The camera continues rotating, revealing a yellow rotary valve handle on the gas pipe. The handle is currently perpendicular to the pipe (closed position). A hand enters the frame, grabs the yellow handle, and rotates it 90 degrees so that it becomes parallel with the pipe. The handle remains in the parallel position. When the valve is parallel, the internal passage aligns with the pipe allowing gas flow. The valve rotation occurs while the burner nozzle remains out of camera view. Then the camera rotates left smoothly at the same rate back to the original viewpoint, bringing the burner nozzle back into center view. No zoom, no cut, no scene change. STOP.
-  camera_WM: The camera starts on the burner nozzle, then rotates to the valve handle. A hand rotates the valve 90 degrees from perpendicular (closed) to parallel (open position). The valve rotation occurs while the burner is not visible. The camera then returns to the burner nozzle. STOP.
+  image_gen_prompt: A gas burner nozzle connected to a pipe. The burner is currently off (no flame visible).
+    The camera view is centered on the burner nozzle.
+  video_WM: The camera starts centered on the unlit burner nozzle. The camera rotates right at constant
+    speed until the burner exits the view. The camera continues rotating, revealing a yellow rotary valve
+    handle on the gas pipe. The handle is currently perpendicular to the pipe (closed position). A hand
+    enters the frame, grabs the yellow handle, and rotates it 90 degrees so that it becomes parallel with
+    the pipe. The handle remains in the parallel position. When the valve is parallel, the internal passage
+    aligns with the pipe allowing gas flow. The valve rotation occurs while the burner nozzle remains
+    out of camera view. Then the camera rotates left smoothly at the same rate back to the original viewpoint,
+    bringing the burner nozzle back into center view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The camera starts on the burner nozzle, then rotates to the valve handle. A hand rotates
+    the valve 90 degrees from perpendicular (closed) to parallel (open position). The valve rotation occurs
+    while the burner is not visible. The camera then returns to the burner nozzle. STOP.
 camera_control:
   HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a metal gas burner assembly in a workshop. On
+    the left is a cylindrical brass burner nozzle with a soot-darkened tip, pointing left. It is connected
+    to a central T-shaped iron pipe fitting. A small line connects to the bottom of the T-junction. To
+    the right of the T-junction is a bolted flange connection, followed by a section of rusty pipe leading
+    to a brass ball valve on the far right edge. The valve's handle is currently oriented perpendicular
+    to the pipe, indicating a closed state. The background is a blurred workshop interior with a window
+    and tools.
+  init2final_edit_prompt: Edit the given image to show the burner in an active, lit state. Render a realistic
+    flame shooting horizontally out of the brass nozzle on the left side; the flame should be blue at
+    the base and transition to orange/yellow. Additionally, change the orientation of the valve handle
+    on the far right so that it is aligned parallel to the pipe (horizontal), representing the open position.
+    Keep the camera angle, background, and all other objects identical to the original view.
+  rationale: The video sequence describes opening a gas supply valve to allow flow to a burner nozzle.
+    In a functional causal reasoning task, the restoration of gas flow to a burner implies activation.
+    While the ignition step is not explicitly detailed, the visual state change corresponding to 'gas
+    flowing' in a burner context is a visible flame; without it, the state change would be invisible.
+    Therefore, the final frame must depict the burner lit with a flame. Since the camera returns to the
+    original viewpoint, the supply valve (visible on the right) must also be shown in its new open position
+    (parallel to the pipe).
+  questions:
+  - id: flame_visible
+    question: Is there a visible flame emitting from the burner nozzle?
+    answer_type: yes_no
+    notes_for_judge: The nozzle is on the left; it should now have a flame.
+  - id: burner_lit
+    question: Is the burner currently lit?
+    answer_type: yes_no
+    notes_for_judge: Look for fire/combustion at the nozzle tip.
+  - id: fire_direction
+    question: Is there fire shooting out of the brass tube to the left?
+    answer_type: yes_no
+    notes_for_judge: Check for directional flame.
+  - id: state_active
+    question: Has the burner transitioned to an active state with a flame?
+    answer_type: yes_no
+    notes_for_judge: Compare to the unlit initial state.
+  - id: valve_position
+    question: Is the valve handle on the right aligned parallel to the pipe?
+    answer_type: yes_no
+    notes_for_judge: The handle should be horizontal (open), not vertical (closed).
+  - id: valve_open
+    question: Is the gas valve in the open position?
+    answer_type: yes_no
+    notes_for_judge: Open = handle parallel to flow.
+  - id: background_consistency
+    question: Is the background window still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

@@ -1,0 +1,70 @@
+id: car_key_ignition_turn_06
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: car_key_ignition_turn
+variation_type: precondition_failure
+variation_description: Wires under the dashboard are cut/hanging, breaking the circuit.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Precondition broken (wiring severed). Trigger action has no effect.
+  expected_outcome_change: The dashboard will remain dark because the ignition wiring is severed.
+prompts:
+  init_frame_edit_prompt: Edit the area under the dashboard near the steering column to show loose, cut
+    electrical wires hanging down.
+  video_WM: Driver's upright POV. The steering wheel is centered and the instrument cluster is dark. Loose,
+    cut wires hang from beneath the dashboard. The driver leans forward toward the dashboard; the surroundings
+    are no longer visible. The ignition cylinder comes into view with the key at the OFF position. A hand
+    grips the key and turns it clockwise from OFF to the ON position. The ignition cylinder is a rotary
+    switch. The driver leans back to the upright seated position. No zoom, no cut, no scene change. STOP.
+  camera_WM: The camera starts in upright driver POV with a dark dashboard and visible cut wires. The
+    driver leans forward, camera pitches down and moves toward the dashboard, revealing the ignition cylinder
+    with the key at OFF. A hand turns the key clockwise to ON. The action occurs while the windows are
+    not visible. The driver leans back to the original seated position. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A close-up view of a car's lower dashboard and passenger footwell area. A bundle
+    of loose, cut wires with stripped ends (colored red, yellow, blue, black, and green) hangs down from
+    the dashboard structure. The background consists of gray carpet and dark gray plastic dashboard trim.
+    The lighting is dim, with deep shadows beneath the dashboard.
+  init2final_edit_prompt: Edit the given image to show the effects of the car's ignition being turned
+    on. Illuminate the footwell area and the hanging wires with a soft, ambient glow, simulating the light
+    spill from the now-active dashboard instrument cluster and interior electronics. The lighting should
+    be brighter than the initial state, revealing more detail in the shadows under the dash, while maintaining
+    the original camera angle and the position of the wires.
+  rationale: The prompt describes the driver turning the ignition key to the ON position and then returning
+    to the initial upright view. Although the initial frame shows cut wires, their colors (red, yellow,
+    blue) are characteristic of a stereo harness, implying the ignition system is likely intact. Therefore,
+    the causal action (turning the key) should successfully power the car's electrical system. The functional
+    state change is the activation of dashboard lights and electronics. Since the instrument cluster is
+    not directly in the frame, this state change is visually manifested by the ambient light spill (glow)
+    illuminating the previously dark footwell area.
+  questions:
+  - id: primary_lighting_change
+    question: Is the footwell area significantly brighter than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The key turn should activate dashboard lights, casting a glow into the footwell.
+  - id: primary_light_source
+    question: Does the scene appear to be illuminated by an internal light source (like dashboard glow)
+      that was off initially?
+    answer_type: yes_no
+    notes_for_judge: Look for evidence of the car's electronics powering up.
+  - id: primary_shadow_detail
+    question: Are the hanging wires and carpet more clearly visible due to increased illumination?
+    answer_type: yes_no
+    notes_for_judge: The 'ON' state should reduce the deep shadows seen in the 'OFF' state.
+  - id: primary_state_indication
+    question: Does the lighting suggest the car's electrical system is now active?
+    answer_type: yes_no
+    notes_for_judge: Darkness implies OFF; Illumination implies ON.
+  - id: secondary_wire_position
+    question: Are the hanging wires still in the same approximate position and configuration?
+    answer_type: yes_no
+    notes_for_judge: The driver returns to the initial position; wires hang by gravity and should not
+      move significantly.
+  - id: secondary_carpet_texture
+    question: Is the gray carpet texture still visible in the background?
+    answer_type: yes_no
+    notes_for_judge: The environment should remain consistent.

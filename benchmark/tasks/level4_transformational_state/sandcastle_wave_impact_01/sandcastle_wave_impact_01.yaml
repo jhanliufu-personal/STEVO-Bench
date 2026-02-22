@@ -4,66 +4,74 @@ category: structural_transformation
 tags: []
 variant_of: sandcastle_wave_impact
 variation_type: occlusion_method
-variation_description: Occlusion changed from camera rotation to thick sea spray/mist obscuring the view.
+variation_description: Occlusion changed to water splashing the camera lens.
 changes:
-  occlusion_method: Thick sea spray/mist fills the frame
+  occlusion_method: Sea spray/water splashes lens
   dynamic_conditions: null
   expected_outcome_change: same dynamics
 prompts:
   init_frame_edit_prompt: '[NO CHANGE]'
-  video_WM: The large ocean wave crashes down with force directly onto the sandcastle structure. The impact
-    throws up a massive cloud of thick sea spray and mist that completely fills the frame, obscuring all
-    vision of the beach. The mist slowly dissipates and clears. No cut, no scene change. STOP.
-  camera_WM: The large ocean wave crashes down with force directly onto the sandcastle structure. The
-    impact throws up a massive cloud of thick sea spray and mist that completely fills the frame, obscuring
-    all vision of the beach. The mist slowly dissipates and clears. STOP.
+  video_WM: The large ocean wave crashes down with force directly onto the sandcastle structure. Immediately
+    upon impact, a massive splash of sea spray and foam hits the camera lens, completely obscuring the
+    view with water droplets and white noise. The water slowly drips off and clears to reveal the scene
+    again. No cut, no scene change. STOP.
+  camera_WM: The large ocean wave crashes down with force directly onto the sandcastle structure. Immediately
+    upon impact, a massive splash of sea spray and foam hits the camera lens, completely obscuring the
+    view with water droplets and white noise. The water slowly drips off and clears to reveal the scene
+    again. No cut, no scene change. STOP.
 camera_control:
   HY-WorldPlay: null
 evaluation:
-  init_frame_description: A detailed sandcastle with multiple towers, a bridge, and shell decorations
-    sits on a sandy beach. A massive, green ocean wave is curling directly behind and over the sandcastle,
-    poised to crash. In the background to the right, people are standing on the shore. The sky is cloudy.
-  init2final_edit_prompt: Edit the given image to show the aftermath of the wave crashing. The elaborate
-    sandcastle structure should be destroyed, appearing as a flattened, shapeless mound of wet sand or
-    completely washed away. The distinct towers, walls, and bridge should be collapsed or missing. The
-    large looming wave should be gone, replaced by receding white foam, shallow water, or wet sand covering
-    the area where the castle stood. The sand surface should appear wet and smooth.
-  rationale: The video prompt describes a large wave crashing directly onto the sandcastle with force.
-    Physically, a wave of that magnitude impacting a fragile sand structure will result in its destruction.
-    The rollout includes a period of total occlusion by mist/spray, during which the destruction occurs.
-    When the mist clears, the irreversible transformation (collapse and erosion of the sandcastle) must
-    be visible. The wave itself will have dissipated into foam or receded, leaving the sand wet.
+  init_frame_description: A detailed sandcastle with multiple towers, walls, a bridge, and shell decorations
+    sits on a sandy beach. A massive, green ocean wave is curling and looming directly behind and over
+    the sandcastle, about to crash. The sky is overcast and stormy. The sand around the castle is textured
+    and relatively dry in the foreground.
+  init2final_edit_prompt: Edit the given image to show the aftermath of the wave crashing. The intricate
+    sandcastle structure must be destroyed, appearing as a flattened, eroded mound of wet sand or completely
+    washed away, leaving only smooth wet sand and scattered debris. The large looming wave in the background
+    should be replaced by receding white foam, mist, and turbulent water on the beach surface. The sand
+    in the foreground should appear significantly wetter and smoother than in the original image.
+  rationale: The video prompt describes a large wave crashing directly onto the sandcastle, followed by
+    a splash that obscures the view and then clears. Physically, a sandcastle cannot withstand the direct
+    impact of a wave of this magnitude. Therefore, the final state must show the irreversible destruction
+    of the sandcastle structure (flattening, erosion, collapse). The wave itself will have transitioned
+    from a potential energy state (looming curl) to a kinetic/dissipated state (foam and receding water).
+    The camera remains in the same position, revealing the damage after the occlusion clears.
   questions:
-  - id: sandcastle_destroyed
-    question: Is the elaborate structure of the sandcastle (towers, walls) significantly damaged or destroyed?
+  - id: structural_collapse
+    question: Does the sandcastle show visible signs of structural collapse or heavy erosion?
     answer_type: yes_no
-    notes_for_judge: The sandcastle should no longer be a pristine structure; it should be flattened,
-      collapsed, or washed away.
-  - id: height_reduction
-    question: Is the height of the sand structure significantly lower than in the initial frame?
+    notes_for_judge: The castle should no longer be a pristine structure; it should be flattened or ruined.
+  - id: towers_destroyed
+    question: Are the sandcastle's towers collapsed, missing, or significantly reduced in height compared
+      to the initial frame?
     answer_type: yes_no
-    notes_for_judge: The pile of sand remaining should be much shorter than the original towers.
-  - id: towers_collapsed
-    question: Are the pointed towers of the sandcastle collapsed or missing?
+    notes_for_judge: Check for the vertical elements; they should be gone or stump-like.
+  - id: form_loss
+    question: Has the detailed architectural form of the sandcastle (walls, windows, bridge) been smoothed
+      out or washed away?
     answer_type: yes_no
-    notes_for_judge: Specific structural features like the towers should be gone.
-  - id: wave_dissipated
-    question: Has the large curling wave from the initial frame dissipated or receded?
+    notes_for_judge: Fine details should be erased by the water.
+  - id: wave_state_change
+    question: Is the large curling wave from the initial frame replaced by foam, mist, or receding water?
     answer_type: yes_no
-    notes_for_judge: The looming wall of water should be gone, replaced by foam, water, or wet sand.
+    notes_for_judge: The wave should no longer be a solid wall of water looming over the spot; it should
+      have crashed.
   - id: sand_wetness
-    question: Does the sand around the castle area appear wetter or smoother than in the initial frame?
+    question: Does the sand in the foreground appear wetter or covered in water/foam compared to the initial
+      frame?
     answer_type: yes_no
-    notes_for_judge: Evidence of the water washing over the area.
-  - id: bridge_gone
-    question: Is the bridge connecting the sandcastle sections collapsed or missing?
+    notes_for_judge: The impact would leave the area soaked.
+  - id: debris_scatter
+    question: Are the distinct decorations (like shells) displaced or buried compared to their organized
+      arrangement in the initial frame?
     answer_type: yes_no
-    notes_for_judge: Check for the specific bridge structure.
-  - id: structural_integrity
-    question: Has the sandcastle lost its defined architectural form (windows, battlements)?
+    notes_for_judge: If visible, they should not be perfectly aligned anymore.
+  - id: horizon_consistency
+    question: Is the background horizon line in approximately the same position as the initial frame?
     answer_type: yes_no
-    notes_for_judge: The sharp details should be smoothed out or destroyed.
-  - id: background_consistency
-    question: Are the beach and sky in the background still recognizable?
+    notes_for_judge: Ensures camera stability despite the splash.
+  - id: lighting_consistency
+    question: Does the overall lighting and sky condition remain consistent with the initial frame (overcast/stormy)?
     answer_type: yes_no
-    notes_for_judge: The setting should remain consistent despite the destruction of the foreground object.
+    notes_for_judge: The weather shouldn't change, only the wave and castle.

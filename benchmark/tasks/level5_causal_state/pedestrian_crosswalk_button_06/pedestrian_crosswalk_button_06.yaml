@@ -1,0 +1,66 @@
+id: pedestrian_crosswalk_button_06
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: pedestrian_crosswalk_button
+variation_type: precondition_failure
+variation_description: An 'OUT OF ORDER' sign is taped to the button
+changes:
+  occlusion_method: null
+  dynamic_conditions: System is marked inactive. Input is ignored.
+  expected_outcome_change: Signal remains Red DON'T WALK (No Change).
+prompts:
+  init_frame_edit_prompt: Edit the image to add a handwritten 'OUT OF ORDER' sign taped to the pedestrian
+    button pole.
+  video_WM: The camera starts centered on the pedestrian signal showing the red hand (DON'T WALK) symbol.
+    The camera rotates right at constant speed until the signal exits the view. The camera continues rotating,
+    revealing a pedestrian crossing button with an 'OUT OF ORDER' sign taped to it. A hand enters the
+    frame and presses the circular button firmly despite the sign. The disabled system ignores the request
+    signal. The button press occurs while the crossing signal remains out of camera view. Then the camera
+    rotates left smoothly at the same rate back to the original viewpoint, bringing the pedestrian crossing
+    signal back into center view. No zoom, no cut, no scene change. STOP.
+  camera_WM: A hand presses the pedestrian button marked 'OUT OF ORDER'. The disabled system ignores the
+    signal. The button press occurs while the crossing signal is not visible. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up view of a yellow pedestrian signal box mounted on a metal pole. The
+    signal displays an illuminated red hand icon and the text 'DON'T WALK' in red LEDs. Taped to the pole
+    below the signal is a white piece of paper with the handwritten text 'OUT OF ORDER' in black marker.
+    The background shows a wet city street with crosswalk markings, blurred cars, and buildings under
+    overcast lighting.
+  init2final_edit_prompt: Edit the given image to show the pedestrian signal still displaying the illuminated
+    red hand icon and the 'DON'T WALK' text. Ensure the 'OUT OF ORDER' sign remains taped to the pole.
+    The signal state should remain unchanged, and the background street scene should maintain its original
+    appearance.
+  rationale: The video depicts a camera panning to a pedestrian button and back. A user presses the button,
+    but the 'OUT OF ORDER' sign indicates the system is disabled. Consequently, the causal mechanism (the
+    button press) fails to trigger a state change in the signal controller. When the camera returns to
+    the initial view, the pedestrian signal must remain in the 'DON'T WALK' state (red hand), ignoring
+    the input due to the broken mechanism.
+  questions:
+  - id: signal_red_hand_visible
+    question: Is the red hand symbol still illuminated on the pedestrian signal?
+    answer_type: yes_no
+    notes_for_judge: The signal should not have changed to 'WALK' because the system is out of order.
+  - id: signal_text_dont_walk
+    question: Does the signal text still read 'DON'T WALK'?
+    answer_type: yes_no
+    notes_for_judge: Verifies the text component of the signal state.
+  - id: signal_state_unchanged
+    question: Is the pedestrian signal still in the 'DON'T WALK' state?
+    answer_type: yes_no
+    notes_for_judge: The state must persist despite the button press.
+  - id: walk_symbol_absent
+    question: Is the white 'WALK' symbol currently absent from the display?
+    answer_type: yes_no
+    notes_for_judge: If the white figure is visible, the model failed to account for the 'OUT OF ORDER'
+      condition.
+  - id: crossing_prohibited
+    question: Does the signal indicate that crossing is still prohibited?
+    answer_type: yes_no
+    notes_for_judge: Functional interpretation of the red hand state.
+  - id: sign_persistence
+    question: Is the 'OUT OF ORDER' sign still visible on the pole?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

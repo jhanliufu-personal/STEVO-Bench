@@ -1,0 +1,66 @@
+id: lightbulb_and_switch_00
+level: 5
+category: causal_reasoning
+tags: []
+variant_of: lightbulb_and_switch
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: Edit the image to add a realistic white light switch on the back wall, positioned
+    slightly to the left of the center, ensuring it matches the room's lighting, shadows, and texture.
+  video_WM: Single continuous shot, no cuts, no zoom. The camera is completely stationary, framing a room
+    with a ceiling light and a wall switch visible on the back wall. A human hand enters the frame and
+    toggles the wall switch. STOP.
+  camera_WM: Single continuous shot, no cuts, no zoom. The camera is completely stationary, framing a
+    room with a ceiling light and a wall switch visible on the back wall. A human hand enters the frame
+    and toggles the wall switch. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A low-angle shot of a dimly lit room with a textured ceiling and walls. A ceiling
+    light fixture with a single bare bulb is visible in the center; the bulb is currently off (dark).
+    Below the light, on the back wall, is a standard toggle light switch in the 'down' position. The room
+    appears to be an empty interior space with wooden flooring.
+  init2final_edit_prompt: Edit the given image to turn the ceiling light bulb on. The bulb should be glowing
+    brightly white, acting as a light source. The entire room should be significantly brighter and illuminated
+    by the light from the ceiling fixture, casting appropriate shadows. The toggle on the wall switch
+    should be flipped to the 'up' position.
+  rationale: The initial frame shows a light switch in the 'down' position and a dark light bulb, implying
+    the light is off. The prompt specifies that a hand toggles the switch. Functionally, toggling a switch
+    from down to up completes the circuit, causing the connected light fixture to activate. Therefore,
+    the final state must show the light bulb illuminated and the room brightened. The switch itself physically
+    moves to the 'up' position.
+  questions:
+  - id: light_state_on
+    question: Is the ceiling light bulb glowing or illuminated in the final frame?
+    answer_type: yes_no
+    notes_for_judge: The bulb should appear bright white or yellow, indicating it is on.
+  - id: room_brightness
+    question: Is the room significantly brighter in the final frame compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The overall exposure of the room should increase due to the light source.
+  - id: switch_position
+    question: Is the wall switch toggle in the 'up' position?
+    answer_type: yes_no
+    notes_for_judge: The small lever on the switch plate should be pointing upwards.
+  - id: light_source_consistency
+    question: Does the lighting in the room appear to originate from the ceiling fixture?
+    answer_type: yes_no
+    notes_for_judge: Shadows and highlights should be consistent with the ceiling bulb being the source.
+  - id: bulb_appearance_change
+    question: Has the appearance of the light bulb changed from dark/grey to bright/white?
+    answer_type: yes_no
+    notes_for_judge: Direct comparison of the bulb object.
+  - id: switch_state_change
+    question: Is the position of the light switch different than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: It started down, it should now be up.
+  - id: hand_presence
+    question: Is a human hand or arm visible in the frame near the switch?
+    answer_type: yes_no
+    notes_for_judge: The prompt describes a hand entering to toggle the switch.

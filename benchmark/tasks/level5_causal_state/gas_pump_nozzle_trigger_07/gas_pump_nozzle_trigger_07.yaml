@@ -1,0 +1,61 @@
+id: gas_pump_nozzle_trigger_07
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: gas_pump_nozzle_trigger
+variation_type: precondition_failure
+variation_description: Display shows 'INSERT CARD'. Pump is not authorized.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Pump not authorized. Trigger disabled.
+  expected_outcome_change: Display remains on 'INSERT CARD' (No change).
+prompts:
+  init_frame_edit_prompt: Edit the text on the pump display to read 'INSERT CARD' instead of numbers.
+  video_WM: The camera starts centered on the gas pump display showing 'INSERT CARD'. The camera rotates
+    right until the display exits the view, revealing the fuel nozzle. A hand enters the frame and squeezes
+    the nozzle trigger handle. Since payment has not been authorized, the pump does not start. The action
+    occurs while the display is out of view. The camera rotates left smoothly back to the original viewpoint,
+    bringing the pump display screen back into center view. STOP.
+  camera_WM: The camera starts on the display requesting card, then rotates to the nozzle. A hand squeezes
+    the trigger. The camera returns to the display. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up view of a black gas pump interface. The central LCD screen displays
+    the text 'INSERT CARD' in large, segmented digital characters. To the left of the screen is a vertical
+    column of silver buttons with a dollar sign symbol above them. To the right of the screen is the text
+    'gallons'. Below the screen is text reading 'PRICE PER GALLON' and 'SELECT GRADE'. A black hose is
+    visible on the far right.
+  init2final_edit_prompt: Edit the given image to ensure the gas pump display continues to show the text
+    'INSERT CARD' exactly as it appeared initially, with no numbers or fuel volume displayed, reflecting
+    that the pump was not activated.
+  rationale: The video depicts a user attempting to use a gas pump without paying. The causal mechanism
+    of a gas pump requires payment authorization before the trigger activates the flow of fuel and the
+    counter. Since payment was not authorized, squeezing the trigger has no effect on the system state.
+    Therefore, when the camera returns to the display, it must still show the idle state 'INSERT CARD'
+    and not any dispensing metrics.
+  questions:
+  - id: display_text_check
+    question: Is the text 'INSERT CARD' still displayed on the screen?
+    answer_type: yes_no
+    notes_for_judge: The text should be clearly visible, matching the initial state.
+  - id: state_persistence
+    question: Does the display remain in the payment request state rather than showing dispensing numbers?
+    answer_type: yes_no
+    notes_for_judge: The screen should not show rolling numbers or a price.
+  - id: no_numbers
+    question: Is the display devoid of any numerical values representing gallons or price?
+    answer_type: yes_no
+    notes_for_judge: Since the pump wasn't authorized, no numbers should appear.
+  - id: identical_state
+    question: Does the screen look identical to the initial state regarding the displayed text?
+    answer_type: yes_no
+    notes_for_judge: Verifies that the state did not erroneously advance.
+  - id: gallons_label
+    question: Is the 'gallons' label still visible to the right of the screen?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: buttons_visible
+    question: Are the silver buttons to the left of the screen still present?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

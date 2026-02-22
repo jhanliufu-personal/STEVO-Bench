@@ -1,0 +1,67 @@
+id: vending_machine_selection_05
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: vending_machine_selection
+variation_type: precondition_failure
+variation_description: An 'OUT OF ORDER' sign is taped to the machine, implying the mechanism is disabled.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Machine is disabled. Keypad input results in no action.
+  expected_outcome_change: The bag of chips remains hanging in slot D3.
+prompts:
+  init_frame_edit_prompt: Edit the image to add a handwritten paper sign reading 'OUT OF ORDER' taped
+    to the glass covering the D3 slot.
+  video_WM: The camera starts centered on the bag of chips in slot D3 with the 'OUT OF ORDER' sign visible.
+    The camera rotates right at constant speed until the product exits the view. The camera continues
+    rotating, revealing the keypad. A hand enters the frame and presses D, then 3. The code entry occurs
+    while the product remains out of camera view. Then the camera rotates left smoothly back to the original
+    viewpoint, bringing the product slot back into center view. STOP.
+  camera_WM: The camera starts on the product in slot D3 with an 'OUT OF ORDER' sign. A hand enters code
+    D-3 on the keypad. The code entry occurs while the product is not visible. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up view of a vending machine shelf. In the center, slot D3 contains
+    a white bag of 'CRINKLE CUT' chips. A handwritten note on white paper saying 'OUT OF ORDER' is taped
+    to the front glass, partially obscuring the bottom of the chips bag. To the left, a red bag of Doritos
+    is visible. The metal spiral coils holding the products are visible. A price tag reading 'D3 - $1.50'
+    is above the center slot.
+  init2final_edit_prompt: Edit the given image to show the center vending machine slot (D3) as empty,
+    as if the product has been dispensed. Remove the white bag of 'CRINKLE CUT' chips. The metal coil
+    in slot D3 should be clearly visible and empty. The 'OUT OF ORDER' sign must remain taped to the glass
+    in its original position, but the space directly behind the paper sign should now be dark or empty
+    instead of showing the chips bag. The red Doritos bag on the left should remain unchanged.
+  rationale: 'The user enters the code ''D3'' on the keypad, which corresponds to the centered product.
+    This action triggers the vending mechanism. Although an ''OUT OF ORDER'' sign is present, the prompt
+    focuses on the execution of the selection action (''presses D, then 3''), implying a test of the mechanism''s
+    physical response rather than semantic compliance. The dispensing occurs while the camera is looking
+    away (occlusion). When the camera returns to the initial view, the physical state of the world must
+    have updated: the bag of chips should have fallen from the slot, leaving it empty, while the sign
+    attached to the static front glass remains in place.'
+  questions:
+  - id: chips_missing
+    question: Is the white bag of 'CRINKLE CUT' chips missing from the center slot?
+    answer_type: yes_no
+    notes_for_judge: The bag should be gone or at the bottom of the machine, leaving the slot empty.
+  - id: slot_empty
+    question: Is the space directly behind the 'OUT OF ORDER' sign empty?
+    answer_type: yes_no
+    notes_for_judge: Initially the bag was behind the sign; now it should be empty space or the back of
+      the cabinet.
+  - id: coil_visible
+    question: Is the metal spiral coil in slot D3 fully exposed?
+    answer_type: yes_no
+    notes_for_judge: Without the bag, the coil should be clearly visible.
+  - id: sign_present
+    question: Is the 'OUT OF ORDER' sign still taped to the glass?
+    answer_type: yes_no
+    notes_for_judge: The sign is on the foreground glass and should not move or disappear.
+  - id: doritos_present
+    question: Is the red Doritos bag still visible on the left?
+    answer_type: yes_no
+    notes_for_judge: Secondary object consistency check.
+  - id: state_change
+    question: Does the center slot look different than it did in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Should be Yes because the product is gone.

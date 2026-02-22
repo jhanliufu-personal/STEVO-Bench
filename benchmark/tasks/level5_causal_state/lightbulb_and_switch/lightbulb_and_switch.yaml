@@ -3,9 +3,9 @@ level: 5
 category: causal_reasoning
 tags: []
 prompts:
-  image_gen_prompt: A plain interior room viewed from slightly below. A single ceiling-mounted light
-    fixture is centered in the frame — the bulb is off and unlit. The ceiling is white and the walls
-    are bare. The room is dark due to the lack of lighting. The wall switch is not visible in frame.
+  image_gen_prompt: A plain interior room viewed from slightly below. A single ceiling-mounted light fixture
+    is centered in the frame — the bulb is off and unlit. The ceiling is white and the walls are bare.
+    The room is dark due to the lack of lighting. The wall switch is not visible in frame.
   video_WM: Single continuous shot, no cuts, no zoom. The scene contains one functioning ceiling light
     that is controlled only by the wall switch (switch up = light ON, switch down = light OFF). The bulb
     is working. Camera starts centered on the ceiling light. The camera smoothly moves left at constant
@@ -19,3 +19,47 @@ prompts:
 camera_control:
   HY-WorldPlay: s-3, left-30, right-30
   Genie: null
+evaluation:
+  init_frame_description: A low-angle shot of a dim, empty room with a wooden floor and white walls. A
+    single light fixture with a bare bulb is mounted in the center of the ceiling. The room is poorly
+    lit with heavy vignetting and shadows in the corners, and the light bulb appears clear and dark, indicating
+    that the light is currently turned off.
+  init2final_edit_prompt: Edit the given image to turn the ceiling light on. The light bulb should be
+    glowing brightly with a white or warm light. The entire room, including the white walls and wooden
+    floor, should be significantly brighter and well-illuminated by the central light source. The shadows
+    in the corners should be reduced or softened consistent with the light being active.
+  rationale: The initial frame displays a room with the light turned off. The video prompt describes a
+    sequence where the camera pans away, a switch is toggled while the light is out of view, and the camera
+    returns to the original viewpoint. Since the light starts in the OFF state, toggling the switch transitions
+    the system to the ON state. Therefore, the final frame must depict the same scene but with the light
+    bulb glowing and the room illuminated.
+  questions:
+  - id: q1
+    question: Is the ceiling light bulb glowing or emitting light in the final frame?
+    answer_type: yes_no
+    notes_for_judge: The bulb should appear white, yellow, or bright, indicating it is on.
+  - id: q2
+    question: Is the overall brightness of the room significantly higher than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the general illumination levels.
+  - id: q3
+    question: Are the walls more illuminated than they were in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Walls should reflect the light from the ceiling source.
+  - id: q4
+    question: Is the wooden floor brighter and more visible than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The floor should be lit up by the overhead light.
+  - id: q5
+    question: Does the scene depict the light fixture in an 'on' state?
+    answer_type: yes_no
+    notes_for_judge: Functional check of the device state.
+  - id: q6
+    question: Is the position of the ceiling light fixture unchanged from the initial frame?
+    answer_type: yes_no
+    notes_for_judge: 'Consistency check: the object should not move, only change state.'
+  - id: q7
+    question: Are the structural features of the room (walls, ceiling, floor planks) consistent with the
+      initial frame?
+    answer_type: yes_no
+    notes_for_judge: Consistency check for room geometry.

@@ -1,0 +1,70 @@
+id: parking_gate_ticket_05
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: parking_gate_ticket
+variation_type: precondition_failure
+variation_description: A heavy concrete block is pinning the barrier arm down. The motor may activate,
+  but the arm cannot rise.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Physical obstruction preventing movement.
+  expected_outcome_change: Barrier remains lowered/stuck under the block.
+prompts:
+  init_frame_edit_prompt: Edit the image to place a large, heavy concrete cinder block sitting directly
+    on top of the lowered barrier arm.
+  video_WM: The camera starts centered on the lowered parking barrier arm which is pinned down by a heavy
+    concrete block. The camera rotates right at constant speed until the barrier exits the view. The camera
+    continues rotating, revealing a ticket payment machine. A hand holding a validated parking ticket
+    enters the frame and inserts the ticket into the slot. The machine attempts to activate the barrier
+    motor upon validation. The ticket insertion occurs while the barrier arm remains out of camera view.
+    Then the camera rotates left smoothly at the same rate back to the original viewpoint, bringing the
+    barrier arm back into center view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The scene features a lowered barrier arm pinned by a concrete block and a ticket payment
+    machine. A hand inserts a validated parking ticket into the slot. The machine attempts to activate
+    the barrier motor upon validation. The ticket insertion occurs while the barrier is not visible.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A yellow parking barrier housing stands on the left side of the frame. A red
+    and white striped barrier arm extends horizontally across the image to the right. A large, grey concrete
+    cinder block is resting directly on top of the barrier arm, positioned slightly to the right of the
+    center. In the background, there is a paved parking lot with several parked cars, including a silver
+    hatchback and a blue sedan. The scene is outdoors on a sunny day.
+  init2final_edit_prompt: Edit the given image to show the parking barrier arm remaining in the lowered,
+    horizontal position. The concrete cinder block must remain resting on top of the barrier arm, pinning
+    it down. Ensure the barrier arm has not been raised and the block has not fallen off. The scene should
+    look physically consistent with the weight of the block preventing the barrier from opening. Keep
+    the camera angle, lighting, and background elements identical to the original view.
+  rationale: The task presents a physical conflict between a causal trigger (ticket validation attempting
+    to open the gate) and a physical constraint (a heavy concrete block pinning the arm). In a realistic
+    physics simulation, the torque of a standard barrier motor is insufficient to lift a heavy cinder
+    block, or the safety mechanism would engage to prevent damage, causing the motor to stall. Therefore,
+    the correct functional outcome is that the barrier fails to open and remains in the lowered state.
+    This tests whether the world model prioritizes physical constraints over simple script-following (ticket
+    = open).
+  questions:
+  - id: barrier_position_horizontal
+    question: Is the barrier arm still in the lowered, horizontal position?
+    answer_type: yes_no
+    notes_for_judge: The arm should not be raised or angled upwards.
+  - id: block_presence_on_arm
+    question: Is the concrete block still resting on top of the barrier arm?
+    answer_type: yes_no
+    notes_for_judge: The block should not have fallen off or disappeared.
+  - id: barrier_failed_to_raise
+    question: Did the barrier arm remain down despite the activation attempt?
+    answer_type: yes_no
+    notes_for_judge: Answer YES if the arm is still down. Answer NO if the arm opened.
+  - id: block_constraint_visible
+    question: Does the concrete block appear to be pinning the barrier arm down?
+    answer_type: yes_no
+    notes_for_judge: The block should be physically on top of the arm.
+  - id: housing_consistency
+    question: Is the yellow barrier housing still visible on the left?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: arm_pattern_consistency
+    question: Is the red and white striped pattern still visible on the barrier arm?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

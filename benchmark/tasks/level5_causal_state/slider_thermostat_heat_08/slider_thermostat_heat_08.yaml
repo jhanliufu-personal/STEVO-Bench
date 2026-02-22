@@ -1,0 +1,73 @@
+id: slider_thermostat_heat_08
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: slider_thermostat_heat
+variation_type: repeated_activation
+variation_description: The slider is moved to MAX and then immediately back to MIN (double toggle).
+changes:
+  occlusion_method: null
+  dynamic_conditions: Repeated activation (MIN -> MAX -> MIN). Net state change is zero.
+  expected_outcome_change: The vent remains inactive (same as initial state).
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The camera starts centered on the inactive heater vent. The camera rotates right at constant
+    speed until the vent exits the view. The camera continues rotating, revealing a wall-mounted heater
+    control with a horizontal slider. The slider is currently at the far left MIN position. A finger enters
+    the frame and slides the control bar all the way to the far right MAX position, pauses briefly, and
+    then slides it back to the far left MIN position. The slider remains at the minimum setting. The thermostat
+    engages the heating circuit only when set above a threshold. The slider movements occur while the
+    heater vent remains out of camera view. Then the camera rotates left smoothly at the same rate back
+    to the original viewpoint, bringing the heater vent back into center view. No zoom, no cut, no scene
+    change. STOP.
+  camera_WM: The camera starts on the heater vent, then rotates to the temperature slider control. A finger
+    moves the slider from MIN to MAX and back to MIN position. The thermostat engages heating only above
+    threshold. The slider movements occur while the vent is not visible. The camera then returns to the
+    heater vent. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up, straight-on view of a rectangular, beige-painted metal air vent
+    mounted on a textured beige wall. The vent has two columns of fixed horizontal slats angled downward.
+    The paint on the vent frame is chipped in several places, revealing dark metal underneath, particularly
+    at the top left and bottom left corners. Two flat-head screws secure the vent to the wall on the left
+    and right sides. The lighting is soft and even, creating gentle shadows within the slats. The vent
+    appears static and inactive.
+  init2final_edit_prompt: Edit the given image to show the heater vent in an inactive state. The metal
+    slats should remain sharp and static, with no motion blur, heat shimmer, or visual distortion indicating
+    airflow. The appearance should be identical to the original frame, reflecting that the heater is off.
+  rationale: The video sequence describes a camera panning away from an inactive vent to a thermostat.
+    A user turns the thermostat slider to the maximum setting but then immediately returns it to the minimum
+    setting before the camera pans back. Since the initial state was 'inactive' at the minimum setting,
+    and the control is returned to that same minimum setting, the heating circuit is disengaged by the
+    time the vent comes back into view. Therefore, the final state of the vent should be visually identical
+    to the initial state (inactive, no heat shimmer or airflow).
+  questions:
+  - id: is_inactive
+    question: Is the heater vent inactive?
+    answer_type: yes_no
+    notes_for_judge: The vent should look static, without heat waves or blur.
+  - id: no_shimmer
+    question: Is the image free of heat shimmer or optical distortion around the vent?
+    answer_type: yes_no
+    notes_for_judge: Active heaters often cause visual distortion; this should be absent.
+  - id: sharp_slats
+    question: Are the metal slats sharp and distinct, indicating no motion blur?
+    answer_type: yes_no
+    notes_for_judge: Airflow often causes blur; the slats should be sharp.
+  - id: state_reset
+    question: Does the vent appear to be in the same off state as the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The system was turned on and then back off, so it should return to the initial state.
+  - id: no_airflow
+    question: Is the scene free of visible airflow effects?
+    answer_type: yes_no
+    notes_for_judge: Check for any particles or blur that would indicate moving air.
+  - id: paint_chips_visible
+    question: Are the paint chips on the vent frame still clearly visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: screws_present
+    question: Are the mounting screws still present on the sides of the vent?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

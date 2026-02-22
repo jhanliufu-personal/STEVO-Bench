@@ -1,0 +1,67 @@
+id: pressure_mat_alarm_03
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: pressure_mat_alarm
+variation_type: initial_state
+variation_description: Indicator starts YELLOW (warning); stepping escalates to Red.
+changes:
+  occlusion_method: null
+  dynamic_conditions: System starts in Warning state (Yellow). Trigger action escalates to Alarm (Red).
+  expected_outcome_change: Final state is Red (Alarm), but start state was Yellow.
+prompts:
+  init_frame_edit_prompt: Edit the indicator light to be glowing bright YELLOW instead of green.
+  video_WM: The camera starts centered on the alarm indicator light showing yellow (warning state). The
+    camera rotates right at constant speed until the indicator exits the view. The camera continues rotating,
+    revealing a rectangular pressure-sensitive floor mat positioned in the entryway. A foot enters the
+    frame and steps onto the pressure mat. The mat contains weight sensors connected to the alarm circuit.
+    When pressure exceeds the threshold, the sensor triggers the alarm indicator to escalate state. The
+    stepping action occurs while the alarm indicator remains out of camera view. Then the camera rotates
+    left smoothly at the same rate back to the original viewpoint, bringing the alarm indicator back into
+    center view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The scene features a yellow alarm indicator light and a pressure-sensitive floor mat. A foot
+    steps onto the mat. The mat contains weight sensors that trigger the alarm to escalate when threshold
+    is exceeded. The step occurs while the alarm indicator is not visible. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up shot of a gray metal industrial electrical box mounted on a beige
+    wall. A vertical conduit pipe connects to the top and bottom of the box. In the center, a circular
+    indicator light is glowing bright yellow. A label above the light reads 'SYSTEM ARMED' and a label
+    below reads 'NORMAL'. To the left, a white window frame is partially visible. The lighting creates
+    shadows on the wall behind the conduit.
+  init2final_edit_prompt: Edit the given image to change the color of the glowing indicator light in the
+    center of the metal box from yellow to bright red. Maintain the glow effect and intensity. Do not
+    change the text on the labels, the metal box, the conduit, or the surrounding wall and window details.
+  rationale: The video depicts a causal chain where a pressure mat is stepped on, triggering an alarm
+    system to escalate its state. The camera rotates away to show the trigger event (stepping on the mat)
+    and then rotates back to the original view. Since the alarm starts in a yellow 'warning' state and
+    is triggered to 'escalate', the standard visual representation for an active alarm is a red light.
+    Therefore, the final frame should show the original scene but with the indicator light changed from
+    yellow to red to signify the triggered alarm state.
+  questions:
+  - id: q1
+    question: Is the central indicator light glowing red?
+    answer_type: yes_no
+    notes_for_judge: The light should have changed from yellow to red to indicate the escalated alarm
+      state.
+  - id: q2
+    question: Is the color of the indicator light different from the initial yellow?
+    answer_type: yes_no
+    notes_for_judge: The state change requires a visible color shift.
+  - id: q3
+    question: Has the alarm indicator transitioned to a red hue?
+    answer_type: yes_no
+    notes_for_judge: Verifies the specific direction of the state change (escalation to red).
+  - id: q4
+    question: Is the yellow glow absent from the indicator light?
+    answer_type: yes_no
+    notes_for_judge: The light should no longer be yellow.
+  - id: q5
+    question: Is the metal box still mounted on the wall in the same position?
+    answer_type: yes_no
+    notes_for_judge: Consistency check for the static environment.
+  - id: q6
+    question: Is the window frame still visible on the left side?
+    answer_type: yes_no
+    notes_for_judge: Consistency check for the field of view.

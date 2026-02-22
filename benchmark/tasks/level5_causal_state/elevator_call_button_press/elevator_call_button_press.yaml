@@ -4,9 +4,64 @@ category: causal_mechanism
 mechanism_type: button_signal_indicator
 tags: []
 prompts:
-  image_gen_prompt: An elevator call button panel is mounted on a wall showing up and down arrow buttons. The up arrow button is currently unlit and dark. The camera view is centered on the button panel.
-  video_WM: The camera starts centered on the unlit elevator call button panel. The camera rotates right at constant speed until the button panel exits the view. The camera continues rotating right, showing the wall and surroundings. While the button is out of view, a hand reaches to the button location and presses the up call button. Elevator call buttons contain a momentary switch that closes when pressed. Behind the button face is a small LED or incandescent bulb. The button is wired to the elevator controller which receives the call signal. The controller can send power back to the button's internal light circuit to indicate the call has been registered. The light circuit and switch are independent - the light is controlled by the elevator system, not directly by the button press. The button press occurs while the button panel remains out of camera view. Then the camera rotates left smoothly at the same rate back to the original viewpoint, bringing the button panel back into center view. No zoom, no cut, no scene change. STOP.
-  camera_WM: The camera starts on the unlit call button, then rotates away. While out of view, the button is pressed. The button contains a switch that sends a signal to the elevator controller. The controller can send power to the button's internal light circuit. The light circuit is controlled by the elevator system. The button press occurs while the button is not visible. The camera then returns to the button panel. STOP.
+  image_gen_prompt: An elevator call button panel is mounted on a wall showing up and down arrow buttons.
+    The up arrow button is currently unlit and dark. The camera view is centered on the button panel.
+  video_WM: The camera starts centered on the unlit elevator call button panel. The camera rotates right
+    at constant speed until the button panel exits the view. The camera continues rotating right, showing
+    the wall and surroundings. While the button is out of view, a hand reaches to the button location
+    and presses the up call button. Elevator call buttons contain a momentary switch that closes when
+    pressed. Behind the button face is a small LED or incandescent bulb. The button is wired to the elevator
+    controller which receives the call signal. The controller can send power back to the button's internal
+    light circuit to indicate the call has been registered. The light circuit and switch are independent
+    - the light is controlled by the elevator system, not directly by the button press. The button press
+    occurs while the button panel remains out of camera view. Then the camera rotates left smoothly at
+    the same rate back to the original viewpoint, bringing the button panel back into center view. No
+    zoom, no cut, no scene change. STOP.
+  camera_WM: The camera starts on the unlit call button, then rotates away. While out of view, the button
+    is pressed. The button contains a switch that sends a signal to the elevator controller. The controller
+    can send power to the button's internal light circuit. The light circuit is controlled by the elevator
+    system. The button press occurs while the button is not visible. The camera then returns to the button
+    panel. STOP.
 camera_control:
   HY-WorldPlay: s-3, right-30, left-30
   Genie: null
+evaluation:
+  init_frame_description: A close-up view of a brushed metal elevator call button panel mounted on a rough,
+    pitted concrete wall. The panel contains two circular buttons arranged vertically. The top button
+    displays an up arrow and is currently unlit (dark). The bottom button displays a down arrow and is
+    currently illuminated with an amber/orange glow.
+  init2final_edit_prompt: Edit the given image to make the top circular button (the up arrow) illuminated
+    with an amber glow, matching the appearance of the bottom button. Ensure the up arrow symbol remains
+    visible within the glow. Keep the bottom button illuminated and the surrounding concrete wall unchanged.
+  rationale: The video prompt describes a camera panning away from the elevator panel, followed by a hidden
+    action where a hand presses the up call button. In standard elevator systems, pressing a call button
+    triggers a latching circuit or controller response that illuminates the button to indicate the request
+    has been registered. Therefore, when the camera pans back to the original view, the functional state
+    change is that the previously unlit up button should now be illuminated. The down button, which was
+    already lit, remains lit as there is no indication the elevator has arrived to clear the call.
+  questions:
+  - id: q1_up_button_lit
+    question: Is the top button with the up arrow now illuminated?
+    answer_type: yes_no
+    notes_for_judge: The up button was unlit in the initial frame but should be lit in the final frame
+      after being pressed.
+  - id: q2_up_button_glow
+    question: Does the up arrow button emit an amber or orange glow?
+    answer_type: yes_no
+    notes_for_judge: Check for visual evidence of the light source being active inside the button.
+  - id: q3_state_change
+    question: Is the top button brighter than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the brightness of the top button between the two frames.
+  - id: q4_both_lit
+    question: Are both the up and down buttons illuminated in the final frame?
+    answer_type: yes_no
+    notes_for_judge: The down button started lit, and the up button should become lit.
+  - id: q5_down_button_consistency
+    question: Is the bottom down arrow button still illuminated?
+    answer_type: yes_no
+    notes_for_judge: The down button was already lit and should remain so.
+  - id: q6_wall_consistency
+    question: Is the texture of the concrete wall unchanged?
+    answer_type: yes_no
+    notes_for_judge: The environment should remain stable.

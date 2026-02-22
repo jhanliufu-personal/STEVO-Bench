@@ -1,0 +1,72 @@
+id: conveyor_reverse_lever_08
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: conveyor_reverse_lever
+variation_type: repeated_activation
+variation_description: The lever is pulled to REVERSE and then immediately pushed back to NEUTRAL.
+changes:
+  occlusion_method: null
+  dynamic_conditions: State toggled active then inactive. Net result is stationary.
+  expected_outcome_change: The conveyor moves briefly but stops. The final state is stationary (same as
+    initial).
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The camera starts centered on the stationary cardboard box on the conveyor belt. The camera
+    rotates right at constant speed until the box exits the view. The camera continues rotating, revealing
+    a control lever on the side of the conveyor. The lever is currently in the middle NEUTRAL position.
+    A hand enters the frame, pulls the control lever to the REVERSE position, pauses for a split second,
+    and immediately pushes it back to the NEUTRAL position. The lever movement occurs while the cardboard
+    box remains out of camera view. Then the camera rotates left smoothly at the same rate back to the
+    original viewpoint, bringing the cardboard box on the belt back into center view. No zoom, no cut,
+    no scene change. STOP.
+  camera_WM: The camera starts on the box, then rotates to the control lever. A hand shifts the lever
+    from NEUTRAL to REVERSE and back to NEUTRAL. The transmission engages briefly then disengages. The
+    lever movement occurs while the box is not visible. The camera then returns to the box on the belt.
+    STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A medium shot of a brown cardboard box centered on a flat industrial conveyor
+    belt. The box has shipping labels on its side. The conveyor belt runs from the foreground into the
+    background. On the right side of the image, there are tall stacks of wooden pallets. On the left,
+    there are more boxes and pallets in the background. The setting is a warehouse with concrete floors
+    and overhead lighting.
+  init2final_edit_prompt: Edit the given image to shift the position of the cardboard box along the conveyor
+    belt. Move the box to a different location along the belt's path (either closer to or further from
+    the camera) so that it is no longer in the exact center of the frame. Ensure the background pallets,
+    warehouse structure, and lighting remain exactly unchanged.
+  rationale: The video sequence involves the camera looking away to a control mechanism, which is then
+    activated (set to Reverse) and quickly deactivated (set to Neutral). This causal action drives the
+    conveyor belt for a short duration. Since the box is resting on the belt, the movement of the belt
+    transports the box to a new position. When the camera returns to the original viewpoint, the static
+    environment remains identical, but the box has been displaced along the conveyor line.
+  questions:
+  - id: box_position_change
+    question: Is the cardboard box in a different position along the conveyor belt compared to the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: The box should have shifted along the axis of the belt due to the conveyor movement.
+  - id: box_displacement_relative_to_background
+    question: Has the position of the box changed relative to the background pallets?
+    answer_type: yes_no
+    notes_for_judge: Compare the box's edge against the static pallets in the background.
+  - id: box_off_center
+    question: Is the box no longer perfectly centered in the frame?
+    answer_type: yes_no
+    notes_for_judge: The initial frame has the box centered; the movement should displace it.
+  - id: box_still_on_belt
+    question: Is the cardboard box still resting on the conveyor belt?
+    answer_type: yes_no
+    notes_for_judge: The movement was short, so the box should not have fallen off or disappeared.
+  - id: background_consistency
+    question: Are the stacks of wooden pallets in the background in the same position as in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: The camera returned to the original viewpoint, so static objects must not move.
+  - id: conveyor_structure_consistency
+    question: Is the structure of the conveyor belt (rails and frame) in the same position as the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: Only the belt surface and the box should potentially show movement; the frame is
+      static.

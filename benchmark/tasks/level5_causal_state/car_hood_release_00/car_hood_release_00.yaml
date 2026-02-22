@@ -1,0 +1,63 @@
+id: car_hood_release_00
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: car_hood_release
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: Edit the image to add a clearly visible hood release lever on the dashboard
+    panel to the left of the steering wheel, positioned below the air vent so it is fully visible within
+    the frame.
+  video_WM: Stationary driver's POV. The closed car hood is visible through the windshield. A hood release
+    lever is visible on the dashboard to the left of the steering wheel. A hand reaches into the frame,
+    grips the hood release lever, and pulls it firmly. STOP.
+  camera_WM: Stationary driver's POV. The closed car hood is visible through the windshield. A hood release
+    lever is visible on the dashboard to the left of the steering wheel. A hand reaches into the frame,
+    grips the hood release lever, and pulls it firmly. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A driver's point-of-view shot from inside a blue Corvette C7. The steering wheel
+    with the Corvette logo is central. The digital instrument cluster shows 0 MPH. To the left of the
+    steering wheel, on the dashboard, is a control panel with buttons, including a release button with
+    a car icon. Through the windshield, the blue car hood is visible, currently closed and flush with
+    the side fenders. A suburban street with trees and parked cars is visible in the background.
+  init2final_edit_prompt: Edit the given image to show the car hood unlatched and popped open. The rear
+    edge of the hood (closest to the windshield) should be raised vertically, creating a visible gap between
+    the hood panel and the side fenders/cowl. Include a hand visible on the left side of the dashboard,
+    gripping the release control.
+  rationale: The prompt describes pulling the hood release lever. In this vehicle (Corvette C7), the hood
+    is front-hinged, meaning the latch mechanism is located at the rear near the windshield. Consequently,
+    when the release is pulled, the rear edge of the hood pops upward due to spring tension, breaking
+    the flush line with the fenders. The final frame must depict this specific mechanical state change
+    (hood ajar at the cowl) and the hand performing the action.
+  questions:
+  - id: hood_state_01
+    question: Is the car hood unlatched and popped open?
+    answer_type: yes_no
+    notes_for_judge: Look for the hood being slightly raised, especially near the windshield.
+  - id: hood_position_02
+    question: Is the rear edge of the hood (near the windshield) higher than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The hood should no longer be flush with the body; it should be popped up.
+  - id: hood_gap_03
+    question: Is there a visible gap between the hood panel and the adjacent body panels?
+    answer_type: yes_no
+    notes_for_judge: The unlatching creates a gap that was not present initially.
+  - id: hand_visibility_04
+    question: Is a hand visible interacting with the dashboard controls on the left?
+    answer_type: yes_no
+    notes_for_judge: The prompt specifies a hand reaches in and pulls the lever.
+  - id: speedometer_invariant_05
+    question: Does the speedometer still read 0 MPH?
+    answer_type: yes_no
+    notes_for_judge: The car is stationary; this should not change.
+  - id: steering_wheel_invariant_06
+    question: Is the steering wheel in the same position as the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The action involves the dashboard, not steering.

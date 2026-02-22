@@ -1,0 +1,69 @@
+id: atm_card_screen_03
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: atm_card_screen
+variation_type: initial_state
+variation_description: Screen starts in 'Session Timeout' state; action is removing card to reset.
+changes:
+  occlusion_method: null
+  dynamic_conditions: The ATM has timed out with a card inside. Removing it resets the UI.
+  expected_outcome_change: Screen changes from 'SESSION TIMEOUT' to 'INSERT CARD TO BEGIN'.
+prompts:
+  init_frame_edit_prompt: Edit the ATM screen to display 'SESSION TIMEOUT - REMOVE CARD' in red text.
+  video_WM: The camera starts centered on the ATM screen showing 'SESSION TIMEOUT'. The camera rotates
+    right at constant speed until the screen exits the view. The camera continues rotating, revealing
+    the ATM card insertion slot with a card sticking out. A hand enters the frame and retrieves the card.
+    The ATM sensor detects the slot is empty and resets the interface. The action occurs while the screen
+    remains out of camera view. Then the camera rotates left smoothly at the same rate back to the original
+    viewpoint, bringing the ATM screen back into center view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The camera starts on the ATM screen, then rotates to the card slot. A hand removes the card.
+    The sensor detects removal. The action occurs while the screen is not visible. The camera then returns
+    to the ATM screen. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up view of an ATM machine's metallic interface. The central screen displays
+    a red error message on a black background reading 'SESSION TIMEOUT' on the top line and '- REMOVE
+    CARD' on the bottom line. To the right of the screen and keypad, there is a card reader slot illuminated
+    by a bright blue circular light. A numeric keypad is visible below the screen. The scene reflects
+    a street environment in the glass and metal surfaces.
+  init2final_edit_prompt: Edit the image to show the ATM interface in a reset 'idle' state. Replace the
+    red 'SESSION TIMEOUT - REMOVE CARD' text on the screen with a standard 'Welcome' or 'Please Insert
+    Card' message (e.g., white or green text on a dark background). Ensure the card reader slot on the
+    right appears empty, with no card protruding from it.
+  rationale: The video prompt describes a sequence where a user removes a card from the ATM slot. In real-world
+    ATM logic, the 'SESSION TIMEOUT - REMOVE CARD' screen is a conditional state that persists only until
+    the card is physically removed. Once the sensor detects the card removal, the system automatically
+    resets the software interface to the default 'Welcome' or 'Insert Card' screen. Since the camera returns
+    to the original viewpoint after this action occurs, the final frame must show the screen in this reset
+    state and the card slot empty.
+  questions:
+  - id: screen_text_timeout_gone
+    question: Is the text 'SESSION TIMEOUT' absent from the ATM screen?
+    answer_type: yes_no
+    notes_for_judge: The error message should be cleared after the card is removed.
+  - id: screen_text_remove_gone
+    question: Is the text '- REMOVE CARD' absent from the ATM screen?
+    answer_type: yes_no
+    notes_for_judge: This instruction is no longer valid once the action is complete.
+  - id: screen_state_reset
+    question: Does the screen now display a 'Welcome', 'Insert Card', or similar idle state message?
+    answer_type: yes_no
+    notes_for_judge: The interface should reset to the start screen.
+  - id: screen_content_changed
+    question: Has the content of the display changed from the initial red error text?
+    answer_type: yes_no
+    notes_for_judge: Verifies that the screen state updated in response to the action.
+  - id: card_slot_empty
+    question: Is the card reader slot empty, with no card visible sticking out?
+    answer_type: yes_no
+    notes_for_judge: The prompt explicitly states the card was retrieved.
+  - id: invariant_keypad
+    question: Is the numeric keypad still visible below the screen?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: invariant_blue_light
+    question: Is the blue circular light around the card reader still present?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check; the light fixture itself should remain.

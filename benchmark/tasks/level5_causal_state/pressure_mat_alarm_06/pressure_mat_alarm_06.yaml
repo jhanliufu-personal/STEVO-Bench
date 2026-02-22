@@ -1,0 +1,72 @@
+id: pressure_mat_alarm_06
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: pressure_mat_alarm
+variation_type: precondition_failure
+variation_description: The indicator light glass is broken; it cannot display status.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Output device is physically damaged. No light can be emitted.
+  expected_outcome_change: Final state is Broken/Dark (Unchanged).
+prompts:
+  init_frame_edit_prompt: Edit the image so the green glass dome of the indicator light is smashed and
+    broken, revealing the dark interior.
+  video_WM: The camera starts centered on the alarm indicator which has a smashed, broken lens. The camera
+    rotates right at constant speed until the indicator exits the view. The camera continues rotating,
+    revealing a rectangular pressure-sensitive floor mat positioned in the entryway. A foot enters the
+    frame and steps onto the pressure mat. The mat contains weight sensors connected to the alarm circuit.
+    The stepping action occurs while the alarm indicator remains out of camera view. Then the camera rotates
+    left smoothly at the same rate back to the original viewpoint, bringing the broken alarm indicator
+    back into center view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The scene features a broken alarm indicator and a pressure-sensitive floor mat. A foot steps
+    onto the mat. The mat contains weight sensors connected to the alarm circuit. The step occurs while
+    the alarm indicator is not visible. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a weathered, wall-mounted industrial electrical
+    box. The box is metal with a conduit pipe running vertically through it. The front face features a
+    circular alarm indicator with a shattered green glass lens, exposing the internal light bulb socket
+    and rusty interior. Jagged pieces of green glass remain around the rim. The box is mounted on a beige
+    wall with peeling paint and visible texture. To the left, part of a white window frame is visible.
+    The lighting is natural, and the bulb inside the fixture is currently unlit (dark).
+  init2final_edit_prompt: Edit the given image to show the light bulb inside the broken alarm fixture
+    glowing brightly. The bulb should be illuminated, emitting a strong light that illuminates the interior
+    of the metal box and backlights the remaining green glass shards. The surrounding wall area near the
+    box should show a slight glow or reflection from the active light. Keep the camera angle, the pattern
+    of the broken glass, and the background details exactly the same as the original image.
+  rationale: The video prompt describes a causal chain where a pressure-sensitive mat is connected to
+    the alarm circuit. When the camera pans away, a foot steps onto the mat, triggering the system. Since
+    the alarm indicator is a light fixture (evidenced by the bulb socket and glass lens), the functional
+    result of triggering the circuit is that the light turns on. When the camera returns to the initial
+    view, the bulb inside the broken casing should be illuminated to reflect this state change.
+  questions:
+  - id: '1'
+    question: Is the light bulb inside the broken fixture illuminated?
+    answer_type: yes_no
+    notes_for_judge: The bulb was dark in the initial frame; it should now be glowing.
+  - id: '2'
+    question: Does the alarm indicator appear to be in an active, glowing state?
+    answer_type: yes_no
+    notes_for_judge: Check for emission of light from the center of the device.
+  - id: '3'
+    question: Is the interior of the metal box brighter than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The light source inside should illuminate the rusty interior.
+  - id: '4'
+    question: Are the remaining green glass shards backlit or reflecting light from the bulb?
+    answer_type: yes_no
+    notes_for_judge: Activation of the bulb should change the lighting on the glass fragments.
+  - id: '5'
+    question: Is the device emitting light compared to the unlit state in the first image?
+    answer_type: yes_no
+    notes_for_judge: Direct comparison of the bulb's state.
+  - id: '6'
+    question: Is the vertical conduit pipe still in the same position?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: '7'
+    question: Is the window frame on the left still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

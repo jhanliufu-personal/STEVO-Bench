@@ -1,0 +1,65 @@
+id: gas_pump_nozzle_trigger_04
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: gas_pump_nozzle_trigger
+variation_type: precondition_failure
+variation_description: A yellow 'Out of Order' bag covers the nozzle, preventing operation.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Pump is out of order. Trigger action has no effect.
+  expected_outcome_change: Display remains at 0.00 (No change).
+prompts:
+  init_frame_edit_prompt: Edit the image to place a yellow 'OUT OF ORDER' bag over the nozzle handle.
+  video_WM: The camera starts centered on the gas pump display showing $0.00. The camera rotates right
+    until the display exits the view, revealing the fuel nozzle covered by a yellow 'Out of Order' bag.
+    A hand enters the frame and squeezes the nozzle trigger handle through the bag. Due to the service
+    lockout, the valve does not activate. The action occurs while the display is out of view. The camera
+    rotates left smoothly back to the original viewpoint, bringing the pump display screen back into center
+    view. STOP.
+  camera_WM: The camera starts on the display, then rotates to the bagged nozzle. A hand squeezes the
+    trigger. The camera returns to the display. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up view of a black gas pump interface. In the center is a digital LCD
+    screen displaying '0.00' on the top line and '0.00' on the middle line. Below the numbers, text reads
+    'PRICE PER GALLON'. To the left of the screen is a column of silver square buttons and a white dollar
+    sign '$'. To the right of the pump interface, a yellow plastic bag covers the fuel nozzle handle.
+    The bag has bold black text reading 'OUT OF ORDER' and is secured with a yellow zip tie. The background
+    is a blurred gas station environment.
+  init2final_edit_prompt: Edit the given image so that the digital display continues to read 0.00 for
+    the top dollar amount and 0.00 for the middle gallon amount. The yellow bag labeled 'OUT OF ORDER'
+    should remain visible on the right side. The scene should appear identical to the initial state, reflecting
+    that no fuel was dispensed.
+  rationale: 'The video sequence involves panning away from the display to the nozzle, performing a trigger
+    squeeze action, and panning back. However, the critical causal factor is the ''Out of Order'' status
+    indicated by the bag. This signifies a service lockout where the pump mechanism is disabled. Therefore,
+    despite the physical action of squeezing the trigger, the functional result is null: the pump does
+    not activate, and the counters must remain at 0.00. The final frame should verify that the model correctly
+    prioritizes the lockout state over the trigger action.'
+  questions:
+  - id: qp_cost_zero
+    question: Does the top digital readout for the price still display 0.00?
+    answer_type: yes_no
+    notes_for_judge: The pump is out of order, so the price should not increase.
+  - id: qp_gallons_zero
+    question: Does the middle digital readout for gallons still display 0.00?
+    answer_type: yes_no
+    notes_for_judge: The pump is out of order, so the volume should not increase.
+  - id: qp_no_dispense
+    question: Does the display indicate that zero fuel has been dispensed?
+    answer_type: yes_no
+    notes_for_judge: Check if the numbers are still at zero.
+  - id: qp_bag_visible
+    question: Is the yellow 'OUT OF ORDER' bag still visible on the right?
+    answer_type: yes_no
+    notes_for_judge: The bag should remain in place.
+  - id: qp_invariant_buttons
+    question: Are the silver buttons on the left side still visible?
+    answer_type: yes_no
+    notes_for_judge: Invariant check.
+  - id: qp_invariant_text
+    question: Is the text 'PRICE PER GALLON' still visible on the display panel?
+    answer_type: yes_no
+    notes_for_judge: Invariant check.

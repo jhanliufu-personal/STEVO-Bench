@@ -1,0 +1,70 @@
+id: doorbell_chime_wireless_04
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: doorbell_chime_wireless
+variation_type: precondition_failure
+variation_description: The chime is unplugged and lying on the floor, preventing activation.
+changes:
+  occlusion_method: null
+  dynamic_conditions: The chime is physically disconnected from the power source.
+  expected_outcome_change: The chime will remain inactive (no LED, no sound) because it has no power.
+prompts:
+  init_frame_edit_prompt: Edit the image so the wireless chime is unplugged and lying on the floor below
+    the empty wall outlet.
+  video_WM: The camera starts centered on the wireless doorbell chime, which is unplugged and lying on
+    the floor below the empty outlet. The unit is disconnected from power. The camera rotates right at
+    constant speed until the chime exits the view. The camera continues rotating through the hallway and
+    toward the exterior door, revealing the wireless doorbell button mounted outside. A finger enters
+    the frame and presses the doorbell button. The button transmits a radio signal, but the chime is unpowered.
+    The button press occurs while the interior chime remains out of camera view. Then the camera rotates
+    left smoothly at the same rate back to the original viewpoint, bringing the unplugged chime back into
+    center view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The scene features a wireless doorbell chime lying unplugged on the floor and an exterior
+    doorbell button. A finger presses the doorbell button. The button transmits a signal, but the chime
+    is unpowered. The button press occurs while the interior chime remains out of camera view. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A white wireless doorbell receiver unit lying on a light-colored hardwood floor
+    against a white baseboard. The unit is rectangular with rounded corners, featuring a circular pattern
+    of speaker holes in the center and a small LED indicator dot near the bottom. Above the unit, mounted
+    on the beige wall, is a standard white duplex electrical outlet that is empty. To the left, a white
+    vertical doorframe or window casing is visible. The doorbell chime is clearly unplugged and disconnected
+    from the power source.
+  init2final_edit_prompt: Edit the given image to show the wireless doorbell chime lying on the floor
+    in the exact same position as the original. Ensure the chime remains unplugged and the wall outlet
+    above it remains empty. The small LED indicator on the front of the chime must be dark and unlit.
+    Do not add any glow, light, or visual indication of activation to the device. The scene should appear
+    identical to the initial state, reflecting that the device is unpowered.
+  rationale: The video sequence depicts a causal test where a doorbell button is pressed, but the receiver
+    unit (the chime) is physically disconnected from power (unplugged). Although the trigger action (button
+    press) occurs, the functional mechanism requires electricity to produce a response (sound or light).
+    Since the condition 'connected to power' is false, the expected output is null. Therefore, when the
+    camera returns to the chime, it must remain completely inactive and unlit, identical to its initial
+    state. This tests the model's ability to reason that a trigger cannot activate an unpowered device.
+  questions:
+  - id: q1
+    question: Is the small LED indicator on the front of the chime dark?
+    answer_type: yes_no
+    notes_for_judge: The chime is unpowered, so the light should not be glowing.
+  - id: q2
+    question: Is the doorbell chime still unplugged from the wall outlet?
+    answer_type: yes_no
+    notes_for_judge: The device must remain disconnected.
+  - id: q3
+    question: Is the wall outlet above the chime empty?
+    answer_type: yes_no
+    notes_for_judge: No plug should be inserted into the outlet.
+  - id: q4
+    question: Is the chime unit free of any glowing lights or illumination?
+    answer_type: yes_no
+    notes_for_judge: Verifies that the device did not activate.
+  - id: q5
+    question: Does the chime appear completely inactive?
+    answer_type: yes_no
+    notes_for_judge: General check for lack of response.
+  - id: q6
+    question: Is the chime in the same position on the floor as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The device should not have moved.

@@ -1,0 +1,71 @@
+id: string_pull_lamp_07
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: string_pull_lamp
+variation_type: precondition_failure
+variation_description: The lamp fixture is hanging by a chain but has no electrical cord connected to
+  it at all.
+changes:
+  occlusion_method: null
+  dynamic_conditions: 'Broken precondition: No power source connected. Trigger action has no effect.'
+  expected_outcome_change: The lamp will remain OFF (dark).
+prompts:
+  init_frame_edit_prompt: Edit the image to remove the electrical cord entirely, leaving the lamp hanging
+    only by a support chain or hook with no wires attached.
+  video_WM: The camera starts centered on the dark lamp bulb, showing no electrical cord attached. The
+    camera rotates right at constant speed until the bulb exits the view. The camera continues rotating,
+    revealing the beaded pull-string hanging down. A hand enters the frame, grabs the beaded string, and
+    pulls it downward firmly until a mechanical click is heard, then releases it. The lamp contains an
+    internal toggle switch mechanism. The string pull occurs while the lamp bulb remains out of camera
+    view. Then the camera rotates left smoothly at the same rate back to the original viewpoint, bringing
+    the lamp bulb back into center view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The camera starts on the lamp bulb, then rotates to the pull-string. A hand pulls the string
+    downward to engage the internal toggle switch. The string pull occurs while the bulb is not visible.
+    The camera then returns to the lamp bulb. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a vintage industrial pendant lamp hanging in a
+    workshop. The lamp has a galvanized metal shade and a wire cage guard surrounding a clear glass Edison
+    bulb. The bulb is currently off, with dark filaments visible inside. Above the shade is a metal housing
+    attached to a hanging chain. The background is a cluttered workshop with wooden beams, shelves, and
+    tools, slightly out of focus.
+  init2final_edit_prompt: Edit the given image to show the lamp turned on. The filaments inside the glass
+    bulb should be glowing bright orange or yellow. Add a realistic lighting bloom and glow effect around
+    the bulb and wire cage to simulate illumination. Keep the camera angle, framing, and background objects
+    identical to the original image.
+  rationale: The video prompt describes a sequence where the camera rotates away from the lamp to reveal
+    a pull-string mechanism, which is then pulled by a hand. This action triggers the internal toggle
+    switch of the lamp. Since the lamp was initially off, the toggle action completes the circuit and
+    turns the lamp on. The camera then rotates back to the exact starting position. Therefore, the final
+    state is visually identical to the initial state, except that the light bulb is now illuminated.
+  questions:
+  - id: bulb_glowing
+    question: Is the light bulb inside the cage now glowing?
+    answer_type: yes_no
+    notes_for_judge: The bulb should appear illuminated, emitting light.
+  - id: filaments_illuminated
+    question: Do the filaments inside the bulb appear bright orange or yellow instead of dark?
+    answer_type: yes_no
+    notes_for_judge: Check for the specific visual change of the filaments heating up/lighting up.
+  - id: lamp_state_on
+    question: Is the lamp currently in the 'on' state?
+    answer_type: yes_no
+    notes_for_judge: Functional state check.
+  - id: brightness_increase
+    question: Is the interior of the glass bulb significantly brighter than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Comparative brightness check.
+  - id: cage_reflection
+    question: Does the wire cage show signs of being illuminated by the bulb (e.g., highlights or glow)?
+    answer_type: yes_no
+    notes_for_judge: Check for lighting interaction with the immediate surroundings.
+  - id: shade_consistency
+    question: Is the metal shade still present and in the same position?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: background_consistency
+    question: Are the background shelves and tools still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

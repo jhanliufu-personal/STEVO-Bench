@@ -1,0 +1,66 @@
+id: lightbulb_and_switch_09
+level: 5
+category: causal_reasoning
+tags: []
+variant_of: lightbulb_and_switch
+variation_type: repeated_activation
+variation_description: The switch is flicked rapidly back and forth, ending in the original state.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Switch is flicked back and forth (net zero change).
+  expected_outcome_change: Light stays OFF (original was ON).
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: Single continuous shot, no cuts, no zoom. The scene contains one functioning ceiling light.
+    Camera starts centered on the ceiling light. The camera smoothly moves left at constant speed until
+    the ceiling light exits the frame to the right. While the light is out of view, a human hand rapidly
+    flicks the wall switch on and then immediately off again. The camera continues moving left for several
+    seconds. Then the camera moves right at the same constant speed back to the original viewpoint, bringing
+    the ceiling light back into view.
+  camera_WM: The scene contains one functioning ceiling light. A human hand rapidly flicks the wall switch
+    on and then immediately off again. STOP.
+camera_control:
+  HY-WorldPlay: s-3, left-30, right-30
+  Genie: null
+evaluation:
+  init_frame_description: A low-angle shot of a dimly lit room centered on a ceiling light fixture. The
+    fixture contains a single incandescent light bulb which is currently turned off. The bulb's glass
+    is clear, and the filament is dark. The ceiling is textured plaster, appearing grey due to the low
+    light. The walls are bare and shadowed. Wooden floorboards are visible at the bottom of the frame.
+    The overall lighting is dim and moody.
+  init2final_edit_prompt: Edit the given image so that the ceiling light bulb is turned off. The bulb
+    should appear unlit, with clear glass and no glow. The room should remain dimly lit with dark shadows,
+    consistent with the light source being deactivated. The ceiling and walls should appear textured but
+    not brightly illuminated. The framing and perspective should be identical to the original image.
+  rationale: 'The video prompt describes a sequence where the camera moves away, a switch is flicked on
+    and then immediately off again, and then the camera returns. The key causal action is the ''on-then-off''
+    sequence. Since the switch is turned off immediately after being turned on, and significant time passes
+    (camera moving left then right) before the light comes back into view, the light bulb will be fully
+    off and the filament cooled down by the time the final frame is captured. Therefore, the final state
+    is functionally identical to the initial state: the light is off.'
+  questions:
+  - id: light_state_off
+    question: Is the ceiling light bulb turned off in the final frame?
+    answer_type: yes_no
+    notes_for_judge: The light should not be emitting light; the bulb should look dark or clear.
+  - id: room_dimness
+    question: Is the room dimly lit, consistent with the main light being off?
+    answer_type: yes_no
+    notes_for_judge: The room should not be brightly illuminated; shadows should be prominent.
+  - id: bulb_glow_check
+    question: Does the light bulb appear unlit, without a bright white glow?
+    answer_type: yes_no
+    notes_for_judge: If the bulb is glowing white or yellow, the answer is No.
+  - id: ceiling_illumination
+    question: Is the ceiling area around the fixture relatively dark rather than brightly lit?
+    answer_type: yes_no
+    notes_for_judge: The ceiling should not show the bright splash of light associated with an active
+      bulb.
+  - id: filament_state
+    question: Is the filament inside the bulb dark or invisible, rather than glowing?
+    answer_type: yes_no
+    notes_for_judge: The internal wire should not be incandescent.
+  - id: functional_return
+    question: Has the lighting state returned to the initial 'off' condition?
+    answer_type: yes_no
+    notes_for_judge: Compare with the initial frame; the lighting should be effectively the same.

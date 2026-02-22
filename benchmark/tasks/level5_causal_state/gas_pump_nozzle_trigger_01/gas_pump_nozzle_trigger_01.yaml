@@ -1,0 +1,75 @@
+id: gas_pump_nozzle_trigger_01
+level: 5
+category: causal_mechanism
+tags: []
+variant_of: gas_pump_nozzle_trigger
+variation_type: initial_state
+variation_description: The pump starts in an active 'flowing' state with the nozzle latched open. The
+  trigger action (squeeze) releases the latch, stopping the flow.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Pump is initially active (flowing). Trigger is latched. Squeeze releases latch.
+  expected_outcome_change: The display numbers stop changing (flow ceases) instead of starting to increment.
+prompts:
+  init_frame_edit_prompt: Edit the pump display to show blurred, rapidly incrementing numbers and a spinning
+    flow indicator, implying the pump is currently running.
+  video_WM: The camera starts centered on the gas pump display screen showing incrementing numbers and
+    a spinning flow icon. The camera rotates right at constant speed until the display exits the view.
+    The camera continues rotating, revealing the fuel nozzle with its trigger held in the 'open' position
+    by a latch. A hand enters the frame and squeezes the nozzle trigger handle, which disengages the locking
+    latch mechanism. This action closes the valve and stops the fuel flow. The trigger squeeze occurs
+    while the pump display remains out of camera view. Then the camera rotates left smoothly back to the
+    original viewpoint, bringing the pump display screen back into center view. STOP.
+  camera_WM: The camera starts on the active pump display, then rotates to the latched nozzle trigger.
+    A hand squeezes the trigger to release the latch. The camera then returns to the pump display. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up view of a black gas pump interface. The top digital display shows
+    the price '$ 35.79'. The middle digital display shows the volume '12.45' with the text 'gallons' to
+    its right. Below the volume is the text 'PRICE PER GALLON'. At the bottom is 'SELECT GRADE'. To the
+    left is a vertical column of silver buttons. To the right is a black hose. A circular segmented icon
+    is visible below the 'gallons' text.
+  init2final_edit_prompt: Edit the given image to update the digital numbers on the gas pump display to
+    show higher values, simulating that more fuel has been dispensed. Change the top price number to be
+    greater than 35.79 (e.g., 38.50) and the middle gallons number to be greater than 12.45 (e.g., 13.40).
+    Keep the font style, color, and background identical to the original.
+  rationale: The video describes a sequence where the camera pans away from the display while the pump
+    is running. A duration of time passes before the user squeezes the nozzle trigger to stop the flow.
+    When the camera pans back to the display, the fuel dispensing process has added more volume and cost
+    during the interval. Therefore, the final frame must show increased numbers for both price and gallons
+    compared to the initial frame, reflecting the fuel dispensed before the stop action occurred.
+  questions:
+  - id: price_increase
+    question: Is the displayed price value higher than 35.79?
+    answer_type: yes_no
+    notes_for_judge: The top number should be greater than the initial 35.79.
+  - id: gallons_increase
+    question: Is the displayed gallons value higher than 12.45?
+    answer_type: yes_no
+    notes_for_judge: The middle number should be greater than the initial 12.45.
+  - id: price_change_check
+    question: Is the top number on the display different from the initial 35.79?
+    answer_type: yes_no
+    notes_for_judge: It should have changed (increased).
+  - id: gallons_change_check
+    question: Is the middle number on the display different from the initial 12.45?
+    answer_type: yes_no
+    notes_for_judge: It should have changed (increased).
+  - id: general_increase
+    question: Do the numbers on the screen indicate that more fuel has been dispensed compared to the
+      initial frame?
+    answer_type: yes_no
+    notes_for_judge: Both numbers should be higher.
+  - id: consistency_dollar_sign
+    question: Is the dollar sign still visible to the left of the top number?
+    answer_type: yes_no
+    notes_for_judge: Consistency check.
+  - id: consistency_gallons_label
+    question: Is the text 'gallons' still visible next to the middle number?
+    answer_type: yes_no
+    notes_for_judge: Consistency check.
+  - id: consistency_select_grade
+    question: Is the 'SELECT GRADE' text still visible at the bottom?
+    answer_type: yes_no
+    notes_for_judge: Consistency check.

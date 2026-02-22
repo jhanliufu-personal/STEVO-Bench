@@ -1,0 +1,62 @@
+id: lightbulb_and_switch_03
+level: 5
+category: causal_reasoning
+tags: []
+variant_of: lightbulb_and_switch
+variation_type: initial_state
+variation_description: The lightbulb starts ON with a cool white color temperature.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Initial state is ON (cool light). Trigger action toggles switch to OFF.
+  expected_outcome_change: Light turns OFF (original was ON).
+prompts:
+  init_frame_edit_prompt: Edit the image so the lightbulb is ON, emitting a bright cool white light.
+  video_WM: Single continuous shot, no cuts, no zoom. The scene contains one functioning ceiling light
+    that is currently ON, shining with a cool white light. Camera starts centered on the ceiling light.
+    The camera smoothly moves left at constant speed until the ceiling light exits the frame to the right.
+    While the light is out of view, a human hand toggles the wall switch. The camera continues moving
+    left for several seconds. Then the camera moves right at the same constant speed back to the original
+    viewpoint, bringing the ceiling light back into view.
+  camera_WM: The scene contains one functioning ceiling light that is currently ON, shining with a cool
+    white light. A human hand toggles the wall switch. STOP.
+camera_control:
+  HY-WorldPlay: s-3, left-30, right-30
+  Genie: null
+evaluation:
+  init_frame_description: A view of an empty room with white, textured walls and a wooden floor. In the
+    center of the ceiling, there is a single light fixture with a light bulb that is currently turned
+    on, emitting a bright, cool white light. The light creates a strong bloom and illuminates the ceiling
+    and upper walls.
+  init2final_edit_prompt: Edit the given image to turn the ceiling light off. The light bulb should appear
+    dark and unlit. Remove the bright white glow, bloom, and glare on the ceiling and walls. The overall
+    lighting of the room should be significantly dimmer, consistent with the main artificial light source
+    being extinguished.
+  rationale: The initial state shows the light is ON. The prompt describes the camera moving away to occlude
+    the light, at which point a switch is toggled. Toggling a switch for an active light turns it OFF.
+    When the camera returns to the original viewpoint, the light bulb must be unlit and the room consequently
+    darker.
+  questions:
+  - id: light_state_off
+    question: Is the ceiling light bulb unlit in the final frame?
+    answer_type: yes_no
+    notes_for_judge: The bulb should look dark or grey, not bright white.
+  - id: glow_removed
+    question: Has the bright white glow or bloom on the ceiling disappeared?
+    answer_type: yes_no
+    notes_for_judge: Compare with the intense halo in the initial frame.
+  - id: room_dimmer
+    question: Is the overall illumination of the room dimmer than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The room should be darker due to the light being turned off.
+  - id: bulb_appearance
+    question: Does the light bulb appear dark instead of glowing?
+    answer_type: yes_no
+    notes_for_judge: The filament/bulb glass should not be emitting light.
+  - id: fixture_consistency
+    question: Is the ceiling light fixture still present in the same location?
+    answer_type: yes_no
+    notes_for_judge: The object itself should remain, just the state changes.
+  - id: wall_texture_consistency
+    question: Are the textures of the walls and ceiling (e.g., plaster patterns) still visible?
+    answer_type: yes_no
+    notes_for_judge: Structural details should persist even if lighting changes.
