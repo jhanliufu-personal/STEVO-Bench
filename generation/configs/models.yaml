@@ -28,7 +28,9 @@
 #                          --output PATH
 #                          --init_frame PATH   (optional)
 #                          --camera_control STRING  (optional)
-#   extra_args           List of additional CLI args forwarded verbatim.
+#   extra_args              List of additional CLI args forwarded verbatim.
+#   camera_control_default  Fallback camera-control string used when a task has no
+#                           camera_control value for this model (null = pass nothing).
 
 models:
 
@@ -43,16 +45,23 @@ models:
     api_key_env: GOOGLE_ZIQI_KEY
     poll_interval: 10
     timeout: 600
-    rpm_limit: 5                     # max requests per minute (null = unlimited)
+    # max requests per minute (null = unlimited)
+    rpm_limit: 5                     
 
-  hunyuan:
+  HY-WorldPlay:
     type: local
-    prompt_field: camera_WM          # Hunyuan takes the scene-only prompt
-    camera_control_field: HY-WorldPlay  # passed as --camera_control to the script
-    repo_path: /path/to/HunyuanVideo-WorldPlay   # ← update for your machine
-    script: scripts/run_benchmark.sh
+    prompt_field: camera_WM
+    camera_control_field: HY-WorldPlay
+    # on paros
+    repo_path: /data/jhan/StateWMBench/HY-WorldPlay
+    script: run_single.sh
     extra_args: []
     rpm_limit: null
+    # Fallback for tasks where HY-WorldPlay is null (stationary camera intent).
+    # 63 latents: s-3 static + 5 oscillation cycles of ±3, returns to center.
+    # Matches the length of the standard pan (s-3, right-30, left-30 = 63 latents).
+    camera_control_default: "s-3, right-3, left-6, right-6, left-6, right-6, left-6, right-6, left-6, right-6, left-6, right-3"
+    n_gpu: 8
 
   wan22:
     type: local
@@ -62,3 +71,4 @@ models:
     script: scripts/run_benchmark.sh
     extra_args: []
     rpm_limit: null
+    n_gpu: 8

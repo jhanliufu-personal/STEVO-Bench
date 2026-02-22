@@ -39,6 +39,8 @@ class LocalScriptRunner(WorldModelRunner):
         self.repo_path = Path(repo_path_str).expanduser().resolve()
         self.script: str = config.get("script", "run.sh")
         self.extra_args: List[str] = list(config.get("extra_args") or [])
+        self.camera_control_default: Optional[str] = config.get("camera_control_default") or None
+        self.n_gpu: Optional[int] = config.get("n_gpu") or None
 
     def generate(
         self,
@@ -62,8 +64,11 @@ class LocalScriptRunner(WorldModelRunner):
         ]
         if init_frame and init_frame.exists():
             cmd += ["--init_frame", str(init_frame)]
-        if camera_control:
-            cmd += ["--camera_control", camera_control]
+        effective_camera_control = camera_control or self.camera_control_default
+        if effective_camera_control:
+            cmd += ["--camera_control", effective_camera_control]
+        if self.n_gpu is not None:
+            cmd += ["--n_gpu", str(self.n_gpu)]
         cmd += self.extra_args
 
         result = subprocess.run(

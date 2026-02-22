@@ -274,6 +274,10 @@ def main() -> int:
         help="Re-generate videos that already exist on disk.",
     )
     parser.add_argument(
+        "--n_gpu", type=int, default=None,
+        help="Override the n_gpu value from the model config for all local models.",
+    )
+    parser.add_argument(
         "--config", default="generation/configs/models.yaml",
         help="Path to the model registry YAML (default: generation/configs/models.yaml).",
     )
@@ -298,7 +302,10 @@ def main() -> int:
             )
             return 1
         try:
-            runners[name] = build_runner(name, models_config[name])
+            cfg = models_config[name]
+            if args.n_gpu is not None and cfg.get("type") == "local":
+                cfg = {**cfg, "n_gpu": args.n_gpu}
+            runners[name] = build_runner(name, cfg)
         except Exception as e:
             print(f"[ERROR] Could not initialize runner for '{name}': {e}", file=sys.stderr)
             return 1
