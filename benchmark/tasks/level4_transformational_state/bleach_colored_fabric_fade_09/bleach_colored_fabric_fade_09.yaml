@@ -1,0 +1,69 @@
+id: bleach_colored_fabric_fade_09
+level: 4
+category: structural_transformation
+tags: []
+variant_of: bleach_colored_fabric_fade
+variation_type: combined
+variation_description: Combines red wine (staining) with a blocking object occlusion.
+changes:
+  occlusion_method: A large cardboard sheet blocks the view.
+  dynamic_conditions: Liquid is red wine, fabric is white.
+  expected_outcome_change: Fabric develops a red stain.
+prompts:
+  init_frame_edit_prompt: Edit the image to change the bottle to a glass wine bottle containing red liquid,
+    and change the fabric color to white.
+  video_WM: The wine bottle tips and pours red wine onto the white fabric surface. Red wine contains anthocyanins,
+    which are dark pigments that rapidly absorb into porous fibers, creating a strong stain. The liquid
+    soaks into the material immediately. The wine continues to contact and saturate the fabric fibers.
+    A large sheet of cardboard slides into the foreground, completely blocking the view of the tray and
+    fabric. The cardboard remains in front of the camera for several seconds while the wine remains in
+    contact with the fabric behind it. Then, the cardboard slides away, revealing the scene from the original
+    viewpoint. No zoom, no cut, no scene change. STOP.
+  camera_WM: The wine bottle tips and pours red wine onto the white fabric surface. Red wine contains
+    anthocyanins, which are dark pigments that rapidly absorb into porous fibers, creating a strong stain.
+    The liquid soaks into the material immediately. The wine continues to contact and saturate the fabric
+    fibers. A large sheet of cardboard slides into the foreground, completely blocking the view of the
+    tray and fabric. The cardboard remains in front of the camera for several seconds while the wine remains
+    in contact with the fabric behind it. Then, the cardboard slides away, revealing the scene from the
+    original viewpoint. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A top-down view of a white plastic tray containing a folded white cloth napkin.
+    A hand holds a glass bottle of red wine, tilting it to pour a stream of red liquid onto the center
+    of the napkin. A small, fresh red stain is forming where the liquid hits the fabric.
+  init2final_edit_prompt: Edit the given image to show the red wine stain on the white cloth as significantly
+    larger and more spread out. The red liquid should cover a wider area of the fabric, appearing deeply
+    soaked into the fibers, reflecting the result of the liquid spreading over time.
+  rationale: The video describes a continuous pouring and soaking process. Initially, the stain is small
+    and fresh. During the occlusion by the cardboard, the liquid continues to flow or at least spread
+    via capillary action into the porous fabric. When the view is revealed, the primary irreversible change
+    is the expansion of the stained area; the red pigment will have saturated a larger portion of the
+    white cloth than was visible in the initial frame.
+  questions:
+  - id: stain_size_increase
+    question: Is the red stain on the white cloth larger than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the surface area covered by red liquid in the final frame to the initial
+      frame. It should be visibly larger.
+  - id: stain_spread
+    question: Has the red liquid spread further outwards from the center of the cloth?
+    answer_type: yes_no
+    notes_for_judge: The liquid should have moved beyond the initial impact point.
+  - id: saturation_increase
+    question: Does the fabric appear more saturated with red liquid compared to the start?
+    answer_type: yes_no
+    notes_for_judge: Look for a larger, possibly darker or wetter-looking area of discoloration.
+  - id: fabric_discoloration
+    question: Is a greater percentage of the white fabric discolored by the wine than before?
+    answer_type: yes_no
+    notes_for_judge: This tests the progression of the staining process.
+  - id: tray_consistency
+    question: Is the white tray still visible underneath the cloth?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check for the background object.
+  - id: cloth_presence
+    question: Is the white cloth still present in the center of the tray?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check ensuring the object hasn't vanished.

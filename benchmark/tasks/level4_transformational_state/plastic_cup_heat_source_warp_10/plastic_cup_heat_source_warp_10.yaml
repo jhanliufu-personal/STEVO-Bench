@@ -1,0 +1,74 @@
+id: plastic_cup_heat_source_warp_10
+level: 4
+category: structural_transformation
+tags: []
+variant_of: plastic_cup_heat_source_warp
+variation_type: combined
+variation_description: Heat gun moved far away AND occlusion changed to fog.
+changes:
+  occlusion_method: Dense fog fills the area.
+  dynamic_conditions: Heat source is distant, allowing heat to dissipate.
+  expected_outcome_change: The cup remains largely unchanged or warps very slightly due to reduced heat
+    intensity.
+prompts:
+  init_frame_edit_prompt: Edit the image to move the heat gun significantly further away from the cup
+    (at least double the original distance).
+  video_WM: Hot air from the heat gun flows toward the plastic cup, but the gun is positioned at a significant
+    distance. The hot air disperses into the surrounding environment as it travels, losing most of its
+    thermal energy before reaching the cup. The temperature of the air hitting the cup is likely below
+    the glass transition point of the plastic. Suddenly, a dense fog rolls across the workbench, completely
+    hiding the objects from view. The fog remains thick for several seconds while the distant heat gun
+    continues running. Then the fog dissipates, restoring visibility to the scene. No zoom, no cut, no
+    scene change. STOP.
+  camera_WM: Hot air from the heat gun flows toward the plastic cup, but the gun is positioned at a significant
+    distance. The hot air disperses into the surrounding environment as it travels, losing most of its
+    thermal energy before reaching the cup. The temperature of the air hitting the cup is likely below
+    the glass transition point of the plastic. Suddenly, a dense fog rolls across the workbench, completely
+    hiding the objects from view. The fog remains thick for several seconds while the distant heat gun
+    continues running. Then the fog dissipates, restoring visibility to the scene. No zoom, no cut, no
+    scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A red plastic disposable cup stands in the foreground on a light-colored wooden
+    workbench. The cup has a visible dent or crumple on its right side but stands upright. The interior
+    rim appears white. In the background, slightly out of focus, an orange heat gun is positioned on a
+    stand with its nozzle pointing generally toward the cup. The heating element of the gun is glowing
+    orange. Various tools, including pliers and a chisel, are scattered on the workbench behind the cup.
+  init2final_edit_prompt: Edit the given image to show the scene after the fog has cleared. The red plastic
+    cup must remain structurally identical to the initial frame, retaining its original shape, height,
+    and the specific dent on its side, with absolutely no signs of melting, warping, or shrinking, as
+    the heat was insufficient to damage it. The heat gun in the background should remain in the same position
+    with its nozzle still glowing orange. The scene should be fully visible and clear of any fog.
+  rationale: The video prompt explicitly states that the temperature of the air reaching the cup is below
+    the glass transition point of the plastic due to the distance and dispersion of heat. Therefore, physically,
+    the cup should not undergo any phase change, melting, or deformation. The fog is a transient occluder
+    that hides the scene but does not alter the state of the objects. Once the fog dissipates, the cup
+    should be revealed in its original, unchanged state, while the heat gun continues to run.
+  questions:
+  - id: cup_integrity
+    question: Does the red cup retain its original shape without any new signs of melting or warping?
+    answer_type: yes_no
+    notes_for_judge: The cup should not look melted, shrunk, or deformed compared to the first frame.
+  - id: cup_dent_preservation
+    question: Is the pre-existing dent on the side of the cup still visible and unchanged?
+    answer_type: yes_no
+    notes_for_judge: The cup had a dent initially; it should not be 'fixed' nor should it be exacerbated
+      by heat.
+  - id: cup_rim_structure
+    question: Is the rim of the cup still defined and intact?
+    answer_type: yes_no
+    notes_for_judge: The rim should not be drooping or distorted.
+  - id: heat_gun_active
+    question: Is the heat gun in the background still glowing orange?
+    answer_type: yes_no
+    notes_for_judge: The prompt implies the gun continues running.
+  - id: fog_cleared
+    question: Is the scene completely free of the dense fog mentioned in the prompt?
+    answer_type: yes_no
+    notes_for_judge: Visibility should be restored to match the initial frame.
+  - id: cup_position
+    question: Does the cup appear to be in the same position on the table as it was initially?
+    answer_type: yes_no
+    notes_for_judge: It should not have moved significantly.

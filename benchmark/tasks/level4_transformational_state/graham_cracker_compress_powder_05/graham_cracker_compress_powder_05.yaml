@@ -1,0 +1,66 @@
+id: graham_cracker_compress_powder_05
+level: 4
+category: structural_transformation
+tags: []
+variant_of: graham_cracker_compress_powder
+variation_type: dynamic_condition
+variation_description: Force application changed from crushing pressure to gentle resting.
+changes:
+  occlusion_method: null
+  dynamic_conditions: 'Force change: Gentle touch instead of heavy pressure'
+  expected_outcome_change: No change to the cracker (remains intact)
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The hand rests gently on the cracker through the plastic bag. The hand applies negligible
+    weight, merely maintaining contact without exerting compressive force on the brittle structure. The
+    cracker is subject to no significant stress. The camera rotates right at constant speed until the
+    bag and hand completely exit the view to the right. The camera continues rotating right for several
+    seconds while the hand remains off-screen maintaining gentle contact. Then the camera rotates left
+    smoothly at the same rate back to the original viewpoint, bringing the bag back into view. No zoom,
+    no cut, no scene change. STOP.
+  camera_WM: The hand rests gently on the cracker through the plastic bag. The hand applies negligible
+    weight, merely maintaining contact without exerting compressive force on the brittle structure. The
+    cracker is subject to no significant stress during the occlusion period. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A close-up view of a wooden table surface. A clear plastic ziplock bag containing
+    a single, whole, rectangular graham cracker lies flat on the table. A human hand rests gently on top
+    of the bag, covering most of the cracker. The fingers are extended and relaxed, not pressing deeply
+    into the object.
+  init2final_edit_prompt: Edit the given image to show the graham cracker remaining completely intact
+    and unbroken inside the plastic bag. The cracker must retain its original rectangular shape and solid
+    structure, with no cracks, crumbs, or signs of crushing. The hand should remain resting gently on
+    top of the bag in the same position as the original image, without pressing down.
+  rationale: The video prompt explicitly instructs that the hand applies 'negligible weight' and exerts
+    'no significant stress' on the cracker, merely maintaining 'gentle contact' throughout the entire
+    duration. Although the camera rotates away and returns, the physical interaction described is strictly
+    non-destructive. Therefore, contrary to what might be expected from a hand-on-cracker setup, the correct
+    final state requires the cracker to remain completely whole and uncrushed, serving as a control case
+    for instruction following.
+  questions:
+  - id: integrity_check_1
+    question: Is the graham cracker still a single, unbroken piece?
+    answer_type: yes_no
+    notes_for_judge: The cracker should not be broken into multiple pieces.
+  - id: shape_preservation
+    question: Does the graham cracker retain its original rectangular shape?
+    answer_type: yes_no
+    notes_for_judge: The outline of the cracker should remain rectangular, not deformed or crumbled.
+  - id: damage_absence_1
+    question: Is the cracker free from visible crushing or pulverization?
+    answer_type: yes_no
+    notes_for_judge: There should be no evidence of the cracker turning into powder or crumbs.
+  - id: damage_absence_2
+    question: Does the surface of the cracker appear free of new cracks or fractures?
+    answer_type: yes_no
+    notes_for_judge: The surface texture should remain consistent with the initial frame.
+  - id: structural_soundness
+    question: Does the cracker appear structurally sound and solid?
+    answer_type: yes_no
+    notes_for_judge: It should look like a solid object, not a pile of debris.
+  - id: hand_position
+    question: Is the hand still resting on top of the bag?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

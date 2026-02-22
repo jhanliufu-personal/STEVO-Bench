@@ -1,0 +1,69 @@
+id: wood_log_sawing_10
+level: 4
+category: structural_transformation
+tags: []
+variant_of: wood_log_sawing
+variation_type: combined
+variation_description: Rotten wood (soft material) + Blocking occlusion.
+changes:
+  occlusion_method: Blocking by plywood sheet.
+  dynamic_conditions: Wood is rotten and soft.
+  expected_outcome_change: Cut progresses much faster/deeper.
+prompts:
+  init_frame_edit_prompt: Edit the image to make the wooden log look dark, wet, and rotten.
+  video_WM: A person begins vigorously moving the hand saw back and forth across the rotten log. The sawing
+    action cuts easily into the soft, wet wood. A large sheet of plywood is carried past the camera, completely
+    blocking the view of the log and saw for several seconds, then moves away to reveal the scene again.
+    No zoom, no cut, no scene change. STOP.
+  camera_WM: A person begins vigorously moving the hand saw back and forth across the rotten log. The
+    sawing action cuts easily into the soft, wet wood. A large sheet of plywood is carried past the camera,
+    completely blocking the view of the log and saw for several seconds, then moves away to reveal the
+    scene again. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A dark, wet, rotting log rests horizontally on a wooden sawhorse in a forest
+    setting. A hand saw with a wooden handle and metal blade is positioned in a shallow cut on the top
+    surface of the log. The background consists of blurred trees and foliage.
+  init2final_edit_prompt: Edit the given image to show the saw blade sunk significantly deeper into the
+    log, reflecting progress in cutting. Create a deeper and more pronounced kerf (cut) in the wood. Add
+    fresh, wet-looking sawdust and wood debris around the edges of the cut on the log's surface and scattered
+    on the wooden sawhorse structure directly below the cutting area.
+  rationale: 'The prompt describes vigorous sawing on soft, rotten wood, which implies rapid progress.
+    Although the action is occluded by a sheet of plywood for several seconds, the sawing continues during
+    this time. When the occlusion clears, the state of the world must reflect the accumulated physical
+    work: the saw should be deeper in the wood, the cut should be more extensive, and sawdust (the byproduct
+    of the irreversible material removal) should be visible.'
+  questions:
+  - id: cut_depth
+    question: Is the saw blade positioned deeper into the log than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the position of the blade relative to the top of the log.
+  - id: sawdust_presence
+    question: Is there fresh sawdust or wood debris visible around the cut area?
+    answer_type: yes_no
+    notes_for_judge: Look for light-colored particles or clumps near the saw blade.
+  - id: kerf_visibility
+    question: Does the cut in the log appear deeper or more distinct than in the initial image?
+    answer_type: yes_no
+    notes_for_judge: The slit in the wood should be more pronounced.
+  - id: debris_accumulation
+    question: Is there sawdust or debris on the sawhorse structure below the log?
+    answer_type: yes_no
+    notes_for_judge: Gravity should cause sawdust to fall onto the support structure.
+  - id: handle_proximity
+    question: Is the handle of the saw closer to the log's surface compared to the start?
+    answer_type: yes_no
+    notes_for_judge: As the blade sinks, the handle moves down.
+  - id: material_removal
+    question: Has material been visibly removed from the log to extend the cut?
+    answer_type: yes_no
+    notes_for_judge: Irreversible transformation check.
+  - id: log_integrity
+    question: Is the log still resting on the sawhorse?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: background_consistency
+    question: Is the forest background still visible and consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check; ensures the plywood occlusion has fully passed.

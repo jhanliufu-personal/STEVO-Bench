@@ -1,0 +1,61 @@
+id: wood_log_sawing_04
+level: 4
+category: structural_transformation
+tags: []
+variant_of: wood_log_sawing
+variation_type: dynamic_condition
+variation_description: The saw remains motionless (no action applied), so the state should not change.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Saw is motionless instead of moving.
+  expected_outcome_change: No change in cut depth; saw remains in same position.
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The hand saw rests motionless in the groove on the wooden log. No one is touching the saw.
+    The camera rotates right until the log and saw completely exit the view, then rotates toward the left
+    smoothly at the same rate until the cut site on the log is back in the center of view. No zoom, no
+    cut, no scene change. STOP.
+  camera_WM: The hand saw rests motionless in the groove on the wooden log. No one is touching the saw.
+    STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up outdoor shot of a rough wooden log resting horizontally on a wooden
+    sawhorse. A hand saw with a wooden handle and metal blade is resting in a partially cut groove (kerf)
+    on the top of the log. The saw is stationary. There is sawdust visible on the log surface around the
+    cut. The background consists of a blurred forest with trees and foliage.
+  init2final_edit_prompt: Edit the given image to show the exact same scene as the original, ensuring
+    the hand saw remains resting in the groove on the log at the identical depth, angle, and position.
+    The log must not show any additional cutting, damage, or structural change. The sawdust and background
+    should remain consistent with the initial state.
+  rationale: The video prompt explicitly states that the saw rests motionless and no one is touching it.
+    Although the camera rotates away to occlude the objects and then returns, no physical action is performed
+    on the log or saw. Therefore, the world state must remain unchanged. This task tests for object permanence
+    and the stability of the scene state during occlusion, ensuring the model does not hallucinate a cutting
+    action simply because a saw is present.
+  questions:
+  - id: saw_position_stability
+    question: Is the hand saw still resting in the same groove on the log?
+    answer_type: yes_no
+    notes_for_judge: The saw should not have moved from its initial position.
+  - id: cut_depth_stability
+    question: Is the depth of the saw blade in the log the same as it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The cut should not be deeper; the saw should be at the same level.
+  - id: log_integrity_stability
+    question: Does the log appear to have the same structural integrity as the initial frame (not cut
+      further)?
+    answer_type: yes_no
+    notes_for_judge: The log should not be severed or broken.
+  - id: saw_handle_orientation
+    question: Is the handle of the saw in the same orientation and angle as initially?
+    answer_type: yes_no
+    notes_for_judge: The saw should not have tipped over or changed angle.
+  - id: object_permanence_saw
+    question: Is the saw visible in the frame after the camera returns?
+    answer_type: yes_no
+    notes_for_judge: The saw must not disappear.
+  - id: object_permanence_log
+    question: Is the log still resting on the sawhorse in the same position?
+    answer_type: yes_no
+    notes_for_judge: The log should not have rolled or fallen.

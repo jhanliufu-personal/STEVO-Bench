@@ -1,0 +1,65 @@
+id: ribbon_cutting_04
+level: 4
+category: structural_transformation
+tags: []
+variant_of: ribbon_cutting
+variation_type: dynamic_condition
+variation_description: Scissors are changed to be old and rusty/dull.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Scissors are old, rusty, and dull instead of sharp.
+  expected_outcome_change: The ribbon will likely fold, jam, or tear roughly rather than being cut cleanly.
+prompts:
+  init_frame_edit_prompt: Edit the image to make the scissors look old, rusty, and dull, with pitted metal
+    blades.
+  video_WM: The blades of the old, rusty scissors begin to close slowly and steadily around the taut red
+    ribbon. The attempt to cut begins. The camera rotates right until the scissors and ribbon completely
+    exit the view, then rotates toward the left smoothly at the same rate until the center of the ribbon
+    is back in the center of view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The blades of the old, rusty scissors begin to close slowly and steadily around the taut
+    red ribbon. The attempt to cut begins. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A high-angle, close-up shot showing a strip of red satin ribbon lying flat horizontally
+    across a rustic wooden table. A pair of old, rusty scissors is positioned diagonally with its open
+    blades bracketing the ribbon, poised to cut. The background features a blurred white window frame
+    and sill.
+  init2final_edit_prompt: Edit the given image to show the red ribbon severed into two separate pieces
+    where the scissors are located. The blades of the rusty scissors should be closed together, having
+    completed the cutting motion. The cut edges of the ribbon should be visible and distinct, indicating
+    a complete break in the material.
+  rationale: The video prompt initiates a cutting action ('scissors begin to close') and then moves the
+    camera away before returning. This occlusion period implies the progression and completion of the
+    physical action started in the first frame. Given the irreversible nature of cutting, the final state
+    must show the ribbon structurally divided (severed) and the tool (scissors) in its post-action state
+    (closed blades).
+  questions:
+  - id: ribbon_severed
+    question: Is the red ribbon severed into two separate pieces?
+    answer_type: yes_no
+    notes_for_judge: Look for a complete break or division in the ribbon material.
+  - id: scissors_closed
+    question: Are the blades of the scissors closed together?
+    answer_type: yes_no
+    notes_for_judge: The blades should be overlapping or touching, not open as in the initial frame.
+  - id: structural_break
+    question: Is there a visible gap or cut line in the ribbon where the scissors are positioned?
+    answer_type: yes_no
+    notes_for_judge: Check for structural discontinuity in the fabric.
+  - id: blades_position_change
+    question: Is the angle between the scissor blades smaller than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: 'Directional check: the scissors should have closed significantly.'
+  - id: cut_edges_visible
+    question: Are the cut edges of the ribbon visible?
+    answer_type: yes_no
+    notes_for_judge: The ends of the two pieces should be visible near the scissors.
+  - id: wood_texture_consistency
+    question: Is the wooden surface texture consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: ribbon_color_consistency
+    question: Is the ribbon still red?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

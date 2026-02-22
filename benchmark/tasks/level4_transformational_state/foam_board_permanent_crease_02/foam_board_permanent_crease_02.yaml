@@ -1,0 +1,77 @@
+id: foam_board_permanent_crease_02
+level: 4
+category: structural_transformation
+tags: []
+variant_of: foam_board_permanent_crease
+variation_type: occlusion_method
+variation_description: Occlusion changed to a person walking in front of the camera.
+changes:
+  occlusion_method: A person walks into frame and blocks the view completely.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The hands begin bending the foam board by bringing the ends closer together. Foam board consists
+    of a polystyrene foam core sandwiched between paper facings. The foam core has an elastic limit beyond
+    which permanent plastic deformation occurs. The paper facing has a tensile strength limit. The material
+    structure does not allow return to original shape after exceeding plastic deformation thresholds.
+    The hands continue applying progressive bending force. A person wearing a dark shirt walks into the
+    frame from the left, standing directly in front of the camera and completely blocking the view of
+    the hands and board. The person remains there for several seconds while the bending action continues
+    behind them. The person then walks away to the right, revealing the scene again. No zoom, no cut,
+    no scene change. STOP.
+  camera_WM: The hands begin bending the foam board by bringing the ends closer together. Foam board consists
+    of a polystyrene foam core sandwiched between paper facings. The foam core has an elastic limit beyond
+    which permanent plastic deformation occurs. The paper facing has a tensile strength limit. The material
+    structure does not allow return to original shape after exceeding plastic deformation thresholds.
+    The hands continue applying progressive bending force. A person wearing a dark shirt walks into the
+    frame from the left, standing directly in front of the camera and completely blocking the view of
+    the hands and board. The person remains there for several seconds while the bending action continues
+    behind them. The person then walks away to the right, revealing the scene again. No zoom, no cut,
+    no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A close-up shot of a person's hands holding a flat, rectangular white foam board
+    horizontally. The person is wearing a black t-shirt. The background shows a wooden workbench and a
+    pegboard with tools, slightly out of focus.
+  init2final_edit_prompt: Edit the given image so that the white foam board is bent into a V-shape or
+    folded configuration. The hands should be closer together than in the original image. The center of
+    the board must show a visible sharp crease, buckle, or fracture line, indicating that the material
+    has been permanently deformed and is no longer flat.
+  rationale: The video prompt describes a continuous bending force applied to a material (foam board)
+    known for brittle or plastic failure when bent beyond a certain point. The action continues while
+    the view is occluded. Therefore, when the occlusion is removed, the board should not merely be curved
+    elastically but should show signs of permanent structural failure, such as a sharp crease, a buckle
+    in the foam core, or a snap, reflecting the irreversible transformation described.
+  questions:
+  - id: structural_change_flatness
+    question: Is the foam board no longer flat?
+    answer_type: yes_no
+    notes_for_judge: The board should be bent, folded, or broken, not a flat plane.
+  - id: structural_damage_crease
+    question: Is there a visible crease, fold, or break line in the middle of the board?
+    answer_type: yes_no
+    notes_for_judge: Look for a sharp line or deformation zone in the center indicating permanent damage.
+  - id: geometry_ends_closer
+    question: Are the left and right ends of the board closer to each other than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The hands should have brought the ends together to bend it.
+  - id: material_integrity
+    question: Does the board appear to have suffered structural damage or deformation?
+    answer_type: yes_no
+    notes_for_judge: The board should not look like a pristine, flexible sheet returning to shape; it
+      should look damaged/creased.
+  - id: shape_v_configuration
+    question: Is the board bent into a V-shape or curved configuration?
+    answer_type: yes_no
+    notes_for_judge: Check for the overall shape change resulting from bending.
+  - id: consistency_shirt
+    question: Is the person holding the board still wearing a black shirt?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: consistency_background
+    question: Is the wooden workbench still visible in the foreground/background?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

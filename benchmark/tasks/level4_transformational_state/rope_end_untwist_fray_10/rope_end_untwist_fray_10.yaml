@@ -1,0 +1,69 @@
+id: rope_end_untwist_fray_10
+level: 4
+category: structural_transformation
+tags: []
+variant_of: rope_end_untwist_fray
+variation_type: combined
+variation_description: Rope changed to steel cable combined with camera zoom occlusion.
+changes:
+  occlusion_method: Camera zooms out until scene is unclear, then zooms back.
+  dynamic_conditions: Material is stiff steel cable instead of fiber rope.
+  expected_outcome_change: Minimal to no separation due to material stiffness.
+prompts:
+  init_frame_edit_prompt: Edit the image to change the rope material to a metallic, silver-grey steel
+    cable while maintaining the braided structure.
+  video_WM: The fingers grip the heavy steel cable. The metallic strands are extremely stiff and tightly
+    wound, offering high resistance to manual manipulation. The fingers exert significant effort attempting
+    to pry the rigid steel strands apart. The camera zooms out continuously until the workbench becomes
+    a small, distant feature and the details of the cable are no longer visible. The camera pauses briefly
+    at this distance. Then the camera zooms back in smoothly to the original framing. No cut, no scene
+    change. STOP.
+  camera_WM: The fingers grip the heavy steel cable. The metallic strands are extremely stiff and tightly
+    wound, offering high resistance to manual manipulation. The fingers exert significant effort attempting
+    to pry the rigid steel strands apart. The fingers continue struggling with the stiff cable during
+    the occlusion period. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+  Genie: null
+evaluation:
+  init_frame_description: A close-up view of two hands gripping a thick, braided steel cable. The cable
+    is silver-grey and composed of multiple twisted wire strands tightly wound together. The texture is
+    metallic and rigid. The hands are positioned in the center, holding a section of the cable loop. The
+    background is a blurred wooden workbench with tools and debris.
+  init2final_edit_prompt: Edit the given image to show the strands of the steel cable separated and pried
+    apart between the thumbs. Create visible gaps between the twisted bundles of wire where the hands
+    are gripping. The tight braided pattern should be loosened and disturbed at the point of manipulation,
+    showing the individual strands bent outward.
+  rationale: The prompt describes a physical action of prying the stiff steel strands apart. While the
+    material is resistant, the 'transformational' nature of the task implies that the effort results in
+    a visible structural change—specifically, the separation or loosening of the braided strands (plastic
+    deformation). The camera zoom-out and zoom-in sequence tests the model's ability to persist this state
+    change (the gap in the cable) when returning to the original view, rather than resetting the object
+    to its initial pristine condition.
+  questions:
+  - id: strands_separated
+    question: Are the steel strands separated or gapped where the hands are gripping?
+    answer_type: yes_no
+    notes_for_judge: Look for a visible space or gap between the twisted bundles of wire that was not
+      there initially.
+  - id: braid_loosened
+    question: Is the tight braided pattern of the cable disturbed or loosened in the center?
+    answer_type: yes_no
+    notes_for_judge: The weave should look less uniform and tight compared to the initial frame.
+  - id: gap_visible
+    question: Is there a visible space between the strands that was not present initially?
+    answer_type: yes_no
+    notes_for_judge: Check for daylight or background visibility through the cable, or just dark gaps
+      between strands.
+  - id: deformation_present
+    question: Do the strands appear bent outward or deformed compared to the initial smooth curve?
+    answer_type: yes_no
+    notes_for_judge: The strands should look forced apart.
+  - id: hands_present
+    question: Are the hands still gripping the cable?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: material_consistency
+    question: Does the cable still appear to be made of metal?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

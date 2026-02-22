@@ -1,0 +1,59 @@
+id: egg_batter_merging_04
+level: 4
+category: structural_transformation
+tags: []
+variant_of: egg_batter_merging
+variation_type: dynamic_condition
+variation_description: The whisk remains motionless instead of stirring.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Whisk is stationary.
+  expected_outcome_change: No mixing occurs; eggs and flour remain separate.
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The whisk sits motionless in the bowl of eggs and flour. Nothing moves. The camera rotates
+    right until the bowl completely exits the view, then rotates toward the left smoothly at the same
+    rate until the bowl is back in the center of view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The whisk sits motionless in the bowl of eggs and flour. Nothing moves. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A top-down view of a rustic ceramic bowl sitting on a wooden table. Inside the
+    bowl, there is a mound of white flour with a well in the center containing four distinct raw egg yolks
+    and clear egg whites. A metal balloon whisk rests in the bowl, with the wire loops partially submerged
+    in the eggs and the handle resting on the rim, pointing towards the top right. A window provides natural
+    lighting from the background.
+  init2final_edit_prompt: Edit the given image to show the scene exactly as it appeared initially. Ensure
+    the four egg yolks remain distinct, intact, and unmixed. Keep the flour white and dry, forming a well
+    around the eggs. Ensure the whisk remains in the exact same resting position without any displacement.
+    The camera angle and framing should be identical to the original view.
+  rationale: The video prompt explicitly states that 'Nothing moves' and the whisk is 'motionless'. The
+    camera pans away until the bowl is out of view and then pans back to the center. This is a test of
+    object permanence and state stability. The model must inhibit the high-probability prediction of 'mixing'
+    (suggested by the whisk and eggs) and instead recall and reconstruct the unmixed, static state of
+    the ingredients when the camera returns. The final state must be identical to the initial state.
+  questions:
+  - id: yolks_intact
+    question: Are the four egg yolks still distinct and unbroken?
+    answer_type: yes_no
+    notes_for_judge: The yolks should not be mixed or broken.
+  - id: flour_unmixed
+    question: Is the flour still white and separate from the eggs, without forming a batter?
+    answer_type: yes_no
+    notes_for_judge: There should be no signs of wet dough or mixing.
+  - id: whisk_position
+    question: Is the whisk in the same resting position as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The whisk should not have moved.
+  - id: whites_clear
+    question: Are the egg whites still transparent and unmixed with the flour?
+    answer_type: yes_no
+    notes_for_judge: Check for transparency vs milky/mixed texture.
+  - id: scene_stability
+    question: Does the arrangement of the ingredients appear identical to the starting frame?
+    answer_type: yes_no
+    notes_for_judge: The scene should be static.
+  - id: no_batter
+    question: Is the bowl free of any mixed batter or dough?
+    answer_type: yes_no
+    notes_for_judge: The state should remain raw ingredients.

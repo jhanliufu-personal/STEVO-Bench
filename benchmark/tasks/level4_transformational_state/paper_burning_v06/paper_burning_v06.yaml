@@ -1,0 +1,65 @@
+id: paper_burning_v06
+level: 4
+category: transformational_state_change
+tags: []
+variant_of: paper_burning
+variation_type: dynamic_condition
+variation_description: The paper is soaking wet and there is no fire.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Paper is wet and non-combustible.
+  expected_outcome_change: No change in state; the paper remains wet and intact.
+prompts:
+  init_frame_edit_prompt: Edit the image to remove the fire and smoke completely. Make the paper look
+    soaking wet, soggy, and flat on the plate. Add a small puddle of water on the plate.
+  video_WM: Single continuous take, no cuts or zoom. Camera starts centered on the plate containing wet,
+    soggy paper. Then the camera smoothly moves to the right at constant speed until the plate leaves
+    the frame to the left and become completely invisible. The camera continues moving right across the
+    room for several seconds. Then the camera moves left at the same speed back to the original viewpoint,
+    bringing the plate back into view naturally. Lighting and objects remain consistent and realistic.
+  camera_WM: A piece of soaking wet paper sits on a plate. Lighting and objects remain consistent and
+    realistic. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A high-angle, close-up shot of a rustic, earth-toned ceramic plate resting on
+    a wooden table. The plate holds two rectangular sheets of wet, soggy, translucent paper that are fully
+    saturated with water, appearing slimy and adhering to the plate's surface. Natural light from a window
+    in the background illuminates the wet texture and the wooden grain of the table.
+  init2final_edit_prompt: Edit the given image to maintain the scene exactly as it is. The plate should
+    still contain the two sheets of wet, soggy paper in their original configuration. Ensure the paper
+    remains saturated, translucent, and intact, with absolutely no signs of burning, charring, drying,
+    or structural damage. The wooden table, lighting, and object positions should remain identical to
+    the original state.
+  rationale: Although the task ID is 'paper_burning', the provided video prompt describes only camera
+    motion (panning away and returning) and explicitly states that 'Lighting and objects remain consistent
+    and realistic.' There is no instruction for the paper to burn, dry, or disintegrate. Therefore, this
+    is a control task testing the model's ability to maintain object permanence and state consistency
+    without hallucinating a transformation (like burning) that was not requested in the text. The correct
+    final state is identical to the initial state.
+  questions:
+  - id: q1_existence
+    question: Is the wet paper still visible on the plate?
+    answer_type: yes_no
+    notes_for_judge: Tests object permanence.
+  - id: q2_state_integrity_burn
+    question: Does the paper appear to be free of any burn marks, charring, or fire damage?
+    answer_type: yes_no
+    notes_for_judge: Tests that the model did not hallucinate burning (negative constraint).
+  - id: q3_state_consistency_wetness
+    question: Does the paper still appear wet, soggy, and saturated?
+    answer_type: yes_no
+    notes_for_judge: Tests that the material properties remained consistent as requested.
+  - id: q4_structural_integrity
+    question: Are the two sheets of paper still intact without new tears or fragmentation?
+    answer_type: yes_no
+    notes_for_judge: Tests structural consistency.
+  - id: q5_color_consistency
+    question: Does the paper retain its original translucent, whitish color?
+    answer_type: yes_no
+    notes_for_judge: Verifies no chemical change or burning occurred.
+  - id: q6_plate_position
+    question: Is the plate located in the same position on the table as in the initial view?
+    answer_type: yes_no
+    notes_for_judge: Secondary check for camera return accuracy.

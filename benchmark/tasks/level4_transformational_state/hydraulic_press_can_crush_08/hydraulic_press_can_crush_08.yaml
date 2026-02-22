@@ -1,0 +1,66 @@
+id: hydraulic_press_can_crush_08
+level: 4
+category: structural_transformation
+tags: []
+variant_of: hydraulic_press_can_crush
+variation_type: combined
+variation_description: Solid steel cylinder (no crush) AND lights out occlusion.
+changes:
+  occlusion_method: Lights turning off.
+  dynamic_conditions: Object is solid steel cylinder.
+  expected_outcome_change: Cylinder remains intact.
+prompts:
+  init_frame_edit_prompt: Edit the image to replace the soda can with a solid, hardened steel cylinder
+    of the same size.
+  video_WM: The hydraulic press plate moves downward with immense force onto the solid steel cylinder.
+    Suddenly, the lights in the room turn off, plunging the scene into complete darkness. After a moment,
+    the lights turn back on. No zoom, no cut, no scene change. STOP.
+  camera_WM: The hydraulic press plate moves downward with immense force onto the solid steel cylinder.
+    Suddenly, the lights in the room turn off, plunging the scene into complete darkness. After a moment,
+    the lights turn back on. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up view of an industrial hydraulic press. A solid, silver-colored steel
+    cylinder stands vertically on the bottom metal plate (bed). A heavy, cylindrical top ram (press plate)
+    is positioned above the cylinder with a visible vertical gap. The background features the press's
+    metal frame, hydraulic hoses, and pressure gauges mounted on a concrete wall.
+  init2final_edit_prompt: Edit the given image to show the hydraulic press top plate in a significantly
+    lower position, pressing down on the steel cylinder. The steel cylinder must appear vertically compressed
+    (squashed), making it shorter and wider with visible outward bulging at the sides (barreling). The
+    top plate should be in direct contact with the top of the deformed cylinder.
+  rationale: The prompt describes the hydraulic press exerting immense downward force on the cylinder.
+    The 'lights off' period serves as a temporal occlusion during which the press compresses the object.
+    Solid steel is ductile; under high compressive stress, it undergoes plastic deformation, becoming
+    shorter and expanding laterally (barreling). When the lights return, the cylinder should exhibit this
+    irreversible structural change, and the press head should be lower to maintain contact with the compressed
+    object.
+  questions:
+  - id: press_lowered
+    question: Is the top plate of the hydraulic press lower than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The ram should have moved down to compress the object.
+  - id: cylinder_height
+    question: Is the steel cylinder vertically shorter than it was initially?
+    answer_type: yes_no
+    notes_for_judge: Check for vertical compression.
+  - id: cylinder_width
+    question: Is the steel cylinder wider or bulging outwards compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compression of solid material causes lateral expansion (barreling).
+  - id: structural_deformation
+    question: Has the cylinder lost its original straight, uniform cylindrical shape?
+    answer_type: yes_no
+    notes_for_judge: It should look deformed, squashed, or barreled.
+  - id: plate_contact
+    question: Is the top plate in contact with the top of the cylinder?
+    answer_type: yes_no
+    notes_for_judge: The press applies force by contact.
+  - id: gap_reduction
+    question: Is the vertical distance between the top and bottom plates reduced compared to the start?
+    answer_type: yes_no
+    notes_for_judge: The working space should be smaller.
+  - id: gauge_consistency
+    question: Are the pressure gauges in the background still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check for background elements.

@@ -4,9 +4,71 @@ category: structural_transformation
 transformation_type: plastic_extrusion_deformation
 tags: []
 prompts:
-  image_gen_prompt: A ball of bright blue Play-Doh modeling compound sits inside the chamber of a metal garlic press. The press handles are open and spread apart. Two hands grip the handles ready to squeeze them together.
-  video_WM: The hands begin squeezing the garlic press handles together with progressive force. The garlic press chamber has a perforated bottom plate with multiple small circular holes. The plunger descends and applies pressure to the Play-Doh. Play-Doh is a modeling compound with plastic flow properties under pressure. The material flows under sufficient applied force. The only available path is through the holes in the perforated plate. Material that exits through the holes cannot reintegrate with the mass remaining in the chamber. The hands continue applying squeezing force to the press. The camera rotates right at constant speed until the garlic press completely exits the view to the right. The camera continues rotating right for several seconds while the hands remain off-screen continuing to squeeze. Then the camera rotates left smoothly at the same rate back to the original viewpoint, bringing the garlic press back into view. No zoom, no cut, no scene change. STOP.
-  camera_WM: The hands begin squeezing the garlic press handles together with progressive force. The garlic press chamber has a perforated bottom plate with multiple small circular holes. The plunger descends and applies pressure to the Play-Doh. Play-Doh is a modeling compound with plastic flow properties under pressure. The material flows under sufficient applied force. The only available path is through the holes in the perforated plate. Material that exits through the holes cannot reintegrate with the mass remaining in the chamber. The hands continue applying squeezing force to the press during the occlusion period. STOP.
+  image_gen_prompt: A ball of bright blue Play-Doh modeling compound sits inside the chamber of a metal
+    garlic press. The press handles are open and spread apart. Two hands grip the handles ready to squeeze
+    them together.
+  video_WM: The hands begin squeezing the garlic press handles together with progressive force. The garlic
+    press chamber has a perforated bottom plate with multiple small circular holes. The plunger descends
+    and applies pressure to the Play-Doh. Play-Doh is a modeling compound with plastic flow properties
+    under pressure. The material flows under sufficient applied force. The only available path is through
+    the holes in the perforated plate. Material that exits through the holes cannot reintegrate with the
+    mass remaining in the chamber. The hands continue applying squeezing force to the press. The camera
+    rotates right at constant speed until the garlic press completely exits the view to the right. The
+    camera continues rotating right for several seconds while the hands remain off-screen continuing to
+    squeeze. Then the camera rotates left smoothly at the same rate back to the original viewpoint, bringing
+    the garlic press back into view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The hands begin squeezing the garlic press handles together with progressive force. The garlic
+    press chamber has a perforated bottom plate with multiple small circular holes. The plunger descends
+    and applies pressure to the Play-Doh. Play-Doh is a modeling compound with plastic flow properties
+    under pressure. The material flows under sufficient applied force. The only available path is through
+    the holes in the perforated plate. Material that exits through the holes cannot reintegrate with the
+    mass remaining in the chamber. The hands continue applying squeezing force to the press during the
+    occlusion period. STOP.
 camera_control:
   HY-WorldPlay: s-3, right-30, left-30
   Genie: null
+evaluation:
+  init_frame_description: A close-up shot of a pair of hands holding a metal garlic press over a wooden
+    table. The press handles are wide open. Inside the press chamber sits a smooth, round ball of blue
+    Play-Doh. In the background, a metal whisk and a spoon lie on the table, and a window is visible.
+  init2final_edit_prompt: Edit the given image to show the garlic press handles squeezed closer together.
+    Render thin, noodle-like strands of blue Play-Doh extruding from the bottom of the press chamber.
+    Show the blue Play-Doh ball inside the chamber as flattened or squashed by the plunger, losing its
+    perfect spherical shape.
+  rationale: The video prompt describes a continuous squeezing action that persists while the camera pans
+    away and returns. Physically, applying force to the garlic press handles drives the plunger down,
+    compressing the plastic Play-Doh. This pressure forces the material through the perforated holes at
+    the bottom, creating irreversible structural change (extrusion). When the camera returns, the handles
+    must be closer together, the internal ball compressed, and extruded strands must be visible emerging
+    from the bottom.
+  questions:
+  - id: handles_closed
+    question: Are the handles of the garlic press closer together than they were in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The squeezing action moves the handles toward each other.
+  - id: extrusion_visible
+    question: Are there thin strands of blue Play-Doh visible emerging from the press?
+    answer_type: yes_no
+    notes_for_judge: This is the primary evidence of the extrusion process.
+  - id: ball_deformation
+    question: Has the blue Play-Doh ball inside the chamber been flattened or deformed compared to its
+      initial spherical shape?
+    answer_type: yes_no
+    notes_for_judge: The plunger compresses the ball.
+  - id: plunger_position
+    question: Is the plunger of the press positioned deeper into the chamber than it was initially?
+    answer_type: yes_no
+    notes_for_judge: The plunger moves down as handles close.
+  - id: material_form_change
+    question: Does the blue material show a change in form from a solid block to segmented or stringy
+      pieces?
+    answer_type: yes_no
+    notes_for_judge: Tests for structural transformation.
+  - id: whisk_consistency
+    question: Is the metal whisk still visible on the table in the background?
+    answer_type: yes_no
+    notes_for_judge: Consistency check for background objects.
+  - id: spoon_consistency
+    question: Is the spoon still visible on the table?
+    answer_type: yes_no
+    notes_for_judge: Consistency check for background objects.

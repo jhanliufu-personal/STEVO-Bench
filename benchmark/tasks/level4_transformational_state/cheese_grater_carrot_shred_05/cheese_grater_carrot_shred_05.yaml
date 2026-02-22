@@ -1,0 +1,69 @@
+id: cheese_grater_carrot_shred_05
+level: 4
+category: structural_transformation
+tags: []
+variant_of: cheese_grater_carrot_shred
+variation_type: dynamic_condition
+variation_description: The hand pulls the carrot away from the grater.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Motion is away from the grater, not against it.
+  expected_outcome_change: No shredding; carrot moves away from the tool.
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The hand, initially touching the grater with the carrot, begins to pull the carrot backward,
+    away from the metal surface. The motion creates distance between the vegetable and the cutting edges.
+    The camera rotates right at constant speed until the grater and carrot completely exit the view to
+    the right. The camera continues rotating right for several seconds while the hand continues to retract
+    off-screen. Then the camera rotates left smoothly at the same rate back to the original viewpoint.
+    No zoom, no cut, no scene change. STOP.
+  camera_WM: The hand, initially touching the grater with the carrot, begins to pull the carrot backward,
+    away from the metal surface. The motion creates distance between the vegetable and the cutting edges.
+    STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a metal box grater standing on a wooden cutting
+    board. A hand enters from the right side, holding a large orange carrot horizontally against the side
+    of the grater. A pile of orange carrot shreds is visible on the board at the base of the grater. A
+    window is visible in the blurred background on the left.
+  init2final_edit_prompt: Edit the given image to completely remove the hand and the carrot. The metal
+    box grater should be fully visible and unobstructed, revealing the grating holes that were previously
+    covered. Inpaint the background area where the hand and arm were to show the wooden cutting board
+    and the blurred wall/window sill behind. The pile of shredded carrot pieces on the board must remain
+    visible and unchanged. Maintain the original lighting and perspective.
+  rationale: The video prompt describes the hand pulling the carrot away from the grater and continuing
+    to retract off-screen. The camera rotates right (panning away) and then rotates left back to the original
+    viewpoint. During the time the camera is looking away, the hand and carrot fully retract out of the
+    scene. Therefore, the final frame returns to the initial camera angle but shows the scene without
+    the hand or carrot. The static environment (grater, board, shreds) remains unchanged.
+  questions:
+  - id: carrot_removed
+    question: Is the carrot absent from the final frame?
+    answer_type: yes_no
+    notes_for_judge: The carrot should have been retracted off-screen.
+  - id: hand_removed
+    question: Is the hand absent from the final frame?
+    answer_type: yes_no
+    notes_for_judge: The hand should have retracted off-screen.
+  - id: grater_unobstructed
+    question: Is the side of the metal grater fully visible and unobstructed?
+    answer_type: yes_no
+    notes_for_judge: Initially covered by the carrot, it should now be exposed.
+  - id: space_empty
+    question: Is the space to the right of the grater empty?
+    answer_type: yes_no
+    notes_for_judge: Where the hand and carrot were initially.
+  - id: contact_broken
+    question: Is the physical contact between the vegetable and the grater broken?
+    answer_type: yes_no
+    notes_for_judge: The object has been pulled away.
+  - id: shreds_persist
+    question: Are the carrot shreds still visible on the cutting board?
+    answer_type: yes_no
+    notes_for_judge: 'Secondary consistency check: shreds should remain.'
+  - id: grater_position
+    question: Is the box grater still standing in its original position?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

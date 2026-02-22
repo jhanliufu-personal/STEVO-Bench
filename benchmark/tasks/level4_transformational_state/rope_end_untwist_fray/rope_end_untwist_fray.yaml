@@ -4,9 +4,72 @@ category: structural_transformation
 transformation_type: fiber_separation_unraveling
 tags: []
 prompts:
-  image_gen_prompt: A cut end of three-strand twisted rope is visible with the individual strands clearly distinguished. Two hands hold the rope, with fingers positioned to grip individual strands and pull them apart. The rope end shows the helical twist structure of braided fibers.
-  video_WM: The fingers begin pulling and untwisting the individual rope strands away from each other. Braided rope consists of three separate fiber bundles twisted together in a helical pattern. The structural integrity depends on the strands remaining intertwined under twisting tension. The fingers apply force to unwind and separate the twisted structure. The fingers continue progressive untwisting and separation of the strands. The camera rotates right at constant speed until the hands and rope completely exit the view to the right. The camera continues rotating right for several seconds while the hands remain off-screen continuing to untwist the rope. Then the camera rotates left smoothly at the same rate back to the original viewpoint, bringing the hands and rope back into view. No zoom, no cut, no scene change. STOP.
-  camera_WM: The fingers begin pulling and untwisting the individual rope strands away from each other. Braided rope consists of three separate fiber bundles twisted together in a helical pattern. The structural integrity depends on the strands remaining intertwined under twisting tension. The fingers apply force to unwind and separate the twisted structure. The fingers continue progressive untwisting and separation of the strands during the occlusion period. STOP.
+  image_gen_prompt: A cut end of three-strand twisted rope is visible with the individual strands clearly
+    distinguished. Two hands hold the rope, with fingers positioned to grip individual strands and pull
+    them apart. The rope end shows the helical twist structure of braided fibers.
+  video_WM: The fingers begin pulling and untwisting the individual rope strands away from each other.
+    Braided rope consists of three separate fiber bundles twisted together in a helical pattern. The structural
+    integrity depends on the strands remaining intertwined under twisting tension. The fingers apply force
+    to unwind and separate the twisted structure. The fingers continue progressive untwisting and separation
+    of the strands. The camera rotates right at constant speed until the hands and rope completely exit
+    the view to the right. The camera continues rotating right for several seconds while the hands remain
+    off-screen continuing to untwist the rope. Then the camera rotates left smoothly at the same rate
+    back to the original viewpoint, bringing the hands and rope back into view. No zoom, no cut, no scene
+    change. STOP.
+  camera_WM: The fingers begin pulling and untwisting the individual rope strands away from each other.
+    Braided rope consists of three separate fiber bundles twisted together in a helical pattern. The structural
+    integrity depends on the strands remaining intertwined under twisting tension. The fingers apply force
+    to unwind and separate the twisted structure. The fingers continue progressive untwisting and separation
+    of the strands during the occlusion period. STOP.
 camera_control:
   HY-WorldPlay: s-3, right-30, left-30
   Genie: null
+evaluation:
+  init_frame_description: A close-up, high-angle shot of a pair of hands holding a thick, natural fiber
+    rope over a wooden workbench. The rope is a standard three-strand twisted variety, showing a tight
+    helical structure. The hands are positioned to grip the rope, with thumbs pressing against the strands.
+    In the background, out of focus, are tools including pliers and scraps of rope or twine on the wooden
+    surface.
+  init2final_edit_prompt: Edit the given image to show the rope held in the hands as significantly unraveled
+    and untwisted. The tight helical twist of the rope should be separated into distinct, loose strands
+    that are pulled apart from each other. The structure of the rope in the foreground should appear deconstructed,
+    with gaps visible between the fiber bundles, and the texture should look looser and more frayed than
+    the original tight braid. Maintain the original background, lighting, and hand positions, but modify
+    the rope's appearance to reflect this structural separation.
+  rationale: The video prompt describes a sequence where the camera pans away while an action (untwisting
+    the rope) is initiated, and the action continues while the subject is off-screen. When the camera
+    pans back to the original view, the world state must reflect the accumulated progress of that action.
+    Therefore, the rope must appear significantly more unraveled and separated than in the initial frame,
+    demonstrating that the model tracked the state change even during occlusion.
+  questions:
+  - id: rope_untwisted_check
+    question: Is the rope less tightly twisted than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the tightness of the helical pattern. The final frame should show a looser
+      structure.
+  - id: strands_separated
+    question: Are the individual strands of the rope more separated from each other than initially?
+    answer_type: yes_no
+    notes_for_judge: Look for gaps or space between the fiber bundles that were not present in the tight
+      braid.
+  - id: structural_integrity_loss
+    question: Has the helical structure of the rope been partially deconstructed or lost in the manipulated
+      area?
+    answer_type: yes_no
+    notes_for_judge: The distinct spiral shape should be disrupted or replaced by parallel/splayed strands.
+  - id: texture_fraying
+    question: Do the rope fibers appear looser or more frayed compared to the starting image?
+    answer_type: yes_no
+    notes_for_judge: Untwisting often exposes inner fibers, creating a fuzzier or looser texture.
+  - id: visible_gaps
+    question: Are there visible gaps between the rope strands that were not visible in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The untwisting action creates space between the previously interlocked strands.
+  - id: hands_holding_rope
+    question: Are the hands still holding the rope?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check. The hands should remain in the scene.
+  - id: background_consistency
+    question: Is the wooden workbench background still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

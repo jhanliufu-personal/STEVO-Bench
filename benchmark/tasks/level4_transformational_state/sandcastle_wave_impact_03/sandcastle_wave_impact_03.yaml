@@ -1,0 +1,68 @@
+id: sandcastle_wave_impact_03
+level: 4
+category: structural_transformation
+tags: []
+variant_of: sandcastle_wave_impact
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to a rapid zoom out towards the sky.
+changes:
+  occlusion_method: Camera zooms out and up until beach is not visible
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The large ocean wave crashes down with force directly onto the sandcastle structure. The camera
+    immediately zooms out rapidly and tilts up towards the cloudy sky until the beach and castle are completely
+    out of frame. The camera tilts back down and zooms in to the original framing. No cut, no scene change.
+    STOP.
+  camera_WM: The large ocean wave crashes down with force directly onto the sandcastle structure. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+evaluation:
+  init_frame_description: A detailed sandcastle with multiple towers, a bridge, and shell decorations
+    sits on a sandy beach in the foreground. Behind it, a massive, green ocean wave is curling over, poised
+    to crash directly onto the castle. The sky is cloudy and grey. In the far background on the right,
+    several people are standing near the water's edge.
+  init2final_edit_prompt: Edit the given image to show the aftermath of the large wave crashing. The intricate
+    sandcastle structure must be destroyed, appearing flattened, collapsed, or washed away, leaving only
+    a mound of wet sand or scattered debris. The large curling wave in the background should be replaced
+    with turbulent whitewater, foam, or receding water, indicating the wave has already broken. The sand
+    in the foreground should look wet and smoothed by the water. Maintain the distant background and people,
+    but ensure the central sandcastle structure is no longer intact.
+  rationale: 'The video prompt describes a forceful wave impact followed by a camera movement that temporarily
+    looks away. During the time the camera is looking at the sky, the physics of the wave crashing occurs.
+    When the camera returns to the original framing, the irreversible transformation must be evident:
+    the fragile sandcastle structure cannot survive the impact of the large wave shown in the initial
+    frame. The final state must show the destruction of the castle and the dissipation of the wave''s
+    potential energy into foam and water.'
+  questions:
+  - id: castle_destroyed
+    question: Is the sandcastle structure significantly damaged, flattened, or destroyed compared to the
+      initial frame?
+    answer_type: yes_no
+    notes_for_judge: The castle should no longer be a pristine structure; it should be collapsed or washed
+      away.
+  - id: towers_collapsed
+    question: Are the tall towers of the sandcastle no longer standing upright?
+    answer_type: yes_no
+    notes_for_judge: The vertical structures should be gone or knocked over.
+  - id: structural_integrity_loss
+    question: Has the sandcastle lost its defined architectural shape (walls, bridge, windows)?
+    answer_type: yes_no
+    notes_for_judge: The specific details like the bridge and windows should be obliterated by the water.
+  - id: wave_state_change
+    question: Has the large curling wave from the initial frame crashed or dissipated into foam/whitewater?
+    answer_type: yes_no
+    notes_for_judge: The wave should no longer be a looming wall of water; it should have broken.
+  - id: sand_wetness
+    question: Does the sand where the castle stood appear wetter or smoother due to water impact?
+    answer_type: yes_no
+    notes_for_judge: Evidence of water washing over the area.
+  - id: debris_scatter
+    question: Are the shells or sand components more scattered or buried than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The decorations should be displaced.
+  - id: background_consistency
+    question: Are the people in the distant background still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

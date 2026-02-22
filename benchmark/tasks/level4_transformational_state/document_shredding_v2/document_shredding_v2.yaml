@@ -1,0 +1,68 @@
+id: document_shredding_v2
+level: 4
+category: structural_transformation
+tags: []
+variant_of: document_shredding
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to office lights turning off.
+changes:
+  occlusion_method: Office lights turn off completely (pitch black).
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The sheet of paper is fed into the active slot of the paper shredder. The mechanical blades
+    grab the paper and begin pulling it in. Suddenly, all office lights turn off, plunging the scene into
+    complete darkness. After a few seconds, the lights turn back on. No zoom, no cut, no scene change.
+    STOP.
+  camera_WM: The sheet of paper is fed into the active slot of the paper shredder. The mechanical blades
+    grab the paper and begin pulling it in. Suddenly, all office lights turn off, plunging the scene into
+    complete darkness. After a few seconds, the lights turn back on. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up, slightly high-angle shot of a clear plastic paper shredder in an
+    office setting. A person's hand enters from the top right, holding a white sheet of paper positioned
+    vertically above the shredder's feed slot. The shredder's internal metal blades are visible through
+    the clear housing. Below the mechanism, a collection bin already contains a pile of white shredded
+    paper strips. In the background, out of focus, is a busy office with desks, computer monitors, and
+    people working.
+  init2final_edit_prompt: Edit the given image to show the white sheet of paper significantly consumed
+    by the shredder. The visible portion of the paper above the slot should be much shorter or entirely
+    gone, indicating it has been pulled into the blades. The pile of shredded paper strips in the bin
+    below the mechanism should appear larger or denser, reflecting the addition of the shredded material.
+    Keep the lighting bright (as if lights are back on), the camera angle identical, and the background
+    office environment unchanged.
+  rationale: 'The video prompt describes the paper being fed into the shredder and the machine pulling
+    it in. The period of darkness (lights off) acts as a temporal occlusion during which the shredding
+    process continues or completes. When the lights turn back on, the physical state of the paper must
+    have changed irreversibly: the intact sheet above the shredder should be significantly smaller or
+    gone, having been converted into shreds in the bin below. The camera remains static, and the environment
+    returns to its initial lit state.'
+  questions:
+  - id: paper_consumed_1
+    question: Is the visible portion of the white paper sheet above the shredder smaller than it was in
+      the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the height/area of the intact paper held by the hand. It should be reduced.
+  - id: paper_consumed_2
+    question: Does the paper appear to have been pulled further down into the shredding mechanism?
+    answer_type: yes_no
+    notes_for_judge: The paper should be lower or gone, indicating downward movement into the blades.
+  - id: structural_change_1
+    question: Has the intact sheet of paper been partially or fully converted into shreds?
+    answer_type: yes_no
+    notes_for_judge: The disappearance of the sheet into the shredder implies this transformation.
+  - id: bin_content_1
+    question: Is the pile of shredded paper in the bin consistent with or larger than the initial amount?
+    answer_type: yes_no
+    notes_for_judge: The bin should not be emptier; it should ideally show more shreds, but 'consistent
+      with' allows for subtle visual changes as long as it's not empty.
+  - id: lighting_check
+    question: Are the office lights on, making the scene clearly visible?
+    answer_type: yes_no
+    notes_for_judge: The prompt specifies lights turn back on.
+  - id: background_consistency
+    question: Are the computer monitors and desks in the background still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

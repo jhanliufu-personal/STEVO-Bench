@@ -1,0 +1,69 @@
+id: bleach_colored_fabric_fade_04
+level: 4
+category: structural_transformation
+tags: []
+variant_of: bleach_colored_fabric_fade
+variation_type: dynamic_condition
+variation_description: Changes the liquid from bleach to water (negative control).
+changes:
+  occlusion_method: null
+  dynamic_conditions: Liquid is now water (inert) instead of bleach (reactive).
+  expected_outcome_change: No bleaching occurs; fabric appears wet (darker blue) but does not turn white/pink.
+prompts:
+  init_frame_edit_prompt: Edit the image to remove the Clorox logo and change the text on the bottle label
+    to read 'WATER' in large blue letters.
+  video_WM: The bottle labeled 'WATER' tips and pours clear water onto the dark blue fabric surface. Water
+    is a neutral solvent (H2O) that wets fibers but does not possess oxidizing properties to break down
+    dye molecules. It creates a wet spot but does not cause a chemical color change. The water continues
+    to contact and saturate the fabric fibers. The camera rotates right at constant speed until the tray
+    and fabric completely exit the view to the right. The camera continues rotating right for several
+    seconds while the water remains in contact with the fabric off-screen. Then the camera rotates left
+    smoothly at the same rate back to the original viewpoint, bringing the tray and fabric back into view.
+    No zoom, no cut, no scene change. STOP.
+  camera_WM: The bottle labeled 'WATER' tips and pours clear water onto the dark blue fabric surface.
+    Water is a neutral solvent (H2O) that wets fibers but does not possess oxidizing properties to break
+    down dye molecules. It creates a wet spot but does not cause a chemical color change. The water continues
+    to contact and saturate the fabric fibers during the occlusion period. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A white plastic bottle labeled 'WATER' in blue text is held by a hand, tipping
+    to pour a clear liquid stream onto a dark blue square of crinkled fabric placed on a white tray. A
+    small, dark wet spot is forming where the water hits the fabric.
+  init2final_edit_prompt: Edit the given image to show the dark blue fabric with a significantly larger
+    and more saturated wet spot in the center. The wet area must appear darker blue than the surrounding
+    dry fabric to indicate water saturation, but it must strictly retain its original deep blue hue without
+    any whitening, orange discoloration, or bleaching. The texture of the wet area should appear flattened
+    and soaked. Keep the bottle, hand, and white tray unchanged.
+  rationale: The prompt explicitly states that the liquid is water, a neutral solvent that wets fibers
+    but does not cause chemical bleaching or color change. During the occlusion (camera rotation), the
+    water continues to pour and saturate the fabric. Therefore, the final state must show a larger area
+    of wetness. Wet fabric appears darker due to optical saturation, but because no bleach is present,
+    the dye molecules are not broken down, and no white or orange discoloration should occur.
+  questions:
+  - id: bleach_fade_04_q1
+    question: Is the wet spot on the fabric larger than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The water continued to pour/contact the fabric, so the wet area should have expanded.
+  - id: bleach_fade_04_q2
+    question: Does the center of the fabric appear darker than the dry edges, indicating it is wet?
+    answer_type: yes_no
+    notes_for_judge: Wet fabric typically looks darker in value than dry fabric.
+  - id: bleach_fade_04_q3
+    question: Does the fabric retain its original blue hue in the wet area?
+    answer_type: yes_no
+    notes_for_judge: The liquid is water, so the color should not change to white or orange.
+  - id: bleach_fade_04_q4
+    question: Is the fabric free of any white, pink, or orange bleached spots?
+    answer_type: yes_no
+    notes_for_judge: 'Crucial check: water does not bleach. If there are bleach spots, the answer is NO.'
+  - id: bleach_fade_04_q5
+    question: Does the fabric texture in the center look more saturated or flattened compared to the dry
+      edges?
+    answer_type: yes_no
+    notes_for_judge: Saturation often flattens the fiber texture.
+  - id: bleach_fade_04_q6
+    question: Is the bottle labeled 'WATER' still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

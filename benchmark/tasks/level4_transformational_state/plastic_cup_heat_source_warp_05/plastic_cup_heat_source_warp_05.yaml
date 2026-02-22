@@ -1,0 +1,74 @@
+id: plastic_cup_heat_source_warp_05
+level: 4
+category: structural_transformation
+tags: []
+variant_of: plastic_cup_heat_source_warp
+variation_type: dynamic_condition
+variation_description: The target object is changed from a plastic cup to a stainless steel cup.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Material changed to steel (high melting point).
+  expected_outcome_change: The cup remains unchanged (steel does not melt at heat gun temps).
+prompts:
+  init_frame_edit_prompt: Edit the image to replace the red plastic cup with a stainless steel cup of
+    the same size.
+  video_WM: Hot air from the heat gun flows toward the stainless steel cup. Steel has a melting point
+    of over 2500°F, which is significantly higher than the maximum output of a standard heat gun. While
+    the metal will become extremely hot to the touch, its crystal structure remains stable and rigid at
+    these temperatures. The material is not subject to deformation under this level of thermal stress.
+    The heat gun continues directing hot air at the metal cup. The camera rotates right at constant speed
+    until the cup and heat gun completely exit the view to the right. The camera continues rotating right
+    for several seconds while the heat continues being applied off-screen. Then the camera rotates left
+    smoothly at the same rate back to the original viewpoint. No zoom, no cut, no scene change. STOP.
+  camera_WM: Hot air from the heat gun flows toward the stainless steel cup. Steel has a melting point
+    of over 2500°F, which is significantly higher than the maximum output of a standard heat gun. While
+    the metal will become extremely hot to the touch, its crystal structure remains stable and rigid at
+    these temperatures. The material is not subject to deformation under this level of thermal stress.
+    The heat gun continues directing hot air at the metal cup during the occlusion period. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A silver stainless steel cup stands upright on a wooden workbench on the left
+    side of the frame. To the right, an orange and black heat gun rests on its integrated wire stand,
+    with its metal nozzle pointing directly at the cup. The heat gun's nozzle interior glows orange, indicating
+    it is active. The background features a blurred workshop setting with various tools like chisels and
+    pliers on the table.
+  init2final_edit_prompt: Edit the given image to show the scene after a duration of heating. The stainless
+    steel cup must remain structurally identical to the initial state, retaining its perfect cylindrical
+    shape, straight rim, and smooth surface without any melting, warping, or deformation. The heat gun
+    remains in its original position pointing at the cup.
+  rationale: The prompt explicitly defines the material as stainless steel and states that its melting
+    point is far higher than the heat gun's output. Consequently, despite the ongoing application of heat
+    during the camera movement and occlusion, the cup must not melt or deform. The camera pans away and
+    returns to the original view, revealing that the cup has withstood the thermal stress and remains
+    rigid and unchanged, serving as a negative example for melting physics.
+  questions:
+  - id: cup_shape_retention
+    question: Does the cup retain its original cylindrical shape without warping?
+    answer_type: yes_no
+    notes_for_judge: The cup should not show signs of melting or deformation.
+  - id: rim_integrity
+    question: Is the rim of the cup still circular and level?
+    answer_type: yes_no
+    notes_for_judge: The top edge should not be sagging or wavy.
+  - id: surface_smoothness
+    question: Is the surface of the cup free from dents, holes, or melted textures?
+    answer_type: yes_no
+    notes_for_judge: Metal should remain smooth and rigid.
+  - id: vertical_posture
+    question: Does the cup remain standing upright without leaning?
+    answer_type: yes_no
+    notes_for_judge: It should not collapse or tilt due to heat.
+  - id: structural_integrity
+    question: Does the cup appear to be a solid, rigid object?
+    answer_type: yes_no
+    notes_for_judge: It should not look soft or liquid.
+  - id: heat_gun_position
+    question: Is the heat gun still positioned to the right of the cup?
+    answer_type: yes_no
+    notes_for_judge: Secondary check for object permanence.
+  - id: cup_presence
+    question: Is the stainless steel cup still visible in the frame?
+    answer_type: yes_no
+    notes_for_judge: The cup should not disappear or be destroyed.

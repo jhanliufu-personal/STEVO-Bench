@@ -1,0 +1,68 @@
+id: hydraulic_press_can_crush_00
+level: 4
+category: structural_transformation
+tags: []
+variant_of: hydraulic_press_can_crush
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The hydraulic press plate continues to move downward with immense force onto the soda can.
+    The crushing action is active. Camera remains stationary throughout. The press plate and soda can
+    remain fully visible in the center of the view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The hydraulic press plate continues to move downward with immense force onto the soda can.
+    The crushing action is active. Camera remains stationary throughout. The press plate and soda can
+    remain fully visible in the center of the view. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A silver aluminum soda can stands upright in the center of a hydraulic press,
+    positioned between a heavy top metal plate and a bottom metal plate. The can is currently intact and
+    cylindrical. In the background, there are hydraulic hoses, a pressure gauge, and the vertical metal
+    beams of the press frame.
+  init2final_edit_prompt: Edit the given image so that the top metal plate of the hydraulic press is positioned
+    significantly lower, compressing the soda can beneath it. The soda can should appear crushed, crumpled,
+    and reduced in height, with its sides buckled outward or folded due to the vertical pressure. The
+    top plate should be in direct contact with the deformed top of the can.
+  rationale: The video prompt describes the active crushing of the soda can by the hydraulic press. Physically,
+    this involves the top plate moving downward with force, which causes the aluminum can to undergo plastic
+    deformation. The can will buckle, crumple, and lose its original height as it is flattened. The final
+    state should depict this irreversible structural change with the plate in a lower position.
+  questions:
+  - id: plate_position
+    question: Is the top metal plate of the press lower than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the vertical position of the top plate relative to the background or bottom
+      plate.
+  - id: can_height
+    question: Is the soda can shorter in height compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The can should be compressed vertically.
+  - id: can_deformation
+    question: Does the soda can show visible crumpling, buckling, or folding?
+    answer_type: yes_no
+    notes_for_judge: Look for loss of the smooth cylindrical shape.
+  - id: structural_integrity
+    question: Has the soda can lost its original perfect cylindrical form?
+    answer_type: yes_no
+    notes_for_judge: The object should be deformed.
+  - id: plate_contact
+    question: Is the top plate still in contact with the top of the can (or the crushed remains)?
+    answer_type: yes_no
+    notes_for_judge: The press pushes down; it should not be hovering above the crushed object.
+  - id: irreversible_change
+    question: Does the object appear to have undergone irreversible structural damage?
+    answer_type: yes_no
+    notes_for_judge: Crushing is irreversible.
+  - id: background_consistency
+    question: Are the hydraulic hoses in the background still present and in the same configuration?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: gauge_consistency
+    question: Is the pressure gauge in the background still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

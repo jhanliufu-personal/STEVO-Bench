@@ -1,0 +1,64 @@
+id: ceramic_plate_impact_v06
+level: 4
+category: structural_transformation
+tags: []
+variant_of: ceramic_plate_impact
+variation_type: dynamic_condition
+variation_description: Target object material changed from ceramic to paper.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Plate is now a flimsy paper plate instead of ceramic.
+  expected_outcome_change: Plate flattens/crumples/tears, does not shatter into shards.
+prompts:
+  init_frame_edit_prompt: Edit the image to change the ceramic plate into a flimsy white disposable paper
+    plate.
+  video_WM: The heavy steel hammer swings down forcefully and makes hard contact with the center of the
+    paper plate. The camera rotates right until the plate completely exits the view, then rotates toward
+    the left smoothly at the same rate until the area where the plate sat is back in the center of view.
+    No zoom, no cut, no scene change. STOP.
+  camera_WM: The heavy steel hammer swings down and strikes the center of the paper plate with force.
+    STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A white, disposable paper plate sits on a rough, grey concrete floor. A heavy
+    sledgehammer with a wooden handle and a metal head is positioned in the air above the plate, angled
+    downwards, ready to strike. The lighting is natural, casting soft shadows on the concrete.
+  init2final_edit_prompt: Edit the given image to show the paper plate crushed, crumpled, and flattened
+    against the concrete floor. The center of the plate should be heavily indented or torn, and the rim
+    should be distorted and bent, reflecting the aftermath of a heavy hammer impact.
+  rationale: The video prompt describes a heavy hammer striking a paper plate. Unlike ceramic, a paper
+    plate will not shatter into shards but will undergo plastic deformation—crumpling, flattening, and
+    possibly tearing at the point of impact. The camera rotates away and then returns; due to object permanence,
+    the damage inflicted at the start must still be visible when the plate comes back into view. The ID
+    mentions 'ceramic', but the visual evidence and prompt text explicitly specify a 'paper plate', so
+    the physics of paper (crumpling/tearing) are applied.
+  questions:
+  - id: plate_damaged
+    question: Does the paper plate appear damaged, crushed, or crumpled?
+    answer_type: yes_no
+    notes_for_judge: The plate should no longer look pristine; it should show signs of impact.
+  - id: plate_flattened
+    question: Is the center of the plate flattened or indented compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Look for a depression or flattening in the middle where the hammer would hit.
+  - id: rim_distortion
+    question: Is the circular rim of the plate distorted or bent?
+    answer_type: yes_no
+    notes_for_judge: The outer edge should likely be warped due to the crushing force on the center.
+  - id: surface_texture
+    question: Is the surface of the plate no longer smooth and uniform?
+    answer_type: yes_no
+    notes_for_judge: It should show creases, folds, or tears.
+  - id: structural_integrity
+    question: Has the plate's structural integrity been compromised?
+    answer_type: yes_no
+    notes_for_judge: It should look like it has been hit by a heavy object.
+  - id: floor_consistency
+    question: Is the concrete floor texture consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The background environment should not change.
+  - id: plate_presence
+    question: Is the paper plate (or its remains) visible in the frame?
+    answer_type: yes_no
+    notes_for_judge: The camera rotates back to the center, so the object must be there.

@@ -1,0 +1,76 @@
+id: knit_fabric_pull_unravel_00
+level: 4
+category: structural_transformation
+tags: []
+variant_of: knit_fabric_pull_unravel
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The hand begins pulling steadily on the loose yarn end. Knitted fabric is constructed from
+    a single continuous strand of yarn formed into interlocking loops. Each loop passes through the loops
+    of the previous row creating a stable but mechanically separable structure. Tension applied to the
+    yarn end acts to pull loops through their neighboring loops. The interlocked structure cannot spontaneously
+    reform once loops are separated. The hand continues pulling the yarn with steady tension while the
+    fabric and hand remain fully visible within the frame. Camera remains stationary throughout. No zoom,
+    no cut, no scene change. STOP.
+  camera_WM: The hand begins pulling steadily on the loose yarn end. Knitted fabric is constructed from
+    a single continuous strand of yarn formed into interlocking loops. Each loop passes through the loops
+    of the previous row creating a stable but mechanically separable structure. Tension applied to the
+    yarn end acts to pull loops through their neighboring loops. The interlocked structure cannot spontaneously
+    reform once loops are separated. The hand continues pulling the yarn with steady tension while the
+    fabric and hand remain fully visible within the frame. Camera remains stationary throughout. No zoom,
+    no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A close-up shot showing a person's hand on the left holding a loose strand of
+    thick, cream-colored yarn. To the right, a piece of chunky knit fabric made of the same yarn lies
+    on a rustic wooden table. The loose strand connects to the edge of the fabric, where the loops appear
+    slightly loose, indicating the start of a row. The background is a blurred interior setting.
+  init2final_edit_prompt: Edit the given image to show the knitted fabric partially unraveled. Reduce
+    the width of the knitted fabric piece from the left edge, making it appear as though several rows
+    of loops have been pulled out. Extend the loose yarn strand held by the hand significantly, making
+    it longer and tauter to reflect the material that was removed from the fabric structure. The edge
+    of the fabric should look ragged or deconstructed where the loops have come undone.
+  rationale: The prompt describes a continuous pulling action on the loose end of a knitted fabric. Knitting
+    is a structural arrangement of loops; pulling the active end unravels these loops, irreversibly converting
+    the 2D fabric back into a 1D linear strand of yarn. Consequently, the final state must show a reduction
+    in the surface area of the fabric (fewer rows/columns) and a corresponding increase in the length
+    of the loose yarn held by the hand. The structural integrity of the edge is compromised as it unravels.
+  questions:
+  - id: yarn_length_increase
+    question: Is the loose strand of yarn held by the hand longer than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The yarn connecting the hand to the fabric should be longer due to unraveling.
+  - id: fabric_area_reduction
+    question: Is the surface area of the intact knitted fabric smaller than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The fabric should have receded or shrunk as rows were unraveled.
+  - id: structural_deconstruction
+    question: Does the edge of the fabric show signs of unraveling or deconstruction compared to the start?
+    answer_type: yes_no
+    notes_for_judge: Look for a ragged edge, loose loops, or a receding boundary where the yarn is being
+      pulled.
+  - id: row_count_decrease
+    question: Are there fewer vertical columns or horizontal rows of loops remaining in the fabric compared
+      to the initial image?
+    answer_type: yes_no
+    notes_for_judge: The pulling action removes loops, so the count must decrease.
+  - id: connection_maintenance
+    question: Is the loose yarn still connected to the main body of the fabric?
+    answer_type: yes_no
+    notes_for_judge: The yarn should not be snapped; it unspools from the fabric.
+  - id: hand_presence
+    question: Is the hand still visible in the frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: table_consistency
+    question: Is the rustic wooden table texture still visible beneath the yarn?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

@@ -1,0 +1,73 @@
+id: cheese_grater_carrot_shred_03
+level: 4
+category: structural_transformation
+tags: []
+variant_of: cheese_grater_carrot_shred
+variation_type: occlusion_method
+variation_description: Occlusion changed to thick steam obscuring the view.
+changes:
+  occlusion_method: Thick white steam fills the frame.
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics (carrot is shredded).
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The hand begins pushing the carrot downward along the rough grater surface with repeated strokes.
+    Box graters have sharp raised edges around each hole that act as cutting blades. The carrot is firm
+    vegetable matter with cellular structure. Progressive strokes apply force against the sharp edges.
+    Thick white steam from a nearby boiling pot billows across the frame, becoming dense enough to completely
+    obscure the grater and hand. The steam swirls for several seconds while the grating action continues
+    unseen. The steam then dissipates, clearing the view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The hand begins pushing the carrot downward along the rough grater surface with repeated
+    strokes. Box graters have sharp raised edges around each hole that act as cutting blades. The carrot
+    is firm vegetable matter with cellular structure. Progressive strokes apply force against the sharp
+    edges. Thick white steam from a nearby boiling pot billows across the frame, becoming dense enough
+    to completely obscure the grater and hand. The steam swirls for several seconds while the grating
+    action continues unseen. The steam then dissipates, clearing the view. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A close-up shot of a metal box grater standing vertically on a worn wooden cutting
+    board. A human hand holds a large, unpeeled orange carrot horizontally against the side of the grater
+    with large holes. There is a small scattering of orange carrot shreds already present on the cutting
+    board at the base of the grater. A window is visible in the blurred background.
+  init2final_edit_prompt: Edit the given image to show the carrot significantly shorter in length, reflecting
+    that a portion of it has been grated away. Position the hand closer to the surface of the metal grater
+    to account for the reduced length of the carrot. Increase the quantity of orange carrot shreds piled
+    on the wooden cutting board at the base of the grater, making the pile larger and more spread out.
+  rationale: 'The video prompt describes a continuous grating action that persists even while the view
+    is obscured by steam. Since the action continues unseen, the physical state of the objects must evolve
+    during the occlusion. Upon the dissipation of the steam, the irreversible transformation of the carrot
+    must be evident: the solid carrot should be physically shorter due to material removal, and the pile
+    of grated shreds on the board should be visibly larger. The camera angle remains static, and the environment
+    returns to a clear view.'
+  questions:
+  - id: carrot_length_reduction
+    question: Is the carrot shorter in length than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the length of the carrot extending from the hand to the grater. It should
+      be shorter.
+  - id: shreds_accumulation
+    question: Is the pile of carrot shreds on the cutting board larger than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Look for an increase in the amount of grated orange material at the base of the grater.
+  - id: hand_position_proximity
+    question: Is the hand holding the carrot closer to the grater surface than initially?
+    answer_type: yes_no
+    notes_for_judge: As the carrot shortens, the hand must move closer to the grater.
+  - id: material_loss_evidence
+    question: Has the volume of the solid carrot visible in the hand decreased?
+    answer_type: yes_no
+    notes_for_judge: The solid object should be smaller due to grating.
+  - id: fragment_increase
+    question: Are there more orange fragments visible on the wooden surface compared to the start?
+    answer_type: yes_no
+    notes_for_judge: Check for increased density or area of shreds.
+  - id: grater_stability
+    question: Is the metal box grater still standing upright in the same position?
+    answer_type: yes_no
+    notes_for_judge: The grater itself should not have moved significantly.
+  - id: cutting_board_presence
+    question: Is the wooden cutting board still visible beneath the grater?
+    answer_type: yes_no
+    notes_for_judge: Context invariant.

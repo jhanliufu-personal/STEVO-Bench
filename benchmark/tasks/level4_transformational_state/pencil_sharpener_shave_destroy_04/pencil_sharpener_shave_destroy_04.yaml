@@ -1,0 +1,75 @@
+id: pencil_sharpener_shave_destroy_04
+level: 4
+category: structural_transformation
+tags: []
+variant_of: pencil_sharpener_shave_destroy
+variation_type: dynamic_condition
+variation_description: Crank is turned counter-clockwise (reverse). Most sharpeners freewheel in reverse
+  and do not engage blades.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Crank turns counter-clockwise (implied freewheeling/no cut).
+  expected_outcome_change: No state change (pencil length remains constant).
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The hand begins turning the sharpener crank in a counter-clockwise direction. The internal
+    gear mechanism of this standard sharpener is designed to engage the cutting blades only when rotated
+    clockwise; counter-clockwise rotation typically disengages the helical blades or causes them to spin
+    freely without cutting. The hand continues cranking the sharpener mechanism in this reverse direction.
+    The camera rotates right at constant speed until the sharpener and pencil completely exit the view
+    to the right. The camera continues rotating right for several seconds while the hand remains off-screen
+    continuing to turn the crank counter-clockwise. Then the camera rotates left smoothly at the same
+    rate back to the original viewpoint. No zoom, no cut, no scene change. STOP.
+  camera_WM: The hand begins turning the sharpener crank in a counter-clockwise direction. The internal
+    gear mechanism of this standard sharpener is designed to engage the cutting blades only when rotated
+    clockwise; counter-clockwise rotation typically disengages the helical blades or causes them to spin
+    freely without cutting. The hand continues cranking the sharpener mechanism in this reverse direction
+    during the occlusion period. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a vintage, silver metal pencil sharpener clamped
+    to the edge of a wooden workbench. A long wooden pencil is inserted into the sharpener from the left
+    side. A person's arm and hand are visible on the right, grasping the black crank handle. The sharpener
+    features a transparent shavings bin underneath, which is partially filled with wood shavings. The
+    background shows a blurred workshop environment with tools and a window.
+  init2final_edit_prompt: Edit the given image to show the scene after the crank has been turned counter-clockwise.
+    Ensure the pencil remains at its original length and is not shortened, as the reverse rotation does
+    not cut the wood. Keep the amount of shavings in the bin identical to the initial state. The hand
+    should be visible holding the crank handle.
+  rationale: The prompt specifies that the crank is turned in a counter-clockwise direction. It explicitly
+    states that this direction disengages the cutting blades and causes the mechanism to spin freely without
+    cutting the pencil. Therefore, despite the cranking action and the passage of time during the camera
+    occlusion, the pencil should not be consumed, and no new shavings should be generated. The final state
+    should show the pencil at its original length and the shavings bin at its original fill level, with
+    the camera returned to the initial viewpoint.
+  questions:
+  - id: pencil_length_unchanged
+    question: Is the pencil length approximately the same as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The pencil should not be shorter because the crank was turned counter-clockwise (disengaged).
+  - id: shavings_unchanged
+    question: Is the amount of shavings in the bin unchanged compared to the start?
+    answer_type: yes_no
+    notes_for_judge: No new shavings should be produced.
+  - id: pencil_unshortened
+    question: Does the pencil appear unshortened?
+    answer_type: yes_no
+    notes_for_judge: Verifies lack of transformation.
+  - id: pencil_extension
+    question: Does the pencil extend from the sharpener as far as it did initially?
+    answer_type: yes_no
+    notes_for_judge: Checks relative position/length.
+  - id: pencil_integrity
+    question: Is the pencil free from new visible damage or reduction?
+    answer_type: yes_no
+    notes_for_judge: Checks for structural integrity.
+  - id: sharpener_position
+    question: Is the sharpener clamped to the table in the same position?
+    answer_type: yes_no
+    notes_for_judge: Secondary invariant.
+  - id: hand_presence
+    question: Is the hand visible holding the crank?
+    answer_type: yes_no
+    notes_for_judge: Secondary invariant.

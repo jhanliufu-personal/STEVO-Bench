@@ -1,0 +1,75 @@
+id: pencil_sharpener_shave_destroy_09
+level: 4
+category: structural_transformation
+tags: []
+variant_of: pencil_sharpener_shave_destroy
+variation_type: combined
+variation_description: Combines dust cloud occlusion with the pencil being removed from the sharpener.
+changes:
+  occlusion_method: Thick dust cloud obscures view.
+  dynamic_conditions: Pencil is on the table.
+  expected_outcome_change: No state change (pencil length remains constant).
+prompts:
+  init_frame_edit_prompt: Edit the image to remove the pencil from the sharpener and place it lying flat
+    on the wooden table surface next to the sharpener.
+  video_WM: The pencil lies flat on the table surface next to the sharpener, leaving the sharpener's entry
+    hole empty. The hand begins turning the sharpener crank, rotating the blades within the empty chamber.
+    Suddenly, a dense cloud of wood dust blows across the workbench, creating an opaque wall of particles
+    that completely hides the sharpener, pencil, and hand. The cranking sound continues behind the dust
+    cloud for several seconds. The dust cloud then dissipates and clears, revealing the scene again. No
+    zoom, no cut, no scene change. STOP.
+  camera_WM: The pencil lies flat on the table surface next to the sharpener, leaving the sharpener's
+    entry hole empty. The hand begins turning the sharpener crank, rotating the blades within the empty
+    chamber. Suddenly, a dense cloud of wood dust blows across the workbench, creating an opaque wall
+    of particles that completely hides the sharpener, pencil, and hand. The cranking sound continues behind
+    the dust cloud for several seconds. The dust cloud then dissipates and clears, revealing the scene
+    again. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A close-up view of a wooden workbench surface. A vintage, silver metal pencil
+    sharpener is clamped to the edge of the table. A wooden pencil lies flat on the table, positioned
+    parallel to the edge and next to the sharpener, but not inserted into it. A person's arm and hand
+    are visible on the right, holding the crank handle of the sharpener. The sharpener has a transparent
+    shavings container that is partially filled. The background is a blurred workshop interior.
+  init2final_edit_prompt: Edit the given image to add a layer of fine wood dust and sawdust particles
+    scattered across the workbench surface, the pencil, and the sharpener. The pencil must remain unsharpened,
+    at its original length, and in its original position on the table. The sharpener and hand should remain
+    in their initial positions. The scene should appear covered in settled wood debris.
+  rationale: The video prompt explicitly states that the pencil lies next to the sharpener and the crank
+    is turned while the entry hole is empty. This means the pencil is never inserted or sharpened, so
+    it must remain intact. The 'dense cloud of wood dust' that blows across the scene and then dissipates
+    implies that wood particles settle on the environment. Therefore, the irreversible transformation
+    is the accumulation of settled dust and debris on the workbench and objects, while the pencil itself
+    remains structurally unchanged.
+  questions:
+  - id: dust_visible
+    question: Is there a visible layer of wood dust or sawdust on the table surface?
+    answer_type: yes_no
+    notes_for_judge: Look for small particles or a dusty texture on the workbench that was not present
+      initially.
+  - id: debris_scattered
+    question: Are there scattered particles or debris covering the workbench that were not there initially?
+    answer_type: yes_no
+    notes_for_judge: The scene should look dirtier due to the settled dust cloud.
+  - id: scene_dustier
+    question: Does the scene appear to be covered in settled dust?
+    answer_type: yes_no
+    notes_for_judge: Compare the cleanliness of the surfaces between the initial and final frames.
+  - id: fragments_present
+    question: Are there small wood fragments or powder lying on the table surface?
+    answer_type: yes_no
+    notes_for_judge: Check for the residue left by the dust cloud.
+  - id: pencil_position_invariant
+    question: Is the pencil still lying flat on the table in its original position?
+    answer_type: yes_no
+    notes_for_judge: The pencil should not have moved significantly.
+  - id: pencil_length_invariant
+    question: Does the pencil appear to be the same length as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The pencil was not inserted into the sharpener, so it should not be shorter.
+  - id: pencil_unsharpened_invariant
+    question: Is the pencil tip still unsharpened or in its original state?
+    answer_type: yes_no
+    notes_for_judge: The pencil should not show a newly sharpened cone.

@@ -4,9 +4,68 @@ category: structural_transformation
 transformation_type: porous_solid_fragmentation
 tags: []
 prompts:
-  image_gen_prompt: A stick of black artist charcoal is held vertically between the thumb and fingers of one hand. The charcoal is a porous carbon material with matte black appearance. The fingers are positioned to apply crushing force.
-  video_WM: The fingers begin applying progressive squeezing pressure to the charcoal stick. Artist charcoal is a highly porous carbon material with low structural strength and tendency to fracture under compression. The material is brittle with weak bonds between carbon particles. The fingers continue increasing compressive force. The camera rotates right at constant speed until the hand and charcoal completely exit the view to the right. The camera continues rotating right for several seconds while the hand remains off-screen continuing to apply pressure. Then the camera rotates left smoothly at the same rate back to the original viewpoint, bringing the hand back into view. No zoom, no cut, no scene change. STOP.
-  camera_WM: The fingers begin applying progressive squeezing pressure to the charcoal stick. Artist charcoal is a highly porous carbon material with low structural strength and tendency to fracture under compression. The material is brittle with weak bonds between carbon particles. The fingers continue increasing compressive force during the occlusion period. STOP.
+  image_gen_prompt: A stick of black artist charcoal is held vertically between the thumb and fingers
+    of one hand. The charcoal is a porous carbon material with matte black appearance. The fingers are
+    positioned to apply crushing force.
+  video_WM: The fingers begin applying progressive squeezing pressure to the charcoal stick. Artist charcoal
+    is a highly porous carbon material with low structural strength and tendency to fracture under compression.
+    The material is brittle with weak bonds between carbon particles. The fingers continue increasing
+    compressive force. The camera rotates right at constant speed until the hand and charcoal completely
+    exit the view to the right. The camera continues rotating right for several seconds while the hand
+    remains off-screen continuing to apply pressure. Then the camera rotates left smoothly at the same
+    rate back to the original viewpoint, bringing the hand back into view. No zoom, no cut, no scene change.
+    STOP.
+  camera_WM: The fingers begin applying progressive squeezing pressure to the charcoal stick. Artist charcoal
+    is a highly porous carbon material with low structural strength and tendency to fracture under compression.
+    The material is brittle with weak bonds between carbon particles. The fingers continue increasing
+    compressive force during the occlusion period. STOP.
 camera_control:
   HY-WorldPlay: s-3, right-30, left-30
   Genie: null
+evaluation:
+  init_frame_description: A close-up view of a hand holding a thick, black, cylindrical stick of artist
+    charcoal. The charcoal has a porous, textured surface. The hand is stained with black charcoal dust.
+    The background is a wooden table with drawing supplies, including white paper with charcoal sketches
+    and other drawing tools.
+  init2final_edit_prompt: Edit the given image to show the charcoal stick crushed and crumbled in the
+    hand. The original solid cylinder should be broken into fragments, chunks, and dust. The hand should
+    be clenched tighter around the debris, and there should be more black charcoal dust on the fingers
+    and palm.
+  rationale: The prompt specifies that the hand applies progressive squeezing pressure to a brittle charcoal
+    stick. As the camera rotates away, the hand continues to apply pressure off-screen. Charcoal is a
+    fragile material that fractures under compression. Therefore, when the camera returns to the initial
+    view, the charcoal stick must be structurally compromised—broken, crumbled, or shattered—rather than
+    remaining a solid, intact cylinder. This represents an irreversible physical transformation.
+  questions:
+  - id: structural_integrity_loss
+    question: Has the charcoal stick lost its original solid cylindrical form?
+    answer_type: yes_no
+    notes_for_judge: The object should no longer be a perfect cylinder; it should look broken or deformed.
+  - id: fragmentation_presence
+    question: Are there visible fragments, chunks, or broken pieces of charcoal?
+    answer_type: yes_no
+    notes_for_judge: Look for separation of the material into smaller parts.
+  - id: crumbled_appearance
+    question: Does the charcoal material appear crushed or crumbled compared to the start?
+    answer_type: yes_no
+    notes_for_judge: Assess texture and form for signs of crushing.
+  - id: debris_increase
+    question: Is there more loose charcoal dust or small debris visible than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Crushing charcoal generates dust and small crumbs.
+  - id: hand_clench
+    question: Is the hand clenched tighter or pressing into the material more than initially?
+    answer_type: yes_no
+    notes_for_judge: As the object collapses, the grip should naturally tighten or close in.
+  - id: irreversible_damage
+    question: Is the charcoal stick structurally damaged in a way that looks irreversible?
+    answer_type: yes_no
+    notes_for_judge: It should not look like it can simply be let go to return to a cylinder.
+  - id: background_consistency
+    question: Is the wooden table surface still visible in the background?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: object_identity
+    question: Is the black material in the hand still recognizable as charcoal (even if broken)?
+    answer_type: yes_no
+    notes_for_judge: The material type should not change, only its structure.

@@ -1,0 +1,63 @@
+id: egg_batter_merging_10
+level: 4
+category: structural_transformation
+tags: []
+variant_of: egg_batter_merging
+variation_type: combined
+variation_description: Whisk is motionless AND occlusion by zooming out.
+changes:
+  occlusion_method: Camera zooms out.
+  dynamic_conditions: Whisk is stationary.
+  expected_outcome_change: No change in state.
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The whisk sits motionless in the bowl of eggs and flour. Nothing moves. The camera zooms out
+    continuously until the bowl is too small to see any details, then zooms back in to the original framing.
+    No cut, no scene change. STOP.
+  camera_WM: The whisk sits motionless in the bowl of eggs and flour. Nothing moves. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+evaluation:
+  init_frame_description: A high-angle close-up shows a ceramic mixing bowl on a wooden table. Inside
+    the bowl is a mound of white flour with a well in the center containing several raw eggs with distinct
+    bright yellow yolks and clear whites. A metal balloon whisk rests in the bowl, with the wires partially
+    submerged in the eggs and the handle extending towards the upper right. To the left of the bowl, there
+    is some scattered flour on the wooden surface. To the right, a textured linen cloth is visible. In
+    the background, a window frame is softly out of focus.
+  init2final_edit_prompt: Edit the given image to show the scene exactly as it appeared originally. The
+    raw eggs in the center of the bowl must remain completely unmixed with distinct, intact yellow yolks.
+    The white flour must remain a separate mound surrounding the eggs, with no signs of blending or batter
+    formation. The metal whisk must be in the exact same resting position. The scattered flour on the
+    table and the linen cloth must remain undisturbed. The image should look identical to the initial
+    state.
+  rationale: The video prompt explicitly states that 'Nothing moves' and the whisk is 'motionless'. The
+    camera performs a zoom-out followed by a zoom-in back to the original framing. This is a stability
+    and object permanence test (a negative control for transformation). Despite the presence of tools
+    and ingredients implying potential action, the correct simulation must result in a final state that
+    is visually identical to the initial state, with no mixing, blending, or structural changes to the
+    eggs or flour.
+  questions:
+  - id: egg_integrity
+    question: Are the yellow egg yolks still visible as distinct, intact spheres?
+    answer_type: yes_no
+    notes_for_judge: The prompt specifies 'Nothing moves', so the eggs should not be mixed.
+  - id: flour_separation
+    question: Is the white flour still clearly separated from the eggs, without forming a batter?
+    answer_type: yes_no
+    notes_for_judge: Check for lack of mixing.
+  - id: whisk_position
+    question: Is the metal whisk resting in the same position and orientation as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The whisk should not have moved.
+  - id: bowl_contents_static
+    question: Does the arrangement of ingredients inside the bowl appear identical to the start?
+    answer_type: yes_no
+    notes_for_judge: Global check for static state.
+  - id: spilled_flour_static
+    question: Is the scattered flour on the table to the left still present in the same pattern?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: cloth_static
+    question: Is the linen cloth on the right side undisturbed?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

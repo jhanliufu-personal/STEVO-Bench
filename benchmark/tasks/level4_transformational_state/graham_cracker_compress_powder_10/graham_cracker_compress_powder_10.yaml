@@ -1,0 +1,75 @@
+id: graham_cracker_compress_powder_10
+level: 4
+category: structural_transformation
+tags: []
+variant_of: graham_cracker_compress_powder
+variation_type: combined
+variation_description: Soft bread material combined with camera physical movement occlusion.
+changes:
+  occlusion_method: Camera moves away
+  dynamic_conditions: 'Material change: Soft bread'
+  expected_outcome_change: Object flattens/compresses plastically
+prompts:
+  init_frame_edit_prompt: Edit the image to replace the graham cracker inside the bag with a slice of
+    soft white bread.
+  video_WM: The hand presses down on the slice of white bread through the plastic bag with progressive
+    force. White bread is a soft, porous foam structure that deforms plastically under compression but
+    does not fracture. The hand applies pressing motions to distribute force across the bread surface.
+    The camera physically moves backward away from the table until the bag is too far away to see clearly.
+    The hand continues to apply pressure while the camera is distant. Then the camera moves forward, returning
+    to the original viewpoint. No zoom, no cut, no scene change. STOP.
+  camera_WM: The hand presses down on the slice of white bread through the plastic bag with progressive
+    force. White bread is a soft, porous foam structure that deforms plastically under compression but
+    does not fracture. The hand applies pressing motions to distribute force across the bread surface.
+    The material is soft and pliable during the occlusion period. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A slice of white bread is enclosed in a clear plastic ziplock bag lying flat
+    on a wooden table. A human hand is positioned above the bag, hovering or lightly touching the surface,
+    ready to press down. The bread appears soft, fluffy, and square with a visible crust.
+  init2final_edit_prompt: Edit the given image so that the slice of white bread inside the bag appears
+    significantly flattened and compressed. The bread should look thinner, denser, and squished, losing
+    its original fluffy volume and porous texture. The plastic bag should conform tightly to the flattened
+    shape of the bread.
+  rationale: The prompt describes a physical interaction where a hand compresses a slice of white bread.
+    Unlike brittle materials, white bread is a soft foam that undergoes plastic deformation; it squishes
+    and flattens rather than shattering or turning to powder. The camera moves away and then returns to
+    the original viewpoint, providing a time skip during which the compression continues. Therefore, the
+    final frame must show the bread in a permanently flattened, denser state, having lost its initial
+    loft and airiness.
+  questions:
+  - id: bread_flattened
+    question: Is the slice of bread visibly flatter or thinner than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the height/thickness of the bread. It should look squished.
+  - id: bread_compressed_texture
+    question: Does the bread appear denser or less fluffy compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The texture should look matted down or compressed, losing the porous look.
+  - id: deformation_visible
+    question: Has the bread undergone visible plastic deformation (squishing)?
+    answer_type: yes_no
+    notes_for_judge: The shape should be distorted by pressure.
+  - id: no_shattering
+    question: Does the bread remain a single cohesive piece rather than crumbling into separate fragments?
+    answer_type: yes_no
+    notes_for_judge: White bread squishes, it does not shatter like a cracker. The answer must be YES
+      for correct physics.
+  - id: bag_conforms
+    question: Does the plastic bag appear flattened against the bread?
+    answer_type: yes_no
+    notes_for_judge: The bag should look less inflated or wrinkled, pressed down onto the bread.
+  - id: crust_distorted
+    question: Is the shape of the bread's crust distorted or compressed compared to the start?
+    answer_type: yes_no
+    notes_for_judge: The square outline might be bulged out or flattened.
+  - id: table_visible
+    question: Is the wooden table surface still visible around the bag?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: bag_integrity
+    question: Is the plastic bag still intact (not torn or shredded)?
+    answer_type: yes_no
+    notes_for_judge: The bag should contain the bread without ripping.

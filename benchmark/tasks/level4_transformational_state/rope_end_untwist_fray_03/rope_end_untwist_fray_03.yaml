@@ -1,0 +1,77 @@
+id: rope_end_untwist_fray_03
+level: 4
+category: structural_transformation
+tags: []
+variant_of: rope_end_untwist_fray
+variation_type: occlusion_method
+variation_description: Occlusion by a thick cloud of sawdust obscuring the scene.
+changes:
+  occlusion_method: A thick cloud of sawdust blows across the workbench, hiding the scene.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The fingers begin pulling and untwisting the individual rope strands away from each other.
+    Braided rope consists of three separate fiber bundles twisted together in a helical pattern. The structural
+    integrity depends on the strands remaining intertwined under twisting tension. The fingers apply force
+    to unwind and separate the twisted structure. The fingers continue progressive untwisting and separation
+    of the strands. A thick cloud of sawdust blows across the workbench, filling the air and completely
+    obscuring the hands and rope from view. The dust swirls thickly for several seconds. Then the dust
+    settles and clears, revealing the workbench again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The fingers begin pulling and untwisting the individual rope strands away from each other.
+    Braided rope consists of three separate fiber bundles twisted together in a helical pattern. The structural
+    integrity depends on the strands remaining intertwined under twisting tension. The fingers apply force
+    to unwind and separate the twisted structure. The fingers continue progressive untwisting and separation
+    of the strands. A thick cloud of sawdust blows across the workbench, filling the air and completely
+    obscuring the hands and rope from view. The dust swirls thickly for several seconds. Then the dust
+    settles and clears, revealing the workbench again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, high-angle shot of a pair of hands holding a thick, twisted natural
+    fiber rope over a wooden workbench. The rope has a tight helical structure consisting of intertwined
+    strands. The hands are gripping the rope firmly. In the background, the wooden surface is visible
+    along with blurred tools, including pliers, and loose bits of twine or fiber.
+  init2final_edit_prompt: Edit the given image to show the section of rope between the hands unraveled
+    and separated into distinct, loose strands. The tight helical twist should be undone, leaving the
+    fibers frayed and the individual bundles pulled apart. The hands should remain in position but holding
+    the now separated and untwisted components of the rope.
+  rationale: The video prompt describes an action of untwisting the rope, followed by a period of total
+    occlusion by sawdust. The world model must infer that the untwisting action was successful and persisted
+    or progressed during the occlusion. Therefore, when the dust clears, the rope should no longer be
+    a tight helix but should be separated into its constituent strands or frayed bundles, representing
+    a structural change to the object.
+  questions:
+  - id: rope_untwisted
+    question: Has the section of rope between the hands been untwisted?
+    answer_type: yes_no
+    notes_for_judge: Compare the rope's tightness and twist pattern to the initial frame.
+  - id: strands_separated
+    question: Are the individual strands or bundles of the rope separated from one another?
+    answer_type: yes_no
+    notes_for_judge: Look for gaps between the fiber bundles that were previously tight together.
+  - id: helical_structure_loss
+    question: Is the original tight helical pattern of the rope disrupted or undone?
+    answer_type: yes_no
+    notes_for_judge: The spiral pattern should be broken or significantly loosened.
+  - id: rope_width_expansion
+    question: Does the rope appear wider or looser in the manipulated area compared to the start?
+    answer_type: yes_no
+    notes_for_judge: Untwisting usually increases the volume/width of the rope section.
+  - id: fiber_fraying
+    question: Are inner fibers or frayed edges visible that were previously hidden inside the twist?
+    answer_type: yes_no
+    notes_for_judge: Check for texture changes indicating exposed inner material.
+  - id: structural_integrity
+    question: Does the rope look structurally compromised or unraveled compared to the initial solid cord?
+    answer_type: yes_no
+    notes_for_judge: Evaluate if the object has lost its coherent single-cord form.
+  - id: hands_presence
+    question: Are the hands still present in the frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: background_consistency
+    question: Is the wooden workbench surface still visible in the background?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

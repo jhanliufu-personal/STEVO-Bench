@@ -1,0 +1,67 @@
+id: photograph_tearing_01
+level: 4
+category: structural_transformation
+tags: []
+variant_of: photograph_tearing
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to a hand covering the lens.
+changes:
+  occlusion_method: A hand moves in front of the camera lens to block the view.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The two hands pull firmly in opposite directions on the photograph. Tension is applied to
+    the paper material to initiate a tear. A third hand moves close to the camera lens, completely blocking
+    the view, covers the frame for a duration, and then moves away. No zoom, no cut, no scene change.
+    The camera returns to the original viewpoint. STOP.
+  camera_WM: The two hands pull firmly in opposite directions on the photograph. Tension is applied to
+    the paper material to initiate a tear. A third hand moves close to the camera lens, completely blocking
+    the view, covers the frame for a duration, and then moves away. No zoom, no cut, no scene change.
+    STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up shot of two hands holding a glossy photograph of a sunset over a
+    beach. The left hand, wearing a silver ring on the ring finger, holds the left side, and the right
+    hand holds the right side. The photograph is slightly bent, showing a reflection on its glossy surface.
+    The background is dark and out of focus.
+  init2final_edit_prompt: Edit the given image so that the photograph appears torn. Introduce a visible,
+    jagged rip or separation in the paper material, extending from the top edge downwards or across the
+    photo. The image content on the photograph (the sunset) should be disrupted by this physical break.
+    The hands should remain holding the damaged photograph.
+  rationale: The video prompt describes hands pulling firmly in opposite directions to initiate a tear,
+    followed by an occlusion. This physical action applies tension exceeding the material's strength,
+    causing an irreversible structural failure. When the occlusion clears, the photograph must exhibit
+    a visible tear, rip, or separation of the paper material, reflecting the damage caused by the pulling
+    action.
+  questions:
+  - id: tear_visible
+    question: Is the photograph visibly torn or ripped?
+    answer_type: yes_no
+    notes_for_judge: Look for a jagged line, separation, or break in the paper material.
+  - id: structural_damage
+    question: Has the structural integrity of the photograph been compromised compared to the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: The paper should no longer be a single, undamaged continuous sheet.
+  - id: image_disruption
+    question: Is the sunset image on the photograph disrupted by a physical break in the paper?
+    answer_type: yes_no
+    notes_for_judge: The visual content of the photo should be interrupted by the tear.
+  - id: edge_continuity
+    question: Is the top edge of the photograph broken or discontinuous?
+    answer_type: yes_no
+    notes_for_judge: The tear likely starts from the edge where tension was applied.
+  - id: material_separation
+    question: Are there signs of material separation or fraying along a tear line?
+    answer_type: yes_no
+    notes_for_judge: Check for white paper fibers or jagged edges typical of torn photo paper.
+  - id: hands_holding
+    question: Are the hands still holding the photograph (or its pieces)?
+    answer_type: yes_no
+    notes_for_judge: The hands should not have disappeared.
+  - id: ring_presence
+    question: Is the silver ring still visible on the left hand?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

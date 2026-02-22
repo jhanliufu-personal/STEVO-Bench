@@ -1,0 +1,64 @@
+id: expanding_foam_paper_cup_burst_09
+level: 4
+category: structural_transformation
+tags: []
+variant_of: expanding_foam_paper_cup_burst
+variation_type: combined
+variation_description: The can is empty (condition) with zoom out (occlusion).
+changes:
+  occlusion_method: Camera zoom out.
+  dynamic_conditions: Can is empty; no foam dispenses.
+  expected_outcome_change: No change in state; cup remains empty
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The hand presses the trigger firmly, but the can is completely empty and depleted of pressure.
+    No foam dispenses from the nozzle. The paper cup remains in its initial state. The camera zooms out
+    rapidly until the workbench becomes a distant speck. The camera holds this distant view for several
+    seconds. The camera then zooms back in rapidly to the exact original framing. No cut, no scene change.
+    STOP.
+  camera_WM: The hand presses the trigger firmly, but the can is completely empty and depleted of pressure.
+    No foam dispenses from the nozzle. The paper cup remains in its initial state. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a workbench covered in a clear plastic sheet.
+    On the sheet are irregular patterns of dried, off-white polyurethane foam. A gloved hand (black and
+    grey glove) holds a can of 'Great Stuff' foam spray on the right side. The can's red straw nozzle
+    is inserted into a small, brown paper cup sitting in the center. To the left, a hammer and a blue
+    clamp are visible on a wooden plank. In the background, there is a window and wooden framing.
+  init2final_edit_prompt: Edit the given image to show the scene exactly as it appeared initially. Ensure
+    the paper cup remains completely intact and empty, with no new foam dispensed. The red nozzle should
+    remain inserted in the cup without any foam coming out. The dried foam patterns on the table, the
+    hammer, and the background elements must remain identical to the original state.
+  rationale: The video prompt explicitly states that the can is empty and no foam dispenses, meaning the
+    expected physical transformation (foam expanding, cup bursting) does not occur. The camera performs
+    a large zoom-out and zoom-in maneuver, returning to the exact original framing. Therefore, the final
+    state must be visually identical to the initial state, testing the model's ability to handle negative
+    constraints (no action) and object permanence (restoring the scene after it leaves the view) without
+    hallucinating the typical outcome of spraying foam.
+  questions:
+  - id: cup_intact
+    question: Is the paper cup still intact and free of damage?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the can is empty, so the cup should not burst or deform.
+  - id: no_new_foam
+    question: Is the paper cup free of any new, overflowing foam?
+    answer_type: yes_no
+    notes_for_judge: No foam should dispense.
+  - id: nozzle_clean
+    question: Is the red nozzle visible and free of fresh foam at the tip?
+    answer_type: yes_no
+    notes_for_judge: The nozzle should not be obscured by dispensed foam.
+  - id: foam_patterns_same
+    question: Are the dried foam patterns on the table identical to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The existing foam on the table should not change or grow.
+  - id: hammer_position
+    question: Is the hammer on the left still in its original position?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: framing_match
+    question: Is the framing of the shot identical to the initial view?
+    answer_type: yes_no
+    notes_for_judge: The camera zooms back to the exact original framing.

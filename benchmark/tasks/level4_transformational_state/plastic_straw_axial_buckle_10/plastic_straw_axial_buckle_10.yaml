@@ -1,0 +1,72 @@
+id: plastic_straw_axial_buckle_10
+level: 4
+category: structural_transformation
+tags: []
+variant_of: plastic_straw_axial_buckle
+variation_type: combined
+variation_description: Combined structural weakness (pre-creased) with zoom occlusion.
+changes:
+  occlusion_method: Camera zooms out and back.
+  dynamic_conditions: Straw has a pre-existing crease in the center (weak point).
+  expected_outcome_change: Buckling occurs immediately and specifically at the crease location.
+prompts:
+  init_frame_edit_prompt: Edit the image to show a visible dent or crease in the exact middle of the plastic
+    straw.
+  video_WM: The hands begin moving toward each other, applying axial compression force along the length
+    of the straw. The straw contains a pre-existing structural defect—a crease in the center. Structural
+    imperfections drastically reduce the critical buckling load, acting as a stress concentrator. The
+    structure is primed to fail at this specific weak point with minimal force application. The hands
+    continue applying progressive compressive force. The camera swiftly zooms out until the scene is distant
+    and details are obscure. The camera holds this wide shot for several seconds while the compression
+    continues. Then the camera zooms back in to the original framing. No cut, no scene change. STOP.
+  camera_WM: The hands begin moving toward each other, applying axial compression force along the length
+    of the straw. The straw contains a pre-existing structural defect—a crease in the center. Structural
+    imperfections drastically reduce the critical buckling load, acting as a stress concentrator. The
+    structure is primed to fail at this specific weak point with minimal force application. The hands
+    continue applying progressive compressive force during the occlusion period. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+  Genie: null
+evaluation:
+  init_frame_description: A clear plastic straw is held vertically between two hands against a light brown
+    wooden table background. The hands grip the top and bottom ends of the straw. There is a visible pre-existing
+    crease or structural imperfection in the exact center of the straw.
+  init2final_edit_prompt: Edit the given image so that the hands are positioned closer together vertically.
+    The clear plastic straw between them is now sharply bent and buckled at the center, forming a distinct
+    angle or V-shape. The central area of the straw shows severe structural deformation compared to the
+    straight initial state.
+  rationale: The video prompt describes a continuous application of axial compression force on a straw
+    with a pre-existing defect. Physically, this leads to buckling at the weak point (the crease). The
+    camera zooms out and back in, covering a period of time where the compression continues. Therefore,
+    in the final frame, the hands must be closer together than in the initial frame, and the straw must
+    have undergone significant plastic deformation (buckling) at the center, transitioning from a mostly
+    straight tube to a bent or folded structure.
+  questions:
+  - id: straw_buckled
+    question: Is the straw bent or buckled at the center?
+    answer_type: yes_no
+    notes_for_judge: The straw should no longer be straight; it should show a distinct bend at the middle.
+  - id: hands_closer
+    question: Are the hands closer together vertically than they were in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the vertical distance between the thumbs/fingers holding the straw ends.
+  - id: deformation_location
+    question: Is the structural deformation concentrated at the middle of the straw where the crease was?
+    answer_type: yes_no
+    notes_for_judge: The bend should occur at the pre-existing weak point.
+  - id: shape_change
+    question: Does the straw form an angled or V-shape rather than a straight line?
+    answer_type: yes_no
+    notes_for_judge: Check for the geometric change resulting from buckling.
+  - id: structural_integrity
+    question: Does the straw appear more damaged or deformed than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The initial frame had a small crease; the final frame should show significant bending/failure.
+  - id: background_consistency
+    question: Is the background still a light brown wooden surface?
+    answer_type: yes_no
+    notes_for_judge: Invariant check.
+  - id: hands_holding
+    question: Are the hands still gripping the ends of the straw?
+    answer_type: yes_no
+    notes_for_judge: Invariant check.

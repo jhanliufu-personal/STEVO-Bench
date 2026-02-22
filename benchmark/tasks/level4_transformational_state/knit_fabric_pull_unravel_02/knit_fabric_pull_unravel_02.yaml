@@ -1,0 +1,77 @@
+id: knit_fabric_pull_unravel_02
+level: 4
+category: structural_transformation
+tags: []
+variant_of: knit_fabric_pull_unravel
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to the lights turning off.
+changes:
+  occlusion_method: Room lights turn off, creating total darkness.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The hand begins pulling steadily on the loose yarn end. Knitted fabric is constructed from
+    a single continuous strand of yarn formed into interlocking loops. Each loop passes through the loops
+    of the previous row creating a stable but mechanically separable structure. Tension applied to the
+    yarn end acts to pull loops through their neighboring loops. The interlocked structure cannot spontaneously
+    reform once loops are separated. The hand continues pulling the yarn with steady tension. Suddenly,
+    the room lights turn off completely, plunging the scene into total darkness. The darkness lasts for
+    several seconds while the hand continues pulling the yarn. Then the lights turn back on, illuminating
+    the scene again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The hand begins pulling steadily on the loose yarn end. Knitted fabric is constructed from
+    a single continuous strand of yarn formed into interlocking loops. Each loop passes through the loops
+    of the previous row creating a stable but mechanically separable structure. Tension applied to the
+    yarn end acts to pull loops through their neighboring loops. The interlocked structure cannot spontaneously
+    reform once loops are separated. The hand continues pulling the yarn with steady tension. Suddenly,
+    the room lights turn off completely, plunging the scene into total darkness. The darkness lasts for
+    several seconds while the hand continues pulling the yarn. Then the lights turn back on, illuminating
+    the scene again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, high-angle shot showing a hand on the left holding a loose strand
+    of thick, cream-colored yarn. The yarn is attached to a piece of chunky knit fabric lying on a rustic
+    wooden table. The fabric's edge is visible where the yarn is unraveling, showing loose loops. The
+    texture of the knit is coarse and three-dimensional.
+  init2final_edit_prompt: Edit the given image to show the knitted fabric significantly reduced in size
+    due to unraveling. The loose yarn strand held by the hand should be much longer, extending from the
+    now-receded edge of the fabric. The edge of the knit should be positioned further back, exposing more
+    of the wooden table surface that was previously covered by the fabric. The remaining fabric should
+    retain its chunky knit texture but occupy less surface area.
+  rationale: 'The video prompt describes a continuous pulling action on a loose yarn end, which mechanically
+    unravels the knitted structure. This is a destructive process that converts the 2D fabric back into
+    a linear strand. The action continues through a period of darkness (occlusion). Therefore, in the
+    final frame, the physical state must reflect the accumulation of this action: the fabric must be smaller
+    (having lost rows of loops), and the loose yarn strand must be correspondingly longer. The transformation
+    is structural and irreversible.'
+  questions:
+  - id: yarn_length_increase
+    question: Is the loose strand of yarn significantly longer than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The pulled strand should be longer as material is removed from the fabric.
+  - id: fabric_area_decrease
+    question: Is the total area occupied by the knitted fabric smaller than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The fabric should shrink as it unravels.
+  - id: edge_recession
+    question: Has the unraveling edge of the fabric receded compared to its starting position?
+    answer_type: yes_no
+    notes_for_judge: The active edge should move away from the pull direction as rows are removed.
+  - id: table_exposure
+    question: Is more of the wooden table surface visible in the area previously covered by the fabric?
+    answer_type: yes_no
+    notes_for_judge: As the fabric shrinks, the background table should be revealed.
+  - id: structural_loss
+    question: Does the fabric appear to have fewer rows of interlocking loops than initially?
+    answer_type: yes_no
+    notes_for_judge: Check for structural loss of the knit pattern.
+  - id: hand_presence
+    question: Is the hand still visible in the frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: yarn_color_consistency
+    question: Is the yarn still the same cream color and thick texture?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

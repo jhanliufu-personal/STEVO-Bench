@@ -1,0 +1,72 @@
+id: bleach_colored_fabric_fade_06
+level: 4
+category: structural_transformation
+tags: []
+variant_of: bleach_colored_fabric_fade
+variation_type: dynamic_condition
+variation_description: Changes the liquid to red wine and fabric to white (staining task instead of bleaching
+  task).
+changes:
+  occlusion_method: null
+  dynamic_conditions: Liquid is red wine (staining agent) and fabric is white.
+  expected_outcome_change: Fabric turns red/purple where liquid hits (additive color vs subtractive bleaching).
+prompts:
+  init_frame_edit_prompt: Edit the image to change the bottle to a glass wine bottle containing red liquid,
+    and change the fabric color to white.
+  video_WM: The wine bottle tips and pours red wine onto the white fabric surface. Red wine contains anthocyanins,
+    which are dark pigments that rapidly absorb into porous fibers, creating a strong stain. The liquid
+    soaks into the material immediately. The wine continues to contact and saturate the fabric fibers.
+    The camera rotates right at constant speed until the tray and fabric completely exit the view to the
+    right. The camera continues rotating right for several seconds while the wine remains in contact with
+    the fabric off-screen. Then the camera rotates left smoothly at the same rate back to the original
+    viewpoint, bringing the tray and fabric back into view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The wine bottle tips and pours red wine onto the white fabric surface. Red wine contains
+    anthocyanins, which are dark pigments that rapidly absorb into porous fibers, creating a strong stain.
+    The liquid soaks into the material immediately. The wine continues to contact and saturate the fabric
+    fibers during the occlusion period. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A top-down view of a white rectangular tray containing a white square napkin
+    or piece of fabric. A hand holds a glass wine bottle, tipping it to pour red wine onto the center
+    of the fabric. A dark red stain is forming in the center where the liquid hits, with some splatters
+    radiating outward. The background shows a table surface.
+  init2final_edit_prompt: Edit the given image to show the red wine stain on the white fabric significantly
+    expanded in size, covering a larger surface area than before. The red liquid should appear to have
+    spread further outwards into the cloth fibers, creating a wider and more saturated stained region
+    on the napkin.
+  rationale: The video prompt describes a continuous pouring or soaking event where red wine contacts
+    porous fabric. The camera pans away, occluding the scene while the liquid continues to saturate the
+    fibers. During this occlusion, the physical process of absorption and spreading (capillary action)
+    continues irreversibly. When the camera returns to the original view, the primary state change is
+    the increased size and saturation of the red stain on the fabric.
+  questions:
+  - id: stain_size_increase
+    question: Is the red wine stain on the fabric larger than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the total area covered by red pigment.
+  - id: stain_spread_outward
+    question: Has the red liquid spread further outwards from the center of the fabric?
+    answer_type: yes_no
+    notes_for_judge: Look for the edges of the stain being further from the impact point.
+  - id: fabric_saturation
+    question: Does the fabric appear more saturated with red liquid compared to the start?
+    answer_type: yes_no
+    notes_for_judge: Check for a larger, possibly darker or more solid red area.
+  - id: white_area_reduction
+    question: Is the remaining clean white area of the napkin smaller than initially?
+    answer_type: yes_no
+    notes_for_judge: As the stain grows, the white area shrinks.
+  - id: stain_continuity
+    question: Is the central stained area still present and visible?
+    answer_type: yes_no
+    notes_for_judge: The stain should not disappear; it is an irreversible change.
+  - id: tray_consistency
+    question: Is the white tray containing the fabric still present?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: fabric_presence
+    question: Is the white fabric still positioned on the tray?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

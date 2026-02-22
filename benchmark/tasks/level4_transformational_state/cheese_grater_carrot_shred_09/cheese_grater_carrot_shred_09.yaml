@@ -1,0 +1,62 @@
+id: cheese_grater_carrot_shred_09
+level: 4
+category: structural_transformation
+tags: []
+variant_of: cheese_grater_carrot_shred
+variation_type: combined
+variation_description: Pulling carrot away combined with camera zoom out.
+changes:
+  occlusion_method: Camera zoom out to loss of detail.
+  dynamic_conditions: Hand pulls carrot away.
+  expected_outcome_change: No shredding; carrot is further from grater.
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The hand begins to lift the carrot away from the grater surface, increasing the distance between
+    the vegetable and the blades. The camera zooms out rapidly until the grater and hand become small,
+    indistinct shapes in the distance, losing all detail. The camera remains zoomed out for several seconds
+    as the hand continues to retract. Then the camera zooms back in smoothly to the original framing.
+    No cut, no scene change. STOP.
+  camera_WM: The hand begins to lift the carrot away from the grater surface, increasing the distance
+    between the vegetable and the blades. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a metal box grater standing on a worn wooden cutting
+    board. A hand enters from the right, holding a thick orange carrot horizontally against the side of
+    the grater which has small circular holes. The tip of the carrot is pressed against the metal surface.
+    Below the contact point, a pile of shredded orange carrot pieces lies on the cutting board.
+  init2final_edit_prompt: Edit the given image to show the hand and carrot pulled back and separated from
+    the grater. Create a clear gap of empty space between the flat end of the carrot and the metal surface
+    of the grater, revealing the previously covered holes. The carrot should be positioned further to
+    the right, no longer touching the metal. Keep the pile of carrot shavings on the cutting board unchanged.
+  rationale: The video prompt describes a retraction action where the hand lifts the carrot away from
+    the grater. The camera zooms out and then back in to the original framing, covering a period of time
+    during which the retraction continues. In the final state, the carrot must be physically separated
+    from the grater, creating a visible gap and revealing the part of the grater that was previously occluded.
+    The pile of shavings, representing the irreversible work already done, must remain on the board.
+  questions:
+  - id: separation_check
+    question: Is the carrot no longer touching the surface of the grater?
+    answer_type: yes_no
+    notes_for_judge: Check for physical separation between the vegetable and the metal tool.
+  - id: gap_visibility
+    question: Is there a visible gap of empty space between the carrot and the grater?
+    answer_type: yes_no
+    notes_for_judge: Look for background or space visible between the two objects.
+  - id: occlusion_reveal
+    question: Is the part of the grater that was previously covered by the carrot now visible?
+    answer_type: yes_no
+    notes_for_judge: The metal surface with holes should be visible where the carrot tip used to be.
+  - id: position_change
+    question: Is the carrot positioned further to the right than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the horizontal position of the carrot relative to the grater.
+  - id: shavings_persistence
+    question: Are the carrot shavings still visible on the cutting board?
+    answer_type: yes_no
+    notes_for_judge: The pile of shredded carrot should remain on the board.
+  - id: carrot_integrity
+    question: Does the carrot still appear to be a solid orange vegetable?
+    answer_type: yes_no
+    notes_for_judge: Ensure the object has not morphed into something else or disappeared completely.

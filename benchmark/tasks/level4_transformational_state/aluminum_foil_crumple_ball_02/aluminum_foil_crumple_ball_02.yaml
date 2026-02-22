@@ -1,0 +1,83 @@
+id: aluminum_foil_crumple_ball_02
+level: 4
+category: structural_transformation
+tags: []
+variant_of: aluminum_foil_crumple_ball
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to a large wooden board blocking the view.
+changes:
+  occlusion_method: A large wooden cutting board slides in front of the camera, blocking the view, then
+    slides away.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The hands begin gathering the edges of the foil inward and applying compressive force. Aluminum
+    foil is a thin metal sheet that undergoes plastic deformation when bent beyond its yield strength.
+    Unlike elastic materials, aluminum has a very low yield threshold and cannot return to original shape
+    after plastic deformation. Bending causes permanent atomic-level rearrangement in the metal structure.
+    The hands continue progressive compression. A large wooden cutting board slides into the foreground
+    from the left, completely blocking the view of the table and hands. The hands continue their work
+    behind the board. After several seconds, the board slides back out to the left, revealing the scene
+    from the original viewpoint. No zoom, no cut, no scene change. STOP.
+  camera_WM: The hands begin gathering the edges of the foil inward and applying compressive force. Aluminum
+    foil is a thin metal sheet that undergoes plastic deformation when bent beyond its yield strength.
+    Unlike elastic materials, aluminum has a very low yield threshold and cannot return to original shape
+    after plastic deformation. Bending causes permanent atomic-level rearrangement in the metal structure.
+    The hands continue progressive compression. A large wooden cutting board slides into the foreground
+    from the left, completely blocking the view of the table and hands. The hands continue their work
+    behind the board. After several seconds, the board slides back out to the left, revealing the scene
+    from the original viewpoint. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A flat, rectangular sheet of silver aluminum foil rests on a rustic wooden table.
+    Two hands are positioned on the left and right edges of the foil, palms down with fingers spread.
+    The table surface has visible wood grain and scattered crumbs. A window frame is visible in the upper
+    left corner.
+  init2final_edit_prompt: Edit the given image to transform the flat sheet of aluminum foil into a crumpled,
+    irregular ball or mass of foil located centrally between the hands. The hands should be positioned
+    closer together, consistent with having compressed the material. Reveal the wooden table surface that
+    was previously covered by the flat sheet. The foil should appear highly textured, wrinkled, and significantly
+    smaller in surface area than the original sheet.
+  rationale: The video prompt describes a process of plastic deformation where a flat sheet of aluminum
+    foil is compressed into a ball. A cutting board occludes the scene while the hands continue this work.
+    Upon the removal of the occlusion, the physical state of the foil must reflect the irreversible transformation
+    from a flat sheet to a crumpled mass. The hands must be closer together, and the table surface previously
+    hidden by the wide sheet must now be visible.
+  questions:
+  - id: foil_deformation
+    question: Is the aluminum foil no longer a flat, smooth rectangular sheet?
+    answer_type: yes_no
+    notes_for_judge: The foil should look crumpled, wrinkled, or balled up.
+  - id: foil_size_reduction
+    question: Does the aluminum foil occupy a significantly smaller area on the table than in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: Crumpling reduces the 2D footprint of the foil.
+  - id: texture_change
+    question: Does the foil exhibit complex wrinkling and irregular texture consistent with being crushed?
+    answer_type: yes_no
+    notes_for_judge: Check for light reflections on many small facets/wrinkles.
+  - id: hands_proximity
+    question: Are the hands positioned closer to each other compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compressing the foil requires bringing hands inward.
+  - id: table_visibility
+    question: Is more of the wooden table surface visible now that the foil has been compressed?
+    answer_type: yes_no
+    notes_for_judge: Areas previously covered by the corners/edges of the flat sheet should now be bare
+      wood.
+  - id: central_mass
+    question: Is the foil gathered into a central mass rather than spread out to the edges?
+    answer_type: yes_no
+    notes_for_judge: The material should be concentrated in the center.
+  - id: background_consistency
+    question: Does the wooden table texture and color remain consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: occlusion_cleared
+    question: Is the view free of the large wooden cutting board mentioned in the prompt?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the board slides back out.

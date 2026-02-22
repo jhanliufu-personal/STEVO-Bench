@@ -1,0 +1,69 @@
+id: graham_cracker_compress_powder_06
+level: 4
+category: structural_transformation
+tags: []
+variant_of: graham_cracker_compress_powder
+variation_type: dynamic_condition
+variation_description: Material changed from brittle cracker to rigid steel block.
+changes:
+  occlusion_method: null
+  dynamic_conditions: 'Material change: Steel block instead of cracker'
+  expected_outcome_change: No change (object does not deform or fracture)
+prompts:
+  init_frame_edit_prompt: Edit the image to replace the graham cracker inside the bag with a rectangular
+    grey steel block of the same size.
+  video_WM: The hand presses down on the steel block through the plastic bag with progressive force. Steel
+    is a rigid material with high yield strength that resists deformation under human manual force. The
+    hand applies pressing motions across the block surface. The material is solid and indestructible in
+    this context. The camera rotates right at constant speed until the bag and hand completely exit the
+    view to the right. The camera continues rotating right for several seconds while the hand remains
+    off-screen continuing to apply pressure. Then the camera rotates left smoothly at the same rate back
+    to the original viewpoint, bringing the bag back into view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The hand presses down on the steel block through the plastic bag with progressive force.
+    Steel is a rigid material with high yield strength that resists deformation under human manual force.
+    The hand applies pressing motions across the block surface. The material is solid and indestructible
+    in this context during the occlusion period. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A rectangular steel block sits inside a clear plastic ziplock bag on a wooden
+    table. The block has a brushed metal texture and is grey in color. Small crumbs and particles are
+    scattered inside the bag around the block. A human hand is positioned above the bag, palm open and
+    facing down, hovering slightly above the block.
+  init2final_edit_prompt: Edit the image to show the hand pressing firmly down on the steel block through
+    the plastic bag. The steel block must remain completely solid and intact, retaining its original rectangular
+    prism shape without any bending, cracking, crushing, or fragmentation. The plastic bag should appear
+    compressed against the top surface of the block where the hand is pressing. Ensure the block looks
+    rigid and undamaged.
+  rationale: The video prompt describes a hand pressing on a steel block, but explicitly states that the
+    material is rigid and indestructible. Although the camera rotates away and then returns to the original
+    view, the physical interaction (pressing) should not cause any structural change to the block due
+    to its defined material properties. Therefore, the final state must show the block completely intact
+    and unchanged in shape, verifying that the model correctly simulates material rigidity and does not
+    hallucinate destruction based on the pressing action.
+  questions:
+  - id: block_integrity
+    question: Is the steel block still a single, solid piece?
+    answer_type: yes_no
+    notes_for_judge: The block should not be broken into pieces.
+  - id: block_shape
+    question: Does the steel block retain its original rectangular shape?
+    answer_type: yes_no
+    notes_for_judge: The block should not be bent or deformed.
+  - id: no_cracks
+    question: Is the surface of the steel block free from visible cracks or fractures?
+    answer_type: yes_no
+    notes_for_judge: There should be no damage lines on the metal.
+  - id: resistance
+    question: Has the block successfully resisted crushing or flattening?
+    answer_type: yes_no
+    notes_for_judge: The height and dimensions should appear unchanged.
+  - id: hand_contact
+    question: Is the hand contacting the plastic bag or block?
+    answer_type: yes_no
+    notes_for_judge: The hand should be pressing down, not hovering.
+  - id: table_visible
+    question: Is the wooden table surface still visible in the background?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

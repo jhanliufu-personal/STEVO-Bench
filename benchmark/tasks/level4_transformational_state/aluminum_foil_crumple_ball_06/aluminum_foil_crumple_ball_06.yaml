@@ -1,0 +1,74 @@
+id: aluminum_foil_crumple_ball_06
+level: 4
+category: structural_transformation
+tags: []
+variant_of: aluminum_foil_crumple_ball
+variation_type: dynamic_condition
+variation_description: Material changed to soft tissue paper (fibrous/soft).
+changes:
+  occlusion_method: null
+  dynamic_conditions: Material is tissue paper. Low structural integrity, soft crumple, no sharp metallic
+    creases.
+  expected_outcome_change: Crumples into a smaller, softer, less angular ball than foil.
+prompts:
+  init_frame_edit_prompt: Edit the image to replace the aluminum foil with a thin sheet of white tissue
+    paper.
+  video_WM: The hands begin gathering the edges of the tissue paper inward. Tissue paper is a soft, fibrous
+    material with very low structural integrity. It compresses easily with minimal force and does not
+    hold sharp, rigid creases like metal foil, instead forming a soft, compact mass. The hands continue
+    gentle progressive compression. The camera rotates right at constant speed until the hands and paper
+    completely exit the view to the right. The camera continues rotating right for several seconds while
+    the hands remain off-screen continuing to compress the paper. Then the camera rotates left smoothly
+    at the same rate back to the original viewpoint. No zoom, no cut, no scene change. STOP.
+  camera_WM: The hands begin gathering the edges of the tissue paper inward. Tissue paper is a soft, fibrous
+    material with very low structural integrity. It compresses easily with minimal force and does not
+    hold sharp, rigid creases like metal foil, instead forming a soft, compact mass. The hands continue
+    gentle progressive compression during the occlusion period. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A pair of hands holding a large, flat, rectangular sheet of translucent white
+    paper (resembling parchment or tissue paper) over a rustic wooden table. The paper is smooth with
+    some natural waviness but no sharp creases. The hands hold the paper by the left and right edges.
+    A window is visible in the upper left corner.
+  init2final_edit_prompt: Edit the given image to show the sheet of paper crumpled into a soft, compact
+    ball held between the hands. The paper should no longer be flat or rectangular, but compressed into
+    a smaller, wrinkled mass with soft folds, occupying significantly less space than the original sheet.
+    The hands should be positioned closer together, grasping the crumpled paper mass. Maintain the wooden
+    table background and lighting.
+  rationale: The prompt describes a sequence where the camera pans away while the hands compress the paper.
+    The action of compressing the paper happens largely while the camera is looking away (occlusion).
+    When the camera returns to the original viewpoint, the irreversible physical transformation (crumpling)
+    has occurred. The paper, described as soft tissue paper, will have formed a soft compact mass rather
+    than a sharp geometric shape. The final state must show this crumpled state instead of the initial
+    flat sheet.
+  questions:
+  - id: is_paper_crumpled
+    question: Is the paper crumpled into a ball or compact mass?
+    answer_type: yes_no
+    notes_for_judge: The paper should no longer be a flat sheet.
+  - id: is_flat_shape_gone
+    question: Has the paper lost its original flat, rectangular shape?
+    answer_type: yes_no
+    notes_for_judge: It should be a 3D lump/mass now.
+  - id: is_area_reduced
+    question: Is the visible surface area of the paper significantly smaller than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Crumpling reduces the projected area.
+  - id: are_hands_closer
+    question: Are the hands positioned closer together than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: To hold the smaller crumpled ball, the hands must move inward.
+  - id: is_texture_wrinkled
+    question: Does the paper exhibit a wrinkled or folded texture consistent with being crushed?
+    answer_type: yes_no
+    notes_for_judge: Look for folds, creases, and lack of smoothness.
+  - id: is_table_visible
+    question: Is the wooden table surface still visible in the background?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: is_window_visible
+    question: Is the window in the upper left corner still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

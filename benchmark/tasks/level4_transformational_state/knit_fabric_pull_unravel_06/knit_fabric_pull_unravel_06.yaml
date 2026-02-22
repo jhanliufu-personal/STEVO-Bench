@@ -1,0 +1,71 @@
+id: knit_fabric_pull_unravel_06
+level: 4
+category: structural_transformation
+tags: []
+variant_of: knit_fabric_pull_unravel
+variation_type: dynamic_condition
+variation_description: Scissors cut the yarn instead of a hand pulling it.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Yarn is cut by scissors rather than pulled.
+  expected_outcome_change: Yarn is severed; tension releases; fabric may loosen slightly but not unravel
+    actively.
+prompts:
+  init_frame_edit_prompt: Edit the image to show a pair of sharp scissors with open blades positioned
+    around the taut yarn strand, ready to cut.
+  video_WM: The scissors are positioned around the taut yarn strand. The blades begin to close on the
+    single continuous strand that holds the knit structure together. Severing the yarn breaks the continuity
+    of the strand. The scissors complete the cutting action. The camera rotates right at constant speed
+    until the fabric and scissors completely exit the view to the right. The camera continues rotating
+    right for several seconds while the scissors remain off-screen. Then the camera rotates left smoothly
+    at the same rate back to the original viewpoint, bringing the fabric back into view. No zoom, no cut,
+    no scene change. STOP.
+  camera_WM: The scissors are positioned around the taut yarn strand. The blades begin to close on the
+    single continuous strand that holds the knit structure together. Severing the yarn breaks the continuity
+    of the strand. The scissors complete the cutting action. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, high-angle shot showing a wooden table surface. On the right, a
+    piece of chunky, cream-colored knit fabric is visible. A single strand of the same thick yarn extends
+    from the fabric towards the left, held taut by a hand (visible on the left edge). A pair of silver
+    scissors is positioned in the center, with the open blades encompassing the taut yarn strand, ready
+    to cut.
+  init2final_edit_prompt: Edit the given image to show the yarn strand severed in two. The continuous
+    line of yarn should be broken where the scissors were positioned, resulting in two distinct cut ends.
+    The scissors blades should be closed, indicating the cut has been completed.
+  rationale: 'The video prompt describes a cutting action where the scissors sever the taut yarn strand.
+    This is an irreversible structural change. The camera then rotates away (occlusion) and returns to
+    the original viewpoint. Upon return, the state of the world must reflect the completed action: the
+    yarn must be cut into two separate pieces, breaking the connection between the hand and the fabric.
+    The scissors should appear closed or having finished the cut.'
+  questions:
+  - id: yarn_severed
+    question: Is the yarn strand severed into two separate pieces?
+    answer_type: yes_no
+    notes_for_judge: Look for a break in the yarn where the scissors were positioned.
+  - id: visible_cut_ends
+    question: Are there distinct cut ends of the yarn visible?
+    answer_type: yes_no
+    notes_for_judge: The single strand should now end abruptly at the cut point.
+  - id: continuity_broken
+    question: Is the continuity of the yarn strand broken?
+    answer_type: yes_no
+    notes_for_judge: The yarn should no longer form a single continuous line from the hand to the fabric.
+  - id: connection_lost
+    question: Is the physical connection between the yarn held in the hand and the knit fabric severed?
+    answer_type: yes_no
+    notes_for_judge: The two parts of the yarn should be disconnected.
+  - id: scissors_closed
+    question: Do the scissors appear to have completed the cutting action (e.g., blades closed)?
+    answer_type: yes_no
+    notes_for_judge: The blades should not be in the open 'ready to cut' position from the first frame.
+  - id: fabric_presence
+    question: Is the chunky knit fabric still visible on the right side?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: table_texture
+    question: Is the wooden table surface still visible in the background?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

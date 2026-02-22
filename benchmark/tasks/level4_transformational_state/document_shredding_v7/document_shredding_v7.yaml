@@ -1,0 +1,70 @@
+id: document_shredding_v7
+level: 4
+category: structural_transformation
+tags: []
+variant_of: document_shredding
+variation_type: combined
+variation_description: Shredder is in reverse mode (pushing out) and view is blocked by a file folder.
+changes:
+  occlusion_method: A large file folder is held up to block the lens.
+  dynamic_conditions: Shredder is in 'Reverse' mode.
+  expected_outcome_change: Paper is pushed away/upwards or rejected.
+prompts:
+  init_frame_edit_prompt: Edit the image to change the control switch position to 'Reverse' (often indicated
+    by an arrow pointing back) and change the status light to amber.
+  video_WM: The sheet of paper is placed at the slot while the shredder gears spin in reverse mode. A
+    large manila file folder is raised immediately in front of the camera lens, blocking the entire scene
+    from view, then is lowered to reveal the scene again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The sheet of paper is placed at the slot while the shredder gears spin in reverse mode. A
+    large manila file folder is raised immediately in front of the camera lens, blocking the entire scene
+    from view, then is lowered to reveal the scene again. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a document shredder with a transparent plastic
+    top, revealing the metal cutting gears inside. A male hand (visible from the forearm down) is holding
+    a pristine white sheet of paper positioned directly above the shredder's feed slot. Below the gears,
+    a collection of previously shredded paper strips is visible in the bin. The background shows a blurred
+    office environment with desks, computer monitors, and people working.
+  init2final_edit_prompt: Edit the given image to show the white sheet of paper resting against the shredder's
+    feed slot but remaining completely intact and unshredded. The paper should appear to be blocked from
+    entering the gears, sitting on top or slightly pushed upwards, retaining its full rectangular shape.
+    Do not show any new shredded strips or tears in the paper. The hand should be shown either releasing
+    the paper or holding it just at the slot entrance. Maintain the original background and lighting.
+  rationale: The video prompt explicitly states that the shredder gears are spinning in 'reverse mode'.
+    In a standard document shredder, reverse mode rotates the gears outward to clear jams, meaning it
+    pushes material away from the cutting mechanism rather than pulling it in. Therefore, when the paper
+    is placed at the slot, it will be rejected or simply sit on top of the spinning gears without being
+    shredded. The occlusion event (manila folder) hides the interaction, but the physical state of the
+    machine ensures the paper remains intact. The final frame should show the paper unshredded, verifying
+    the model's adherence to the 'reverse mode' instruction over the visual affordance of the shredder.
+  questions:
+  - id: q1
+    question: Is the white sheet of paper still a single, continuous piece?
+    answer_type: yes_no
+    notes_for_judge: The paper should not be shredded because the machine is in reverse mode.
+  - id: q2
+    question: Is the paper free from any visible shredding, tearing, or vertical cuts?
+    answer_type: yes_no
+    notes_for_judge: Verifies that the reverse mode prevented the shredding process.
+  - id: q3
+    question: Does the paper appear to be resting outside or on top of the gears rather than being pulled
+      through?
+    answer_type: yes_no
+    notes_for_judge: In reverse mode, the paper should be rejected or sit on top.
+  - id: q4
+    question: Has the paper retained its original rectangular structural integrity?
+    answer_type: yes_no
+    notes_for_judge: The paper should not be deformed or destroyed.
+  - id: q5
+    question: Is the sheet of paper clearly distinguishable from the shredded waste in the bin below?
+    answer_type: yes_no
+    notes_for_judge: It should remain a whole sheet, distinct from the trash.
+  - id: q6
+    question: Is the clear plastic housing of the shredder still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: q7
+    question: Is the person's arm or hand still visible in the frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

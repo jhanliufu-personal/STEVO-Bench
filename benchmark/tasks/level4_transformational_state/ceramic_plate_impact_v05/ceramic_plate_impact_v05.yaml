@@ -1,0 +1,72 @@
+id: ceramic_plate_impact_v05
+level: 4
+category: structural_transformation
+tags: []
+variant_of: ceramic_plate_impact
+variation_type: dynamic_condition
+variation_description: Target object material changed from ceramic to steel.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Plate is now stainless steel instead of ceramic.
+  expected_outcome_change: Plate dents or remains intact with a loud clang, does not shatter.
+prompts:
+  init_frame_edit_prompt: Edit the image to change the white ceramic plate into a silver stainless steel
+    plate.
+  video_WM: The heavy steel hammer swings down forcefully and makes hard contact with the center of the
+    metal plate. The camera rotates right until the plate completely exits the view, then rotates toward
+    the left smoothly at the same rate until the area where the plate sat is back in the center of view.
+    No zoom, no cut, no scene change. STOP.
+  camera_WM: The heavy steel hammer swings down and strikes the center of the metal plate with force.
+    STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A shiny, silver-colored circular metal plate rests flat on a rough, cracked
+    concrete floor. A heavy sledgehammer with a weathered wooden handle and a dark, rectangular steel
+    head is positioned mid-air, angled downwards, with the head hovering just above the center of the
+    plate. The lighting is natural, casting soft shadows, and a window frame is visible in the background.
+  init2final_edit_prompt: Edit the given image to show the metal plate significantly dented and warped
+    in the center. The smooth surface of the plate should appear crushed, concave, or bent downwards due
+    to a heavy impact. The light reflections on the plate should be distorted to follow the new uneven
+    geometry. Keep the concrete floor and background unchanged.
+  rationale: The prompt explicitly identifies the object as a 'metal plate'. When a heavy steel hammer
+    strikes a metal plate on a concrete floor, the material undergoes plastic deformation. It will not
+    shatter like ceramic; instead, it will dent, bend, or warp significantly at the point of impact. The
+    camera rotation provides a temporal transition, allowing the immediate impact dynamics to settle.
+    When the camera returns, the plate should exhibit permanent structural damage (a dent) while remaining
+    in the same location.
+  questions:
+  - id: plate_deformation_1
+    question: Is the metal plate visibly dented or warped?
+    answer_type: yes_no
+    notes_for_judge: Look for a concave depression, bending, or irregularity in the previously flat surface
+      of the plate.
+  - id: plate_deformation_2
+    question: Has the center of the plate lost its original flat shape?
+    answer_type: yes_no
+    notes_for_judge: The center should now be depressed or uneven compared to the initial frame.
+  - id: plate_damage_visible
+    question: Is there visible structural damage to the plate?
+    answer_type: yes_no
+    notes_for_judge: Damage includes denting, crushing, or bending.
+  - id: surface_reflection_change
+    question: Do the reflections on the plate indicate an uneven or damaged surface?
+    answer_type: yes_no
+    notes_for_judge: Deformation changes how light reflects off the metal; it should no longer look like
+      a perfect mirror/smooth surface.
+  - id: plate_integrity
+    question: Is the plate's structural integrity compromised compared to the start?
+    answer_type: yes_no
+    notes_for_judge: It should look hit/damaged, not pristine.
+  - id: not_pristine
+    question: Is the plate no longer in a pristine, undamaged condition?
+    answer_type: yes_no
+    notes_for_judge: Answer YES if the plate is damaged.
+  - id: floor_consistency
+    question: Is the cracked concrete floor still visible around the plate?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: plate_presence
+    question: Is the plate (or its remains) still visible in the center of the frame?
+    answer_type: yes_no
+    notes_for_judge: The camera returns to the center; the object should not have vanished.

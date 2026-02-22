@@ -1,0 +1,73 @@
+id: paper_burning_v05
+level: 4
+category: transformational_state_change
+tags: []
+variant_of: paper_burning
+variation_type: dynamic_condition
+variation_description: A glass bell jar is placed over the burning paper, limiting oxygen.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Oxygen supply is limited by a glass enclosure.
+  expected_outcome_change: The fire will consume the available oxygen and extinguish itself, leaving unburnt
+    paper remaining.
+prompts:
+  init_frame_edit_prompt: Edit the image to place a clear glass bell jar upside down over the burning
+    paper on the plate. The fire is inside the glass.
+  video_WM: Single continuous take, no cuts or zoom. Camera starts centered on the plate where paper burns
+    inside a glass bell jar. Then the camera smoothly moves to the right at constant speed until the plate
+    leaves the frame to the left and become completely invisible. The camera continues moving right across
+    the room for several seconds. Then the camera moves left at the same speed back to the original viewpoint,
+    bringing the plate back into view naturally. Lighting and objects remain consistent and realistic.
+  camera_WM: A piece of paper burns inside a sealed glass bell jar sitting on a plate. Lighting and objects
+    remain consistent and realistic. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a wooden table surface. In the center sits a round
+    ceramic plate holding a roll of textured white paper. The paper is burning with a visible orange flame
+    on its right edge, creating black charring. A clear glass bell jar covers the plate and the burning
+    paper, trapping wisps of white smoke inside. A window is visible in the blurred background.
+  init2final_edit_prompt: Edit the given image to show the paper significantly more burnt and damaged.
+    Increase the surface area of the black charred material on the paper roll. Reduce the amount of visible
+    white unburnt paper. Make the smoke inside the glass bell jar denser and more opaque. Ensure the structural
+    form of the paper looks more degraded or consumed by the fire compared to the original state.
+  rationale: 'The video involves a camera panning away from a burning object and then returning. During
+    the occlusion period, the fire continues to burn the paper. Burning is an irreversible process. Therefore,
+    when the camera returns to the initial viewpoint, the paper must exhibit increased damage: more charring,
+    less intact white paper, and potentially more accumulated smoke within the enclosed bell jar. The
+    state change is defined by the progression of combustion.'
+  questions:
+  - id: char_area_increase
+    question: Is the area of black charred paper larger than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the extent of the black burnt region on the paper.
+  - id: white_paper_decrease
+    question: Is there less white unburnt paper visible compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The fire should have consumed more of the white material.
+  - id: smoke_density
+    question: Is the smoke inside the bell jar denser or covering a larger volume than in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: Smoke accumulates over time in the closed jar.
+  - id: structural_degradation
+    question: Does the paper roll appear more degraded or consumed by fire than in the start?
+    answer_type: yes_no
+    notes_for_judge: Look for loss of shape or crumbling edges due to burning.
+  - id: ash_presence
+    question: Are there more signs of ash or burnt debris on the paper or plate compared to the beginning?
+    answer_type: yes_no
+    notes_for_judge: Burning produces ash.
+  - id: burn_progression
+    question: Has the burn line progressed further into the paper roll compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The boundary between burnt and unburnt should have moved.
+  - id: jar_presence
+    question: Is the glass bell jar still covering the paper?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: plate_consistency
+    question: Is the ceramic plate in the same position on the table?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

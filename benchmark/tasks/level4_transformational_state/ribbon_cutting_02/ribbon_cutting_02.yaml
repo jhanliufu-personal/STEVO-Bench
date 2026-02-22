@@ -1,0 +1,65 @@
+id: ribbon_cutting_02
+level: 4
+category: structural_transformation
+tags: []
+variant_of: ribbon_cutting
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to lights turning off.
+changes:
+  occlusion_method: Lights turn off completely, creating total darkness, then turn back on.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The blades of the sharp scissors begin to close slowly and steadily around the taut red ribbon.
+    The cutting action begins. The lights in the room turn off completely, plunging the scene into total
+    darkness. After a moment, the lights turn back on to reveal the scene again. The camera returns to
+    the original viewpoint. No zoom, no cut, no scene change. STOP.
+  camera_WM: The blades of the sharp scissors begin to close slowly and steadily around the taut red ribbon.
+    The cutting action begins. The lights in the room turn off completely, plunging the scene into total
+    darkness. After a moment, the lights turn back on to reveal the scene again. The camera returns to
+    the original viewpoint. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A high-angle close-up shot showing a pair of open silver metal scissors positioned
+    diagonally across a taut red ribbon lying on a rustic wooden table. The background features a blurred
+    white window frame.
+  init2final_edit_prompt: Edit the given image to show the scissors in a closed position with the blades
+    overlapping. The red ribbon should be severed into two separate pieces at the point where the scissor
+    blades meet, showing a visible break or gap in the material. The wooden surface and background remain
+    unchanged.
+  rationale: 'The prompt describes the initiation of a cutting action followed by a period of darkness.
+    During this occlusion, the action of closing the scissors and cutting the ribbon is assumed to progress
+    or complete. Therefore, the final state must show the irreversible result: the scissors are closed
+    and the ribbon is physically severed into two parts.'
+  questions:
+  - id: ribbon_severed
+    question: Is the red ribbon severed into two separate pieces?
+    answer_type: yes_no
+    notes_for_judge: Look for a clear break or gap in the ribbon where the scissors are located.
+  - id: scissors_closed
+    question: Are the blades of the scissors closed together?
+    answer_type: yes_no
+    notes_for_judge: The blades should overlap or be touching, unlike the open 'V' shape in the initial
+      frame.
+  - id: structural_discontinuity
+    question: Is the structural continuity of the ribbon broken compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The ribbon should no longer be a single continuous strip.
+  - id: visible_cut_gap
+    question: Is there a visible gap between the cut ends of the ribbon?
+    answer_type: yes_no
+    notes_for_judge: The tension release usually creates a small gap between the severed ends.
+  - id: material_integrity
+    question: Has the material integrity of the ribbon been compromised by the cutting tool?
+    answer_type: yes_no
+    notes_for_judge: Check for damage/cutting at the interaction point.
+  - id: wood_consistency
+    question: Does the wooden table texture remain consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: background_consistency
+    question: Is the window frame in the background still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

@@ -1,0 +1,66 @@
+id: photograph_tearing_07
+level: 4
+category: structural_transformation
+tags: []
+variant_of: photograph_tearing
+variation_type: combined
+variation_description: Combined fog occlusion with compressive force.
+changes:
+  occlusion_method: Thick fog fills the scene.
+  dynamic_conditions: Hands push inward to compress/crumple.
+  expected_outcome_change: The photograph is crumpled/folded.
+prompts:
+  init_frame_edit_prompt: Edit the image so the hands are gripping the side edges of the photograph, positioned
+    to push inward rather than pull outward.
+  video_WM: The two hands push inward from the sides against the photograph. Compressive force is applied
+    to the paper material. Thick white fog rolls in, completely obscuring the hands and photograph, and
+    then slowly dissipates. No zoom, no cut, no scene change. The camera returns to the original viewpoint.
+    STOP.
+  camera_WM: The two hands push inward from the sides against the photograph. Compressive force is applied
+    to the paper material. Thick white fog rolls in, completely obscuring the hands and photograph, and
+    then slowly dissipates. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot of two hands holding a landscape photograph. The
+    photograph depicts a sunset over a beach with a dark horizon line. The hands are holding the left
+    and right edges of the photo. The paper is slightly curved but largely intact, with a small imperfection
+    or nick visible at the top center edge. The background is dark and out of focus.
+  init2final_edit_prompt: Edit the given image so that the photograph is significantly buckled, bent,
+    or crumpled in the middle, appearing compressed. The hands should be positioned closer together horizontally,
+    holding the deformed photograph. The image on the photo should be distorted consistent with the paper
+    being folded or curved inward.
+  rationale: The prompt describes a compressive force where hands push inward on the photograph. Physically,
+    this action causes a stiff sheet of paper to buckle, bend, or crumple. The fog acts as an occlusion
+    mask, allowing the simulation to skip the complex dynamics of the deformation process. When the fog
+    dissipates, the hands should be closer together (having moved inward), and the photograph should exhibit
+    significant geometric deformation (buckling or creasing) resulting from the compression.
+  questions:
+  - id: photo_deformation
+    question: Is the photograph significantly bent, buckled, or crumpled?
+    answer_type: yes_no
+    notes_for_judge: The photo should no longer be relatively flat; it should show signs of compression.
+  - id: hand_position
+    question: Are the hands positioned closer together than they were in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The action is pushing inward, so the distance between hands must decrease.
+  - id: photo_width
+    question: Does the visible width of the photograph appear reduced due to bending or folding?
+    answer_type: yes_no
+    notes_for_judge: Compression should reduce the horizontal span of the object.
+  - id: surface_distortion
+    question: Is the image on the photograph distorted by the curvature or creasing of the paper?
+    answer_type: yes_no
+    notes_for_judge: The sunset scene should follow the geometry of the bent paper.
+  - id: structural_change
+    question: Has the photograph lost its original relatively flat shape?
+    answer_type: yes_no
+    notes_for_judge: Check for a change from flat/slightly curved to significantly deformed.
+  - id: hands_holding
+    question: Are the hands still holding the photograph?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: background_consistency
+    question: Is the background still dark and out of focus?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

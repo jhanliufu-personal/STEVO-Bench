@@ -1,0 +1,72 @@
+id: plastic_cup_heat_source_warp_08
+level: 4
+category: structural_transformation
+tags: []
+variant_of: plastic_cup_heat_source_warp
+variation_type: combined
+variation_description: Target is a steel cup AND occlusion changed to lights turning off.
+changes:
+  occlusion_method: Lights turn off.
+  dynamic_conditions: Material changed to steel.
+  expected_outcome_change: The cup remains unchanged.
+prompts:
+  init_frame_edit_prompt: Edit the image to replace the red plastic cup with a stainless steel cup.
+  video_WM: Hot air from the heat gun flows toward the stainless steel cup. The metal is heat-resistant
+    and will not melt or deform under the temperatures produced by the heat gun. The cup maintains its
+    structural integrity. Suddenly, the workshop lights turn off completely, leaving the scene in pitch
+    black darkness. The darkness persists for several seconds while the heat gun continues running audibly
+    in the dark. Then the lights turn back on, illuminating the scene again. No zoom, no cut, no scene
+    change. STOP.
+  camera_WM: Hot air from the heat gun flows toward the stainless steel cup. The metal is heat-resistant
+    and will not melt or deform under the temperatures produced by the heat gun. The cup maintains its
+    structural integrity. Suddenly, the workshop lights turn off completely, leaving the scene in pitch
+    black darkness. The darkness persists for several seconds while the heat gun continues running audibly
+    in the dark. Then the lights turn back on, illuminating the scene again. No zoom, no cut, no scene
+    change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A silver stainless steel tumbler cup stands upright on a light-colored wooden
+    workbench. To the right, an orange and black heat gun is positioned on its stand, with the metal nozzle
+    pointing directly at the side of the cup. In the background, out of focus, there are various woodworking
+    tools and a wooden surface. The scene is brightly lit.
+  init2final_edit_prompt: Edit the given image to show the stainless steel cup remaining completely unchanged,
+    retaining its original cylindrical shape, height, and smooth metallic surface with no melting, warping,
+    or deformation. Ensure the scene is fully illuminated with bright lighting matching the initial state.
+    The orange heat gun and background objects should remain in their original positions and conditions.
+  rationale: The prompt explicitly states that the cup is made of stainless steel and is heat-resistant,
+    meaning it will not melt or deform despite the hot air from the heat gun. The workshop lights turn
+    off and then back on, so the final frame returns to the initial lighting conditions. The primary challenge
+    for the model is to respect the material properties of the steel cup and avoid hallucinating the melting
+    or warping that would occur with a plastic object, while also maintaining object permanence through
+    the lighting occlusion.
+  questions:
+  - id: cup_shape_preservation
+    question: Does the stainless steel cup retain its original cylindrical shape?
+    answer_type: yes_no
+    notes_for_judge: The cup should not show any signs of warping, bending, or collapsing.
+  - id: cup_no_melting
+    question: Is the surface of the cup free from visible melting or deformation?
+    answer_type: yes_no
+    notes_for_judge: The metal surface should remain smooth and rigid.
+  - id: cup_rim_integrity
+    question: Is the rim of the cup still circular and intact?
+    answer_type: yes_no
+    notes_for_judge: The top edge should not be wavy or distorted.
+  - id: cup_upright
+    question: Is the cup standing upright in its original position?
+    answer_type: yes_no
+    notes_for_judge: It should not have fallen over or moved significantly.
+  - id: lighting_restored
+    question: Is the scene brightly illuminated?
+    answer_type: yes_no
+    notes_for_judge: The lights should be on, matching the initial frame brightness.
+  - id: heat_gun_presence
+    question: Is the orange heat gun visible and pointing toward the cup?
+    answer_type: yes_no
+    notes_for_judge: The tool should remain in the scene.
+  - id: structural_integrity
+    question: Does the cup appear structurally identical to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: There should be no structural changes.

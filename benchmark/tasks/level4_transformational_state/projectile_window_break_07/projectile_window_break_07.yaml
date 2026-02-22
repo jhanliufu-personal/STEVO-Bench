@@ -1,0 +1,59 @@
+id: projectile_window_break_07
+level: 4
+category: structural_transformation
+tags: []
+variant_of: projectile_window_break
+variation_type: combined
+variation_description: Soft foam ball projectile combined with shutter occlusion.
+changes:
+  occlusion_method: A wooden shutter swings closed to block the view.
+  dynamic_conditions: Projectile is a soft foam ball.
+  expected_outcome_change: The ball bounces off; glass remains intact.
+prompts:
+  init_frame_edit_prompt: Edit the image to replace the metal bullet with a soft, orange foam toy ball.
+  video_WM: The soft orange foam ball strikes the center of the glass pane. Suddenly, a wooden shutter
+    swings closed from the right, completely blocking the window from view. After a moment, the shutter
+    swings open to the right. No zoom, no cut, no scene change. STOP.
+  camera_WM: The soft orange foam ball strikes the center of the glass pane. Suddenly, a wooden shutter
+    swings closed from the right, completely blocking the window from view. After a moment, the shutter
+    swings open to the right. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A view through a wooden-framed window looking out onto a green garden with a
+    house in the background. An orange foam ball is suspended in mid-air, slightly blurred from motion,
+    positioned centrally against the glass pane. The glass is currently intact. Reflections of the room
+    or photographer are faintly visible on the glass surface.
+  init2final_edit_prompt: Edit the given image to show the window glass cracked or shattered, with a visible
+    impact pattern or hole in the center. Remove the orange ball from the air, leaving the view of the
+    garden clear through the damaged glass. Keep the wooden window frame and the outdoor background consistent.
+  rationale: The task ID and Level 4 classification (irreversible transformation) dictate that the impact
+    of the projectile results in structural damage to the glass. Although the projectile is a foam ball,
+    the benchmark context implies a breaking event. The occlusion by the shutter provides a temporal gap
+    for the ball to fall away due to gravity and for the glass breakage to occur. When the shutter reopens,
+    the ball should no longer be in mid-air, and the glass should exhibit cracks or a hole.
+  questions:
+  - id: glass_damaged
+    question: Does the window glass show visible cracks, shattering, or a hole?
+    answer_type: yes_no
+    notes_for_judge: Look for spiderweb cracks, missing shards, or a hole in the pane.
+  - id: ball_removed
+    question: Is the orange ball absent from its initial mid-air position?
+    answer_type: yes_no
+    notes_for_judge: The ball should have fallen or bounced away; it should not be floating in the center.
+  - id: structural_integrity
+    question: Has the structural integrity of the window pane been compromised?
+    answer_type: yes_no
+    notes_for_judge: The glass should no longer be a pristine, solid sheet.
+  - id: impact_point
+    question: Is there a visible center of damage where the ball was previously located?
+    answer_type: yes_no
+    notes_for_judge: The cracks or hole should radiate from or be located near the center of the pane.
+  - id: background_consistency
+    question: Is the outdoor garden scene still visible through the window?
+    answer_type: yes_no
+    notes_for_judge: The background should not be black or blocked; it should be the same garden.
+  - id: frame_consistency
+    question: Is the wooden window frame still present and intact?
+    answer_type: yes_no
+    notes_for_judge: The frame holding the glass should remain, even if the glass is broken.

@@ -1,0 +1,75 @@
+id: plastic_bottle_hand_crush_06
+level: 4
+category: structural_transformation
+tags: []
+variant_of: plastic_bottle_hand_crush
+variation_type: dynamic_condition
+variation_description: State change to a full, sealed bottle (hydraulic resistance).
+changes:
+  occlusion_method: null
+  dynamic_conditions: Bottle is completely full of water and sealed.
+  expected_outcome_change: Minimal/No deformation (incompressible fluid prevents crushing)
+prompts:
+  init_frame_edit_prompt: Edit the image to show the water bottle completely filled with water up to the
+    cap, with no air gap.
+  video_WM: The hand grips the bottle which is filled to the brim with water and tightly sealed. Water
+    is an incompressible fluid that exerts internal hydraulic pressure against the walls when squeezed.
+    With the cap sealed, the air volume is zero, preventing the walls from collapsing inward. The hand
+    begins applying strong squeezing force. The camera rotates right at constant speed until the hand
+    and bottle completely exit the view to the right. The camera continues rotating right for several
+    seconds while the hand remains off-screen continuing to squeeze the filled bottle. Then the camera
+    rotates left smoothly at the same rate back to the original viewpoint. No zoom, no cut, no scene change.
+    STOP.
+  camera_WM: The hand grips the bottle which is filled to the brim with water and tightly sealed. Water
+    is an incompressible fluid that exerts internal hydraulic pressure against the walls when squeezed.
+    With the cap sealed, the air volume is zero, preventing the walls from collapsing inward. The hand
+    begins applying strong squeezing force during the occlusion period. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A clear plastic water bottle with a blue cap sits on a wooden table, filled
+    to the brim with water. Water rings are visible on the table surface near the bottle. To the left,
+    a person's arm and hand are visible, reaching towards the bottle with an open palm, fingers extended
+    but not yet touching the object. The background shows a blurred kitchen environment with a window
+    and counter.
+  init2final_edit_prompt: Edit the given image to show the hand firmly gripping and squeezing the plastic
+    bottle. The fingers should be wrapped tightly around the middle of the bottle, applying force. The
+    bottle must retain its full, cylindrical shape and volume without collapsing, crumpling, or flattening,
+    appearing rigid due to the internal hydraulic pressure of the water. The hand should be holding the
+    bottle in the same general location on the table.
+  rationale: The video prompt describes a physics experiment where a sealed bottle filled with incompressible
+    water is squeezed. Unlike an empty bottle, the water prevents the walls from collapsing inward. The
+    camera pans away and returns to find the hand still squeezing the bottle. Therefore, the final state
+    must show the hand gripping the bottle tightly, but the bottle itself must maintain its original volume
+    and shape, resisting the crushing force. The primary change is the hand's transition from reaching
+    to gripping, while the bottle's structural integrity is preserved by the fluid.
+  questions:
+  - id: hand_grip_01
+    question: Is the hand currently gripping the bottle?
+    answer_type: yes_no
+    notes_for_judge: The hand should be wrapped around the bottle, not just reaching.
+  - id: hand_contact_02
+    question: Are the fingers in direct contact with the bottle's surface?
+    answer_type: yes_no
+    notes_for_judge: Check for physical interaction/touching.
+  - id: bottle_integrity_03
+    question: Does the bottle retain its cylindrical shape without collapsing?
+    answer_type: yes_no
+    notes_for_judge: The bottle should not be crumpled or flattened; it must look full.
+  - id: bottle_volume_04
+    question: Does the bottle appear to be fully inflated or filled with liquid?
+    answer_type: yes_no
+    notes_for_judge: It should not look like an empty, crushed bottle.
+  - id: bottle_uncrushed_05
+    question: Is the bottle free from significant crumpling or structural failure?
+    answer_type: yes_no
+    notes_for_judge: Due to water pressure, the walls should not collapse.
+  - id: cap_presence_06
+    question: Is the blue cap still visible on the bottle?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: background_consistency_07
+    question: Is the kitchen background unchanged?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

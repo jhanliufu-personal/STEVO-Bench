@@ -1,0 +1,67 @@
+id: frayed_rope_snap_01
+level: 4
+category: structural_transformation
+tags: []
+variant_of: frayed_rope_snap
+variation_type: occlusion_method
+variation_description: A safety shutter blocks the view instead of camera rotation.
+changes:
+  occlusion_method: A metal safety shutter slides down to block the view.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The winches continue to pull the frayed rope tighter. Extreme tension is applied to the weakened
+    central section. A heavy metal safety shutter slides down from the top of the frame, completely blocking
+    the view of the rope and winches. After a few seconds, the shutter slides back up to reveal the scene.
+    No zoom, no cut, no scene change. STOP.
+  camera_WM: The winches continue to pull the frayed rope tighter. Extreme tension is applied to the weakened
+    central section. A heavy metal safety shutter slides down from the top of the frame, completely blocking
+    the view of the rope and winches. After a few seconds, the shutter slides back up to reveal the scene.
+    STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up view of a thick, weathered rope under extreme tension between two
+    rusty metal winches. The center of the rope is severely frayed, held together by only a few thin strands
+    that look ready to snap. Dust and small fibers are floating in the air around the stress point. The
+    background is a blurred industrial setting.
+  init2final_edit_prompt: Edit the given image to show that the rope has snapped completely in the center.
+    Remove the thin connecting strands so there is a clear empty gap between the left and right sections
+    of the rope. The frayed ends should be separated and recoiled slightly away from the center, indicating
+    a complete structural failure. Keep the winches and background unchanged.
+  rationale: 'The initial image shows a rope at the breaking point under high tension. The prompt describes
+    the winches pulling tighter, applying extreme tension to the weak point. The occlusion by the safety
+    shutter provides a temporal window for the inevitable physical outcome: the rope snapping. When the
+    shutter lifts, the irreversible transformation (the break) should be complete, resulting in two separated
+    rope ends.'
+  questions:
+  - id: rope_severed
+    question: Is the rope completely severed in the middle?
+    answer_type: yes_no
+    notes_for_judge: The thin connecting strands seen in the first frame should be gone, leaving two separate
+      pieces.
+  - id: visible_gap
+    question: Is there a visible gap between the left and right segments of the rope?
+    answer_type: yes_no
+    notes_for_judge: There should be empty space where the fray was.
+  - id: structural_failure
+    question: Has the rope undergone a complete structural failure (snapping)?
+    answer_type: yes_no
+    notes_for_judge: Check for discontinuity in the material.
+  - id: connecting_strands_gone
+    question: Are the thin connecting strands from the initial frame no longer connecting the two sides?
+    answer_type: yes_no
+    notes_for_judge: The connection must be broken.
+  - id: two_pieces
+    question: Does the rope appear to be in two distinct pieces rather than one continuous strand?
+    answer_type: yes_no
+    notes_for_judge: Focus on the separation.
+  - id: winches_present
+    question: Are the rusty metal winches still visible on the left and right sides?
+    answer_type: yes_no
+    notes_for_judge: Consistency check for the machinery.
+  - id: shutter_gone
+    question: Is the view clear of the metal safety shutter mentioned in the prompt?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the shutter slides back up to reveal the scene.

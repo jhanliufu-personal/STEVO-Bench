@@ -1,0 +1,71 @@
+id: hole_punch_paper_stack_03
+level: 4
+category: structural_transformation
+tags: []
+variant_of: hole_punch_paper_stack
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to extreme zoom out (loss of detail).
+changes:
+  occlusion_method: Camera zooms out until the object is too small to see state changes, then zooms back
+    in.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The hand begins pressing the lever downward with progressive force. The hole punch contains
+    cylindrical cutting blades that advance toward the paper when the lever is depressed. The paper stack
+    consists of standard copy paper with typical fiber structure and tensile strength. The camera zooms
+    out rapidly until the hole punch appears as a tiny, indiscernible dot in a wide office view, losing
+    all detail of the mechanism's state. The hand continues pressing the lever while the view is distant.
+    The camera zooms back in smoothly to the original framing. No cut, no scene change. STOP.
+  camera_WM: The hand begins pressing the lever downward with progressive force. The hole punch contains
+    cylindrical cutting blades that advance toward the paper when the lever is depressed. The paper stack
+    consists of standard copy paper with typical fiber structure and tensile strength. The hand continues
+    pressing the lever during the occlusion period. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a heavy-duty silver metal hole punch sitting on
+    a wooden desk. A thick stack of white paper is inserted into the punching slot. A person's hand grips
+    the black handle of the lever, which is currently in the raised, diagonal position. In the background,
+    there is a window, a wire mesh pen holder with pens, and a black document tray.
+  init2final_edit_prompt: Edit the given image to show the hole punch lever pressed down into the locked
+    or active position. The hand should be gripping the handle in this lowered state, much closer to the
+    paper stack. The metal cutting cylinders should be depressed into the paper. Show visible circular
+    holes punched through the top sheets of the white paper stack where the mechanism has penetrated.
+  rationale: 'The prompt describes a continuous action of pressing the lever downward to punch holes.
+    While the camera zooms out and detail is lost, the physical action continues. Upon zooming back in
+    to the original view, the state of the machine must reflect the completion or progression of this
+    action: the lever should be depressed, and the paper should have undergone the irreversible transformation
+    of being punched.'
+  questions:
+  - id: lever_position
+    question: Is the handle of the hole punch in a lower position than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the angle of the lever; it should be pressed down towards the paper.
+  - id: holes_visible
+    question: Are there visible holes or circular cuts in the paper stack that were not present initially?
+    answer_type: yes_no
+    notes_for_judge: Look for the structural change in the paper caused by the punch.
+  - id: structural_change
+    question: Has the paper stack undergone a structural transformation (punching) compared to the start?
+    answer_type: yes_no
+    notes_for_judge: The paper should no longer be a solid pristine stack at the cutting point.
+  - id: mechanism_engagement
+    question: Are the metal cutting components closer to or engaged with the paper stack compared to the
+      initial frame?
+    answer_type: yes_no
+    notes_for_judge: The cutting cylinders move down with the lever.
+  - id: hand_position
+    question: Is the hand positioned lower in the frame, following the movement of the lever?
+    answer_type: yes_no
+    notes_for_judge: The hand grips the lever, so it must move down as the lever moves down.
+  - id: background_consistency_tray
+    question: Is the black document tray in the background still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: background_consistency_window
+    question: Is the window in the background still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

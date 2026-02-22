@@ -1,0 +1,74 @@
+id: document_shredding_v4
+level: 4
+category: structural_transformation
+tags: []
+variant_of: document_shredding
+variation_type: dynamic_condition
+variation_description: The shredder is turned off, implying the paper will not be pulled in.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Shredder power is OFF (no lights, switch off).
+  expected_outcome_change: Paper remains whole and in original position (does not shred).
+prompts:
+  init_frame_edit_prompt: Edit the image to turn off any indicator lights on the shredder and flip the
+    power switch to the '0' (Off) position.
+  video_WM: The sheet of paper is held at the slot of the powered-down paper shredder. The machine is
+    silent and inactive. The camera rotates right until the shredder completely exits the view, then rotates
+    toward the left smoothly at the same rate until the shredder is back in the center of view. No zoom,
+    no cut, no scene change. STOP.
+  camera_WM: The sheet of paper is held at the slot of the powered-down paper shredder. The machine is
+    silent and inactive. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up, slightly high-angle shot of a clear-topped paper shredder in an
+    office setting. A person's hand enters from the top right, holding a white, letter-sized sheet of
+    paper vertically. The bottom edge of the paper is positioned just above the feed slot of the shredder,
+    hovering over the visible metal cutting gears. The shredder bin below is translucent and contains
+    a pile of previously shredded white paper strips. The background shows blurred office desks, monitors,
+    and a person sitting at a computer.
+  init2final_edit_prompt: Edit the given image to keep the scene unchanged. Ensure the white sheet of
+    paper remains completely intact, rectangular, and unshredded, held in the same position above the
+    shredder slot. Do not show any tearing, cutting, or feeding of the paper into the machine. Keep the
+    metal gears visible and distinct beneath the paper. The hand should continue holding the paper steadily
+    in the original location.
+  rationale: 'The video prompt explicitly states that the shredder is ''powered-down'', ''silent'', and
+    ''inactive''. Although the camera rotates away and then returns (causing temporary occlusion), no
+    action is described that would turn the machine on or feed the paper. Therefore, the correct physical
+    state evolution is null: the paper must remain whole and unshredded. This task acts as a control for
+    Level 4, testing whether the model can maintain object permanence and state stability without hallucinating
+    an irreversible transformation (shredding) simply because the objects suggest that affordance.'
+  questions:
+  - id: paper_intact
+    question: Is the sheet of paper still completely intact?
+    answer_type: yes_no
+    notes_for_judge: The paper should not be shredded or torn.
+  - id: paper_position
+    question: Is the paper still positioned above the shredder slot rather than inside it?
+    answer_type: yes_no
+    notes_for_judge: The paper should be hovering over the gears, not fed in.
+  - id: paper_shape
+    question: Does the paper retain its original rectangular shape?
+    answer_type: yes_no
+    notes_for_judge: The form should be a solid rectangle, not strips.
+  - id: no_cuts
+    question: Is the paper free from vertical cuts or shredding marks?
+    answer_type: yes_no
+    notes_for_judge: Check for the absence of damage.
+  - id: bottom_edge
+    question: Is the bottom edge of the paper still visible and straight?
+    answer_type: yes_no
+    notes_for_judge: The edge should not be jagged or disappearing into the machine.
+  - id: paper_length
+    question: Is the visible portion of the paper roughly the same size as it was initially?
+    answer_type: yes_no
+    notes_for_judge: The paper should not have become shorter due to being eaten by the shredder.
+  - id: gears_visible
+    question: Are the metal shredder gears still visible beneath the paper?
+    answer_type: yes_no
+    notes_for_judge: If the paper was shredded, the gears might be obscured by active shredding or the
+      paper would be gone.
+  - id: no_deformation
+    question: Is the paper free of any new crinkling or deformation?
+    answer_type: yes_no
+    notes_for_judge: The paper should remain flat and smooth.

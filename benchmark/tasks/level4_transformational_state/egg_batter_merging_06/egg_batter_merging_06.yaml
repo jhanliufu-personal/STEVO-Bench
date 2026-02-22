@@ -1,0 +1,64 @@
+id: egg_batter_merging_06
+level: 4
+category: structural_transformation
+tags: []
+variant_of: egg_batter_merging
+variation_type: dynamic_condition
+variation_description: Eggs are removed from the scene; whisk stirs dry flour only.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Only dry flour is present (no liquid eggs).
+  expected_outcome_change: Flour is shifted around but no batter forms; texture remains powdery.
+prompts:
+  init_frame_edit_prompt: Edit the image to remove the raw eggs, leaving only a bowl filled with dry white
+    flour.
+  video_WM: The whisk rapidly stirs the dry flour in the bowl. The camera rotates right until the bowl
+    completely exits the view, then rotates toward the left smoothly at the same rate until the bowl is
+    back in the center of view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The whisk rapidly stirs the dry flour in the bowl. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up, high-angle shot of a ceramic bowl filled with dry white flour sitting
+    on a wooden table. A metal whisk with a wooden handle rests in the flour, with its wire loops partially
+    buried and the handle extending towards the top right. The flour surface has a specific texture with
+    visible tracks and ridges. A window is visible in the background, and a linen cloth lies on the table
+    to the right of the bowl.
+  init2final_edit_prompt: Edit the given image to show the flour inside the bowl with a completely rearranged
+    and disturbed surface texture, replacing the original ridges with a new, chaotic pattern typical of
+    recently stirred powder. Change the position and orientation of the whisk within the bowl to indicate
+    it has moved. Keep the bowl centered in the frame and the background unchanged.
+  rationale: The video prompt describes the whisk rapidly stirring the flour while the camera pans away
+    and then returns to the original view. During the period of occlusion (when the bowl is out of view),
+    the stirring action physically rearranges the granular structure of the flour. Therefore, in the final
+    frame, the specific surface topography (ridges, tracks, and valleys) seen in the initial frame must
+    be destroyed and replaced by a new, disturbed pattern. The whisk must also be in a different position
+    or orientation, reflecting the motion that occurred.
+  questions:
+  - id: flour_texture_change
+    question: Is the surface pattern of the flour different from the specific arrangement seen in the
+      initial frame?
+    answer_type: yes_no
+    notes_for_judge: The flour should look stirred or rearranged, not identical to the starting texture.
+  - id: flour_disturbed
+    question: Does the flour appear to have been disturbed or mixed compared to the smooth resting state
+      in the first image?
+    answer_type: yes_no
+    notes_for_judge: Look for signs of recent movement in the powder.
+  - id: whisk_moved
+    question: Is the whisk in a different position or orientation than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The whisk should not be in the exact same resting pose.
+  - id: tracks_gone
+    question: Are the specific initial tracks or indentations in the flour no longer visible in their
+      original configuration?
+    answer_type: yes_no
+    notes_for_judge: The specific initial marks should be obliterated by the stirring.
+  - id: bowl_centered
+    question: Is the bowl visible and centered in the frame?
+    answer_type: yes_no
+    notes_for_judge: The camera rotates back to the center view.
+  - id: background_consistency
+    question: Is the wooden table texture consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The environment should not change.

@@ -1,0 +1,82 @@
+id: knit_fabric_pull_unravel_01
+level: 4
+category: structural_transformation
+tags: []
+variant_of: knit_fabric_pull_unravel
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to a large book sliding in front of the
+  camera.
+changes:
+  occlusion_method: A large opaque knitting book slides into view, blocking the scene.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The hand begins pulling steadily on the loose yarn end. Knitted fabric is constructed from
+    a single continuous strand of yarn formed into interlocking loops. Each loop passes through the loops
+    of the previous row creating a stable but mechanically separable structure. Tension applied to the
+    yarn end acts to pull loops through their neighboring loops. The interlocked structure cannot spontaneously
+    reform once loops are separated. The hand continues pulling the yarn with steady tension. A large
+    opaque knitting pattern book slides into the frame from the right, completely blocking the view of
+    the fabric and hand. The book remains in front for several seconds while the hand continues pulling
+    the yarn behind it. Then the book slides back out to the right, revealing the scene again. No zoom,
+    no cut, no scene change. STOP.
+  camera_WM: The hand begins pulling steadily on the loose yarn end. Knitted fabric is constructed from
+    a single continuous strand of yarn formed into interlocking loops. Each loop passes through the loops
+    of the previous row creating a stable but mechanically separable structure. Tension applied to the
+    yarn end acts to pull loops through their neighboring loops. The interlocked structure cannot spontaneously
+    reform once loops are separated. The hand continues pulling the yarn with steady tension. A large
+    opaque knitting pattern book slides into the frame from the right, completely blocking the view of
+    the fabric and hand. The book remains in front for several seconds while the hand continues pulling
+    the yarn behind it. Then the book slides back out to the right, revealing the scene again. No zoom,
+    no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, high-angle shot of a chunky, cream-colored knitted fabric resting
+    on a rustic wooden table. A hand on the left side holds a loose strand of yarn connected to the edge
+    of the fabric. The fabric's edge appears slightly loose, showing the loop structure of the knit. The
+    wooden table has visible grain, cracks, and wear.
+  init2final_edit_prompt: Edit the given image to show the knitted fabric significantly unraveled. Reduce
+    the overall area of the knitted fabric, causing its edge to recede and reveal more of the wooden table
+    surface underneath. Make the loose strand of yarn connected to the fabric significantly longer and
+    more prominent to account for the unraveled material. Ensure the edge of the fabric looks deconstructed
+    with loose loops where the yarn has been pulled away. Do not include the book mentioned in the video
+    description; the view should be unobstructed.
+  rationale: 'The video describes a continuous pulling action on the yarn end, which mechanically unravels
+    the knitted structure. Although an occlusion (the book) blocks the view temporarily, the prompt specifies
+    that the pulling continues during this time. Therefore, when the view is revealed, the state must
+    reflect the accumulated progress of the unraveling: the fabric piece should be smaller (having lost
+    rows), the loose yarn should be longer, and more of the table should be exposed. This is an irreversible
+    structural change.'
+  questions:
+  - id: fabric_size_reduction
+    question: Is the area covered by the knitted fabric smaller than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The fabric should have unraveled, reducing its size.
+  - id: yarn_length_increase
+    question: Is the loose strand of yarn significantly longer than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Material removed from the fabric must appear as loose yarn.
+  - id: edge_recession
+    question: Has the edge of the fabric receded to reveal more of the wooden table?
+    answer_type: yes_no
+    notes_for_judge: As rows are unraveled, the edge moves back, exposing the surface beneath.
+  - id: structural_change
+    question: Does the fabric edge show signs of unraveling or deconstruction compared to the neat rows
+      in the start?
+    answer_type: yes_no
+    notes_for_judge: Look for loose loops or a ragged edge indicating material loss.
+  - id: occlusion_clearance
+    question: Is the view free of the large opaque knitting pattern book?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the book slides back out, revealing the scene.
+  - id: hand_presence
+    question: Is the hand still visible in the frame?
+    answer_type: yes_no
+    notes_for_judge: Consistency check.
+  - id: table_consistency
+    question: Is the texture of the wooden table consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Consistency check.

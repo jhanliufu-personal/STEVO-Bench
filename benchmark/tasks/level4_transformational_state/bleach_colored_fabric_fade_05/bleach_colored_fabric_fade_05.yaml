@@ -1,0 +1,72 @@
+id: bleach_colored_fabric_fade_05
+level: 4
+category: structural_transformation
+tags: []
+variant_of: bleach_colored_fabric_fade
+variation_type: dynamic_condition
+variation_description: Changes the fabric color to white, eliminating the contrast needed to see bleaching.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Fabric is white instead of blue.
+  expected_outcome_change: No visible color change; white bleach on white fabric just looks wet.
+prompts:
+  init_frame_edit_prompt: Edit the image to change the fabric color from dark blue to plain white.
+  video_WM: The bleach bottle tips and pours liquid bleach onto the white fabric surface. Household bleach
+    contains sodium hypochlorite. Since the fabric is already white and lacks organic dye pigments, there
+    are no color molecules for the bleach to oxidize or remove. The liquid creates a wet area on the surface.
+    The bleach continues to contact and saturate the fabric fibers. The camera rotates right at constant
+    speed until the tray and fabric completely exit the view to the right. The camera continues rotating
+    right for several seconds while the bleach remains in contact with the fabric off-screen. Then the
+    camera rotates left smoothly at the same rate back to the original viewpoint, bringing the tray and
+    fabric back into view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The bleach bottle tips and pours liquid bleach onto the white fabric surface. Household bleach
+    contains sodium hypochlorite. Since the fabric is already white and lacks organic dye pigments, there
+    are no color molecules for the bleach to oxidize or remove. The liquid creates a wet area on the surface.
+    The bleach continues to contact and saturate the fabric fibers during the occlusion period. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A top-down view of a white plastic tray containing a folded white square of
+    fabric. A hand holds a blue and white Clorox bleach bottle, tipping it to pour a stream of clear liquid
+    onto the center of the fabric.
+  init2final_edit_prompt: Edit the given image to show the white fabric with a distinct, saturated wet
+    spot in the center where the liquid was poured. The wet area should appear slightly darker or more
+    translucent than the dry fabric, indicating it has absorbed the liquid. Ensure the fabric remains
+    completely white with no discoloration, pink stains, or bleaching effects, as the fabric has no dye
+    to remove. Keep the camera angle and lighting consistent.
+  rationale: The video depicts bleach being poured onto white fabric. Since the fabric is already white
+    and lacks dye pigments, the sodium hypochlorite in the bleach has no color to oxidize or remove. Therefore,
+    the fabric will not fade, change color, or develop bleach stains (which typically appear as pink or
+    orange on colored fabrics). The primary state change is the physical wetting of the fabric. During
+    the occlusion (camera rotation), the bleach saturates the fibers, creating a visible wet spot. The
+    final state should show the fabric wet but still white, testing the model's ability to distinguish
+    between material wetting and chemical color change.
+  questions:
+  - id: is_fabric_wet
+    question: Is there a visible wet spot on the fabric?
+    answer_type: yes_no
+    notes_for_judge: Look for a darkened or saturated area in the center of the cloth indicating liquid
+      absorption.
+  - id: is_wet_area_saturated
+    question: Does the center of the fabric appear saturated with liquid?
+    answer_type: yes_no
+    notes_for_judge: The texture should look wet/soaked compared to the dry edges.
+  - id: remains_white
+    question: Does the fabric retain its original white color without turning pink, orange, or yellow?
+    answer_type: yes_no
+    notes_for_judge: Bleach on white fabric should NOT cause discoloration. If the fabric has turned a
+      different hue, the answer is NO.
+  - id: no_disintegration
+    question: Does the fabric appear structurally intact, without holes or shredding?
+    answer_type: yes_no
+    notes_for_judge: In the short timeframe described, the bleach should wet the fabric but not dissolve
+      or tear it.
+  - id: wet_contrast
+    question: Is the wet area visually distinguishable from the surrounding dry fabric?
+    answer_type: yes_no
+    notes_for_judge: There should be a contrast between the wet center and dry periphery.
+  - id: tray_presence
+    question: Is the white tray still visible underneath the fabric?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

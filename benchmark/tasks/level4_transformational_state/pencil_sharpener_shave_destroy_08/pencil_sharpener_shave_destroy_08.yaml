@@ -1,0 +1,74 @@
+id: pencil_sharpener_shave_destroy_08
+level: 4
+category: structural_transformation
+tags: []
+variant_of: pencil_sharpener_shave_destroy
+variation_type: combined
+variation_description: Combines lights off occlusion with reverse cranking condition.
+changes:
+  occlusion_method: Lights turn off.
+  dynamic_conditions: Crank turns counter-clockwise.
+  expected_outcome_change: No state change (pencil length remains constant).
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The hand begins turning the sharpener crank in a counter-clockwise direction. The sharpener's
+    internal gear mechanism is designed to engage blades only during clockwise rotation, meaning reverse
+    rotation spins freely without cutting. The hand continues cranking in this reverse direction. Suddenly,
+    the workshop lights turn off completely, plunging the scene into absolute pitch blackness. The reverse
+    cranking action continues in the dark for several seconds. Then the lights turn back on, illuminating
+    the scene again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The hand begins turning the sharpener crank in a counter-clockwise direction. The sharpener's
+    internal gear mechanism is designed to engage blades only during clockwise rotation, meaning reverse
+    rotation spins freely without cutting. The hand continues cranking in this reverse direction. Suddenly,
+    the workshop lights turn off completely, plunging the scene into absolute pitch blackness. The reverse
+    cranking action continues in the dark for several seconds. Then the lights turn back on, illuminating
+    the scene again. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a vintage, grey metal pencil sharpener clamped
+    to the edge of a wooden workbench. A long, unpainted, cylindrical wooden dowel is inserted into the
+    sharpener's opening, extending horizontally to the left. A person's right hand and forearm are visible
+    on the right side, grasping the black knob of the sharpener's crank handle. The sharpener has a transparent
+    lower compartment containing a small amount of wood shavings. The background shows a blurred workshop
+    environment with a window and tools.
+  init2final_edit_prompt: Edit the given image to show the scene after the crank has been turned. The
+    wooden dowel must remain exactly the same length and shape as it was in the initial frame, with no
+    signs of being sharpened, shortened, or tapered. The amount of wood shavings in the transparent container
+    must remain unchanged, showing no new accumulation. The hand should remain visible holding the crank
+    handle. The lighting should be fully illuminated, matching the initial brightness.
+  rationale: The video prompt specifies that the crank is turned in a counter-clockwise direction, which
+    explicitly 'spins freely without cutting' due to the mechanism's design. Consequently, no physical
+    transformation should occur to the wooden dowel; it should not be sharpened, shortened, or consumed.
+    The 'pitch black' occlusion event passes, and the lights return, revealing the state. The correct
+    final state is one where the object (dowel) has resisted transformation entirely due to the specific
+    nature of the action described, despite the visual expectation of sharpening.
+  questions:
+  - id: dowel_length_unchanged
+    question: Is the visible length of the wooden dowel extending from the sharpener approximately the
+      same as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The prompt specifies the action does not cut, so the dowel should not be consumed
+      or shortened.
+  - id: dowel_shape_preserved
+    question: Does the wooden dowel retain its original cylindrical form without any new tapering or sharpening?
+    answer_type: yes_no
+    notes_for_judge: Counter-clockwise rotation spins freely, so no shaping should occur.
+  - id: shavings_volume_constant
+    question: Is the amount of wood shavings in the transparent container roughly the same as in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: No cutting means no new shavings should be generated.
+  - id: no_structural_damage
+    question: Is the wooden dowel free from visible structural changes or damage?
+    answer_type: yes_no
+    notes_for_judge: The action was non-destructive.
+  - id: hand_presence
+    question: Is the hand still visible holding the crank handle?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: lighting_restored
+    question: Is the scene fully illuminated, similar to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Checks that the 'lights turn back on' instruction was followed.

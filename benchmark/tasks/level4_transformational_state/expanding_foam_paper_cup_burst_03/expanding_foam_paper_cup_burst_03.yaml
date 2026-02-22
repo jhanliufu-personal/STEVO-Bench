@@ -1,0 +1,78 @@
+id: expanding_foam_paper_cup_burst_03
+level: 4
+category: structural_transformation
+tags: []
+variant_of: expanding_foam_paper_cup_burst
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to a rapid zoom out.
+changes:
+  occlusion_method: Camera zooms out until the cup is too small to see details.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The hand presses the trigger and expanding foam begins dispensing into the paper cup. Polyurethane
+    foam undergoes rapid chemical expansion as it cures, increasing in volume by 30-50 times within seconds.
+    The foam expands in all directions exerting outward pressure on any containing walls. The paper cup
+    has limited structural strength and a tensile tear threshold. The foam continues expanding in the
+    confined space. The camera zooms out rapidly and continuously until the workbench becomes a distant
+    speck and individual objects are no longer resolvable. The camera holds this distant view for several
+    seconds while the foam continues expanding. The camera then zooms back in rapidly to the exact original
+    framing. No cut, no scene change. STOP.
+  camera_WM: The hand presses the trigger and expanding foam begins dispensing into the paper cup. Polyurethane
+    foam undergoes rapid chemical expansion as it cures, increasing in volume by 30-50 times within seconds.
+    The foam expands in all directions exerting outward pressure on any containing walls. The paper cup
+    has limited structural strength and a tensile tear threshold. The foam continues expanding in the
+    confined space during the occlusion period. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+  Genie: null
+evaluation:
+  init_frame_description: A gloved hand holds a can of Great Stuff polyurethane foam with its red straw
+    applicator inserted into a small brown paper cup. The cup sits on a workbench covered in clear plastic
+    sheeting, which already has some dried foam patterns on it. In the background, there is a hammer,
+    wooden planks, and other workshop tools.
+  init2final_edit_prompt: Edit the given image to show the paper cup burst open and structurally destroyed
+    by a large, chaotic mass of expanded yellow polyurethane foam. The foam should appear voluminous,
+    significantly exceeding the size of the original cup, and spilling out onto the surrounding plastic
+    sheeting. The paper cup's walls should appear torn, ripped, or deformed by the internal pressure of
+    the foam.
+  rationale: 'The prompt describes the dispensing of expanding foam into a confined container with limited
+    structural strength. Polyurethane foam expands significantly (30-50x) and exerts outward pressure.
+    During the time elapsed by the camera zoom-out and zoom-in sequence, the foam will have filled the
+    cup and exerted enough pressure to exceed the cup''s tensile threshold, causing it to burst, tear,
+    or deform irreversibly. The final state should show the aftermath of this expansion: a large foam
+    mass and a damaged cup.'
+  questions:
+  - id: foam_presence
+    question: Is there a large mass of expanded foam visible where the cup was initially?
+    answer_type: yes_no
+    notes_for_judge: Check for the presence of the yellow foam material filling/overflowing the cup area.
+  - id: structural_damage
+    question: Does the paper cup appear torn, burst, or structurally deformed compared to the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: Focus on the integrity of the cup walls. They should be broken or misshapen by the
+      foam.
+  - id: volume_increase
+    question: Is the volume of the foam/cup object significantly larger than the cup was in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: The foam expands 30-50x, so the resulting mass should be much bigger than the starting
+      cup.
+  - id: overflow
+    question: Has the foam spilled over the rim or through the sides of the cup onto the plastic sheeting?
+    answer_type: yes_no
+    notes_for_judge: Look for foam contact with the table outside the original cup footprint.
+  - id: irreversible_change
+    question: Is the original shape of the paper cup no longer intact?
+    answer_type: yes_no
+    notes_for_judge: The cup should not look like a pristine cylinder anymore.
+  - id: background_consistency_hammer
+    question: Is the hammer in the background still in the same position?
+    answer_type: yes_no
+    notes_for_judge: Background objects should remain unchanged.
+  - id: background_consistency_wood
+    question: Are the wooden planks in the background still in the same configuration?
+    answer_type: yes_no
+    notes_for_judge: Background objects should remain unchanged.

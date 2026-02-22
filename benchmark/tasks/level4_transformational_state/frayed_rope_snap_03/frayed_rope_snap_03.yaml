@@ -1,0 +1,62 @@
+id: frayed_rope_snap_03
+level: 4
+category: structural_transformation
+tags: []
+variant_of: frayed_rope_snap
+variation_type: occlusion_method
+variation_description: Thick industrial steam fills the scene, obscuring the rope.
+changes:
+  occlusion_method: Thick white steam fills the view.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The winches continue to pull the frayed rope tighter. Extreme tension is applied to the weakened
+    central section. A burst of thick, opaque white steam erupts from pipes below, filling the entire
+    frame and completely obscuring the rope and machinery. The steam slowly dissipates until the view
+    is clear again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The winches continue to pull the frayed rope tighter. Extreme tension is applied to the weakened
+    central section. A burst of thick, opaque white steam erupts from pipes below, filling the entire
+    frame and completely obscuring the rope and machinery. The steam slowly dissipates until the view
+    is clear again. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a thick, weathered rope stretched horizontally
+    between two rusty metal winches. The rope is under high tension. The center of the rope is severely
+    frayed, with the majority of the strands broken, leaving only a thin, precarious connection holding
+    the two sides together. Dust particles are visible in the air against a blurred industrial background.
+  init2final_edit_prompt: Edit the given image to show the rope completely snapped in the center. Remove
+    the thin connecting strands so there is a clear, visible gap between the left and right sections of
+    the rope. The severed ends should appear frayed and separated, no longer touching. Maintain the appearance
+    of the rusty winches on the left and right, but ensure the rope is no longer a single continuous piece.
+  rationale: The prompt describes applying extreme tension to an already critically weakened rope. Physically,
+    this leads to structural failure. The steam occlusion serves as a transition period during which the
+    snap occurs. When the steam dissipates and the view clears, the irreversible transformation (the snapping
+    of the rope) should be complete. Therefore, the final frame must show the rope severed into two pieces
+    with a visible gap, rather than the tenuous connection seen in the initial frame.
+  questions:
+  - id: rope_severed
+    question: Is the rope severed into two separate pieces?
+    answer_type: yes_no
+    notes_for_judge: The rope should no longer be continuous; the thin connecting strand must be gone.
+  - id: visible_gap
+    question: Is there a visible gap between the left and right sections of the rope?
+    answer_type: yes_no
+    notes_for_judge: There should be empty space where the frayed connection used to be.
+  - id: connection_broken
+    question: Has the thin connecting strand in the center been broken?
+    answer_type: yes_no
+    notes_for_judge: Compare to the initial frame where a thin strand connected the sides.
+  - id: ends_frayed
+    question: Do the severed ends of the rope appear frayed?
+    answer_type: yes_no
+    notes_for_judge: The break point should look like torn fibers, not a clean cut.
+  - id: steam_cleared
+    question: Is the view clear of the opaque steam described in the prompt?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the steam dissipates; the final image should not be obscured.
+  - id: winches_present
+    question: Are the rusty winches still visible on the left and right sides?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

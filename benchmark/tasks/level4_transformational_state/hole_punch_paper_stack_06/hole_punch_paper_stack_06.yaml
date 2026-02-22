@@ -1,0 +1,69 @@
+id: hole_punch_paper_stack_06
+level: 4
+category: structural_transformation
+tags: []
+variant_of: hole_punch_paper_stack
+variation_type: dynamic_condition
+variation_description: Paper replaced with a rigid metal plate.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Material is rigid metal instead of paper.
+  expected_outcome_change: Lever cannot move down; no penetration.
+prompts:
+  init_frame_edit_prompt: Edit the image to replace the paper stack with a rigid, silver aluminum metal
+    plate inserted into the slot.
+  video_WM: The hand applies downward pressure to the lever. The object inserted in the slot is a solid,
+    rigid aluminum plate with high shear strength, exceeding the hardness of the punch blades. The mechanism
+    presses down against the unyielding metal surface. The hand continues applying pressure. The camera
+    rotates right at constant speed until the hole punch completely exits the view to the right. The camera
+    continues rotating right for several seconds while the hand remains off-screen pressing the lever.
+    Then the camera rotates left smoothly at the same rate back to the original viewpoint. No zoom, no
+    cut, no scene change. STOP.
+  camera_WM: The hand applies downward pressure to the lever. The object inserted in the slot is a solid,
+    rigid aluminum plate with high shear strength, exceeding the hardness of the punch blades. The mechanism
+    presses down against the unyielding metal surface. The hand continues applying pressure during the
+    occlusion period. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a heavy-duty silver hole punch sitting on a wooden
+    desk. A person's arm and hand are visible on the right, gripping the black handle of the lever, which
+    is in the raised position. A rigid, shiny metal sheet (the aluminum plate) is inserted into the punching
+    slot. In the background, a window, a pen holder with pens, and a black document tray are visible.
+  init2final_edit_prompt: Edit the given image to show the hand applying strong downward pressure on the
+    lever. The lever should be positioned lower than in the original image but appear stalled and not
+    fully depressed, as if blocked by the material in the slot. The metal plate in the slot must remain
+    completely intact, with no punched holes visible, appearing rigid and unyielding under the force.
+  rationale: The prompt specifies that the object is a solid, rigid aluminum plate with hardness exceeding
+    that of the punch blades. Physics dictates that the punch cannot penetrate this material. Therefore,
+    the irreversible transformation (creating holes) will NOT occur. Instead, the state will evolve to
+    a 'stalled' condition where the lever is pressed down against the resistance of the plate but cannot
+    complete its stroke. The final frame should show the lever under tension, partially depressed but
+    blocked, and the plate structurally intact (no holes). The camera movement and occlusion serve to
+    test the model's ability to maintain this physical constraint and the object's permanence over time.
+  questions:
+  - id: plate_integrity
+    question: Is the aluminum plate free of any punched holes?
+    answer_type: yes_no
+    notes_for_judge: The plate is too hard to be punched; there should be no holes.
+  - id: plate_surface
+    question: Does the visible surface of the plate appear continuous and unbroken?
+    answer_type: yes_no
+    notes_for_judge: Check for lack of tears, breaks, or penetration.
+  - id: lever_position_change
+    question: Is the lever positioned lower than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The hand is pressing it down, so it should be lower (taking up slack).
+  - id: lever_stalled
+    question: Does the lever appear to be stopped before reaching the fully depressed position?
+    answer_type: yes_no
+    notes_for_judge: The lever should not be flush with the base; it should look blocked by the metal.
+  - id: hand_presence
+    question: Is the hand visible and pressing on the lever?
+    answer_type: yes_no
+    notes_for_judge: The prompt implies the hand continues pressing.
+  - id: plate_presence
+    question: Is the metal plate still visible in the slot?
+    answer_type: yes_no
+    notes_for_judge: The plate should not disappear.

@@ -1,0 +1,70 @@
+id: wood_log_sawing_02
+level: 4
+category: structural_transformation
+tags: []
+variant_of: wood_log_sawing
+variation_type: occlusion_method
+variation_description: Occlusion by zooming out until details are lost, then zooming back in.
+changes:
+  occlusion_method: Camera zooms out to a distance where the log is a speck, then zooms back.
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics (cut deepens).
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A person begins vigorously moving the hand saw back and forth across the wooden log. The sawing
+    action to cut through the log is active. The camera zooms out rapidly until the log is a tiny distant
+    speck, indistinguishable in detail, then zooms back in to the original framing. No cut, no scene change.
+    STOP.
+  camera_WM: A person begins vigorously moving the hand saw back and forth across the wooden log. The
+    sawing action to cut through the log is active. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a thick, weathered wooden log resting on a rustic
+    wooden sawhorse in a forest setting. A hand saw with a wooden handle and a metal blade is positioned
+    in a partial cut on the top surface of the log. Small amounts of sawdust are visible around the cut
+    area. The background consists of blurred trees and foliage.
+  init2final_edit_prompt: Edit the given image to show the hand saw positioned deeper into the wooden
+    log, indicating that the cut has progressed significantly. Increase the amount of sawdust visible
+    on the top of the log and on the sawhorse structure below the cut. Ensure the vertical position of
+    the saw handle is lower relative to the log's top surface compared to the original image, reflecting
+    the deeper blade penetration. Keep the background and the position of the log on the sawhorse unchanged.
+  rationale: 'The video prompt describes vigorous sawing action continuing while the camera zooms out
+    and back in. This sequence implies a passage of time during which the irreversible process of cutting
+    the wood progresses. Therefore, when the camera returns to the initial framing, the state of the object
+    must have changed: the saw blade should be deeper within the log (structural change) and more sawdust
+    should be present (material degradation/byproduct), reflecting the work done during the occlusion.'
+  questions:
+  - id: saw_depth_01
+    question: Is the saw blade positioned deeper into the wood than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the position of the saw blade relative to the top of the log.
+  - id: sawdust_amount_01
+    question: Is there more sawdust visible on the log or sawhorse than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Look for increased accumulation of wood particles around the cut or on the supports
+      below.
+  - id: handle_height_01
+    question: Is the handle of the saw closer to the log's surface than it was initially?
+    answer_type: yes_no
+    notes_for_judge: As the saw cuts deeper, the handle must descend.
+  - id: cut_progress_01
+    question: Does the log show a deeper or more advanced cut compared to the start?
+    answer_type: yes_no
+    notes_for_judge: Evaluate the extent of the kerf (slit) in the wood.
+  - id: material_removal_01
+    question: Is there visual evidence of further material removal (deeper cut or fresh debris)?
+    answer_type: yes_no
+    notes_for_judge: General check for the irreversible transformation process.
+  - id: log_integrity_01
+    question: Has the structural continuity of the log been reduced by a deeper incision?
+    answer_type: yes_no
+    notes_for_judge: The log is being severed; the connection between the two sides should be smaller.
+  - id: sawhorse_consistency_01
+    question: Is the wooden sawhorse structure structurally unchanged?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: background_consistency_01
+    question: Is the forest background consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

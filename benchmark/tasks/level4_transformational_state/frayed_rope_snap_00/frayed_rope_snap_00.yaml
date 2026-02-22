@@ -1,0 +1,66 @@
+id: frayed_rope_snap_00
+level: 4
+category: structural_transformation
+tags: []
+variant_of: frayed_rope_snap
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The winches continue to pull the frayed rope tighter. Extreme tension is applied to the weakened
+    central section of the rope. The center point between the winches remains in the center of view. Camera
+    remains stationary throughout. No zoom, no cut, no scene change. STOP.
+  camera_WM: The winches continue to pull the frayed rope tighter. Extreme tension is applied to the weakened
+    central section of the rope. The center point between the winches remains in the center of view. Camera
+    remains stationary throughout. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up, horizontal shot of a thick, weathered fiber rope stretched tightly
+    between two rusty metal winch drums located on the left and right edges. The center of the rope is
+    severely frayed and damaged, with many strands broken and splayed outward, leaving only a thin, twisted
+    connection holding the two sides together. Dust particles are visible in the air, illuminated by backlighting.
+    The background is blurred and indistinct, suggesting an outdoor or industrial setting.
+  init2final_edit_prompt: Edit the given image to show the rope has snapped completely in the center.
+    The rope should be divided into two separate segments with a visible gap of empty space between them.
+    The broken ends of both the left and right segments should be heavily frayed and splayed. The two
+    segments should appear slightly recoiled towards their respective winches, widening the gap in the
+    middle. Maintain the original lighting, background, and the position of the winches.
+  rationale: The initial image shows a rope under tension that is already structurally compromised (frayed).
+    The prompt describes continuing to pull the rope tighter with 'extreme tension'. Given the weakened
+    state of the material, the physical outcome of increased tension is the snapping of the remaining
+    strands. The final state depicts the irreversible structural failure where the rope breaks into two
+    pieces.
+  questions:
+  - id: rope_severed
+    question: Is the rope broken into two separate pieces?
+    answer_type: yes_no
+    notes_for_judge: Look for a complete break in the continuity of the rope.
+  - id: gap_visible
+    question: Is there a visible gap of empty space between the left and right sections of the rope?
+    answer_type: yes_no
+    notes_for_judge: There should be no connecting fibers crossing the center point.
+  - id: structural_failure
+    question: Has the structural connection between the two winches been severed?
+    answer_type: yes_no
+    notes_for_judge: The rope should no longer form a continuous line from left to right.
+  - id: frayed_ends
+    question: Do the ends of the rope where the break occurred appear frayed or shredded?
+    answer_type: yes_no
+    notes_for_judge: The break should look like a tear/snap, not a clean cut.
+  - id: recoil_separation
+    question: Are the two rope ends further apart than the narrowest point in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Tests if the tension release caused separation.
+  - id: winch_presence
+    question: Are the rusty metal winches still visible on the left and right sides?
+    answer_type: yes_no
+    notes_for_judge: Consistency check.
+  - id: background_consistency
+    question: Is the background still blurred and indistinct?
+    answer_type: yes_no
+    notes_for_judge: Consistency check.

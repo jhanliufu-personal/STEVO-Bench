@@ -1,0 +1,80 @@
+id: graham_cracker_compress_powder_03
+level: 4
+category: structural_transformation
+tags: []
+variant_of: graham_cracker_compress_powder
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to camera zooming out.
+changes:
+  occlusion_method: Camera zoom out
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics (cracker crushed into powder)
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The hand presses down on the cracker through the plastic bag with progressive force. Graham
+    crackers are baked goods with brittle structure that fractures easily under compression. The hand
+    applies grinding and pressing motions to distribute force across the cracker surface. The material
+    is dry and has low fracture toughness typical of baked wheat products. The camera zooms out rapidly
+    until the table becomes a small distant object and details of the bag are no longer visible. The hand
+    continues to apply pressure and grinding motion while distant. Then the camera zooms back in to the
+    original viewpoint. No cut, no scene change. STOP.
+  camera_WM: The hand presses down on the cracker through the plastic bag with progressive force. Graham
+    crackers are baked goods with brittle structure that fractures easily under compression. The hand
+    applies grinding and pressing motions to distribute force across the cracker surface. The material
+    is dry and has low fracture toughness typical of baked wheat products during the occlusion period.
+    STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a wooden table surface. A clear plastic ziplock
+    bag containing a single, whole rectangular graham cracker lies flat on the table. A human hand hovers
+    palm-down just above the bag, positioned to press down on the cracker. The background shows a blurred
+    view of a room with a window and a chair.
+  init2final_edit_prompt: Edit the given image to show the hand pressing flat down firmly onto the plastic
+    bag. The graham cracker inside the bag should be crushed into crumbs and broken fragments, losing
+    its solid rectangular structure. The plastic bag should appear flattened and compressed against the
+    table surface under the weight of the hand.
+  rationale: The prompt describes a physical interaction where a hand applies progressive force and grinding
+    motions to a brittle graham cracker. Although the camera zooms out and back in, the physical state
+    of the cracker evolves from a solid whole object to a crushed state due to the applied force. The
+    final frame returns to the original viewpoint, showing the aftermath or the ongoing compression. The
+    cracker must be broken or crumbled, and the hand should be in contact with the bag (pressing down)
+    rather than hovering, reflecting the action described.
+  questions:
+  - id: cracker_structural_change
+    question: Is the graham cracker broken into smaller pieces, fragments, or crumbs?
+    answer_type: yes_no
+    notes_for_judge: The cracker should no longer be a single intact rectangle; it should show signs of
+      crushing.
+  - id: hand_position_contact
+    question: Is the hand pressing down on the bag rather than hovering above it?
+    answer_type: yes_no
+    notes_for_judge: The hand should be in contact with the bag, compressing it.
+  - id: bag_compression
+    question: Does the plastic bag appear flatter or more compressed against the table than in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: The volume of the bag should be reduced due to the crushing of the contents and the
+      pressure of the hand.
+  - id: loss_of_form
+    question: Has the graham cracker lost its original uniform rectangular shape?
+    answer_type: yes_no
+    notes_for_judge: The straight edges and defined shape should be disrupted by fractures.
+  - id: visible_debris
+    question: Are there visible crumbs or loose particles inside the bag?
+    answer_type: yes_no
+    notes_for_judge: Crushing a dry cracker produces crumbs.
+  - id: hand_height
+    question: Is the hand positioned lower in the frame compared to the starting image?
+    answer_type: yes_no
+    notes_for_judge: Since the hand presses down, its vertical position relative to the table must be
+      lower.
+  - id: background_consistency
+    question: Is the wooden table texture still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: object_permanence_bag
+    question: Is the plastic bag still present on the table?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

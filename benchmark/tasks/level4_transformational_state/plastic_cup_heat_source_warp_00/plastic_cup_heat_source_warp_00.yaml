@@ -1,0 +1,70 @@
+id: plastic_cup_heat_source_warp_00
+level: 4
+category: structural_transformation
+tags: []
+variant_of: plastic_cup_heat_source_warp
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: Hot air from the heat gun flows toward the plastic cup. The cup is made from polystyrene plastic
+    which has a glass transition temperature around 212°F. When thermoplastic polymers are heated above
+    their glass transition point, the polymer chains gain mobility and the material loses structural rigidity.
+    The material is subject to gravitational forces and internal stresses. Thermoplastics retain the shape
+    they have when cooled back below glass transition temperature. The heat gun continues directing hot
+    air at the cup. Camera remains stationary throughout. No zoom, no cut, no scene change. STOP.
+  camera_WM: Hot air from the heat gun flows toward the plastic cup. The cup is made from polystyrene
+    plastic which has a glass transition temperature around 212°F. When thermoplastic polymers are heated
+    above their glass transition point, the polymer chains gain mobility and the material loses structural
+    rigidity. The material is subject to gravitational forces and internal stresses. Thermoplastics retain
+    the shape they have when cooled back below glass transition temperature. The heat gun continues directing
+    hot air at the cup. Camera remains stationary throughout. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A red plastic Solo cup sits on a light wooden workbench on the left side of
+    the frame. To the right, an orange heat gun is propped up on its stand, with its metal nozzle pointing
+    directly at the side of the cup. The cup shows some minor initial denting on the side facing the heat
+    gun. In the background, out of focus, are various tools like screwdrivers and pliers.
+  init2final_edit_prompt: Edit the given image to show the red plastic cup significantly melted and deformed.
+    The side of the cup facing the heat gun should be collapsed, shriveled, or warped inward due to the
+    heat. The cup should appear to have lost its structural rigidity, potentially sagging or leaning.
+    Do not move the heat gun or change the background tools.
+  rationale: The heat gun is directing hot air at a thermoplastic cup. As the temperature exceeds the
+    glass transition point of the plastic, the material will soften and lose its shape. Gravity and the
+    force of the air will cause the cup to collapse, warp, or melt, particularly on the side facing the
+    heat source. This is an irreversible structural change. The camera and other objects remain static.
+  questions:
+  - id: cup_deformed
+    question: Is the red plastic cup more deformed than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Look for increased irregularity in the cup's shape.
+  - id: side_collapse
+    question: Does the side of the cup facing the heat gun appear more collapsed or shriveled than initially?
+    answer_type: yes_no
+    notes_for_judge: The side facing the nozzle should show the most damage.
+  - id: structural_integrity
+    question: Has the cup lost more of its original cylindrical shape compared to the start?
+    answer_type: yes_no
+    notes_for_judge: The cup should look less like a perfect cylinder.
+  - id: melting_texture
+    question: Does the surface of the cup look more warped or melted than in the first image?
+    answer_type: yes_no
+    notes_for_judge: Check for smooth, organic distortions typical of melting plastic.
+  - id: rim_distortion
+    question: Is the rim of the cup more distorted or uneven compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The top circle should be warped.
+  - id: heat_gun_presence
+    question: Is the orange heat gun still visible in the same position?
+    answer_type: yes_no
+    notes_for_judge: Consistency check.
+  - id: background_tools
+    question: Are the blurred tools in the background still present?
+    answer_type: yes_no
+    notes_for_judge: Consistency check.

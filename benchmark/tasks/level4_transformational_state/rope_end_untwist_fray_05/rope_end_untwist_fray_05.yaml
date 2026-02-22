@@ -1,0 +1,71 @@
+id: rope_end_untwist_fray_05
+level: 4
+category: structural_transformation
+tags: []
+variant_of: rope_end_untwist_fray
+variation_type: dynamic_condition
+variation_description: Hands hold the rope passively without applying any force.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Hands are static and apply no force.
+  expected_outcome_change: No change in rope state.
+prompts:
+  init_frame_edit_prompt: Edit the image so the hands are simply resting on the workbench holding the
+    rope loosely, with no tension or pulling action.
+  video_WM: The hands hold the rope steadily on the workbench. The fingers maintain a static grip without
+    applying any twisting or pulling force. The rope structure remains undisturbed and the strands sit
+    naturally without manipulation. The hands remain motionless. The camera rotates right at constant
+    speed until the hands and rope completely exit the view to the right. The camera continues rotating
+    right for several seconds while the hands remain off-screen holding the rope. Then the camera rotates
+    left smoothly at the same rate back to the original viewpoint. No zoom, no cut, no scene change. STOP.
+  camera_WM: The hands hold the rope steadily on the workbench. The fingers maintain a static grip without
+    applying any twisting or pulling force. The rope structure remains undisturbed and the strands sit
+    naturally without manipulation. The hands remain motionless during the occlusion period. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot of two hands holding a thick, twisted natural fiber
+    rope horizontally over a wooden workbench. The rope is beige and has a distinct three-strand twisted
+    structure. The hands grip the rope firmly, with the left hand on the left side and the right hand
+    on the right side of the frame. In the background, which is slightly out of focus, there is a wooden
+    surface, a pair of pliers with red handles, and some loose scraps of fiber or string.
+  init2final_edit_prompt: Edit the given image to ensure the scene looks identical to the original state.
+    The rope must remain fully twisted and structurally intact, with no signs of fraying, unraveling,
+    or separation of strands. The hands should maintain the exact same static grip on the rope in the
+    same position. The background tools and wooden workbench details should remain unchanged and in their
+    original locations.
+  rationale: The video prompt explicitly specifies a static control scenario where the hands maintain
+    a static grip and the rope structure remains undisturbed. Although the camera pans away and returns
+    (introducing occlusion), no physical action or transformation occurs. Therefore, the final state must
+    be identical to the initial state. The evaluation focuses on object permanence and state consistency,
+    verifying that the model does not hallucinate fraying or untwisting despite the 'rope' context.
+  questions:
+  - id: rope_integrity_1
+    question: Is the rope still fully twisted together?
+    answer_type: yes_no
+    notes_for_judge: The rope should look identical to the start, with no untwisting.
+  - id: rope_integrity_2
+    question: Does the rope appear structurally intact without any unraveling?
+    answer_type: yes_no
+    notes_for_judge: Check for loose strands or separation.
+  - id: rope_integrity_3
+    question: Is the rope free of any visible fraying that was not present initially?
+    answer_type: yes_no
+    notes_for_judge: The correct answer is YES (it is free of fraying).
+  - id: rope_integrity_4
+    question: Do the strands of the rope remain tightly coiled?
+    answer_type: yes_no
+    notes_for_judge: The twist should be tight and uniform.
+  - id: hand_position_1
+    question: Are the hands holding the rope in the same position as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Hands should not have moved along the rope.
+  - id: background_consistency_1
+    question: Are the red-handled pliers still visible in the background?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: background_consistency_2
+    question: Is the wooden workbench surface visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

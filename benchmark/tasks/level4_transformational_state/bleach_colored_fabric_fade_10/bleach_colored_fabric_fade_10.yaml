@@ -1,0 +1,70 @@
+id: bleach_colored_fabric_fade_10
+level: 4
+category: structural_transformation
+tags: []
+variant_of: bleach_colored_fabric_fade
+variation_type: combined
+variation_description: Combines water (no reaction) with the camera physically moving away.
+changes:
+  occlusion_method: Camera moves backward into another room.
+  dynamic_conditions: Liquid is water (inert).
+  expected_outcome_change: No bleaching occurs.
+prompts:
+  init_frame_edit_prompt: Edit the image to remove the Clorox logo and change the text on the bottle label
+    to read 'WATER' in large blue letters.
+  video_WM: The bottle labeled 'WATER' tips and pours clear water onto the dark blue fabric surface. Water
+    is a neutral solvent that wets fibers but does not oxidize dye molecules. It creates a wet spot but
+    does not cause a chemical color change. The water continues to contact and saturate the fabric fibers.
+    The camera physically moves backward rapidly, retreating away from the tray and passing through a
+    doorway until the tray is no longer visible. The camera waits in the other room for several seconds
+    while the water remains in contact with the fabric. Then, the camera moves forward, returning through
+    the doorway to the original position and viewpoint. No zoom, no cut, no scene change. STOP.
+  camera_WM: The bottle labeled 'WATER' tips and pours clear water onto the dark blue fabric surface.
+    Water is a neutral solvent that wets fibers but does not oxidize dye molecules. It creates a wet spot
+    but does not cause a chemical color change. The water continues to contact and saturate the fabric
+    fibers during the occlusion period. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A white plastic jug with a handle, resembling a bleach bottle but featuring
+    a large blue label with the text 'WATER', is held by a hand in the upper right corner. The jug is
+    tilted, pouring a stream of clear liquid onto a dark blue, textured square of fabric placed on a white,
+    stained tray. A small, dark wet spot is already visible on the fabric where the liquid has made contact.
+  init2final_edit_prompt: Edit the given image to show the dark blue fabric with a significantly larger,
+    saturated wet spot in the center. The wet area should appear darker blue and damp compared to the
+    surrounding dry fabric, indicating water saturation. Ensure the fabric retains its original blue color
+    and does not show any signs of bleaching, whitening, or orange discoloration. The bottle may be removed
+    or remain, but the primary focus is the expanded dark wet patch on the blue cloth.
+  rationale: The video depicts a bottle labeled 'WATER' pouring liquid onto fabric. Despite the bottle's
+    shape resembling a bleach container, the label and prompt explicitly define the liquid as water, a
+    neutral solvent. Therefore, the physical interaction is wetting, not chemical bleaching. As the camera
+    moves away and returns, the water continues to saturate the fibers, resulting in a larger wet area.
+    The final state must show this expanded wet spot as a darker shade of blue (due to moisture) without
+    any chemical discoloration (white or orange spots) that would occur with actual bleach.
+  questions:
+  - id: '1'
+    question: Is the wet spot on the fabric larger than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The water has continued to pour/saturate, so the spot must be bigger.
+  - id: '2'
+    question: Does the fabric retain its dark blue color in the area where the liquid was poured?
+    answer_type: yes_no
+    notes_for_judge: Water wets the fabric (making it darker blue) but does not bleach it. If the spot
+      is white/orange, the answer is No.
+  - id: '3'
+    question: Is the fabric free of any white, pink, or orange discoloration?
+    answer_type: yes_no
+    notes_for_judge: This is a control task; the liquid is water. Any bleaching is a hallucination.
+  - id: '4'
+    question: Does the center of the fabric appear darker (due to wetness) rather than lighter?
+    answer_type: yes_no
+    notes_for_judge: Wet fabric looks darker. Bleached fabric looks lighter. The correct state is darker.
+  - id: '5'
+    question: Is the liquid clearly visible as a saturated patch on the fabric?
+    answer_type: yes_no
+    notes_for_judge: Verifies the physical state change of wetting occurred.
+  - id: '6'
+    question: Has the liquid spread to cover a larger surface area of the fabric compared to the start?
+    answer_type: yes_no
+    notes_for_judge: Checks for progression of the pouring/wetting action.

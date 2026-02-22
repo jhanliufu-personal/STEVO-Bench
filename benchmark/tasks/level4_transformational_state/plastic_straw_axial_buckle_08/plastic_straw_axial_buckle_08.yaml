@@ -1,0 +1,76 @@
+id: plastic_straw_axial_buckle_08
+level: 4
+category: structural_transformation
+tags: []
+variant_of: plastic_straw_axial_buckle
+variation_type: combined
+variation_description: Combined rigid material (steel rod) with object blocking occlusion.
+changes:
+  occlusion_method: A large wooden board slides in front to block the view.
+  dynamic_conditions: Object is a steel rod (rigid) instead of plastic straw.
+  expected_outcome_change: Rod remains straight.
+prompts:
+  init_frame_edit_prompt: Edit the image to replace the translucent plastic straw with a solid, shiny
+    steel rod of the same diameter.
+  video_WM: The hands begin moving toward each other, applying axial compression force along the length
+    of the steel rod. Solid metal cylinders possess extremely high flexural rigidity and a critical buckling
+    load far exceeding human strength. The material behaves elastically with high resistance to deformation.
+    The hands continue applying progressive compressive force. Suddenly, a large wooden board slides in
+    from the left, completely blocking the view of the hands and rod. The board remains stationary for
+    several seconds while the compression attempt continues behind it. Then the board slides back out
+    to the left, revealing the scene again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The hands begin moving toward each other, applying axial compression force along the length
+    of the steel rod. Solid metal cylinders possess extremely high flexural rigidity and a critical buckling
+    load far exceeding human strength. The material behaves elastically with high resistance to deformation.
+    The hands continue applying progressive compressive force. Suddenly, a large wooden board slides in
+    from the left, completely blocking the view of the hands and rod. The board remains stationary for
+    several seconds while the compression attempt continues behind it. Then the board slides back out
+    to the left, revealing the scene again. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot showing a pair of hands holding a vertical, silver-colored
+    metal rod (resembling a steel cylinder) against a plain light-brown wooden table background. The hands
+    grasp the rod at the very top and bottom ends. The rod is perfectly straight, shiny, and reflects
+    light, indicating a hard metallic material.
+  init2final_edit_prompt: Edit the given image to show the steel rod remaining perfectly straight and
+    unbent. The hands should continue to grasp the ends of the rod firmly. Ensure the rod exhibits absolutely
+    no buckling, bending, kinking, or deformation, reflecting its high structural rigidity. The scene
+    should look visually identical to the initial state regarding the rod's linear shape and integrity.
+  rationale: The video prompt explicitly identifies the object as a 'solid metal cylinder' (steel rod)
+    and states that its critical buckling load 'far exceeds human strength'. It further notes that the
+    material behaves elastically. Therefore, despite the description of hands applying compressive force,
+    the physics dictated by the prompt ensure that the rod will NOT buckle, bend, or break. The correct
+    final state is a rod that remains perfectly straight and intact, as human force is insufficient to
+    deform a solid steel cylinder of this geometry. The occlusion serves to hide the duration of the effort,
+    but the outcome is determined by the material properties described.
+  questions:
+  - id: rod_straightness
+    question: Is the metal rod still perfectly straight?
+    answer_type: yes_no
+    notes_for_judge: The rod should not be bent.
+  - id: rod_unbent
+    question: Does the rod appear completely unbent?
+    answer_type: yes_no
+    notes_for_judge: Check for absence of bending.
+  - id: structural_integrity
+    question: Has the rod maintained its original linear shape?
+    answer_type: yes_no
+    notes_for_judge: It should look the same as the start.
+  - id: no_buckling
+    question: Is the rod free of visible buckling or kinking?
+    answer_type: yes_no
+    notes_for_judge: Answer must be YES (it is free of buckling).
+  - id: material_continuity
+    question: Does the object appear to be a single continuous straight piece?
+    answer_type: yes_no
+    notes_for_judge: It should not be snapped or broken.
+  - id: resistance_to_force
+    question: Does the rod appear to have resisted the compressive force without deformation?
+    answer_type: yes_no
+    notes_for_judge: The rod should be unchanged.
+  - id: hand_position
+    question: Are the hands still holding the rod?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

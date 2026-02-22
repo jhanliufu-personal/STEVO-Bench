@@ -1,0 +1,69 @@
+id: plastic_bottle_hand_crush_00
+level: 4
+category: structural_transformation
+tags: []
+variant_of: plastic_bottle_hand_crush
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The hand grips the bottle and begins applying progressive squeezing force. Thin plastic bottles
+    are made from PET polymer with relatively low resistance to deformation. The thin walls have an elastic
+    limit beyond which permanent plastic deformation occurs. The material cannot spontaneously return
+    to original shape after exceeding this threshold. The hand continues increasing compressive force.
+    Camera remains stationary throughout. No zoom, no cut, no scene change. STOP.
+  camera_WM: The hand grips the bottle and begins applying progressive squeezing force. Thin plastic bottles
+    are made from PET polymer with relatively low resistance to deformation. The thin walls have an elastic
+    limit beyond which permanent plastic deformation occurs. The material cannot spontaneously return
+    to original shape after exceeding this threshold. The hand continues increasing compressive force.
+    Camera remains stationary throughout. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A clear, empty plastic water bottle with a blue cap stands upright on a wooden
+    table. A human arm and hand extend from the left side of the frame, with fingers spread open, reaching
+    towards the bottle but not yet touching it. The background shows a blurred kitchen setting with a
+    window, counter, and appliances.
+  init2final_edit_prompt: Edit the given image to show the hand tightly gripping the middle of the plastic
+    bottle. The fingers should be wrapped around the bottle's waist. The bottle must appear crushed and
+    deformed, with the clear plastic walls buckled, dented, and compressed inward under the force of the
+    hand. The middle section of the bottle should be significantly narrower due to the squeeze.
+  rationale: The video prompt describes a sequence where the hand grabs the bottle and applies squeezing
+    force. Since PET plastic has low resistance, the expected result is significant structural deformation.
+    The final frame should depict the hand actively gripping the bottle, causing the thin plastic walls
+    to buckle and collapse inward (plastic deformation). The bottle will no longer be cylindrical in the
+    middle but will be distorted by the grip.
+  questions:
+  - id: contact_established
+    question: Is the hand now touching the bottle?
+    answer_type: yes_no
+    notes_for_judge: The hand should have moved from the open reaching position to contacting the bottle.
+  - id: grip_closed
+    question: Are the fingers wrapped around the body of the bottle?
+    answer_type: yes_no
+    notes_for_judge: The fingers should be closed in a gripping posture.
+  - id: structural_deformation
+    question: Does the bottle appear crushed or dented?
+    answer_type: yes_no
+    notes_for_judge: Look for irregular shapes, loss of cylindrical form, or collapsed walls.
+  - id: width_reduction
+    question: Is the middle section of the bottle narrower than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The squeezing action should compress the bottle's width.
+  - id: surface_buckling
+    question: Does the plastic surface show visible buckling, crinkling, or folding?
+    answer_type: yes_no
+    notes_for_judge: Smooth plastic should now look crumpled due to stress.
+  - id: cap_consistency
+    question: Is the blue bottle cap still visible?
+    answer_type: yes_no
+    notes_for_judge: The cap should remain part of the object despite the crushing of the body.
+  - id: background_consistency
+    question: Are the background appliances (e.g., oven, blender) unchanged?
+    answer_type: yes_no
+    notes_for_judge: Only the hand and bottle should change.

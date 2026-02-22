@@ -1,0 +1,64 @@
+id: ceramic_plate_impact_00
+level: 4
+category: structural_transformation
+tags: []
+variant_of: ceramic_plate_impact
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The heavy steel hammer swings down forcefully and makes hard contact with the center of the
+    ceramic plate. The impact is forceful. Camera remains stationary throughout. No zoom, no cut, no scene
+    change. STOP.
+  camera_WM: The heavy steel hammer swings down forcefully and makes hard contact with the center of the
+    ceramic plate. The impact is forceful. Camera remains stationary throughout. No zoom, no cut, no scene
+    change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A white, round ceramic plate sits centrally on a rough, cracked concrete floor.
+    A heavy sledgehammer with a wooden handle and a dark metal head is positioned in the air above the
+    plate, entering from the right side. A window frame is visible in the upper left background, providing
+    natural light.
+  init2final_edit_prompt: Edit the given image to show the white ceramic plate shattered into multiple
+    jagged shards and fragments scattered on the concrete floor. Position the metal head of the sledgehammer
+    lower, resting in the center of the debris where the plate was. Maintain the appearance of the concrete
+    floor and the background window.
+  rationale: The video prompt describes a forceful hammer strike on a ceramic plate. Ceramic is a brittle
+    material that shatters under high-impact force from a heavy steel tool. The simulation must depict
+    the irreversible structural failure of the plate. The final frame represents the aftermath of the
+    impact, where the plate has shattered into pieces and the hammer has moved downward to contact the
+    surface.
+  questions:
+  - id: plate_broken
+    question: Is the ceramic plate broken into multiple pieces?
+    answer_type: yes_no
+    notes_for_judge: Look for structural discontinuity and fragmentation of the white object.
+  - id: shards_visible
+    question: Are there visible shards or fragments of white ceramic on the floor?
+    answer_type: yes_no
+    notes_for_judge: The plate should no longer be a single solid piece.
+  - id: hammer_position
+    question: Is the hammer head positioned lower than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The hammer must have moved down to strike the object.
+  - id: shape_compromised
+    question: Has the original circular rim of the plate been structurally compromised or interrupted?
+    answer_type: yes_no
+    notes_for_judge: The perfect circle shape should be broken.
+  - id: center_damage
+    question: Does the center of the plate area show signs of impact damage or destruction?
+    answer_type: yes_no
+    notes_for_judge: The point of impact should be visibly affected.
+  - id: floor_consistency
+    question: Is the concrete floor texture still visible around the debris?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: window_consistency
+    question: Is the window in the background still visible and unchanged?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

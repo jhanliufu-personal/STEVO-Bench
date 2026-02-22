@@ -1,0 +1,65 @@
+id: ribbon_cutting_03
+level: 4
+category: structural_transformation
+tags: []
+variant_of: ribbon_cutting
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to camera zooming out.
+changes:
+  occlusion_method: Camera zooms out until the scene is too small to distinguish details, then zooms back
+    in.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The blades of the sharp scissors begin to close slowly and steadily around the taut red ribbon.
+    The cutting action begins. The camera zooms out rapidly until the scissors and ribbon are too small
+    to distinguish, then zooms back in until the scene fills the frame again. The camera returns to the
+    original viewpoint. No cut, no scene change. STOP.
+  camera_WM: The blades of the sharp scissors begin to close slowly and steadily around the taut red ribbon.
+    The cutting action begins. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+evaluation:
+  init_frame_description: A close-up, high-angle shot of a pair of silver metal scissors positioned with
+    open blades around a flat red ribbon. The ribbon lies horizontally across a rustic wooden table surface.
+    The scissors are angled diagonally, with the blades encompassing the ribbon, ready to cut. In the
+    background, out of focus, is a window frame.
+  init2final_edit_prompt: Edit the given image to show the scissors fully closed. The red ribbon should
+    be severed into two separate pieces at the point where the scissor blades meet. Show the cut ends
+    of the ribbon slightly separated or clearly divided, indicating the cutting action has been completed.
+  rationale: The video prompt initiates a cutting action where the scissors close around the ribbon. The
+    camera then zooms out and back in, creating a temporal gap during which the action continues. Upon
+    returning to the original viewpoint, the physical process of cutting should be complete or significantly
+    progressed. Therefore, the final state should show the scissors closed and the ribbon cut into two
+    pieces, representing an irreversible structural change.
+  questions:
+  - id: ribbon_continuity
+    question: Is the red ribbon severed or divided into two pieces?
+    answer_type: yes_no
+    notes_for_judge: Check if the ribbon is no longer a single continuous strip at the point of the scissors.
+  - id: scissor_state
+    question: Are the blades of the scissors closed or significantly closer together than in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: The scissors should have completed the closing motion described.
+  - id: structural_change
+    question: Is the structural continuity of the ribbon broken at the location of the scissors?
+    answer_type: yes_no
+    notes_for_judge: Look for a break, tear, or cut in the material.
+  - id: cut_visibility
+    question: Are the cut ends of the ribbon visible?
+    answer_type: yes_no
+    notes_for_judge: There should be evidence of the material being sliced.
+  - id: action_consequence
+    question: Does the ribbon appear to have been damaged or cut by the scissors?
+    answer_type: yes_no
+    notes_for_judge: Evaluate if the state reflects the result of the cutting action.
+  - id: background_consistency
+    question: Is the wooden table surface still visible?
+    answer_type: yes_no
+    notes_for_judge: The environment should remain consistent.
+  - id: object_presence
+    question: Are the scissors still present in the frame?
+    answer_type: yes_no
+    notes_for_judge: The object should not disappear, only change state.

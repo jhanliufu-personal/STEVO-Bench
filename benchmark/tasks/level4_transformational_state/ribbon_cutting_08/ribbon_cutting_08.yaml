@@ -1,0 +1,67 @@
+id: ribbon_cutting_08
+level: 4
+category: structural_transformation
+tags: []
+variant_of: ribbon_cutting
+variation_type: combined
+variation_description: Stationary scissors (condition) with lights off occlusion.
+changes:
+  occlusion_method: Lights turn off.
+  dynamic_conditions: Scissors do not move.
+  expected_outcome_change: Ribbon remains intact.
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The sharp scissors remain completely stationary around the taut red ribbon. No movement occurs.
+    The lights in the room turn off completely, plunging the scene into total darkness. After a moment,
+    the lights turn back on to reveal the scene again. The camera returns to the original viewpoint. No
+    zoom, no cut, no scene change. STOP.
+  camera_WM: The sharp scissors remain completely stationary around the taut red ribbon. No movement occurs.
+    The lights in the room turn off completely, plunging the scene into total darkness. After a moment,
+    the lights turn back on to reveal the scene again. The camera returns to the original viewpoint. No
+    zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up, high-angle shot showing a pair of open metal scissors positioned
+    around a taut red ribbon. The ribbon runs horizontally across a rustic wooden surface made of planks.
+    The scissors are angled diagonally, with the red ribbon resting between the open blades, ready to
+    be cut but currently intact. In the background, a white window frame is visible.
+  init2final_edit_prompt: Edit the given image to show the scene exactly as it was initially, with the
+    red ribbon remaining fully intact and continuous. Ensure the scissors are in the exact same open position
+    relative to the ribbon, with no movement or cutting having occurred. The lighting should be bright
+    and match the initial frame.
+  rationale: The video prompt explicitly states that the scissors remain stationary and no movement occurs.
+    Although the lights turn off and then back on, the physical state of the objects (scissors and ribbon)
+    must remain unchanged. The camera returns to the original viewpoint. Therefore, the final frame should
+    be visually identical to the initial frame, with the ribbon uncut and the scissors in their original
+    position. The evaluation tests the model's ability to adhere to the 'no movement' instruction despite
+    the visual affordance for cutting.
+  questions:
+  - id: ribbon_integrity_1
+    question: Is the red ribbon still a single, continuous piece?
+    answer_type: yes_no
+    notes_for_judge: The ribbon should not be cut.
+  - id: ribbon_integrity_2
+    question: Is the section of the ribbon between the scissor blades still fully intact?
+    answer_type: yes_no
+    notes_for_judge: Check for any gap or severance in the ribbon.
+  - id: scissors_position_1
+    question: Are the scissors still in the exact same open position as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The scissors should not have closed.
+  - id: ribbon_condition_1
+    question: Is the ribbon free from any visible tears or fraying?
+    answer_type: yes_no
+    notes_for_judge: The material should be undamaged.
+  - id: scene_stability_1
+    question: Are the scissors and ribbon in the same relative configuration as the start?
+    answer_type: yes_no
+    notes_for_judge: No relative motion should have occurred.
+  - id: lighting_restoration_1
+    question: Is the scene clearly illuminated, similar to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The lights should have turned back on.
+  - id: ribbon_tautness_1
+    question: Does the ribbon appear taut and straight as it was initially?
+    answer_type: yes_no
+    notes_for_judge: It should not be slack or severed.

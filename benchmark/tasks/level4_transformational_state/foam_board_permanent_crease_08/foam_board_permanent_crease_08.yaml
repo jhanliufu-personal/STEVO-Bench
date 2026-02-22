@@ -1,0 +1,73 @@
+id: foam_board_permanent_crease_08
+level: 4
+category: structural_transformation
+tags: []
+variant_of: foam_board_permanent_crease
+variation_type: combined
+variation_description: Steel material (rigid) + Object blocking occlusion.
+changes:
+  occlusion_method: A person blocks the view.
+  dynamic_conditions: Material is rigid steel.
+  expected_outcome_change: Board remains straight and rigid.
+prompts:
+  init_frame_edit_prompt: Edit the image to change the white foam board into a rigid, silver steel metal
+    plate.
+  video_WM: The hands grip the steel plate and attempt to bend it. The plate is made of tempered steel
+    with a yield strength far exceeding human grip force, preventing any plastic deformation or noticeable
+    bending. The hands continue straining to apply force. A person wearing a dark shirt walks into the
+    frame from the left, standing directly in front of the camera and completely blocking the view. The
+    person remains there for several seconds while the effort continues behind them. The person then walks
+    away to the right, revealing the scene again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The hands grip the steel plate and attempt to bend it. The plate is made of tempered steel
+    with a yield strength far exceeding human grip force, preventing any plastic deformation or noticeable
+    bending. The hands continue straining to apply force. A person wearing a dark shirt walks into the
+    frame from the left, standing directly in front of the camera and completely blocking the view. The
+    person remains there for several seconds while the effort continues behind them. The person then walks
+    away to the right, revealing the scene again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a person's hands holding a rectangular sheet of
+    brushed metal (steel plate) horizontally. The plate is silver, reflective, and perfectly flat. The
+    hands are gripping the left and right edges of the plate. The background shows a wooden workbench
+    surface and a blurred workshop environment with tools hanging on a pegboard.
+  init2final_edit_prompt: Edit the given image to show the hands gripping the steel plate tightly, potentially
+    with tensed muscles or whitened knuckles to indicate strain. The steel plate itself must remain perfectly
+    flat, straight, and unbent, showing absolutely no deformation, creasing, or curvature. The lighting,
+    background, and camera angle should remain identical to the original.
+  rationale: The video prompt describes an attempt to bend a tempered steel plate, but explicitly states
+    that the material's yield strength exceeds the applied force, preventing any deformation. Therefore,
+    despite the straining action and the occlusion event (a person walking in front of the camera), the
+    physical state of the plate in the final frame must be unchanged (flat and unbent). The model is tested
+    on its ability to adhere to material properties and object permanence, ensuring it does not hallucinate
+    a bend simply because a 'bending' action was attempted during an occlusion.
+  questions:
+  - id: plate_flatness
+    question: Does the steel plate remain perfectly flat?
+    answer_type: yes_no
+    notes_for_judge: The plate should show no curvature or bending.
+  - id: no_crease
+    question: Is the metal sheet free of any visible creases or fold lines?
+    answer_type: yes_no
+    notes_for_judge: Check for surface irregularities that suggest bending.
+  - id: straight_edges
+    question: Do the horizontal edges of the plate appear straight?
+    answer_type: yes_no
+    notes_for_judge: The edges should form straight lines, not curves.
+  - id: surface_integrity
+    question: Is the surface of the plate smooth and unwarped?
+    answer_type: yes_no
+    notes_for_judge: Reflections should remain consistent with a flat surface.
+  - id: resistance_to_force
+    question: Does the object appear to have resisted the bending attempt without deforming?
+    answer_type: yes_no
+    notes_for_judge: The outcome must be a flat plate, not a bent one.
+  - id: hands_gripping
+    question: Are the hands still gripping the sides of the plate?
+    answer_type: yes_no
+    notes_for_judge: Hands should be present holding the object.
+  - id: background_consistency
+    question: Is the wooden workbench still visible in the lower portion of the frame?
+    answer_type: yes_no
+    notes_for_judge: Background elements should persist.

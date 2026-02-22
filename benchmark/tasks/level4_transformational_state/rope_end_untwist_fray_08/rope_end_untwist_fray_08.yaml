@@ -1,0 +1,67 @@
+id: rope_end_untwist_fray_08
+level: 4
+category: structural_transformation
+tags: []
+variant_of: rope_end_untwist_fray
+variation_type: combined
+variation_description: Passive holding combined with lights turning off.
+changes:
+  occlusion_method: Lights turn off.
+  dynamic_conditions: Hands hold rope passively.
+  expected_outcome_change: No change in state.
+prompts:
+  init_frame_edit_prompt: Edit the image so the hands are simply resting on the workbench holding the
+    rope loosely, with no tension or pulling action.
+  video_WM: The hands hold the rope steadily on the workbench without applying any force. The rope structure
+    remains undisturbed. Suddenly, the studio lights turn off, plunging the entire scene into total pitch-black
+    darkness. The darkness persists for several seconds. Then the lights turn back on, restoring visibility.
+    No zoom, no cut, no scene change. STOP.
+  camera_WM: The hands hold the rope steadily on the workbench without applying any force. The rope structure
+    remains undisturbed. Suddenly, the studio lights turn off, plunging the entire scene into total pitch-black
+    darkness. The darkness persists for several seconds. Then the lights turn back on, restoring visibility.
+    No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, high-angle shot of a pair of weathered hands holding a thick, twisted
+    natural fiber rope over a wooden workbench. The rope runs horizontally, curving slightly, and is composed
+    of tightly wound strands with a rough texture. The hands grip the rope gently but firmly. In the background,
+    the wooden surface is cluttered with blurred tools, including red-handled pliers, a hammer, and loose
+    scraps of twine. The lighting is warm and highlights the texture of the rope and skin.
+  init2final_edit_prompt: 'Edit the given image to show the scene after the lights have turned back on.
+    The rope must remain in the exact same state as the original: fully twisted, intact, and held steadily
+    by the hands in the same position. Do not untwist, fray, separate, or damage the rope structure. The
+    lighting should be restored to match the initial visibility. Ensure the rope''s structural integrity
+    is preserved and identical to the start.'
+  rationale: The video prompt explicitly states that the hands hold the rope without applying force and
+    that the rope structure remains undisturbed. The sequence involves a temporary period of pitch-black
+    darkness (occlusion) followed by the restoration of light. Since no physical action, manipulation,
+    or transformation is described in the text prompt, the physical state of the rope must remain invariant.
+    This task serves as a stability control to verify that the model does not hallucinate structural changes
+    (like untwisting or fraying) when none are requested, despite the temporal gap.
+  questions:
+  - id: rope_twisted
+    question: Is the rope still tightly twisted?
+    answer_type: yes_no
+    notes_for_judge: The rope should not have untwisted.
+  - id: rope_integrity
+    question: Is the rope free of visible fraying or unraveling?
+    answer_type: yes_no
+    notes_for_judge: The rope structure should remain undisturbed as per the prompt.
+  - id: rope_structure_change
+    question: Does the rope appear structurally identical to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Check for any hallucinated damage or transformation.
+  - id: strands_connected
+    question: Are the strands of the rope still securely wound together?
+    answer_type: yes_no
+    notes_for_judge: There should be no separation of strands.
+  - id: no_new_fragments
+    question: Is the scene free of new loose fibers or broken rope pieces?
+    answer_type: yes_no
+    notes_for_judge: No material degradation should occur.
+  - id: hands_position
+    question: Do the hands hold the rope in the same configuration as initially?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

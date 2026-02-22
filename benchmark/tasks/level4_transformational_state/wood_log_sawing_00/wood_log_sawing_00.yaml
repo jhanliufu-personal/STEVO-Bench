@@ -1,0 +1,65 @@
+id: wood_log_sawing_00
+level: 4
+category: structural_transformation
+tags: []
+variant_of: wood_log_sawing
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A person begins vigorously moving the hand saw back and forth across the wooden log. The sawing
+    action to cut through the log is active. Camera remains stationary throughout. No zoom, no cut, no
+    scene change. STOP.
+  camera_WM: A person begins vigorously moving the hand saw back and forth across the wooden log. The
+    sawing action to cut through the log is active. Camera remains stationary throughout. No zoom, no
+    cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up outdoor shot showing a thick, textured wooden log resting on a wooden
+    sawhorse. A hand saw is positioned in a shallow groove (kerf) on top of the log, with its handle pointing
+    upwards and to the left. There is a small amount of sawdust visible on the log around the cut. The
+    background features a blurred forest with trees.
+  init2final_edit_prompt: Edit the given image to show the hand saw blade positioned deeper into the wooden
+    log, reflecting a significantly deepened cut. Add a noticeable amount of fresh sawdust accumulating
+    on the log's surface around the blade and falling onto the sawhorse structure below. Ensure the saw
+    handle sits lower relative to the top of the log to correspond with the deeper blade position.
+  rationale: The prompt describes active sawing, which is a subtractive process that irreversibly removes
+    material from the log. As the action progresses, the primary state changes are the deepening of the
+    cut (kerf) into the wood and the generation of additional sawdust. The saw blade must physically descend
+    further into the log as the cut deepens. The log's structure is permanently altered by the incision.
+  questions:
+  - id: saw_depth
+    question: Is the saw blade positioned deeper into the log than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the position of the saw's teeth or spine relative to the top surface of the
+      log.
+  - id: sawdust_increase
+    question: Is there a greater amount of sawdust visible on the log or sawhorse compared to the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: Look for increased piles or scattering of wood particles around the cut area.
+  - id: cut_progression
+    question: Does the cut in the wood appear deeper or more substantial than in the starting image?
+    answer_type: yes_no
+    notes_for_judge: The groove where the saw sits should be more pronounced or extend further down.
+  - id: handle_position
+    question: Is the handle of the saw lower relative to the top of the log than it was initially?
+    answer_type: yes_no
+    notes_for_judge: As the blade cuts deeper, the handle must descend.
+  - id: structural_change
+    question: Has the log undergone visible material removal (cutting) compared to the start?
+    answer_type: yes_no
+    notes_for_judge: Check for evidence of the irreversible physical separation of the wood fibers.
+  - id: background_consistency
+    question: Is the forest background consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The environment should not change.
+  - id: object_permanence
+    question: Is the log still resting on the sawhorse?
+    answer_type: yes_no
+    notes_for_judge: The log should not disappear or move to a completely different location.

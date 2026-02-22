@@ -1,0 +1,80 @@
+id: plastic_cup_heat_source_warp_01
+level: 4
+category: structural_transformation
+tags: []
+variant_of: plastic_cup_heat_source_warp
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to a plywood board sliding in front of the
+  lens.
+changes:
+  occlusion_method: A large sheet of plywood slides into view, blocking the scene.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: Hot air from the heat gun flows toward the plastic cup. The cup is made from polystyrene plastic
+    which has a glass transition temperature around 212°F. When thermoplastic polymers are heated above
+    their glass transition point, the polymer chains gain mobility and the material loses structural rigidity.
+    The material is subject to gravitational forces and internal stresses. Thermoplastics retain the shape
+    they have when cooled back below glass transition temperature. The heat gun continues directing hot
+    air at the cup. Suddenly, a large sheet of plywood slides from the left, completely blocking the view
+    of the cup and heat gun. The plywood remains in place for several seconds while the heat continues
+    being applied behind it. Then the plywood slides back to the left, revealing the scene again. No zoom,
+    no cut, no scene change. STOP.
+  camera_WM: Hot air from the heat gun flows toward the plastic cup. The cup is made from polystyrene
+    plastic which has a glass transition temperature around 212°F. When thermoplastic polymers are heated
+    above their glass transition point, the polymer chains gain mobility and the material loses structural
+    rigidity. The material is subject to gravitational forces and internal stresses. Thermoplastics retain
+    the shape they have when cooled back below glass transition temperature. The heat gun continues directing
+    hot air at the cup. Suddenly, a large sheet of plywood slides from the left, completely blocking the
+    view of the cup and heat gun. The plywood remains in place for several seconds while the heat continues
+    being applied behind it. Then the plywood slides back to the left, revealing the scene again. No zoom,
+    no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A red disposable plastic cup sits on a light-colored wooden workbench. To the
+    right, an orange and black heat gun is positioned on a stand, with its metal nozzle pointing directly
+    at the side of the cup. The background is slightly blurred and contains various workshop tools like
+    screwdrivers and pliers lying on the table.
+  init2final_edit_prompt: Edit the given image to show the red plastic cup significantly melted, warped,
+    and distorted. The cup should appear collapsed, shriveled, or sagging, having lost its original upright
+    cylindrical shape due to heat. The texture of the red plastic should look softened or rippled. Keep
+    the orange heat gun, the wooden workbench surface, and the background tools unchanged.
+  rationale: The heat gun directs hot air at the thermoplastic cup, raising its temperature above the
+    glass transition point. This causes the material to lose structural rigidity and deform, melt, or
+    collapse under gravity. The occlusion by the plywood hides the duration of this process. When the
+    view is restored, the cup must exhibit irreversible structural changes (melting/warping) compared
+    to the initial state, while the heat gun and environment remain static.
+  questions:
+  - id: cup_melted_state
+    question: Does the red plastic cup appear significantly more melted or warped than in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the structural integrity of the cup. It should look deformed, collapsed,
+      or shriveled.
+  - id: cup_structural_loss
+    question: Has the cup lost its original upright cylindrical shape?
+    answer_type: yes_no
+    notes_for_judge: The cup should no longer be a clean cylinder; it should be distorted.
+  - id: cup_collapse
+    question: Does the cup appear shorter, sagging, or collapsed compared to the start?
+    answer_type: yes_no
+    notes_for_judge: Look for vertical compression or leaning due to loss of rigidity.
+  - id: surface_distortion
+    question: Is the surface texture of the cup more rippled or distorted than initially?
+    answer_type: yes_no
+    notes_for_judge: The plastic should look softened or uneven.
+  - id: heat_gun_presence
+    question: Is the orange heat gun still present and pointing towards the cup?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: background_tools_consistency
+    question: Are the tools in the background still visible and unchanged?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: plywood_absence
+    question: Is the view of the cup unobstructed (i.e., the plywood is gone)?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the plywood slides back, revealing the scene.

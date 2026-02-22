@@ -1,0 +1,58 @@
+id: projectile_window_break_09
+level: 4
+category: structural_transformation
+tags: []
+variant_of: projectile_window_break
+variation_type: combined
+variation_description: Heavy rock projectile combined with camera zoom occlusion.
+changes:
+  occlusion_method: Camera zooms out until scene is unclear.
+  dynamic_conditions: Projectile is a large heavy rock.
+  expected_outcome_change: Massive shattering/destruction of the window.
+prompts:
+  init_frame_edit_prompt: Edit the image to replace the small bullet with a large, heavy grey rock.
+  video_WM: The heavy rock flies toward the center of the glass pane. The camera zooms out rapidly until
+    the window is too small to see details, then zooms back in to the original framing. No cut, no scene
+    change. STOP.
+  camera_WM: The heavy rock flies toward the center of the glass pane. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+evaluation:
+  init_frame_description: A close-up view of a wooden-framed window with a shattered glass pane. A large,
+    grey, jagged rock is suspended in mid-air in the center of the window, surrounded by a large hole
+    and radiating cracks. Through the broken glass, a green garden and a house are visible in the background.
+  init2final_edit_prompt: Edit the given image to remove the large grey rock from the center of the window,
+    leaving the hole in the glass empty. Ensure the shattered glass edges and cracks remain visible around
+    the empty space. Maintain the original wooden window frame and the outdoor background view of the
+    garden and house exactly as they are, but without the floating stone.
+  rationale: The initial frame captures a dynamic moment where a rock is breaking through a window. The
+    video prompt describes the rock flying and the camera zooming out and back in. This camera maneuver
+    implies a duration of time during which the physical action continues. Momentum and gravity dictate
+    that the rock will pass through the pane and fall out of the field of view. Therefore, in the final
+    frame, the rock must be absent, leaving behind the irreversible damage (the hole and cracks) in the
+    glass.
+  questions:
+  - id: rock_absence
+    question: Is the large grey rock absent from the center of the window?
+    answer_type: yes_no
+    notes_for_judge: The rock should have passed through or fallen due to gravity/momentum.
+  - id: hole_empty
+    question: Is the hole in the glass empty, without the suspended stone?
+    answer_type: yes_no
+    notes_for_judge: The space previously occupied by the rock should be clear.
+  - id: projectile_moved
+    question: Has the projectile moved away from its initial floating position?
+    answer_type: yes_no
+    notes_for_judge: It should not be hovering in the same spot.
+  - id: background_unoccluded
+    question: Is the background garden visible through the hole where the rock used to be?
+    answer_type: yes_no
+    notes_for_judge: The view through the hole should be unobstructed.
+  - id: damage_persistence
+    question: Does the window still display the large hole and radiating cracks seen initially?
+    answer_type: yes_no
+    notes_for_judge: The structural damage is irreversible and must remain.
+  - id: frame_consistency
+    question: Is the wooden window frame still present and intact?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

@@ -1,0 +1,74 @@
+id: hole_punch_paper_stack_00
+level: 4
+category: structural_transformation
+tags: []
+variant_of: hole_punch_paper_stack
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The hand begins pressing the lever downward with progressive force. The hole punch contains
+    cylindrical cutting blades that advance toward the paper when the lever is depressed. The paper stack
+    consists of standard copy paper with typical fiber structure and tensile strength. The mechanism is
+    designed to drive blades through the paper thickness. The hand continues applying downward pressure
+    on the lever. Camera remains stationary throughout. No zoom, no cut, no scene change. STOP.
+  camera_WM: The hand begins pressing the lever downward with progressive force. The hole punch contains
+    cylindrical cutting blades that advance toward the paper when the lever is depressed. The paper stack
+    consists of standard copy paper with typical fiber structure and tensile strength. The mechanism is
+    designed to drive blades through the paper thickness. The hand continues applying downward pressure
+    on the lever. Camera remains stationary throughout. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, slightly high-angle shot of a silver heavy-duty hole punch on a
+    wooden desk. A thick stack of white paper is inserted into the punching slot. A person's right hand
+    and forearm are visible, gripping the black handle of the lever, which is currently in an elevated,
+    diagonal position roughly 45 degrees from the horizontal. In the background, slightly out of focus,
+    are a black wire pencil holder with pens, a black document tray, another black hole punch, and a window
+    with daylight coming through.
+  init2final_edit_prompt: Edit the given image to show the hole punch lever pressed downwards. The hand
+    and arm should be positioned lower, consistent with having pushed the handle down towards the base
+    of the machine. The silver lever arm should be closer to a horizontal orientation relative to the
+    desk. The mechanism connecting the lever to the cutting blades should appear compressed or lowered.
+    Keep the background objects and the paper stack in place, but the paper may appear slightly compressed
+    by the mechanism.
+  rationale: The video prompt describes a continuous action of applying downward force to the lever. This
+    mechanical action causes the lever to rotate downwards around its pivot, driving the cutting blades
+    into the paper. Consequently, the final state must show the lever in a depressed position (lower than
+    the initial state) and the hand following this trajectory. This represents the progression of the
+    irreversible punching process, even if the resulting holes are currently occluded by the mechanism.
+  questions:
+  - id: lever_position_lower
+    question: Is the black handle of the hole punch positioned lower than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the vertical position of the handle relative to the background or base.
+  - id: lever_angle_horizontal
+    question: Is the silver lever arm oriented more horizontally than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The lever should have rotated downwards, reducing its angle relative to the desk.
+  - id: hand_position_lower
+    question: Is the hand holding the lever positioned closer to the desk surface than initially?
+    answer_type: yes_no
+    notes_for_judge: The hand moves down with the lever.
+  - id: gap_reduction
+    question: Is the vertical gap between the handle grip and the paper stack smaller than in the starting
+      image?
+    answer_type: yes_no
+    notes_for_judge: As the lever goes down, the space between it and the paper decreases.
+  - id: mechanism_compression
+    question: Does the hole punch mechanism appear more compressed or engaged than in the initial state?
+    answer_type: yes_no
+    notes_for_judge: The springs or moving parts should look compressed/lowered.
+  - id: paper_presence
+    question: Is the stack of white paper still visible in the machine?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: background_consistency
+    question: Is the black pencil holder in the background still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

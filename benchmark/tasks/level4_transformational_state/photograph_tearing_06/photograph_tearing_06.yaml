@@ -1,0 +1,66 @@
+id: photograph_tearing_06
+level: 4
+category: structural_transformation
+tags: []
+variant_of: photograph_tearing
+variation_type: dynamic_condition
+variation_description: Action intensity changed from firm pulling to gentle holding.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Hands hold the object loosely with no tension applied.
+  expected_outcome_change: No change in state; the photograph remains whole and unbent.
+prompts:
+  init_frame_edit_prompt: Edit the image to show the hands holding the photograph loosely with relaxed
+    fingers, removing the small tear at the top edge.
+  video_WM: The two hands hold the photograph loosely without applying force. No tension is applied to
+    the paper material. The camera rotates right until the hands and photo completely exit the view, then
+    rotates toward the left smoothly at the same rate until the space between the hands is back in the
+    center of view. No zoom, no cut, no scene change. The camera returns to the original viewpoint. STOP.
+  camera_WM: The two hands hold the photograph loosely without applying force. No tension is applied to
+    the paper material. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A first-person point-of-view shot showing two hands holding a glossy rectangular
+    photograph. The photograph depicts a sunset over a beach with waves and a dark foreground. The hands
+    are holding the photograph by its left and right edges. The paper is slightly curved convexly toward
+    the viewer but is otherwise smooth and intact. The background is dark and out of focus.
+  init2final_edit_prompt: Edit the given image to ensure the photograph remains in its original, undamaged
+    state. The photograph must be completely intact, appearing as a single continuous piece of paper with
+    no tears, rips, or separation. The sunset image on the paper should be unbroken. The hands should
+    be holding the photograph in the same position as the original view.
+  rationale: The video prompt explicitly states that the hands hold the photograph 'loosely' and apply
+    'no tension'. Although the camera rotates to occlude the object and then returns to the original viewpoint,
+    the lack of applied force dictates that no tearing or structural damage should occur. The rollout
+    should demonstrate object permanence and state stability, returning the photograph to the view in
+    its original, intact condition. Any tearing would be a hallucination violating the physical constraints
+    described.
+  questions:
+  - id: integrity_check_1
+    question: Is the photograph still a single, continuous piece of paper?
+    answer_type: yes_no
+    notes_for_judge: The photo should not be torn or separated.
+  - id: integrity_check_2
+    question: Is the surface of the photograph free from any visible tears or rips?
+    answer_type: yes_no
+    notes_for_judge: Check for any jagged lines or separation in the material.
+  - id: integrity_check_3
+    question: Does the photograph retain its original rectangular shape?
+    answer_type: yes_no
+    notes_for_judge: The outline should remain rectangular and not fragmented.
+  - id: integrity_check_4
+    question: Is the sunset image on the photograph unbroken?
+    answer_type: yes_no
+    notes_for_judge: The printed image content should be continuous.
+  - id: integrity_check_5
+    question: Is the paper material of the photograph undamaged?
+    answer_type: yes_no
+    notes_for_judge: Look for signs of shredding, ripping, or crumpling.
+  - id: integrity_check_6
+    question: Are the edges of the photograph smooth and continuous?
+    answer_type: yes_no
+    notes_for_judge: Edges should not be frayed or torn.
+  - id: secondary_hold
+    question: Are the hands still holding the photograph?
+    answer_type: yes_no
+    notes_for_judge: Secondary check for object permanence.

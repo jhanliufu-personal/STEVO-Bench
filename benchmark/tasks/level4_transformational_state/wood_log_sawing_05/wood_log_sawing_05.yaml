@@ -1,0 +1,60 @@
+id: wood_log_sawing_05
+level: 4
+category: structural_transformation
+tags: []
+variant_of: wood_log_sawing
+variation_type: dynamic_condition
+variation_description: The saw is removed from the log entirely.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Saw is pulled out and taken away.
+  expected_outcome_change: Saw is gone; cut remains as is.
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A person grabs the handle of the saw and immediately pulls it upward, removing it from the
+    log and walking out of frame with it. The camera rotates right until the log completely exits the
+    view, then rotates toward the left smoothly at the same rate until the log is back in the center of
+    view. No zoom, no cut, no scene change. STOP.
+  camera_WM: A person grabs the handle of the saw and immediately pulls it upward, removing it from the
+    log and walking out of frame with it. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up outdoor shot of a thick wooden log resting on a rustic wooden sawhorse.
+    A hand saw with a wooden handle and a metal blade is embedded deep into a vertical cut (kerf) on the
+    top of the log. Fresh sawdust is scattered on the bark around the cut. The background features a blurred
+    forest with trees and foliage.
+  init2final_edit_prompt: Edit the given image to remove the hand saw completely. The wooden log should
+    remain on the sawhorse in the same position, but the cut in the wood where the saw was embedded should
+    now be empty and visible. Maintain the sawdust, the texture of the log, the sawhorse, and the background
+    exactly as they are.
+  rationale: The video prompt directs a person to remove the saw from the log and walk away with it, permanently
+    altering the state of the scene by removing the tool. The camera then pans away until the log is out
+    of view and pans back to the center. Therefore, the final frame must show the log in its original
+    position (due to the camera returning) but without the saw (due to the removal action). The cut in
+    the log remains as a structural feature, now empty.
+  questions:
+  - id: saw_removed_1
+    question: Is the hand saw completely absent from the log?
+    answer_type: yes_no
+    notes_for_judge: The saw should have been removed and taken out of frame.
+  - id: saw_removed_2
+    question: Is the wooden handle of the saw missing from the image?
+    answer_type: yes_no
+    notes_for_judge: Check for the specific handle object.
+  - id: cut_visible
+    question: Is the cut (kerf) in the log visible and empty?
+    answer_type: yes_no
+    notes_for_judge: The slot where the blade was should be visible but empty.
+  - id: log_presence
+    question: Is the wooden log still resting on the sawhorse?
+    answer_type: yes_no
+    notes_for_judge: The log itself should not have moved significantly.
+  - id: camera_return
+    question: Is the log centered in the frame similarly to the initial view?
+    answer_type: yes_no
+    notes_for_judge: The camera prompt specifies returning to the center view.
+  - id: sawdust_presence
+    question: Is the sawdust on the log still visible?
+    answer_type: yes_no
+    notes_for_judge: The removal of the saw might disturb it slightly, but the pile should largely remain.

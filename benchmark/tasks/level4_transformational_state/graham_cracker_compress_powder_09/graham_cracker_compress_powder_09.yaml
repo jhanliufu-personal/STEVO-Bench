@@ -1,0 +1,75 @@
+id: graham_cracker_compress_powder_09
+level: 4
+category: structural_transformation
+tags: []
+variant_of: graham_cracker_compress_powder
+variation_type: combined
+variation_description: Steel block material combined with zoom occlusion.
+changes:
+  occlusion_method: Camera zoom out
+  dynamic_conditions: 'Material change: Steel block'
+  expected_outcome_change: No change (steel does not deform)
+prompts:
+  init_frame_edit_prompt: Edit the image to replace the graham cracker inside the bag with a rectangular
+    grey steel block of the same size.
+  video_WM: The hand presses down on the steel block through the plastic bag with progressive force. Steel
+    is a rigid material with high yield strength that resists deformation under human manual force. The
+    hand applies pressing motions across the block surface. The camera zooms out rapidly until the table
+    becomes a small distant object and details of the bag are no longer visible. The hand continues to
+    apply pressure while distant. Then the camera zooms back in to the original viewpoint. No cut, no
+    scene change. STOP.
+  camera_WM: The hand presses down on the steel block through the plastic bag with progressive force.
+    Steel is a rigid material with high yield strength that resists deformation under human manual force.
+    The hand applies pressing motions across the block surface. The material is solid and indestructible
+    in this context during the occlusion period. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+  Genie: null
+evaluation:
+  init_frame_description: A rectangular grey steel block sits inside a clear plastic Ziploc bag on a wooden
+    table. The block has a metallic appearance with straight edges and a flat surface. A human hand is
+    positioned just above the bag, palm facing down, ready to press on the block. There are small crumbs
+    or dust particles scattered inside the bag around the block.
+  init2final_edit_prompt: Edit the given image to show the hand pressing firmly down on the steel block
+    through the plastic bag. The steel block must remain completely rigid, intact, and unchanged in shape,
+    with no cracks, bending, or deformation. The plastic bag should appear flattened or pressed against
+    the surface of the block due to the hand's pressure. The background and table should remain consistent.
+  rationale: The video prompt explicitly identifies the object as a steel block with high yield strength
+    that resists deformation. Despite the hand applying progressive force, the physical properties of
+    steel dictate that it will not deform, crack, or crumble under manual pressure. Therefore, the final
+    state must show the block structurally identical to the initial state. The camera zooms out and back
+    in to the original viewpoint, so the framing remains the same. The only expected changes are the position
+    of the hand (pressing down) and the compression of the plastic bag against the rigid block.
+  questions:
+  - id: block_integrity_1
+    question: Does the steel block retain its original rectangular shape?
+    answer_type: yes_no
+    notes_for_judge: The block is steel and should not deform.
+  - id: block_integrity_2
+    question: Is the block free from any visible cracks or fractures?
+    answer_type: yes_no
+    notes_for_judge: Steel resists manual crushing; no cracks should appear.
+  - id: block_integrity_3
+    question: Does the block appear solid and structurally intact?
+    answer_type: yes_no
+    notes_for_judge: The object should not crumble or break.
+  - id: block_integrity_4
+    question: Is the block still a single coherent piece?
+    answer_type: yes_no
+    notes_for_judge: It should not fragment.
+  - id: block_integrity_5
+    question: Are the straight edges of the block still preserved without bending?
+    answer_type: yes_no
+    notes_for_judge: Rigid material should maintain straight edges.
+  - id: block_integrity_6
+    question: Has the block resisted visible compression or flattening?
+    answer_type: yes_no
+    notes_for_judge: The height and width should remain constant.
+  - id: bag_presence
+    question: Is the plastic bag still visible around the block?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: hand_presence
+    question: Is the hand visible in the frame?
+    answer_type: yes_no
+    notes_for_judge: The prompt implies the hand continues pressing or is present upon return.

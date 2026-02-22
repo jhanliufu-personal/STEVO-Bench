@@ -1,0 +1,72 @@
+id: knit_fabric_pull_unravel_05
+level: 4
+category: structural_transformation
+tags: []
+variant_of: knit_fabric_pull_unravel
+variation_type: dynamic_condition
+variation_description: The hand holds the yarn loosely with slack, applying no tension.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Zero tension applied; yarn is slack.
+  expected_outcome_change: No change in fabric state; no unraveling occurs.
+prompts:
+  init_frame_edit_prompt: Edit the image so the yarn strand between the hand and the fabric is loose,
+    slack, and curved downwards, indicating zero tension.
+  video_WM: The hand holds the loose yarn end gently. There is significant slack in the yarn between the
+    hand and the fabric, creating a drooping curve. No tension is applied to the knit structure. The hand
+    maintains this loose hold without pulling. The camera rotates right at constant speed until the fabric
+    and hand completely exit the view to the right. The camera continues rotating right for several seconds
+    while the hand remains off-screen holding the slack yarn. Then the camera rotates left smoothly at
+    the same rate back to the original viewpoint, bringing the fabric back into view. No zoom, no cut,
+    no scene change. STOP.
+  camera_WM: The hand holds the loose yarn end gently. There is significant slack in the yarn between
+    the hand and the fabric, creating a drooping curve. No tension is applied to the knit structure. The
+    hand maintains this loose hold without pulling. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, high-angle shot of a chunky, cream-colored knitted fabric resting
+    on a rustic wooden table. The fabric is positioned on the right side of the frame, showing large,
+    distinct knit loops. On the left, a hand gently holds the end of a yarn strand connected to the fabric.
+    The yarn between the hand and the fabric is very loose, forming a slack, U-shaped curve that rests
+    on the table surface, indicating a complete lack of tension.
+  init2final_edit_prompt: Edit the given image to maintain the exact original state of the scene. Ensure
+    the cream knitted fabric remains fully intact with no signs of unraveling or loose stitches. The yarn
+    connecting the hand to the fabric must remain slack and loose, resting on the wooden table in a drooping
+    curve identical to the start. The hand should be visible on the left holding the yarn gently without
+    any tension. The wooden table texture and lighting should remain unchanged.
+  rationale: The prompt explicitly states that the hand holds the yarn with significant slack and applies
+    no tension ('without pulling'). Although the camera rotates away to occlude the objects and then returns,
+    the physical state of the system remains static because no force is applied to cause unraveling. Therefore,
+    the final frame must show the fabric completely intact and the yarn still slack, testing the model's
+    ability to adhere to negative constraints and maintain object permanence during occlusion.
+  questions:
+  - id: fabric_integrity
+    question: Is the knitted fabric still fully intact without any signs of unraveling?
+    answer_type: yes_no
+    notes_for_judge: The fabric should look identical to the start; no rows should be missing or loosened.
+  - id: yarn_slack
+    question: Does the yarn between the hand and the fabric still appear slack and loose?
+    answer_type: yes_no
+    notes_for_judge: The yarn should not be taut or straight; it should have a curve or droop.
+  - id: edge_loops
+    question: Are the loops at the edge of the fabric still connected and unbroken?
+    answer_type: yes_no
+    notes_for_judge: ''
+  - id: yarn_position
+    question: Is the yarn resting on the table surface rather than being pulled into the air?
+    answer_type: yes_no
+    notes_for_judge: ''
+  - id: fabric_shape
+    question: Does the fabric retain its original rectangular shape without deformation?
+    answer_type: yes_no
+    notes_for_judge: ''
+  - id: hand_hold
+    question: Is the hand still holding the yarn gently without creating tension?
+    answer_type: yes_no
+    notes_for_judge: ''
+  - id: table_visibility
+    question: Is the wooden table texture visible beneath the slack yarn?
+    answer_type: yes_no
+    notes_for_judge: ''

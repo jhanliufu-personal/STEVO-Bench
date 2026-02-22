@@ -1,0 +1,77 @@
+id: expanding_foam_paper_cup_burst_00
+level: 4
+category: structural_transformation
+tags: []
+variant_of: expanding_foam_paper_cup_burst
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The hand presses the trigger and expanding foam begins dispensing into the paper cup. Polyurethane
+    foam undergoes rapid chemical expansion as it cures, increasing in volume by 30-50 times within seconds.
+    The foam expands in all directions exerting outward pressure on any containing walls. The paper cup
+    has limited structural strength and a tensile tear threshold. The foam continues expanding in the
+    confined space. Camera remains stationary throughout. No zoom, no cut, no scene change. STOP.
+  camera_WM: The hand presses the trigger and expanding foam begins dispensing into the paper cup. Polyurethane
+    foam undergoes rapid chemical expansion as it cures, increasing in volume by 30-50 times within seconds.
+    The foam expands in all directions exerting outward pressure on any containing walls. The paper cup
+    has limited structural strength and a tensile tear threshold. The foam continues expanding in the
+    confined space. Camera remains stationary throughout. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a workbench covered in a clear plastic sheet.
+    A gloved hand (wearing a grey work glove) holds a silver can of 'Great Stuff' polyurethane foam sealant
+    with a red dispensing trigger and nozzle. The red nozzle is inserted into a small, empty brown paper
+    cup sitting on the plastic. The plastic sheet has existing dried, abstract patterns of light-colored
+    foam on it. In the background, slightly out of focus, are wooden boards, a hammer, and other workshop
+    tools.
+  init2final_edit_prompt: Edit the given image to show the paper cup filled and overflowing with a large,
+    chaotic mass of expanded yellow polyurethane foam. The foam should appear voluminous, rising significantly
+    above the rim of the cup and bulging outwards. The paper cup should appear deformed, bulging, or torn
+    due to the internal pressure of the expanding foam. The red nozzle should be partially submerged or
+    touching the expanding foam mass.
+  rationale: The prompt describes the activation of expanding foam within a confined paper cup. Polyurethane
+    foam expands 30-50 times its volume rapidly. As the foam dispenses, it will fill the cup and, due
+    to the cup's limited structural integrity mentioned in the prompt, the foam will overflow and exert
+    outward pressure, causing the cup to bulge, deform, or burst. The final state represents the aftermath
+    of this rapid expansion, showing a significant increase in material volume and structural alteration
+    of the container.
+  questions:
+  - id: foam_presence
+    question: Is there visible yellow expanding foam inside or coming out of the cup?
+    answer_type: yes_no
+    notes_for_judge: Check for the presence of the specific material (foam) described.
+  - id: foam_volume_increase
+    question: Is the volume of foam significantly larger than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The foam should have expanded to occupy space.
+  - id: cup_overflow
+    question: Is the foam rising above the rim or overflowing the paper cup?
+    answer_type: yes_no
+    notes_for_judge: The foam should not be contained entirely within the original cup volume.
+  - id: structural_deformation
+    question: Does the paper cup appear deformed, bulging, or torn compared to its initial shape?
+    answer_type: yes_no
+    notes_for_judge: Look for signs of structural stress, change in the cup's cylindrical form, or tearing.
+  - id: foam_dominance
+    question: Does the foam mass appear to be the dominant visual element in the area where the cup is?
+    answer_type: yes_no
+    notes_for_judge: The foam should obscure or overwhelm the cup.
+  - id: nozzle_position
+    question: Is the red nozzle still directed towards or inside the foam mass?
+    answer_type: yes_no
+    notes_for_judge: The nozzle should remain in the vicinity of the dispensing action.
+  - id: consistency_hand
+    question: Is the gloved hand still holding the can?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: consistency_background
+    question: Are the background tools (e.g., hammer) still present and unchanged?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

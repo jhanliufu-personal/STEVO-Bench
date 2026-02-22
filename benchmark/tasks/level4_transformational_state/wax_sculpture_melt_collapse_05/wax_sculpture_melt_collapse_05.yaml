@@ -1,0 +1,64 @@
+id: wax_sculpture_melt_collapse_05
+level: 4
+category: structural_transformation
+tags: []
+variant_of: wax_sculpture_melt_collapse
+variation_type: dynamic_condition
+variation_description: The heat gun is on but pointing away from the bird.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Heat gun is aimed into the background instead of at the object.
+  expected_outcome_change: The wax bird remains solid as the heat misses it.
+prompts:
+  init_frame_edit_prompt: Edit the image to rotate the heat gun so the nozzle points away from the wax
+    bird and into the background.
+  video_WM: The heat gun is running hot, but it is angled away from the wax bird, blowing hot air into
+    the empty space behind the workbench. The camera rotates right until the sculpture completely exits
+    the view, then rotates toward the left smoothly at the same rate until the metal plate is back in
+    the center of view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The heat gun is running hot, but it is angled away from the wax bird, blowing hot air into
+    the empty space behind the workbench. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A brown wax bird sculpture stands on a dirty metal plate on a workbench. The
+    bird has detailed feather textures and a distinct beak and head. There are already puddles of melted
+    wax at the bird's feet. On the left side, a heat gun with an orange and silver nozzle is held by a
+    gloved hand, initially pointing generally towards the bird. In the background, there are tools like
+    a hammer and pliers, and a shelf unit.
+  init2final_edit_prompt: Edit the given image to reorient the heat gun nozzle so it points away from
+    the wax bird and towards the background space. Ensure the wax bird sculpture remains exactly as it
+    is in the original image, with no additional melting, no change in shape, and no increase in the size
+    of the wax puddles at the base. The bird's details, such as the beak and feathers, must remain sharp
+    and unchanged. The camera view should be identical to the original.
+  rationale: The video prompt explicitly states that the heat gun is angled away from the wax bird and
+    is blowing hot air into empty space. This negative constraint implies that despite the presence of
+    the tool, the destructive action (melting) does not occur or progress. The camera rotates away and
+    then returns to the initial view. Therefore, the final state must show the bird structurally unchanged
+    from the start, preserving its shape and detail, while the heat gun should be visible but oriented
+    away from the sculpture as described.
+  questions:
+  - id: preservation_structure
+    question: Is the wax bird's structural shape preserved compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The bird should not have melted further; its silhouette should be the same.
+  - id: gun_orientation
+    question: Is the heat gun nozzle pointing away from the wax bird?
+    answer_type: yes_no
+    notes_for_judge: The prompt specifies the gun is angled away.
+  - id: puddle_size
+    question: Is the melted wax puddle at the base approximately the same size as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Since the heat was directed away, the puddle should not have expanded significantly.
+  - id: head_integrity
+    question: Does the bird's head retain its original form without drooping or losing detail?
+    answer_type: yes_no
+    notes_for_judge: Check for signs of melting on the head; there should be none.
+  - id: feather_detail
+    question: Are the feather textures on the bird's wing still distinct and unmelted?
+    answer_type: yes_no
+    notes_for_judge: Details should remain sharp.
+  - id: beak_sharpness
+    question: Is the bird's beak still sharp and intact?
+    answer_type: yes_no
+    notes_for_judge: The beak is a fine detail that would melt first; it should be preserved.

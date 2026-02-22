@@ -1,0 +1,70 @@
+id: frayed_rope_snap_10
+level: 4
+category: structural_transformation
+tags: []
+variant_of: frayed_rope_snap
+variation_type: combined
+variation_description: Slack rope being tightened (condition) occluded by steam (occlusion).
+changes:
+  occlusion_method: Thick steam fills the view.
+  dynamic_conditions: Initial state is slack; winches pull to tighten.
+  expected_outcome_change: Rope becomes taut (opposite of sagging, but doesn't snap yet).
+prompts:
+  init_frame_edit_prompt: Edit the image so the rope is hanging loosely with a visible downward curve
+    (slack) between the winches, instead of being taut.
+  video_WM: The winches begin to rotate, pulling the slack rope to tighten it. The loose curve of the
+    rope starts to straighten out. A burst of thick, opaque white steam erupts from pipes below, filling
+    the entire frame and obscuring the view. The steam slowly dissipates until the view is clear again.
+    No zoom, no cut, no scene change. STOP.
+  camera_WM: The winches begin to rotate, pulling the slack rope to tighten it. The loose curve of the
+    rope starts to straighten out. A burst of thick, opaque white steam erupts from pipes below, filling
+    the entire frame and obscuring the view. The steam slowly dissipates until the view is clear again.
+    STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a thick, weathered rope spanning horizontally
+    between two rusty metal winch drums on the left and right. The rope is severely compromised in the
+    center, held together by only a few thin, frayed strands, while the rest of the rope is thick and
+    textured. There is a slight slack or downward curve in the rope. The background is a blurred, neutral-colored
+    industrial setting.
+  init2final_edit_prompt: Edit the given image to show the rope completely snapped in the middle. Remove
+    the thin connecting strands so there is a clear, empty gap between the left and right sections of
+    the rope. The two severed ends should appear frayed and separated, no longer forming a continuous
+    line between the winches. The winches and background should remain unchanged.
+  rationale: The initial frame depicts a rope under critical structural failure, held together by only
+    a few threads. The prompt describes the winches rotating to tighten the rope. Physically, applying
+    tension to a rope in this state will cause the remaining weak strands to snap immediately. The steam
+    occlusion serves to mask the dynamic moment of breaking. When the view clears, the irreversible transformation
+    (the snapping of the rope) must be evident, resulting in two separated ends rather than a continuous
+    connection.
+  questions:
+  - id: rope_broken
+    question: Is the rope broken into two separate pieces?
+    answer_type: yes_no
+    notes_for_judge: The primary success criteria is that the rope is no longer continuous.
+  - id: gap_visible
+    question: Is there a visible gap between the left and right sections of the rope?
+    answer_type: yes_no
+    notes_for_judge: There should be empty space where the frayed connection previously was.
+  - id: strands_severed
+    question: Are the thin strands that originally connected the center of the rope severed?
+    answer_type: yes_no
+    notes_for_judge: The connecting material must be gone or broken.
+  - id: continuity_lost
+    question: Is the structural continuity of the rope interrupted?
+    answer_type: yes_no
+    notes_for_judge: The rope should not span from the left winch to the right winch without a break.
+  - id: ends_frayed_appearance
+    question: Do the severed ends of the rope appear frayed or torn?
+    answer_type: yes_no
+    notes_for_judge: The break should look like a material failure (frayed ends) rather than a clean digital
+      erasure.
+  - id: winches_intact
+    question: Are the two rusty winches still visible on the left and right?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: background_preserved
+    question: Is the blurred industrial background preserved?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

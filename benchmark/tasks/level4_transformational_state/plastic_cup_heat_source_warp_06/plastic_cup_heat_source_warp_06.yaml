@@ -1,0 +1,75 @@
+id: plastic_cup_heat_source_warp_06
+level: 4
+category: structural_transformation
+tags: []
+variant_of: plastic_cup_heat_source_warp
+variation_type: dynamic_condition
+variation_description: The target object is changed from a plastic cup to a ceramic mug.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Material changed to ceramic (thermal insulator/high melting point).
+  expected_outcome_change: The mug remains unchanged.
+prompts:
+  init_frame_edit_prompt: Edit the image to replace the red plastic cup with a thick white ceramic coffee
+    mug.
+  video_WM: Hot air from the heat gun flows toward the ceramic mug. Fired ceramic is a refractory material
+    with high thermal stability and a melting point far exceeding the heat gun's capacity. Unlike thermoplastics,
+    ceramics do not soften or warp when exposed to temperatures in the range of a heat gun. The material
+    maintains its shape and rigidity completely. The heat gun continues directing hot air at the mug.
+    The camera rotates right at constant speed until the mug and heat gun completely exit the view to
+    the right. The camera continues rotating right for several seconds while the heat continues being
+    applied off-screen. Then the camera rotates left smoothly at the same rate back to the original viewpoint.
+    No zoom, no cut, no scene change. STOP.
+  camera_WM: Hot air from the heat gun flows toward the ceramic mug. Fired ceramic is a refractory material
+    with high thermal stability and a melting point far exceeding the heat gun's capacity. Unlike thermoplastics,
+    ceramics do not soften or warp when exposed to temperatures in the range of a heat gun. The material
+    maintains its shape and rigidity completely. The heat gun continues directing hot air at the mug during
+    the occlusion period. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A white ceramic mug filled with dark liquid sits on a light-colored wooden workbench.
+    Steam is rising from the mug. To the right, an orange and black heat gun rests on a metal stand, with
+    its nozzle pointed directly at the side of the mug. The background contains blurred woodworking tools,
+    including chisels and screwdrivers, along with some wood shavings.
+  init2final_edit_prompt: Edit the given image to show the scene after a duration of heat application
+    where the ceramic mug remains completely structurally unchanged. The white mug must retain its perfect
+    cylindrical shape, straight sides, and circular rim without any melting, warping, or deformation.
+    The heat gun remains on the right in its original position. The dark liquid inside the mug should
+    still be visible. The overall geometry of the mug must look identical to the initial state, reflecting
+    the heat resistance of ceramic.
+  rationale: The video prompt explicitly identifies the object as a ceramic mug, which is a refractory
+    material with a melting point far above the temperature of a heat gun. Unlike plastic, ceramic does
+    not soften, warp, or melt under these conditions. Although the camera rotates away and returns, the
+    physical state of the mug must remain constant. The correct rollout demonstrates material consistency
+    by showing zero structural transformation, despite the adversarial setup that might suggest melting.
+  questions:
+  - id: shape_retention
+    question: Does the white mug retain its original cylindrical shape?
+    answer_type: yes_no
+    notes_for_judge: The mug should not look melted or squashed.
+  - id: rim_integrity
+    question: Is the rim of the mug free from warping or distortion?
+    answer_type: yes_no
+    notes_for_judge: The top edge should remain a clean circle/oval.
+  - id: no_melting
+    question: Is the surface of the mug free from signs of melting, bubbling, or softening?
+    answer_type: yes_no
+    notes_for_judge: Ceramic does not melt; any plastic-like deformation is a failure.
+  - id: handle_structure
+    question: Is the handle of the mug undeformed and intact?
+    answer_type: yes_no
+    notes_for_judge: ''
+  - id: structural_identity
+    question: Does the mug appear structurally identical to how it looked in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: ''
+  - id: liquid_presence
+    question: Is the dark liquid still visible inside the mug?
+    answer_type: yes_no
+    notes_for_judge: ''
+  - id: heat_gun_presence
+    question: Is the heat gun still visible on the right side of the frame?
+    answer_type: yes_no
+    notes_for_judge: ''

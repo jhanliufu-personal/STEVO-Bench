@@ -1,0 +1,67 @@
+id: document_shredding_v3
+level: 4
+category: structural_transformation
+tags: []
+variant_of: document_shredding
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to extreme zoom out.
+changes:
+  occlusion_method: Camera zooms out until details are invisible.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The sheet of paper is fed into the active slot of the paper shredder. The mechanical blades
+    grab the paper and begin pulling it in. The camera rapidly zooms out backward until the shredder is
+    just a tiny, indistinguishable dot in the distance, then zooms back in smoothly to the original framing.
+    No cut, no scene change. STOP.
+  camera_WM: The sheet of paper is fed into the active slot of the paper shredder. The mechanical blades
+    grab the paper and begin pulling it in. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+evaluation:
+  init_frame_description: A close-up view of a modern paper shredder with a transparent top casing revealing
+    metal cutting gears. A person's arm extends from the top right, holding a white sheet of paper positioned
+    vertically above the shredder's feed slot. The shredder sits atop a grey waste bin that is partially
+    filled with existing white paper shreds. The background shows a busy office environment with desks,
+    computer monitors, and blurred colleagues working.
+  init2final_edit_prompt: Edit the given image to show that the sheet of paper has been processed by the
+    shredder. The white paper held by the hand should be either completely missing or significantly shorter,
+    appearing to have been pulled down into the cutting mechanism. Increase the volume of shredded paper
+    strips visible in the collection bin below to reflect the shredded document. Keep the background office
+    environment, the shredder casing, and the hand's position (though potentially empty) consistent with
+    the original view.
+  rationale: The video prompt initiates the shredding action and then describes a camera trajectory (extreme
+    zoom out and return) that implies a significant passage of time. During this occlusion, the mechanical
+    shredder would continue to pull the paper in. Upon the camera's return to the original framing, the
+    irreversible process of shredding should be well underway or complete. The paper must be physically
+    altered (shredded), resulting in its disappearance from the top slot and an accumulation of debris
+    in the bin.
+  questions:
+  - id: paper_consumed
+    question: Is the visible portion of the white sheet of paper significantly smaller or completely gone
+      compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The paper should have been fed into the machine, so less of it should be visible
+      above the slot.
+  - id: bin_volume
+    question: Does the waste bin underneath the shredder appear to contain more paper shreds than it did
+      initially?
+    answer_type: yes_no
+    notes_for_judge: The shredded document must end up in the bin, increasing the volume of waste.
+  - id: structural_integrity
+    question: Is the paper no longer a complete, intact rectangular sheet held above the machine?
+    answer_type: yes_no
+    notes_for_judge: The paper should be in the process of being destroyed or fully destroyed.
+  - id: hand_holding_less
+    question: Is the hand holding less paper (or empty) compared to the start?
+    answer_type: yes_no
+    notes_for_judge: As the machine pulls the paper, the hand holds less or releases it.
+  - id: shredder_consistency
+    question: Is the transparent top casing of the shredder still visible and intact?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: background_consistency
+    question: Are the office desks and monitors in the background consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

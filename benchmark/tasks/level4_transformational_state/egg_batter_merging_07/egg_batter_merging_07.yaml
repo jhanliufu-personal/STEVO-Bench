@@ -1,0 +1,63 @@
+id: egg_batter_merging_07
+level: 4
+category: structural_transformation
+tags: []
+variant_of: egg_batter_merging
+variation_type: combined
+variation_description: Whisk is motionless AND lights turn off for occlusion.
+changes:
+  occlusion_method: Lights turn off.
+  dynamic_conditions: Whisk is stationary.
+  expected_outcome_change: No mixing occurs.
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The whisk sits motionless in the bowl of eggs and flour. Nothing moves. Suddenly, the lights
+    in the room turn off, plunging the scene into complete darkness. After a moment, the lights turn back
+    on. No zoom, no cut, no scene change. STOP.
+  camera_WM: The whisk sits motionless in the bowl of eggs and flour. Nothing moves. Suddenly, the lights
+    in the room turn off, plunging the scene into complete darkness. After a moment, the lights turn back
+    on. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A large, rustic ceramic bowl sits on a wooden table, containing a mound of white
+    flour with a well in the center. Inside the well are four distinct, bright yellow raw egg yolks and
+    translucent egg whites. A metal whisk rests in the bowl, with its wire loops partially submerged in
+    the eggs and flour and its handle extending diagonally upward to the right. A textured linen cloth
+    lies on the table to the right of the bowl. The scene is illuminated by natural light coming from
+    a window in the background.
+  init2final_edit_prompt: Edit the given image to show the exact same scene as the original. The lighting
+    should be restored to the initial brightness. The four egg yolks must remain distinct, unbroken, and
+    yellow. The flour must remain white, dry, and unmixed. The whisk must remain in its original resting
+    position. Ensure no mixing, blending, or movement of any objects has occurred.
+  rationale: The video prompt explicitly states that 'Nothing moves' and the whisk is 'motionless'. The
+    only event described is the lights turning off and then back on. Therefore, despite the period of
+    darkness (occlusion), no physical action is performed on the ingredients. The final state should be
+    identical to the initial state. This task acts as a stability test to verify that the model does not
+    hallucinate mixing or motion simply due to the presence of a whisk and eggs.
+  questions:
+  - id: yolks_intact
+    question: Are the four egg yolks still visible as distinct, unbroken objects?
+    answer_type: yes_no
+    notes_for_judge: The yolks should not be broken or mixed into the flour.
+  - id: flour_unmixed
+    question: Is the flour still primarily white and powdery, rather than mixed into a wet batter?
+    answer_type: yes_no
+    notes_for_judge: The flour should retain its dry texture and distinct separation from the eggs.
+  - id: whisk_position
+    question: Is the whisk still resting in the exact same position and orientation as in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: The whisk should not have moved.
+  - id: whites_separation
+    question: Are the egg whites still transparent and largely separated from the flour?
+    answer_type: yes_no
+    notes_for_judge: There should be no sign of the whites being beaten into the flour.
+  - id: bowl_contents_arrangement
+    question: Is the arrangement of the ingredients inside the bowl identical to the start?
+    answer_type: yes_no
+    notes_for_judge: The topography of the flour and eggs should be unchanged.
+  - id: cloth_position
+    question: Is the linen cloth on the right still in the same position?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

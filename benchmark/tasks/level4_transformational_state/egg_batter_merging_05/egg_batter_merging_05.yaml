@@ -1,0 +1,67 @@
+id: egg_batter_merging_05
+level: 4
+category: structural_transformation
+tags: []
+variant_of: egg_batter_merging
+variation_type: dynamic_condition
+variation_description: Action changed from rapid stirring to slow, gentle folding.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Slow, gentle folding motion.
+  expected_outcome_change: Mixture is less integrated; streaks of egg and flour remain visible.
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The whisk gently folds the eggs into the flour with slow, deliberate movements, partially
+    disturbing the ingredients. The camera rotates right until the bowl completely exits the view, then
+    rotates toward the left smoothly at the same rate until the bowl is back in the center of view. No
+    zoom, no cut, no scene change. STOP.
+  camera_WM: The whisk gently folds the eggs into the flour with slow, deliberate movements, partially
+    disturbing the ingredients. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A top-down view of a ceramic mixing bowl sitting on a wooden table. Inside the
+    bowl, there is a mound of white flour formed into a ring or well, containing four raw eggs with distinct
+    yellow yolks in the center. A metal balloon whisk rests in the bowl, with the handle extending towards
+    the top right. To the left of the bowl, there is some spilled flour on the table. To the right, a
+    linen cloth is visible.
+  init2final_edit_prompt: Edit the given image to show the ingredients inside the bowl partially mixed.
+    The distinct yellow egg yolks should be broken and streaked with the white flour. The smooth, circular
+    wall of flour should be disturbed and uneven, with clumps of wet dough forming where the eggs have
+    been folded in. The whisk should appear to have been used, possibly with batter clinging to the wires
+    or positioned differently within the mixture, reflecting the disturbance of the ingredients.
+  rationale: 'The prompt describes a physical action (folding eggs into flour) that causes an irreversible
+    state change (mixing). The camera rotates away, fully occluding the bowl, and then returns to the
+    original view. During the time the bowl is out of view, the mixing action progresses. Therefore, the
+    final frame must show the bowl back in the center, but the ingredients must be structurally altered:
+    yolks broken, flour disturbed, and the two partially combined into a rough batter or dough.'
+  questions:
+  - id: yolks_broken
+    question: Are the egg yolks broken or blended into the flour?
+    answer_type: yes_no
+    notes_for_judge: The yolks should no longer be perfect, distinct circles.
+  - id: flour_disturbed
+    question: Is the smooth, circular shape of the flour ring disturbed or broken?
+    answer_type: yes_no
+    notes_for_judge: The flour wall should look messed up or collapsed in places.
+  - id: mixing_signs
+    question: Does the mixture inside the bowl show streaks or clumps indicating partial mixing?
+    answer_type: yes_no
+    notes_for_judge: Look for yellow streaks in the white flour or wet clumps.
+  - id: separation_reduced
+    question: Is the clear separation between the yellow eggs and the white flour reduced compared to
+      the start?
+    answer_type: yes_no
+    notes_for_judge: The boundary should be less defined.
+  - id: surface_uneven
+    question: Is the surface texture of the ingredients more uneven and rough than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Initial frame is smooth flour and smooth yolks; final should be rougher.
+  - id: bowl_centered
+    question: Is the bowl visible in the center of the frame?
+    answer_type: yes_no
+    notes_for_judge: Checks if the camera returned to the starting position.
+  - id: table_visible
+    question: Is the wooden table surface still visible around the bowl?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

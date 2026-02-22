@@ -1,0 +1,75 @@
+id: pencil_sharpener_shave_destroy_05
+level: 4
+category: structural_transformation
+tags: []
+variant_of: pencil_sharpener_shave_destroy
+variation_type: dynamic_condition
+variation_description: The wooden pencil is replaced by a steel rod. Standard sharpener blades cannot
+  cut steel.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Object is a steel rod instead of wood.
+  expected_outcome_change: No state change (rod does not shorten).
+prompts:
+  init_frame_edit_prompt: Edit the image to replace the wooden pencil with a shiny, silver steel rod of
+    the same diameter inserted into the sharpener.
+  video_WM: A solid steel rod is inserted into the sharpener mechanism. The hand begins turning the crank
+    in a circular motion. The rotary sharpener contains standard steel blades designed for cutting soft
+    wood and graphite. The steel rod has a hardness equal to or greater than the cutting blades. The hand
+    continues cranking the sharpener mechanism. The camera rotates right at constant speed until the sharpener
+    and rod completely exit the view to the right. The camera continues rotating right for several seconds
+    while the hand remains off-screen continuing to turn the crank. Then the camera rotates left smoothly
+    at the same rate back to the original viewpoint. No zoom, no cut, no scene change. STOP.
+  camera_WM: A solid steel rod is inserted into the sharpener mechanism. The hand begins turning the crank
+    in a circular motion. The rotary sharpener contains standard steel blades designed for cutting soft
+    wood and graphite. The steel rod has a hardness equal to or greater than the cutting blades. The hand
+    continues cranking the sharpener mechanism during the occlusion period. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a vintage, beige metal pencil sharpener clamped
+    to the edge of a wooden workbench. The sharpener features a transparent plastic shavings receptacle
+    that is partially filled with wood shavings. A long, solid, polished steel rod is inserted into the
+    sharpener's guide hole. A person's arm and hand are visible on the right side of the frame, holding
+    the crank handle. The background is a blurred workshop environment with a window and various tools.
+  init2final_edit_prompt: Edit the given image to show the state of the objects after the cranking attempt.
+    The steel rod must remain unsharpened, retaining its original blunt, cylindrical tip, as the material
+    is too hard for the blades to cut. Do not render a sharpened conical point or a tapered end. The rod
+    may show minor surface scratches but no structural change. The shavings container must show the same
+    level of wood shavings as the initial frame, with no significant accumulation of new material. The
+    crank handle should be visible, potentially in a different rotational position compared to the start.
+    Ensure the lighting, workbench, and background details remain consistent with the original view.
+  rationale: The video prompt specifies a physical constraint where the steel rod has a hardness equal
+    to or greater than the sharpener's blades. Physically, this means the sharpener cannot cut the rod.
+    Consequently, the rod will not undergo the typical transformation of being sharpened into a cone;
+    it will remain blunt. The mechanism may slip or jam, but no significant material removal will occur,
+    and the shavings container will not fill further. The camera movement serves to simulate the passage
+    of time during the attempt, but upon returning to the original view, the primary state variable (the
+    rod's shape) must reflect the material hardness constraint by remaining unsharpened.
+  questions:
+  - id: rod_bluntness
+    question: Does the steel rod retain a blunt, cylindrical tip?
+    answer_type: yes_no
+    notes_for_judge: The rod should not be sharpened because it is made of steel harder than the blades.
+  - id: no_conical_point
+    question: Is the tip of the steel rod free from a sharpened, conical point?
+    answer_type: yes_no
+    notes_for_judge: Check for the absence of a pencil-like point.
+  - id: rod_diameter_consistency
+    question: Is the steel rod's diameter consistent along its visible length, without tapering?
+    answer_type: yes_no
+    notes_for_judge: The rod should not be whittled down.
+  - id: shavings_level
+    question: Does the shavings container appear to have approximately the same amount of contents as
+      the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Since the rod was not cut, no new shavings should be generated.
+  - id: crank_visibility
+    question: Is the crank handle visible in the frame?
+    answer_type: yes_no
+    notes_for_judge: Verifies the object is still present after the camera move.
+  - id: sharpener_integrity
+    question: Is the main body of the sharpener still clamped to the table?
+    answer_type: yes_no
+    notes_for_judge: Checks for basic object permanence and stability.

@@ -1,0 +1,61 @@
+id: hydraulic_press_can_crush_06
+level: 4
+category: structural_transformation
+tags: []
+variant_of: hydraulic_press_can_crush
+variation_type: dynamic_condition
+variation_description: The soda can is replaced by a rubber ball.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Object is elastic rubber instead of plastic/metal.
+  expected_outcome_change: The object squashes flat elastically rather than crumpling permanently.
+prompts:
+  init_frame_edit_prompt: Edit the image to replace the soda can with a large, colorful rubber ball.
+  video_WM: The hydraulic press plate moves downward onto the rubber ball. The compressing action is active.
+    The camera rotates right until the press completely exits the view, then rotates toward the left smoothly
+    at the same rate until the press plate area is back in the center of view. No zoom, no cut, no scene
+    change. STOP.
+  camera_WM: The hydraulic press plate moves downward onto the rubber ball. The compressing action is
+    active. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A colorful, swirled rubber ball (red, blue, yellow, green) is centered between
+    the top and bottom metal plates of a hydraulic press. The top plate is positioned just above the ball.
+    In the background, there are hydraulic hoses, pipes, and pressure gauges mounted on a dirty, industrial
+    wall.
+  init2final_edit_prompt: Edit the given image to show the hydraulic press top plate lowered significantly,
+    crushing the rubber ball. The ball should appear flattened into a wide, compressed shape between the
+    two plates, with its vertical height greatly reduced and its horizontal width expanded.
+  rationale: The prompt specifies that the hydraulic press plate moves downward and the compressing action
+    is active. While the camera rotates away and then returns to the original view, the press continues
+    to exert force. Therefore, in the final frame, the top plate must be lower, and the rubber ball must
+    be significantly compressed, flattened, or crushed between the plates due to the continuous downward
+    motion during the occluded period.
+  questions:
+  - id: plate_position
+    question: Is the top metal plate lower than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The top plate should have moved down to compress the object.
+  - id: ball_compression
+    question: Does the rubber ball appear significantly flattened or compressed vertically compared to
+      the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The ball should look squashed.
+  - id: ball_width
+    question: Is the rubber ball wider horizontally than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compression usually causes the object to expand outward.
+  - id: plate_gap
+    question: Is the vertical gap between the top and bottom plates smaller than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The space between plates must decrease.
+  - id: deformation_visible
+    question: Does the ball show visible deformation or structural distortion compared to its original
+      spherical shape?
+    answer_type: yes_no
+    notes_for_judge: It should no longer be a perfect sphere.
+  - id: background_consistency
+    question: Are the pressure gauges and hoses in the background still visible?
+    answer_type: yes_no
+    notes_for_judge: Background elements should remain consistent.

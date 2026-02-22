@@ -1,0 +1,66 @@
+id: projectile_window_break_02
+level: 4
+category: structural_transformation
+tags: []
+variant_of: projectile_window_break
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to thick smoke obscuring the view.
+changes:
+  occlusion_method: Thick smoke fills the scene.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The high-speed metal BB projectile strikes the center of the glass pane. Simultaneously, a
+    sudden, thick cloud of white smoke rises, completely obscuring the window and the view outside. The
+    smoke slowly dissipates until the window is visible again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The high-speed metal BB projectile strikes the center of the glass pane. Simultaneously,
+    a sudden, thick cloud of white smoke rises, completely obscuring the window and the view outside.
+    The smoke slowly dissipates until the window is visible again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A view through a wooden-framed window looking out at a sunny garden and a rustic
+    wooden house. A copper-colored projectile (bullet or BB) is frozen in mid-air in the center of the
+    frame, appearing to be moving towards the glass pane. The glass is currently intact with some minor
+    surface dust.
+  init2final_edit_prompt: Edit the given image to show the glass pane shattered, featuring a visible impact
+    hole in the center with cracks radiating outwards across the surface. Remove the floating projectile
+    from the air. Keep the wooden window frame intact and ensure the background view of the garden and
+    house remains visible through the broken glass.
+  rationale: The video prompt describes a projectile striking the glass, followed by an occlusion (smoke)
+    that eventually clears. The physical interaction of the projectile hitting the glass causes irreversible
+    structural damage (shattering or cracking). By the time the smoke dissipates and the window is visible
+    again, the glass must show signs of this impact (cracks, hole). The projectile itself will have passed
+    through or fallen, so it should no longer be suspended in the center of the frame.
+  questions:
+  - id: glass_broken
+    question: Does the glass pane show visible signs of damage, such as cracks or a hole?
+    answer_type: yes_no
+    notes_for_judge: The glass should no longer be a pristine sheet; it must show breakage.
+  - id: impact_point
+    question: Is there a visible point of impact or hole near the center of the glass pane?
+    answer_type: yes_no
+    notes_for_judge: Look for the epicenter of the damage where the projectile struck.
+  - id: cracks_radiating
+    question: Are there cracks radiating outwards from the center of the window?
+    answer_type: yes_no
+    notes_for_judge: Standard fracture pattern for glass impact.
+  - id: projectile_moved
+    question: Has the projectile moved from its initial frozen position in mid-air?
+    answer_type: yes_no
+    notes_for_judge: The projectile should not be hovering in the exact same spot; it should be gone or
+      embedded.
+  - id: integrity_compromised
+    question: Has the structural integrity of the glass pane been compromised compared to the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: Comparing the initial intact state to the final damaged state.
+  - id: background_consistency
+    question: Is the wooden house in the background still visible through the window?
+    answer_type: yes_no
+    notes_for_judge: The background scene should remain consistent, even if viewed through broken glass.
+  - id: frame_consistency
+    question: Is the wooden window frame structurally unchanged?
+    answer_type: yes_no
+    notes_for_judge: The damage should be localized to the glass, not the frame.

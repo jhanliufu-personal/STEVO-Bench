@@ -1,0 +1,71 @@
+id: paper_burning_v10
+level: 4
+category: transformational_state_change
+tags: []
+variant_of: paper_burning
+variation_type: combined
+variation_description: Wet paper (no fire) combined with thick fog occlusion.
+changes:
+  occlusion_method: Thick fog fills the room.
+  dynamic_conditions: Paper is wet and non-combustible.
+  expected_outcome_change: No change in paper state.
+prompts:
+  init_frame_edit_prompt: Edit the image to remove the fire and smoke completely. Make the paper look
+    soaking wet, soggy, and flat on the plate. Add a small puddle of water on the plate.
+  video_WM: Single continuous take, no cuts. Camera remains static centered on the plate containing wet
+    paper. Thick white fog begins to roll into the room, quickly becoming so dense that the table and
+    plate are completely obscured from view. The fog swirls for several seconds. Then the fog gradually
+    clears, revealing the table again. Lighting and objects remain consistent and realistic.
+  camera_WM: Single continuous take, no cuts. Camera remains static centered on the plate containing wet
+    paper. Thick white fog begins to roll into the room, quickly becoming so dense that the table and
+    plate are completely obscured from view. The fog swirls for several seconds. Then the fog gradually
+    clears, revealing the table again. Lighting and objects remain consistent and realistic.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a wooden table surface. In the center sits a rustic,
+    round ceramic plate. On the plate lies a rectangular sheet of paper that appears wet and translucent,
+    adhering to the plate's surface. The edges of the paper are dark, black, and ragged, indicating they
+    are charred or burnt. There is a small pool of liquid water on the plate surrounding the paper. In
+    the background, slightly out of focus, is a window with a white frame.
+  init2final_edit_prompt: Edit the given image to show the scene after the fog has cleared. The wet paper
+    on the plate must remain exactly as it was, retaining its dark, charred edges, wet translucent texture,
+    and rectangular shape. The water on the plate should still be visible. The wooden table and background
+    window should remain unchanged. The lighting should be natural and realistic, revealing the objects
+    clearly as they were initially.
+  rationale: The provided video prompt explicitly states that 'objects remain consistent' after the fog
+    clears. Although the Task ID suggests burning and the paper appears to have pre-existing burnt edges,
+    the prompt dictates a trajectory of object permanence and state consistency rather than further transformation.
+    Therefore, the correct final state is identical to the initial state (wet paper with charred edges),
+    and the evaluation focuses on verifying that the model did not hallucinate further burning or damage
+    during the occlusion.
+  questions:
+  - id: q1
+    question: Is the sheet of paper still visible on the plate?
+    answer_type: yes_no
+    notes_for_judge: Tests for object permanence.
+  - id: q2
+    question: Does the paper retain its dark, charred edges?
+    answer_type: yes_no
+    notes_for_judge: Tests for state consistency (preservation of initial attributes).
+  - id: q3
+    question: Is the paper's texture still wet and translucent?
+    answer_type: yes_no
+    notes_for_judge: Tests for material consistency.
+  - id: q4
+    question: Is the paper free from new holes or disintegration compared to the start?
+    answer_type: yes_no
+    notes_for_judge: Tests that no unprompted destruction occurred.
+  - id: q5
+    question: Is the rectangular shape of the paper generally preserved?
+    answer_type: yes_no
+    notes_for_judge: Tests for structural consistency.
+  - id: q6
+    question: Is the pool of water on the plate still visible?
+    answer_type: yes_no
+    notes_for_judge: Tests for environmental consistency.
+  - id: q7
+    question: Is the wooden table surface visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

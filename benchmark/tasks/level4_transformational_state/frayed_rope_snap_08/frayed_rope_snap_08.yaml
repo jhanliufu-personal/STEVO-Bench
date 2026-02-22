@@ -1,0 +1,60 @@
+id: frayed_rope_snap_08
+level: 4
+category: structural_transformation
+tags: []
+variant_of: frayed_rope_snap
+variation_type: combined
+variation_description: Winches releasing tension (condition) occluded by a shutter (occlusion).
+changes:
+  occlusion_method: A metal safety shutter slides down.
+  dynamic_conditions: Winches reverse direction to release tension.
+  expected_outcome_change: Rope becomes slack.
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The winches reverse direction, slowly feeding the rope out to reduce tension. A heavy metal
+    safety shutter slides down from the top of the frame, completely blocking the view of the rope and
+    winches. After a few seconds, the shutter slides back up to reveal the scene. No zoom, no cut, no
+    scene change. STOP.
+  camera_WM: The winches reverse direction, slowly feeding the rope out to reduce tension. A heavy metal
+    safety shutter slides down from the top of the frame, completely blocking the view of the rope and
+    winches. After a few seconds, the shutter slides back up to reveal the scene. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot showing a thick, weathered rope stretched horizontally
+    under high tension between two rusty metal winches. The rope is severely frayed in the center, with
+    many fibers splayed out and only a thin core holding the two sides together. The background is a blurred
+    industrial setting.
+  init2final_edit_prompt: Edit the given image so that the rope is hanging slack and loosely between the
+    two winches. The rope should droop downwards in a U-shaped curve due to gravity, with the frayed center
+    section positioned significantly lower than the winch attachment points. The rope should appear relaxed
+    rather than taut. Keep the frayed connection intact but sagging.
+  rationale: The prompt explicitly states that the winches reverse to feed the rope out and reduce tension.
+    Physically, this causes the rope to lose its taut, horizontal alignment and sag downwards into a catenary
+    curve due to gravity. The shutter serves as a temporary occluder to mask the motion. Since tension
+    is being reduced rather than increased, the rope should not snap but should instead become slack.
+  questions:
+  - id: q1
+    question: Is the rope sagging downwards between the winches?
+    answer_type: yes_no
+    notes_for_judge: The rope should form a curve due to slackness, not a straight line.
+  - id: q2
+    question: Is the frayed center section of the rope positioned lower than the winch attachment points?
+    answer_type: yes_no
+    notes_for_judge: Gravity should pull the slack rope down.
+  - id: q3
+    question: Does the rope exhibit a curved shape indicating a lack of tension?
+    answer_type: yes_no
+    notes_for_judge: The rope should look loose.
+  - id: q4
+    question: Is the rope no longer forming a straight horizontal line?
+    answer_type: yes_no
+    notes_for_judge: It should be drooping.
+  - id: q5
+    question: Is the rope still connected as a single continuous piece?
+    answer_type: yes_no
+    notes_for_judge: The prompt asks to reduce tension, so the rope should not snap despite being frayed.
+  - id: q6
+    question: Are the winches visible on both the left and right sides of the frame?
+    answer_type: yes_no
+    notes_for_judge: Winches should remain as anchor points.

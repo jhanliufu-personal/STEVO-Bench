@@ -1,0 +1,70 @@
+id: pencil_sharpener_shave_destroy_00
+level: 4
+category: structural_transformation
+tags: []
+variant_of: pencil_sharpener_shave_destroy
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The hand begins turning the sharpener crank in a circular motion. The rotary sharpener contains
+    cylindrical cutting blades positioned to contact the pencil wood and graphite as the pencil rotates
+    inside the mechanism. The cutting blades have sharp edges designed to shave material. Once material
+    is physically separated from the main pencil body, it cannot reattach. The hand continues cranking
+    the sharpener mechanism. Camera remains stationary throughout. No zoom, no cut, no scene change. STOP.
+  camera_WM: The hand begins turning the sharpener crank in a circular motion. The rotary sharpener contains
+    cylindrical cutting blades positioned to contact the pencil wood and graphite as the pencil rotates
+    inside the mechanism. The cutting blades have sharp edges designed to shave material. Once material
+    is physically separated from the main pencil body, it cannot reattach. The hand continues cranking
+    the sharpener mechanism. Camera remains stationary throughout. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A close-up shot of a vintage-style manual pencil sharpener clamped to a wooden
+    workbench. The sharpener is metal with a transparent plastic shavings bin underneath, which already
+    contains some wood shavings. A long, unsharpened wooden pencil is inserted into the sharpener, extending
+    horizontally to the left. A person's hand is visible on the right, grasping the crank handle of the
+    sharpener. The background shows a workshop setting with tools, shelves, and a window.
+  init2final_edit_prompt: Edit the given image to show the result of sharpening the pencil. Make the visible
+    portion of the wooden pencil shaft significantly shorter, as if it has been fed into the machine.
+    Increase the volume of wood shavings inside the transparent collection bin below the mechanism, showing
+    a larger pile of debris.
+  rationale: The video prompt describes the action of cranking a pencil sharpener. This mechanical action
+    engages internal blades that shave material off the pencil. Consequently, the physical length of the
+    pencil must decrease as it is consumed by the sharpener, and the waste material (shavings) must accumulate
+    in the collection bin. These are irreversible structural changes to the pencil and the contents of
+    the bin.
+  questions:
+  - id: pencil_length_reduction
+    question: Is the visible length of the pencil shaft shorter than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the length of the pencil sticking out to the left. It should be shorter.
+  - id: shavings_increase
+    question: Is the amount of wood shavings in the transparent bin greater than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Look at the clear box under the sharpener; the pile of shavings should be larger/higher.
+  - id: pencil_position
+    question: Is the outer end of the pencil closer to the sharpener body than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: As the pencil gets shorter, its end moves closer to the machine.
+  - id: material_consumption
+    question: Does the pencil appear to have been partially consumed or shortened by the mechanism?
+    answer_type: yes_no
+    notes_for_judge: Check for evidence of irreversible shortening.
+  - id: bin_fullness
+    question: Is the level of debris in the collection container higher than before?
+    answer_type: yes_no
+    notes_for_judge: Directional check on the volume of shavings.
+  - id: sharpener_stability
+    question: Is the sharpener still clamped to the workbench in the same location?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: hand_presence
+    question: Is the hand still present near the crank handle?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

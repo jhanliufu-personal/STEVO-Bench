@@ -1,0 +1,71 @@
+id: photograph_tearing_03
+level: 4
+category: structural_transformation
+tags: []
+variant_of: photograph_tearing
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to zooming out.
+changes:
+  occlusion_method: Camera zooms out until details are indistinguishable.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The two hands pull firmly in opposite directions on the photograph. Tension is applied to
+    the paper material to initiate a tear. The camera zooms out rapidly until the hands and photograph
+    are too small to distinguish details, then zooms back in to the initial framing. No cut, no scene
+    change. The camera returns to the original viewpoint. STOP.
+  camera_WM: The two hands pull firmly in opposite directions on the photograph. Tension is applied to
+    the paper material to initiate a tear. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+evaluation:
+  init_frame_description: A close-up, eye-level shot showing a pair of hands holding a glossy rectangular
+    photograph. The photograph depicts a sunset scene over a beach with dark foreground sand and a bright
+    horizon. The left hand, wearing a simple silver ring on the ring finger, holds the left side of the
+    photo. The right hand holds the right side. There is a small crease visible near the top center edge
+    of the photo. The background is dark and out of focus.
+  init2final_edit_prompt: Edit the given image to show the photograph torn. Introduce a visible vertical
+    rip or tear originating from the top edge of the photo between the two hands. Render white, rough
+    paper fibers along the edges of the tear to indicate material separation. The two sides of the photograph
+    should be slightly angled or separated from each other where the tear has occurred, reflecting the
+    pulling force.
+  rationale: The prompt describes a physical action where hands pull apart a photograph to initiate a
+    tear. The camera excursion (zoom out and back in) represents a passage of time during which the applied
+    tension results in structural failure of the paper. When the camera returns to the initial framing,
+    the irreversible transformation (the tearing of the photograph) must be visible. The state change
+    is from a whole object to a damaged/torn object.
+  questions:
+  - id: tear_visible
+    question: Does the photograph show a visible tear or rip?
+    answer_type: yes_no
+    notes_for_judge: Look for a jagged line, white paper fibers, or separation in the photo material.
+  - id: edge_broken
+    question: Is the top edge of the photograph broken or interrupted by damage?
+    answer_type: yes_no
+    notes_for_judge: The top edge should no longer be a continuous straight line.
+  - id: fibers_visible
+    question: Are white paper fibers or rough edges visible where the photo is damaged?
+    answer_type: yes_no
+    notes_for_judge: Torn photos typically reveal the white paper substrate.
+  - id: image_interrupted
+    question: Is the sunset scene on the photograph interrupted by a tear or separation?
+    answer_type: yes_no
+    notes_for_judge: The visual content of the photo should be split or marred by the tear.
+  - id: structural_compromise
+    question: Has the structural integrity of the photograph been compromised compared to the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: The object should look damaged, not just bent.
+  - id: separation
+    question: Do the two hands appear to be pulling apart separated sections of the photograph?
+    answer_type: yes_no
+    notes_for_judge: The parts held by the left and right hands should be separating at the tear.
+  - id: ring_consistency
+    question: Is the silver ring still visible on the left hand?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: background_consistency
+    question: Is the background still dark and out of focus?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

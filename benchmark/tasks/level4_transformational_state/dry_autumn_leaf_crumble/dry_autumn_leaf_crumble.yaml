@@ -4,9 +4,62 @@ category: structural_transformation
 transformation_type: brittle_organic_fragmentation
 tags: []
 prompts:
-  image_gen_prompt: A dried brown autumn leaf is held flat between two hands against a plain background. The leaf is completely dehydrated and brittle with visible brown coloring and preserved vein structure. The hands are positioned to apply pressure.
-  video_WM: The hands begin applying progressive crushing pressure to the dried brittle leaf. The leaf is severely dehydrated with very low moisture content typical of autumn leaves that have been dried for weeks. The brittle organic structure has lost all flexibility. The hands continue applying compressive force. The camera rotates right at constant speed until the hands and leaf completely exit the view to the right. The camera continues rotating right for several seconds while the hands remain off-screen continuing to apply pressure. Then the camera rotates left smoothly at the same rate back to the original viewpoint, bringing the hands back into view. No zoom, no cut, no scene change. STOP.
-  camera_WM: The hands begin applying progressive crushing pressure to the dried brittle leaf. The leaf is severely dehydrated with very low moisture content typical of autumn leaves that have been dried for weeks. The brittle organic structure has lost all flexibility. The hands continue applying compressive force during the occlusion period. STOP.
+  image_gen_prompt: A dried brown autumn leaf is held flat between two hands against a plain background.
+    The leaf is completely dehydrated and brittle with visible brown coloring and preserved vein structure.
+    The hands are positioned to apply pressure.
+  video_WM: The hands begin applying progressive crushing pressure to the dried brittle leaf. The leaf
+    is severely dehydrated with very low moisture content typical of autumn leaves that have been dried
+    for weeks. The brittle organic structure has lost all flexibility. The hands continue applying compressive
+    force. The camera rotates right at constant speed until the hands and leaf completely exit the view
+    to the right. The camera continues rotating right for several seconds while the hands remain off-screen
+    continuing to apply pressure. Then the camera rotates left smoothly at the same rate back to the original
+    viewpoint, bringing the hands back into view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The hands begin applying progressive crushing pressure to the dried brittle leaf. The leaf
+    is severely dehydrated with very low moisture content typical of autumn leaves that have been dried
+    for weeks. The brittle organic structure has lost all flexibility. The hands continue applying compressive
+    force during the occlusion period. STOP.
 camera_control:
   HY-WorldPlay: s-3, right-30, left-30
   Genie: null
+evaluation:
+  init_frame_description: A close-up view of a large, dry, brown autumn leaf held gently between two weathered
+    hands. The leaf is brittle with visible veins and a few minor cracks but remains largely intact as
+    a single sheet. The background is a neutral, textured beige fabric.
+  init2final_edit_prompt: Edit the given image to show the dry leaf significantly crumbled and broken.
+    The leaf structure should be fractured into smaller fragments and pieces held within the hands, rather
+    than a single intact sheet. The visual state should reflect the aftermath of crushing brittle organic
+    material, with visible debris and a loss of the original leaf's outline.
+  rationale: The video prompt describes continuous crushing pressure applied to a brittle, dry leaf. While
+    the camera rotates away and the hands are off-screen, the crushing action continues. Therefore, when
+    the camera returns to the initial viewpoint, the leaf must have undergone an irreversible structural
+    transformation, changing from a mostly intact sheet to a crumbled, fragmented state due to its lack
+    of flexibility.
+  questions:
+  - id: structural_fragmentation
+    question: Is the leaf significantly more fragmented or broken compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Look for breaks, tears, or separation of the leaf material.
+  - id: debris_presence
+    question: Are there visible loose pieces or crumbs of the leaf that were not present initially?
+    answer_type: yes_no
+    notes_for_judge: Crushing a dry leaf produces small debris.
+  - id: shape_integrity
+    question: Has the original outline or shape of the leaf been disrupted or destroyed?
+    answer_type: yes_no
+    notes_for_judge: The leaf should no longer look like a flat, intact maple/plane leaf.
+  - id: crushed_appearance
+    question: Does the leaf material appear crushed or compressed compared to the start?
+    answer_type: yes_no
+    notes_for_judge: The texture should look crumpled rather than flat.
+  - id: irreversible_damage
+    question: Does the leaf show signs of irreversible structural damage (tearing, breaking)?
+    answer_type: yes_no
+    notes_for_judge: The transformation must be destructive.
+  - id: hand_consistency
+    question: Are the hands recognizable as the same hands from the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: background_consistency
+    question: Is the background fabric texture consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

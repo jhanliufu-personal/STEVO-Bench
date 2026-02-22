@@ -1,0 +1,66 @@
+id: wet_tissue_progressive_tear_06
+level: 4
+category: structural_transformation
+tags: []
+variant_of: wet_tissue_progressive_tear
+variation_type: dynamic_condition
+variation_description: Hands hold the tissue loosely without pulling.
+changes:
+  occlusion_method: null
+  dynamic_conditions: No tension applied. Hands remain static.
+  expected_outcome_change: No change in state; tissue remains intact.
+prompts:
+  init_frame_edit_prompt: Edit the image so the tissue hangs loosely between the hands with slack, rather
+    than being pulled tight.
+  video_WM: The hands hold the wet tissue loosely, allowing it to hang with slack in the middle. There
+    is no outward tension applied to the material. While the tissue is wet and weak, structural failure
+    requires force. The hands maintain this static, loose grip without pulling apart. The camera rotates
+    right at constant speed until the hands and tissue completely exit the view to the right. The camera
+    continues rotating right for several seconds while the hands remain off-screen holding the tissue
+    loosely. Then the camera rotates left smoothly at the same rate back to the original viewpoint, bringing
+    the hands and tissue back into view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The hands hold the wet tissue loosely, allowing it to hang with slack in the middle. There
+    is no outward tension applied to the material. While the tissue is wet and weak, structural failure
+    requires force. The hands maintain this static, loose grip without pulling apart during the occlusion
+    period. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot shows two hands holding a white, wet tissue over
+    a stainless steel kitchen sink. The tissue hangs loosely between the hands in a U-shape, with significant
+    slack. The material appears translucent and saturated, with water dripping from the bottom of the
+    curve. A metal faucet is visible in the background, slightly out of focus.
+  init2final_edit_prompt: Edit the given image to show the wet tissue remaining completely intact and
+    hanging loosely between the hands. The tissue should be a single continuous piece with no tears, rips,
+    or holes, maintaining the original U-shape slack and connection between the left and right hands.
+  rationale: The video generation prompt explicitly states that the hands hold the tissue loosely with
+    no outward tension and that structural failure requires force which is not applied. Therefore, despite
+    the camera rotation and temporary occlusion, the physical state of the tissue must remain stable.
+    The correct final state is for the tissue to be intact, testing the model's ability to avoid hallucinating
+    a transformation (tearing) when the necessary physical cause (tension) is absent.
+  questions:
+  - id: intact_structure
+    question: Is the wet tissue still a single, continuous piece connecting both hands?
+    answer_type: yes_no
+    notes_for_judge: The tissue should not be torn or separated.
+  - id: no_tears
+    question: Is the middle section of the tissue free from any visible rips or tears?
+    answer_type: yes_no
+    notes_for_judge: Check for vertical separation or holes in the fabric.
+  - id: connection_maintained
+    question: Does the tissue still physically connect the left hand to the right hand without a break?
+    answer_type: yes_no
+    notes_for_judge: The path from one hand to the other along the tissue must be unbroken.
+  - id: slack_shape
+    question: Does the tissue still hang with a loose, downward U-shaped curve?
+    answer_type: yes_no
+    notes_for_judge: The prompt specifies a loose grip with slack; it should not be taut or snapped.
+  - id: material_integrity
+    question: Is the structural integrity of the tissue maintained compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: It should look like the same undamaged sheet.
+  - id: background_faucet
+    question: Is the metal faucet still visible in the background?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

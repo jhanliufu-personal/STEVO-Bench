@@ -1,0 +1,79 @@
+id: aluminum_foil_crumple_ball_04
+level: 4
+category: structural_transformation
+tags: []
+variant_of: aluminum_foil_crumple_ball
+variation_type: dynamic_condition
+variation_description: Material changed to a thick stainless steel sheet (rigid).
+changes:
+  occlusion_method: null
+  dynamic_conditions: Material is thick stainless steel instead of foil. High yield strength means it
+    resists manual compression.
+  expected_outcome_change: No deformation; sheet remains flat despite hands trying to compress it.
+prompts:
+  init_frame_edit_prompt: Edit the image to replace the aluminum foil with a thick, rigid stainless steel
+    baking sheet.
+  video_WM: The hands grasp the edges of the thick stainless steel sheet and attempt to apply compressive
+    force. Thick stainless steel is a rigid material with extremely high yield strength and stiffness.
+    Unlike thin foil, it acts as a rigid body under manual force and resists deformation. The material
+    properties prevent the hands from bending or crumpling the sheet. The hands continue applying maximum
+    effort to compress the sheet. The camera rotates right at constant speed until the hands and sheet
+    completely exit the view to the right. The camera continues rotating right for several seconds while
+    the hands remain off-screen continuing to apply force. Then the camera rotates left smoothly at the
+    same rate back to the original viewpoint. No zoom, no cut, no scene change. STOP.
+  camera_WM: The hands grasp the edges of the thick stainless steel sheet and attempt to apply compressive
+    force. Thick stainless steel is a rigid material with extremely high yield strength and stiffness.
+    Unlike thin foil, it acts as a rigid body under manual force and resists deformation. The material
+    properties prevent the hands from bending or crumpling the sheet. The hands continue applying maximum
+    effort to compress the sheet during the occlusion period. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A top-down view of a rectangular stainless steel baking sheet resting on a rustic
+    wooden table. Two hands grasp the left and right edges of the sheet. The sheet is silver, reflective,
+    and perfectly flat with a raised rim. The wooden table has a textured, aged grain pattern.
+  init2final_edit_prompt: Edit the given image to show the stainless steel sheet remaining completely
+    flat, rigid, and unbent. The sheet must retain its original rectangular shape and smooth, reflective
+    surface, showing absolutely no signs of crumpling, folding, or deformation. The hands should remain
+    in a grasping position at the edges, but the metal object itself must look identical to its initial
+    state in terms of shape and flatness.
+  rationale: The prompt explicitly defines the material as thick stainless steel, a rigid body that resists
+    deformation by human hands. It contrasts this with thin foil, specifically instructing that the material
+    prevents bending or crumpling. Therefore, despite the camera panning away and the hands applying force,
+    the physical state of the sheet must remain invariant. The final frame should show the sheet exactly
+    as it started—flat and rectangular—demonstrating the model's adherence to defined material properties
+    over visual priors that might suggest crumpling.
+  questions:
+  - id: flatness_check
+    question: Is the stainless steel sheet still completely flat?
+    answer_type: yes_no
+    notes_for_judge: The sheet should not be bent or crumpled.
+  - id: shape_conservation
+    question: Does the sheet retain its original rectangular shape?
+    answer_type: yes_no
+    notes_for_judge: The outline should remain a rectangle, not a crumpled ball.
+  - id: surface_smoothness
+    question: Is the surface of the sheet free from crumpling or folding?
+    answer_type: yes_no
+    notes_for_judge: There should be no creases or folds typical of crumpled foil.
+  - id: edge_straightness
+    question: Are the edges of the sheet still straight and unbent?
+    answer_type: yes_no
+    notes_for_judge: The rim of the baking sheet should remain straight.
+  - id: rigidity_check
+    question: Does the object appear to be a rigid metal tray rather than a crumpled mass?
+    answer_type: yes_no
+    notes_for_judge: It should look like a hard tray.
+  - id: structural_integrity
+    question: Is the structural integrity of the sheet visibly preserved?
+    answer_type: yes_no
+    notes_for_judge: No damage or deformation should be visible.
+  - id: reflection_consistency
+    question: Is the light reflection on the sheet consistent with a smooth, flat surface?
+    answer_type: yes_no
+    notes_for_judge: Crumpled surfaces scatter light differently; this should remain a flat specular surface.
+  - id: table_visibility
+    question: Is the wooden table surface still visible around the sheet?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

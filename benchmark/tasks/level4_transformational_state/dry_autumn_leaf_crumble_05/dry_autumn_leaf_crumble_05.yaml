@@ -1,0 +1,66 @@
+id: dry_autumn_leaf_crumble_05
+level: 4
+category: structural_transformation
+tags: []
+variant_of: dry_autumn_leaf_crumble
+variation_type: dynamic_condition
+variation_description: Action changed from crushing pressure to gentle holding. Outcome changes from crumbling
+  to no change.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Hands apply NO pressure; simply holding the leaf gently.
+  expected_outcome_change: Leaf remains intact and unchanged.
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The hands hold the dried brittle leaf with extreme care. The fingers maintain a static, gentle
+    grip without exerting any crushing force whatsoever. The delicate structure is preserved carefully.
+    The hands remain still in this gentle holding position. The camera rotates right at constant speed
+    until the hands and leaf completely exit the view to the right. The camera continues rotating right
+    for several seconds while the hands remain off-screen maintaining the gentle grip. Then the camera
+    rotates left smoothly at the same rate back to the original viewpoint. No zoom, no cut, no scene change.
+    STOP.
+  camera_WM: The hands hold the dried brittle leaf with extreme care. The fingers maintain a static, gentle
+    grip without exerting any crushing force whatsoever. The delicate structure is preserved carefully.
+    The hands remain still in this gentle holding position during the occlusion period. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A close-up view of a pair of weathered, elderly hands holding a large, dried,
+    brown autumn leaf against a beige fabric background. The leaf appears brittle with prominent veins,
+    jagged edges, and pointed lobes. The thumbs are resting gently on the upper surface of the leaf near
+    the center stem area.
+  init2final_edit_prompt: Edit the given image to show the leaf and hands in the exact same condition
+    as the original. The leaf must be fully intact, with no cracks, tears, or crumbled sections, preserving
+    its original shape and structure perfectly. The hands should hold the leaf gently in the same position
+    without any change in grip. The scene should look identical to the start.
+  rationale: The video prompt explicitly instructs that the hands maintain a 'gentle grip' and that the
+    'delicate structure is preserved carefully' without any crushing. Although the visual affordance of
+    a dry leaf suggests crumbling, the text overrides this, creating a stability test. The camera pans
+    away and returns, requiring the model to demonstrate object permanence and state preservation by returning
+    to the exact initial state without hallucinating damage.
+  questions:
+  - id: leaf_integrity_1
+    question: Is the leaf still completely whole and intact?
+    answer_type: yes_no
+    notes_for_judge: The leaf should not show any signs of breaking or crumbling.
+  - id: leaf_integrity_2
+    question: Is the leaf free from any new crumbling, fragmentation, or missing pieces?
+    answer_type: yes_no
+    notes_for_judge: Check for debris or missing parts of the leaf lobes.
+  - id: leaf_shape
+    question: Does the leaf retain its original shape and outline?
+    answer_type: yes_no
+    notes_for_judge: The silhouette should match the initial frame.
+  - id: leaf_surface
+    question: Is the surface of the leaf free from new cracks or tears?
+    answer_type: yes_no
+    notes_for_judge: The texture should remain continuous as in the first frame.
+  - id: leaf_tips
+    question: Are the pointed tips and edges of the leaf still present and unbroken?
+    answer_type: yes_no
+    notes_for_judge: The delicate extremities should be preserved.
+  - id: hand_grip
+    question: Do the hands maintain the same gentle, static grip as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The fingers should not have tightened or moved significantly.

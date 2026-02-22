@@ -1,0 +1,63 @@
+id: ribbon_cutting_01
+level: 4
+category: structural_transformation
+tags: []
+variant_of: ribbon_cutting
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to a hand blocking the lens.
+changes:
+  occlusion_method: A hand moves in front of the lens, completely blocking the view, then moves away.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The blades of the sharp scissors begin to close slowly and steadily around the taut red ribbon.
+    The cutting action begins. A hand moves in front of the lens, completely blocking the view. The hand
+    remains there for a moment, then moves away to reveal the scene again. The camera returns to the original
+    viewpoint. No zoom, no cut, no scene change. STOP.
+  camera_WM: The blades of the sharp scissors begin to close slowly and steadily around the taut red ribbon.
+    The cutting action begins. A hand moves in front of the lens, completely blocking the view. The hand
+    remains there for a moment, then moves away to reveal the scene again. The camera returns to the original
+    viewpoint. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up shot of a wooden surface with a red ribbon running horizontally across
+    it. A pair of open, vintage metal scissors is positioned diagonally, with the ribbon placed between
+    the open blades. A window frame is visible in the background.
+  init2final_edit_prompt: Edit the given image to show the scissors with their blades fully closed. The
+    red ribbon should be severed into two separate pieces at the point where the scissor blades meet,
+    showing a clear break in the material. The cut ends of the ribbon should be visible.
+  rationale: The video prompt describes the scissors closing to perform a cutting action, followed by
+    a period of occlusion by a hand. Physically, the action of closing sharp scissors around a taut ribbon
+    results in the ribbon being cut. Therefore, when the view is revealed, the irreversible transformation
+    (the cut) should be complete, showing the ribbon severed and the scissors closed.
+  questions:
+  - id: ribbon_severed
+    question: Is the red ribbon severed into two separate pieces?
+    answer_type: yes_no
+    notes_for_judge: Check if the ribbon is no longer a single continuous strip.
+  - id: scissors_closed
+    question: Are the blades of the scissors closed together?
+    answer_type: yes_no
+    notes_for_judge: The blades should be overlapping or touching, not open as in the initial frame.
+  - id: structural_discontinuity
+    question: Is there a visible gap or cut line in the ribbon where the scissors are located?
+    answer_type: yes_no
+    notes_for_judge: Look for the specific point of separation caused by the cut.
+  - id: ribbon_segments
+    question: Does the ribbon appear as two distinct segments rather than one continuous strip?
+    answer_type: yes_no
+    notes_for_judge: Verify that the object has been split.
+  - id: material_integrity
+    question: Has the structural integrity of the ribbon been compromised by a cut?
+    answer_type: yes_no
+    notes_for_judge: The ribbon should show damage/cutting.
+  - id: background_consistency
+    question: Is the wooden surface texture still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: object_permanence
+    question: Are the scissors still present in the image?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

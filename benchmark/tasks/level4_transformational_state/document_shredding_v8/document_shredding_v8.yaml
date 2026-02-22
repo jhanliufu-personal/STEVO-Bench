@@ -1,0 +1,71 @@
+id: document_shredding_v8
+level: 4
+category: structural_transformation
+tags: []
+variant_of: document_shredding
+variation_type: combined
+variation_description: Shredder is off and room lights go out.
+changes:
+  occlusion_method: Room lights turn off.
+  dynamic_conditions: Shredder is unplugged/off.
+  expected_outcome_change: No change to paper state (nothing happens).
+prompts:
+  init_frame_edit_prompt: Edit the image to remove the power cord from the wall socket in the background
+    and ensure all machine lights are off.
+  video_WM: The sheet of paper is held over the unplugged, inactive shredder. Suddenly, the room lights
+    cut out, leaving the scene in total darkness for several seconds before turning back on. No zoom,
+    no cut, no scene change. STOP.
+  camera_WM: The sheet of paper is held over the unplugged, inactive shredder. Suddenly, the room lights
+    cut out, leaving the scene in total darkness for several seconds before turning back on. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot showing a person's arm and hand holding a pristine
+    white sheet of paper over a document shredder. The shredder has a transparent plastic top casing,
+    clearly revealing the metal shredding gears and rollers inside. Below the mechanism, a collection
+    bin is partially filled with existing white paper shreds. The background is a blurred, bright office
+    environment with desks, computer monitors, and other office workers.
+  init2final_edit_prompt: Edit the given image to show the white sheet of paper still held over the shredder,
+    completely intact and unshredded. The paper must retain its original rectangular shape and smooth
+    surface, showing no signs of damage, cuts, or tearing. Ensure the shredder mechanism remains inactive
+    with no paper being fed into the gears. The lighting should be bright and consistent with the initial
+    state (lights on). The background and hand position should remain unchanged.
+  rationale: The video prompt explicitly describes the shredder as 'unplugged' and 'inactive'. Although
+    the scene undergoes a period of darkness (occlusion), the physical state of the shredder prevents
+    it from functioning. Therefore, no shredding can physically occur. This task acts as a negative control
+    for Level 4, testing whether the world model correctly identifies that the irreversible transformation
+    (shredding) is impossible due to the 'unplugged' constraint, despite the visual affordance of the
+    paper and shredder.
+  questions:
+  - id: paper_integrity_1
+    question: Is the sheet of paper still completely intact?
+    answer_type: yes_no
+    notes_for_judge: The paper should not be shredded because the machine is unplugged.
+  - id: paper_shape_1
+    question: Does the paper retain its original rectangular shape?
+    answer_type: yes_no
+    notes_for_judge: Check for any loss of form due to shredding.
+  - id: damage_check_1
+    question: Is the paper free from any vertical cuts, tears, or shredding marks?
+    answer_type: yes_no
+    notes_for_judge: The surface should be smooth and undamaged.
+  - id: position_check_1
+    question: Is the paper still positioned above the shredder blades rather than inside them?
+    answer_type: yes_no
+    notes_for_judge: It should not be fed into the mechanism.
+  - id: object_continuity_1
+    question: Is the paper clearly distinguishable as a single, solid sheet?
+    answer_type: yes_no
+    notes_for_judge: It should not be fragmented.
+  - id: mechanism_state_1
+    question: Are the shredder gears free of any new paper being processed?
+    answer_type: yes_no
+    notes_for_judge: The gears should look the same as the start.
+  - id: hand_presence_1
+    question: Is the person's hand still visible holding the paper?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: background_consistency_1
+    question: Are the background office elements (desks, monitors) still present?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

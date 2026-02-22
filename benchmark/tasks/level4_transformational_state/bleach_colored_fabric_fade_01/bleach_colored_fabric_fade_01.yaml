@@ -1,0 +1,74 @@
+id: bleach_colored_fabric_fade_01
+level: 4
+category: structural_transformation
+tags: []
+variant_of: bleach_colored_fabric_fade
+variation_type: occlusion_method
+variation_description: Replaces camera rotation with the lights turning off to create pitch black occlusion.
+changes:
+  occlusion_method: Lights turn off completely (pitch black), then turn back on.
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics (bleached spot appears).
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The bleach bottle tips and pours liquid bleach onto the dark blue fabric surface. Household
+    bleach contains sodium hypochlorite which is a strong oxidizing agent that reacts with organic dye
+    molecules. The chemical oxidation process is irreversible at room temperature. The bleach continues
+    to contact and saturate the fabric fibers. Suddenly, the lights in the room turn off, plunging the
+    scene into complete pitch black darkness where nothing is visible. The scene remains in total darkness
+    for several seconds while the bleach remains in contact with the fabric. Then, the lights turn back
+    on, revealing the scene from the original viewpoint. No zoom, no cut, no scene change. STOP.
+  camera_WM: The bleach bottle tips and pours liquid bleach onto the dark blue fabric surface. Household
+    bleach contains sodium hypochlorite which is a strong oxidizing agent that reacts with organic dye
+    molecules. The chemical oxidation process is irreversible at room temperature. The bleach continues
+    to contact and saturate the fabric fibers. Suddenly, the lights in the room turn off, plunging the
+    scene into complete pitch black darkness where nothing is visible. The scene remains in total darkness
+    for several seconds while the bleach remains in contact with the fabric. Then, the lights turn back
+    on, revealing the scene from the original viewpoint. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A top-down view of a white plastic tray containing a square piece of dark blue,
+    textured fabric. A hand holds a white Clorox bleach bottle in the upper right corner, tilted downwards.
+    Small droplets of clear liquid are just beginning to fall from the bottle's opening towards the center
+    of the fabric.
+  init2final_edit_prompt: Edit the given image to show a large, wet, discolored spot in the center of
+    the dark blue fabric. The spot should appear significantly lighter than the surrounding fabric, turning
+    pinkish, orange, or white to simulate bleach damage. The texture of the fabric in the center should
+    look saturated with liquid.
+  rationale: The video depicts a chemical reaction where bleach is poured onto dyed fabric. During the
+    blackout period, the bleach (sodium hypochlorite) oxidizes the dye molecules in the fabric, causing
+    an irreversible loss of color. When the lights return, the fabric should display a visible, permanent
+    stain that is lighter (pink, orange, or white) and wet, contrasting with the original dark blue color.
+    The bottle remains in the scene or finishes pouring, but the primary state change is the chemical
+    discoloration of the material.
+  questions:
+  - id: bleach_spot_visible
+    question: Is there a visible discolored spot on the fabric that was not present initially?
+    answer_type: yes_no
+    notes_for_judge: Look for a patch of different color (pink, orange, white) in the center.
+  - id: color_lightening
+    question: Is the center of the fabric lighter in color than the edges?
+    answer_type: yes_no
+    notes_for_judge: Bleach removes color, so the affected area must be lighter/whiter.
+  - id: fabric_wetness
+    question: Does the fabric appear wet or saturated in the center?
+    answer_type: yes_no
+    notes_for_judge: The liquid bleach was poured, so the fabric should look wet.
+  - id: loss_of_uniformity
+    question: Has the fabric lost its uniform dark blue appearance?
+    answer_type: yes_no
+    notes_for_judge: The initial state was uniform blue; the final state should have a stain.
+  - id: chemical_damage_evidence
+    question: Does the fabric show signs of bleaching, such as turning pink, orange, or white?
+    answer_type: yes_no
+    notes_for_judge: Specific check for the characteristic color shift of bleached dark fabric.
+  - id: tray_consistency
+    question: Is the white plastic tray still present and intact?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: fabric_shape_consistency
+    question: Is the fabric still roughly square-shaped?
+    answer_type: yes_no
+    notes_for_judge: The fabric changes color but should not disintegrate or change shape entirely.

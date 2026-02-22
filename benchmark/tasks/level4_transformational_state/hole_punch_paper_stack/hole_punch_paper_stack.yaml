@@ -4,9 +4,67 @@ category: structural_transformation
 transformation_type: progressive_perforation
 tags: []
 prompts:
-  image_gen_prompt: A stack of approximately eight sheets of white paper is positioned inside a three-hole punch device. The punch lever is raised in the up position. A hand grips the lever ready to press down.
-  video_WM: The hand begins pressing the lever downward with progressive force. The hole punch contains cylindrical cutting blades that advance toward the paper when the lever is depressed. The paper stack consists of standard copy paper with typical fiber structure and tensile strength. The mechanism is designed to drive blades through the paper thickness. The hand continues applying downward pressure on the lever. The camera rotates right at constant speed until the hole punch completely exits the view to the right. The camera continues rotating right for several seconds while the hand remains off-screen continuing to press the lever. Then the camera rotates left smoothly at the same rate back to the original viewpoint, bringing the hole punch back into view. No zoom, no cut, no scene change. STOP.
-  camera_WM: The hand begins pressing the lever downward with progressive force. The hole punch contains cylindrical cutting blades that advance toward the paper when the lever is depressed. The paper stack consists of standard copy paper with typical fiber structure and tensile strength. The mechanism is designed to drive blades through the paper thickness. The hand continues applying downward pressure on the lever during the occlusion period. STOP.
+  image_gen_prompt: A stack of approximately eight sheets of white paper is positioned inside a three-hole
+    punch device. The punch lever is raised in the up position. A hand grips the lever ready to press
+    down.
+  video_WM: The hand begins pressing the lever downward with progressive force. The hole punch contains
+    cylindrical cutting blades that advance toward the paper when the lever is depressed. The paper stack
+    consists of standard copy paper with typical fiber structure and tensile strength. The mechanism is
+    designed to drive blades through the paper thickness. The hand continues applying downward pressure
+    on the lever. The camera rotates right at constant speed until the hole punch completely exits the
+    view to the right. The camera continues rotating right for several seconds while the hand remains
+    off-screen continuing to press the lever. Then the camera rotates left smoothly at the same rate back
+    to the original viewpoint, bringing the hole punch back into view. No zoom, no cut, no scene change.
+    STOP.
+  camera_WM: The hand begins pressing the lever downward with progressive force. The hole punch contains
+    cylindrical cutting blades that advance toward the paper when the lever is depressed. The paper stack
+    consists of standard copy paper with typical fiber structure and tensile strength. The mechanism is
+    designed to drive blades through the paper thickness. The hand continues applying downward pressure
+    on the lever during the occlusion period. STOP.
 camera_control:
   HY-WorldPlay: s-3, right-30, left-30
   Genie: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a heavy-duty silver metal hole punch sitting on
+    a wooden desk. A hand with fair skin tone is grasping the black handle of the lever, which is currently
+    in the raised, open position. A thick stack of white paper is inserted into the punching slot. To
+    the left, there is a black piece of office equipment (possibly a stapler or another punch). In the
+    background, a wire mesh cup holder with pens and a window are visible.
+  init2final_edit_prompt: Edit the given image to show the hole punch lever pressed all the way down.
+    The hand should be positioned lower, applying downward pressure on the handle. The metal cutting mechanism
+    should be fully lowered, penetrating the stack of white paper. The paper stack should appear compressed
+    or engaged by the blades.
+  rationale: The video prompt describes a continuous action where the hand presses the lever to punch
+    holes in the paper. The camera pans away (occlusion) while this action is ongoing and returns to the
+    original view. Therefore, in the final frame, the state of the hole punch must have changed from 'open'
+    to 'closed/pressed', and the paper must be undergoing the irreversible transformation of being punched
+    (blades penetrating the stack).
+  questions:
+  - id: lever_position
+    question: Is the handle of the hole punch in a lower position than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the angle/height of the lever handle. It should be pressed down.
+  - id: mechanism_engagement
+    question: Is the metal cutting mechanism lowered into the paper stack?
+    answer_type: yes_no
+    notes_for_judge: The silver guides or blades should be contacting or entering the paper.
+  - id: handle_angle
+    question: Is the angle of the lever closer to horizontal compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The lever starts angled upward; it should be flatter/lower.
+  - id: hand_action
+    question: Is the hand positioning consistent with pressing the lever down?
+    answer_type: yes_no
+    notes_for_judge: The hand should be lower, following the lever.
+  - id: paper_penetration
+    question: Does the device appear to be actively penetrating or compressing the paper stack?
+    answer_type: yes_no
+    notes_for_judge: Check if the machine parts are intersecting the paper volume.
+  - id: background_stapler
+    question: Is the black office equipment on the left still present and unchanged?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: background_pens
+    question: Is the pen holder in the background still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

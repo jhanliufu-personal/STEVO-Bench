@@ -4,9 +4,73 @@ category: structural_transformation
 transformation_type: thermal_plastic_deformation
 tags: []
 prompts:
-  image_gen_prompt: A red plastic Solo cup sits on a table surface next to a heat gun that is turned on and blowing hot air. The heat gun nozzle is positioned approximately 6 inches from the cup pointing toward it. The cup is initially intact with straight walls and circular rim.
-  video_WM: Hot air from the heat gun flows toward the plastic cup. The cup is made from polystyrene plastic which has a glass transition temperature around 212°F. When thermoplastic polymers are heated above their glass transition point, the polymer chains gain mobility and the material loses structural rigidity. The material is subject to gravitational forces and internal stresses. Thermoplastics retain the shape they have when cooled back below glass transition temperature. The heat gun continues directing hot air at the cup. The camera rotates right at constant speed until the cup and heat gun completely exit the view to the right. The camera continues rotating right for several seconds while the heat continues being applied off-screen. Then the camera rotates left smoothly at the same rate back to the original viewpoint, bringing the cup and heat gun back into view. No zoom, no cut, no scene change. STOP.
-  camera_WM: Hot air from the heat gun flows toward the plastic cup. The cup is made from polystyrene plastic which has a glass transition temperature around 212°F. When thermoplastic polymers are heated above their glass transition point, the polymer chains gain mobility and the material loses structural rigidity. The material is subject to gravitational forces and internal stresses. Thermoplastics retain the shape they have when cooled back below glass transition temperature. The heat gun continues directing hot air at the cup during the occlusion period. STOP.
+  image_gen_prompt: A red plastic Solo cup sits on a table surface next to a heat gun that is turned on
+    and blowing hot air. The heat gun nozzle is positioned approximately 6 inches from the cup pointing
+    toward it. The cup is initially intact with straight walls and circular rim.
+  video_WM: Hot air from the heat gun flows toward the plastic cup. The cup is made from polystyrene plastic
+    which has a glass transition temperature around 212°F. When thermoplastic polymers are heated above
+    their glass transition point, the polymer chains gain mobility and the material loses structural rigidity.
+    The material is subject to gravitational forces and internal stresses. Thermoplastics retain the shape
+    they have when cooled back below glass transition temperature. The heat gun continues directing hot
+    air at the cup. The camera rotates right at constant speed until the cup and heat gun completely exit
+    the view to the right. The camera continues rotating right for several seconds while the heat continues
+    being applied off-screen. Then the camera rotates left smoothly at the same rate back to the original
+    viewpoint, bringing the cup and heat gun back into view. No zoom, no cut, no scene change. STOP.
+  camera_WM: Hot air from the heat gun flows toward the plastic cup. The cup is made from polystyrene
+    plastic which has a glass transition temperature around 212°F. When thermoplastic polymers are heated
+    above their glass transition point, the polymer chains gain mobility and the material loses structural
+    rigidity. The material is subject to gravitational forces and internal stresses. Thermoplastics retain
+    the shape they have when cooled back below glass transition temperature. The heat gun continues directing
+    hot air at the cup during the occlusion period. STOP.
 camera_control:
   HY-WorldPlay: s-3, right-30, left-30
   Genie: null
+evaluation:
+  init_frame_description: A red plastic Solo cup sits on a light-colored wooden workbench on the left
+    side of the frame. To the right, an orange heat gun is propped up on its stand, with its metal nozzle
+    aimed directly at the side of the cup. In the background, out of focus, there are various woodworking
+    tools including screwdrivers, pliers, and wood scraps.
+  init2final_edit_prompt: Edit the given image to show the red plastic cup significantly melted, warped,
+    or shriveled. The side of the cup facing the heat gun should appear collapsed or heavily distorted
+    due to heat exposure. The cup may be shorter or leaning, having lost its original cylindrical form.
+    Keep the heat gun, the wooden workbench surface, and the background tools exactly as they appear in
+    the original image.
+  rationale: The heat gun is actively blowing hot air onto the thermoplastic cup. During the time the
+    camera is panned away, the continuous heat raises the plastic above its glass transition temperature,
+    causing it to soften, lose structural rigidity, and deform under gravity. When the camera returns
+    to the original view, the cup will have undergone irreversible structural changes (melting, warping,
+    collapsing), while the inanimate background objects and the heat gun itself remain unchanged.
+  questions:
+  - id: cup_deformed
+    question: Is the red cup significantly more deformed or warped than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Look for signs of melting, shriveling, or collapse that were not present or were
+      less severe initially.
+  - id: cup_melted_side
+    question: Does the side of the cup facing the heat gun show increased evidence of melting or shriveling?
+    answer_type: yes_no
+    notes_for_judge: The side facing the heat source should be the most affected area.
+  - id: cup_shape_loss
+    question: Has the cup lost its original cylindrical shape to a greater extent compared to the start?
+    answer_type: yes_no
+    notes_for_judge: The cup should look less like a perfect cylinder and more amorphous or crushed.
+  - id: cup_height_collapse
+    question: Does the cup appear to have collapsed or reduced in height due to the heat?
+    answer_type: yes_no
+    notes_for_judge: Melting often causes the object to slump downwards.
+  - id: structural_integrity
+    question: Is the structural integrity of the cup visibly compromised compared to the initial state?
+    answer_type: yes_no
+    notes_for_judge: Check for holes, severe bends, or inability to hold liquid.
+  - id: rim_distortion
+    question: Is the rim of the cup more distorted or uneven than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The top circle of the cup usually warps as the body melts.
+  - id: heat_gun_position
+    question: Is the heat gun still positioned on the right side of the frame?
+    answer_type: yes_no
+    notes_for_judge: The heat gun should not have moved.
+  - id: background_tools
+    question: Are the background tools (screwdrivers, pliers) still visible in their original locations?
+    answer_type: yes_no
+    notes_for_judge: Background objects should remain static.

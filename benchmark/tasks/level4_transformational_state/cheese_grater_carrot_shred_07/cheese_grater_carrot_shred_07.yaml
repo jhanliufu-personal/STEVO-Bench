@@ -1,0 +1,64 @@
+id: cheese_grater_carrot_shred_07
+level: 4
+category: structural_transformation
+tags: []
+variant_of: cheese_grater_carrot_shred
+variation_type: combined
+variation_description: Stationary hand combined with lights turning off.
+changes:
+  occlusion_method: Lights turn off.
+  dynamic_conditions: Hand is stationary.
+  expected_outcome_change: No state change (carrot remains whole).
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The hand holds the carrot firmly against the grater surface without moving it. The vegetable
+    is static against the blades. Suddenly, the room lights turn completely off, plunging the kitchen
+    into total darkness. The silence suggests the lack of movement continues. After several seconds, the
+    lights turn back on, restoring visibility. No zoom, no cut, no scene change. STOP.
+  camera_WM: The hand holds the carrot firmly against the grater surface without moving it. The vegetable
+    is static against the blades. Suddenly, the room lights turn completely off, plunging the kitchen
+    into total darkness. The silence suggests the lack of movement continues. After several seconds, the
+    lights turn back on, restoring visibility. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a metal box grater standing on a worn wooden cutting
+    board. A hand enters from the right, holding a thick orange carrot horizontally against the side of
+    the grater that has small, round holes. There is a pile of orange carrot shreds already accumulated
+    at the base of the grater. A window is visible in the background, providing natural daylight.
+  init2final_edit_prompt: Edit the given image to show the exact same scene with restored lighting. The
+    carrot retains its original length and shape, held firmly against the grater by the hand in the same
+    position as the start. The pile of shredded carrot at the base remains the same size and arrangement,
+    with no new shreds added. The lighting is bright and fully illuminated, matching the initial visibility.
+  rationale: The video prompt explicitly states that the carrot is held static against the grater without
+    movement. Although the lights go out, the prompt specifies that the silence suggests a continued lack
+    of movement. Therefore, no grating action occurs during the blackout. When the lights turn back on,
+    the physical state of the carrot (length, integrity) and the pile of shavings must be identical to
+    the initial frame, verifying that the model correctly adhered to the 'static' instruction despite
+    the potential affordance for grating.
+  questions:
+  - id: carrot_length_persistence
+    question: Is the carrot the same length as it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The prompt specifies no movement; the carrot should not be shorter.
+  - id: shavings_pile_persistence
+    question: Is the pile of carrot shreds the same size as it was initially?
+    answer_type: yes_no
+    notes_for_judge: No grating occurred, so the pile should not have grown.
+  - id: carrot_integrity
+    question: Does the carrot appear structurally identical to the start, without new abrasion?
+    answer_type: yes_no
+    notes_for_judge: The carrot should not show signs of being grated further.
+  - id: hand_position
+    question: Is the hand still holding the carrot in the same position against the grater?
+    answer_type: yes_no
+    notes_for_judge: The hand should not have moved down or changed grip.
+  - id: lighting_restoration
+    question: Is the scene fully illuminated and bright?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the lights turn back on.
+  - id: grater_stability
+    question: Is the grater standing in the same position on the board?
+    answer_type: yes_no
+    notes_for_judge: The object should remain static.

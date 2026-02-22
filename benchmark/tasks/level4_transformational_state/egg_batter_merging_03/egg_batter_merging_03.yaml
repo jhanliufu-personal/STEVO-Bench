@@ -1,0 +1,67 @@
+id: egg_batter_merging_03
+level: 4
+category: structural_transformation
+tags: []
+variant_of: egg_batter_merging
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to zooming out.
+changes:
+  occlusion_method: Camera zooms out until the bowl is indistinguishable.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The whisk begins rapidly stirring the eggs into the flour. The distinct entities of the eggs
+    and flour are being combined into a single batter. The camera zooms out continuously until the bowl
+    is too small to see any details, then zooms back in to the original framing. No cut, no scene change.
+    STOP.
+  camera_WM: The whisk begins rapidly stirring the eggs into the flour. The distinct entities of the eggs
+    and flour are being combined into a single batter. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+evaluation:
+  init_frame_description: A ceramic mixing bowl sits on a wooden table, containing a ring of white flour
+    surrounding four raw eggs with distinct yellow yolks and clear whites. A metal whisk rests in the
+    bowl, with its handle pointing towards the top right. A linen cloth lies to the right of the bowl,
+    and scattered flour is visible on the table to the left. A window is in the background.
+  init2final_edit_prompt: Edit the given image to show the eggs and flour inside the bowl mixed into a
+    batter. The distinct round egg yolks and the clean ring of flour must be blended together into a lumpy,
+    yellowish dough or batter mixture. The whisk should remain in the bowl, embedded in or coated by the
+    mixture. Ensure the bowl, table, and background remain unchanged.
+  rationale: 'The video prompt describes a rapid stirring action that combines distinct ingredients (eggs
+    and flour) into a single batter. The camera zooms out and then back in to the original framing, implying
+    a duration of time has passed while the action occurred. Consequently, the final frame must show the
+    result of this irreversible physical transformation: the destruction of the distinct egg yolks and
+    flour ring, replaced by a mixed or partially mixed batter.'
+  questions:
+  - id: yolk_integrity
+    question: Are the egg yolks broken or blended, rather than being intact distinct circles?
+    answer_type: yes_no
+    notes_for_judge: In the initial frame, yolks are perfect yellow spheres. In the final frame, they
+      should be broken or mixed.
+  - id: flour_incorporation
+    question: Has the distinct ring of white flour been disturbed or partially incorporated into the mixture?
+    answer_type: yes_no
+    notes_for_judge: The clean separation between the flour wall and the eggs should be gone or significantly
+      reduced.
+  - id: batter_formation
+    question: Does the content of the bowl resemble a mixed batter or dough rather than separate raw ingredients?
+    answer_type: yes_no
+    notes_for_judge: Look for a change in texture and color uniformity indicating mixing.
+  - id: mixture_color
+    question: Is the substance in the bowl a blended yellowish color, rather than distinct white and bright
+      yellow areas?
+    answer_type: yes_no
+    notes_for_judge: Mixing yellow yolks and white flour creates a pale yellow mixture.
+  - id: whisk_presence
+    question: Is the whisk still visible in the bowl?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: bowl_position
+    question: Is the ceramic bowl still centered in the frame on the wooden table?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: cloth_presence
+    question: Is the linen cloth still visible on the right side of the image?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

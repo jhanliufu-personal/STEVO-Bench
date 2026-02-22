@@ -1,0 +1,74 @@
+id: hole_punch_paper_stack_08
+level: 4
+category: structural_transformation
+tags: []
+variant_of: hole_punch_paper_stack
+variation_type: combined
+variation_description: Lifting lever (upward motion) + Object blocking occlusion.
+changes:
+  occlusion_method: Large opaque divider slides in front.
+  dynamic_conditions: Hand lifts lever instead of pressing.
+  expected_outcome_change: Lever raised.
+prompts:
+  init_frame_edit_prompt: Edit the image so the hand is positioned under the lever handle, gripping it
+    from below, ready to lift it up.
+  video_WM: The hand grips the lever from underneath and begins pulling upward. The mechanism is designed
+    to retract blades when lifted. A large opaque office divider slides into the frame from the left,
+    completely obscuring the hole punch and hand from view. The hand continues the lifting motion behind
+    the divider. The divider slides away to the right, revealing the scene again. No zoom, no cut, no
+    scene change. STOP.
+  camera_WM: The hand grips the lever from underneath and begins pulling upward. The mechanism is designed
+    to retract blades when lifted. A large opaque office divider slides into the frame from the left,
+    completely obscuring the hole punch and hand from view. The hand continues the lifting motion behind
+    the divider. The divider slides away to the right, revealing the scene again. No zoom, no cut, no
+    scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a wooden desk featuring a heavy-duty silver and
+    black hole punch in the center. A stack of white paper is inserted into the punch's slot. A person's
+    arm and hand are visible on the right, with the hand pressing down on the silver lever handle, which
+    is in its lowest, horizontal position. To the left, a black standard 3-hole punch is partially visible.
+    In the background, there is a wire mesh pen cup with pens and a window showing a blurry city exterior.
+  init2final_edit_prompt: Edit the given image to show the silver handle of the heavy-duty hole punch
+    in the raised, upward position. The hand should be positioned underneath or gripping the side of the
+    handle, lifting it upwards. The lever arm should be angled diagonally up, creating a significant gap
+    between the handle and the base. The internal punching mechanism should appear retracted or lifted.
+    The stack of white paper remains in the slot, unchanged in position. Keep the background, the black
+    hole punch on the left, and the desk surface identical to the original.
+  rationale: The initial frame shows the hole punch in the fully depressed state, implying the punching
+    action is finishing. The video prompt describes the hand gripping the lever and pulling upward to
+    retract the blades. This is the recovery stroke of the mechanism. The occlusion hides the motion,
+    but the final state must show the handle in the raised (open) position. While the holes in the paper
+    constitute the irreversible material change, they may be obscured by the machine's guide; the primary
+    visible evidence of the completed cycle is the raised handle and retracted mechanism.
+  questions:
+  - id: handle_position_up
+    question: Is the silver handle of the hole punch in a raised position?
+    answer_type: yes_no
+    notes_for_judge: The handle should be angled upwards, not lying flat/horizontal.
+  - id: lever_angle
+    question: Is the lever arm angled diagonally upwards?
+    answer_type: yes_no
+    notes_for_judge: Contrast with the initial horizontal position.
+  - id: handle_base_gap
+    question: Is the vertical gap between the handle and the base larger than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The handle should be lifted away from the base.
+  - id: hand_action_lifting
+    question: Does the hand appear to be lifting or holding the handle up rather than pressing it down?
+    answer_type: yes_no
+    notes_for_judge: Hand position should suggest upward force or grip from below/side.
+  - id: mechanism_retracted
+    question: Are the punching components retracted or lifted compared to the initial state?
+    answer_type: yes_no
+    notes_for_judge: The moving parts connected to the handle should be up.
+  - id: paper_presence
+    question: Is the stack of white paper still present in the machine?
+    answer_type: yes_no
+    notes_for_judge: The paper should not disappear.
+  - id: background_consistency
+    question: Is the black hole punch on the left still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary object consistency.

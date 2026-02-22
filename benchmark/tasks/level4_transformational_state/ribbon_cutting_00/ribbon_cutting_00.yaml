@@ -1,0 +1,66 @@
+id: ribbon_cutting_00
+level: 4
+category: structural_transformation
+tags: []
+variant_of: ribbon_cutting
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The blades of the sharp scissors begin to close slowly and steadily around the taut red ribbon.
+    The cutting action begins. Camera remains stationary throughout. No zoom, no cut, no scene change.
+    STOP.
+  camera_WM: The blades of the sharp scissors begin to close slowly and steadily around the taut red ribbon.
+    The cutting action begins. Camera remains stationary throughout. No zoom, no cut, no scene change.
+    STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up, high-angle shot of a wooden surface. A bright red ribbon lies horizontally
+    across the wood. A pair of open, silver metal scissors is positioned diagonally over the ribbon, with
+    the ribbon situated between the open blades, poised to cut.
+  init2final_edit_prompt: Edit the given image so that the scissor blades are closed or nearly closed.
+    Show the red ribbon visibly cut or severed at the point where the scissor blades meet, creating a
+    clear slice or gap in the fabric.
+  rationale: 'The prompt describes the scissors closing and the cutting action beginning. This involves
+    two synchronized state changes: the mechanical rotation of the scissor blades towards each other (closing)
+    and the irreversible physical destruction of the ribbon (severing). The final frame must depict the
+    scissors in a more closed position and the ribbon showing clear evidence of being cut, such as a slice,
+    tear, or complete separation at the fulcrum point.'
+  questions:
+  - id: ribbon_cut_visible
+    question: Is the red ribbon visibly cut, sliced, or severed at the point where the scissors are located?
+    answer_type: yes_no
+    notes_for_judge: Look for a break, gap, or slice in the ribbon material.
+  - id: scissors_closed
+    question: Are the scissor blades closer together than they were in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The angle between the blades should be smaller.
+  - id: ribbon_discontinuity
+    question: Is there a visible discontinuity or break in the ribbon that was not present initially?
+    answer_type: yes_no
+    notes_for_judge: Check for structural change in the ribbon.
+  - id: handles_closer
+    question: Is the gap between the scissor handles smaller than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: As blades close, handles also close.
+  - id: blade_ribbon_intersection
+    question: Do the scissor blades intersect or overlap the ribbon's path more than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The blades should have moved through the space occupied by the ribbon.
+  - id: structural_integrity
+    question: Has the structural integrity of the ribbon been compromised at the cutting point?
+    answer_type: yes_no
+    notes_for_judge: The ribbon should no longer be a single perfect strip.
+  - id: invariant_surface
+    question: Is the wooden surface texture still visible in the background?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: invariant_ribbon_color
+    question: Is the ribbon still red?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

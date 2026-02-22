@@ -1,0 +1,67 @@
+id: projectile_window_break_03
+level: 4
+category: structural_transformation
+tags: []
+variant_of: projectile_window_break
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to a large truck driving past outside.
+changes:
+  occlusion_method: A large delivery truck drives past outside, blocking the view.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The high-speed metal BB projectile strikes the center of the glass pane. At that moment, a
+    large delivery truck drives past in the garden outside, completely blocking the view through the window.
+    The truck continues forward until the window view is clear again. No zoom, no cut, no scene change.
+    STOP.
+  camera_WM: The high-speed metal BB projectile strikes the center of the glass pane. At that moment,
+    a large delivery truck drives past in the garden outside, completely blocking the view through the
+    window. The truck continues forward until the window view is clear again. No zoom, no cut, no scene
+    change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up view through a wooden window frame looking out at a green garden
+    and a rustic wooden house. A copper-colored bullet or BB projectile is frozen in mid-air, positioned
+    just in front of the right-hand glass pane, about to strike it. The glass is currently intact with
+    minor dust specks.
+  init2final_edit_prompt: Edit the given image to show the glass pane shattered with a spiderweb pattern
+    of cracks and a central impact hole where the projectile was positioned. Remove the floating projectile
+    from the air. Ensure the background garden and wooden house are clearly visible again, with no delivery
+    truck or vehicle blocking the view.
+  rationale: The prompt describes a sequence where the projectile strikes the glass, causing irreversible
+    structural damage (shattering). Simultaneously, a truck passes by, temporarily occluding the scene.
+    The prompt explicitly states the truck continues until the view is clear again. Therefore, the final
+    state must show the aftermath of the impact—broken glass—with the occlusion removed, revealing the
+    original background.
+  questions:
+  - id: glass_broken
+    question: Does the glass pane show visible signs of damage such as cracks or shattering?
+    answer_type: yes_no
+    notes_for_judge: Look for spiderweb cracks or fragmentation of the glass surface.
+  - id: impact_hole
+    question: Is there a visible impact point or hole in the glass where the projectile was aiming?
+    answer_type: yes_no
+    notes_for_judge: The damage should be centered around the projectile's original trajectory.
+  - id: projectile_gone
+    question: Is the projectile no longer floating in mid-air in front of the window?
+    answer_type: yes_no
+    notes_for_judge: The projectile should have struck the glass and either passed through or fallen,
+      not remained frozen.
+  - id: truck_gone
+    question: Is the view through the window clear of any large delivery truck?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the truck continues until the view is clear again.
+  - id: background_visible
+    question: Is the wooden house in the background visible through the window?
+    answer_type: yes_no
+    notes_for_judge: Verifies the occlusion has ended.
+  - id: structural_change
+    question: Has the glass lost its smooth, unbroken appearance compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Tests for irreversible transformation of the material.
+  - id: frame_intact
+    question: Is the wooden window frame surrounding the glass still present?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

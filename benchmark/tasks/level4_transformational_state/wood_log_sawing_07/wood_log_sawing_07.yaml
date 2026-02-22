@@ -1,0 +1,63 @@
+id: wood_log_sawing_07
+level: 4
+category: structural_transformation
+tags: []
+variant_of: wood_log_sawing
+variation_type: combined
+variation_description: Static saw (no action) + Blocking occlusion.
+changes:
+  occlusion_method: Blocking by plywood sheet.
+  dynamic_conditions: Saw is motionless.
+  expected_outcome_change: No change in cut depth.
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The hand saw rests motionless in the groove on the wooden log. No one is touching the saw.
+    A large sheet of plywood is carried past the camera, completely blocking the view of the log and saw
+    for several seconds, then moves away to reveal the scene again. No zoom, no cut, no scene change.
+    STOP.
+  camera_WM: The hand saw rests motionless in the groove on the wooden log. No one is touching the saw.
+    A large sheet of plywood is carried past the camera, completely blocking the view of the log and saw
+    for several seconds, then moves away to reveal the scene again. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up outdoor shot showing a wooden log resting horizontally on a wooden
+    sawhorse. A hand saw with a wooden handle and metal blade is positioned in a partial cut (kerf) on
+    the top of the log. The saw is stationary. There is sawdust scattered on the log's surface around
+    the cut and on the sawhorse structure below. The background consists of a blurred forest with trees
+    and foliage.
+  init2final_edit_prompt: Edit the given image to maintain the scene exactly as it is. The hand saw should
+    remain in the exact same position and angle within the groove on the log. The depth of the cut should
+    not change. The amount and distribution of sawdust on the log and sawhorse should remain identical.
+    The log and sawhorse should not move. Ensure the lighting and background remain consistent.
+  rationale: The video prompt explicitly states that the saw rests motionless and that no one is touching
+    it. The occlusion event involving the plywood is purely visual and does not involve any physical interaction
+    with the saw or log. Therefore, despite the passage of time and the temporary blockage of view, the
+    physical state of the scene (cut depth, saw position, sawdust arrangement) must remain invariant.
+    The correct final state is identical to the initial state, testing the model's ability to maintain
+    object permanence and state stability without hallucinating action.
+  questions:
+  - id: saw_position_static
+    question: Is the hand saw still in the exact same position within the groove as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The saw should not have moved deeper or changed angle.
+  - id: cut_depth_unchanged
+    question: Is the depth of the saw blade in the log identical to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The cut should not be deeper.
+  - id: sawdust_consistency
+    question: Is the amount and arrangement of sawdust on the log consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: No new sawdust should appear.
+  - id: log_integrity
+    question: Is the log free from any new cuts or structural changes compared to the start?
+    answer_type: yes_no
+    notes_for_judge: The log should look exactly the same.
+  - id: saw_handle_angle
+    question: Is the angle of the saw handle unchanged relative to the log?
+    answer_type: yes_no
+    notes_for_judge: The saw should not have tilted.
+  - id: saw_groove_contact
+    question: Is the saw blade still resting in the groove without having advanced?
+    answer_type: yes_no
+    notes_for_judge: Verifies no forward progress in sawing.

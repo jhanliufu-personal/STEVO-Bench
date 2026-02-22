@@ -13,3 +13,47 @@ prompts:
     continues to increase. STOP.
 camera_control:
   HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up shot of a thick, textured rope stretched horizontally between two
+    rusty metal winches on the left and right. The center of the rope is severely frayed and damaged,
+    held together by only a few thin, tensioned strands. Dust particles are visible in the air around
+    the stress point. The background is a blurred industrial setting.
+  init2final_edit_prompt: Edit the given image to show the rope snapped in the center. Remove the thin
+    connecting strands completely so there is a clear, visible gap of empty space between the left and
+    right sections of the rope. The two severed ends should appear frayed and separated, no longer connecting
+    the two winches.
+  rationale: The initial state shows a rope under tension that is structurally compromised and hanging
+    by a thread. The prompt specifies that the winches continue to pull tighter with extreme tension.
+    Given the fragility of the connection, the physical outcome of increased tension is the snapping of
+    the rope. The camera pans away and then returns to the original view; during this elapsed time and
+    occlusion, the rope snaps. Therefore, the final frame must depict the irreversible structural failure
+    of the rope (it being broken into two pieces).
+  questions:
+  - id: rope_severed
+    question: Is the rope broken into two separate pieces?
+    answer_type: yes_no
+    notes_for_judge: The rope should no longer be one continuous object.
+  - id: gap_visible
+    question: Is there a visible gap of empty space between the left and right sections of the rope?
+    answer_type: yes_no
+    notes_for_judge: There should be no connecting strands remaining in the center.
+  - id: strands_snapped
+    question: Are the thin strands that initially connected the two sides now severed?
+    answer_type: yes_no
+    notes_for_judge: The thin bridge of fibers in the center of the initial image must be gone.
+  - id: structural_integrity
+    question: Has the rope lost its structural continuity compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: It should be discontinuous.
+  - id: frayed_ends
+    question: Do the separated ends of the rope appear frayed or damaged?
+    answer_type: yes_no
+    notes_for_judge: The break point should look like a tear/snap, not a clean cut.
+  - id: winch_presence
+    question: Are the rusty metal winches still visible on the sides of the frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: background_consistency
+    question: Is the background still the same blurred industrial setting?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

@@ -1,0 +1,73 @@
+id: plastic_bottle_hand_crush_08
+level: 4
+category: structural_transformation
+tags: []
+variant_of: plastic_bottle_hand_crush
+variation_type: combined
+variation_description: Gentle hold (condition) + Lights off occlusion (method).
+changes:
+  occlusion_method: Lights turn off.
+  dynamic_conditions: Hand holds bottle gently.
+  expected_outcome_change: No deformation
+prompts:
+  init_frame_edit_prompt: Edit the image to show the hand gripping the bottle very loosely, with fingers
+    relaxed.
+  video_WM: The hand rests gently around the plastic bottle. The fingers are relaxed and apply no compressive
+    force, merely holding the bottle in place. The plastic structure remains under no stress. Suddenly,
+    the lights in the room turn off, resulting in total darkness. The hand remains in position holding
+    the bottle gently in the dark. After several seconds, the lights turn back on, restoring full visibility.
+    No zoom, no cut, no scene change. STOP.
+  camera_WM: The hand rests gently around the plastic bottle. The fingers are relaxed and apply no compressive
+    force, merely holding the bottle in place. The plastic structure remains under no stress. Suddenly,
+    the lights in the room turn off, resulting in total darkness. The hand remains in position holding
+    the bottle gently in the dark. After several seconds, the lights turn back on, restoring full visibility.
+    No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot shows a clear, empty plastic water bottle with a
+    blue cap resting on a worn wooden table. A person's arm enters from the left, with their hand gently
+    grasping the middle of the bottle. The fingers are relaxed and wrapped loosely around the plastic.
+    Several circular water rings are visible on the table surface near the bottle. The background is a
+    blurred kitchen interior with a window, white cabinets, and appliances.
+  init2final_edit_prompt: Edit the given image to show the plastic bottle remaining in its original, uncrushed
+    state. The bottle should maintain its full cylindrical volume with no dents, folds, or buckling. The
+    hand should continue to grasp the bottle gently with relaxed fingers, applying no pressure. The lighting
+    should be fully restored to the initial bright daylight conditions, revealing the bottle and table
+    clearly.
+  rationale: The video prompt acts as a control case (negative sample) for a crushing task. It explicitly
+    states that the hand applies no compressive force and holds the bottle gently throughout the sequence,
+    including during the period of darkness. Therefore, despite the potential for interaction, the bottle
+    must not undergo any structural transformation. The final frame should show the bottle intact and
+    uncrushed, identical to the initial state, verifying that the model follows the specific text constraints
+    rather than a prior bias towards crushing.
+  questions:
+  - id: bottle_integrity_1
+    question: Is the plastic bottle still fully expanded and uncrushed?
+    answer_type: yes_no
+    notes_for_judge: The bottle should not show signs of being squeezed or flattened.
+  - id: bottle_shape_2
+    question: Does the bottle retain its original cylindrical shape without buckling?
+    answer_type: yes_no
+    notes_for_judge: Check for structural deformation.
+  - id: bottle_surface_3
+    question: Are the sides of the bottle smooth and free from new creases or dents?
+    answer_type: yes_no
+    notes_for_judge: The surface should remain smooth as in the initial frame.
+  - id: bottle_height_4
+    question: Is the height of the bottle approximately the same as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Crushing would reduce height; it should remain unchanged.
+  - id: hand_grip_5
+    question: Is the hand still holding the bottle with a relaxed, gentle grip?
+    answer_type: yes_no
+    notes_for_judge: Fingers should not be digging in or clenched tight.
+  - id: lighting_6
+    question: Is the scene fully illuminated with bright lighting?
+    answer_type: yes_no
+    notes_for_judge: The lights turned back on.
+  - id: table_rings_7
+    question: Are the water rings on the table still visible in their original positions?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

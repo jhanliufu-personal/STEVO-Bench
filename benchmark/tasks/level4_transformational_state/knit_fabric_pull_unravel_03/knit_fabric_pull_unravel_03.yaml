@@ -1,0 +1,81 @@
+id: knit_fabric_pull_unravel_03
+level: 4
+category: structural_transformation
+tags: []
+variant_of: knit_fabric_pull_unravel
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to steam filling the view.
+changes:
+  occlusion_method: Thick white steam fills the frame, obscuring the view.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The hand begins pulling steadily on the loose yarn end. Knitted fabric is constructed from
+    a single continuous strand of yarn formed into interlocking loops. Each loop passes through the loops
+    of the previous row creating a stable but mechanically separable structure. Tension applied to the
+    yarn end acts to pull loops through their neighboring loops. The interlocked structure cannot spontaneously
+    reform once loops are separated. The hand continues pulling the yarn with steady tension. Thick white
+    steam from a nearby iron begins to fill the frame, quickly becoming opaque and completely obscuring
+    the fabric and hand. The steam swirls for several seconds while the hand continues pulling the yarn.
+    Then the steam dissipates rapidly, clearing the view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The hand begins pulling steadily on the loose yarn end. Knitted fabric is constructed from
+    a single continuous strand of yarn formed into interlocking loops. Each loop passes through the loops
+    of the previous row creating a stable but mechanically separable structure. Tension applied to the
+    yarn end acts to pull loops through their neighboring loops. The interlocked structure cannot spontaneously
+    reform once loops are separated. The hand continues pulling the yarn with steady tension. Thick white
+    steam from a nearby iron begins to fill the frame, quickly becoming opaque and completely obscuring
+    the fabric and hand. The steam swirls for several seconds while the hand continues pulling the yarn.
+    Then the steam dissipates rapidly, clearing the view. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, high-angle shot of a piece of chunky, cream-colored knitted fabric
+    lying on a rustic wooden table. A hand enters from the left side, holding a loose strand of the same
+    yarn attached to the unraveling edge of the fabric. The texture of the knitting shows large, interlocking
+    loops. The wooden table has visible grain and a gap between planks.
+  init2final_edit_prompt: Edit the given image to show the knitted fabric significantly unraveled. Remove
+    several rows of loops from the edge of the fabric, making the overall knitted piece smaller in area.
+    Extend the loose strand of yarn held by the hand so it is much longer, kinked, and piled up, representing
+    the material pulled from the structure. Reveal more of the wooden table surface where the fabric has
+    receded. Ensure the scene is fully clear with no steam or visual obstructions remaining.
+  rationale: The action described is the continuous pulling of a loose yarn end, which mechanically unravels
+    the knitted structure. Since the prompt states the hand continues pulling even while the view is obscured
+    by steam, the final state must show the cumulative result of this action. The knitted fabric must
+    be physically smaller (having lost rows), and the loose yarn must be longer (conservation of material).
+    The steam dissipates at the end, returning the scene to a clear view of the irreversible structural
+    damage.
+  questions:
+  - id: fabric_size_reduction
+    question: Is the knitted fabric smaller in area than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The fabric should have unraveled, reducing its overall size.
+  - id: yarn_length_increase
+    question: Is the loose strand of yarn significantly longer than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The pulled yarn must go somewhere; the loose end should be longer.
+  - id: edge_recession
+    question: Has the edge of the fabric receded compared to its starting position?
+    answer_type: yes_no
+    notes_for_judge: Check if the boundary of the fabric has moved away from the hand due to unraveling.
+  - id: table_visibility
+    question: Is more of the wooden table surface visible where the fabric used to be?
+    answer_type: yes_no
+    notes_for_judge: As the fabric shrinks, the background table should be revealed.
+  - id: structural_loss
+    question: Are there fewer rows of knitted loops visible on the fabric compared to the start?
+    answer_type: yes_no
+    notes_for_judge: 'Structural integrity check: rows must be missing.'
+  - id: steam_cleared
+    question: Is the view clear of the steam mentioned in the prompt?
+    answer_type: yes_no
+    notes_for_judge: The prompt explicitly states the steam dissipates.
+  - id: hand_presence
+    question: Is the hand still visible in the frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: table_texture_consistency
+    question: Does the wooden table retain its rustic texture and grain?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

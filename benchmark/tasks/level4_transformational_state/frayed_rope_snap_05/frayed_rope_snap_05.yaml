@@ -1,0 +1,71 @@
+id: frayed_rope_snap_05
+level: 4
+category: structural_transformation
+tags: []
+variant_of: frayed_rope_snap
+variation_type: dynamic_condition
+variation_description: The rope is new and intact, capable of withstanding the tension.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Rope is new, strong, and not frayed.
+  expected_outcome_change: Rope stretches slightly but remains intact (does not snap).
+prompts:
+  init_frame_edit_prompt: Edit the image to show a brand new, high-strength rope that is completely intact
+    with no fraying or damage in the center.
+  video_WM: The winches continue to pull the strong, new rope tighter. High tension is applied to the
+    intact fibers of the rope. The camera rotates right until the rope completely exits the view, then
+    rotates toward the left smoothly at the same rate until the center point between the winches is back
+    in the center of view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The winches continue to pull the strong, new rope tighter. High tension is applied to the
+    intact fibers of the rope. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a thick, braided steel wire rope stretched horizontally
+    under tension between two rusty metal winches. The winch drums are partially visible on the left and
+    right edges of the frame, with the rope wound around them. The rope is silver-grey with a distinct
+    twisted texture, appearing intact and taut. The background is out of focus, showing indistinct beige
+    and grey concrete or stone structures. The lighting is bright natural light, casting soft shadows
+    on the winch components.
+  init2final_edit_prompt: Edit the given image to show that the steel rope has snapped in the middle due
+    to excessive tension. The continuous cable connecting the left and right sides must be severed, leaving
+    a visible gap in the center. Render two broken, frayed ends of the wire rope recoiled back towards
+    the winch drums on the left and right edges. The fibers at the broken tips should look unraveled,
+    jagged, and damaged. The background previously occluded by the central part of the rope should now
+    be visible.
+  rationale: The video prompt describes winches pulling a rope tighter with high tension. This is a Level
+    4 task focused on irreversible structural transformation. Although the rope is initially described
+    as 'strong' and 'new', the continuous application of high tension implies a test of the material's
+    breaking point. The camera rotation (occlusion) provides a temporal window for the catastrophic failure
+    to occur. When the view returns to the center, the rope must be shown as snapped and recoiled to demonstrate
+    that the irreversible physical limit was reached and the object's integrity was compromised.
+  questions:
+  - id: rope_severed
+    question: Is the rope severed into two separate pieces?
+    answer_type: yes_no
+    notes_for_judge: The rope should no longer be a single continuous line connecting the left and right
+      sides.
+  - id: visible_gap
+    question: Is there a visible gap in the center where the rope used to be?
+    answer_type: yes_no
+    notes_for_judge: The space between the winches should not be bridged by the rope anymore.
+  - id: frayed_ends
+    question: Do the ends of the rope appear frayed, jagged, or unraveled?
+    answer_type: yes_no
+    notes_for_judge: Look for texture indicating a violent break rather than a clean cut.
+  - id: structural_integrity_loss
+    question: Has the rope lost its structural continuity compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The primary state change is the loss of the intact connection.
+  - id: recoil_evidence
+    question: Are the broken segments of the rope separated from each other?
+    answer_type: yes_no
+    notes_for_judge: They should not be touching.
+  - id: winch_presence
+    question: Are the winches still visible on the left and right edges of the frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: background_consistency
+    question: Is the background environment consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

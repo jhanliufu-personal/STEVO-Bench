@@ -1,0 +1,74 @@
+id: play_doh_garlic_press_extrude_08
+level: 4
+category: structural_transformation
+tags: []
+variant_of: play_doh_garlic_press_extrude
+variation_type: combined
+variation_description: Hard object condition combined with lights off occlusion.
+changes:
+  occlusion_method: Lights turn off.
+  dynamic_conditions: Material is hard stone.
+  expected_outcome_change: No extrusion.
+prompts:
+  init_frame_edit_prompt: Edit the image to change the blue Play-Doh ball into a shiny, hard blue glass
+    marble or polished stone with rigid texture.
+  video_WM: The hands begin squeezing the garlic press handles together with force. Inside the chamber
+    is a solid blue marble made of hard, rigid glass. The plunger descends and contacts the marble. Glass
+    is a brittle, rigid solid that does not flow under manual pressure. It resists the force of the press.
+    Suddenly, the room lights turn off, leaving the scene in total darkness. The sound of hands straining
+    against the handles continues in the dark. After several seconds, the lights turn back on. No zoom,
+    no cut, no scene change. STOP.
+  camera_WM: The hands begin squeezing the garlic press handles together with force. Inside the chamber
+    is a solid blue marble made of hard, rigid glass. The plunger descends and contacts the marble. Glass
+    is a brittle, rigid solid that does not flow under manual pressure. It resists the force of the press.
+    Suddenly, the room lights turn off, leaving the scene in total darkness. The sound of hands straining
+    against the handles continues in the dark. After several seconds, the lights turn back on. No zoom,
+    no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a vintage metal garlic press held by two hands
+    over a wooden countertop. The press is in an open position. A solid, translucent blue glass marble
+    rests inside the crushing chamber (hopper). In the background, out of focus, are kitchen utensils
+    like a whisk and a spoon, along with a window and jars.
+  init2final_edit_prompt: Edit the given image to show the garlic press handles squeezed tightly towards
+    each other, clamping down on the blue glass marble. The marble should remain inside the chamber, appearing
+    solid and rigid, potentially with internal fractures or cracks, but retaining its spherical shape.
+    The plunger should be pressed firmly against the marble. Crucially, do NOT show any blue material
+    extruding or flowing out of the press holes; the marble must not look like Play-Doh or noodles. The
+    handles should be stalled in a partially open position, unable to close fully due to the hard glass
+    object resisting the pressure.
+  rationale: The action involves squeezing a hard glass marble in a garlic press. Unlike soft materials
+    (like Play-Doh or garlic), glass is a brittle, rigid solid that does not undergo plastic deformation
+    or extrusion. Under manual pressure, the marble will resist the plunger. The prompt describes 'straining
+    against the handles' continuing, which implies the marble has not shattered catastrophically (which
+    would allow the handles to snap shut) but is instead withstanding the force or cracking slightly while
+    blocking the press. Therefore, the final state must show the press clamped but stalled, with the marble
+    intact or cracked but definitely not extruded.
+  questions:
+  - id: no_extrusion_check
+    question: Is the area immediately below the garlic press free of any extruded blue strands or 'noodles'?
+    answer_type: yes_no
+    notes_for_judge: Glass does not extrude. If there are blue spaghetti-like strands, the answer is NO.
+  - id: handles_stalled
+    question: Are the garlic press handles separated by a gap, indicating they have not fully closed?
+    answer_type: yes_no
+    notes_for_judge: The hard marble prevents the handles from touching.
+  - id: marble_integrity
+    question: Does the blue object inside the press retain a generally spherical or solid chunk-like shape?
+    answer_type: yes_no
+    notes_for_judge: It should not be flattened into a disk or mush.
+  - id: plunger_contact
+    question: Is the metal plunger of the press in contact with the blue marble?
+    answer_type: yes_no
+    notes_for_judge: The press has been squeezed, so the mechanism should be clamped down on the object.
+  - id: material_rigidity
+    question: Does the blue object appear to be a rigid solid rather than a soft, malleable paste?
+    answer_type: yes_no
+    notes_for_judge: Check for sharp edges (if cracked) or preserved geometry, as opposed to organic flow
+      shapes.
+  - id: containment
+    question: Is the blue material almost entirely contained within the crushing chamber?
+    answer_type: yes_no
+    notes_for_judge: Since it doesn't flow, it shouldn't be leaking out the sides or bottom.

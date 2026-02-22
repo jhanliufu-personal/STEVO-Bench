@@ -1,0 +1,75 @@
+id: expanding_foam_paper_cup_burst_04
+level: 4
+category: structural_transformation
+tags: []
+variant_of: expanding_foam_paper_cup_burst
+variation_type: dynamic_condition
+variation_description: The paper cup is replaced with a steel pipe section, which will force the foam
+  upward rather than bursting.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Container changed to a rigid steel pipe with high tensile strength.
+  expected_outcome_change: Foam overflows vertically instead of bursting the container
+prompts:
+  init_frame_edit_prompt: Edit the image to replace the paper cup with a rusty steel pipe section of the
+    same diameter standing vertically on the plastic sheet.
+  video_WM: The hand presses the trigger and expanding foam begins dispensing into the vertical steel
+    pipe. Polyurethane foam undergoes rapid chemical expansion as it cures, increasing in volume by 30-50
+    times within seconds. The foam expands in all directions exerting outward pressure. The steel pipe
+    has extremely high tensile strength and rigid walls that cannot deform or tear. The foam continues
+    expanding within the rigid cylinder. The camera rotates right at constant speed until the pipe and
+    foam can completely exit the view to the right. The camera continues rotating right for several seconds
+    while the foam continues expanding off-screen. Then the camera rotates left smoothly at the same rate
+    back to the original viewpoint. No zoom, no cut, no scene change. STOP.
+  camera_WM: The hand presses the trigger and expanding foam begins dispensing into the vertical steel
+    pipe. Polyurethane foam undergoes rapid chemical expansion as it cures, increasing in volume by 30-50
+    times within seconds. The foam expands in all directions exerting outward pressure. The steel pipe
+    has extremely high tensile strength and rigid walls that cannot deform or tear. The foam continues
+    expanding within the rigid cylinder during the occlusion period. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A rusty, vertical steel pipe section sits on a plastic sheet covering a wooden
+    workbench. A hand wearing a grey and black work glove holds a can of 'GREAT STUFF' expanding foam,
+    with the red dispensing straw inserted into the top opening of the pipe. The background includes wooden
+    planks, a hammer, a clamp, and a window.
+  init2final_edit_prompt: Edit the given image to show the steel pipe overflowing with a large volume
+    of expanded yellow polyurethane foam. The foam should form a bulbous, irregular mound rising significantly
+    above the top rim of the pipe and spilling over the sides onto the plastic sheet. The steel pipe itself
+    must remain completely intact, cylindrical, and undeformed, showing no signs of bursting, tearing,
+    or structural failure. The background, tools, and workbench should remain unchanged.
+  rationale: 'The video prompt describes dispensing expanding foam into a container. Crucially, the prompt
+    specifies that the container is a steel pipe with ''extremely high tensile strength'' that ''cannot
+    deform or tear''. This is a physics constraint test: unlike a weaker container (like a paper cup)
+    that might burst, the rigid steel pipe forces the expanding foam to follow the path of least resistance,
+    which is upwards out of the open top. During the occlusion (camera rotation), the foam continues to
+    expand and cure. Upon the camera''s return, the correct state is a pipe that is structurally intact
+    but overflowing with a large ''mushroom'' of expanded foam.'
+  questions:
+  - id: foam_visible
+    question: Is there a large mass of expanded foam visible rising out of the top of the pipe?
+    answer_type: yes_no
+    notes_for_judge: The foam should be clearly visible as a new volume of material not present (or contained)
+      in the initial frame.
+  - id: foam_overflow
+    question: Has the foam expanded beyond the vertical limits of the pipe's rim?
+    answer_type: yes_no
+    notes_for_judge: The foam should form a mound or shape that is taller than the pipe itself.
+  - id: foam_volume_increase
+    question: Is the volume of visible foam significantly greater than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the initial state (mostly empty/straw only) to the final state (overflowing).
+  - id: pipe_intact
+    question: Does the steel pipe appear structurally intact, without any visible bursting or tearing?
+    answer_type: yes_no
+    notes_for_judge: The prompt explicitly states the pipe cannot deform. If the pipe is broken or burst,
+      the answer is NO.
+  - id: pipe_shape_consistency
+    question: Is the pipe still cylindrical in shape?
+    answer_type: yes_no
+    notes_for_judge: The pipe should not be bulged or warped.
+  - id: foam_spill
+    question: Is there foam spilling over the sides or resting on the rim of the pipe?
+    answer_type: yes_no
+    notes_for_judge: The expansion should cause overflow.

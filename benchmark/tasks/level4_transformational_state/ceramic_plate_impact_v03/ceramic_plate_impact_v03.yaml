@@ -1,0 +1,69 @@
+id: ceramic_plate_impact_v03
+level: 4
+category: structural_transformation
+tags: []
+variant_of: ceramic_plate_impact
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to thick smoke filling the room.
+changes:
+  occlusion_method: Thick opaque smoke fills the frame at impact, then dissipates.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The heavy steel hammer swings down forcefully toward the ceramic plate. Upon impact, a burst
+    of thick, opaque white smoke instantly fills the frame, completely obscuring the floor and objects.
+    The smoke slowly dissipates over several seconds until the visibility is clear again. No zoom, no
+    cut, no scene change. STOP.
+  camera_WM: The heavy steel hammer swings down forcefully toward the ceramic plate. Upon impact, a burst
+    of thick, opaque white smoke instantly fills the frame, completely obscuring the floor and objects.
+    The smoke slowly dissipates over several seconds until the visibility is clear again. No zoom, no
+    cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A white ceramic dinner plate sits in the center of a cracked concrete floor.
+    A heavy sledgehammer with a wooden handle and metal head is positioned mid-air, angled downwards from
+    the right, poised to strike the plate. Natural light illuminates the scene from a window on the left.
+  init2final_edit_prompt: Edit the given image to show the ceramic plate shattered into multiple broken
+    shards and fragments scattered on the concrete floor where the intact plate previously sat. Position
+    the hammer head lower, resting on or among the ceramic debris, consistent with having just struck
+    the object.
+  rationale: 'The video prompt describes a forceful impact that creates a temporary visual obstruction
+    (smoke) which then clears. The physical interaction (hammer hitting ceramic) results in the irreversible
+    destruction of the plate. Therefore, the final frame must show the aftermath: the plate broken into
+    pieces and the hammer in a post-impact position (lower/resting), with the smoke sufficiently dissipated
+    to reveal the structural damage.'
+  questions:
+  - id: plate_broken
+    question: Is the ceramic plate broken into multiple pieces or shards?
+    answer_type: yes_no
+    notes_for_judge: Look for fragmentation of the white ceramic object.
+  - id: fragments_visible
+    question: Are there scattered fragments of the plate visible on the floor?
+    answer_type: yes_no
+    notes_for_judge: Check for debris replacing the single solid object.
+  - id: structural_integrity_loss
+    question: Has the original circular shape of the plate been destroyed?
+    answer_type: yes_no
+    notes_for_judge: The object should no longer be a perfect circle.
+  - id: hammer_position
+    question: Is the hammer head positioned lower than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The hammer should have completed its downward swing.
+  - id: impact_evidence
+    question: Does the scene show visible evidence of a destructive impact?
+    answer_type: yes_no
+    notes_for_judge: Look for breakage/shattering.
+  - id: visibility_clear
+    question: Is the debris clearly visible without being completely obscured by smoke?
+    answer_type: yes_no
+    notes_for_judge: The prompt states visibility becomes clear again.
+  - id: floor_consistency
+    question: Is the cracked concrete floor texture still visible in the background?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: lighting_consistency
+    question: Is the scene still illuminated by natural light from the left?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

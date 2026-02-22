@@ -1,0 +1,74 @@
+id: plastic_cup_heat_source_warp_07
+level: 4
+category: structural_transformation
+tags: []
+variant_of: plastic_cup_heat_source_warp
+variation_type: combined
+variation_description: Heat gun set to cool mode AND occlusion changed to a blocking object.
+changes:
+  occlusion_method: A large sheet of plywood slides into view.
+  dynamic_conditions: Heat gun blows ambient temperature air.
+  expected_outcome_change: The cup remains unchanged.
+prompts:
+  init_frame_edit_prompt: Edit the image to change the heat gun settings switch to a blue 'Cool' icon
+    or position, and remove any visual heat distortion.
+  video_WM: Air from the heat gun flows toward the plastic cup. The heat gun is running in 'Cool' mode,
+    circulating room-temperature air without heat. The temperature is well below the threshold required
+    to soften polystyrene plastic. The cup retains its rigidity. Suddenly, a large sheet of plywood slides
+    from the left, completely blocking the view of the cup and heat gun. The plywood remains in place
+    for several seconds while the cool air continues blowing behind it. Then the plywood slides back to
+    the left, revealing the scene again. No zoom, no cut, no scene change. STOP.
+  camera_WM: Air from the heat gun flows toward the plastic cup. The heat gun is running in 'Cool' mode,
+    circulating room-temperature air without heat. The temperature is well below the threshold required
+    to soften polystyrene plastic. The cup retains its rigidity. Suddenly, a large sheet of plywood slides
+    from the left, completely blocking the view of the cup and heat gun. The plywood remains in place
+    for several seconds while the cool air continues blowing behind it. Then the plywood slides back to
+    the left, revealing the scene again. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A red plastic disposable cup sits on a light-colored wooden workbench on the
+    left side of the frame. Inside the cup, there appears to be ice. To the right, an orange and black
+    heat gun is propped up on its stand, with its metal nozzle pointed directly at the side of the cup.
+    In the background, various tools including screwdrivers and a hammer are visible but out of focus
+    on the workbench.
+  init2final_edit_prompt: Edit the given image to show the red plastic cup standing upright with its original
+    shape fully preserved. The cup must not show any melting, shrinking, warping, or heat damage. The
+    orange heat gun remains stationary on the right. The background and table surface should remain visible
+    and unchanged.
+  rationale: The video prompt explicitly states that the heat gun is operating in 'Cool' mode with room-temperature
+    air, which is insufficient to melt the plastic. It also specifies that the cup retains its rigidity.
+    Although an occlusion (plywood sheet) temporarily blocks the view, the physical interaction (cool
+    air) causes no structural change. Therefore, the final state should be visually identical to the initial
+    state, serving as a control to verify that the model does not hallucinate melting based solely on
+    the presence of a heat gun.
+  questions:
+  - id: q1
+    question: Is the red plastic cup still standing upright?
+    answer_type: yes_no
+    notes_for_judge: The cup should not have been blown over or collapsed.
+  - id: q2
+    question: Does the red cup retain its original shape without visible warping?
+    answer_type: yes_no
+    notes_for_judge: The prompt specifies the cup retains rigidity; there should be no distortion.
+  - id: q3
+    question: Is the side of the cup facing the heat gun free from melting or holes?
+    answer_type: yes_no
+    notes_for_judge: Check for specific heat damage on the target area.
+  - id: q4
+    question: Is the rim of the cup still circular and intact?
+    answer_type: yes_no
+    notes_for_judge: The top of the cup should not be deformed.
+  - id: q5
+    question: Is the structural integrity of the cup preserved compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: General check for any structural degradation.
+  - id: q6
+    question: Is the view clear of the plywood sheet mentioned in the prompt?
+    answer_type: yes_no
+    notes_for_judge: The occlusion should have cleared.
+  - id: q7
+    question: Is the orange heat gun still visible in its original position?
+    answer_type: yes_no
+    notes_for_judge: The heat gun should not have moved.

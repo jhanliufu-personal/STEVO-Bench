@@ -1,0 +1,62 @@
+id: photograph_tearing_02
+level: 4
+category: structural_transformation
+tags: []
+variant_of: photograph_tearing
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to lights turning off.
+changes:
+  occlusion_method: The environment lights turn off, creating pitch blackness.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The two hands pull firmly in opposite directions on the photograph. Tension is applied to
+    the paper material to initiate a tear. The lights in the room turn off completely, plunging the scene
+    into pitch blackness, then turn back on after a moment. No zoom, no cut, no scene change. The camera
+    returns to the original viewpoint. STOP.
+  camera_WM: The two hands pull firmly in opposite directions on the photograph. Tension is applied to
+    the paper material to initiate a tear. The lights in the room turn off completely, plunging the scene
+    into pitch blackness, then turn back on after a moment. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up view of two hands holding a glossy photograph. The photograph depicts
+    a sunset over a beach with dark foreground and orange sky. The hands are holding the left and right
+    sides of the photo. The background is dark and out of focus.
+  init2final_edit_prompt: Edit the given image to show the photograph being torn. Introduce a visible,
+    jagged vertical rip or tear in the paper, likely starting from the top edge and extending downwards.
+    Show the edges of the tear separated slightly, indicating the paper has been pulled apart.
+  rationale: The video prompt describes hands pulling firmly to initiate a tear, followed by a period
+    of darkness (occlusion) and then a return to the original lighting. During the blackout, the tension
+    applied by the hands causes the paper to rip. Therefore, in the final frame, the photograph must exhibit
+    visible structural damage (a tear) resulting from the pulling force.
+  questions:
+  - id: tear_visible
+    question: Is there a visible tear or rip in the photograph?
+    answer_type: yes_no
+    notes_for_judge: Look for a jagged line, separation, or white paper fibers exposed indicating a tear.
+  - id: structural_integrity
+    question: Has the structural integrity of the photograph been compromised compared to the start?
+    answer_type: yes_no
+    notes_for_judge: The photo should no longer be a single pristine sheet.
+  - id: image_interruption
+    question: Is the sunset image on the photograph interrupted by a physical break or gap?
+    answer_type: yes_no
+    notes_for_judge: The visual content of the photo should be split or damaged by the tear.
+  - id: separation_of_parts
+    question: Are the parts of the photograph held by the hands separated by a tear?
+    answer_type: yes_no
+    notes_for_judge: There should be a fissure between the left and right sides.
+  - id: damage_existence
+    question: Does the photograph show visible damage that was not present initially?
+    answer_type: yes_no
+    notes_for_judge: Check for ripping, tearing, or shredding.
+  - id: hands_holding
+    question: Are the hands still holding the photograph (or its pieces)?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: lighting_restored
+    question: Is the scene illuminated (not pitch black)?
+    answer_type: yes_no
+    notes_for_judge: The prompt states lights turn back on; the final frame should be visible.

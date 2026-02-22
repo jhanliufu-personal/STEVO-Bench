@@ -4,9 +4,69 @@ category: structural_transformation
 transformation_type: metal_plastic_deformation
 tags: []
 prompts:
-  image_gen_prompt: A flat sheet of aluminum foil lies spread out on a table surface. The foil is smooth and reflective. Two hands are positioned at the edges of the sheet ready to gather it inward.
-  video_WM: The hands begin gathering the edges of the foil inward and applying compressive force. Aluminum foil is a thin metal sheet that undergoes plastic deformation when bent beyond its yield strength. Unlike elastic materials, aluminum has a very low yield threshold and cannot return to original shape after plastic deformation. Bending causes permanent atomic-level rearrangement in the metal structure. The hands continue progressive compression. The camera rotates right at constant speed until the hands and foil completely exit the view to the right. The camera continues rotating right for several seconds while the hands remain off-screen continuing to compress the foil. Then the camera rotates left smoothly at the same rate back to the original viewpoint, bringing the hands and foil back into view. No zoom, no cut, no scene change. STOP.
-  camera_WM: The hands begin gathering the edges of the foil inward and applying compressive force. Aluminum foil is a thin metal sheet that undergoes plastic deformation when bent beyond its yield strength. Unlike elastic materials, aluminum has a very low yield threshold and cannot return to original shape after plastic deformation. Bending causes permanent atomic-level rearrangement in the metal structure. The hands continue progressive compression during the occlusion period. STOP.
+  image_gen_prompt: A flat sheet of aluminum foil lies spread out on a table surface. The foil is smooth
+    and reflective. Two hands are positioned at the edges of the sheet ready to gather it inward.
+  video_WM: The hands begin gathering the edges of the foil inward and applying compressive force. Aluminum
+    foil is a thin metal sheet that undergoes plastic deformation when bent beyond its yield strength.
+    Unlike elastic materials, aluminum has a very low yield threshold and cannot return to original shape
+    after plastic deformation. Bending causes permanent atomic-level rearrangement in the metal structure.
+    The hands continue progressive compression. The camera rotates right at constant speed until the hands
+    and foil completely exit the view to the right. The camera continues rotating right for several seconds
+    while the hands remain off-screen continuing to compress the foil. Then the camera rotates left smoothly
+    at the same rate back to the original viewpoint, bringing the hands and foil back into view. No zoom,
+    no cut, no scene change. STOP.
+  camera_WM: The hands begin gathering the edges of the foil inward and applying compressive force. Aluminum
+    foil is a thin metal sheet that undergoes plastic deformation when bent beyond its yield strength.
+    Unlike elastic materials, aluminum has a very low yield threshold and cannot return to original shape
+    after plastic deformation. Bending causes permanent atomic-level rearrangement in the metal structure.
+    The hands continue progressive compression during the occlusion period. STOP.
 camera_control:
   HY-WorldPlay: s-3, right-30, left-30
   Genie: null
+evaluation:
+  init_frame_description: A flat, rectangular sheet of silver aluminum foil rests on a rustic wooden table.
+    Two male hands are placed palms-down on the left and right edges of the foil. The table surface has
+    visible wood grain and scattered crumbs. A window frame is visible in the upper left corner.
+  init2final_edit_prompt: Edit the given image so that the flat sheet of aluminum foil has been crumpled
+    into a compressed ball or irregular mass held between the two hands. The hands should be positioned
+    closer together in the center, grasping or cupping the crumpled foil, rather than resting flat on
+    the edges. Reveal the wooden table surface in the areas previously covered by the flat sheet. Maintain
+    the original lighting and background details.
+  rationale: The prompt describes the hands compressing the foil, which is a plastic deformation process.
+    The camera rotates away while this action continues, meaning significant time passes where the foil
+    is being crushed off-screen. When the camera returns to the original view, the foil cannot have reverted
+    to a flat sheet due to the material properties of aluminum (irreversible deformation). Therefore,
+    the final state must show the foil crumpled into a smaller volume held by the hands.
+  questions:
+  - id: foil_deformation_1
+    question: Is the aluminum foil no longer a flat rectangular sheet?
+    answer_type: yes_no
+    notes_for_judge: The foil should be crumpled, not flat.
+  - id: foil_deformation_2
+    question: Has the foil been compressed into a crumpled ball or irregular mass?
+    answer_type: yes_no
+    notes_for_judge: Look for a 3D crumpled shape.
+  - id: surface_area
+    question: Is the visible surface area of the foil significantly smaller than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Crumpling reduces the projected area.
+  - id: hand_interaction
+    question: Are the hands grasping, cupping, or pressing against the crumpled foil?
+    answer_type: yes_no
+    notes_for_judge: Hands should be interacting with the new shape.
+  - id: hand_position
+    question: Are the hands positioned closer to each other than they were in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compression requires bringing hands together.
+  - id: texture_change
+    question: Does the foil exhibit a highly wrinkled or faceted texture consistent with crushing?
+    answer_type: yes_no
+    notes_for_judge: Surface should not be smooth.
+  - id: background_reveal
+    question: Is the wooden table surface visible in areas that were previously covered by the flat foil?
+    answer_type: yes_no
+    notes_for_judge: As the foil shrinks/crumples, the table underneath is revealed.
+  - id: consistency_window
+    question: Is the window in the background still visible in the same location?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check for camera return.

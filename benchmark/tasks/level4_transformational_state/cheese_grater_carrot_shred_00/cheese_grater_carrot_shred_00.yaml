@@ -1,0 +1,68 @@
+id: cheese_grater_carrot_shred_00
+level: 4
+category: structural_transformation
+tags: []
+variant_of: cheese_grater_carrot_shred
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The hand begins pushing the carrot downward along the rough grater surface with repeated strokes.
+    Box graters have sharp raised edges around each hole that act as cutting blades. The carrot is firm
+    vegetable matter with cellular structure. Progressive strokes apply force against the sharp edges.
+    Camera remains stationary throughout. No zoom, no cut, no scene change. STOP.
+  camera_WM: The hand begins pushing the carrot downward along the rough grater surface with repeated
+    strokes. Box graters have sharp raised edges around each hole that act as cutting blades. The carrot
+    is firm vegetable matter with cellular structure. Progressive strokes apply force against the sharp
+    edges. Camera remains stationary throughout. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A close-up shot of a metal box grater standing on a wooden cutting board. A
+    hand is holding a whole orange carrot horizontally against the side of the grater with large holes.
+    There is a small amount of shredded carrot already present on the board at the base of the grater.
+    A window is visible in the background.
+  init2final_edit_prompt: Edit the given image to show the aftermath of grating the carrot. Make the carrot
+    held in the hand visibly shorter and smaller, with a flattened or abraded end where it presses against
+    the metal surface. Significantly increase the size of the pile of shredded carrot pieces on the wooden
+    cutting board at the base of the grater, adding more orange fragments to the existing accumulation.
+  rationale: The video prompt describes the physical action of grating a carrot. This is an irreversible
+    transformation where the solid carrot is mechanically broken down into shreds. As the action progresses,
+    the conservation of mass dictates that the main body of the carrot must lose volume (becoming shorter),
+    while the pile of processed material (shreds) at the bottom must increase in volume. The grater itself
+    and the background remain static.
+  questions:
+  - id: carrot_volume_reduction
+    question: Does the carrot held in the hand appear shorter or smaller in volume compared to the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the length/size of the carrot in the hand. It should be reduced due to grating.
+  - id: shred_accumulation
+    question: Is the pile of shredded carrot on the cutting board larger than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Check for an increase in the amount of orange fragments at the base of the grater.
+  - id: carrot_tip_deformation
+    question: Does the end of the carrot touching the grater look flattened, abraded, or worn down?
+    answer_type: yes_no
+    notes_for_judge: The contact point should show signs of material removal.
+  - id: new_fragments_visible
+    question: Are there more individual carrot fragments visible on the board than before?
+    answer_type: yes_no
+    notes_for_judge: Focus on the quantity of debris/shreds.
+  - id: grater_position_consistency
+    question: Is the metal box grater still standing upright in the same location?
+    answer_type: yes_no
+    notes_for_judge: The grater should not have moved significantly.
+  - id: hand_presence
+    question: Is the hand still holding the remaining piece of the carrot?
+    answer_type: yes_no
+    notes_for_judge: The hand should still be present, holding the now-smaller carrot.
+  - id: material_integrity_loss
+    question: Has the structural integrity of the carrot been reduced by the removal of material?
+    answer_type: yes_no
+    notes_for_judge: The carrot should no longer be the full, intact shape it was initially.

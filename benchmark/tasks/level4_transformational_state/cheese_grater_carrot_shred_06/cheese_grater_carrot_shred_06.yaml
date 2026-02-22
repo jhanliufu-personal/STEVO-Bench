@@ -1,0 +1,73 @@
+id: cheese_grater_carrot_shred_06
+level: 4
+category: structural_transformation
+tags: []
+variant_of: cheese_grater_carrot_shred
+variation_type: dynamic_condition
+variation_description: Replaced carrot with a block of cheese.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Object is soft cheese instead of hard carrot.
+  expected_outcome_change: Pile of cheese shreds instead of carrot shreds; cheese block deforms differently.
+prompts:
+  init_frame_edit_prompt: Edit the image to replace the carrot with a rectangular block of yellow cheddar
+    cheese.
+  video_WM: The hand begins pushing the block of yellow cheddar cheese downward along the rough grater
+    surface with repeated strokes. Box graters have sharp raised edges that shave off soft dairy products
+    easily. The cheese is malleable and dense. Progressive strokes force the cheese against the sharp
+    edges. The camera rotates right at constant speed until the grater and cheese completely exit the
+    view to the right. The camera continues rotating right for several seconds while the hand remains
+    off-screen grating the cheese. Then the camera rotates left smoothly at the same rate back to the
+    original viewpoint. No zoom, no cut, no scene change. STOP.
+  camera_WM: The hand begins pushing the block of yellow cheddar cheese downward along the rough grater
+    surface with repeated strokes. Box graters have sharp raised edges that shave off soft dairy products
+    easily. The cheese is malleable and dense. Progressive strokes force the cheese against the sharp
+    edges. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot showing a metal box grater standing vertically on
+    a worn wooden cutting board. A hand enters from the right, holding a rectangular block of yellow cheddar
+    cheese against the side of the grater. A pile of shredded yellow cheese is already visible at the
+    base of the grater on the wooden board. In the background, a window with a white frame allows natural
+    light to illuminate the scene.
+  init2final_edit_prompt: Edit the given image to show the result of grating the cheese. Make the rectangular
+    block of yellow cheese held by the hand noticeably smaller and shorter, reducing its volume to indicate
+    material loss. Increase the size and height of the pile of shredded cheese at the base of the grater,
+    adding more cheese strands to the existing mound. Keep the metal grater, the wooden board, and the
+    background window unchanged. Maintain the original camera angle and lighting.
+  rationale: The video prompt describes a continuous grating action that persists even while the camera
+    pans away. When the camera returns to the original viewpoint, the physical state of the objects must
+    reflect the accumulated work done during the elapsed time. Grating is an irreversible process where
+    the solid block is consumed to produce shreds. Therefore, the final frame must show a smaller block
+    of cheese and a correspondingly larger pile of grated cheese compared to the initial frame.
+  questions:
+  - id: cheese_block_size
+    question: Is the block of cheese held by the hand smaller than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the volume/length of the solid block in the hand.
+  - id: shredded_pile_size
+    question: Is the pile of shredded cheese at the base of the grater larger than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Look for an increase in the amount of grated material on the board.
+  - id: cheese_block_length
+    question: Has the length of the cheese block decreased compared to the start?
+    answer_type: yes_no
+    notes_for_judge: The block should be shorter due to grating.
+  - id: shreds_quantity
+    question: Are there more individual shreds of cheese visible on the cutting board than before?
+    answer_type: yes_no
+    notes_for_judge: The density or spread of the pile should increase.
+  - id: material_conservation
+    question: Does the scene show that the solid cheese has been converted into more shredded cheese?
+    answer_type: yes_no
+    notes_for_judge: 'Check for the correlation: smaller block, bigger pile.'
+  - id: grater_position
+    question: Is the metal box grater still standing in the same position on the board?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: background_consistency
+    question: Is the window in the background still visible and unchanged?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

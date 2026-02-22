@@ -1,0 +1,77 @@
+id: wet_tissue_progressive_tear_08
+level: 4
+category: structural_transformation
+tags: []
+variant_of: wet_tissue_progressive_tear
+variation_type: combined
+variation_description: Thick washcloth (very strong) combined with lights off occlusion.
+changes:
+  occlusion_method: Lights turn off completely.
+  dynamic_conditions: Material is a woven washcloth (high strength).
+  expected_outcome_change: No tearing occurs due to material strength.
+prompts:
+  init_frame_edit_prompt: Edit the image to change the paper tissue into a thick, woven cotton washcloth.
+  video_WM: The hands begin applying outward pulling tension to the wet washcloth. Woven cotton fabric
+    has extremely high tensile strength compared to paper fibers. Even when wet, the interlocking weave
+    prevents tearing under manual force. The hands continue applying strong pulling force. Suddenly, the
+    bathroom lights turn off, plunging the scene into total darkness. The sounds of effort continue in
+    the dark. After several seconds, the lights turn back on, revealing the scene. No zoom, no cut, no
+    scene change. STOP.
+  camera_WM: The hands begin applying outward pulling tension to the wet washcloth. Woven cotton fabric
+    has extremely high tensile strength compared to paper fibers. Even when wet, the interlocking weave
+    prevents tearing under manual force. The hands continue applying strong pulling force. Suddenly, the
+    bathroom lights turn off, plunging the scene into total darkness. The sounds of effort continue in
+    the dark. After several seconds, the lights turn back on. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot of two hands holding a wet, white, loose-weave fabric
+    (resembling gauze or cheesecloth) over a stainless steel kitchen sink. The cloth is sagging in a U-shape
+    between the hands, and water is dripping from the bottom of the curve. A chrome faucet is visible
+    in the background.
+  init2final_edit_prompt: Edit the image to show the hands pulling the white cloth outward with strong
+    force. The cloth should appear pulled taut and straight horizontally between the hands, exhibiting
+    high tension. Crucially, the cloth must remain structurally intact and connected, with no tears, rips,
+    or fraying. The weave pattern should appear stretched but unbroken. Maintain the background sink and
+    faucet exactly as they are.
+  rationale: The text prompt explicitly identifies the object as a 'woven cotton washcloth' and states
+    that its 'interlocking weave prevents tearing under manual force,' contrasting it with paper. Despite
+    the visual appearance of the cloth (which resembles gauze) and the 'wet tissue' task ID, the physical
+    properties defined in the prompt text are the ground truth. Therefore, the simulation must show the
+    cloth resisting the pulling force. The final state should depict the cloth under high tension (taut
+    and straight) but structurally intact, having undergone elastic deformation without fracturing.
+  questions:
+  - id: q1_tautness
+    question: Is the cloth pulled taut between the hands?
+    answer_type: yes_no
+    notes_for_judge: The cloth should no longer be sagging; it should be under tension.
+  - id: q2_integrity
+    question: Is the cloth structurally intact?
+    answer_type: yes_no
+    notes_for_judge: The prompt explicitly states the material prevents tearing. The cloth should not
+      be ripped.
+  - id: q3_connection
+    question: Does the fabric still connect the left hand to the right hand as a single piece?
+    answer_type: yes_no
+    notes_for_judge: Check for complete separation or snapping.
+  - id: q4_untorn
+    question: Is the cloth free of visible tears or rips?
+    answer_type: yes_no
+    notes_for_judge: Verify that the weave has not failed.
+  - id: q5_geometry
+    question: Does the cloth form a roughly straight horizontal line?
+    answer_type: yes_no
+    notes_for_judge: Compared to the initial U-shape sag.
+  - id: q6_weave_stretch
+    question: Does the fabric weave appear stretched or distorted by tension?
+    answer_type: yes_no
+    notes_for_judge: The mesh/holes may look elongated due to pulling.
+  - id: q7_background_faucet
+    question: Is the faucet still visible in the background?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: q8_background_sink
+    question: Is the stainless steel sink basin still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

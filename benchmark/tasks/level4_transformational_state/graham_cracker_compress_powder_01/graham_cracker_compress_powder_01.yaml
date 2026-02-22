@@ -1,0 +1,71 @@
+id: graham_cracker_compress_powder_01
+level: 4
+category: structural_transformation
+tags: []
+variant_of: graham_cracker_compress_powder
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to an opaque towel covering the scene.
+changes:
+  occlusion_method: Object blocking (kitchen towel)
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics (cracker crushed into powder)
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The hand presses down on the cracker through the plastic bag with progressive force. Graham
+    crackers are baked goods with brittle structure that fractures easily under compression. The hand
+    applies grinding and pressing motions to distribute force across the cracker surface. The material
+    is dry and has low fracture toughness typical of baked wheat products. A large opaque kitchen towel
+    is placed over the plastic bag and hand, completely blocking the view. The hand continues to apply
+    pressure and grinding motion underneath the towel. Then the towel is removed to reveal the scene.
+    No zoom, no cut, no scene change. STOP.
+  camera_WM: The hand presses down on the cracker through the plastic bag with progressive force. Graham
+    crackers are baked goods with brittle structure that fractures easily under compression. The hand
+    applies grinding and pressing motions to distribute force across the cracker surface. The material
+    is dry and has low fracture toughness typical of baked wheat products. A large opaque kitchen towel
+    is placed over the plastic bag and hand, completely blocking the view. The hand continues to apply
+    pressure and grinding motion underneath the towel. Then the towel is removed to reveal the scene.
+    No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A single rectangular graham cracker inside a clear plastic ziplock bag lying
+    flat on a wooden table. A human hand is positioned palm-down just above the bag, ready to press. The
+    background shows a blurred room with a window and chair.
+  init2final_edit_prompt: Edit the given image to show the graham cracker inside the plastic bag crushed
+    into a pile of small crumbs, powder, and broken fragments. The original rectangular shape of the cracker
+    should be destroyed and replaced by a heap of brown debris. The plastic bag should remain on the table.
+  rationale: The video prompt describes a physical process where a brittle graham cracker is subjected
+    to crushing and grinding forces by a hand. Although the action is occluded by a towel, the prompt
+    specifies that the pressure and grinding continue during this time. Therefore, when the towel is removed,
+    the cracker must have undergone an irreversible structural transformation, changing from a solid rectangular
+    block into a collection of crumbs and powder due to its low fracture toughness.
+  questions:
+  - id: structural_change_01
+    question: Is the graham cracker broken into smaller fragments or crumbs?
+    answer_type: yes_no
+    notes_for_judge: Check if the single solid piece has turned into multiple pieces or powder.
+  - id: structural_change_02
+    question: Has the original rectangular shape of the cracker been destroyed?
+    answer_type: yes_no
+    notes_for_judge: The straight edges and defined corners should be gone or significantly damaged.
+  - id: material_state_01
+    question: Are there visible crumbs or powder inside the bag that were not present initially?
+    answer_type: yes_no
+    notes_for_judge: Look for fine particulate matter resulting from crushing.
+  - id: integrity_01
+    question: Is the structural integrity of the cracker compromised compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The object should no longer be a single cohesive unit.
+  - id: fragmentation_01
+    question: Does the content of the bag appear more fragmented than in the starting image?
+    answer_type: yes_no
+    notes_for_judge: Compare the solidity of the initial object to the final state.
+  - id: consistency_01
+    question: Is the plastic bag still visible on the wooden table?
+    answer_type: yes_no
+    notes_for_judge: The container should remain, even if its contents changed.
+  - id: consistency_02
+    question: Is the wooden table surface visible beneath the bag?
+    answer_type: yes_no
+    notes_for_judge: The environment should remain consistent.

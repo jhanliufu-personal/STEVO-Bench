@@ -1,0 +1,72 @@
+id: document_shredding_v1
+level: 4
+category: structural_transformation
+tags: []
+variant_of: document_shredding
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to a person walking in front of the camera.
+changes:
+  occlusion_method: A person walks in front of the camera, blocking the view.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The sheet of paper is fed into the active slot of the paper shredder. The mechanical blades
+    grab the paper and begin pulling it in. A person wearing a dark suit walks closely in front of the
+    camera from right to left, completely blocking the view of the shredder for several seconds, before
+    exiting the frame to reveal the scene again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The sheet of paper is fed into the active slot of the paper shredder. The mechanical blades
+    grab the paper and begin pulling it in. A person wearing a dark suit walks closely in front of the
+    camera from right to left, completely blocking the view of the shredder for several seconds, before
+    exiting the frame to reveal the scene again. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up, slightly high-angle shot of a clear plastic-topped paper shredder
+    in an office environment. The shredder's metal cutting mechanism is visible inside the transparent
+    housing. Below the mechanism, a grey bin contains a small pile of white paper shreds. A Caucasian
+    male hand enters from the top right, holding a pristine white sheet of paper vertically, positioning
+    it directly above the shredder's intake slot. In the background, out of focus, are office desks, computer
+    monitors, and people working.
+  init2final_edit_prompt: Edit the given image to show that the sheet of paper has been processed by the
+    shredder. The white sheet of paper held by the hand should be significantly shorter or entirely gone,
+    having been fed into the machine. The pile of white paper shreds inside the collection bin below the
+    mechanism should be visibly larger and higher, reflecting the addition of the shredded material.
+  rationale: The video prompt describes the paper being fed into the shredder and a subsequent occlusion
+    lasting several seconds. Paper shredders typically consume a single sheet in a few seconds. Therefore,
+    when the view is unblocked, the primary irreversible change is the destruction of the paper sheet.
+    The sheet should be largely or completely gone from above the slot, and the corresponding mass should
+    appear as an increased volume of shreds in the bin below. The occlusion allows this transformation
+    to happen without requiring the model to render the continuous physics of the cutting, just the resulting
+    state.
+  questions:
+  - id: paper_consumed
+    question: Is the visible portion of the paper sheet above the shredder slot smaller than it was in
+      the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The paper should have been fed into the machine, so less (or none) of the sheet should
+      be visible in the hand.
+  - id: shreds_increased
+    question: Is the pile of shredded paper in the bin larger than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The waste bin should contain more strips of paper.
+  - id: shreds_height
+    question: Is the level of the paper waste in the bin higher than before?
+    answer_type: yes_no
+    notes_for_judge: Check if the pile has grown vertically.
+  - id: structural_change
+    question: Has the original sheet of paper been fragmented or reduced in size?
+    answer_type: yes_no
+    notes_for_judge: Tests for irreversible structural change (sheet to shreds).
+  - id: hand_holding_less
+    question: Is the hand holding less paper (or empty) compared to the start?
+    answer_type: yes_no
+    notes_for_judge: The object being held should be diminished.
+  - id: shredder_integrity
+    question: Is the shredder mechanism (blades/gears) still visible and intact?
+    answer_type: yes_no
+    notes_for_judge: Consistency check for the machine itself.
+  - id: background_consistency
+    question: Are the office desks and monitors in the background still present?
+    answer_type: yes_no
+    notes_for_judge: Consistency check for the environment.

@@ -1,0 +1,70 @@
+id: wood_log_sawing_09
+level: 4
+category: structural_transformation
+tags: []
+variant_of: wood_log_sawing
+variation_type: combined
+variation_description: Metal pipe (hard material) + Smoke occlusion.
+changes:
+  occlusion_method: Thick smoke.
+  dynamic_conditions: Material is metal (hard to cut).
+  expected_outcome_change: No cut progress on pipe.
+prompts:
+  init_frame_edit_prompt: Edit the image to change the wooden log into a rusty metal pipe.
+  video_WM: A person begins vigorously moving the hand saw back and forth across the metal pipe. The sawing
+    action attempts to cut the metal. A thick cloud of white smoke blows across the scene, completely
+    obscuring the pipe and saw from view. The smoke eventually dissipates, revealing the scene again.
+    No zoom, no cut, no scene change. STOP.
+  camera_WM: A person begins vigorously moving the hand saw back and forth across the metal pipe. The
+    sawing action attempts to cut the metal. A thick cloud of white smoke blows across the scene, completely
+    obscuring the pipe and saw from view. The smoke eventually dissipates, revealing the scene again.
+    STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A large, rusty, hollow cylindrical pipe rests horizontally on a wooden sawhorse
+    in a forest setting. A hand saw with a wooden handle is positioned in a shallow groove on the top
+    surface of the pipe. There is some light-colored debris or sawdust visible on the pipe near the cut
+    and on the ground below.
+  init2final_edit_prompt: Edit the given image to show the result of vigorous sawing. Make the vertical
+    cut in the pipe significantly deeper, with the saw blade sitting lower into the material. Increase
+    the amount of debris or filings visible on the pipe surface around the cut. Ensure the scene is clear
+    of any smoke and the details are sharp. Keep the background and sawhorse unchanged.
+  rationale: 'The prompt describes a vigorous sawing action that generates a cloud of smoke, implying
+    friction and material removal. After the smoke dissipates, the irreversible physical change should
+    be evident: the groove (kerf) in the pipe should be deeper due to the sawing, and the saw blade should
+    be positioned lower within this cut. Additional debris or filings should be present as a result of
+    the material removal.'
+  questions:
+  - id: cut_depth
+    question: Is the cut or groove in the pipe visibly deeper than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the depth of the slot where the saw is inserted. It should be deeper/lower.
+  - id: saw_position
+    question: Is the saw blade positioned lower into the pipe compared to the starting position?
+    answer_type: yes_no
+    notes_for_judge: The saw should have progressed downwards into the material.
+  - id: debris_increase
+    question: Is there an increased amount of debris, dust, or filings visible near the cut area?
+    answer_type: yes_no
+    notes_for_judge: Look for fresh particles on the pipe surface or falling.
+  - id: structural_change
+    question: Does the pipe show clear evidence of material removal at the sawing point?
+    answer_type: yes_no
+    notes_for_judge: The structural integrity should be modified by the deepening cut.
+  - id: smoke_cleared
+    question: Is the scene free of the thick white smoke mentioned in the prompt?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the smoke dissipates, so the final frame should be clear.
+  - id: saw_handle_visible
+    question: Is the handle of the saw still visible?
+    answer_type: yes_no
+    notes_for_judge: Consistency check.
+  - id: sawhorse_integrity
+    question: Is the pipe still supported by the wooden sawhorse?
+    answer_type: yes_no
+    notes_for_judge: Consistency check.
+  - id: background_consistency
+    question: Are the trees in the background consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Consistency check.

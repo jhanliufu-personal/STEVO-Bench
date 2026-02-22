@@ -4,9 +4,65 @@ category: structural_transformation
 transformation_type: brittle_food_fragmentation
 tags: []
 prompts:
-  image_gen_prompt: A whole graham cracker is sealed inside a clear plastic ziplock bag lying flat on a table. The cracker is intact and rectangular. A hand is positioned above the bag ready to apply downward pressure.
-  video_WM: The hand presses down on the cracker through the plastic bag with progressive force. Graham crackers are baked goods with brittle structure that fractures easily under compression. The hand applies grinding and pressing motions to distribute force across the cracker surface. The material is dry and has low fracture toughness typical of baked wheat products. The camera rotates right at constant speed until the bag and hand completely exit the view to the right. The camera continues rotating right for several seconds while the hand remains off-screen continuing to apply pressure and grinding motion. Then the camera rotates left smoothly at the same rate back to the original viewpoint, bringing the bag back into view. No zoom, no cut, no scene change. STOP.
-  camera_WM: The hand presses down on the cracker through the plastic bag with progressive force. Graham crackers are baked goods with brittle structure that fractures easily under compression. The hand applies grinding and pressing motions to distribute force across the cracker surface. The material is dry and has low fracture toughness typical of baked wheat products during the occlusion period. STOP.
+  image_gen_prompt: A whole graham cracker is sealed inside a clear plastic ziplock bag lying flat on
+    a table. The cracker is intact and rectangular. A hand is positioned above the bag ready to apply
+    downward pressure.
+  video_WM: The hand presses down on the cracker through the plastic bag with progressive force. Graham
+    crackers are baked goods with brittle structure that fractures easily under compression. The hand
+    applies grinding and pressing motions to distribute force across the cracker surface. The material
+    is dry and has low fracture toughness typical of baked wheat products. The camera rotates right at
+    constant speed until the bag and hand completely exit the view to the right. The camera continues
+    rotating right for several seconds while the hand remains off-screen continuing to apply pressure
+    and grinding motion. Then the camera rotates left smoothly at the same rate back to the original viewpoint,
+    bringing the bag back into view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The hand presses down on the cracker through the plastic bag with progressive force. Graham
+    crackers are baked goods with brittle structure that fractures easily under compression. The hand
+    applies grinding and pressing motions to distribute force across the cracker surface. The material
+    is dry and has low fracture toughness typical of baked wheat products during the occlusion period.
+    STOP.
 camera_control:
   HY-WorldPlay: s-3, right-30, left-30
   Genie: null
+evaluation:
+  init_frame_description: A rectangular brown graham cracker is sealed inside a clear plastic ziplock
+    bag resting on a wooden table. A human hand hovers flat, palm-down, directly above the bag and cracker,
+    poised to press down. The background shows a wooden chair and a window.
+  init2final_edit_prompt: Edit the given image to show the graham cracker inside the plastic bag crushed
+    into broken fragments, crumbs, and powder. The original rectangular shape should be destroyed or significantly
+    fragmented, appearing as a pile of debris inside the bag. The hand should be pressing down on the
+    bag or resting on the crushed contents.
+  rationale: The video describes a brittle graham cracker being subjected to progressive compressive force
+    and grinding motions by a hand. This physical interaction causes irreversible structural failure,
+    turning the solid rectangular sheet into fragments and crumbs. The camera rotates away during the
+    process, acting as a temporal occlusion where the state change accumulates. When the camera returns
+    to the original view, the cracker must be visibly broken or pulverized, as the damage is permanent
+    and the action continued off-screen.
+  questions:
+  - id: cracker_broken
+    question: Is the graham cracker broken into multiple pieces, fragments, or crumbs?
+    answer_type: yes_no
+    notes_for_judge: The cracker should no longer be a single intact rectangular sheet.
+  - id: structural_integrity
+    question: Has the structural integrity of the cracker been compromised compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Look for cracks, breaks, or disintegration.
+  - id: shape_change
+    question: Has the original rectangular outline of the cracker been disrupted or destroyed?
+    answer_type: yes_no
+    notes_for_judge: The straight edges should be broken or irregular due to crushing.
+  - id: crumbs_visible
+    question: Are there loose crumbs or powder visible inside the bag?
+    answer_type: yes_no
+    notes_for_judge: Evidence of material grinding.
+  - id: fragmentation
+    question: Does the object inside the bag appear more fragmented than it was initially?
+    answer_type: yes_no
+    notes_for_judge: Comparative check for increased entropy/disorder.
+  - id: bag_presence
+    question: Is the plastic ziplock bag still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: surface_consistency
+    question: Is the wooden table surface still visible beneath the bag?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

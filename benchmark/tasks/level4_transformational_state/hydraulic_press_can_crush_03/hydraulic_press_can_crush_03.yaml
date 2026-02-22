@@ -1,0 +1,66 @@
+id: hydraulic_press_can_crush_03
+level: 4
+category: structural_transformation
+tags: []
+variant_of: hydraulic_press_can_crush
+variation_type: occlusion_method
+variation_description: Occlusion by thick steam filling the chamber.
+changes:
+  occlusion_method: Thick steam fills the view.
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics (can crushed).
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The hydraulic press plate continues to move downward with immense force onto the soda can.
+    The crushing action is active. Thick white steam from a hydraulic leak rapidly fills the chamber,
+    completely obscuring the can and press. The steam then dissipates. No zoom, no cut, no scene change.
+    STOP.
+  camera_WM: The hydraulic press plate continues to move downward with immense force onto the soda can.
+    The crushing action is active. Thick white steam from a hydraulic leak rapidly fills the chamber,
+    completely obscuring the can and press. The steam then dissipates. No zoom, no cut, no scene change.
+    STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A silver aluminum soda can stands upright in the center of a hydraulic press,
+    positioned between a large stationary bottom metal plate and a heavy movable top metal plate. The
+    can is uncrushed with a smooth cylindrical surface. In the background, there are vertical metal structural
+    beams, black hydraulic hoses, and a circular pressure gauge.
+  init2final_edit_prompt: Edit the given image to show the hydraulic press top plate in a significantly
+    lower position, compressing the silver soda can. The can should appear crushed, flattened, and crumpled
+    into a shorter, irregular shape between the top and bottom plates. The scene should be clear of any
+    thick steam, revealing the crushed metal can and the lowered press ram.
+  rationale: 'The video prompt describes a hydraulic press crushing a can. Although steam temporarily
+    obscures the view, the prompt explicitly states that the steam dissipates. Therefore, the final frame
+    must reveal the aftermath of the physical action: the top plate must be lower (having moved down to
+    crush the object), and the can must be irreversibly deformed (crushed and flattened). The steam should
+    be largely gone to allow visibility of the state change.'
+  questions:
+  - id: can_height_reduction
+    question: Is the silver soda can significantly shorter than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The can should be crushed, reducing its vertical height.
+  - id: can_deformation
+    question: Does the can appear crumpled, flattened, or structurally deformed?
+    answer_type: yes_no
+    notes_for_judge: Look for folds, creases, or flattening of the cylinder.
+  - id: plate_position
+    question: Is the top metal plate positioned lower than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The ram must have moved down to effect the crushing.
+  - id: gap_reduction
+    question: Is the vertical gap between the top and bottom plates smaller than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The space containing the can must be reduced.
+  - id: shape_integrity_loss
+    question: Has the can lost its original smooth cylindrical shape?
+    answer_type: yes_no
+    notes_for_judge: The object should no longer be a perfect cylinder.
+  - id: compression_contact
+    question: Is the can currently compressed between the top and bottom plates?
+    answer_type: yes_no
+    notes_for_judge: The plates should be sandwiching the deformed can.
+  - id: background_consistency
+    question: Are the hydraulic hoses in the background still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check; assumes steam has dissipated enough to see background.

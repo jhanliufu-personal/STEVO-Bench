@@ -1,0 +1,71 @@
+id: bleach_colored_fabric_fade_08
+level: 4
+category: structural_transformation
+tags: []
+variant_of: bleach_colored_fabric_fade
+variation_type: combined
+variation_description: Combines white fabric (no contrast) with heavy fog occlusion.
+changes:
+  occlusion_method: Thick white fog/steam fills the room.
+  dynamic_conditions: Fabric is white.
+  expected_outcome_change: No visible color change.
+prompts:
+  init_frame_edit_prompt: Edit the image to change the fabric color from dark blue to plain white.
+  video_WM: The bleach bottle tips and pours liquid bleach onto the white fabric surface. Household bleach
+    contains sodium hypochlorite. Since the fabric is already white, there are no color molecules for
+    the bleach to oxidize. The liquid creates a wet area on the surface. The bleach continues to contact
+    and saturate the fabric fibers. Suddenly, thick white chemical fog fills the entire view, completely
+    obscuring the tray and fabric from sight. The fog swirls and blocks visibility for several seconds
+    while the bleach remains in contact with the fabric. Then, the fog dissipates rapidly, revealing the
+    scene from the original viewpoint. No zoom, no cut, no scene change. STOP.
+  camera_WM: The bleach bottle tips and pours liquid bleach onto the white fabric surface. Household bleach
+    contains sodium hypochlorite. Since the fabric is already white, there are no color molecules for
+    the bleach to oxidize. The liquid creates a wet area on the surface. The bleach continues to contact
+    and saturate the fabric fibers. Suddenly, thick white chemical fog fills the entire view, completely
+    obscuring the tray and fabric from sight. The fog swirls and blocks visibility for several seconds
+    while the bleach remains in contact with the fabric. Then, the fog dissipates rapidly, revealing the
+    scene from the original viewpoint. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A top-down view of a white, square fabric napkin folded into quarters and placed
+    on a worn, dirty white plastic tray. A hand holds a white bottle of Clorox bleach with a blue label
+    in the upper right corner, tilted slightly as if preparing to pour onto the fabric. The fabric is
+    currently dry and uniform in color.
+  init2final_edit_prompt: Edit the given image to show a large wet, saturated area in the center of the
+    white fabric. The wet spot should appear slightly darker and more translucent than the surrounding
+    dry fabric, indicating liquid absorption. Do not change the color of the fabric to orange, pink, or
+    yellow; it must remain white. Keep the bleach bottle and tray background consistent with the initial
+    scene.
+  rationale: The prompt describes pouring bleach onto white fabric. Because the fabric is already white,
+    the bleach cannot oxidize any pigment, so no color change (fading to orange/pink) should occur. The
+    only physical transformation is the wetting of the fabric. The fog serves as an occlusion event to
+    mask the pouring process. The final state should show the fabric saturated with liquid but structurally
+    intact and unchanged in hue.
+  questions:
+  - id: is_wet_spot_visible
+    question: Is there a visible wet spot or area of saturation on the fabric?
+    answer_type: yes_no
+    notes_for_judge: Look for a darkened or translucent area indicating liquid.
+  - id: is_fabric_saturated
+    question: Does the center of the fabric appear to have absorbed liquid?
+    answer_type: yes_no
+    notes_for_judge: The texture should look wet/damp.
+  - id: is_color_unchanged
+    question: Is the fabric free of orange, pink, or yellow discoloration?
+    answer_type: yes_no
+    notes_for_judge: Bleach on white fabric should NOT cause color fading/staining. The fabric should
+      remain white (though wet).
+  - id: is_wet_area_darker
+    question: Is the wet area of the fabric darker or more translucent than the dry edges?
+    answer_type: yes_no
+    notes_for_judge: Wet white cloth typically looks greyish or translucent.
+  - id: is_fabric_intact
+    question: Is the fabric structurally intact (no holes or shredding)?
+    answer_type: yes_no
+    notes_for_judge: The prompt does not describe the fabric dissolving or tearing.
+  - id: is_bottle_visible
+    question: Is the bleach bottle still visible in the frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

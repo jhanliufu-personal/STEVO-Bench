@@ -1,0 +1,76 @@
+id: wet_tissue_progressive_tear_05
+level: 4
+category: structural_transformation
+tags: []
+variant_of: wet_tissue_progressive_tear
+variation_type: dynamic_condition
+variation_description: Changes the material to plastic wrap, which stretches rather than tears.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Material is plastic cling wrap instead of paper.
+  expected_outcome_change: Material stretches significantly but does not tear.
+prompts:
+  init_frame_edit_prompt: Edit the image to change the white tissue into a sheet of clear, transparent
+    plastic cling wrap held between the hands.
+  video_WM: The hands begin applying gentle outward pulling tension to the sheet of plastic wrap. Plastic
+    polymers are highly elastic and ductile, allowing the material to stretch significantly under tension
+    without breaking. Unlike paper, plastic wrap does not rely on fiber entanglement but on polymer chain
+    extension. The hands continue applying slow, steady pulling force. The camera rotates right at constant
+    speed until the hands and plastic completely exit the view to the right. The camera continues rotating
+    right for several seconds while the hands remain off-screen continuing to pull. Then the camera rotates
+    left smoothly at the same rate back to the original viewpoint, bringing the hands and plastic back
+    into view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The hands begin applying gentle outward pulling tension to the sheet of plastic wrap. Plastic
+    polymers are highly elastic and ductile, allowing the material to stretch significantly under tension
+    without breaking. Unlike paper, plastic wrap does not rely on fiber entanglement but on polymer chain
+    extension. The hands continue applying slow, steady pulling force during the occlusion period. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot showing two male hands holding a rectangular sheet
+    of clear, wet plastic wrap horizontally over a stainless steel kitchen sink. The plastic wrap is slack
+    and wrinkled, with visible water droplets clinging to its surface. In the background, a metal faucet
+    and a soap bottle are visible but slightly out of focus.
+  init2final_edit_prompt: Edit the given image to show the plastic wrap significantly stretched and taut
+    between the hands. The plastic sheet should appear elongated horizontally and deformed, with the original
+    loose wrinkles smoothed out into directional tension lines. The material must remain a single continuous
+    piece, not torn or broken. The hands should appear to be pulling outwards, maintaining the tension.
+    Keep the background sink and faucet unchanged.
+  rationale: 'The video prompt describes a continuous pulling action applied to plastic wrap, explicitly
+    highlighting its ductile and elastic properties to distinguish it from paper. During the camera''s
+    rotation away and back, the hands continue to apply tension, causing the material to undergo significant
+    plastic deformation (stretching) without fracturing. The final state should reflect this accumulated
+    physical change: the plastic should be taut, elongated, and distorted, but specifically not torn,
+    adhering to the physics described in the prompt.'
+  questions:
+  - id: is_stretched
+    question: Is the plastic wrap visibly stretched compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Look for signs of elongation, tautness, or deformation typical of stretched plastic.
+  - id: is_taut
+    question: Does the plastic wrap appear taut between the hands rather than loose?
+    answer_type: yes_no
+    notes_for_judge: The initial frame shows slack/wrinkles; the final should show tension.
+  - id: is_intact
+    question: Does the plastic wrap remain a single continuous sheet without being torn into separate
+      pieces?
+    answer_type: yes_no
+    notes_for_judge: The prompt explicitly states the material stretches without breaking.
+  - id: wrinkles_smoothed
+    question: Have the random loose wrinkles been replaced by directional stress lines or a smoother surface?
+    answer_type: yes_no
+    notes_for_judge: Stretching should remove the chaotic wrinkles seen in the first frame.
+  - id: deformation_visible
+    question: Does the plastic wrap show signs of structural deformation (e.g., thinning or necking) due
+      to tension?
+    answer_type: yes_no
+    notes_for_judge: Plastic deformation is the expected irreversible change.
+  - id: hands_pulling
+    question: Do the hands appear to be applying outward tension to the plastic?
+    answer_type: yes_no
+    notes_for_judge: The hands should be positioning in a way that supports the tautness of the plastic.
+  - id: background_consistency
+    question: Is the stainless steel sink faucet still visible in the background?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

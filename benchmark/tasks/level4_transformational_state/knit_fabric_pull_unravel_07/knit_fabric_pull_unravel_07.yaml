@@ -1,0 +1,77 @@
+id: knit_fabric_pull_unravel_07
+level: 4
+category: structural_transformation
+tags: []
+variant_of: knit_fabric_pull_unravel
+variation_type: combined
+variation_description: Occlusion by blocking object AND yarn is knotted.
+changes:
+  occlusion_method: Large book blocks view.
+  dynamic_conditions: Yarn is knotted securely.
+  expected_outcome_change: Fabric will not unravel due to knot.
+prompts:
+  init_frame_edit_prompt: Edit the image to show a tight double knot tied in the yarn strand right against
+    the edge of the fabric, securing the loose end to the knit structure.
+  video_WM: The hand begins pulling steadily on the yarn end. The yarn is tied securely with a double
+    knot around the final loop of the knitted edge. Knots in yarn create a physical stopper that is larger
+    than the loop openings. Tension is applied to the yarn end against this knot. The hand continues pulling
+    with steady tension. A large opaque knitting pattern book slides into the frame from the right, completely
+    blocking the view of the fabric and hand. The book remains in front for several seconds while the
+    hand continues pulling. Then the book slides back out to the right, revealing the scene again. No
+    zoom, no cut, no scene change. STOP.
+  camera_WM: The hand begins pulling steadily on the yarn end. The yarn is tied securely with a double
+    knot around the final loop of the knitted edge. Knots in yarn create a physical stopper that is larger
+    than the loop openings. Tension is applied to the yarn end against this knot. The hand continues pulling
+    with steady tension. A large opaque knitting pattern book slides into the frame from the right, completely
+    blocking the view of the fabric and hand. The book remains in front for several seconds while the
+    hand continues pulling. Then the book slides back out to the right, revealing the scene again. No
+    zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A close-up view of a chunky, cream-colored knitted fabric lying on a wooden
+    table. A hand is visible on the left, holding a loose end of the yarn. The yarn end is attached to
+    the corner of the knitted piece with a visible double knot tied around the final loop. The segment
+    of yarn between the hand and the knot is slightly slack or curved, indicating little to no tension
+    is currently applied. The background is a blurred wooden surface.
+  init2final_edit_prompt: Edit the given image to show the hand pulling the yarn end firmly to the left.
+    The segment of yarn between the hand and the fabric must be straight and taut, indicating tension.
+    The double knot should be pulled tight against the edge of the knitted fabric. The corner of the fabric
+    near the knot should be stretched and distorted towards the hand due to the pulling force. Do not
+    unravel the fabric; keep the knitted stitches intact. Ensure the knitting pattern book is not present
+    in the scene.
+  rationale: The prompt explicitly states that the yarn is tied with a secure double knot which acts as
+    a physical stopper. Therefore, pulling on the yarn will not unravel the fabric (which would happen
+    if the knot were untied or if it were the working yarn). Instead, the force will cause the yarn to
+    become taut, the knot to tighten against the fabric loop, and the fabric structure to stretch and
+    distort in the direction of the pull. The occlusion by the book is temporary, and the final state
+    reveals the scene with the hand still applying tension.
+  questions:
+  - id: yarn_tension
+    question: Is the segment of yarn between the hand and the fabric straight and taut?
+    answer_type: yes_no
+    notes_for_judge: The yarn should no longer be slack or curved; it should be a straight line indicating
+      tension.
+  - id: fabric_distortion
+    question: Is the corner of the knitted fabric stretched towards the hand?
+    answer_type: yes_no
+    notes_for_judge: The fabric should show deformation/elongation in the direction of the pull compared
+      to the resting state.
+  - id: knot_tightness
+    question: Is the knot pulled tightly against the edge of the fabric?
+    answer_type: yes_no
+    notes_for_judge: The knot should be jammed against the loop due to the pulling force.
+  - id: structural_integrity
+    question: Is the knitted fabric structure still intact (not unraveled)?
+    answer_type: yes_no
+    notes_for_judge: The prompt specifies the knot acts as a stopper, so the fabric must NOT unravel.
+      If the fabric is unraveled, the answer is NO.
+  - id: book_absence
+    question: Is the knitting pattern book absent from the view?
+    answer_type: yes_no
+    notes_for_judge: The book slides out before the end, so it should not be visible.
+  - id: hand_visibility
+    question: Is the hand still visible holding the yarn?
+    answer_type: yes_no
+    notes_for_judge: The hand should remain in frame maintaining the pull.

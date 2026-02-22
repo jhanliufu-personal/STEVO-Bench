@@ -1,0 +1,72 @@
+id: knit_fabric_pull_unravel_09
+level: 4
+category: structural_transformation
+tags: []
+variant_of: knit_fabric_pull_unravel
+variation_type: combined
+variation_description: Occlusion by zooming out AND fabric is felted (matted).
+changes:
+  occlusion_method: Camera zooms out until scene is indistinct.
+  dynamic_conditions: Fabric is felted/matted (fibers fused).
+  expected_outcome_change: Fabric resists unraveling; whole piece moves instead of loop separation.
+prompts:
+  init_frame_edit_prompt: Edit the image to change the fabric texture to look fuzzy, dense, and matted
+    (felted), where individual distinct loops are no longer visible.
+  video_WM: The hand begins pulling steadily on the yarn end. The fabric is heavily felted, a process
+    where wool fibers mat together to form a dense, solid material rather than distinct interlocking loops.
+    Friction between felted fibers is extremely high. The hand continues pulling the yarn with steady
+    tension. The camera zooms out slowly until the fabric becomes too small to discern details. The camera
+    stays zoomed out for several seconds while the hand continues pulling. Then the camera zooms back
+    in to the original framing. STOP.
+  camera_WM: The hand begins pulling steadily on the yarn end. The fabric is heavily felted, a process
+    where wool fibers mat together to form a dense, solid material rather than distinct interlocking loops.
+    Friction between felted fibers is extremely high. The hand continues pulling the yarn with steady
+    tension. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, slightly high-angle shot of a chunky, cream-colored knitted fabric
+    piece resting on a rustic wooden table. The fabric has a thick, fuzzy, heavily felted texture where
+    the fibers are matted together. A hand on the left side of the frame holds a thick strand of yarn
+    extending from the corner of the fabric, applying slight tension. The yarn is single-ply and roving-like.
+  init2final_edit_prompt: Edit the given image to show that the yarn strand has snapped due to tension.
+    The connection between the hand and the fabric should be severed, with a frayed or broken yarn end
+    visible on the fabric edge. The main body of the knitted fabric must remain structurally intact and
+    solid, NOT unraveled into loose loops. Preserve the felted, matted texture of the fabric. The hand
+    may be holding the detached piece of yarn or be visible near the edge, but the key change is the breakage
+    of the yarn without the fabric unraveling.
+  rationale: The prompt specifies that the fabric is 'heavily felted' with 'extremely high friction'.
+    In physics, felted wool fibers fuse together and cannot be unraveled (frogged) simply by pulling,
+    unlike regular knitting. Under steady and continuous pulling tension, the material strength of the
+    yarn or the felted bond will eventually fail, resulting in the yarn snapping or the fabric tearing,
+    rather than clean unraveling. Therefore, the final state must show structural breakage (snapped yarn)
+    while the fabric body remains largely intact, avoiding the common hallucination of the fabric turning
+    into a pile of loose yarn.
+  questions:
+  - id: yarn_snapped
+    question: Is the yarn strand connecting the fabric to the hand (or frame edge) severed or broken?
+    answer_type: yes_no
+    notes_for_judge: Look for a discontinuity in the yarn; the piece held by the hand should be separated
+      from the fabric, or the yarn should be snapped.
+  - id: fabric_intact
+    question: Does the main body of the fabric remain structurally intact rather than unraveled?
+    answer_type: yes_no
+    notes_for_judge: Felted fabric should not unravel. The object should still look like a piece of fabric,
+      not a pile of thread.
+  - id: no_pile
+    question: Is the scene free of a large pile of unraveled loose yarn?
+    answer_type: yes_no
+    notes_for_judge: If the fabric has turned into a pile of spaghetti-like yarn, the answer is NO.
+  - id: frayed_edge
+    question: Does the yarn end on the fabric appear frayed, tufted, or torn?
+    answer_type: yes_no
+    notes_for_judge: Check for signs of material failure (snapping/tearing) at the connection point.
+  - id: texture_preserved
+    question: Is the felted, matted texture of the fabric still visible?
+    answer_type: yes_no
+    notes_for_judge: The fabric should not look like distinct loose loops but rather a solid matted surface.
+  - id: table_consistency
+    question: Is the wooden table surface visible and consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

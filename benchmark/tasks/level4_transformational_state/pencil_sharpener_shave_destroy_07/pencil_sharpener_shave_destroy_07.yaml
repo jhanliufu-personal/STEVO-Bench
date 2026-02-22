@@ -1,0 +1,71 @@
+id: pencil_sharpener_shave_destroy_07
+level: 4
+category: structural_transformation
+tags: []
+variant_of: pencil_sharpener_shave_destroy
+variation_type: combined
+variation_description: Combines object blocking (plywood) with the steel rod condition.
+changes:
+  occlusion_method: Plywood sheet blocks view.
+  dynamic_conditions: Object is a steel rod.
+  expected_outcome_change: No state change (rod does not shorten).
+prompts:
+  init_frame_edit_prompt: Edit the image to replace the wooden pencil with a shiny, silver steel rod of
+    the same diameter inserted into the sharpener.
+  video_WM: A solid steel rod is inserted into the sharpener mechanism. The hand begins turning the crank
+    in a circular motion. The rotary sharpener contains standard steel blades designed for cutting soft
+    wood and graphite, while the rod is hardened steel. A large sheet of plywood slides into the foreground
+    from the left, completely blocking the view of the sharpener, rod, and hand. The plywood remains in
+    place for several seconds while the hand remains behind it continuing to turn the crank. Then the
+    plywood slides away to the right, revealing the scene again. No zoom, no cut, no scene change. STOP.
+  camera_WM: A solid steel rod is inserted into the sharpener mechanism. The hand begins turning the crank
+    in a circular motion. The rotary sharpener contains standard steel blades designed for cutting soft
+    wood and graphite, while the rod is hardened steel. A large sheet of plywood slides into the foreground
+    from the left, completely blocking the view of the sharpener, rod, and hand. The plywood remains in
+    place for several seconds while the hand remains behind it continuing to turn the crank. Then the
+    plywood slides away to the right, revealing the scene again. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a vintage, beige metal pencil sharpener clamped
+    to the edge of a wooden workbench. A long, smooth, cylindrical solid steel rod is inserted into the
+    sharpener's opening. The sharpener has a transparent receptacle at the bottom partially filled with
+    light-colored wood shavings. A person's arm and hand are visible on the right, gripping the sharpener's
+    crank handle. The background is a blurred workshop setting with a window and tools.
+  init2final_edit_prompt: Edit the given image to show the pencil sharpener broken and damaged. The crank
+    handle should appear bent, twisted, detached, or hanging loosely at an unnatural angle, indicating
+    mechanical failure. The main body of the sharpener may show cracks or misalignment. The solid steel
+    rod remains inserted in the slot. Do NOT increase the amount of wood shavings in the transparent bin;
+    the level must remain the same as the initial image. The hand should be visible near the damaged handle.
+  rationale: 'The prompt describes a physical conflict: a hardened steel rod is forced into a sharpener
+    designed for soft wood. Since the rod is harder than the blades, the ''continuing to turn'' action
+    described in the prompt will not sharpen the rod but will instead cause the sharpener mechanism to
+    jam and break. The occlusion hides the moment of failure, but the final state must reveal the structural
+    damage to the tool (broken handle, strained housing) while the rod remains unsharpened and the wood
+    shavings level remains unchanged (since no wood was cut).'
+  questions:
+  - id: damage_handle
+    question: Is the crank handle of the sharpener bent, broken, or detached?
+    answer_type: yes_no
+    notes_for_judge: The handle should look damaged or hanging loosely due to the force applied.
+  - id: damage_body
+    question: Does the sharpener body show visible signs of structural damage or misalignment?
+    answer_type: yes_no
+    notes_for_judge: Look for cracks, gaps, or parts that are askew.
+  - id: structural_integrity
+    question: Is the structural integrity of the sharpener compromised compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: General assessment of whether the tool is broken.
+  - id: shavings_consistency
+    question: Is the level of wood shavings in the bin approximately the same as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The bin should NOT be fuller, as the steel rod cannot produce wood shavings.
+  - id: rod_presence
+    question: Is the steel rod still inserted in the sharpener?
+    answer_type: yes_no
+    notes_for_judge: The rod should not have disappeared.
+  - id: no_sharpening
+    question: Does the visible portion of the rod appear to be a cylinder rather than a sharpened cone?
+    answer_type: yes_no
+    notes_for_judge: If the tip is visible, it should be blunt. If inserted, the rod shaft should be cylindrical.

@@ -1,0 +1,73 @@
+id: egg_batter_merging_01
+level: 4
+category: structural_transformation
+tags: []
+variant_of: egg_batter_merging
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to a cloth blocking the view.
+changes:
+  occlusion_method: A dark cloth covers the camera lens completely.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The whisk begins rapidly stirring the eggs into the flour. The distinct entities of the eggs
+    and flour are being combined into a single batter. A dark cloth is placed over the camera lens, completely
+    blocking the view, then the cloth is removed to reveal the bowl again. No zoom, no cut, no scene change.
+    STOP.
+  camera_WM: The whisk begins rapidly stirring the eggs into the flour. The distinct entities of the eggs
+    and flour are being combined into a single batter. A dark cloth is placed over the camera lens, completely
+    blocking the view, then the cloth is removed to reveal the bowl again. No zoom, no cut, no scene change.
+    STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A high-angle close-up shot of a large ceramic mixing bowl on a wooden table.
+    Inside the bowl, there is a ring of white flour surrounding a well containing four raw eggs with distinct
+    yellow yolks and egg whites. A metal balloon whisk rests in the bowl, its handle extending to the
+    top right. To the left of the bowl, there is some spilled flour on the table. A beige linen cloth
+    is visible on the right side of the frame.
+  init2final_edit_prompt: Edit the given image to show the contents of the bowl mixed into a batter. The
+    distinct egg yolks and the ring of dry white flour must be blended together into a lumpy, yellowish
+    dough or batter. The texture inside the bowl should look wet and cohesive, rather than showing separate
+    dry powder and liquid eggs. The whisk should appear coated with the batter mixture. Maintain the original
+    camera angle, the bowl's position, and the surrounding table details.
+  rationale: The video prompt describes the action of stirring eggs into flour to create a batter. This
+    is an irreversible chemical and physical transformation where distinct ingredients (liquid eggs, dry
+    flour) merge into a new homogeneous substance (batter). The occlusion allows time for this mixing
+    process to occur. Therefore, in the final frame, the individual yolks and the clean flour ring should
+    no longer be visible, replaced by a mixed texture.
+  questions:
+  - id: yolks_gone
+    question: Are the distinct, round yellow egg yolks no longer visible as separate objects?
+    answer_type: yes_no
+    notes_for_judge: In the initial frame, 4 yolks are clearly defined. In the final frame, they should
+      be broken and mixed.
+  - id: flour_mixed
+    question: Has the distinct ring of dry white flour been disrupted or incorporated into a mixture?
+    answer_type: yes_no
+    notes_for_judge: The perfect circle of flour should be messy or gone.
+  - id: batter_texture
+    question: Does the substance in the bowl look like a mixed batter or dough rather than separate ingredients?
+    answer_type: yes_no
+    notes_for_judge: Look for a cohesive, wet, lumpy texture.
+  - id: color_blend
+    question: Is the color of the mixture a blend of yellow and white?
+    answer_type: yes_no
+    notes_for_judge: The bright yellow yolks and white flour should mix to a pale yellow.
+  - id: whisk_coated
+    question: Is the whisk coated with the batter mixture?
+    answer_type: yes_no
+    notes_for_judge: The whisk was clean initially; it should now have batter stuck to the wires.
+  - id: boundary_gone
+    question: Is the clear boundary between the liquid eggs and the dry flour gone?
+    answer_type: yes_no
+    notes_for_judge: The well structure should be destroyed.
+  - id: bowl_invariant
+    question: Is the ceramic bowl still in the same position?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: table_invariant
+    question: Is the wooden table surface still visible around the bowl?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

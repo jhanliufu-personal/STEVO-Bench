@@ -1,0 +1,80 @@
+id: foam_board_permanent_crease_01
+level: 4
+category: structural_transformation
+tags: []
+variant_of: foam_board_permanent_crease
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to lights turning off (pitch black).
+changes:
+  occlusion_method: Lights turn off completely, rendering the scene pitch black, then turn back on.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The hands begin bending the foam board by bringing the ends closer together. Foam board consists
+    of a polystyrene foam core sandwiched between paper facings. The foam core has an elastic limit beyond
+    which permanent plastic deformation occurs. The paper facing has a tensile strength limit. The material
+    structure does not allow return to original shape after exceeding plastic deformation thresholds.
+    The hands continue applying progressive bending force. Suddenly, the lights in the room turn off completely,
+    plunging the scene into total darkness. The sound of the board being manipulated continues in the
+    dark for several seconds. Then the lights turn back on, restoring visibility to the original viewpoint.
+    No zoom, no cut, no scene change. STOP.
+  camera_WM: The hands begin bending the foam board by bringing the ends closer together. Foam board consists
+    of a polystyrene foam core sandwiched between paper facings. The foam core has an elastic limit beyond
+    which permanent plastic deformation occurs. The paper facing has a tensile strength limit. The material
+    structure does not allow return to original shape after exceeding plastic deformation thresholds.
+    The hands continue applying progressive bending force. Suddenly, the lights in the room turn off completely,
+    plunging the scene into total darkness. The sound of the board being manipulated continues in the
+    dark for several seconds. Then the lights turn back on, restoring visibility to the original viewpoint.
+    No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A close-up shot of a person's hands holding a flat, rectangular sheet of white
+    foam board horizontally over a wooden workbench. The person is wearing a black shirt. The background
+    shows a workshop environment with tools and a pegboard. The board is currently pristine and perfectly
+    flat.
+  init2final_edit_prompt: Edit the given image to show the white foam board permanently bent or creased
+    in the center. The board should form a V-shape or curve, with the two ends brought closer together
+    and the hands angled inward to hold the deformed shape. A visible crease, buckle, or fold line should
+    appear vertically across the middle of the board, indicating structural failure of the foam core.
+  rationale: 'The prompt describes a continuous bending force applied to a material with a specific elastic
+    limit. The action continues during a period of darkness (occlusion). Foam board, when bent beyond
+    its limit, suffers plastic deformation (creasing) or fracture. Since the manipulation continued for
+    several seconds, the final state must show the result of this force: the board will no longer be flat
+    but will be permanently bent, creased, or snapped in the middle. The hands will be positioned to support
+    this new, narrower configuration.'
+  questions:
+  - id: is_bent
+    question: Is the foam board bent, creased, or folded compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Look for a change in geometry from a flat plane to a curved or angled shape.
+  - id: structural_damage
+    question: Is there a visible crease, buckle, or line of damage across the center of the board?
+    answer_type: yes_no
+    notes_for_judge: Foam board develops a distinct crease line when bent.
+  - id: non_planar
+    question: Is the board no longer a single flat plane?
+    answer_type: yes_no
+    notes_for_judge: The surface should be deformed.
+  - id: hands_angled
+    question: Are the hands or wrists angled differently to accommodate the bent shape of the board?
+    answer_type: yes_no
+    notes_for_judge: Holding a bent object requires the hands to rotate relative to the initial flat grip.
+  - id: ends_closer
+    question: Are the outer edges of the board closer to each other than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Bending brings the ends closer.
+  - id: irreversible_change
+    question: Does the object show signs of irreversible structural transformation?
+    answer_type: yes_no
+    notes_for_judge: The deformation should look permanent (like a crease), not just elastic flexing.
+  - id: hands_present
+    question: Are the hands still holding the board?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: background_consistency
+    question: Is the wooden workbench still visible in the foreground?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

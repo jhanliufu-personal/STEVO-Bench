@@ -1,0 +1,67 @@
+id: hydraulic_press_can_crush_09
+level: 4
+category: structural_transformation
+tags: []
+variant_of: hydraulic_press_can_crush
+variation_type: combined
+variation_description: Glass jar instead of can AND occlusion via camera zoom out.
+changes:
+  occlusion_method: Camera zooms out until scene is unclear.
+  dynamic_conditions: Object is a glass jar.
+  expected_outcome_change: Object shatters into shards rather than crumpling.
+prompts:
+  init_frame_edit_prompt: Edit the image to replace the soda can with a glass jar.
+  video_WM: The hydraulic press plate moves downward with immense force onto the glass jar. The crushing
+    action is active. The camera zooms out until the details of the press are no longer visible, then
+    zooms back in to the original close-up view. No cut, no scene change. STOP.
+  camera_WM: The hydraulic press plate moves downward with immense force onto the glass jar. The crushing
+    action is active. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+evaluation:
+  init_frame_description: A clear glass Ball Mason jar stands upright and intact on a textured metal platform
+    of a hydraulic press. A thick, flat metal press plate is positioned directly above the jar, appearing
+    ready to descend. The background features vertical metal beams, hydraulic hoses, and a pressure gauge.
+  init2final_edit_prompt: Edit the given image to show the aftermath of a hydraulic press crushing the
+    object. The metal press plate should be positioned significantly lower, closer to the bottom platform.
+    The glass jar must be shattered and crushed, with broken glass shards and debris scattered on the
+    metal platform where the jar originally stood. The jar should no longer be intact.
+  rationale: The prompt describes a hydraulic press exerting immense force on a glass jar. Glass is a
+    brittle material that shatters under high compression rather than deforming plastically. The camera
+    motion (zoom out and back in) implies a passage of time sufficient for the press to descend and destroy
+    the jar. Therefore, the final frame, which returns to the original viewpoint, must show the press
+    plate in a lowered position and the jar irreversibly broken into fragments.
+  questions:
+  - id: plate_position
+    question: Is the metal press plate positioned lower than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the vertical gap between the top plate and the bottom platform.
+  - id: jar_integrity
+    question: Is the glass jar broken or shattered?
+    answer_type: yes_no
+    notes_for_judge: Look for loss of the original cylindrical form and presence of breakage.
+  - id: debris_presence
+    question: Are there glass fragments or shards visible on the platform?
+    answer_type: yes_no
+    notes_for_judge: Check for debris resulting from the crushed jar.
+  - id: structural_change
+    question: Has the jar lost its original upright cylindrical shape?
+    answer_type: yes_no
+    notes_for_judge: The jar should be collapsed or fragmented.
+  - id: vertical_compression
+    question: Is the vertical space occupied by the jar (or its remains) significantly less than in the
+      initial frame?
+    answer_type: yes_no
+    notes_for_judge: The object should be flattened or reduced in height due to crushing.
+  - id: irreversible_damage
+    question: Does the object show signs of irreversible structural damage?
+    answer_type: yes_no
+    notes_for_judge: Glass shattering is irreversible.
+  - id: background_consistency_hoses
+    question: Are the hydraulic hoses in the background still visible?
+    answer_type: yes_no
+    notes_for_judge: Background elements should persist despite the foreground destruction.
+  - id: background_consistency_gauge
+    question: Is the pressure gauge in the upper right still present?
+    answer_type: yes_no
+    notes_for_judge: The gauge is part of the static machinery frame.

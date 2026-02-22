@@ -1,0 +1,66 @@
+id: hydraulic_press_can_crush_07
+level: 4
+category: structural_transformation
+tags: []
+variant_of: hydraulic_press_can_crush
+variation_type: combined
+variation_description: Press is retracting (moving up) AND occlusion is via safety door.
+changes:
+  occlusion_method: Safety door blocking view.
+  dynamic_conditions: Press moving upward.
+  expected_outcome_change: Can uncrushed, plate higher.
+prompts:
+  init_frame_edit_prompt: Edit the image to show the hydraulic press plate slightly raised, with a visible
+    gap between the plate and the top of the soda can.
+  video_WM: The hydraulic press plate moves upward, retracting away from the soda can. A heavy metal safety
+    door slides from the left to completely cover the view of the press area. After a moment, the safety
+    door slides back to the left. No zoom, no cut, no scene change. STOP.
+  camera_WM: The hydraulic press plate moves upward, retracting away from the soda can. A heavy metal
+    safety door slides from the left to completely cover the view of the press area. After a moment, the
+    safety door slides back to the left. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A silver aluminum soda can stands upright in the center of a hydraulic press.
+    The can is cylindrical, shiny, and appears uncrushed. A heavy, thick metal press plate is positioned
+    directly above the can, touching or nearly touching its top rim. The background consists of a weathered
+    concrete wall, black hydraulic hoses curving downward on either side, and pressure gauges visible
+    on the right.
+  init2final_edit_prompt: Edit the given image to show the upper hydraulic press plate raised significantly
+    higher, creating a clear vertical gap of empty space between the bottom of the plate and the top of
+    the soda can. The soda can must remain in its original, uncrushed cylindrical shape. Ensure the view
+    is completely clear of any safety door or obstruction. Maintain the original background details, including
+    the hoses, gauges, and concrete wall, without alteration.
+  rationale: The video prompt explicitly states that the press plate moves 'upward' and 'retracts away'
+    from the can. This is a release action, not a crushing action. Therefore, the correct physical outcome
+    is for the soda can to remain intact and uncrushed. The safety door introduces temporary occlusion
+    but slides back to reveal the scene, so the final frame must show the press area clearly. The primary
+    state change is the increased vertical position of the press plate (retraction) and the persistence
+    of the can's original form, testing the model's ability to follow specific directional instructions
+    ('upward') rather than succumbing to the semantic bias that hydraulic presses always crush objects.
+  questions:
+  - id: plate_height_change
+    question: Is the upper press plate positioned higher than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The plate should have moved upward, creating a gap.
+  - id: gap_existence
+    question: Is there a visible vertical gap between the bottom of the press plate and the top of the
+      soda can?
+    answer_type: yes_no
+    notes_for_judge: Since the plate retracted, there must be space between the tool and the object.
+  - id: can_integrity
+    question: Is the soda can still cylindrical and uncrushed?
+    answer_type: yes_no
+    notes_for_judge: The action was retraction, so the can should not be flattened.
+  - id: can_top_visibility
+    question: Is the top rim of the soda can visible and intact?
+    answer_type: yes_no
+    notes_for_judge: The can should retain its original shape.
+  - id: door_open
+    question: Is the view of the press area unobstructed by the safety door?
+    answer_type: yes_no
+    notes_for_judge: The prompt says the door 'slides back', implying it opens again.
+  - id: background_consistency
+    question: Are the hydraulic hoses and gauges in the background still visible?
+    answer_type: yes_no
+    notes_for_judge: Background elements should persist.

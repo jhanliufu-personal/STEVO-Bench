@@ -1,0 +1,71 @@
+id: hydraulic_press_can_crush_04
+level: 4
+category: structural_transformation
+tags: []
+variant_of: hydraulic_press_can_crush
+variation_type: dynamic_condition
+variation_description: The soda can is replaced by a solid steel cylinder.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Object is a solid steel cylinder instead of a hollow aluminum can.
+  expected_outcome_change: The object does not crush or crumple; the press may stall or deform slightly,
+    but the object retains its shape.
+prompts:
+  init_frame_edit_prompt: Edit the image to replace the soda can with a solid, hardened steel cylinder
+    of the same size.
+  video_WM: The hydraulic press plate moves downward with immense force onto the solid steel cylinder.
+    The machine exerts maximum pressure. The camera rotates right until the press completely exits the
+    view, then rotates toward the left smoothly at the same rate until the press plate area is back in
+    the center of view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The hydraulic press plate moves downward with immense force onto the solid steel cylinder.
+    The machine exerts maximum pressure. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up view of a hydraulic press machine. A vertical solid steel cylinder
+    is positioned centrally on the bottom metal plate. A heavy top metal plate is positioned above the
+    cylinder with a gap between them. In the background, parts of the press frame, hydraulic hoses, and
+    a pressure gauge are visible. The cylinder is metallic, grey, and has a smooth cylindrical shape.
+  init2final_edit_prompt: 'Edit the given image to show the result of the hydraulic press crushing the
+    object. The top metal plate should be positioned significantly lower, resting on the object. The steel
+    cylinder between the plates should appear plastically deformed: compressed vertically to be much shorter
+    and expanded horizontally to be wider, bulging outwards at the sides. The metal surface may show signs
+    of stress or slight irregularity due to the compression.'
+  rationale: The video prompt describes the hydraulic press exerting maximum pressure on the cylinder
+    while the camera pans away and then returns. During the time the camera is panned away (occlusion),
+    the press compresses the cylinder. Since it is solid steel, it will undergo plastic deformation, becoming
+    shorter and wider (barreling) rather than shattering. When the camera returns to the initial view,
+    the final state should show this permanent structural change with the press plate in a lower position.
+  questions:
+  - id: cylinder_height
+    question: Is the steel cylinder significantly shorter than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the vertical height of the object between the plates.
+  - id: cylinder_width
+    question: Is the steel cylinder wider or bulging outwards compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Look for horizontal expansion or barreling of the metal.
+  - id: plate_position
+    question: Is the top plate of the press positioned lower than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The gap between the top and bottom plates should be reduced.
+  - id: deformation_visible
+    question: Does the object between the plates show visible structural deformation?
+    answer_type: yes_no
+    notes_for_judge: The object should no longer be a perfect tall cylinder.
+  - id: integrity_change
+    question: Has the original cylindrical form of the object been permanently altered?
+    answer_type: yes_no
+    notes_for_judge: Check for irreversible shape change.
+  - id: gap_reduction
+    question: Is the vertical gap between the top and bottom press plates smaller than initially?
+    answer_type: yes_no
+    notes_for_judge: Direct consequence of the press moving down.
+  - id: background_consistency_hoses
+    question: Are the hydraulic hoses in the background still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: background_consistency_gauge
+    question: Is the pressure gauge (or its housing) still visible in the background?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

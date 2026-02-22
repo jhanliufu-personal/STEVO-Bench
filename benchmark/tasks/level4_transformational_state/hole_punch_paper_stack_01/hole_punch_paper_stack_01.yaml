@@ -1,0 +1,75 @@
+id: hole_punch_paper_stack_01
+level: 4
+category: structural_transformation
+tags: []
+variant_of: hole_punch_paper_stack
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to lights turning off (pitch black).
+changes:
+  occlusion_method: Lights turn off completely, plunging scene into darkness, then turn back on.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The hand begins pressing the lever downward with progressive force. The hole punch contains
+    cylindrical cutting blades that advance toward the paper when the lever is depressed. The paper stack
+    consists of standard copy paper with typical fiber structure and tensile strength. The mechanism is
+    designed to drive blades through the paper thickness. Suddenly, the room lights turn off completely,
+    plunging the scene into absolute darkness for several seconds while the hand continues pressing the
+    lever. The lights turn back on, restoring the original lighting conditions. No zoom, no cut, no scene
+    change. STOP.
+  camera_WM: The hand begins pressing the lever downward with progressive force. The hole punch contains
+    cylindrical cutting blades that advance toward the paper when the lever is depressed. The paper stack
+    consists of standard copy paper with typical fiber structure and tensile strength. The mechanism is
+    designed to drive blades through the paper thickness. Suddenly, the room lights turn off completely,
+    plunging the scene into absolute darkness for several seconds while the hand continues pressing the
+    lever. The lights turn back on, restoring the original lighting conditions. No zoom, no cut, no scene
+    change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a heavy-duty silver metal hole punch on a wooden
+    desk. A stack of white paper is inserted into the punch's slot. A person's hand, showing a hairy forearm,
+    is gripping the black handle of the lever, which is currently in the raised or 'up' position. To the
+    left, a black 3-hole punch and a yellow sticky note pad are visible. In the background, a wire mesh
+    pen cup and a window with blinds are slightly out of focus.
+  init2final_edit_prompt: Edit the given image to show the hole punch lever pressed fully downwards. The
+    hand gripping the handle must be positioned significantly lower, consistent with having pushed the
+    lever down to the bottom of its stroke. The silver mechanical components connected to the handle should
+    be lowered, compressing towards the paper stack. The paper stack should remain inserted in the slot.
+    Maintain the original lighting, background, and camera angle.
+  rationale: The video prompt describes a continuous action of pressing the lever downward. The period
+    of darkness acts as a temporal occlusion during which this action progresses. Since the hand 'continues
+    pressing' throughout the darkness, the final state when lights return must show the lever in the fully
+    depressed position. This physical state corresponds to the irreversible transformation of the paper
+    (punching holes), even if the holes themselves are occluded by the mechanism while the lever is down.
+  questions:
+  - id: lever_position
+    question: Is the handle of the hole punch in a lower position than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The lever should be pressed down.
+  - id: hand_position
+    question: Is the hand holding the lever positioned closer to the desk surface compared to the start?
+    answer_type: yes_no
+    notes_for_judge: The hand follows the lever down.
+  - id: mechanism_compression
+    question: Does the silver mechanism of the punch appear compressed or lowered towards the paper?
+    answer_type: yes_no
+    notes_for_judge: The moving parts of the punch should be down.
+  - id: action_progress
+    question: Is the lever in a position that indicates the punching action has occurred?
+    answer_type: yes_no
+    notes_for_judge: Lever down implies action complete.
+  - id: handle_gap
+    question: Is the vertical gap between the black handle and the base of the machine smaller than initially?
+    answer_type: yes_no
+    notes_for_judge: Geometric check for lever depression.
+  - id: invariant_sticky_notes
+    question: Is the yellow sticky note pad still visible on the left side?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: invariant_background
+    question: Is the window in the background still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

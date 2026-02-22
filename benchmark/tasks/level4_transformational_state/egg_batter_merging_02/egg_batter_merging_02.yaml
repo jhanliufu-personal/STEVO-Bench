@@ -1,0 +1,70 @@
+id: egg_batter_merging_02
+level: 4
+category: structural_transformation
+tags: []
+variant_of: egg_batter_merging
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to lights turning off.
+changes:
+  occlusion_method: The room lights turn off, creating total darkness.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The whisk begins rapidly stirring the eggs into the flour. The distinct entities of the eggs
+    and flour are being combined into a single batter. Suddenly, the lights in the room turn off, plunging
+    the scene into complete darkness. After a moment, the lights turn back on. No zoom, no cut, no scene
+    change. STOP.
+  camera_WM: The whisk begins rapidly stirring the eggs into the flour. The distinct entities of the eggs
+    and flour are being combined into a single batter. Suddenly, the lights in the room turn off, plunging
+    the scene into complete darkness. After a moment, the lights turn back on. No zoom, no cut, no scene
+    change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A top-down view of a ceramic mixing bowl on a wooden table. Inside the bowl,
+    there is a ring of white flour creating a well in the center. Inside the well are four raw egg yolks
+    and egg whites. A metal whisk rests in the bowl, with the handle extending to the top right. To the
+    left of the bowl, some flour is spilled on the table. To the right, a linen cloth is visible.
+  init2final_edit_prompt: Edit the given image to show the eggs and flour inside the bowl mixed together
+    into a batter. The distinct round egg yolks should be broken and blended with the white flour, creating
+    a yellowish, lumpy dough or batter texture. The clear separation between the central pool of eggs
+    and the surrounding ring of flour should be gone or significantly disturbed. The whisk should remain
+    in the bowl.
+  rationale: 'The video prompt describes the action of stirring eggs into flour to create a batter. This
+    is an irreversible physical transformation where distinct ingredients (solid flour, liquid eggs, discrete
+    yolks) lose their individual structure and merge into a new homogeneous or semi-homogeneous substance
+    (batter). The occlusion (lights off/on) serves to mask the immediate motion but implies time has passed
+    for the action to progress. Therefore, the final frame must show the aftermath of stirring: broken
+    yolks and a mixed consistency.'
+  questions:
+  - id: yolks_broken
+    question: Are the egg yolks no longer visible as distinct, intact round shapes?
+    answer_type: yes_no
+    notes_for_judge: In the initial frame, yolks are perfect spheres. In the final frame, they should
+      be broken/mixed.
+  - id: batter_texture
+    question: Does the content of the bowl look like a mixed batter or dough rather than separate ingredients?
+    answer_type: yes_no
+    notes_for_judge: The texture should change from separate powder and liquid to a combined sticky or
+      lumpy mass.
+  - id: flour_ring_disturbed
+    question: Is the distinct circular boundary between the flour ring and the eggs disrupted or gone?
+    answer_type: yes_no
+    notes_for_judge: Stirring destroys the 'well' structure.
+  - id: color_blending
+    question: Has the white flour and yellow egg mixture blended to create a more uniform yellowish color?
+    answer_type: yes_no
+    notes_for_judge: Mixing distributes the yolk pigment into the flour.
+  - id: structural_change
+    question: Have the distinct liquid and solid phases merged into a single substance?
+    answer_type: yes_no
+    notes_for_judge: Check for the loss of phase separation.
+  - id: whisk_presence
+    question: Is the whisk still present in the bowl?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: bowl_integrity
+    question: Is the ceramic bowl still intact and in the same position?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

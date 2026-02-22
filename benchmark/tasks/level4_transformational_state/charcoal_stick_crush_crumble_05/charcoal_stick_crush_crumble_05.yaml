@@ -1,0 +1,69 @@
+id: charcoal_stick_crush_crumble_05
+level: 4
+category: structural_transformation
+tags: []
+variant_of: charcoal_stick_crush_crumble
+variation_type: dynamic_condition
+variation_description: Changes material to rubber, which should deform elastically but not crumble.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Material changed from brittle charcoal to elastic rubber.
+  expected_outcome_change: The object deforms/squishes but does not fracture.
+prompts:
+  init_frame_edit_prompt: Edit the image to replace the charcoal stick with a black rubber eraser cylinder
+    of the same size.
+  video_WM: The fingers begin applying progressive squeezing pressure to the rubber cylinder. Rubber is
+    an elastic polymer material that is malleable and flexible under compression. The material is tough
+    and resistant to fracturing. The fingers continue increasing compressive force. The camera rotates
+    right until the hand and rubber cylinder completely exit the view to the right. The camera continues
+    rotating right for several seconds while the hand remains off-screen continuing to apply pressure.
+    Then the camera rotates left smoothly at the same rate back to the original viewpoint. No zoom, no
+    cut, no scene change. STOP.
+  camera_WM: The fingers begin applying progressive squeezing pressure to the rubber cylinder. Rubber
+    is an elastic polymer material that is malleable and flexible under compression. The material is tough
+    and resistant to fracturing. The fingers continue increasing compressive force during the occlusion
+    period. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, first-person perspective shot of a dirty hand holding a thick, black
+    cylindrical object vertically. The hand is stained with dark smudges, likely charcoal or graphite
+    dust. The object has a matte black texture and appears to be a stick of charcoal or a rubber cylinder.
+    The background shows a blurred wooden table surface with white papers, sketches, and art supplies.
+  init2final_edit_prompt: Edit the given image to show the hand squeezing the black cylinder tightly.
+    The cylinder should appear visibly compressed, indented, and slightly warped where the fingers and
+    thumb press into it, reflecting the properties of a flexible rubber material under pressure. The object
+    must remain a single, intact piece with no cracks, fractures, crumbling, or loose fragments. The fingers
+    should be positioned tighter around the object to indicate the application of force.
+  rationale: The video prompt explicitly defines the object as a 'rubber cylinder' that is 'elastic,'
+    'malleable,' and 'resistant to fracturing,' despite its visual resemblance to a charcoal stick. Consequently,
+    the progressive squeezing pressure applied by the hand should cause the object to deform and compress
+    (elastic or plastic deformation) rather than shatter or crumble. Since the camera returns to the original
+    viewpoint while the hand continues to apply pressure, the final frame must show the object in a distorted
+    but structurally intact state, adhering to the text description over the visual bias.
+  questions:
+  - id: deformation_check
+    question: Is the black cylinder visibly indented or compressed where the fingers are holding it?
+    answer_type: yes_no
+    notes_for_judge: The object should look squeezed or squished due to the pressure.
+  - id: integrity_check_1
+    question: Does the object remain a single, connected piece?
+    answer_type: yes_no
+    notes_for_judge: The object should not be broken into multiple parts.
+  - id: integrity_check_2
+    question: Is the surface of the cylinder free from visible cracks or fractures?
+    answer_type: yes_no
+    notes_for_judge: Rubber should not crack; charcoal would. The correct answer is YES (no cracks).
+  - id: integrity_check_3
+    question: Is the object free from crumbling or new debris?
+    answer_type: yes_no
+    notes_for_judge: There should be no new fragments or dust generated.
+  - id: action_check
+    question: Do the fingers appear to be pressing firmly into the material?
+    answer_type: yes_no
+    notes_for_judge: The grip should look tight and active.
+  - id: background_consistency
+    question: Are the background elements (table, papers) consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary check for scene consistency.

@@ -1,0 +1,61 @@
+id: ribbon_cutting_05
+level: 4
+category: structural_transformation
+tags: []
+variant_of: ribbon_cutting
+variation_type: dynamic_condition
+variation_description: Scissors remain stationary instead of closing.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Scissors do not move; no closing force is applied.
+  expected_outcome_change: The ribbon remains intact and uncut.
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The sharp scissors remain completely stationary around the taut red ribbon. No movement occurs.
+    The camera rotates right until the scissors and ribbon completely exit the view, then rotates toward
+    the left smoothly at the same rate until the center of the ribbon is back in the center of view. No
+    zoom, no cut, no scene change. STOP.
+  camera_WM: The sharp scissors remain completely stationary around the taut red ribbon. No movement occurs.
+    STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up, high-angle shot of a pair of open metal scissors positioned on a
+    wooden table. A wide red satin ribbon runs horizontally across the frame, passing between the open
+    blades of the scissors. The ribbon is taut and intact. The scissors are oriented diagonally with the
+    blades surrounding the ribbon but not touching or cutting it. The wooden surface has a visible grain
+    and rustic texture.
+  init2final_edit_prompt: Edit the given image to show the red ribbon remaining completely intact and
+    uncut. Ensure the scissors are in the exact same open position relative to the ribbon, with the blades
+    separated and the ribbon passing between them undamaged. Do not change the position of the objects
+    or the continuity of the ribbon.
+  rationale: 'The video prompt explicitly imposes a negative constraint: ''The sharp scissors remain completely
+    stationary'' and ''No movement occurs.'' Although the camera rotates the objects out of view and then
+    returns to the original framing, the physical state of the objects must remain invariant. The scissors
+    do not close, and the ribbon is not cut. The final frame must demonstrate object permanence by showing
+    the ribbon still intact and the scissors still open, exactly as they were initially.'
+  questions:
+  - id: ribbon_intact
+    question: Is the red ribbon still a single, continuous piece?
+    answer_type: yes_no
+    notes_for_judge: The ribbon should not be cut or separated.
+  - id: no_damage_visible
+    question: Is the section of the ribbon between the scissor blades free of cuts or tears?
+    answer_type: yes_no
+    notes_for_judge: Check for any structural damage where the scissors are located.
+  - id: scissors_open
+    question: Are the scissor blades still separated with the ribbon between them?
+    answer_type: yes_no
+    notes_for_judge: The scissors should not have closed.
+  - id: structural_integrity
+    question: Does the ribbon appear structurally unchanged compared to the start?
+    answer_type: yes_no
+    notes_for_judge: The form and continuity should be preserved.
+  - id: ribbon_tautness
+    question: Does the ribbon still appear taut and connected across the frame?
+    answer_type: yes_no
+    notes_for_judge: It should not be slack or severed.
+  - id: object_permanence
+    question: Are the scissors and ribbon in the same relative configuration as the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Positions should be preserved.

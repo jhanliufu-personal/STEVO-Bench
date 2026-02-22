@@ -1,0 +1,71 @@
+id: plastic_cup_heat_source_warp_03
+level: 4
+category: structural_transformation
+tags: []
+variant_of: plastic_cup_heat_source_warp
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to zooming out until details are lost.
+changes:
+  occlusion_method: Camera zooms out rapidly until the cup is too small to see details.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: Hot air from the heat gun flows toward the plastic cup. The cup is made from polystyrene plastic
+    which has a glass transition temperature around 212°F. When thermoplastic polymers are heated above
+    their glass transition point, the polymer chains gain mobility and the material loses structural rigidity.
+    The material is subject to gravitational forces and internal stresses. Thermoplastics retain the shape
+    they have when cooled back below glass transition temperature. The heat gun continues directing hot
+    air at the cup. The camera zooms out rapidly and continuously until the cup and heat gun become distant
+    specks in the wide workshop view, making the state of the cup indiscernible. The camera holds this
+    wide shot for several seconds while the heat continues being applied. Then the camera zooms back in
+    smoothly to the original framing. No cut, no scene change. STOP.
+  camera_WM: Hot air from the heat gun flows toward the plastic cup. The cup is made from polystyrene
+    plastic which has a glass transition temperature around 212°F. When thermoplastic polymers are heated
+    above their glass transition point, the polymer chains gain mobility and the material loses structural
+    rigidity. The material is subject to gravitational forces and internal stresses. Thermoplastics retain
+    the shape they have when cooled back below glass transition temperature. The heat gun continues directing
+    hot air at the cup during the occlusion period. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+  Genie: null
+evaluation:
+  init_frame_description: A red plastic party cup stands upright on a light-colored wooden workbench.
+    To the right of the cup, an orange heat gun is mounted on a metal stand, with its nozzle pointed directly
+    at the side of the cup. The background is a workshop setting with various tools and wood pieces, slightly
+    out of focus.
+  init2final_edit_prompt: Edit the given image to show the red plastic cup significantly melted, warped,
+    and deformed. The cup should appear collapsed, shriveled, or buckled, losing its original upright
+    cylindrical structure due to heat damage. The texture of the plastic should look softened and distorted.
+    Keep the heat gun, the wooden workbench, and the background tools unchanged.
+  rationale: The heat gun continuously applies hot air to the thermoplastic cup, raising its temperature
+    above the glass transition point. This causes the plastic to soften, lose structural rigidity, and
+    deform under gravity and internal stress. Although the camera zooms out and back in, the final frame
+    returns to the original viewpoint, revealing the cumulative irreversible damage (melting and collapsing)
+    that occurred during the sequence.
+  questions:
+  - id: cup_melted_visible
+    question: Does the red cup show visible signs of melting or heat-induced deformation?
+    answer_type: yes_no
+    notes_for_judge: Look for warping, shriveling, or softening of the plastic material.
+  - id: cup_structural_integrity
+    question: Has the cup's structural integrity been compromised compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The cup should no longer look like a sturdy, upright container; it should look damaged
+      or collapsing.
+  - id: cup_shape_loss
+    question: Has the cup lost its original uniform cylindrical shape?
+    answer_type: yes_no
+    notes_for_judge: The sides should be buckled or uneven, not straight.
+  - id: cup_shriveled
+    question: Does the surface of the cup appear shriveled or buckled?
+    answer_type: yes_no
+    notes_for_judge: Check for texture changes indicating heat damage.
+  - id: heat_gun_presence
+    question: Is the orange heat gun still present and pointing toward the cup?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: cup_color_consistency
+    question: Is the deformed object still recognizable as the red cup?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check; the object should be melted but still red.

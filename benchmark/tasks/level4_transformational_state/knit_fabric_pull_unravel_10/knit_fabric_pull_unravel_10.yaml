@@ -1,0 +1,70 @@
+id: knit_fabric_pull_unravel_10
+level: 4
+category: structural_transformation
+tags: []
+variant_of: knit_fabric_pull_unravel
+variation_type: combined
+variation_description: Occlusion by camera moving away AND yarn material changed to slippery nylon.
+changes:
+  occlusion_method: Camera physically moves backward away from the scene.
+  dynamic_conditions: Material is smooth slippery nylon cord.
+  expected_outcome_change: Fabric unravels much faster and more smoothly due to low friction.
+prompts:
+  init_frame_edit_prompt: Edit the image to change the yarn texture from wool to a shiny, smooth, slippery
+    nylon cord.
+  video_WM: The hand begins pulling steadily on the yarn end. The fabric is knitted from smooth, low-friction
+    nylon cord. Low friction materials allow loops to slide past each other with minimal resistance. The
+    hand continues pulling the yarn with steady tension. The camera physically moves backward, retreating
+    from the table until the scene is distant and details are lost. The camera remains at a distance for
+    several seconds while the hand continues pulling. Then the camera moves forward, returning to the
+    exact original position. STOP.
+  camera_WM: The hand begins pulling steadily on the yarn end. The fabric is knitted from smooth, low-friction
+    nylon cord. Low friction materials allow loops to slide past each other with minimal resistance. The
+    hand continues pulling the yarn with steady tension. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, high-angle shot of a chunky beige knitted fabric made of thick,
+    twisted nylon cord resting on a rustic wooden table. A hand on the left holds a loose end of the cord,
+    which is connected to the edge of the knit. The loops at the edge of the fabric are large and distinct.
+  init2final_edit_prompt: Edit the given image to show the knitted fabric significantly unraveled. The
+    loose end of the cord held by the hand should be much longer, extending further across the table or
+    hanging down, indicating a substantial length has been pulled free. The main body of the knitted fabric
+    should be smaller in area, with the edge where the cord connects appearing receded or deconstructed
+    compared to the original state. The wooden table surface should be visible in the space where the
+    fabric has been pulled away.
+  rationale: 'The prompt describes a continuous pulling action on a low-friction knitted cord. This physical
+    action causes the loops to slide and the fabric to unravel, which is a structural deconstruction.
+    The camera moves away and then returns to the exact original position. During the time the camera
+    is distant, the hand continues pulling, so when the view returns, the state of the object must have
+    progressed: the loose yarn should be longer and the fabric piece smaller due to unraveling.'
+  questions:
+  - id: yarn_length_increase
+    question: Is the loose segment of the cord significantly longer than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the length of the unraveled rope/cord held by the hand or lying on the table.
+  - id: fabric_size_reduction
+    question: Is the total area of the intact knitted fabric smaller than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The fabric should have unraveled, reducing its overall size.
+  - id: edge_recession
+    question: Has the edge of the fabric where the cord connects receded or moved compared to the start?
+    answer_type: yes_no
+    notes_for_judge: As the yarn is pulled, the active edge of the knit should move back.
+  - id: table_visibility
+    question: Is more of the wooden table surface visible in the area previously occupied by the knit?
+    answer_type: yes_no
+    notes_for_judge: Unraveling exposes the table underneath.
+  - id: structural_change
+    question: Does the fabric show signs of deconstruction or unraveling at the pulling point?
+    answer_type: yes_no
+    notes_for_judge: Look for loose loops or a ragged edge indicating the structure is coming apart.
+  - id: hand_presence
+    question: Is the hand still present in the frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: background_consistency
+    question: Is the wooden table texture consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

@@ -1,0 +1,75 @@
+id: knit_fabric_pull_unravel_08
+level: 4
+category: structural_transformation
+tags: []
+variant_of: knit_fabric_pull_unravel
+variation_type: combined
+variation_description: Occlusion by lights off AND yarn is held with slack.
+changes:
+  occlusion_method: Lights turn off.
+  dynamic_conditions: Yarn is slack (no tension).
+  expected_outcome_change: No change in fabric state.
+prompts:
+  init_frame_edit_prompt: Edit the image so the yarn strand between the hand and the fabric is loose,
+    slack, and curved downwards, indicating zero tension.
+  video_WM: The hand holds the loose yarn end gently. There is significant slack in the yarn between the
+    hand and the fabric, creating a drooping curve. No tension is applied to the knit structure. The hand
+    maintains this loose hold without pulling. Suddenly, the room lights turn off completely, plunging
+    the scene into total darkness. The darkness lasts for several seconds while the hand maintains its
+    position. Then the lights turn back on, illuminating the scene again. No zoom, no cut, no scene change.
+    STOP.
+  camera_WM: The hand holds the loose yarn end gently. There is significant slack in the yarn between
+    the hand and the fabric, creating a drooping curve. No tension is applied to the knit structure. The
+    hand maintains this loose hold without pulling. Suddenly, the room lights turn off completely, plunging
+    the scene into total darkness. The darkness lasts for several seconds while the hand maintains its
+    position. Then the lights turn back on, illuminating the scene again. No zoom, no cut, no scene change.
+    STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, high-angle shot showing a wooden table surface. On the right, a
+    section of chunky, cream-colored knit fabric lies flat. On the left, a hand holds the end of a thick
+    yarn strand connected to the fabric. The yarn between the hand and the fabric is loose, forming a
+    drooping curve with significant slack, indicating a lack of tension. The edge of the fabric shows
+    open loops where the yarn is attached, appearing vulnerable to unraveling but currently static.
+  init2final_edit_prompt: Edit the given image to show the scene exactly as it was initially, preserving
+    the state of all objects. Ensure the yarn between the hand and the fabric retains its loose, drooping
+    curve with visible slack. The knit fabric must remain in its original position and condition, with
+    no additional unraveling or structural changes. The lighting should be bright and fully illuminate
+    the scene.
+  rationale: The prompt explicitly states that the hand holds the yarn loosely and applies no tension
+    ('No tension is applied', 'without pulling'). While there is a lighting change (lights off then on),
+    the physical action required to cause unraveling is explicitly negated. Therefore, the world state
+    regarding the fabric's structure and the yarn's tension must remain invariant. The final frame should
+    be visually identical to the initial frame in terms of object configuration, showing the yarn still
+    slack and the fabric intact.
+  questions:
+  - id: yarn_slack_presence
+    question: Is the yarn between the hand and the fabric still loose with visible slack?
+    answer_type: yes_no
+    notes_for_judge: The prompt specifies no tension is applied; the yarn should not be taut.
+  - id: yarn_curve_shape
+    question: Does the yarn retain a drooping curve rather than a straight line?
+    answer_type: yes_no
+    notes_for_judge: The curve indicates the lack of pulling force.
+  - id: fabric_integrity
+    question: Is the edge of the knit fabric structurally identical to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Since no pulling occurred, the fabric should not have unraveled further.
+  - id: fabric_position
+    question: Is the knit fabric in the same position on the table as it was initially?
+    answer_type: yes_no
+    notes_for_judge: The fabric should not have been dragged or moved.
+  - id: no_new_fragments
+    question: Is the scene free of any new detached yarn fragments or debris?
+    answer_type: yes_no
+    notes_for_judge: No damage or tearing should have occurred.
+  - id: hand_hold_nature
+    question: Does the hand appear to be holding the yarn gently without pulling?
+    answer_type: yes_no
+    notes_for_judge: Verifying the agent's action matches the 'no tension' instruction.
+  - id: lighting_state
+    question: Is the scene fully illuminated?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the lights turn back on at the end.

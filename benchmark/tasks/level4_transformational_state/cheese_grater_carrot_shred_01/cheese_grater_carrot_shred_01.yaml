@@ -1,0 +1,78 @@
+id: cheese_grater_carrot_shred_01
+level: 4
+category: structural_transformation
+tags: []
+variant_of: cheese_grater_carrot_shred
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to room lights turning off.
+changes:
+  occlusion_method: Room lights turn off completely (pitch black) then turn back on.
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics (carrot is shredded).
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The hand begins pushing the carrot downward along the rough grater surface with repeated strokes.
+    Box graters have sharp raised edges around each hole that act as cutting blades. The carrot is firm
+    vegetable matter with cellular structure. Progressive strokes apply force against the sharp edges.
+    Suddenly, the room lights turn completely off, plunging the scene into total darkness. The grating
+    sound suggests the action continues in the dark. After several seconds, the lights turn back on, restoring
+    visibility. No zoom, no cut, no scene change. STOP.
+  camera_WM: The hand begins pushing the carrot downward along the rough grater surface with repeated
+    strokes. Box graters have sharp raised edges around each hole that act as cutting blades. The carrot
+    is firm vegetable matter with cellular structure. Progressive strokes apply force against the sharp
+    edges. Suddenly, the room lights turn completely off, plunging the scene into total darkness. The
+    grating sound suggests the action continues in the dark. After several seconds, the lights turn back
+    on, restoring visibility. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a metal box grater standing on a scratched wooden
+    cutting board. A hand enters from the right, holding a thick orange carrot horizontally and pressing
+    its tip against the side of the grater with large holes. A small amount of grated carrot shreds is
+    already visible on the board at the base of the grater. The background features a blurred window with
+    a white frame.
+  init2final_edit_prompt: Edit the given image to show the carrot significantly reduced in length, appearing
+    shorter with a flattened or rough tip where it contacts the metal surface. Increase the quantity of
+    orange carrot shreds on the wooden cutting board at the base of the grater, creating a larger and
+    more spread-out pile of debris. Position the hand closer to the face of the grater to account for
+    the missing length of the carrot. Maintain the original lighting, background, and the position of
+    the metal grater.
+  rationale: The video prompt describes a continuous grating action that persists through a period of
+    darkness. Grating is an irreversible physical transformation that reduces the mass of the object (the
+    carrot) and produces debris (shreds). Therefore, the final state must show the carrot physically shorter
+    due to material removal and a corresponding increase in the pile of grated material on the cutting
+    board. The hand holding the carrot must have moved closer to the grater as the object shortened.
+  questions:
+  - id: carrot_length_reduction
+    question: Is the carrot shorter in length than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the length of the carrot extending from the hand to the grater.
+  - id: shreds_accumulation
+    question: Is the pile of carrot shreds on the cutting board larger than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Look for an increase in the amount of orange debris at the base of the grater.
+  - id: carrot_tip_wear
+    question: Does the end of the carrot touching the grater appear flattened or worn down?
+    answer_type: yes_no
+    notes_for_judge: The tip should not look like a clean cut or a natural tip; it should look abraded.
+  - id: volume_reduction
+    question: Has the overall volume of the solid carrot held in the hand decreased?
+    answer_type: yes_no
+    notes_for_judge: The object should be smaller due to the grating process.
+  - id: debris_spread
+    question: Are there more individual fragments of carrot scattered on the board compared to the start?
+    answer_type: yes_no
+    notes_for_judge: Check for increased scattering of material.
+  - id: structural_integrity
+    question: Has the carrot undergone visible material loss compared to the initial state?
+    answer_type: yes_no
+    notes_for_judge: General check for irreversible consumption of the object.
+  - id: grater_consistency
+    question: Is the metal grater still standing in the same position on the board?
+    answer_type: yes_no
+    notes_for_judge: The grater itself should not have moved significantly.
+  - id: hand_presence
+    question: Is the hand still visible holding the remaining portion of the carrot?
+    answer_type: yes_no
+    notes_for_judge: The agent (hand) should still be present.

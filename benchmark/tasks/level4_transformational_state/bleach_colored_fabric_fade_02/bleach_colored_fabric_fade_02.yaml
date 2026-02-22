@@ -1,0 +1,78 @@
+id: bleach_colored_fabric_fade_02
+level: 4
+category: structural_transformation
+tags: []
+variant_of: bleach_colored_fabric_fade
+variation_type: occlusion_method
+variation_description: Replaces camera rotation with a large opaque laundry basket sliding in front of
+  the camera.
+changes:
+  occlusion_method: A large laundry basket slides into view, blocking the scene, then slides away.
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics (bleached spot appears).
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The bleach bottle tips and pours liquid bleach onto the dark blue fabric surface. Household
+    bleach contains sodium hypochlorite which is a strong oxidizing agent that reacts with organic dye
+    molecules. The chemical oxidation process is irreversible at room temperature. The bleach continues
+    to contact and saturate the fabric fibers. A large, opaque laundry basket slides into the foreground
+    from the left, completely blocking the view of the tray and fabric. The basket remains in front of
+    the camera for several seconds while the bleach remains in contact with the fabric behind it. Then,
+    the basket slides away to the right, revealing the scene from the original viewpoint. No zoom, no
+    cut, no scene change. STOP.
+  camera_WM: The bleach bottle tips and pours liquid bleach onto the dark blue fabric surface. Household
+    bleach contains sodium hypochlorite which is a strong oxidizing agent that reacts with organic dye
+    molecules. The chemical oxidation process is irreversible at room temperature. The bleach continues
+    to contact and saturate the fabric fibers. A large, opaque laundry basket slides into the foreground
+    from the left, completely blocking the view of the tray and fabric. The basket remains in front of
+    the camera for several seconds while the bleach remains in contact with the fabric behind it. Then,
+    the basket slides away to the right, revealing the scene from the original viewpoint. No zoom, no
+    cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A top-down view of a white plastic tray holding a square piece of wrinkled dark
+    blue fabric. In the upper right corner, a hand holds a white Clorox bleach bottle, tilted downwards.
+    Clear droplets of liquid are suspended in mid-air, falling from the bottle's spout towards the center
+    of the fabric.
+  init2final_edit_prompt: Edit the given image to show a distinct, discolored bleached spot on the dark
+    blue fabric directly where the liquid drops were falling. The spot should appear significantly lighter
+    than the surrounding blue fabric, looking pinkish, orange, or white due to color loss. The texture
+    in the discolored area should look wet and saturated. Maintain the original camera angle, the position
+    of the tray, and the surrounding environment.
+  rationale: The action involves pouring bleach, a strong oxidizing agent, onto dyed fabric. This causes
+    a chemical reaction that breaks down the dye molecules, resulting in irreversible color loss (fading
+    or changing to a lighter color like pink, orange, or white). The occlusion by the laundry basket allows
+    time for this chemical reaction to manifest. When the view is restored, the fabric must show visible
+    signs of this permanent chemical alteration (a bleach stain) in the area of contact.
+  questions:
+  - id: bleach_spot_visible
+    question: Is there a visible discolored spot on the dark blue fabric?
+    answer_type: yes_no
+    notes_for_judge: Look for a patch that is lighter (white, pink, or orange) than the original blue.
+  - id: color_lighter
+    question: Is the area where the liquid landed lighter in color than the surrounding fabric?
+    answer_type: yes_no
+    notes_for_judge: The affected area should have lost its dark blue intensity.
+  - id: fabric_wetness
+    question: Does the fabric appear wet or saturated in the center?
+    answer_type: yes_no
+    notes_for_judge: Look for darkening due to wetness or specular highlights, though the bleaching effect
+      (lightening) is the primary indicator.
+  - id: location_consistency
+    question: Is the discoloration located roughly where the droplets were aimed in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The stain should be under the bottle spout.
+  - id: chemical_change
+    question: Does the fabric show evidence of color loss or bleaching?
+    answer_type: yes_no
+    notes_for_judge: This is the core irreversible transformation.
+  - id: tray_consistency
+    question: Is the white plastic tray still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: fabric_integrity
+    question: Is the fabric still a single, largely intact piece (not shredded or burned to ash)?
+    answer_type: yes_no
+    notes_for_judge: Bleach changes color but does not immediately shred fabric like fire or scissors.

@@ -1,0 +1,81 @@
+id: hole_punch_paper_stack_02
+level: 4
+category: structural_transformation
+tags: []
+variant_of: hole_punch_paper_stack
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to a person walking by blocking the view.
+changes:
+  occlusion_method: A person carrying a large stack of files walks past, blocking the camera view.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The hand begins pressing the lever downward with progressive force. The hole punch contains
+    cylindrical cutting blades that advance toward the paper when the lever is depressed. The paper stack
+    consists of standard copy paper with typical fiber structure and tensile strength. A person carrying
+    a large stack of files walks closely in front of the camera from left to right, completely blocking
+    the view of the hole punch for several seconds. The hand continues pressing the lever while hidden
+    behind the person. The person exits the frame to the right, revealing the desk again. No zoom, no
+    cut, no scene change. STOP.
+  camera_WM: The hand begins pressing the lever downward with progressive force. The hole punch contains
+    cylindrical cutting blades that advance toward the paper when the lever is depressed. The paper stack
+    consists of standard copy paper with typical fiber structure and tensile strength. A person carrying
+    a large stack of files walks closely in front of the camera from left to right, completely blocking
+    the view of the hole punch for several seconds. The hand continues pressing the lever while hidden
+    behind the person. The person exits the frame to the right, revealing the desk again. No zoom, no
+    cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot captures a wooden desk surface. In the center sits
+    a heavy-duty, silver metal hole punch with a black handle. A stack of white paper is inserted into
+    the punch's throat. A person's arm and hand are visible, grasping the lever in the raised, ready-to-punch
+    position. To the left, a black three-hole punch is partially visible. In the background, there is
+    a black wire mesh pen holder containing pens and a black document tray. A window provides natural
+    lighting from the background left.
+  init2final_edit_prompt: Edit the given image so that the lever of the silver hole punch is pressed downwards.
+    The hand should be positioned lower, holding the handle near the base of the machine. The internal
+    springs and vertical guides of the punching mechanism should appear compressed. Ensure the paper stack
+    remains in place under the blades. Maintain the original background, lighting, and camera angle.
+  rationale: The video describes a continuous action where the hand presses the lever down to punch holes
+    in the paper. An occlusion event (a person walking by) blocks the view, but the prompt states the
+    action continues during this time. Therefore, when the view is restored, the lever must be in the
+    depressed position. This state corresponds to the blades having penetrated the paper, creating irreversible
+    holes (structural change), even if the holes are currently occupied by the blades. The primary visual
+    evidence of this transformation is the lowered lever and compressed mechanism.
+  questions:
+  - id: lever_position_lower
+    question: Is the handle of the hole punch in a lower position than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The lever should be depressed, closer to the base.
+  - id: mechanism_compression
+    question: Does the punching mechanism appear compressed compared to the start?
+    answer_type: yes_no
+    notes_for_judge: Springs or guides should show compression indicating the down stroke.
+  - id: hand_height
+    question: Is the hand holding the lever closer to the desk surface than initially?
+    answer_type: yes_no
+    notes_for_judge: The hand follows the lever down.
+  - id: blades_engaged
+    question: Does the state of the machine indicate that the cutting blades have advanced toward or into
+      the paper?
+    answer_type: yes_no
+    notes_for_judge: Infer from lever position.
+  - id: gap_reduction
+    question: Is the vertical gap between the handle and the base of the punch smaller than before?
+    answer_type: yes_no
+    notes_for_judge: Direct geometric comparison.
+  - id: paper_presence
+    question: Is the stack of white paper still visible in the punch?
+    answer_type: yes_no
+    notes_for_judge: The paper should not disappear.
+  - id: background_consistency_tray
+    question: Is the black document tray in the background still present?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: background_consistency_penholder
+    question: Is the wire mesh pen holder still visible in the background?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

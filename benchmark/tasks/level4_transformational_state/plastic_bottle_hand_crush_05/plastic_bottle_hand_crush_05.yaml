@@ -1,0 +1,73 @@
+id: plastic_bottle_hand_crush_05
+level: 4
+category: structural_transformation
+tags: []
+variant_of: plastic_bottle_hand_crush
+variation_type: dynamic_condition
+variation_description: Force change from squeezing to gentle holding.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Hand holds bottle gently without applying force.
+  expected_outcome_change: No deformation (no force applied)
+prompts:
+  init_frame_edit_prompt: Edit the image to show the hand gripping the bottle very loosely, with fingers
+    relaxed and barely touching the surface.
+  video_WM: The hand rests gently around the plastic bottle without applying any pressure. The fingers
+    are relaxed and the grip is loose, merely supporting the bottle rather than compressing it. The plastic
+    walls remain in their resting equilibrium state. The camera rotates right at constant speed until
+    the hand and bottle completely exit the view to the right. The camera continues rotating right for
+    several seconds while the hand remains off-screen, maintaining the same gentle, non-compressive hold.
+    Then the camera rotates left smoothly at the same rate back to the original viewpoint. No zoom, no
+    cut, no scene change. STOP.
+  camera_WM: The hand rests gently around the plastic bottle without applying any pressure. The fingers
+    are relaxed and the grip is loose, merely supporting the bottle rather than compressing it. The plastic
+    walls remain in their resting equilibrium state. The hand maintains this gentle posture during the
+    occlusion period. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A close-up shot showing a person's arm and hand holding a clear, empty plastic
+    water bottle resting on a wooden table. The hand grips the middle of the bottle gently. The bottle
+    is cylindrical with horizontal ridges and appears fully expanded and uncrushed. In the foreground
+    on the table, there are two circular water ring stains. The background is a blurred kitchen scene
+    with a window, white cabinets, and kitchen appliances.
+  init2final_edit_prompt: Edit the given image to ensure the plastic bottle remains completely uncrushed
+    and retains its original cylindrical shape. The hand should continue to hold the bottle gently without
+    squeezing. Ensure the plastic walls remain smooth, fully expanded, and free of any dents, buckling,
+    or deformation. The scene should appear identical to the original state.
+  rationale: The video prompt explicitly specifies that the hand maintains a 'gentle, non-compressive
+    hold' throughout the entire duration, including the period when the camera rotates away and the objects
+    are off-screen. No physical force is applied to the bottle. Therefore, upon the camera's return to
+    the original viewpoint, the bottle must remain in its original, uncrushed state. This task tests the
+    model's ability to maintain state stability and object permanence without hallucinating a transformation
+    (crushing) that is often associated with this context but was not requested.
+  questions:
+  - id: bottle_shape_integrity
+    question: Does the plastic bottle retain its original cylindrical shape?
+    answer_type: yes_no
+    notes_for_judge: The bottle should not look flattened or squeezed.
+  - id: bottle_uncrushed
+    question: Is the bottle free of visible crushing or crumpling?
+    answer_type: yes_no
+    notes_for_judge: The prompt specifies a non-compressive hold, so no damage should occur.
+  - id: bottle_walls_smooth
+    question: Are the walls of the bottle smooth and free of new dents?
+    answer_type: yes_no
+    notes_for_judge: Check for buckling or indentations that weren't there before.
+  - id: hand_grip_gentle
+    question: Does the hand appear to be holding the bottle loosely or gently?
+    answer_type: yes_no
+    notes_for_judge: The fingers should not be digging in or compressing the plastic.
+  - id: bottle_volume_preserved
+    question: Does the bottle appear to have the same volume as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: It should not look smaller due to compression.
+  - id: water_rings_visible
+    question: Are the water ring stains on the table still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: bottle_vertical_alignment
+    question: Is the bottle still standing upright on the table?
+    answer_type: yes_no
+    notes_for_judge: It should not be knocked over.

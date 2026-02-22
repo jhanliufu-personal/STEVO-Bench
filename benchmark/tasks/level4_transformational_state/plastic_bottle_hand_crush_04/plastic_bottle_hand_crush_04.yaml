@@ -1,0 +1,70 @@
+id: plastic_bottle_hand_crush_04
+level: 4
+category: structural_transformation
+tags: []
+variant_of: plastic_bottle_hand_crush
+variation_type: dynamic_condition
+variation_description: Material change from plastic to thick glass.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Bottle is thick glass (rigid) instead of thin plastic.
+  expected_outcome_change: No deformation (glass resists manual crushing)
+prompts:
+  init_frame_edit_prompt: Edit the image to change the plastic bottle into a thick, clear glass bottle
+    of the same shape. The material should look rigid and solid.
+  video_WM: The hand grips the thick glass bottle and begins applying squeezing force. Glass is a rigid,
+    brittle material with high structural integrity and extreme resistance to deformation. Unlike plastic,
+    thick glass does not yield or flex under manual compression. The hand continues applying steady pressure.
+    The camera rotates right at constant speed until the hand and bottle completely exit the view to the
+    right. The camera continues rotating right for several seconds while the hand remains off-screen continuing
+    to apply pressure to the glass. Then the camera rotates left smoothly at the same rate back to the
+    original viewpoint. No zoom, no cut, no scene change. STOP.
+  camera_WM: The hand grips the thick glass bottle and begins applying squeezing force. Glass is a rigid,
+    brittle material with high structural integrity and extreme resistance to deformation. Unlike plastic,
+    thick glass does not yield or flex under manual compression. The hand continues applying steady pressure
+    during the occlusion period. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A close-up eye-level shot of a wooden kitchen table. In the center stands a
+    clear plastic water bottle with a blue cap. To the left of the bottle, there are two dried water ring
+    stains on the table surface. A person's arm and hand enter from the left side of the frame, reaching
+    towards the bottle with fingers open, ready to grasp it. The background is a blurred kitchen interior
+    with a window letting in daylight.
+  init2final_edit_prompt: Edit the given image to show the hand firmly gripping the center of the bottle.
+    The hand should be wrapped around the bottle's body. Crucially, the bottle must remain perfectly rigid
+    and retain its original cylindrical shape and volume; it must NOT show any indentation, crumpling,
+    bending, or deformation, reflecting the properties of thick glass described in the prompt. The camera
+    view, lighting, and background must remain identical to the original image.
+  rationale: The video prompt explicitly defines the object as a 'thick glass bottle' and emphasizes that
+    it is 'rigid' and 'does not yield or flex' under manual compression. This textual constraint overrides
+    the visual appearance of the plastic bottle. Therefore, despite the hand applying squeezing force,
+    the correct physical simulation requires the bottle to remain structurally unchanged and undeformed.
+    The camera pans away and returns to the original viewpoint, so the final frame should show the hand
+    gripping the intact, uncrushed bottle.
+  questions:
+  - id: bottle_integrity
+    question: Does the bottle retain its original cylindrical shape without deformation?
+    answer_type: yes_no
+    notes_for_judge: The bottle should not be crushed, bent, or dented.
+  - id: no_crumpling
+    question: Is the bottle free from visible crumpling or flattening?
+    answer_type: yes_no
+    notes_for_judge: Check for the absence of plastic deformation typical of crushed water bottles.
+  - id: hand_contact
+    question: Is the hand visible and gripping the bottle?
+    answer_type: yes_no
+    notes_for_judge: The hand should be in contact with the bottle.
+  - id: rigidity_check
+    question: Does the bottle appear rigid despite the applied force?
+    answer_type: yes_no
+    notes_for_judge: The walls of the bottle should be straight, not bowed inward.
+  - id: water_rings
+    question: Are the water ring stains on the table still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check for the table surface.
+  - id: bottle_upright
+    question: Is the bottle still standing upright?
+    answer_type: yes_no
+    notes_for_judge: The bottle should not have been knocked over.

@@ -1,0 +1,83 @@
+id: aluminum_foil_crumple_ball_01
+level: 4
+category: structural_transformation
+tags: []
+variant_of: aluminum_foil_crumple_ball
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to lights turning off (pitch black).
+changes:
+  occlusion_method: Lights turn off completely, creating pitch black conditions, then turn back on.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The hands begin gathering the edges of the foil inward and applying compressive force. Aluminum
+    foil is a thin metal sheet that undergoes plastic deformation when bent beyond its yield strength.
+    Unlike elastic materials, aluminum has a very low yield threshold and cannot return to original shape
+    after plastic deformation. Bending causes permanent atomic-level rearrangement in the metal structure.
+    The hands continue progressive compression. Suddenly, the lights in the room turn off completely,
+    plunging the scene into pitch black darkness. The audio implies the hands continue to compress the
+    foil in the dark. After several seconds, the lights turn back on, illuminating the scene from the
+    original viewpoint. No zoom, no cut, no scene change. STOP.
+  camera_WM: The hands begin gathering the edges of the foil inward and applying compressive force. Aluminum
+    foil is a thin metal sheet that undergoes plastic deformation when bent beyond its yield strength.
+    Unlike elastic materials, aluminum has a very low yield threshold and cannot return to original shape
+    after plastic deformation. Bending causes permanent atomic-level rearrangement in the metal structure.
+    The hands continue progressive compression. Suddenly, the lights in the room turn off completely,
+    plunging the scene into pitch black darkness. The audio implies the hands continue to compress the
+    foil in the dark. After several seconds, the lights turn back on, illuminating the scene from the
+    original viewpoint. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A top-down view of a rectangular sheet of silver aluminum foil lying flat on
+    a rustic wooden table. Two male hands are visible, one on the left and one on the right, resting on
+    the edges of the foil. The table has a visible wood grain texture and some scattered crumbs. Natural
+    light illuminates the scene from the left.
+  init2final_edit_prompt: Edit the given image to show the aluminum foil crumpled into a rough, irregular
+    ball or compressed mass in the center of the frame. Move the hands closer together, positioning them
+    as if they are grasping or compressing the crumpled foil. The foil should appear significantly smaller
+    in surface area than the original sheet, with a highly textured, creased, and reflective surface.
+    Reveal the parts of the wooden table that were previously covered by the flat sheet.
+  rationale: The video prompt describes a process of plastic deformation where hands compress aluminum
+    foil. The critical element is the period of darkness during which the action continues. The world
+    model must infer that the hands do not stop moving when the lights go out; instead, they continue
+    to gather and compress the foil. Therefore, when the lights return, the foil should be significantly
+    more crumpled and smaller in area than before the blackout, and the hands should be closer together,
+    reflecting the progress of the compression action.
+  questions:
+  - id: foil_crumpled
+    question: Has the aluminum foil been transformed from a flat sheet into a crumpled mass or ball?
+    answer_type: yes_no
+    notes_for_judge: The foil should no longer look like a flat rectangle; it should look like a 3D crumpled
+      object.
+  - id: surface_area_reduction
+    question: Is the visible surface area of the foil significantly smaller than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Since the foil is being compressed, it should cover less of the table.
+  - id: hands_closer
+    question: Are the hands positioned closer to each other than they were in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: To compress the foil, the hands must move inward.
+  - id: table_revealed
+    question: Is more of the wooden table visible in the areas where the foil edges used to be?
+    answer_type: yes_no
+    notes_for_judge: As the foil is gathered inward, the table underneath the original edges should be
+      revealed.
+  - id: texture_change
+    question: Does the foil exhibit complex creases and folds consistent with being crushed?
+    answer_type: yes_no
+    notes_for_judge: The surface should not be smooth; it should be highly irregular and faceted.
+  - id: structural_integrity
+    question: Has the original rectangular shape of the foil been lost?
+    answer_type: yes_no
+    notes_for_judge: The straight edges and corners of the original sheet should be distorted or gone.
+  - id: table_consistency
+    question: Does the wooden table retain its original texture and appearance?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: hands_present
+    question: Are the hands still visible in the frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

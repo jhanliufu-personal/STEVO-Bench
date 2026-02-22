@@ -1,0 +1,66 @@
+id: cheese_grater_carrot_shred_04
+level: 4
+category: structural_transformation
+tags: []
+variant_of: cheese_grater_carrot_shred
+variation_type: dynamic_condition
+variation_description: The hand holds the carrot still instead of moving it.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Hand is stationary (holding carrot against grater without movement).
+  expected_outcome_change: No state change (carrot remains whole, no pile of shreds).
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The hand holds the carrot firmly pressed against the rough grater surface but remains perfectly
+    still. There is no vertical motion. The carrot rests against the sharp raised edges but does not slide
+    across them. The camera rotates right at constant speed until the grater and carrot completely exit
+    the view to the right. The camera continues rotating right for several seconds. Then the camera rotates
+    left smoothly at the same rate back to the original viewpoint. No zoom, no cut, no scene change. STOP.
+  camera_WM: The hand holds the carrot firmly pressed against the rough grater surface but remains perfectly
+    still. There is no vertical motion. The carrot rests against the sharp raised edges but does not slide
+    across them. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot showing a metal box grater standing on a worn wooden
+    cutting board. A male hand enters from the right, holding a thick orange carrot horizontally. The
+    blunt tip of the carrot is pressed firmly against the side of the grater, which has large circular
+    cutting holes. Below the contact point, a pile of orange carrot shreds is already scattered on the
+    cutting board. A window with a white frame is visible in the blurred background.
+  init2final_edit_prompt: Edit the given image to show the scene exactly as it was initially, with no
+    changes to the objects. The carrot must remain the same length and shape, pressed against the grater
+    at the same height. The pile of carrot shreds on the cutting board must remain identical in size and
+    arrangement, with no new shreds added. The hand should maintain its grip and position exactly as shown
+    in the original image.
+  rationale: 'The video prompt explicitly states that the hand holds the carrot ''perfectly still'' and
+    that it ''does not slide'' against the grater. Although the camera rotates away to occlude the objects
+    and then returns, no physical grating action occurs during this time. Therefore, the final state must
+    be identical to the initial state: the carrot should not be shorter, and the pile of shreds should
+    not be larger. This task tests the model''s ability to maintain object permanence and adhere to negative
+    constraints (inaction) despite camera motion and occlusion.'
+  questions:
+  - id: carrot_length_preservation
+    question: Is the carrot approximately the same length as it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The carrot should not be shorter, as no grating occurred.
+  - id: shred_pile_stability
+    question: Is the amount of grated carrot on the cutting board unchanged compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: No new shreds should be generated.
+  - id: carrot_integrity
+    question: Does the tip of the carrot appear structurally intact, similar to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The carrot should not look shredded or damaged at the tip.
+  - id: carrot_position
+    question: Is the carrot still positioned against the grater at the same vertical height?
+    answer_type: yes_no
+    notes_for_judge: The prompt specifies no vertical motion.
+  - id: hand_position
+    question: Is the hand holding the carrot in the same position relative to the grater?
+    answer_type: yes_no
+    notes_for_judge: The hand should not have moved down or forward.
+  - id: grater_holes_visibility
+    question: Are the visible holes on the grater free of new blockage or debris compared to the start?
+    answer_type: yes_no
+    notes_for_judge: Since no grating happened, holes shouldn't be newly clogged.

@@ -1,0 +1,73 @@
+id: dry_autumn_leaf_crumble_09
+level: 4
+category: structural_transformation
+tags: []
+variant_of: dry_autumn_leaf_crumble
+variation_type: combined
+variation_description: Plastic artificial leaf (condition) + Fog (occlusion).
+changes:
+  occlusion_method: Dense fog/steam.
+  dynamic_conditions: Leaf is artificial plastic polymer.
+  expected_outcome_change: Leaf bends but springs back or creases plastically; does not crumble into dust.
+prompts:
+  init_frame_edit_prompt: Edit the image to change the leaf to a glossy, artificial plastic replica of
+    an autumn leaf.
+  video_WM: The hands begin applying progressive crushing pressure to the artificial plastic leaf. The
+    material is a flexible polymer designed to mimic a leaf but possesses high elasticity and tensile
+    strength. The hands continue applying compressive force. Dense white steam rapidly fills the frame,
+    reducing visibility to zero and completely obscuring the hands and leaf. The steam swirls thickly
+    for several seconds. Then the steam dissipates quickly, restoring clear visibility to the scene. No
+    zoom, no cut, no scene change. STOP.
+  camera_WM: The hands begin applying progressive crushing pressure to the artificial plastic leaf. The
+    material is a flexible polymer designed to mimic a leaf but possesses high elasticity and tensile
+    strength. The hands continue applying compressive force. Dense white steam rapidly fills the frame,
+    reducing visibility to zero and completely obscuring the hands and leaf. The steam swirls thickly
+    for several seconds. Then the steam dissipates quickly, restoring clear visibility to the scene. No
+    zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, top-down view of two elderly hands holding a glossy, brown, artificial
+    maple leaf. The leaf appears to be made of a rigid or semi-rigid material, possibly plastic or coated
+    resin, with distinct veins and a shiny surface. The hands hold the leaf gently by the edges and stem.
+    The background is a neutral, textured beige fabric.
+  init2final_edit_prompt: Edit the given image to show the artificial leaf crumpled and distorted within
+    the hands. The leaf should appear bent, folded, and squeezed, losing its original flat shape, but
+    it must remain in a single intact piece. Do not show any shattering, fragmentation, crumbling, or
+    dust. The material should look like deformed glossy plastic or flexible polymer that has been crushed
+    but not broken. The hands should be positioned as if they are gripping or have just squeezed the deformed
+    leaf.
+  rationale: The prompt explicitly states the leaf is an 'artificial plastic leaf' made of a 'flexible
+    polymer' with 'high elasticity and tensile strength'. This is a specific counter-instruction to the
+    visual appearance of a dry autumn leaf. When crushed, this material will deform, bend, and crumple
+    (plastic or elastic deformation) but will NOT shatter, fragment, or turn to dust like a natural dry
+    leaf would. The steam acts as an occlusion mechanism to hide the transition. The final state should
+    show the leaf distorted but structurally intact, verifying the model's adherence to the material properties
+    described in the text.
+  questions:
+  - id: is_crumpled
+    question: Is the leaf crumpled, bent, or distorted compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The leaf should no longer be flat; it should show signs of crushing force.
+  - id: is_intact
+    question: Is the leaf still in a single, connected piece?
+    answer_type: yes_no
+    notes_for_judge: The material is high-tensile polymer, so it should not break into separate fragments.
+  - id: no_shattering
+    question: Is the scene free of scattered fragments, crumbs, or dust?
+    answer_type: yes_no
+    notes_for_judge: A dry leaf would shatter; this polymer leaf should not. Answer YES if there are NO
+      fragments.
+  - id: shape_change
+    question: Has the leaf lost its original flat, planar shape?
+    answer_type: yes_no
+    notes_for_judge: It should look squeezed or folded.
+  - id: material_behavior
+    question: Does the leaf appear to have bent or folded rather than snapped or cracked?
+    answer_type: yes_no
+    notes_for_judge: Testing if the model respected the 'flexible polymer' description.
+  - id: hands_holding
+    question: Are the hands still holding the object?
+    answer_type: yes_no
+    notes_for_judge: The prompt does not say the hands release the object.

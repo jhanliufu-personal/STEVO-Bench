@@ -1,0 +1,64 @@
+id: wet_tissue_progressive_tear_07
+level: 4
+category: structural_transformation
+tags: []
+variant_of: wet_tissue_progressive_tear
+variation_type: combined
+variation_description: Dry tissue (stronger) combined with camera zoom occlusion.
+changes:
+  occlusion_method: Camera zooms out until details are lost, then zooms in.
+  dynamic_conditions: Tissue is dry (stronger).
+  expected_outcome_change: Tissue remains intact or tears cleanly, unlike wet mush.
+prompts:
+  init_frame_edit_prompt: Edit the image to make the tissue paper look completely dry, opaque white, and
+    stiff, removing any water droplets or translucency.
+  video_WM: The hands begin applying gentle outward pulling tension to the dry tissue. Dry cellulose fibers
+    are interlocked and strong, resisting the pulling force. The material is stiff and does not yield
+    easily. The hands continue applying steady tension. The camera zooms out rapidly, moving backward
+    until the hands and sink become distant and small, making the details of the tissue indistinguishable.
+    The camera holds this distant view for several seconds while the pulling action continues. Then the
+    camera zooms back in smoothly to the original framing. No cut, no scene change. STOP.
+  camera_WM: The hands begin applying gentle outward pulling tension to the dry tissue. Dry cellulose
+    fibers are interlocked and strong, resisting the pulling force. The material is stiff and does not
+    yield easily. The hands continue applying steady tension during the occlusion period. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, first-person point-of-view shot showing two hands holding a white,
+    rectangular, fibrous sheet (resembling a dry tissue or non-woven wipe) over a stainless steel kitchen
+    sink. The hands are holding the upper corners of the sheet, which is currently intact and draped slightly.
+    A chrome faucet is visible in the background, slightly out of focus.
+  init2final_edit_prompt: Edit the given image to show the white tissue torn in the center. Create a visible
+    rip, hole, or separation in the middle of the sheet with fibrous, frayed edges indicating the material
+    has been pulled apart. The hands should remain holding the pieces of the damaged material.
+  rationale: The prompt describes a continuous application of outward pulling tension on the tissue. Although
+    the text notes the material initially resists and is stiff, the action continues for several seconds
+    during the camera zoom-out. In the context of a Level 4 task focusing on irreversible transformations,
+    the sustained tension implies that the material eventually yields to the force, resulting in a structural
+    failure (a tear or rip) by the time the camera zooms back in.
+  questions:
+  - id: tear_visible
+    question: Is there a visible tear, rip, or hole in the tissue?
+    answer_type: yes_no
+    notes_for_judge: Look for a break in the material's continuity, likely in the center.
+  - id: structural_integrity
+    question: Has the structural integrity of the tissue been compromised compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The tissue should no longer be a single, pristine, intact sheet.
+  - id: frayed_edges
+    question: Are there frayed fibers or jagged edges visible where the material is damaged?
+    answer_type: yes_no
+    notes_for_judge: Check for texture details indicating a rip in fibrous material.
+  - id: material_separation
+    question: Does the material show signs of separating into pieces or expanding a central hole?
+    answer_type: yes_no
+    notes_for_judge: The material should be pulled apart.
+  - id: faucet_consistency
+    question: Is the chrome faucet still visible in the background?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: hands_holding
+    question: Are the hands still holding the tissue (or its fragments)?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

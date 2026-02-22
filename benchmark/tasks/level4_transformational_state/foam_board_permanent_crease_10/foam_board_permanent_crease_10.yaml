@@ -1,0 +1,66 @@
+id: foam_board_permanent_crease_10
+level: 4
+category: structural_transformation
+tags: []
+variant_of: foam_board_permanent_crease
+variation_type: combined
+variation_description: Pre-scored board (weak point) + Zoom out occlusion.
+changes:
+  occlusion_method: Camera zooms out.
+  dynamic_conditions: Board has a score line (weak point) in the center.
+  expected_outcome_change: Board snaps/folds sharply at the score line with minimal force.
+prompts:
+  init_frame_edit_prompt: Edit the image to show a visible, deep vertical score line or cut down the exact
+    center of the foam board.
+  video_WM: The hands begin bending the scored foam board. A deep score line cuts through the center of
+    the facing, creating a massive stress concentration point. The structural integrity at this line is
+    compromised, requiring minimal force to trigger failure. The hands apply slight bending force. The
+    camera rapidly zooms out, pulling back until the hands and board are tiny, indistinguishable specks
+    in the distance. The camera holds this distant view for several seconds while the hands continue the
+    action. Then the camera zooms back in smoothly to the original viewpoint. No cut, no scene change.
+    STOP.
+  camera_WM: The hands begin bending the scored foam board. A deep score line cuts through the center
+    of the facing, creating a massive stress concentration point. The structural integrity at this line
+    is compromised, requiring minimal force to trigger failure. The hands apply slight bending force during
+    the occlusion period. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+  Genie: null
+evaluation:
+  init_frame_description: A close-up view of two hands holding a flat, white rectangular foam board horizontally
+    over a wooden workbench. A distinct vertical score line or cut runs down the exact center of the board,
+    dividing it into left and right halves. The background shows a workshop environment with tools.
+  init2final_edit_prompt: Edit the given image so that the foam board is bent along the central vertical
+    score line. The left and right halves of the board should be angled relative to each other, forming
+    a V-shape or folded configuration, instead of forming a single flat plane. The hands should be adjusting
+    their grip to hold the now-bent board.
+  rationale: The video prompt describes the hands applying force to bend the scored foam board. The camera
+    zooms out and back in, implying a passage of time during which the bending action continues. When
+    the camera returns to the original viewpoint, the board must be physically deformed (bent or creased)
+    along the score line, as foam board undergoes permanent structural change when bent. The board should
+    no longer be flat.
+  questions:
+  - id: is_bent
+    question: Is the foam board bent along the central score line?
+    answer_type: yes_no
+    notes_for_judge: The board should no longer be a flat plane; the two halves should be at an angle.
+  - id: structural_change
+    question: Has the board's shape changed from a flat rectangle to a folded or angled form?
+    answer_type: yes_no
+    notes_for_judge: Check for geometric deformation.
+  - id: halves_angled
+    question: Are the left and right sides of the board angled relative to each other?
+    answer_type: yes_no
+    notes_for_judge: They should not be coplanar.
+  - id: crease_visible
+    question: Is there a visible crease, fold, or break at the center of the board?
+    answer_type: yes_no
+    notes_for_judge: The central line should now act as a hinge or break point.
+  - id: not_flat
+    question: Is the board no longer perfectly flat?
+    answer_type: yes_no
+    notes_for_judge: The initial state was flat; the final state must be bent.
+  - id: hands_present
+    question: Are the hands still holding the board?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

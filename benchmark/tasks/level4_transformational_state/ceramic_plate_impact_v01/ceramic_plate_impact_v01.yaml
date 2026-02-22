@@ -1,0 +1,71 @@
+id: ceramic_plate_impact_v01
+level: 4
+category: structural_transformation
+tags: []
+variant_of: ceramic_plate_impact
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to lights turning off (pitch blackness).
+changes:
+  occlusion_method: Lights turn off completely at impact, then turn back on.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The heavy steel hammer swings down forcefully toward the ceramic plate. Just as contact is
+    made, the room lights turn off completely, plunging the scene into pitch black darkness. The lights
+    remain off for a few seconds, then turn back on to restore the original lighting. No zoom, no cut,
+    no scene change. STOP.
+  camera_WM: The heavy steel hammer swings down forcefully toward the ceramic plate. Just as contact is
+    made, the room lights turn off completely, plunging the scene into pitch black darkness. The lights
+    remain off for a few seconds, then turn back on to restore the original lighting. No zoom, no cut,
+    no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A white ceramic dinner plate sits on a rough, cracked concrete floor. A heavy
+    sledgehammer with a wooden handle and a metal head is positioned mid-air above the plate, angled downwards
+    as if in the middle of a swing. Natural light enters from a window visible in the background on the
+    left.
+  init2final_edit_prompt: Edit the given image to show the white ceramic plate shattered into multiple
+    broken shards and fragments scattered on the concrete floor. Position the head of the sledgehammer
+    resting on the ground amidst the debris, significantly lower than its starting position. Ensure the
+    lighting, window, and concrete floor texture remain consistent with the original scene.
+  rationale: The video prompt describes a forceful hammer swing that connects with the plate. Although
+    the visual impact is obscured by darkness, the physical action continues to its logical conclusion.
+    When the lights return, the irreversible transformation caused by the impact must be visible. A heavy
+    steel hammer striking a ceramic plate will inevitably shatter it. Therefore, the final state must
+    show the plate broken into pieces and the hammer resting on the ground or debris after completing
+    its downward trajectory.
+  questions:
+  - id: plate_broken
+    question: Is the ceramic plate broken into multiple pieces or fragments?
+    answer_type: yes_no
+    notes_for_judge: The plate should no longer be a single intact object.
+  - id: shards_visible
+    question: Are there visible shards of the plate scattered on the floor?
+    answer_type: yes_no
+    notes_for_judge: Look for debris resulting from the impact.
+  - id: hammer_position
+    question: Is the head of the hammer positioned lower than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The hammer should have completed its swing.
+  - id: structural_integrity
+    question: Has the plate's original circular shape been structurally compromised?
+    answer_type: yes_no
+    notes_for_judge: The rim should be broken or the shape distorted by fragmentation.
+  - id: hammer_contact
+    question: Is the hammer head resting on the floor or amidst the debris?
+    answer_type: yes_no
+    notes_for_judge: It should not be hovering in mid-air anymore.
+  - id: irreversible_change
+    question: Does the object show evidence of irreversible damage compared to the start?
+    answer_type: yes_no
+    notes_for_judge: The change from whole to broken is irreversible.
+  - id: background_consistency_window
+    question: Is the window in the background still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: background_consistency_floor
+    question: Is the cracked concrete floor texture still recognizable?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

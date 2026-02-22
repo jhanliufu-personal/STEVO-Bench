@@ -1,0 +1,65 @@
+id: ceramic_plate_impact_v04
+level: 4
+category: structural_transformation
+tags: []
+variant_of: ceramic_plate_impact
+variation_type: dynamic_condition
+variation_description: Hammer material changed from steel to rubber/foam.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Hammer is now a soft rubber mallet instead of steel.
+  expected_outcome_change: Plate remains intact; hammer bounces off instead of shattering it.
+prompts:
+  init_frame_edit_prompt: Edit the image to change the hammer head texture to look like black matte rubber
+    or soft foam instead of rusted steel.
+  video_WM: The black rubber mallet swings down forcefully and makes contact with the center of the ceramic
+    plate. The camera rotates right until the plate completely exits the view, then rotates toward the
+    left smoothly at the same rate until the area where the plate sat is back in the center of view. No
+    zoom, no cut, no scene change. STOP.
+  camera_WM: The rubber mallet swings down and strikes the center of the ceramic plate. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A white, round ceramic dinner plate rests on a rough, grey concrete floor with
+    visible cracks. A black rubber mallet with a wooden handle is suspended in the air above the plate,
+    positioned diagonally with the head aiming at the center of the plate.
+  init2final_edit_prompt: 'Edit the given image to show the aftermath of a forceful impact: the white
+    ceramic plate should be shattered into multiple broken shards and jagged fragments scattered on the
+    concrete floor, replacing the intact round shape.'
+  rationale: The video prompt describes a forceful impact of a mallet on a ceramic plate. Ceramic is a
+    brittle material; upon forceful impact, it undergoes irreversible structural failure (shattering).
+    The camera pans away and then returns to the original view. During the occlusion (the time the camera
+    is looking away), the physics of the impact conclude, leaving the plate in a broken state. Therefore,
+    the final frame must depict the plate as shattered or broken, representing the permanent change caused
+    by the action.
+  questions:
+  - id: plate_broken
+    question: Is the ceramic plate broken, cracked, or shattered?
+    answer_type: yes_no
+    notes_for_judge: Look for evidence of structural failure like cracks, missing pieces, or complete
+      shattering.
+  - id: fragments_present
+    question: Are there loose fragments or shards of the plate visible on the floor?
+    answer_type: yes_no
+    notes_for_judge: The plate should have broken into pieces.
+  - id: shape_destroyed
+    question: Has the original perfect circular shape of the plate been disrupted or destroyed?
+    answer_type: yes_no
+    notes_for_judge: The outline should no longer be a continuous, unbroken circle.
+  - id: structural_integrity
+    question: Has the structural integrity of the plate been compromised compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare with the initial intact state.
+  - id: floor_visible_through_cracks
+    question: Is the concrete floor visible between separated pieces or cracks in the plate?
+    answer_type: yes_no
+    notes_for_judge: Separation of parts usually reveals the background/floor underneath.
+  - id: floor_texture_consistency
+    question: Does the concrete floor retain its rough texture and appearance?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: mallet_presence
+    question: Is the mallet (or its handle) still visible in the frame?
+    answer_type: yes_no
+    notes_for_judge: The prompt does not say the mallet leaves, just that the camera moves. It should
+      likely still be in or near the frame.

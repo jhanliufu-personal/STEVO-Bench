@@ -1,0 +1,70 @@
+id: expanding_foam_paper_cup_burst_05
+level: 4
+category: structural_transformation
+tags: []
+variant_of: expanding_foam_paper_cup_burst
+variation_type: dynamic_condition
+variation_description: The trigger is barely pressed, resulting in a very slow trickle of foam that won't
+  fill the cup.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Trigger pressure is minimal; flow rate is extremely low.
+  expected_outcome_change: Small amount of foam at bottom of cup; no burst or overflow
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The hand applies barely any pressure to the trigger, causing the expanding foam to dispense
+    in a slow, thin trickle rather than a full stream. The flow rate is minimal. The foam accumulates
+    slowly at the bottom of the paper cup. The paper cup has limited structural strength, but the internal
+    volume is filling very gradually. The camera rotates right at constant speed until the cup completely
+    exits the view to the right. The camera continues rotating right for several seconds while the trickle
+    continues off-screen. Then the camera rotates left smoothly at the same rate back to the original
+    viewpoint. No zoom, no cut, no scene change. STOP.
+  camera_WM: The hand applies barely any pressure to the trigger, causing the expanding foam to dispense
+    in a slow, thin trickle rather than a full stream. The flow rate is minimal. The foam accumulates
+    slowly at the bottom of the paper cup. The paper cup has limited structural strength, but the internal
+    volume is filling very gradually. The foam continues dispensing during the occlusion period. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A close-up shot showing a gloved hand holding a can of 'GREAT STUFF' expanding
+    foam. The can has a red dispensing straw attached. The tip of the straw is positioned inside a small,
+    brown paper cup sitting on a table covered with a plastic sheet. There are existing dried patterns
+    of white/yellowish foam on the plastic sheet in the foreground. The background features wooden planks
+    and a window.
+  init2final_edit_prompt: Edit the given image to show the brown paper cup containing a visible amount
+    of fresh, yellow expanding foam. The foam should appear as a puffy, textured mound accumulating at
+    the bottom and rising within the cup. The cup itself must remain intact, upright, and not burst or
+    overflowing. Maintain the original camera angle, lighting, and the appearance of the hand, can, red
+    straw, and the dried foam on the table.
+  rationale: The prompt specifies a 'slow, thin trickle' and that the cup is 'filling very gradually'.
+    Although the cup has limited strength, the slow rate of filling implies it does not burst within the
+    duration of the video. The camera rotates away and returns, covering a period of time where foam accumulates
+    and expands inside the cup. The irreversible transformation is the deposition and expansion of the
+    foam within the cup, changing its state from empty to partially filled.
+  questions:
+  - id: foam_presence
+    question: Is there fresh yellow foam visible inside the paper cup?
+    answer_type: yes_no
+    notes_for_judge: Check for the presence of new foam material inside the cup that was not there initially.
+  - id: foam_volume_increase
+    question: Is the amount of foam inside the cup greater than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the volume of foam in the cup between the start and end.
+  - id: foam_accumulation
+    question: Has foam accumulated at the bottom of the cup?
+    answer_type: yes_no
+    notes_for_judge: The foam should be settling/rising from the bottom.
+  - id: cup_integrity
+    question: Is the paper cup structurally intact (not burst)?
+    answer_type: yes_no
+    notes_for_judge: The prompt specifies a gradual fill, so the cup should not have burst despite its
+      limited strength.
+  - id: foam_texture
+    question: Does the material inside the cup have a puffy or expanded texture?
+    answer_type: yes_no
+    notes_for_judge: Expanding foam has a distinct texture different from liquid.
+  - id: straw_visibility
+    question: Is the red dispensing straw still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

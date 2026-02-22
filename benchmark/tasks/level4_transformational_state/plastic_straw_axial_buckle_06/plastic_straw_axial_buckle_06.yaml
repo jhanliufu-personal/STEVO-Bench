@@ -1,0 +1,69 @@
+id: plastic_straw_axial_buckle_06
+level: 4
+category: structural_transformation
+tags: []
+variant_of: plastic_straw_axial_buckle
+variation_type: dynamic_condition
+variation_description: Action changed from compression to simply holding the object still (no force).
+changes:
+  occlusion_method: null
+  dynamic_conditions: Hands hold the straw stationary without applying force.
+  expected_outcome_change: No change in state; straw remains straight.
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The hands hold the straw gently at both ends, maintaining a static position without applying
+    axial force. The plastic structure is under no external load beyond gravity. Without compressive stress,
+    the conditions for Euler buckling are not met. The straw remains in its resting equilibrium state.
+    The hands maintain this steady, neutral grip. The camera rotates right at constant speed until the
+    hands and straw completely exit the view to the right. The camera continues rotating right for several
+    seconds while the hands remain off-screen holding the straw still. Then the camera rotates left smoothly
+    at the same rate back to the original viewpoint. No zoom, no cut, no scene change. STOP.
+  camera_WM: The hands hold the straw gently at both ends, maintaining a static position without applying
+    axial force. The plastic structure is under no external load beyond gravity. Without compressive stress,
+    the conditions for Euler buckling are not met. The straw remains in its resting equilibrium state.
+    The hands maintain this steady, neutral grip. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot of two hands holding a clear plastic straw vertically
+    against a light brown wooden table background. The top hand grips the upper end of the straw, and
+    the bottom hand grips the lower end. The straw is perfectly straight, transparent, and shows no signs
+    of bending, stress, or deformation.
+  init2final_edit_prompt: Edit the image to show the straw remaining in its original state. The straw
+    should be perfectly straight and vertical, showing no signs of bending, buckling, or deformation.
+    The hands should hold the straw in the exact same positions as the original image. The scene should
+    look identical to the initial frame, preserving the straightness and structural integrity of the plastic
+    tube.
+  rationale: 'The video prompt explicitly describes a control scenario where the hands hold the straw
+    gently without applying axial force or compressive stress. It states the straw remains in its resting
+    equilibrium state. Although the camera pans away (occlusion) and then returns, the prompt specifies
+    that the hands hold the straw ''still'' while off-screen. Therefore, no physical transformation occurs.
+    The final frame must show the straw exactly as it was in the beginning: straight and unbent. This
+    task tests the model''s ability to maintain state stability and object permanence without hallucinating
+    deformation (buckling) during occlusion.'
+  questions:
+  - id: '1'
+    question: Is the straw perfectly straight?
+    answer_type: yes_no
+    notes_for_judge: The straw should not show any curvature or bending.
+  - id: '2'
+    question: Is the straw free from any visible buckling or creasing?
+    answer_type: yes_no
+    notes_for_judge: Check for kinks or sharp bends typical of buckled plastic.
+  - id: '3'
+    question: Does the straw maintain its original vertical linear shape?
+    answer_type: yes_no
+    notes_for_judge: The overall shape should remain a straight line.
+  - id: '4'
+    question: Is the structural integrity of the straw uncompromised?
+    answer_type: yes_no
+    notes_for_judge: The material should look smooth and undamaged.
+  - id: '5'
+    question: Are the hands holding the straw in the same vertical alignment as the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The hands should not have moved closer together (which would imply compression).
+  - id: '6'
+    question: Does the straw appear identical in form to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Since no action occurred, the state should be unchanged.

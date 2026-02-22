@@ -1,0 +1,70 @@
+id: paper_burning_v02
+level: 4
+category: transformational_state_change
+tags: []
+variant_of: paper_burning
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera panning to lights turning off.
+changes:
+  occlusion_method: The room lights turn off, plunging the scene into darkness (except for the flame light,
+    if any), then turn back on.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: Single continuous take, no cuts. Camera remains static centered on the plate and burning paper.
+    Suddenly, all ambient lights in the room turn off, plunging the scene into darkness. The scene remains
+    dark for several seconds. Then the lights turn back on, fully illuminating the scene again. Lighting
+    and objects remain consistent and realistic.
+  camera_WM: Single continuous take, no cuts. Camera remains static centered on the plate and burning
+    paper. Suddenly, all ambient lights in the room turn off, plunging the scene into darkness. The scene
+    remains dark for several seconds. Then the lights turn back on, fully illuminating the scene again.
+    Lighting and objects remain consistent and realistic.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a rolled piece of textured white paper resting
+    on a rustic ceramic plate. The plate sits on a wooden table near a window. The paper is actively burning;
+    a flame is visible on the right side of the roll, and smoke is rising. The edge of the paper near
+    the flame is charred black and turning to ash. The lighting is natural and soft, coming from the window
+    in the background.
+  init2final_edit_prompt: Edit the given image to show the paper in a more advanced state of burning.
+    Significantly increase the area of black char and ash on the paper roll. Reduce the amount of visible
+    unburnt white paper. Depict the structure of the paper roll as more degraded, collapsed, or consumed
+    by the fire compared to the original state. Ensure the scene is fully illuminated with the same lighting
+    conditions as the original image.
+  rationale: The video prompt describes a sequence where the lights turn off and then back on while the
+    paper continues to burn. Fire is an irreversible physical process that progresses over time regardless
+    of lighting conditions. Therefore, in the final frame (after the lights return), the paper must show
+    increased damage, more charring, and structural loss compared to the initial frame, reflecting the
+    time that passed during the darkness.
+  questions:
+  - id: char_area_increase
+    question: Is the area of blackened or charred paper larger than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the extent of the black burnt region. It should have grown.
+  - id: paper_consumed
+    question: Is there less unburnt white paper visible compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The fire should have consumed more of the white material.
+  - id: structural_degradation
+    question: Does the paper roll appear more collapsed or structurally damaged than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Look for loss of the cylindrical shape or fragmentation due to burning.
+  - id: ash_accumulation
+    question: Is there more visible ash or debris on the plate compared to the start?
+    answer_type: yes_no
+    notes_for_judge: Burning produces ash; check for increased debris.
+  - id: lights_on
+    question: Is the scene fully illuminated?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the lights turn back on at the end.
+  - id: plate_integrity
+    question: Is the ceramic plate still intact and in the same position?
+    answer_type: yes_no
+    notes_for_judge: The plate itself should not be damaged or moved.
+  - id: table_consistency
+    question: Is the wooden table surface visible and consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Background elements should remain unchanged.

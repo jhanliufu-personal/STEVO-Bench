@@ -1,0 +1,72 @@
+id: hole_punch_paper_stack_05
+level: 4
+category: structural_transformation
+tags: []
+variant_of: hole_punch_paper_stack
+variation_type: dynamic_condition
+variation_description: Hand action changed from pressing down to lifting up.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Force direction is upward (lifting) instead of downward.
+  expected_outcome_change: Lever moves up; no holes punched.
+prompts:
+  init_frame_edit_prompt: Edit the image so the hand is positioned under the lever handle, gripping it
+    from below, ready to lift it up.
+  video_WM: The hand grips the lever from underneath and begins pulling upward. The mechanism is linked
+    to the blades such that upward motion retracts them away from the paper. The paper stack sits undisturbed
+    in the slot. The hand continues applying upward force on the lever. The camera rotates right at constant
+    speed until the hole punch completely exits the view to the right. The camera continues rotating right
+    for several seconds while the hand remains off-screen lifting the lever. Then the camera rotates left
+    smoothly at the same rate back to the original viewpoint. No zoom, no cut, no scene change. STOP.
+  camera_WM: The hand grips the lever from underneath and begins pulling upward. The mechanism is linked
+    to the blades such that upward motion retracts them away from the paper. The paper stack sits undisturbed
+    in the slot. The hand continues applying upward force on the lever during the occlusion period. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a heavy-duty metal hole punch on a wooden desk.
+    The hole punch is silver and grey with a black base. A hand (male, fair skin) is gripping the black
+    handle of the lever, which is currently in the down (horizontal) position. A stack of white paper
+    is inserted into the punching slot. In the background, there is a window with natural light, a black
+    wire mesh pencil holder containing pens and yellow highlighters, and a black office tray. The lighting
+    is soft and natural.
+  init2final_edit_prompt: Edit the given image to show the hole punch lever in a raised, upward position.
+    The hand gripping the handle must be positioned higher in the frame, following the upward angle of
+    the lever. The metal punch heads (blades) should be retracted upwards, creating a visible vertical
+    gap between the mechanism and the paper stack. The paper stack should remain flat and positioned in
+    the slot as it was. Maintain the original background, lighting, and camera angle.
+  rationale: The video prompt describes a continuous action of pulling the lever upward. The camera rotates
+    away and then returns to the original viewpoint. During the occlusion, the hand continues to apply
+    upward force, transitioning the machine from a closed (lever down) state to an open (lever up) state.
+    Therefore, in the final frame, the lever must be significantly raised and the blades retracted, while
+    the paper remains in place.
+  questions:
+  - id: lever_position_up
+    question: Is the handle of the hole punch raised higher than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The lever should be angled upwards, not horizontal.
+  - id: hand_position_higher
+    question: Is the hand gripping the lever positioned higher in the frame compared to the start?
+    answer_type: yes_no
+    notes_for_judge: The hand follows the lever's motion upward.
+  - id: blades_retracted
+    question: Are the metal punch heads retracted upwards away from the paper?
+    answer_type: yes_no
+    notes_for_judge: The mechanism linking the lever to the blades should pull them up.
+  - id: lever_angle_steep
+    question: Is the angle of the lever significantly steeper than the initial horizontal position?
+    answer_type: yes_no
+    notes_for_judge: Check for a change in angular orientation.
+  - id: gap_visible
+    question: Is there a larger gap between the punch mechanism and the paper stack than initially?
+    answer_type: yes_no
+    notes_for_judge: Retracting the blades creates space above the paper.
+  - id: paper_consistency
+    question: Is the white paper stack still present in the slot?
+    answer_type: yes_no
+    notes_for_judge: The paper should not disappear.
+  - id: background_consistency
+    question: Is the pencil holder in the background still visible and unchanged?
+    answer_type: yes_no
+    notes_for_judge: Background objects should remain stable.

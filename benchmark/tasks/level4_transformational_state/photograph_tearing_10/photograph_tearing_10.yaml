@@ -1,0 +1,70 @@
+id: photograph_tearing_10
+level: 4
+category: structural_transformation
+tags: []
+variant_of: photograph_tearing
+variation_type: combined
+variation_description: Combined zoom occlusion with fabric material.
+changes:
+  occlusion_method: Camera zooms out.
+  dynamic_conditions: Material is woven fabric cloth.
+  expected_outcome_change: The material stretches taut but does not tear.
+prompts:
+  init_frame_edit_prompt: Edit the image to change the photograph into a piece of woven fabric cloth held
+    between the hands.
+  video_WM: The two hands pull firmly in opposite directions on the piece of fabric. Tension is applied
+    to the woven material. The camera zooms out until the hands and fabric are too small to distinguish
+    details, then zooms back in to the initial framing. No cut, no scene change. The camera returns to
+    the original viewpoint. STOP.
+  camera_WM: The two hands pull firmly in opposite directions on the piece of fabric. Tension is applied
+    to the woven material. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+evaluation:
+  init_frame_description: A close-up, first-person perspective shot of two hands holding a rectangular
+    piece of textured fabric. The fabric features a printed image of a sunset over a beach with dark waves.
+    There is a small, pre-existing vertical tear at the top center edge of the fabric. The left hand wears
+    a simple silver ring on the ring finger. The background is dark and out of focus.
+  init2final_edit_prompt: Edit the given image to show the vertical tear in the fabric significantly extended
+    downwards from the top edge. The rip should be longer and wider than in the original image, showing
+    frayed edges where the material has been pulled apart. The fabric should appear more damaged or separated
+    along the central vertical axis.
+  rationale: The video prompt specifies that the hands pull firmly in opposite directions. Since there
+    is already a small tear at the top (a stress concentrator), the applied tension will cause this tear
+    to propagate downwards through the fabric. The camera zoom-out and zoom-in sequence covers the duration
+    of this action. When the camera returns to the initial framing, the irreversible structural change
+    (the lengthening of the tear) must be visible.
+  questions:
+  - id: tear_extension
+    question: Is the vertical tear in the fabric longer than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the length of the rip starting from the top edge. It should extend further
+      down.
+  - id: tear_width
+    question: Is the gap created by the tear wider than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The separation between the left and right sides of the tear should be greater.
+  - id: structural_damage
+    question: Does the fabric show increased structural damage or separation compared to the start?
+    answer_type: yes_no
+    notes_for_judge: Look for a larger rip or complete separation.
+  - id: tear_propagation
+    question: Has the rip propagated further into the center of the image?
+    answer_type: yes_no
+    notes_for_judge: The tear should move from the top edge towards the center or bottom.
+  - id: material_integrity
+    question: Is the material integrity of the fabric more compromised than in the initial view?
+    answer_type: yes_no
+    notes_for_judge: The fabric should be more torn.
+  - id: hands_presence
+    question: Are two hands still visible holding the fabric?
+    answer_type: yes_no
+    notes_for_judge: Consistency check.
+  - id: print_consistency
+    question: Is the sunset print still visible on the surface of the fabric?
+    answer_type: yes_no
+    notes_for_judge: Consistency check.
+  - id: ring_consistency
+    question: Is the silver ring still visible on the left hand?
+    answer_type: yes_no
+    notes_for_judge: Consistency check.

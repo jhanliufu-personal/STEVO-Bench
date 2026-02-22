@@ -1,0 +1,73 @@
+id: foam_board_permanent_crease_09
+level: 4
+category: structural_transformation
+tags: []
+variant_of: foam_board_permanent_crease
+variation_type: combined
+variation_description: Gentle handling (no force) + Fog occlusion.
+changes:
+  occlusion_method: Thick fog fills the room.
+  dynamic_conditions: Gentle grip, no bending force applied.
+  expected_outcome_change: Board remains flat.
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The hands hold the foam board gently by the edges without bringing the ends closer together.
+    No bending moment is applied to the structure, keeping stress well below the deformation threshold.
+    The hands maintain this gentle, static grip. Suddenly, thick white fog begins to fill the room rapidly,
+    obscuring the view until the hands and board are completely hidden within the opaque mist. The fog
+    swirls for several seconds. Then the fog clears rapidly, restoring visibility to the original viewpoint.
+    No zoom, no cut, no scene change. STOP.
+  camera_WM: The hands hold the foam board gently by the edges without bringing the ends closer together.
+    No bending moment is applied to the structure, keeping stress well below the deformation threshold.
+    The hands maintain this gentle, static grip. Suddenly, thick white fog begins to fill the room rapidly,
+    obscuring the view until the hands and board are completely hidden within the opaque mist. The fog
+    swirls for several seconds. Then the fog clears rapidly, restoring visibility to the original viewpoint.
+    No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A medium shot of a person's hands holding a rectangular white foam board horizontally.
+    The person wears a black t-shirt and blue jeans. The hands grip the left and right edges of the board
+    gently. The board is perfectly flat, pristine, and white, with no creases, bends, or damage. The background
+    is a workshop with a wooden workbench and tools.
+  init2final_edit_prompt: Edit the given image to show the white foam board remaining perfectly flat and
+    intact. The hands should continue holding the board by the edges in the same position. The board surface
+    must be smooth, white, and completely free of creases, bends, folds, or cracks. The background and
+    lighting should remain unchanged.
+  rationale: 'The video prompt explicitly states that the hands hold the board gently and that no bending
+    moment is applied, keeping stress below the deformation threshold. Although fog occludes the scene
+    temporarily, the physical action described is one of stasis and gentle handling. Therefore, the board
+    must not undergo any structural transformation. The correct final state is identical to the initial
+    state regarding the board''s integrity: it must remain flat and uncreased. This task tests the model''s
+    ability to maintain object permanence and state stability through occlusion without hallucinating
+    damage when none is caused.'
+  questions:
+  - id: flatness_check
+    question: Is the foam board still perfectly flat?
+    answer_type: yes_no
+    notes_for_judge: The board should not show any curvature or bending.
+  - id: crease_absence
+    question: Is the surface of the board free from any visible creases or folds?
+    answer_type: yes_no
+    notes_for_judge: There should be no lines indicating a fold or break in the foam.
+  - id: structural_integrity
+    question: Does the board appear to be one continuous, unbroken piece?
+    answer_type: yes_no
+    notes_for_judge: The board should not be snapped or separated.
+  - id: damage_check
+    question: Is the board free of any cracks or structural damage?
+    answer_type: yes_no
+    notes_for_judge: The surface should remain pristine.
+  - id: grip_consistency
+    question: Are the hands still holding the board by the edges without bending it?
+    answer_type: yes_no
+    notes_for_judge: The grip should remain gentle as described.
+  - id: surface_uniformity
+    question: Is the white surface of the board smooth and uniform?
+    answer_type: yes_no
+    notes_for_judge: No texture changes indicating crushing or crumpling.
+  - id: shape_retention
+    question: Does the board retain its original rectangular shape?
+    answer_type: yes_no
+    notes_for_judge: The outline should not be distorted.

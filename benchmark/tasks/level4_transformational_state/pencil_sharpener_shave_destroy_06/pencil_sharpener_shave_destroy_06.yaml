@@ -1,0 +1,75 @@
+id: pencil_sharpener_shave_destroy_06
+level: 4
+category: structural_transformation
+tags: []
+variant_of: pencil_sharpener_shave_destroy
+variation_type: dynamic_condition
+variation_description: The pencil is lying on the table, not inserted in the sharpener.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Pencil is outside the sharpener.
+  expected_outcome_change: No state change (pencil remains same length).
+prompts:
+  init_frame_edit_prompt: Edit the image to remove the pencil from the sharpener and place it lying flat
+    on the wooden table surface next to the sharpener.
+  video_WM: The pencil lies flat on the table surface next to the sharpener, leaving the sharpener's entry
+    hole empty. The hand begins turning the sharpener crank in a circular motion. The internal blades
+    rotate within the empty chamber, cutting nothing but air. The hand continues cranking the mechanism.
+    The camera rotates right at constant speed until the sharpener and pencil completely exit the view
+    to the right. The camera continues rotating right for several seconds while the hand remains off-screen
+    continuing to turn the crank. Then the camera rotates left smoothly at the same rate back to the original
+    viewpoint. No zoom, no cut, no scene change. STOP.
+  camera_WM: The pencil lies flat on the table surface next to the sharpener, leaving the sharpener's
+    entry hole empty. The hand begins turning the sharpener crank in a circular motion. The internal blades
+    rotate within the empty chamber, cutting nothing but air. The hand continues cranking the mechanism
+    during the occlusion period. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a wooden workbench. A vintage, silver metal pencil
+    sharpener is clamped to the front edge of the table. The sharpener has a transparent plastic receptacle
+    partially filled with wood shavings. A wooden pencil lies flat on the table surface to the left of
+    the sharpener, parallel to the table edge; it is not inserted into the sharpener. A person's arm and
+    hand are visible on the right, holding the handle of the sharpener's crank. The background is a blurred
+    workshop interior with tools and a window.
+  init2final_edit_prompt: Edit the given image to show the crank handle in a different rotational position,
+    implying it has been turned. The pencil must remain exactly in its original position on the table,
+    unchanged in length and appearance, as it was not inserted into the sharpener. The level of shavings
+    in the transparent container should remain the same. The hand and arm should still be visible holding
+    the crank.
+  rationale: The video prompt describes a scenario where the sharpener is cranked, but the pencil is explicitly
+    left on the table and not inserted ('cutting nothing but air'). The camera pans away and returns to
+    the original view. Because the pencil never enters the cutting mechanism, no physical transformation
+    (sharpening, shortening) occurs to the pencil, and no new shavings are produced. The primary evaluation
+    point is the conservation of the pencil's state despite the mechanical action of the sharpener. The
+    final frame should show the pencil unchanged and the crank rotated.
+  questions:
+  - id: pencil_location
+    question: Is the pencil still lying flat on the table surface?
+    answer_type: yes_no
+    notes_for_judge: The pencil should not have moved into the sharpener.
+  - id: pencil_length_conservation
+    question: Does the pencil appear to be the same length as it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Since it was not sharpened, it should not be shorter.
+  - id: hole_empty
+    question: Is the sharpener's entry hole unobstructed by the pencil?
+    answer_type: yes_no
+    notes_for_judge: The pencil should remain outside the mechanism.
+  - id: shavings_conservation
+    question: Does the amount of shavings in the container appear roughly unchanged?
+    answer_type: yes_no
+    notes_for_judge: No new shavings should be generated as the sharpener cut only air.
+  - id: pencil_tip_state
+    question: Does the pencil tip retain its original appearance without signs of fresh sharpening?
+    answer_type: yes_no
+    notes_for_judge: The tip should not look freshly cut or pointed if it wasn't before.
+  - id: crank_presence
+    question: Is the sharpener crank handle visible in the frame?
+    answer_type: yes_no
+    notes_for_judge: The hand/crank should be visible in the original viewpoint.
+  - id: sharpener_clamped
+    question: Is the sharpener still clamped to the table edge?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

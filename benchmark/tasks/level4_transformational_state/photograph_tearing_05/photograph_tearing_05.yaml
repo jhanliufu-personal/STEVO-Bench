@@ -1,0 +1,67 @@
+id: photograph_tearing_05
+level: 4
+category: structural_transformation
+tags: []
+variant_of: photograph_tearing
+variation_type: dynamic_condition
+variation_description: Material changed from paper photo to rigid plastic card.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Material is thick rigid plastic which resists tearing.
+  expected_outcome_change: The object remains intact or bends slightly, but does not tear.
+prompts:
+  init_frame_edit_prompt: Edit the image to change the photograph into a thick, rigid plastic ID card
+    with a glossy surface, removing the small tear at the top edge.
+  video_WM: The two hands pull firmly in opposite directions on the thick rigid plastic card. Tension
+    is applied to the durable material. The camera rotates right until the hands and card completely exit
+    the view, then rotates toward the left smoothly at the same rate until the space between the hands
+    is back in the center of view. No zoom, no cut, no scene change. The camera returns to the original
+    viewpoint. STOP.
+  camera_WM: The two hands pull firmly in opposite directions on the thick rigid plastic card. Tension
+    is applied to the durable material. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up view of two hands holding a glossy rectangular card or photograph
+    depicting a sunset over a beach. The left hand, wearing a silver ring on the ring finger, grips the
+    left edge, while the right hand grips the right edge. The background is dark and out of focus.
+  init2final_edit_prompt: Edit the given image to show the card torn or snapped vertically down the middle.
+    The two hands should be holding separate or partially separated fragments of the card, with a visible
+    jagged tear or break line running through the center of the sunset image. The edges of the tear should
+    be rough, indicating material failure, and the two halves should be slightly pulled apart.
+  rationale: The video prompt describes hands pulling firmly in opposite directions on the card, applying
+    tension. As this is a Level 4 task focused on irreversible transformation (specifically 'photograph_tearing'),
+    the expected outcome of this force is that the material fails, resulting in a tear or snap. The camera
+    rotation provides a period of occlusion during which the structural failure occurs. When the camera
+    returns to the initial view, the card should exhibit visible structural damage, such as a rip or break,
+    consistent with the pulling force applied.
+  questions:
+  - id: primary_tear_visible
+    question: Is the card torn, snapped, or structurally broken?
+    answer_type: yes_no
+    notes_for_judge: Look for a rip, tear, or break in the material.
+  - id: primary_image_discontinuity
+    question: Is the sunset image on the card discontinuous due to a tear or break?
+    answer_type: yes_no
+    notes_for_judge: The image content should be interrupted by the damage.
+  - id: primary_separation
+    question: Are the parts of the card held by the left and right hands separated or partially detached
+      from each other?
+    answer_type: yes_no
+    notes_for_judge: Check if the single object has become two pieces or is heavily damaged in the center.
+  - id: primary_edge_damage
+    question: Are there visible jagged edges or stress marks indicating material failure?
+    answer_type: yes_no
+    notes_for_judge: Look for white stress lines, ripped paper fibers, or jagged plastic edges.
+  - id: primary_integrity
+    question: Has the structural integrity of the card been compromised compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The object should no longer be a pristine, solid rectangle.
+  - id: secondary_ring_consistency
+    question: Is the silver ring still visible on the left hand?
+    answer_type: yes_no
+    notes_for_judge: Consistency check for the actor's hand.
+  - id: secondary_background_consistency
+    question: Is the background still dark and out of focus?
+    answer_type: yes_no
+    notes_for_judge: Consistency check for the environment.

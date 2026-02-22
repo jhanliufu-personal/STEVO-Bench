@@ -1,0 +1,72 @@
+id: rope_end_untwist_fray_06
+level: 4
+category: structural_transformation
+tags: []
+variant_of: rope_end_untwist_fray
+variation_type: dynamic_condition
+variation_description: Rope end is fused/melted solid, preventing untwisting.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Rope end is fused plastic (nylon) rather than loose fibers.
+  expected_outcome_change: Strands do not separate; rope remains intact.
+prompts:
+  init_frame_edit_prompt: Edit the image to make the end of the rope look melted, blackened, and fused
+    into a solid lump of plastic.
+  video_WM: The fingers attempt to pull apart the rope strands, but the end of the rope is fused solid.
+    The melted nylon fibers form a rigid, cohesive mass that resists separation. The fingers apply force
+    to the fused tip, but the strands are bonded together. The fingers continue struggling with the fused
+    end. The camera rotates right at constant speed until the hands and rope completely exit the view
+    to the right. The camera continues rotating right for several seconds while the hands remain off-screen.
+    Then the camera rotates left smoothly at the same rate back to the original viewpoint. No zoom, no
+    cut, no scene change. STOP.
+  camera_WM: The fingers attempt to pull apart the rope strands, but the end of the rope is fused solid.
+    The melted nylon fibers form a rigid, cohesive mass that resists separation. The fingers apply force
+    to the fused tip, but the strands are bonded together. The fingers continue struggling with the fused
+    end during the occlusion period. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a thick, twisted natural fiber rope held by two
+    hands. The rope features a prominent black, melted, and fused nylon tip, indicating it has been heat-sealed
+    to prevent fraying. The hands, with light skin tone, are gripping the rope firmly near the fused end.
+    The background is a blurred workshop setting featuring a wooden surface and tools, including a pair
+    of pliers.
+  init2final_edit_prompt: Edit the given image to show the hands still gripping the rope, maintaining
+    a firm hold. The black, fused end of the rope must remain completely solid and intact, with the strands
+    bonded together into a cohesive mass. There should be no visible fraying, separation, or loose threads
+    at the tip, reflecting the material's resistance to the force applied. The rope's structure at the
+    tip should appear identical to the initial state. Maintain the original camera angle, lighting, and
+    background details.
+  rationale: The video prompt describes an attempt to pull apart a rope that is 'fused solid' and 'resists
+    separation'. Although the fingers struggle with the rope, the prompt explicitly states that the strands
+    are bonded and the mass is rigid. Therefore, the physical state of the rope end should not change;
+    it should remain fused and unfrayed. The camera rotates away and then returns to the original viewpoint,
+    so the final frame should re-establish the initial composition with the hands and the intact rope,
+    demonstrating object permanence and the persistence of the rope's fused state.
+  questions:
+  - id: rope_intact
+    question: Is the black fused tip of the rope still solid and intact?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the rope is fused solid and resists separation, so the tip should
+      not be broken or frayed.
+  - id: strands_bonded
+    question: Are the rope strands at the tip still bonded together?
+    answer_type: yes_no
+    notes_for_judge: The strands should remain fused into a single mass.
+  - id: no_fraying
+    question: Does the rope end appear free of loose, frayed threads?
+    answer_type: yes_no
+    notes_for_judge: The action of pulling apart fails, so no fraying should be visible.
+  - id: mass_cohesive
+    question: Does the melted nylon end remain a single cohesive mass?
+    answer_type: yes_no
+    notes_for_judge: It should not be split into pieces.
+  - id: hands_visible
+    question: Are the hands visible holding the rope?
+    answer_type: yes_no
+    notes_for_judge: The camera returns to the original view where hands were struggling with the rope.
+  - id: background_consistency
+    question: Is the wooden background with tools still visible?
+    answer_type: yes_no
+    notes_for_judge: The camera returns to the original viewpoint.

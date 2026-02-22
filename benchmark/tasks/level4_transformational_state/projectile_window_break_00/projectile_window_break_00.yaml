@@ -1,0 +1,66 @@
+id: projectile_window_break_00
+level: 4
+category: structural_transformation
+tags: []
+variant_of: projectile_window_break
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The high-speed metal BB projectile strikes the center of the glass pane. The impact is instantaneous.
+    Camera remains stationary throughout. No zoom, no cut, no scene change. STOP.
+  camera_WM: The high-speed metal BB projectile strikes the center of the glass pane. The impact is instantaneous.
+    Camera remains stationary throughout. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A view through a wooden window frame looking out at a green garden and a wooden
+    house. A copper-colored projectile is frozen in mid-air on the right side, surrounded by a shockwave,
+    positioned just before impacting the glass pane.
+  init2final_edit_prompt: Edit the given image to show the glass pane shattered at the point of impact.
+    Create a spiderweb pattern of cracks radiating from the center of the right window pane where the
+    projectile was aimed. Render a hole or impact crater in the glass with small shards of debris. The
+    projectile should be removed from its original mid-air position, implying it has passed through or
+    impacted the surface.
+  rationale: The video depicts a high-speed impact event. Within the timeframe, the projectile will strike
+    the glass surface, causing an immediate brittle failure. This results in irreversible structural damage
+    to the window pane, specifically shattering, cracking, and the creation of an impact hole. The projectile
+    continues its trajectory or embeds, leaving the glass permanently altered.
+  questions:
+  - id: glass_shattered
+    question: Is the glass pane broken or shattered?
+    answer_type: yes_no
+    notes_for_judge: Look for visual evidence of fracture, such as cracks or a hole.
+  - id: cracks_visible
+    question: Are there visible cracks radiating from the point of impact?
+    answer_type: yes_no
+    notes_for_judge: Check for a spiderweb or radial crack pattern on the glass.
+  - id: impact_hole
+    question: Is there a hole or distinct impact point in the glass?
+    answer_type: yes_no
+    notes_for_judge: There should be a focal point of damage where the projectile hit.
+  - id: debris_presence
+    question: Are there fragments or shards of glass visible?
+    answer_type: yes_no
+    notes_for_judge: Look for small particles or pieces of glass resulting from the break.
+  - id: projectile_moved
+    question: Has the projectile moved from its initial frozen position?
+    answer_type: yes_no
+    notes_for_judge: The projectile should no longer be hovering in front of the intact glass; it should
+      have impacted or passed through.
+  - id: structural_integrity
+    question: Has the structural integrity of the window pane been compromised?
+    answer_type: yes_no
+    notes_for_judge: The glass should no longer be a single solid sheet.
+  - id: frame_consistency
+    question: Does the wooden window frame remain in the same position?
+    answer_type: yes_no
+    notes_for_judge: The frame holding the glass should be stationary.
+  - id: background_consistency
+    question: Is the wooden house outside still visible through the window (possibly obscured by cracks)?
+    answer_type: yes_no
+    notes_for_judge: The background scene should not change, though it may be viewed through broken glass.

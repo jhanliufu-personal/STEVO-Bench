@@ -1,0 +1,73 @@
+id: foam_board_permanent_crease_04
+level: 4
+category: structural_transformation
+tags: []
+variant_of: foam_board_permanent_crease
+variation_type: dynamic_condition
+variation_description: Material changed to a flexible rubber sheet.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Material is now flexible rubber with high elasticity and shape memory.
+  expected_outcome_change: Board springs back to flat shape instead of creasing.
+prompts:
+  init_frame_edit_prompt: Edit the image to change the white foam board into a black, flexible rubber
+    mat of the same size.
+  video_WM: The hands begin bending the black rubber mat by bringing the ends closer together. The mat
+    is made of vulcanized rubber, a material characterized by high elasticity and shape memory. The cross-linked
+    polymer chains allow the material to undergo significant deformation and store elastic energy without
+    suffering plastic deformation or structural failure. The hands continue applying progressive bending
+    force. The camera rotates right at constant speed until the hands and mat completely exit the view
+    to the right. The camera continues rotating right for several seconds while the hands remain off-screen.
+    Then the hands release the bending force. The camera rotates left smoothly at the same rate back to
+    the original viewpoint. No zoom, no cut, no scene change. STOP.
+  camera_WM: The hands begin bending the black rubber mat by bringing the ends closer together. The mat
+    is made of vulcanized rubber, a material characterized by high elasticity and shape memory. The cross-linked
+    polymer chains allow the material to undergo significant deformation and store elastic energy without
+    suffering plastic deformation or structural failure. The hands continue applying progressive bending
+    force. Then the hands release the bending force during the occlusion period. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A medium shot of a person's hands holding a rectangular, matte black rubber
+    mat horizontally. The hands grip the short edges of the mat on the left and right. The mat has a slight,
+    smooth curvature but is largely flat and uniform in texture. The background is a blurred workshop
+    setting with a wooden workbench and tools visible.
+  init2final_edit_prompt: Edit the given image to ensure the black mat appears in its original, undamaged
+    state. The mat should look smooth, continuous, and matte black, with no visible creases, white stress
+    marks, fold lines, or tears. The shape should be a gentle curve or flat, identical to the initial
+    appearance, held by the hands in the same position. Remove any signs of bending damage or structural
+    failure.
+  rationale: The video prompt explicitly defines the material as vulcanized rubber with high elasticity
+    and shape memory, stating that it undergoes deformation without suffering plastic deformation or structural
+    failure. Although the hands bend the mat, the prompt specifies that the bending force is released
+    while the camera is off-screen. Due to the material's elastic properties, it will recover its original
+    shape upon release. Therefore, the final state must show the mat intact and uncreased, identical to
+    the start, rather than permanently deformed.
+  questions:
+  - id: no_crease_visible
+    question: Is the surface of the mat free of visible white crease lines or fold marks?
+    answer_type: yes_no
+    notes_for_judge: The mat should be smooth black rubber; white lines indicate plastic deformation (creasing)
+      which should not happen.
+  - id: shape_recovery
+    question: Has the mat returned to a smooth, slightly curved or flat shape?
+    answer_type: yes_no
+    notes_for_judge: The material is elastic and should snap back to its original form after force is
+      released.
+  - id: no_angular_bends
+    question: Is the mat free of sharp angular bends?
+    answer_type: yes_no
+    notes_for_judge: Sharp angles indicate permanent folding; the mat should be smooth.
+  - id: surface_continuity
+    question: Is the mat's surface continuous and unbroken?
+    answer_type: yes_no
+    notes_for_judge: There should be no tears or snaps.
+  - id: structural_integrity
+    question: Does the mat appear structurally intact compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: It should look identical to the start.
+  - id: no_discoloration
+    question: Is the mat free of discoloration or stress whitening in the center?
+    answer_type: yes_no
+    notes_for_judge: Stress whitening occurs in plastics/foam, not typically in this rubber description.

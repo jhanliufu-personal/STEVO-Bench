@@ -1,0 +1,67 @@
+id: wax_sculpture_melt_collapse_07
+level: 4
+category: structural_transformation
+tags: []
+variant_of: wax_sculpture_melt_collapse
+variation_type: combined
+variation_description: Heat gun is off and occlusion is done by a blocking object.
+changes:
+  occlusion_method: A large cardboard sheet blocks the view.
+  dynamic_conditions: Heat gun is off.
+  expected_outcome_change: The wax bird remains solid and unchanged.
+prompts:
+  init_frame_edit_prompt: Edit the image to make the heat gun look powered down, removing any heat distortion
+    or glow.
+  video_WM: The heat gun sits next to the wax bird, switched off and cold. A large piece of cardboard
+    is placed in front of the camera lens, blocking the view entirely, then is removed. No zoom, no cut,
+    no scene change. STOP.
+  camera_WM: The heat gun sits next to the wax bird, switched off and cold. A large piece of cardboard
+    is placed in front of the camera lens, blocking the view entirely, then is removed. No zoom, no cut,
+    no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a brownish-orange wax bird sculpture standing
+    on a dirty metal plate. The bird features intricate feather details and a distinct beak. At its base,
+    there are existing puddles of solidified wax. To the left, the nozzle of a silver and orange heat
+    gun is pointed towards the bird. The background shows a workshop environment with tools like a hammer
+    and pliers, slightly out of focus.
+  init2final_edit_prompt: Edit the given image to show the scene exactly as it appeared initially. The
+    wax bird must remain completely intact with sharp feather details and no additional melting or deformation.
+    The wax puddle at the base should not increase in size. The heat gun and background objects should
+    remain in their original positions and states.
+  rationale: The video prompt explicitly states that the heat gun is 'switched off and cold'. This is
+    a negative constraint that overrides the visual suggestion of a melting setup. Consequently, no thermal
+    energy is applied, and the wax bird must not undergo any physical transformation such as melting,
+    collapsing, or losing detail. The occlusion by the cardboard is a temporary event; once removed, the
+    scene should return to its initial state, verifying the model's ability to maintain object permanence
+    and adhere to the text condition preventing the expected physics (melting).
+  questions:
+  - id: integrity_check
+    question: Is the wax bird's structural integrity fully preserved compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The bird should not look melted, collapsed, or deformed.
+  - id: texture_preservation
+    question: Are the feather textures on the bird's wing still distinct and sharp?
+    answer_type: yes_no
+    notes_for_judge: Melting would smooth out these details.
+  - id: beak_definition
+    question: Is the bird's beak still sharp and recognizable?
+    answer_type: yes_no
+    notes_for_judge: The beak is a fine detail that would melt early if heat were applied.
+  - id: puddle_size
+    question: Is the wax puddle at the base no larger than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: If the bird melts, the puddle should grow. Since the gun is off, it should not grow.
+  - id: posture_check
+    question: Is the bird standing upright without leaning or sagging?
+    answer_type: yes_no
+    notes_for_judge: Check for structural collapse.
+  - id: occlusion_removed
+    question: Is the view completely free of the cardboard obstruction?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the cardboard is removed.
+  - id: gun_presence
+    question: Is the heat gun still visible and in its original position?
+    answer_type: yes_no
+    notes_for_judge: The gun should not move or disappear.

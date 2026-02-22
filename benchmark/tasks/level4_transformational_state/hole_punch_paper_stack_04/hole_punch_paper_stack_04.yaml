@@ -1,0 +1,80 @@
+id: hole_punch_paper_stack_04
+level: 4
+category: structural_transformation
+tags: []
+variant_of: hole_punch_paper_stack
+variation_type: dynamic_condition
+variation_description: Paper stack is too thick for the punch capacity.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Stack thickness exceeds blade capacity.
+  expected_outcome_change: Lever should stop halfway/jam instead of fully depressing.
+prompts:
+  init_frame_edit_prompt: Edit the image to show a very thick stack of paper inserted into the hole punch,
+    filling the gap completely to the top limit.
+  video_WM: The hand begins pressing the lever downward with force. The paper stack inserted into the
+    slot is excessively thick, filling the gap to capacity and exceeding the standard sheet limit for
+    this device. The blades are designed for standard stacks and encounter immediate high resistance against
+    the density of the thick stack. The hand continues applying downward pressure. The camera rotates
+    right at constant speed until the hole punch completely exits the view to the right. The camera continues
+    rotating right for several seconds while the hand remains off-screen pressing the lever. Then the
+    camera rotates left smoothly at the same rate back to the original viewpoint. No zoom, no cut, no
+    scene change. STOP.
+  camera_WM: The hand begins pressing the lever downward with force. The paper stack inserted into the
+    slot is excessively thick, filling the gap to capacity and exceeding the standard sheet limit for
+    this device. The blades are designed for standard stacks and encounter immediate high resistance against
+    the density of the thick stack. The hand continues applying downward pressure during the occlusion
+    period. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a silver heavy-duty hole punch on a wooden desk.
+    A very thick stack of white paper is inserted into the punching slot. A person's hand and forearm
+    are visible, holding the black grip of the lever in a raised, upward-angled position. In the background,
+    there is a black wire mesh pencil holder with pens, a black paper tray, and a window.
+  init2final_edit_prompt: Edit the given image to show the hole punch lever pressed downwards into a lower
+    position. The hand should be visible gripping the handle and pushing it down. The stack of paper should
+    appear compressed under the punching mechanism. Maintain the original camera angle, lighting, and
+    background objects.
+  rationale: 'The prompt describes a continuous action of applying downward force to the lever. Although
+    the camera pans away, the hand continues to press the lever during the occlusion. When the camera
+    returns to the original viewpoint, the physical state of the system must reflect this continuous force:
+    the lever should be in a depressed position (lower than the start) and the paper stack should be compressed
+    under the blades, indicating the progression of the punching attempt despite the resistance.'
+  questions:
+  - id: lever_position_lower
+    question: Is the lever handle in a lower position than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the angle of the lever arm; it should be closer to the desk/horizontal in
+      the final frame.
+  - id: paper_compression
+    question: Does the paper stack appear compressed or clamped down by the punching mechanism?
+    answer_type: yes_no
+    notes_for_judge: Look for deformation or squashing of the paper stack at the point where the punch
+      engages.
+  - id: mechanism_engaged
+    question: Is the metal punching bar pressed down against the paper?
+    answer_type: yes_no
+    notes_for_judge: The moving part of the punch should be in contact with or pressing into the paper.
+  - id: handle_height_reduced
+    question: Is the vertical distance between the black handle and the desk surface reduced compared
+      to the start?
+    answer_type: yes_no
+    notes_for_judge: The handle should be physically closer to the table surface.
+  - id: hand_action_visible
+    question: Is the hand visible gripping the lever in a lowered position?
+    answer_type: yes_no
+    notes_for_judge: The hand must still be present and interacting with the lever.
+  - id: lever_angle_change
+    question: Has the angle of the lever arm changed from an upward diagonal to a flatter or lower angle?
+    answer_type: yes_no
+    notes_for_judge: Check the geometric angle of the lever arm.
+  - id: pencil_holder_consistency
+    question: Is the black wire mesh pencil holder still visible in the background?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: paper_tray_consistency
+    question: Is the black paper tray still present on the left side?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

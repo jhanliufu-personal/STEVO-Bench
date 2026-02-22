@@ -1,0 +1,72 @@
+id: hole_punch_paper_stack_09
+level: 4
+category: structural_transformation
+tags: []
+variant_of: hole_punch_paper_stack
+variation_type: combined
+variation_description: Metal plate (rigid) + Camera zoom occlusion.
+changes:
+  occlusion_method: Camera zooms out.
+  dynamic_conditions: Rigid metal plate prevents punching.
+  expected_outcome_change: Lever stationary/stuck at top.
+prompts:
+  init_frame_edit_prompt: Edit the image to replace the paper stack with a rigid, silver aluminum metal
+    plate inserted into the slot.
+  video_WM: The hand applies downward pressure to the lever. The slot contains a rigid aluminum plate
+    that cannot be penetrated by the blades. The mechanism presses against the metal surface. The camera
+    zooms out rapidly until the scene is too distant to resolve details. The hand continues applying pressure
+    while the view is zoomed out. The camera zooms back in smoothly to the original framing. No cut, no
+    scene change. STOP.
+  camera_WM: The hand applies downward pressure to the lever. The slot contains a rigid aluminum plate
+    that cannot be penetrated by the blades. The mechanism presses against the metal surface. The hand
+    continues applying pressure during the occlusion period. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, slightly high-angle shot of a heavy-duty desktop hole puncher resting
+    on a wooden desk. A hand with a fair skin tone is grasping the black handle of the lever, which is
+    currently in the raised, open position. Inserted into the punching slot is a thick, rigid, silver-colored
+    aluminum plate. The background is slightly out of focus, showing a window, a black wire mesh pen holder
+    containing pens, a black document tray, and a clipboard on the right.
+  init2final_edit_prompt: Edit the given image to show the lever pressed downwards by the hand. The lever
+    should be lowered to the point where the blades contact the metal plate, appearing engaged under pressure
+    but not fully bottomed out due to the resistance. The aluminum plate in the slot must remain solid
+    and intact, with absolutely no holes punched through it. The hand should remain visible grasping the
+    handle in this lowered position. Maintain the original camera angle, lighting, desk surface, and background
+    details exactly as they are.
+  rationale: The video prompt describes an attempt to punch a 'rigid aluminum plate' that 'cannot be penetrated'.
+    While the hand applies pressure and the lever moves down, the physical properties of the aluminum
+    prevent the blades from cutting through. Therefore, the final state must show the lever in a lowered,
+    active position (pressing against the plate) but the plate itself must remain structurally intact
+    without any holes. The camera zoom sequence is a distraction that returns to the original framing,
+    so the final view is identical to the start but with the lever depressed and the plate unyielded.
+  questions:
+  - id: lever_lowered
+    question: Is the lever positioned lower than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The lever should be pressed down towards the plate.
+  - id: plate_intact_holes
+    question: Is the aluminum plate free of visible through-holes?
+    answer_type: yes_no
+    notes_for_judge: The prompt explicitly states the plate cannot be penetrated.
+  - id: plate_solid
+    question: Does the metal plate appear solid and unpierced?
+    answer_type: yes_no
+    notes_for_judge: Verifies the material constraint was respected.
+  - id: lever_handle_position
+    question: Is the black handle of the lever closer to the base of the puncher than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Checks for the downward motion of the lever.
+  - id: hand_visible
+    question: Is the hand still visible grasping the lever?
+    answer_type: yes_no
+    notes_for_judge: Continuity check.
+  - id: plate_structure
+    question: Does the plate retain its original rectangular shape without fragmentation?
+    answer_type: yes_no
+    notes_for_judge: The plate should not shatter or break.
+  - id: background_consistency
+    question: Is the black pen holder still visible in the background?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

@@ -1,0 +1,71 @@
+id: pencil_sharpener_shave_destroy_10
+level: 4
+category: structural_transformation
+tags: []
+variant_of: pencil_sharpener_shave_destroy
+variation_type: combined
+variation_description: Combines zoom out occlusion with very rapid cranking.
+changes:
+  occlusion_method: Camera zooms out.
+  dynamic_conditions: Crank turns very rapidly.
+  expected_outcome_change: Accelerated state change (pencil shortens significantly more than original).
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The hand begins turning the sharpener crank with extreme speed and vigor, rotating it much
+    faster than normal. The cutting blades engage the pencil wood and graphite rapidly. The camera zooms
+    out quickly until the workbench is seen from a distance and the sharpener appears as a small dot.
+    The rapid cranking motion continues visibly even at this distance. The camera then zooms back in smoothly
+    to the original framing. No cut, no scene change. STOP.
+  camera_WM: The hand begins turning the sharpener crank with extreme speed and vigor, rotating it much
+    faster than normal. The cutting blades engage the pencil wood and graphite rapidly. The rapid cranking
+    motion continues during the occlusion period. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+  Genie: null
+evaluation:
+  init_frame_description: A close-up shot of a vintage metal pencil sharpener clamped to the edge of a
+    wooden workbench. A long, unsharpened wooden pencil is inserted into the sharpener's opening, extending
+    horizontally to the left. A person's hand grips the crank handle on the right side. The sharpener
+    has a transparent receptacle at the bottom containing some wood shavings. The background is a blurred
+    workshop interior with tools and a window.
+  init2final_edit_prompt: Edit the given image to show the wooden pencil significantly shorter in length,
+    with less of the shaft protruding from the sharpener, indicating it has been ground down. Increase
+    the amount of wood shavings visible inside the transparent receptacle below the sharpener mechanism.
+    Maintain the original camera angle and framing.
+  rationale: The video describes a vigorous sharpening action that continues while the camera zooms out
+    and back in. This implies a passage of time during which the sharpening mechanism physically grinds
+    away the wood and graphite of the pencil. Therefore, upon the camera's return to the initial framing,
+    the primary irreversible change is the reduction in the pencil's length as it is consumed by the machine.
+    A secondary effect is the accumulation of additional waste material (shavings) in the bin. The environment
+    and clamp position remain static.
+  questions:
+  - id: pencil_shortened
+    question: Is the wooden pencil visible in the frame shorter than it was in the initial image?
+    answer_type: yes_no
+    notes_for_judge: Compare the length of the pencil shaft extending from the sharpener. It should be
+      noticeably reduced.
+  - id: pencil_consumed
+    question: Has the length of the pencil protruding from the sharpener decreased?
+    answer_type: yes_no
+    notes_for_judge: The pencil should appear to have been fed into the machine and ground down.
+  - id: shavings_increase
+    question: Is the amount of wood shavings in the transparent receptacle greater than in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: Look for an increase in the volume or density of debris in the bin.
+  - id: pencil_end_position
+    question: Is the unsharpened end of the pencil closer to the sharpener body than it was initially?
+    answer_type: yes_no
+    notes_for_judge: As the pencil shortens, the far end moves closer to the machine.
+  - id: structural_change
+    question: Does the pencil show evidence of having been physically reduced in size?
+    answer_type: yes_no
+    notes_for_judge: The object has undergone an irreversible subtraction of material.
+  - id: sharpener_stability
+    question: Is the sharpener still clamped to the workbench in the same location?
+    answer_type: yes_no
+    notes_for_judge: The machine itself should not have moved position relative to the table.
+  - id: background_consistency
+    question: Is the workshop background consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The environment should remain unchanged despite the camera zoom sequence.

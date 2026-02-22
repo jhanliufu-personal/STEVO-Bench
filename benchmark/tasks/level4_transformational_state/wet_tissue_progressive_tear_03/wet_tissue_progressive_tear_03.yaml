@@ -1,0 +1,74 @@
+id: wet_tissue_progressive_tear_03
+level: 4
+category: structural_transformation
+tags: []
+variant_of: wet_tissue_progressive_tear
+variation_type: occlusion_method
+variation_description: Replaces camera rotation with a person walking in front of the camera.
+changes:
+  occlusion_method: A person in a dark shirt walks close to the lens, blocking the view.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The hands begin applying gentle outward pulling tension to the wet tissue at the edges. When
+    tissue paper becomes saturated with water, the cellulose fiber bonds weaken dramatically and the material
+    loses most of its tensile strength. Wet tissue tears much more easily than dry tissue. The structural
+    integrity is severely compromised by water infiltration between fibers. The hands continue applying
+    slow, steady pulling force. A person wearing a dark shirt walks into the frame from the left, passing
+    very close to the camera lens and completely blocking the view of the sink and hands. The person pauses
+    briefly in front of the lens, then continues walking to the right, revealing the scene again. No zoom,
+    no cut, no scene change. STOP.
+  camera_WM: The hands begin applying gentle outward pulling tension to the wet tissue at the edges. When
+    tissue paper becomes saturated with water, the cellulose fiber bonds weaken dramatically and the material
+    loses most of its tensile strength. Wet tissue tears much more easily than dry tissue. The structural
+    integrity is severely compromised by water infiltration between fibers. The hands continue applying
+    slow, steady pulling force. A person wearing a dark shirt walks into the frame from the left, passing
+    very close to the camera lens and completely blocking the view of the sink and hands. The person pauses
+    briefly in front of the lens, then continues walking to the right. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A close-up view of two hands holding a saturated, white wet tissue paper over
+    a stainless steel kitchen sink. The tissue is sagging under its own weight and water content, appearing
+    translucent and delicate. A chrome faucet is visible in the background.
+  init2final_edit_prompt: Edit the given image so that the wet tissue paper is torn or ripped. Show a
+    visible tear, hole, or complete separation in the tissue material between the hands, with ragged,
+    fibrous edges characteristic of wet paper. The hands should be holding the damaged or separated pieces
+    of the tissue. Keep the background sink and faucet unchanged.
+  rationale: The video prompt describes hands applying outward tension to a wet tissue, which has very
+    low tensile strength. As the pulling force continues, the saturated fibers will inevitably separate,
+    leading to a tear. The occlusion event (person walking by) hides the intermediate process, but the
+    physical action persists. Therefore, in the final frame, the tissue must exhibit irreversible structural
+    damage, such as a rip or separation, resulting from the applied tension.
+  questions:
+  - id: tear_visible
+    question: Does the tissue paper show visible signs of tearing, ripping, or material separation?
+    answer_type: yes_no
+    notes_for_judge: Look for a hole, rip, or separation in the white material.
+  - id: structural_integrity
+    question: Has the structural continuity of the tissue sheet been broken compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The initial frame shows a continuous sheet; the final should show a break in that
+      continuity.
+  - id: ragged_edges
+    question: Are there ragged or fibrous edges visible where the tissue has been damaged?
+    answer_type: yes_no
+    notes_for_judge: Torn wet paper leaves irregular, fibrous edges.
+  - id: damage_progression
+    question: Is the tissue more damaged or fragmented than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Must show progression of damage (tearing).
+  - id: hands_holding_damaged
+    question: Are the hands holding a piece (or pieces) of tissue that is no longer intact?
+    answer_type: yes_no
+    notes_for_judge: The object held must be the torn tissue.
+  - id: sink_visible
+    question: Is the stainless steel sink still visible in the background?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: faucet_presence
+    question: Is the faucet still present in the background?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

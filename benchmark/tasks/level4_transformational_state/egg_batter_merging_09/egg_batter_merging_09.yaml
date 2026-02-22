@@ -1,0 +1,65 @@
+id: egg_batter_merging_09
+level: 4
+category: structural_transformation
+tags: []
+variant_of: egg_batter_merging
+variation_type: combined
+variation_description: Dry flour only AND occlusion by zooming out.
+changes:
+  occlusion_method: Camera zooms out.
+  dynamic_conditions: No eggs, dry flour only.
+  expected_outcome_change: Flour disturbed but not mixed into batter.
+prompts:
+  init_frame_edit_prompt: Edit the image to remove the raw eggs, leaving only a bowl filled with dry white
+    flour.
+  video_WM: The whisk rapidly stirs the dry flour in the bowl. The camera zooms out continuously until
+    the bowl is too small to see any details, then zooms back in to the original framing. No cut, no scene
+    change. STOP.
+  camera_WM: The whisk rapidly stirs the dry flour in the bowl. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+evaluation:
+  init_frame_description: A high-angle, close-up shot of a rustic ceramic bowl sitting on a wooden table.
+    Inside the bowl is a mound of white dry flour with a distinct, deep central crater or depression.
+    A metal wire whisk with a wooden handle rests in the bowl, with its loops sitting in the flour crater.
+    To the right of the bowl is a crumpled beige linen cloth. To the left, there is scattered flour dust
+    on the table surface. A window frame is visible in the blurred background.
+  init2final_edit_prompt: Edit the given image to show the flour inside the bowl after it has been stirred.
+    The deep central crater in the flour should be collapsed, filled in, or structurally altered, resulting
+    in a more chaotic, leveled, or disturbed surface texture. The whisk should remain in the bowl, potentially
+    in a slightly different resting orientation consistent with use. Ensure the ceramic bowl, wooden table,
+    scattered flour on the table, cloth, and background window remain unchanged.
+  rationale: The video prompt describes a rapid stirring action that occurs while the camera zooms out
+    and then back in. Stirring dry flour is an irreversible physical process that increases entropy, destroying
+    the specific initial topology (the central crater) and redistributing the particles. When the camera
+    returns to the original framing, the flour mound should appear disturbed, mixed, or flattened, rather
+    than retaining the pristine initial indentation. The surrounding environment remains static.
+  questions:
+  - id: flour_crater_altered
+    question: Has the deep central crater in the flour been altered, filled in, or collapsed?
+    answer_type: yes_no
+    notes_for_judge: The initial distinct depression should be disturbed or gone due to stirring.
+  - id: flour_surface_disturbed
+    question: Does the surface of the flour appear disturbed or rearranged compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Look for signs of mixing or movement in the flour pile.
+  - id: flour_topology_change
+    question: Is the arrangement of the flour different from the initial static mound?
+    answer_type: yes_no
+    notes_for_judge: The specific shape of the mound should have changed.
+  - id: evidence_of_manipulation
+    question: Does the flour inside the bowl show evidence of having been manipulated or stirred?
+    answer_type: yes_no
+    notes_for_judge: The texture should not look identical to the starting state.
+  - id: whisk_presence
+    question: Is the whisk still visible inside the bowl?
+    answer_type: yes_no
+    notes_for_judge: The whisk should not disappear.
+  - id: bowl_position
+    question: Is the ceramic bowl still in the same position on the table?
+    answer_type: yes_no
+    notes_for_judge: The bowl itself should not move significantly.
+  - id: table_spills_consistency
+    question: Are the scattered flour particles on the table to the left still visible?
+    answer_type: yes_no
+    notes_for_judge: Background details should be preserved.

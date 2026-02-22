@@ -1,0 +1,68 @@
+id: foam_board_permanent_crease_00
+level: 4
+category: structural_transformation
+tags: []
+variant_of: foam_board_permanent_crease
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The hands begin bending the foam board by bringing the ends closer together. Foam board consists
+    of a polystyrene foam core sandwiched between paper facings. The foam core has an elastic limit beyond
+    which permanent plastic deformation occurs. The paper facing has a tensile strength limit. The material
+    structure does not allow return to original shape after exceeding plastic deformation thresholds.
+    The hands continue applying progressive bending force. Camera remains stationary throughout. No zoom,
+    no cut, no scene change. STOP.
+  camera_WM: The hands begin bending the foam board by bringing the ends closer together. Foam board consists
+    of a polystyrene foam core sandwiched between paper facings. The foam core has an elastic limit beyond
+    which permanent plastic deformation occurs. The paper facing has a tensile strength limit. The material
+    structure does not allow return to original shape after exceeding plastic deformation thresholds.
+    The hands continue applying progressive bending force. Camera remains stationary throughout. No zoom,
+    no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A medium shot of a person's hands holding a flat, white rectangular sheet of
+    foam board horizontally over a wooden workbench. The person is wearing a black t-shirt. The background
+    is a workshop environment with tools hanging on a pegboard and various items on the bench.
+  init2final_edit_prompt: Edit the given image so that the white foam board is bent significantly in the
+    middle, forming a curve or V-shape. The hands holding the edges must be positioned closer together
+    horizontally to accommodate the bend. Render a visible crease, fold line, or texture of buckling across
+    the center of the board to indicate permanent structural deformation.
+  rationale: The prompt describes applying force to bend the foam board beyond its elastic limit. Foam
+    board is a composite material that, when bent sufficiently, undergoes plastic deformation (creasing)
+    or fracture of the foam core and paper facing. Therefore, the final state must show the board bent
+    with the hands closer together, and crucially, it should exhibit signs of irreversible damage like
+    a crease or fold, rather than a smooth elastic curve that would spring back.
+  questions:
+  - id: is_board_bent
+    question: Is the foam board bent or curved instead of being flat?
+    answer_type: yes_no
+    notes_for_judge: The board should no longer be a flat plane; it should show significant curvature
+      or folding.
+  - id: are_hands_closer
+    question: Are the hands holding the board closer to each other horizontally than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Bending the board requires bringing the ends closer together.
+  - id: is_crease_visible
+    question: Is there a visible crease, fold line, or buckling texture near the center of the board?
+    answer_type: yes_no
+    notes_for_judge: Look for a line or shadow indicating the material has been permanently deformed or
+      broken, not just gently curved.
+  - id: structural_change
+    question: Has the board lost its original flat, rigid rectangular shape?
+    answer_type: yes_no
+    notes_for_judge: The object should appear deformed.
+  - id: background_consistency
+    question: Do the workbench and background tools remain unchanged?
+    answer_type: yes_no
+    notes_for_judge: Only the board and hands should change.
+  - id: shirt_consistency
+    question: Is the person still wearing a black shirt?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

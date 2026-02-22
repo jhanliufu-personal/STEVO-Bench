@@ -1,0 +1,73 @@
+id: bleach_colored_fabric_fade_07
+level: 4
+category: structural_transformation
+tags: []
+variant_of: bleach_colored_fabric_fade
+variation_type: combined
+variation_description: Combines water (no reaction) with lights-off occlusion.
+changes:
+  occlusion_method: Lights turn off completely.
+  dynamic_conditions: Liquid is water (inert).
+  expected_outcome_change: No bleaching occurs; scene returns to show a wet dark blue spot.
+prompts:
+  init_frame_edit_prompt: Edit the image to remove the Clorox logo and change the text on the bottle label
+    to read 'WATER' in large blue letters.
+  video_WM: The bottle labeled 'WATER' tips and pours clear water onto the dark blue fabric surface. Water
+    is a neutral solvent (H2O) that wets fibers but does not possess oxidizing properties to break down
+    dye molecules. It creates a wet spot but does not cause a chemical color change. The water continues
+    to contact and saturate the fabric fibers. Suddenly, the lights in the room turn off, plunging the
+    scene into complete pitch black darkness where nothing is visible. The scene remains in total darkness
+    for several seconds while the water remains in contact with the fabric. Then, the lights turn back
+    on, revealing the scene from the original viewpoint. No zoom, no cut, no scene change. STOP.
+  camera_WM: The bottle labeled 'WATER' tips and pours clear water onto the dark blue fabric surface.
+    Water is a neutral solvent (H2O) that wets fibers but does not possess oxidizing properties to break
+    down dye molecules. It creates a wet spot but does not cause a chemical color change. The water continues
+    to contact and saturate the fabric fibers. Suddenly, the lights in the room turn off, plunging the
+    scene into complete pitch black darkness where nothing is visible. The scene remains in total darkness
+    for several seconds while the water remains in contact with the fabric. Then, the lights turn back
+    on, revealing the scene from the original viewpoint. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A top-down shot of a white plastic tray holding a square of wrinkled dark blue
+    fabric. A hand holds a white plastic jug, resembling a Clorox bleach bottle with 'CLOROX' embossed
+    on the neck, but with a large white paper label taped to the side that reads 'WATER' in blue text.
+    The jug is tilted, pouring liquid onto the center of the fabric.
+  init2final_edit_prompt: Edit the given image to show the dark blue fabric with a visible wet spot in
+    the center. The wet area should appear as a darker, more saturated shade of blue compared to the surrounding
+    dry fabric, indicating liquid absorption. Ensure there is absolutely no orange, pink, or white discoloration
+    on the fabric; the color must remain entirely blue. Keep the bottle labeled 'WATER' and the hand in
+    the frame, maintaining the pouring position.
+  rationale: The video prompt explicitly identifies the liquid as water and states that it acts as a neutral
+    solvent, causing wetting but no chemical color change. Despite the visual cue of a bleach-style bottle,
+    the text instructions override this, dictating that the fabric fibers become saturated (wet) without
+    oxidizing or fading. The blackout period allows time for the water to soak in, but since it is water,
+    no chemical reaction occurs. The final state must show a wet blue cloth, distinguishing adherence
+    to the text prompt from a hallucinated bleaching effect based on the bottle's shape.
+  questions:
+  - id: wet_spot_visible
+    question: Is there a visible wet spot on the fabric?
+    answer_type: yes_no
+    notes_for_judge: Look for a darker, saturated area on the fabric indicating wetness.
+  - id: wet_area_darker
+    question: Is the wet area of the fabric darker in color than the dry edges?
+    answer_type: yes_no
+    notes_for_judge: Wet fabric typically appears darker; verify the contrast.
+  - id: no_bleach_discoloration
+    question: Does the fabric retain its original blue hue without turning orange, pink, or white?
+    answer_type: yes_no
+    notes_for_judge: The prompt explicitly forbids chemical color change. Any bleach spots (orange/white)
+      make the answer NO.
+  - id: fabric_integrity
+    question: Is the fabric free of bleach stains or chemical damage?
+    answer_type: yes_no
+    notes_for_judge: Confirm the absence of discoloration.
+  - id: bottle_presence
+    question: Is the bottle labeled 'WATER' still visible in the frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: tray_visibility
+    question: Is the white tray still visible around the fabric?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

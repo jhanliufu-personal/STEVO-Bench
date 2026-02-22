@@ -1,0 +1,72 @@
+id: plastic_straw_axial_buckle_04
+level: 4
+category: structural_transformation
+tags: []
+variant_of: plastic_straw_axial_buckle
+variation_type: dynamic_condition
+variation_description: Direction of force changed from compression (pushing) to tension (pulling).
+changes:
+  occlusion_method: null
+  dynamic_conditions: Hands pull the straw ends apart instead of pushing them together.
+  expected_outcome_change: Straw remains straight/taut instead of buckling.
+prompts:
+  init_frame_edit_prompt: Edit the image to show the fingers hooking securely around the very ends of
+    the straw, positioned to pull outwards rather than push inwards.
+  video_WM: The hands begin moving away from each other, applying axial tension force along the length
+    of the straw. Thin-walled cylindrical structures under axial tension are inherently stable and tend
+    to align with the force vector rather than buckle. The plastic material has significant tensile strength
+    relative to the force human hands can apply. Tension prevents lateral deflection and straightens imperfections.
+    The hands continue applying progressive pulling force. The camera rotates right at constant speed
+    until the hands and straw completely exit the view to the right. The camera continues rotating right
+    for several seconds while the hands remain off-screen continuing to apply tension. Then the camera
+    rotates left smoothly at the same rate back to the original viewpoint. No zoom, no cut, no scene change.
+    STOP.
+  camera_WM: The hands begin moving away from each other, applying axial tension force along the length
+    of the straw. Thin-walled cylindrical structures under axial tension are inherently stable and tend
+    to align with the force vector rather than buckle. The plastic material has significant tensile strength
+    relative to the force human hands can apply. Tension prevents lateral deflection and straightens imperfections.
+    The hands continue applying progressive pulling force. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A close-up view of two human hands holding a clear, thin plastic drinking straw
+    vertically against a plain wooden table background. The hands grip the straw firmly at the top and
+    bottom ends. The straw is cylindrical and translucent.
+  init2final_edit_prompt: Edit the given image to show the plastic straw remaining perfectly straight
+    and intact under tension. The straw should appear taut and form a continuous vertical line between
+    the hands. Ensure there are no bends, kinks, buckles, or breaks in the material. The hands should
+    maintain their grip on the ends of the straw, appearing to pull slightly outwards.
+  rationale: The video prompt describes applying axial tension (pulling) to a plastic straw. Unlike compression,
+    which causes buckling, tension stabilizes thin-walled cylindrical structures and straightens imperfections.
+    The prompt explicitly states that the material has significant tensile strength relative to the force
+    applied, meaning it will not break or deform plastically. Therefore, despite the camera panning away
+    and returning, the final state should show the straw intact, unbuckled, and perfectly straight due
+    to the tension. The task tests the model's ability to distinguish between tension (stability) and
+    compression (buckling) dynamics.
+  questions:
+  - id: straw_integrity
+    question: Is the straw in one continuous piece?
+    answer_type: yes_no
+    notes_for_judge: The straw should not be broken or snapped.
+  - id: straw_straightness
+    question: Is the straw perfectly straight?
+    answer_type: yes_no
+    notes_for_judge: Tension should prevent any bending or curvature.
+  - id: no_buckling
+    question: Is the straw free from buckling or bending?
+    answer_type: yes_no
+    notes_for_judge: Buckling occurs under compression; this is a tension task, so the answer must be
+      Yes (it is free from buckling).
+  - id: connection
+    question: Does the straw still connect the two hands?
+    answer_type: yes_no
+    notes_for_judge: The hands should not have slipped off completely or separated from the object.
+  - id: tautness
+    question: Does the straw appear taut?
+    answer_type: yes_no
+    notes_for_judge: The straw should look pulled straight, not slack.
+  - id: no_fragmentation
+    question: Is the straw free from fragmentation or shredding?
+    answer_type: yes_no
+    notes_for_judge: The material should remain intact.

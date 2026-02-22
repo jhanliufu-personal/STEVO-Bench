@@ -1,0 +1,76 @@
+id: rope_end_untwist_fray_00
+level: 4
+category: structural_transformation
+tags: []
+variant_of: rope_end_untwist_fray
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The fingers begin pulling and untwisting the individual rope strands away from each other.
+    Braided rope consists of three separate fiber bundles twisted together in a helical pattern. The structural
+    integrity depends on the strands remaining intertwined under twisting tension. The fingers apply force
+    to unwind and separate the twisted structure. The fingers continue progressive untwisting and separation
+    of the strands. Camera remains stationary throughout. No zoom, no cut, no scene change. STOP.
+  camera_WM: The fingers begin pulling and untwisting the individual rope strands away from each other.
+    Braided rope consists of three separate fiber bundles twisted together in a helical pattern. The structural
+    integrity depends on the strands remaining intertwined under twisting tension. The fingers apply force
+    to unwind and separate the twisted structure. The fingers continue progressive untwisting and separation
+    of the strands. Camera remains stationary throughout. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, high-angle shot showing a pair of hands holding a thick, twisted
+    natural fiber rope over a wooden workbench. The rope is beige and has a distinct helical braided structure.
+    The hands are gripping a section of the rope. In the background, which is slightly out of focus, there
+    are tools including a pair of pliers and other rope scraps on the scratched wooden surface.
+  init2final_edit_prompt: Edit the given image to show the rope significantly unraveled and untwisted
+    between the hands. The distinct helical twist structure should be undone, with the individual strands
+    separated and splayed apart from each other. The fibers in the manipulated section should look loose,
+    chaotic, and frayed, rather than tightly bound together.
+  rationale: The prompt describes the physical action of untwisting and separating the strands of a rope.
+    This is a structural transformation where the ordered helical pattern is destroyed, resulting in separated,
+    loose strands. The final state must show the rope in a state of disassembly (unraveled) compared to
+    the tight twist in the initial frame. The background and tools remain static as the camera is stationary.
+  questions:
+  - id: rope_unraveled_01
+    question: Are the individual strands of the rope separated from each other in the section held by
+      the hands?
+    answer_type: yes_no
+    notes_for_judge: Look for the separation of the main bundles that make up the rope.
+  - id: rope_twist_02
+    question: Is the helical twist pattern of the rope undone or significantly looser compared to the
+      initial frame?
+    answer_type: yes_no
+    notes_for_judge: The tight spiral structure should be disrupted.
+  - id: rope_fray_03
+    question: Do the rope fibers appear more frayed, splayed, or chaotic than in the initial image?
+    answer_type: yes_no
+    notes_for_judge: Check for increased entropy/disorder in the fiber arrangement.
+  - id: rope_structure_04
+    question: Is there visible space between the fiber bundles that was not present in the initial tightly
+      twisted rope?
+    answer_type: yes_no
+    notes_for_judge: The strands should be pulled apart, creating gaps.
+  - id: rope_integrity_05
+    question: Has the rope lost its cohesive cylindrical shape in the manipulated area?
+    answer_type: yes_no
+    notes_for_judge: The shape should be wider and flatter/messier due to unraveling.
+  - id: rope_state_06
+    question: Does the rope appear to be in the process of being taken apart or unraveled?
+    answer_type: yes_no
+    notes_for_judge: General state assessment.
+  - id: background_tools_07
+    question: Are the pliers in the background still visible and in the same position?
+    answer_type: yes_no
+    notes_for_judge: Invariant check.
+  - id: background_wood_08
+    question: Is the texture and appearance of the wooden workbench surface consistent with the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: Invariant check.

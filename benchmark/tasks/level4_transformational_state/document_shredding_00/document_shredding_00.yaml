@@ -1,0 +1,68 @@
+id: document_shredding_00
+level: 4
+category: structural_transformation
+tags: []
+variant_of: document_shredding
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The sheet of paper is fed into the active slot of the paper shredder. The mechanical blades
+    grab the paper and begin pulling it in. Camera remains stationary throughout. No zoom, no cut, no
+    scene change. STOP.
+  camera_WM: The sheet of paper is fed into the active slot of the paper shredder. The mechanical blades
+    grab the paper and begin pulling it in. Camera remains stationary throughout. No zoom, no cut, no
+    scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a clear-topped paper shredder in a busy office
+    environment. A hand enters from the top right, holding a white sheet of paper vertically above the
+    shredder's feed slot. The shredder has a transparent plastic housing revealing metal cylindrical blades.
+    Below the mechanism, a grey bin contains a pile of previously shredded white paper strips. In the
+    background, blurred office workers are seated at desks with computer monitors.
+  init2final_edit_prompt: Edit the given image to show the white sheet of paper partially fed into the
+    shredder slot. The visible portion of the paper remaining above the machine should be significantly
+    shorter than in the original image, as the bottom section has been pulled into the blades. Ensure
+    the bottom edge of the paper is no longer visible as it disappears into the mechanism. Depict new
+    paper shreds falling from the blades into the bin below.
+  rationale: The action involves feeding paper into a shredder, which is an irreversible transformation.
+    As the video progresses, the paper is pulled downwards by the blades. The key state changes are the
+    downward motion of the paper, the reduction of the visible intact surface area above the slot, and
+    the conversion of the solid sheet into strips (shreds) below the mechanism. The hand likely maintains
+    its grip or moves slightly down, but the paper itself must physically enter the machine.
+  questions:
+  - id: paper_inserted
+    question: Is the bottom part of the paper sheet now inside the shredder slot?
+    answer_type: yes_no
+    notes_for_judge: The bottom edge should no longer be visible as a straight line above the machine;
+      it should be inside the mechanism.
+  - id: paper_shorter
+    question: Is the vertical length of the intact paper above the shredder shorter than it was initially?
+    answer_type: yes_no
+    notes_for_judge: Compare the height of the paper remaining above the slot to the initial frame.
+  - id: paper_moved_down
+    question: Has the sheet of paper moved downwards relative to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Check the position of the top edge of the paper.
+  - id: shredding_evidence
+    question: Is the paper undergoing structural transformation (shredding) at the point of contact with
+      the machine?
+    answer_type: yes_no
+    notes_for_judge: The paper should not just be sitting on top; it should be entering the blades.
+  - id: fresh_shreds
+    question: Are there new paper shreds visible falling into the bin or accumulating below the blades?
+    answer_type: yes_no
+    notes_for_judge: Look for strips of paper exiting the mechanism.
+  - id: background_consistency
+    question: Are the computer monitors and desks in the background still visible and consistent?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: shredder_integrity
+    question: Does the clear plastic housing of the shredder remain intact?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

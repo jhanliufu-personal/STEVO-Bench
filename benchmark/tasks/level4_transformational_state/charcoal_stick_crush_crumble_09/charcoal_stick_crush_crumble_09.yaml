@@ -1,0 +1,75 @@
+id: charcoal_stick_crush_crumble_09
+level: 4
+category: structural_transformation
+tags: []
+variant_of: charcoal_stick_crush_crumble
+variation_type: combined
+variation_description: Changes action to gentle hold (no break) and uses object blocking occlusion.
+changes:
+  occlusion_method: Large object blocks view.
+  dynamic_conditions: Action changed to gentle hold.
+  expected_outcome_change: Object remains intact.
+prompts:
+  init_frame_edit_prompt: Edit the image to show the hand holding the charcoal stick loosely and gently,
+    with relaxed fingers.
+  video_WM: The fingers hold the charcoal stick with a gentle, delicate grip. The hand remains relaxed,
+    applying no compressive force to the material. The charcoal is porous and brittle, but no pressure
+    is being exerted to test its structural limits. A large, opaque black folder moves into the foreground
+    from the right, completely blocking the view of the hand and charcoal. The folder remains in place
+    for several seconds. The folder then moves away to the left, revealing the scene again. No zoom, no
+    cut, no scene change. STOP.
+  camera_WM: The fingers hold the charcoal stick with a gentle, delicate grip. The hand remains relaxed,
+    applying no compressive force to the material. The charcoal is porous and brittle, but no pressure
+    is being exerted to test its structural limits. A large, opaque black folder moves into the foreground
+    from the right, completely blocking the view of the hand and charcoal. The folder remains in place
+    for several seconds. The folder then moves away to the left, revealing the scene again. No zoom, no
+    cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, first-person or side view of a hand holding a thick, cylindrical
+    stick of black charcoal. The charcoal has a rough, porous, matte texture. The hand holds the stick
+    vertically with a gentle grip, fingers curled loosely around it. The background is a wooden workspace
+    featuring sheets of white paper with charcoal sketches, smudges, and other drawing tools like pencils
+    or charcoal pieces scattered out of focus.
+  init2final_edit_prompt: Edit the given image to show the charcoal stick remaining completely intact
+    and unbroken. The charcoal must retain its original cylindrical shape, rough texture, and solid form,
+    with no cracks, crumbling, or fragmentation. The hand should maintain the same gentle, relaxed grip
+    on the object. The large black folder mentioned in the context must not be visible; the scene should
+    be clearly revealed again with the object in its original state.
+  rationale: The video prompt explicitly emphasizes a 'gentle, delicate grip' and states that 'no compressive
+    force' is applied. It further clarifies that 'no pressure is being exerted to test its structural
+    limits.' Although an occlusion event occurs with the folder, there is no instruction indicating a
+    change in action (like squeezing) or a change in the object's state (like crushing) during the occlusion.
+    Therefore, the correct rollout must show the charcoal stick structurally unchanged and intact, testing
+    the model's ability to adhere to negative constraints regarding physical transformation.
+  questions:
+  - id: charcoal_intact_1
+    question: Is the charcoal stick still a single, solid piece?
+    answer_type: yes_no
+    notes_for_judge: The object should not be broken into multiple parts.
+  - id: charcoal_shape_1
+    question: Does the charcoal stick retain its original cylindrical shape?
+    answer_type: yes_no
+    notes_for_judge: It should not be flattened or deformed.
+  - id: charcoal_cracks_1
+    question: Is the charcoal stick free from visible cracks or fractures?
+    answer_type: yes_no
+    notes_for_judge: The surface should remain continuous.
+  - id: charcoal_debris_1
+    question: Is the charcoal stick free of loose crumbs or fragmented debris?
+    answer_type: yes_no
+    notes_for_judge: There should be no signs of crumbling.
+  - id: hand_grip_1
+    question: Does the hand appear to be holding the charcoal gently without squeezing?
+    answer_type: yes_no
+    notes_for_judge: The fingers should not be clenched tight.
+  - id: structural_integrity_1
+    question: Does the charcoal stick appear structurally sound and undamaged?
+    answer_type: yes_no
+    notes_for_judge: General assessment of integrity.
+  - id: occlusion_clear_1
+    question: Is the view clear of the large black folder?
+    answer_type: yes_no
+    notes_for_judge: The occluder should have moved away.

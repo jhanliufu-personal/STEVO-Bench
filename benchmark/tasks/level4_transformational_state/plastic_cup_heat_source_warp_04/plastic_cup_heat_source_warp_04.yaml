@@ -1,0 +1,75 @@
+id: plastic_cup_heat_source_warp_04
+level: 4
+category: structural_transformation
+tags: []
+variant_of: plastic_cup_heat_source_warp
+variation_type: dynamic_condition
+variation_description: The heat gun is set to 'Cool' mode (fan only), removing the heat source.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Heat gun blows ambient temperature air instead of hot air.
+  expected_outcome_change: The cup remains unchanged (no melting/warping).
+prompts:
+  init_frame_edit_prompt: Edit the image to change the heat gun settings switch to a blue 'Cool' icon
+    or position, and remove any visual heat distortion or steam effects.
+  video_WM: Air from the heat gun flows toward the plastic cup. The heat gun is set to 'Cool' mode, meaning
+    it blows ambient room-temperature air without engaging the heating element. The air pressure exerts
+    a mild force, but the temperature remains around 70°F, far below the glass transition temperature
+    of polystyrene (212°F). The plastic retains its structural rigidity at this temperature. The heat
+    gun continues directing cool air at the cup. The camera rotates right at constant speed until the
+    cup and heat gun completely exit the view to the right. The camera continues rotating right for several
+    seconds while the air continues blowing off-screen. Then the camera rotates left smoothly at the same
+    rate back to the original viewpoint. No zoom, no cut, no scene change. STOP.
+  camera_WM: Air from the heat gun flows toward the plastic cup. The heat gun is set to 'Cool' mode, meaning
+    it blows ambient room-temperature air without engaging the heating element. The air pressure exerts
+    a mild force, but the temperature remains around 70°F, far below the glass transition temperature
+    of polystyrene (212°F). The plastic retains its structural rigidity at this temperature. The heat
+    gun continues directing cool air at the cup during the occlusion period. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A red plastic disposable cup sits on a wooden workbench, exhibiting some pre-existing
+    crinkles and dents on its side facing the camera. To the right, an orange heat gun is mounted on a
+    stand, with its metal nozzle pointed directly at the cup. The heat gun features a blue rocker switch
+    with a snowflake symbol. Background items include blurred tools and wood pieces.
+  init2final_edit_prompt: Edit the given image to show the scene unchanged. The red plastic cup must retain
+    its original shape, height, and surface texture without any signs of melting, shrinking, or warping.
+    The pre-existing dents on the cup should remain exactly as they were. The heat gun and surrounding
+    environment should remain in their original positions.
+  rationale: The prompt explicitly specifies that the heat gun is in 'Cool' mode, blowing ambient air
+    at 70°F, which is far below the glass transition temperature of the polystyrene cup. Therefore, despite
+    the visual setup suggesting a melting hazard, the correct physical simulation requires the cup to
+    remain structurally intact and unmelted. The camera rotates away and returns, serving to test object
+    permanence and state consistency; upon return, the cup should be in the same state (possibly slightly
+    shifted by air pressure, but structurally unaltered) to verify the model followed the 'Cool mode'
+    constraint.
+  questions:
+  - id: integrity_shape
+    question: Does the red cup retain its original cylindrical shape without collapsing?
+    answer_type: yes_no
+    notes_for_judge: The cup should not look melted or flattened.
+  - id: integrity_rim
+    question: Is the rim of the cup still circular and free from heat-induced warping?
+    answer_type: yes_no
+    notes_for_judge: The top edge should remain distinct and not wavy or drooping.
+  - id: integrity_surface
+    question: Does the plastic surface of the cup appear solid and free from bubbling?
+    answer_type: yes_no
+    notes_for_judge: Check for texture changes indicating melting.
+  - id: consistency_dents
+    question: Are the pre-existing dents in the cup still visible in their original form?
+    answer_type: yes_no
+    notes_for_judge: The original damage should be preserved, not smoothed out or worsened by heat.
+  - id: posture_upright
+    question: Is the cup still standing upright?
+    answer_type: yes_no
+    notes_for_judge: The mild air force should not have knocked it over.
+  - id: object_presence
+    question: Is the red cup still visible in the frame?
+    answer_type: yes_no
+    notes_for_judge: The cup should not have disappeared or been blown completely off-screen.
+  - id: heat_gun_presence
+    question: Is the orange heat gun still present and pointing towards the cup?
+    answer_type: yes_no
+    notes_for_judge: The tool causing the airflow must remain.

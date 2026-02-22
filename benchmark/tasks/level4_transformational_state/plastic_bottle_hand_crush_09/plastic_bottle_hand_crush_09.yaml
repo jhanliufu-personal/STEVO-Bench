@@ -1,0 +1,70 @@
+id: plastic_bottle_hand_crush_09
+level: 4
+category: structural_transformation
+tags: []
+variant_of: plastic_bottle_hand_crush
+variation_type: combined
+variation_description: Aluminum can (condition) + Camera zoom occlusion (method).
+changes:
+  occlusion_method: Camera zooms out.
+  dynamic_conditions: Object is an aluminum can (deforms differently, crinkles).
+  expected_outcome_change: Can crushed/dented
+prompts:
+  init_frame_edit_prompt: Edit the image to replace the plastic water bottle with an empty aluminum soda
+    can.
+  video_WM: The hand grips the empty aluminum soda can and begins applying squeezing force. Thin aluminum
+    walls are malleable and prone to buckling under pressure. Once the structural integrity is compromised,
+    the metal collapses inward sharply. The hand increases compressive force. The camera zooms out rapidly
+    until the can is too small to discern details. The camera holds this wide shot for several seconds
+    while the hand continues squeezing the can. Then the camera zooms back in smoothly to the original
+    framing. No cut, no scene change. STOP.
+  camera_WM: The hand grips the empty aluminum soda can and begins applying squeezing force. Thin aluminum
+    walls are malleable and prone to buckling under pressure. Once the structural integrity is compromised,
+    the metal collapses inward sharply. The hand increases compressive force during the occlusion period.
+    STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a silver aluminum soda can sitting on a worn wooden
+    table. The can already has a large dent on its side but retains its general cylindrical height. To
+    the left, a person's arm and hand are visible, reaching towards the can with fingers open, not yet
+    gripping it. The background shows a blurred kitchen interior with a window, counters, and appliances.
+  init2final_edit_prompt: Edit the given image to show the hand tightly gripping and crushing the aluminum
+    can. The can should appear significantly more deformed, crumpled, and vertically compressed than in
+    the original image, with deep buckles and folds in the metal walls. The hand should be closed around
+    the can, applying squeezing force.
+  rationale: The video prompt describes a continuous action of a hand gripping and squeezing an aluminum
+    can. Although the camera zooms out and back in, the physical action of squeezing continues throughout
+    the sequence. Therefore, when the camera returns to the original framing, the can must exhibit significantly
+    more structural damage (crushing, flattening, buckling) than in the initial frame, and the hand should
+    be gripping the object rather than just reaching for it.
+  questions:
+  - id: can_crushed_progression
+    question: Is the aluminum can significantly more crushed or deformed than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the degree of deformation. The final frame should show increased damage/crumpling.
+  - id: vertical_compression
+    question: Does the can appear vertically compressed or shorter due to the squeezing force?
+    answer_type: yes_no
+    notes_for_judge: Crushing usually reduces the height of the can.
+  - id: hand_contact
+    question: Is the hand gripping or touching the can?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the hand grips and squeezes the can; initially it was just reaching.
+  - id: structural_buckling
+    question: Are there new or deeper folds and buckles in the metal walls of the can?
+    answer_type: yes_no
+    notes_for_judge: Look for increased complexity in the crumple pattern.
+  - id: cylindrical_shape_loss
+    question: Has the can lost more of its original cylindrical shape compared to the start?
+    answer_type: yes_no
+    notes_for_judge: The shape should be more irregular and flattened.
+  - id: table_consistency
+    question: Is the wooden table surface still visible beneath the can?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: background_consistency
+    question: Is the blurred kitchen background consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

@@ -1,0 +1,79 @@
+id: hole_punch_paper_stack_10
+level: 4
+category: structural_transformation
+tags: []
+variant_of: hole_punch_paper_stack
+variation_type: combined
+variation_description: Empty slot (no resistance) + Camera moves physically away.
+changes:
+  occlusion_method: Camera physically moves backward.
+  dynamic_conditions: No paper in slot (zero resistance).
+  expected_outcome_change: Lever moves down very easily/quickly.
+prompts:
+  init_frame_edit_prompt: Edit the image to remove the paper stack completely, showing an empty slot.
+  video_WM: The hand begins pressing the lever downward. The slot is completely empty, containing no paper
+    or obstruction. The blades face zero resistance. The camera physically moves backward away from the
+    desk until the hole punch is too far to see clearly. The hand continues the action in the distance.
+    The camera moves forward, returning to the original position. No zoom, no cut, no scene change. STOP.
+  camera_WM: The hand begins pressing the lever downward. The slot is completely empty, containing no
+    paper or obstruction. The blades face zero resistance. The hand continues the action during the occlusion
+    period. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a heavy-duty two-hole punch on a wooden desk.
+    The hole punch has a silver metal base and a black handle. A hand (Caucasian skin tone) is gripping
+    the handle, which is currently in the raised 'up' position. The paper slot (the gap between the base
+    and the blade mechanism) is clearly visible and empty. In the background, there is a window, a black
+    wire mesh pen holder with pens, and a black paper tray. The lighting is natural, coming from the window
+    on the left.
+  init2final_edit_prompt: Edit the given image to show the hole punch lever pressed down into the closed
+    position. The hand should be pushing the black handle downwards so it is closer to the metal base.
+    The vertical springs or guide posts should appear compressed. Ensure the paper slot remains completely
+    empty, with no paper or card stock inserted. Maintain the original camera angle, desk surface, and
+    background objects exactly as they are.
+  rationale: The video prompt describes a camera trajectory that moves away and then returns to the exact
+    original position, so the final viewpoint is identical to the initial frame. The primary action is
+    the hand pressing the lever downward. The prompt explicitly states the slot is empty and there is
+    no obstruction, meaning no paper is punched and no debris is created. Therefore, the only change in
+    the world state is the mechanical configuration of the hole punch (lever moving from up to down) and
+    the corresponding hand position. The final state should show the lever depressed and the slot still
+    empty.
+  questions:
+  - id: lever_position_lowered
+    question: Is the handle of the hole punch in a lower position than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the angle and height of the black handle. It should be pressed down towards
+      the base.
+  - id: mechanism_compressed
+    question: Does the hole punch mechanism appear compressed or closed compared to the start?
+    answer_type: yes_no
+    notes_for_judge: The springs or guide rods connecting the handle to the base should show compression
+      or a lower profile.
+  - id: hand_pressing_down
+    question: Is the hand positioning consistent with pressing the lever downward?
+    answer_type: yes_no
+    notes_for_judge: The hand should be exerting downward force, following the handle's new lower position.
+  - id: slot_remains_empty
+    question: Is the paper slot clearly empty, containing no paper?
+    answer_type: yes_no
+    notes_for_judge: The prompt explicitly states the slot is empty. The model should not hallucinate
+      paper.
+  - id: handle_angle_horizontal
+    question: Is the black handle closer to a horizontal orientation than the initial angled-up position?
+    answer_type: yes_no
+    notes_for_judge: The handle starts angled up; in the final state, it should be flatter/lower.
+  - id: gap_reduced
+    question: Is the vertical gap between the handle grip and the desk surface smaller than in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: Geometric check of the lever's height.
+  - id: background_consistency
+    question: Is the black paper tray in the background still visible and unchanged?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: desk_surface_consistency
+    question: Is the wooden desk surface texture preserved?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

@@ -1,0 +1,68 @@
+id: wood_log_sawing_03
+level: 4
+category: structural_transformation
+tags: []
+variant_of: wood_log_sawing
+variation_type: occlusion_method
+variation_description: Occlusion by a thick cloud of smoke/dust obscuring the scene.
+changes:
+  occlusion_method: Thick smoke fills the view.
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics (cut deepens).
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: A person begins vigorously moving the hand saw back and forth across the wooden log. The sawing
+    action to cut through the log is active. A thick cloud of white smoke blows across the scene, completely
+    obscuring the log and saw from view. The smoke eventually dissipates, revealing the scene again. No
+    zoom, no cut, no scene change. STOP.
+  camera_WM: A person begins vigorously moving the hand saw back and forth across the wooden log. The
+    sawing action to cut through the log is active. A thick cloud of white smoke blows across the scene,
+    completely obscuring the log and saw from view. The smoke eventually dissipates, revealing the scene
+    again. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up outdoor shot of a thick wooden log resting horizontally on a rustic
+    wooden sawhorse (X-shaped support). A hand saw with a wooden handle and metal blade is resting in
+    a shallow cut (kerf) on the top of the log. There is a small amount of sawdust around the cut. The
+    background shows a blurred forest with trees.
+  init2final_edit_prompt: Edit the given image to show the metal saw blade positioned significantly deeper
+    into the wooden log, indicating that the cutting action has progressed. Add a noticeable amount of
+    fresh sawdust on the top of the log around the cut and on the wooden sawhorse structure below. The
+    groove in the log should appear deeper and more pronounced.
+  rationale: 'The prompt describes vigorous sawing action that continues while the scene is obscured by
+    smoke. When the smoke clears, the physical state of the log must reflect the work done during that
+    time. This implies an irreversible structural change: the cut (kerf) in the log must be deeper, the
+    saw blade should be situated lower within the wood, and there should be an accumulation of fresh sawdust
+    resulting from the material removal.'
+  questions:
+  - id: saw_depth
+    question: Is the saw blade positioned deeper into the log than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the position of the saw blade relative to the top surface of the log. It
+      should be lower/deeper.
+  - id: sawdust_increase
+    question: Is there more sawdust visible on the log or the support structure compared to the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: Look for fresh wood particles/dust around the cut area or on the sawhorse.
+  - id: cut_progression
+    question: Does the cut in the log appear deeper or more advanced than in the starting image?
+    answer_type: yes_no
+    notes_for_judge: The groove/kerf should be more substantial.
+  - id: handle_proximity
+    question: Is the handle of the saw closer to the top surface of the log compared to the start?
+    answer_type: yes_no
+    notes_for_judge: As the blade goes deeper, the handle moves closer to the wood.
+  - id: structural_change
+    question: Has the log undergone further physical separation or cutting compared to the initial state?
+    answer_type: yes_no
+    notes_for_judge: Check for evidence of the sawing action progressing.
+  - id: sawhorse_consistency
+    question: Is the wooden sawhorse still supporting the log?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: background_consistency
+    question: Is the forest background still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

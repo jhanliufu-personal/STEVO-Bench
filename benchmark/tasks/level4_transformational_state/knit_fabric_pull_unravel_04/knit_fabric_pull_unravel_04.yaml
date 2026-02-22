@@ -1,0 +1,76 @@
+id: knit_fabric_pull_unravel_04
+level: 4
+category: structural_transformation
+tags: []
+variant_of: knit_fabric_pull_unravel
+variation_type: dynamic_condition
+variation_description: The yarn end is knotted to the fabric, preventing unraveling.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Yarn is knotted securely to the last loop instead of being loose.
+  expected_outcome_change: Fabric will not unravel; the whole piece will be pulled by the knot.
+prompts:
+  init_frame_edit_prompt: Edit the image to show a tight double knot tied in the yarn strand right against
+    the edge of the fabric, securing the loose end to the knit structure.
+  video_WM: The hand begins pulling steadily on the yarn end. The yarn is tied securely with a double
+    knot around the final loop of the knitted edge. Knots in yarn create a physical stopper that is larger
+    than the loop openings. Tension is applied to the yarn end against this knot. The hand continues pulling
+    with steady tension. The camera rotates right at constant speed until the fabric and hand completely
+    exit the view to the right. The camera continues rotating right for several seconds while the hand
+    remains off-screen continuing to pull the yarn. Then the camera rotates left smoothly at the same
+    rate back to the original viewpoint, bringing the fabric back into view. No zoom, no cut, no scene
+    change. STOP.
+  camera_WM: The hand begins pulling steadily on the yarn end. The yarn is tied securely with a double
+    knot around the final loop of the knitted edge. Knots in yarn create a physical stopper that is larger
+    than the loop openings. Tension is applied to the yarn end against this knot. The hand continues pulling
+    with steady tension. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, high-angle shot showing a person's hand holding the end of a thick,
+    cream-colored yarn tail. The yarn is attached to the corner of a piece of chunky, garter-stitch knitted
+    fabric resting on a rustic wooden table. A visible double knot ties the yarn end to the final loop
+    of the fabric edge. The hand is positioned on the left, holding the yarn which extends towards the
+    fabric on the right.
+  init2final_edit_prompt: Edit the given image to show the yarn tail pulled straight and taut by the hand.
+    The knitted fabric must remain structurally intact and not unraveled. Show the knot at the corner
+    of the fabric pulled tight against the last loop, acting as a stopper. The fabric should appear slightly
+    stretched towards the hand due to the tension, but the rows of knitting must be preserved and the
+    fabric size should not be significantly reduced.
+  rationale: The prompt explicitly states that the yarn is tied with a secure double knot that acts as
+    a physical stopper. Although the hand pulls with steady tension, the knot prevents the loop from slipping,
+    thereby blocking the fabric from unraveling. The camera rotates away to fully occlude the scene and
+    then returns. The correct final state reflects the applied tension (taut yarn, tight knot, stretched
+    fabric) but maintains the structural integrity of the knitting, testing the model's ability to prioritize
+    the described physical constraint (the knot) over the typical visual association of pulling yarn (unraveling).
+  questions:
+  - id: fabric_integrity
+    question: Is the knitted fabric structure still intact?
+    answer_type: yes_no
+    notes_for_judge: The fabric should not be unraveled into loose yarn.
+  - id: knot_visibility
+    question: Is the knot visible at the connection point between the yarn and the fabric?
+    answer_type: yes_no
+    notes_for_judge: The knot should be present and tight against the fabric edge.
+  - id: yarn_tension
+    question: Is the yarn tail pulled taut?
+    answer_type: yes_no
+    notes_for_judge: The yarn should be straight, indicating tension.
+  - id: fabric_shape
+    question: Does the fabric retain its original woven pattern?
+    answer_type: yes_no
+    notes_for_judge: The pattern should be consistent with the initial frame, not a pile of string.
+  - id: yarn_length_conservation
+    question: Is the length of the loose yarn tail approximately the same as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: If the fabric unraveled, the tail would be much longer. It should remain roughly
+      the same length.
+  - id: knot_stopper_function
+    question: Does the knot appear to be holding the fabric edge together?
+    answer_type: yes_no
+    notes_for_judge: The knot should be abutting the fabric, preventing the loop from opening.
+  - id: background_consistency
+    question: Is the wooden table surface still visible beneath the fabric?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

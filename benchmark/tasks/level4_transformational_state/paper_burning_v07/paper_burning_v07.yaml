@@ -1,0 +1,79 @@
+id: paper_burning_v07
+level: 4
+category: transformational_state_change
+tags: []
+variant_of: paper_burning
+variation_type: combined
+variation_description: Smoldering paper (no flame) combined with occlusion by a person walking by.
+changes:
+  occlusion_method: Person blocking the view.
+  dynamic_conditions: Paper is smoldering, not flaming.
+  expected_outcome_change: Paper remains largely unchanged as charred debris; occlusion is via blocking.
+prompts:
+  init_frame_edit_prompt: Edit the image to remove the bright orange flames. The paper should look charred,
+    black, and burnt, with wisps of grey smoke rising from it, but no active fire.
+  video_WM: Single continuous take, no cuts. Camera remains static centered on the plate and smoldering
+    paper. A person wearing a dark shirt walks into the frame from the right, moving close to the camera
+    until they completely block the view of the table and plate. The person stands there for several seconds.
+    Then the person walks out of frame to the left, revealing the table again. Lighting and objects remain
+    consistent and realistic.
+  camera_WM: Single continuous take, no cuts. Camera remains static centered on the plate and smoldering
+    paper. A person wearing a dark shirt walks into the frame from the right, moving close to the camera
+    until they completely block the view of the table and plate. The person stands there for several seconds.
+    Then the person walks out of frame to the left, revealing the table again. Lighting and objects remain
+    consistent and realistic.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a rolled piece of thick white paper or birch bark
+    resting on a rustic ceramic plate. The paper is actively smoldering, with a significant portion of
+    the front edge blackened, charred, and turning to ash. Wisps of white smoke are rising from the burnt
+    area. The plate sits on a worn wooden table. A window with natural light is visible in the background.
+  init2final_edit_prompt: Edit the given image to show the paper roll in a more advanced state of burning
+    and decomposition. The blackened, charred area should be significantly larger, consuming more of the
+    white material. The cylindrical structure of the roll should appear more collapsed, fragmented, or
+    disintegrated due to the fire damage. Increase the amount of ash and burnt debris scattered on the
+    plate. Ensure the person mentioned in the context is not visible; the view should be clear of obstruction.
+  rationale: 'The initial frame establishes that the paper is actively burning/smoldering. The video prompt
+    describes a period of occlusion lasting several seconds where a person blocks the view. During this
+    time, the physical process of combustion continues irreversibly. Therefore, when the person leaves
+    and the view is restored, the paper must show signs of progressed burning: more charring, loss of
+    material, increased ash, and structural degradation compared to the initial state.'
+  questions:
+  - id: char_expansion
+    question: Is the blackened, charred area on the paper larger than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the extent of the black region. It should have grown.
+  - id: material_loss
+    question: Is there less white, unburnt paper visible compared to the starting image?
+    answer_type: yes_no
+    notes_for_judge: As burning progresses, the white area must decrease.
+  - id: structural_integrity
+    question: Does the paper roll appear more collapsed or structurally compromised than initially?
+    answer_type: yes_no
+    notes_for_judge: Look for sagging, flattening, or breaking of the cylindrical shape.
+  - id: ash_accumulation
+    question: Is there more ash or burnt debris on the plate than in the first frame?
+    answer_type: yes_no
+    notes_for_judge: Burning produces ash; the quantity on the plate should increase.
+  - id: edge_degradation
+    question: Are the edges of the paper more ragged or disintegrated than they were at the start?
+    answer_type: yes_no
+    notes_for_judge: Fire causes edges to crumble.
+  - id: progression_check
+    question: Does the object show visible evidence that the burning process continued during the interval?
+    answer_type: yes_no
+    notes_for_judge: General check for increased damage.
+  - id: person_absence
+    question: Is the view of the table and plate clear of the person who blocked it?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the person walks out of frame.
+  - id: plate_consistency
+    question: Is the ceramic plate still present and recognizable?
+    answer_type: yes_no
+    notes_for_judge: The container should not disappear.
+  - id: table_consistency
+    question: Is the wooden table surface still visible in the foreground?
+    answer_type: yes_no
+    notes_for_judge: Background consistency check.

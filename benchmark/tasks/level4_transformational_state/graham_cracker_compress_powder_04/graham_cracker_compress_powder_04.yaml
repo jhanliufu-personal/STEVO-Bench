@@ -1,0 +1,72 @@
+id: graham_cracker_compress_powder_04
+level: 4
+category: structural_transformation
+tags: []
+variant_of: graham_cracker_compress_powder
+variation_type: dynamic_condition
+variation_description: Material changed from brittle cracker to soft bread slice.
+changes:
+  occlusion_method: null
+  dynamic_conditions: 'Material change: Soft bread instead of brittle cracker'
+  expected_outcome_change: Object flattens/compresses plastically instead of fracturing into powder
+prompts:
+  init_frame_edit_prompt: Edit the image to replace the graham cracker inside the bag with a slice of
+    soft white bread.
+  video_WM: The hand presses down on the slice of white bread through the plastic bag with progressive
+    force. White bread is a soft, porous foam structure that deforms plastically under compression but
+    does not fracture. The hand applies pressing motions to distribute force across the bread surface.
+    The material is soft and pliable. The camera rotates right at constant speed until the bag and hand
+    completely exit the view to the right. The camera continues rotating right for several seconds while
+    the hand remains off-screen continuing to apply pressure. Then the camera rotates left smoothly at
+    the same rate back to the original viewpoint, bringing the bag back into view. No zoom, no cut, no
+    scene change. STOP.
+  camera_WM: The hand presses down on the slice of white bread through the plastic bag with progressive
+    force. White bread is a soft, porous foam structure that deforms plastically under compression but
+    does not fracture. The hand applies pressing motions to distribute force across the bread surface.
+    The material is soft and pliable during the occlusion period. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A slice of white bread inside a clear plastic ziplock bag resting on a wooden
+    table. A human hand is positioned above the bag, with fingers extended and palm facing down, hovering
+    or lightly touching the bag surface. The bread appears soft, fluffy, and porous with a visible crust.
+  init2final_edit_prompt: Edit the given image to show the slice of white bread significantly flattened
+    and compressed inside the plastic bag. The bread should appear thinner, denser, and squashed, losing
+    its initial fluffy volume and height. The hand should be pressing down firmly on the bag, maintaining
+    contact with the flattened bread.
+  rationale: The video prompt describes a sequence where a hand compresses a slice of white bread. White
+    bread undergoes plastic deformation, meaning it flattens and densifies without shattering or springing
+    back fully. The camera rotates away during the compression action and then returns to the original
+    viewpoint. Therefore, the final frame must show the bread in a permanently flattened state, distinct
+    from its initial fluffy state, while maintaining the original camera angle and background.
+  questions:
+  - id: bread_flattened
+    question: Is the slice of bread visibly flatter than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the thickness/height of the bread. It should look squashed.
+  - id: bread_compressed
+    question: Does the bread appear more compressed and dense compared to the start?
+    answer_type: yes_no
+    notes_for_judge: Look for loss of the porous, fluffy texture.
+  - id: volume_reduction
+    question: Has the apparent volume of the bread slice decreased?
+    answer_type: yes_no
+    notes_for_judge: The bread should take up less vertical space or look less puffy.
+  - id: structural_integrity
+    question: Is the bread still a single cohesive piece rather than crumbled fragments?
+    answer_type: yes_no
+    notes_for_judge: The prompt specifies the bread deforms plastically but does not fracture. It should
+      not look like crumbs.
+  - id: bag_presence
+    question: Is the bread still contained within the plastic bag?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: hand_presence
+    question: Is the hand visible in the frame?
+    answer_type: yes_no
+    notes_for_judge: The camera returns to the view, and the hand was applying pressure.
+  - id: deformation_visible
+    question: Are there visible signs of squashing or indentation on the bread?
+    answer_type: yes_no
+    notes_for_judge: Check for surface deformation consistent with pressing.

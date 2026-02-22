@@ -1,0 +1,64 @@
+id: document_shredding_v5
+level: 4
+category: structural_transformation
+tags: []
+variant_of: document_shredding
+variation_type: dynamic_condition
+variation_description: The shredder bin is completely full with a warning light, implying the safety stop
+  will prevent shredding.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Bin is overflowing and 'Bin Full' red warning light is on.
+  expected_outcome_change: Paper is rejected or machine refuses to start (safety stop).
+prompts:
+  init_frame_edit_prompt: Edit the image to show the bottom bin completely packed and overflowing with
+    white paper strips, and add a bright red warning LED light glowing on the top control panel.
+  video_WM: The sheet of paper is positioned at the entry slot. The shredder's bin is packed tight with
+    waste and the red safety indicator is glowing. The camera rotates right until the shredder completely
+    exits the view, then rotates toward the left smoothly at the same rate until the shredder is back
+    in the center of view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The sheet of paper is positioned at the entry slot. The shredder's bin is packed tight with
+    waste and the red safety indicator is glowing. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up view of a document shredder in an office setting. The shredder has
+    a clear plastic bin packed tight with white shredded paper strips. A red safety indicator light is
+    glowing on the top right of the shredder unit. A person's hand enters from the top right, holding
+    a white sheet of paper positioned at the entry slot, ready to be shredded. In the background, there
+    are office desks, computer monitors, and a person working.
+  init2final_edit_prompt: Edit the given image to show that the sheet of paper has been partially or fully
+    shredded. The white sheet of paper should be significantly shorter or completely gone. The hand should
+    remain visible but should be holding a smaller remnant of the paper or nothing at all. The rest of
+    the scene, including the full bin, the red light, and the office background, should remain unchanged.
+  rationale: The initial frame establishes a shredding action in progress, with a hand feeding paper into
+    the machine. The camera rotates away and then returns to the original view. During this period of
+    occlusion, the physical process of shredding is expected to progress. Therefore, in the final frame,
+    the sheet of paper should be irreversibly transformed (shredded), appearing significantly shorter
+    or entirely consumed. We assume the action proceeds despite the full bin indicator to test the state
+    transformation capability.
+  questions:
+  - id: paper_length_reduction
+    question: Is the sheet of paper shorter than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the vertical length of the paper above the slot. It should be reduced.
+  - id: paper_area_reduction
+    question: Is the visible surface area of the white paper reduced compared to the start?
+    answer_type: yes_no
+    notes_for_judge: The paper should be smaller due to being shredded.
+  - id: paper_consumed
+    question: Has the paper been partially or fully consumed by the shredder?
+    answer_type: yes_no
+    notes_for_judge: Look for evidence that the paper has gone into the machine (shorter length or absence).
+  - id: hand_holding_less
+    question: Is the hand holding less paper than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The amount of paper in the hand should be less or zero.
+  - id: bin_consistency
+    question: Is the shredder bin still visible and full of waste?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: red_light_consistency
+    question: Is the red safety indicator light still visible on the shredder?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

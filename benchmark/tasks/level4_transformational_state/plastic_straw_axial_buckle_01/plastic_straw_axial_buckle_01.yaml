@@ -1,0 +1,75 @@
+id: plastic_straw_axial_buckle_01
+level: 4
+category: structural_transformation
+tags: []
+variant_of: plastic_straw_axial_buckle
+variation_type: occlusion_method
+variation_description: Occlusion changed from camera rotation to a large book sliding in front of the
+  scene.
+changes:
+  occlusion_method: A large opaque book slides into view, blocking the scene completely, then slides away.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The hands begin moving toward each other, applying axial compression force along the length
+    of the straw. Thin-walled cylindrical structures under axial compression are subject to Euler buckling
+    instability when load exceeds a critical threshold. The plastic straw has very low resistance to lateral
+    bending compared to its axial strength. The structure is sensitive to slight asymmetries or imperfections.
+    Plastic deformation beyond the elastic limit is permanent. The hands continue applying progressive
+    compressive force. Suddenly, a large opaque book slides in from the right side of the frame, completely
+    obscuring the hands and straw. The book remains in front of the scene for several seconds while the
+    hands continue applying compression behind it. Then the book slides back out to the right, revealing
+    the scene again. No zoom, no cut, no scene change. STOP.
+  camera_WM: The hands begin moving toward each other, applying axial compression force along the length
+    of the straw. Thin-walled cylindrical structures under axial compression are subject to Euler buckling
+    instability when load exceeds a critical threshold. The plastic straw has very low resistance to lateral
+    bending compared to its axial strength. The structure is sensitive to slight asymmetries or imperfections.
+    Plastic deformation beyond the elastic limit is permanent. The hands continue applying progressive
+    compressive force. Suddenly, a large opaque book slides in from the right side of the frame, completely
+    obscuring the hands and straw. The book remains in front of the scene for several seconds while the
+    hands continue applying compression behind it. Then the book slides back out to the right, revealing
+    the scene again. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A vertical clear plastic straw is held at both ends by a person's hands against
+    a light brown wooden table background. The top hand holds the upper tip of the straw, and the bottom
+    hand holds the lower tip. The straw is straight and unbent.
+  init2final_edit_prompt: Edit the given image so that the two hands are positioned closer together vertically,
+    reducing the distance between them. The clear plastic straw held between the hands should appear buckled,
+    showing a sharp bend, crease, or kink along its length due to the compression. The straw should no
+    longer be straight.
+  rationale: The video prompt describes axial compression applied to a thin-walled plastic straw. Physically,
+    this causes Euler buckling, where the straw suddenly bows out and collapses. Since the prompt specifies
+    that plastic deformation occurs, the straw will not just curve elastically but will form a permanent
+    crease or kink (structural failure). The occlusion hides the duration of the compression, but the
+    prompt states the hands continue applying force. Therefore, when the book is removed, the hands must
+    be closer together than in the initial frame, and the straw must exhibit a visible structural deformation
+    (buckling/creasing).
+  questions:
+  - id: straw_buckled
+    question: Does the straw show a visible bend, kink, or crease?
+    answer_type: yes_no
+    notes_for_judge: The straw should no longer be a straight cylinder; it must show signs of buckling.
+  - id: hands_closer
+    question: Is the vertical distance between the two hands smaller than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The hands are applying compression, so they must have moved closer together.
+  - id: straw_not_straight
+    question: Is the straw's structural integrity altered such that it is no longer straight?
+    answer_type: yes_no
+    notes_for_judge: Check for deviation from the initial straight vertical line.
+  - id: deformation_visible
+    question: Is there visible deformation in the shape of the straw compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Looking for the result of the crushing/buckling force.
+  - id: hands_holding_straw
+    question: Are the hands still holding the ends of the straw?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: background_consistency
+    question: Is the wooden table surface still visible in the background?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

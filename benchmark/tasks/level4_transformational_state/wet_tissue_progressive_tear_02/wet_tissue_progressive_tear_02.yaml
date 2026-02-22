@@ -1,0 +1,78 @@
+id: wet_tissue_progressive_tear_02
+level: 4
+category: structural_transformation
+tags: []
+variant_of: wet_tissue_progressive_tear
+variation_type: occlusion_method
+variation_description: Replaces camera rotation with the room lights turning off completely.
+changes:
+  occlusion_method: Lights turn off (pitch black) then turn back on.
+  dynamic_conditions: null
+  expected_outcome_change: same dynamics
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The hands begin applying gentle outward pulling tension to the wet tissue at the edges. When
+    tissue paper becomes saturated with water, the cellulose fiber bonds weaken dramatically and the material
+    loses most of its tensile strength. Wet tissue tears much more easily than dry tissue. The structural
+    integrity is severely compromised by water infiltration between fibers. The hands continue applying
+    slow, steady pulling force. Suddenly, the room lights turn off completely, plunging the scene into
+    absolute pitch black darkness. The audio implies the pulling continues in the dark. After several
+    seconds, the lights flicker and turn back on, illuminating the scene again. No zoom, no cut, no scene
+    change. STOP.
+  camera_WM: The hands begin applying gentle outward pulling tension to the wet tissue at the edges. When
+    tissue paper becomes saturated with water, the cellulose fiber bonds weaken dramatically and the material
+    loses most of its tensile strength. Wet tissue tears much more easily than dry tissue. The structural
+    integrity is severely compromised by water infiltration between fibers. The hands continue applying
+    slow, steady pulling force. Suddenly, the room lights turn off completely, plunging the scene into
+    absolute pitch black darkness. The audio implies the pulling continues in the dark. After several
+    seconds, the lights flicker and turn back on. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A first-person point-of-view shot showing two male hands holding a rectangular
+    sheet of wet, white tissue paper over a stainless steel kitchen sink. The tissue is saturated with
+    water, appearing translucent and sagging in the middle under its own weight. A droplet of water is
+    falling from the lowest point of the tissue. The background features a blurred kitchen faucet and
+    sink area. The tissue is currently intact with no rips or tears.
+  init2final_edit_prompt: Edit the image to show the wet tissue paper torn vertically into two distinct
+    pieces or significantly ripped down the center. The edges of the tear should appear ragged, uneven,
+    and fibrous, characteristic of wet paper separating. The hands should be holding the separated fragments,
+    maintaining the same grip but with the material between them severed. The tissue should no longer
+    be a single continuous sheet.
+  rationale: The video prompt establishes that the tissue is wet, which significantly lowers its tensile
+    strength. The action describes applying outward tension which continues even while the scene is occluded
+    by darkness. Given the material properties and the duration of the applied force, the tissue will
+    inevitably tear or separate into pieces. When the lights return, the visual state must reflect this
+    irreversible structural damage (tearing) that occurred during the blackout.
+  questions:
+  - id: tear_visible
+    question: Is the tissue paper torn or separated into pieces?
+    answer_type: yes_no
+    notes_for_judge: Look for a vertical rip, hole, or complete separation of the material.
+  - id: continuity_broken
+    question: Is the continuous surface of the tissue sheet now broken by a gap or tear?
+    answer_type: yes_no
+    notes_for_judge: The initial frame showed a continuous sheet; the final frame should show a break
+      in continuity.
+  - id: ragged_edges
+    question: Do the edges of the tissue appear ragged or frayed where the damage occurred?
+    answer_type: yes_no
+    notes_for_judge: Wet tissue tears with fibrous, uneven edges.
+  - id: structural_integrity
+    question: Has the structural integrity of the tissue been compromised compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The tissue should no longer be a single, intact rectangular sheet.
+  - id: material_separation
+    question: Are there now two distinct fragments of tissue or a major separation visible between the
+      hands?
+    answer_type: yes_no
+    notes_for_judge: Tests for the result of the pulling action.
+  - id: hands_holding_remnants
+    question: Are the hands still holding the remnants of the tissue?
+    answer_type: yes_no
+    notes_for_judge: Verifies the hands did not drop the object entirely.
+  - id: background_consistency
+    question: Is the kitchen sink faucet still visible in the background?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

@@ -1,0 +1,63 @@
+id: projectile_window_break_05
+level: 4
+category: structural_transformation
+tags: []
+variant_of: projectile_window_break
+variation_type: dynamic_condition
+variation_description: Projectile changed from metal BB to paper airplane.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Projectile is a lightweight paper airplane.
+  expected_outcome_change: The plane crumples or glances off; the glass remains intact.
+prompts:
+  init_frame_edit_prompt: Edit the image to replace the metal bullet with a folded white paper airplane.
+  video_WM: The lightweight paper airplane glides into the center of the glass pane. The camera rotates
+    right until the window frame completely exits the view, then rotates toward the left smoothly at the
+    same rate until the window frame is back in the center of view. No zoom, no cut, no scene change.
+    STOP.
+  camera_WM: The lightweight paper airplane glides into the center of the glass pane. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A view through a wooden window frame looking out at a sunny green garden with
+    trees and a house. A white paper airplane is suspended in the air in the center of the frame, positioned
+    as if gliding towards the glass pane. The window glass is dirty but intact, with reflections visible.
+  init2final_edit_prompt: Edit the given image to show the white paper airplane resting on the wooden
+    window sill at the bottom of the frame. The nose of the paper airplane should appear crumpled and
+    bent from impact. The airplane is no longer floating in the center. The window glass must remain intact
+    and unbroken. The background garden and window frame should remain unchanged.
+  rationale: 'The prompt specifies a ''lightweight paper airplane'', which physically lacks the mass and
+    velocity to break a standard glass pane. Therefore, the window glass will not break. Instead, the
+    irreversible transformation occurs to the paper airplane itself: the impact with the rigid glass causes
+    the paper nose to crumple and deform. Following the impact, gravity causes the airplane to fall. During
+    the camera occlusion (rotation away and back), the airplane settles on the window sill at the bottom
+    of the frame.'
+  questions:
+  - id: airplane_crumpled
+    question: Does the paper airplane show visible signs of crumpling or damage?
+    answer_type: yes_no
+    notes_for_judge: The nose or body of the airplane should be bent/crumpled from impact.
+  - id: airplane_nose_bent
+    question: Is the nose of the paper airplane bent compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Check for structural deformation at the front of the airplane.
+  - id: airplane_on_sill
+    question: Is the paper airplane resting on the window sill?
+    answer_type: yes_no
+    notes_for_judge: The airplane should be at the bottom of the frame, not floating.
+  - id: airplane_lower
+    question: Is the paper airplane positioned lower than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: It should have fallen due to gravity.
+  - id: glass_intact
+    question: Is the window glass free of cracks or shattering?
+    answer_type: yes_no
+    notes_for_judge: A paper airplane should not break the glass.
+  - id: airplane_not_flying
+    question: Has the paper airplane stopped gliding?
+    answer_type: yes_no
+    notes_for_judge: It should be stationary on a surface.
+  - id: structural_integrity_loss
+    question: Has the paper airplane lost its original smooth aerodynamic shape?
+    answer_type: yes_no
+    notes_for_judge: Refers to the crumpling deformation.

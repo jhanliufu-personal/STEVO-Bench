@@ -1,0 +1,70 @@
+id: ceramic_plate_impact_v10
+level: 4
+category: structural_transformation
+tags: []
+variant_of: ceramic_plate_impact
+variation_type: combined
+variation_description: Missed target (condition) + Camera zoom (occlusion).
+changes:
+  occlusion_method: Camera zooms out until details are lost, then zooms in.
+  dynamic_conditions: Plate position shifted so hammer hits floor.
+  expected_outcome_change: Plate remains completely untouched; floor takes impact.
+prompts:
+  init_frame_edit_prompt: Edit the image to shift the ceramic plate to the far left of the frame, leaving
+    bare concrete directly under the hammer's trajectory.
+  video_WM: The heavy steel hammer swings down forcefully, missing the plate and striking the concrete
+    floor. The camera zooms out rapidly until the objects are indistinguishable specks, then zooms back
+    in to the original framing. No cut, no scene change. STOP.
+  camera_WM: The heavy steel hammer swings down forcefully, missing the plate and striking the concrete
+    floor. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+evaluation:
+  init_frame_description: A white ceramic plate sits on the left side of a rough, cracked concrete floor.
+    A heavy steel sledgehammer head is suspended in mid-air on the right side of the frame, angled downwards
+    as if mid-swing. The lighting is natural, casting soft shadows on the textured concrete.
+  init2final_edit_prompt: Edit the given image to show the aftermath of the hammer striking the concrete
+    floor. Place the hammer head resting on the concrete floor to the right of the plate, significantly
+    lower than its original position. The white ceramic plate must remain completely intact and unbroken.
+    Add visual evidence of the impact on the floor, such as concrete dust, small debris, or a fresh impact
+    mark directly under or near the hammer head. Keep the camera framing, lighting, and background texture
+    identical to the original view.
+  rationale: The video prompt describes a hammer swinging down, missing the plate, and hitting the floor.
+    The camera maneuver (zoom out and back in) acts as a temporal transition, allowing the action to complete
+    and the objects to settle. In the final state, the hammer must be resting on the floor (having expended
+    its energy) and the floor should show signs of the heavy impact (dust/chips). Crucially, the prompt
+    explicitly states the hammer misses the plate, so the plate must remain structurally sound, serving
+    as a negative test for the 'destruction' usually associated with hammers.
+  questions:
+  - id: hammer_position_ground
+    question: Is the hammer head resting on the concrete floor?
+    answer_type: yes_no
+    notes_for_judge: The hammer should no longer be in the air.
+  - id: hammer_position_lower
+    question: Is the hammer head positioned lower in the frame than it was initially?
+    answer_type: yes_no
+    notes_for_judge: It should be on the ground.
+  - id: plate_integrity
+    question: Is the white ceramic plate completely intact?
+    answer_type: yes_no
+    notes_for_judge: The prompt specifies the hammer misses the plate.
+  - id: floor_impact_evidence
+    question: Is there visible dust, debris, or a mark on the floor near the hammer?
+    answer_type: yes_no
+    notes_for_judge: Look for signs of the hammer striking the concrete.
+  - id: plate_cracks
+    question: Is the plate free of any new cracks or fragmentation?
+    answer_type: yes_no
+    notes_for_judge: The plate should not be broken.
+  - id: hammer_contact
+    question: Is the steel hammer head touching the concrete surface?
+    answer_type: yes_no
+    notes_for_judge: It should be in contact with the floor.
+  - id: spatial_relation
+    question: Is the hammer head located to the right of the plate?
+    answer_type: yes_no
+    notes_for_judge: The relative horizontal arrangement should be preserved.
+  - id: floor_damage
+    question: Does the floor show signs of fresh impact or disturbance where the hammer landed?
+    answer_type: yes_no
+    notes_for_judge: Concrete dust or chipping.

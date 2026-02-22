@@ -1,0 +1,69 @@
+id: foam_board_permanent_crease_07
+level: 4
+category: structural_transformation
+tags: []
+variant_of: foam_board_permanent_crease
+variation_type: combined
+variation_description: Rubber material (elastic) + Lights off occlusion.
+changes:
+  occlusion_method: Lights turn off completely.
+  dynamic_conditions: Material is flexible rubber (elastic).
+  expected_outcome_change: Board springs back to flat (visible when lights return).
+prompts:
+  init_frame_edit_prompt: Edit the image to change the white foam board into a black, flexible rubber
+    mat of the same size.
+  video_WM: The hands begin bending the black rubber mat by bringing the ends closer together. The mat
+    is made of vulcanized rubber, characterized by high elasticity and shape memory, allowing it to recover
+    its original shape after deformation forces are removed. The hands continue applying progressive bending
+    force. Suddenly, the lights in the room turn off completely, plunging the scene into total darkness.
+    In the dark, the hands release the bending force on the mat. After several seconds of darkness, the
+    lights turn back on, restoring visibility to the original viewpoint. No zoom, no cut, no scene change.
+    STOP.
+  camera_WM: The hands begin bending the black rubber mat by bringing the ends closer together. The mat
+    is made of vulcanized rubber, characterized by high elasticity and shape memory, allowing it to recover
+    its original shape after deformation forces are removed. The hands continue applying progressive bending
+    force. Suddenly, the lights in the room turn off completely, plunging the scene into total darkness.
+    In the dark, the hands release the bending force on the mat. After several seconds of darkness, the
+    lights turn back on, restoring visibility to the original viewpoint. No zoom, no cut, no scene change.
+    STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A pair of hands holding a rectangular, black, flexible sheet, resembling a rubber
+    mat, by its short edges. The mat is held horizontally and appears flat and smooth. The background
+    features a wooden workbench with various tools and a pegboard.
+  init2final_edit_prompt: Edit the image to show the black rubber mat completely flat and unbent, restoring
+    its original rectangular shape. The hands should be holding the mat at the edges in their original
+    position, with no visible bending or deformation of the material.
+  rationale: The prompt explicitly defines the material as vulcanized rubber with high elasticity and
+    shape memory. Although the hands apply a bending force initially, the prompt states that this force
+    is released while the scene is in darkness. Due to the material's specified physical properties (elasticity
+    and shape memory), the mat will spring back to its original flat shape once the force is removed.
+    Therefore, when the lights return, the mat must be flat and uncreased, showing no sign of the temporary
+    deformation.
+  questions:
+  - id: mat_is_flat
+    question: Is the black mat flat and unbent?
+    answer_type: yes_no
+    notes_for_judge: The mat should have recovered its shape and be flat.
+  - id: mat_recovered_shape
+    question: Has the mat recovered its original rectangular form?
+    answer_type: yes_no
+    notes_for_judge: Due to shape memory, it should return to the original form.
+  - id: no_crease_visible
+    question: Is the surface of the mat free from visible creases or fold lines?
+    answer_type: yes_no
+    notes_for_judge: Rubber should not crease permanently.
+  - id: structural_integrity
+    question: Does the mat appear structurally intact and undamaged?
+    answer_type: yes_no
+    notes_for_judge: There should be no tearing or breaking.
+  - id: hands_holding_flat
+    question: Are the hands holding the mat in a flat position?
+    answer_type: yes_no
+    notes_for_judge: The hands released the bending force, so they should be holding it flat.
+  - id: mat_continuity
+    question: Is the mat a single continuous piece without fractures?
+    answer_type: yes_no
+    notes_for_judge: It should not have snapped.

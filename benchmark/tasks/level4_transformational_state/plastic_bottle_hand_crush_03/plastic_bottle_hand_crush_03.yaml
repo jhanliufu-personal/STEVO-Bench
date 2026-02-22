@@ -1,0 +1,73 @@
+id: plastic_bottle_hand_crush_03
+level: 4
+category: structural_transformation
+tags: []
+variant_of: plastic_bottle_hand_crush
+variation_type: occlusion_method
+variation_description: Occlusion by zooming out until details are lost.
+changes:
+  occlusion_method: Camera zooms out rapidly until the bottle is too small to see, then zooms back in.
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics (bottle crushed)
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The hand grips the bottle and begins applying progressive squeezing force. Thin plastic bottles
+    are made from PET polymer with relatively low resistance to deformation. The thin walls have an elastic
+    limit beyond which permanent plastic deformation occurs. The material cannot spontaneously return
+    to original shape after exceeding this threshold. The hand continues increasing compressive force.
+    The camera zooms out rapidly and continuously, moving backward until the kitchen table becomes a distant
+    speck and the hand and bottle are no longer distinguishable. The camera holds this distant view for
+    several seconds while the squeezing action continues. Then the camera zooms in smoothly back to the
+    original framing. No cut, no scene change. STOP.
+  camera_WM: The hand grips the bottle and begins applying progressive squeezing force. Thin plastic bottles
+    are made from PET polymer with relatively low resistance to deformation. The thin walls have an elastic
+    limit beyond which permanent plastic deformation occurs. The material cannot spontaneously return
+    to original shape after exceeding this threshold. The hand continues increasing compressive force
+    during the occlusion period. STOP.
+camera_control:
+  HY-WorldPlay: s-31, w-32
+  Genie: null
+evaluation:
+  init_frame_description: A clear plastic water bottle with a blue cap stands upright on a wooden kitchen
+    table. There are circular water stains on the table near the bottle base. A human arm and hand enter
+    from the left, with fingers extended reaching towards the bottle but not yet touching it. The background
+    shows a blurred kitchen interior with cabinets, a window, and appliances.
+  init2final_edit_prompt: Edit the given image to show the hand firmly gripping the middle of the plastic
+    bottle. The bottle should appear significantly crushed and deformed under the hand's grip, with the
+    clear plastic walls buckled, indented, and distorted. The fingers should be wrapped tightly around
+    the collapsed section of the bottle.
+  rationale: The video depicts a continuous squeezing action. Although the camera zooms out and back in,
+    the physical action of crushing the bottle persists throughout the sequence. Therefore, when the camera
+    returns to the original framing, the hand must be holding the bottle (changing from the initial reaching
+    pose), and the bottle must exhibit significant structural deformation (crushing/buckling) consistent
+    with prolonged squeezing force applied to a thin PET container.
+  questions:
+  - id: hand_contact
+    question: Is the hand now touching or gripping the bottle?
+    answer_type: yes_no
+    notes_for_judge: In the initial frame, the hand is reaching. In the final frame, it should be gripping
+      the bottle.
+  - id: bottle_deformation_visible
+    question: Does the plastic bottle appear crushed, indented, or buckled?
+    answer_type: yes_no
+    notes_for_judge: Look for structural distortion of the bottle's cylindrical shape.
+  - id: structural_integrity_loss
+    question: Has the bottle lost its original smooth cylindrical form in the area near the hand?
+    answer_type: yes_no
+    notes_for_judge: Compare the smooth walls in the init frame to the distorted walls in the final frame.
+  - id: width_reduction
+    question: Is the width of the bottle at the gripping point narrower than it was initially?
+    answer_type: yes_no
+    notes_for_judge: Squeezing reduces the cross-sectional width.
+  - id: finger_position
+    question: Are the fingers wrapped around the bottle rather than extended flat?
+    answer_type: yes_no
+    notes_for_judge: The hand pose changes from open palm/extended fingers to a gripping fist shape.
+  - id: cap_presence
+    question: Is the blue bottle cap still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: table_consistency
+    question: Is the wooden table surface still visible beneath the bottle?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

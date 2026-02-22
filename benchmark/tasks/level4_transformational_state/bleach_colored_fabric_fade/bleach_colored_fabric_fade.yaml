@@ -4,9 +4,61 @@ category: structural_transformation
 transformation_type: chemical_color_destruction
 tags: []
 prompts:
-  image_gen_prompt: A square of dark blue cotton fabric lies flat on a white plastic tray. A bottle of household bleach is held above the fabric, tilted and ready to pour. The fabric color is a rich, saturated dark blue.
-  video_WM: The bleach bottle tips and pours liquid bleach onto the dark blue fabric surface. Household bleach contains sodium hypochlorite which is a strong oxidizing agent that reacts with organic dye molecules. The chemical oxidation process is irreversible at room temperature. The bleach continues to contact and saturate the fabric fibers. The camera rotates right at constant speed until the tray and fabric completely exit the view to the right. The camera continues rotating right for several seconds while the bleach remains in contact with the fabric off-screen. Then the camera rotates left smoothly at the same rate back to the original viewpoint, bringing the tray and fabric back into view. No zoom, no cut, no scene change. STOP.
-  camera_WM: The bleach bottle tips and pours liquid bleach onto the dark blue fabric surface. Household bleach contains sodium hypochlorite which is a strong oxidizing agent that reacts with organic dye molecules. The chemical oxidation process is irreversible at room temperature. The bleach continues to contact and saturate the fabric fibers during the occlusion period. STOP.
+  image_gen_prompt: A square of dark blue cotton fabric lies flat on a white plastic tray. A bottle of
+    household bleach is held above the fabric, tilted and ready to pour. The fabric color is a rich, saturated
+    dark blue.
+  video_WM: The bleach bottle tips and pours liquid bleach onto the dark blue fabric surface. Household
+    bleach contains sodium hypochlorite which is a strong oxidizing agent that reacts with organic dye
+    molecules. The chemical oxidation process is irreversible at room temperature. The bleach continues
+    to contact and saturate the fabric fibers. The camera rotates right at constant speed until the tray
+    and fabric completely exit the view to the right. The camera continues rotating right for several
+    seconds while the bleach remains in contact with the fabric off-screen. Then the camera rotates left
+    smoothly at the same rate back to the original viewpoint, bringing the tray and fabric back into view.
+    No zoom, no cut, no scene change. STOP.
+  camera_WM: The bleach bottle tips and pours liquid bleach onto the dark blue fabric surface. Household
+    bleach contains sodium hypochlorite which is a strong oxidizing agent that reacts with organic dye
+    molecules. The chemical oxidation process is irreversible at room temperature. The bleach continues
+    to contact and saturate the fabric fibers during the occlusion period. STOP.
 camera_control:
   HY-WorldPlay: s-3, right-30, left-30
   Genie: null
+evaluation:
+  init_frame_description: A top-down view of a white plastic tray containing a square piece of dark blue,
+    crinkled fabric. A hand holding a white Clorox bleach bottle is visible in the upper right corner,
+    tilted downwards with drops of liquid just beginning to fall towards the center of the fabric.
+  init2final_edit_prompt: Edit the given image to show a visible discolored, lighter spot (whitish, pinkish,
+    or orange) on the center of the dark blue fabric where the liquid was pouring. The fabric should appear
+    wet and faded in this specific area due to bleach contact. Maintain the original camera angle, the
+    position of the tray, and the surrounding background.
+  rationale: The video describes pouring bleach onto colored fabric, a process that causes irreversible
+    chemical oxidation of the dye. The camera pans away and returns, simulating a period of time during
+    which the bleach reacts with the fabric fibers. Upon returning to the initial view, the primary state
+    change is the visible discoloration (fading or whitening) of the fabric in the area where the bleach
+    was applied, representing permanent material alteration.
+  questions:
+  - id: bleach_spot_visible
+    question: Is there a visible discolored or lighter spot on the fabric?
+    answer_type: yes_no
+    notes_for_judge: Look for a patch of fabric that is significantly lighter (white, pink, orange) than
+      the original dark blue.
+  - id: color_loss_center
+    question: Has the fabric lost its dark blue color in the area where the liquid landed?
+    answer_type: yes_no
+    notes_for_judge: The center should no longer be the uniform dark blue seen in the initial frame.
+  - id: non_uniform_color
+    question: Is the color of the fabric now non-uniform due to the faded area?
+    answer_type: yes_no
+    notes_for_judge: The fabric should show a contrast between the unaffected dark blue edges and the
+      bleached center.
+  - id: wet_appearance
+    question: Does the discolored area of the fabric appear wet or saturated?
+    answer_type: yes_no
+    notes_for_judge: The bleached spot should look damp or soaked.
+  - id: tray_persistence
+    question: Is the white tray still visible and in the same position?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: fabric_position
+    question: Is the fabric still located in the center of the tray?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

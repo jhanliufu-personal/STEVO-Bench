@@ -1,0 +1,66 @@
+id: wax_sculpture_melt_collapse_04
+level: 4
+category: structural_transformation
+tags: []
+variant_of: wax_sculpture_melt_collapse
+variation_type: dynamic_condition
+variation_description: The heat gun is present but switched off.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Heat gun is powered down (cold).
+  expected_outcome_change: The wax bird remains solid and unchanged.
+prompts:
+  init_frame_edit_prompt: Edit the image to make the heat gun look powered down, removing any heat distortion,
+    orange glow, or operating lights from the nozzle.
+  video_WM: The heat gun sits on the workbench aimed at the wax bird, but the power switch is in the 'off'
+    position and the nozzle is cold. The camera rotates right until the sculpture completely exits the
+    view, then rotates toward the left smoothly at the same rate until the metal plate is back in the
+    center of view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The heat gun sits on the workbench aimed at the wax bird, but the power switch is in the
+    'off' position and the nozzle is cold. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+evaluation:
+  init_frame_description: A close-up of a brown wax bird sculpture standing on a metal plate on a workbench.
+    The sculpture has detailed feather textures and a distinct head and beak. At the base of the bird,
+    there is a pool of solidified wax. A heat gun nozzle is visible on the left side of the frame, pointed
+    at the bird. The background features blurred workshop tools and shelves.
+  init2final_edit_prompt: Edit the given image to show the wax bird sculpture in exactly the same state
+    as the original, ensuring no melting, deformation, or structural collapse occurs. Keep the feather
+    details sharp and the wax pool at the base unchanged in size and shape. Maintain the original appearance
+    of the heat gun and the background.
+  rationale: The video prompt explicitly states that the heat gun is in the 'off' position and the nozzle
+    is cold. Therefore, no heat is applied to the wax sculpture. Although the camera pans away and returns,
+    the physical state of the bird must remain unchanged. The correct final state is identical to the
+    initial state, testing the model's ability to prioritize the text instruction (no heat) over the visual
+    suggestion of the scene (gun pointed at wax).
+  questions:
+  - id: integrity_check_01
+    question: Does the wax bird sculpture retain its original upright posture without collapsing?
+    answer_type: yes_no
+    notes_for_judge: The bird should not droop, lean, or fall.
+  - id: detail_preservation_01
+    question: Are the feather textures on the bird's body still sharp and distinct?
+    answer_type: yes_no
+    notes_for_judge: Melting would smooth out these details; they should remain sharp.
+  - id: shape_preservation_01
+    question: Is the bird's head still fully formed and intact?
+    answer_type: yes_no
+    notes_for_judge: The head is a vulnerable part; it should not be melted or deformed.
+  - id: wax_pool_stability_01
+    question: Does the pool of wax at the base appear to be the same size as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The pool should not have spread or grown larger.
+  - id: beak_definition_01
+    question: Is the beak of the bird still pointed and clearly defined?
+    answer_type: yes_no
+    notes_for_judge: Fine details like the beak should not be lost.
+  - id: structural_integrity_01
+    question: Does the overall shape of the bird match the initial frame without visible deformation?
+    answer_type: yes_no
+    notes_for_judge: General check for any warping or melting.
+  - id: object_permanence_01
+    question: Is the heat gun nozzle still visible in the same position relative to the bird?
+    answer_type: yes_no
+    notes_for_judge: 'Secondary check: The camera returns to the center, so the composition should be
+      restored.'

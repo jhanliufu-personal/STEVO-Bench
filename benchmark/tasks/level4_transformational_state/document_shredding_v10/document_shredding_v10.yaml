@@ -1,0 +1,69 @@
+id: document_shredding_v10
+level: 4
+category: structural_transformation
+tags: []
+variant_of: document_shredding
+variation_type: combined
+variation_description: Shredder is already jammed with debris, occluded by smoke.
+changes:
+  occlusion_method: Thick smoke fills the room.
+  dynamic_conditions: Shredder teeth are visibly clogged with jammed paper debris.
+  expected_outcome_change: New paper cannot enter; machine likely overheats or does nothing.
+prompts:
+  init_frame_edit_prompt: Edit the image to show paper debris stuck and tangled in the metal cutting teeth,
+    looking messy and jammed.
+  video_WM: The sheet of paper is brought to the slot of the already jammed shredder mechanism. Thick
+    white smoke suddenly billows into the frame, completely obscuring the desk and equipment, then slowly
+    dissipates to clear the view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The sheet of paper is brought to the slot of the already jammed shredder mechanism. Thick
+    white smoke suddenly billows into the frame, completely obscuring the desk and equipment, then slowly
+    dissipates to clear the view. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A first-person or close-up view of a modern office environment. In the foreground,
+    a person's arm and hand are holding a pristine white sheet of A4 paper vertically above a document
+    shredder. The shredder has a transparent plastic upper casing revealing the internal gears and cutting
+    mechanism, which appears to have some paper residue in it. Below the mechanism, the collection bin
+    is visible and filled with shredded white paper strips. In the background, there is a blurred office
+    scene with desks, computer monitors, and other office workers.
+  init2final_edit_prompt: Edit the given image to show the hand has lowered the sheet of paper so its
+    bottom edge is pressing against the shredder's intake slot. The paper must remain largely intact and
+    unshredded, appearing blocked by the mechanism. The bottom edge of the paper should look slightly
+    buckled, crumpled, or deformed where it meets the jammed slot, indicating resistance. The hand should
+    be positioned lower to maintain contact with the paper. Ensure the scene is completely clear of any
+    smoke or haze, showing the aftermath of the event.
+  rationale: The prompt specifies that the shredder mechanism is 'already jammed'. Physically, this means
+    the machine cannot accept or process new material. Consequently, when the paper is brought to the
+    slot, it should not pass through or be shredded. The 'thick white smoke' indicates a mechanical failure
+    or friction event caused by the attempt to force the paper or run the jammed motor. In the final state,
+    after the smoke dissipates, the paper should be positioned at the slot but remain unshredded (possibly
+    crumpled from the force), reflecting the irreversible failure of the process rather than the transformation
+    of the paper into strips.
+  questions:
+  - id: paper_integrity
+    question: Is the sheet of paper still primarily a single, solid sheet rather than being shredded into
+      strips?
+    answer_type: yes_no
+    notes_for_judge: The shredder is jammed, so the paper should not be shredded.
+  - id: paper_position
+    question: Is the bottom edge of the paper touching or pressing against the shredder's intake slot?
+    answer_type: yes_no
+    notes_for_judge: The paper was brought to the slot.
+  - id: paper_deformation
+    question: Does the paper show signs of crumpling, buckling, or deformation at the bottom edge where
+      it meets the machine?
+    answer_type: yes_no
+    notes_for_judge: Force applied against a jammed mechanism should deform the paper edge.
+  - id: blockage_visible
+    question: Is the paper visibly blocked from passing through the shredder mechanism?
+    answer_type: yes_no
+    notes_for_judge: It should not be entering the bin.
+  - id: smoke_cleared
+    question: Is the view clear of the thick white smoke mentioned in the prompt?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the smoke dissipates.
+  - id: hand_position
+    question: Is the hand holding the paper positioned lower than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The paper was brought down to the slot.

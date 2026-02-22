@@ -1,0 +1,72 @@
+id: photograph_tearing_00
+level: 4
+category: structural_transformation
+tags: []
+variant_of: photograph_tearing
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The two hands pull firmly in opposite directions on the photograph. Tension is applied to
+    the paper material. Camera remains stationary throughout. No zoom, no cut, no scene change. STOP.
+  camera_WM: The two hands pull firmly in opposite directions on the photograph. Tension is applied to
+    the paper material. Camera remains stationary throughout. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up view of two hands holding the top edge of a glossy photograph. The
+    photograph depicts a sunset over a beach with dark foreground sand and a bright horizon. The hands
+    are positioned near the center of the top edge, and there is a small, subtle crease or tiny tear already
+    visible at the very top edge between the thumbs. The left hand has a silver ring on the ring finger.
+    The background is dark and out of focus.
+  init2final_edit_prompt: Edit the given image to show the photograph torn vertically down the middle.
+    Create a jagged tear extending from the top edge downwards between the hands, revealing the white
+    inner paper fibers along the rip. Separate the two halves of the photograph slightly at the top to
+    show the gap created by the tear. Keep the hands holding the respective sides of the torn photo.
+  rationale: The prompt specifies that the hands pull firmly in opposite directions. This physical action
+    applies tension to the paper, specifically at the weak point (the existing small crease at the top).
+    This will cause the paper to rip downwards. The irreversible transformation is the tearing of the
+    photograph, resulting in a visible vertical rip, exposed paper fibers, and the separation of the image
+    content into two distinct sections.
+  questions:
+  - id: tear_existence
+    question: Is there a visible vertical tear extending downwards from the top edge of the photograph?
+    answer_type: yes_no
+    notes_for_judge: Check for a rip in the paper material.
+  - id: tear_progression
+    question: Is the tear significantly longer than the small crease visible in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The tear should have propagated downwards.
+  - id: material_exposure
+    question: Are white paper fibers or jagged edges visible along the tear line?
+    answer_type: yes_no
+    notes_for_judge: Torn photos typically show the white core of the paper.
+  - id: image_separation
+    question: Is the sunset scene on the photograph split or interrupted by the tear?
+    answer_type: yes_no
+    notes_for_judge: The visual content of the photo should be discontinuous.
+  - id: structural_damage
+    question: Has the structural integrity of the photograph been compromised by ripping?
+    answer_type: yes_no
+    notes_for_judge: The object is no longer a single intact sheet.
+  - id: gap_width
+    question: Is the gap between the two sides of the photograph at the top edge wider than in the initial
+      frame?
+    answer_type: yes_no
+    notes_for_judge: The pulling action creates a gap.
+  - id: tear_location
+    question: Does the tear originate from the space between the two hands?
+    answer_type: yes_no
+    notes_for_judge: Physics dictates the tear happens where tension is applied.
+  - id: ring_consistency
+    question: Is the silver ring still visible on the left hand?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: background_consistency
+    question: Does the background remain dark and out of focus?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

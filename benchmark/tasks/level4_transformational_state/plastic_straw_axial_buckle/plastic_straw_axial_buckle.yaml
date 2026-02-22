@@ -4,9 +4,69 @@ category: structural_transformation
 transformation_type: compression_buckling_instability
 tags: []
 prompts:
-  image_gen_prompt: A straight plastic drinking straw is held vertically between two hands. One hand holds the bottom end while the other hand is positioned at the top end. The straw is initially perfectly straight and aligned vertically.
-  video_WM: The hands begin moving toward each other, applying axial compression force along the length of the straw. Thin-walled cylindrical structures under axial compression are subject to Euler buckling instability when load exceeds a critical threshold. The plastic straw has very low resistance to lateral bending compared to its axial strength. The structure is sensitive to slight asymmetries or imperfections. Plastic deformation beyond the elastic limit is permanent. The hands continue applying progressive compressive force. The camera rotates right at constant speed until the hands and straw completely exit the view to the right. The camera continues rotating right for several seconds while the hands remain off-screen continuing to apply compression. Then the camera rotates left smoothly at the same rate back to the original viewpoint, bringing the hands and straw back into view. No zoom, no cut, no scene change. STOP.
-  camera_WM: The hands begin moving toward each other, applying axial compression force along the length of the straw. Thin-walled cylindrical structures under axial compression are subject to Euler buckling instability when load exceeds a critical threshold. The plastic straw has very low resistance to lateral bending compared to its axial strength. The structure is sensitive to slight asymmetries or imperfections. Plastic deformation beyond the elastic limit is permanent. The hands continue applying progressive compressive force during the occlusion period. STOP.
+  image_gen_prompt: A straight plastic drinking straw is held vertically between two hands. One hand holds
+    the bottom end while the other hand is positioned at the top end. The straw is initially perfectly
+    straight and aligned vertically.
+  video_WM: The hands begin moving toward each other, applying axial compression force along the length
+    of the straw. Thin-walled cylindrical structures under axial compression are subject to Euler buckling
+    instability when load exceeds a critical threshold. The plastic straw has very low resistance to lateral
+    bending compared to its axial strength. The structure is sensitive to slight asymmetries or imperfections.
+    Plastic deformation beyond the elastic limit is permanent. The hands continue applying progressive
+    compressive force. The camera rotates right at constant speed until the hands and straw completely
+    exit the view to the right. The camera continues rotating right for several seconds while the hands
+    remain off-screen continuing to apply compression. Then the camera rotates left smoothly at the same
+    rate back to the original viewpoint, bringing the hands and straw back into view. No zoom, no cut,
+    no scene change. STOP.
+  camera_WM: The hands begin moving toward each other, applying axial compression force along the length
+    of the straw. Thin-walled cylindrical structures under axial compression are subject to Euler buckling
+    instability when load exceeds a critical threshold. The plastic straw has very low resistance to lateral
+    bending compared to its axial strength. The structure is sensitive to slight asymmetries or imperfections.
+    Plastic deformation beyond the elastic limit is permanent. The hands continue applying progressive
+    compressive force during the occlusion period. STOP.
 camera_control:
   HY-WorldPlay: s-3, right-30, left-30
   Genie: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot showing a clear, straight plastic straw held vertically
+    between two hands against a light brown wooden table background. The top hand holds the upper tip
+    of the straw, and the bottom hand holds the lower tip. The straw is perfectly straight and cylindrical.
+  init2final_edit_prompt: Edit the given image to show the hands positioned closer together vertically.
+    The clear plastic straw between them must be buckled, exhibiting a sharp bend, kink, or fold in the
+    middle due to compression. The straw should no longer be straight but should appear permanently deformed
+    and collapsed while still being held by the hands.
+  rationale: The prompt describes applying axial compression to a thin-walled plastic straw, which causes
+    Euler buckling. The camera pans away while the hands continue to compress the straw, and then returns
+    to the original viewpoint. Therefore, the final state must show the hands closer together (displacement)
+    and the straw structurally failed (buckled/kinked) due to the irreversible plastic deformation that
+    occurred during the occlusion.
+  questions:
+  - id: straw_buckled
+    question: Is the straw bent, buckled, or kinked instead of being straight?
+    answer_type: yes_no
+    notes_for_judge: The straw should show a significant deviation from its original straight vertical
+      form.
+  - id: hands_closer
+    question: Are the hands closer together vertically than they were in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the vertical distance between the fingers holding the straw ends.
+  - id: structural_deformation
+    question: Does the straw exhibit a visible crease, fold, or sharp bend?
+    answer_type: yes_no
+    notes_for_judge: Look for evidence of plastic deformation (irreversible damage) rather than just a
+      gentle elastic curve.
+  - id: loss_of_straightness
+    question: Has the straight cylindrical form of the straw been compromised?
+    answer_type: yes_no
+    notes_for_judge: The object should no longer be a perfect cylinder.
+  - id: compression_visible
+    question: Is the overall height of the visible straw portion reduced compared to the start?
+    answer_type: yes_no
+    notes_for_judge: Due to buckling, the end-to-end distance must be shorter.
+  - id: background_consistency
+    question: Is the wooden table background still visible and consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: hands_holding
+    question: Are the hands still holding the ends of the straw?
+    answer_type: yes_no
+    notes_for_judge: The grasp should be maintained despite the deformation.

@@ -1,0 +1,80 @@
+id: play_doh_garlic_press_extrude_07
+level: 4
+category: structural_transformation
+tags: []
+variant_of: play_doh_garlic_press_extrude
+variation_type: combined
+variation_description: Static condition (no squeeze) combined with object blocking occlusion.
+changes:
+  occlusion_method: Large book blocks view.
+  dynamic_conditions: Hands hold press open without squeezing.
+  expected_outcome_change: No change in state.
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The hands hold the garlic press handles in the current open position containing the Play-Doh
+    ball. The hands maintain a loose grip, keeping the press steady but applying zero squeezing force.
+    The plunger stays in its raised position. A large hardcover book is moved into the frame, placed directly
+    in front of the camera lens to block the view of the press completely. The book remains there for
+    several seconds while the hands behind it continue to hold the press still. The book is then removed,
+    clearing the line of sight. No zoom, no cut, no scene change. STOP.
+  camera_WM: The hands hold the garlic press handles in the current open position containing the Play-Doh
+    ball. The hands maintain a loose grip, keeping the press steady but applying zero squeezing force.
+    The plunger stays in its raised position. A large hardcover book is moved into the frame, placed directly
+    in front of the camera lens to block the view of the press completely. The book remains there for
+    several seconds while the hands behind it continue to hold the press still. The book is then removed,
+    clearing the line of sight. No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot showing a metal garlic press held by two hands over
+    a wooden countertop. The garlic press is in an open position with the handles spread apart. Inside
+    the bottom chamber sits a smooth, spherical ball of blue Play-Doh. The top plunger part of the press
+    is raised and is not touching the Play-Doh. In the background, slightly out of focus, there is a window,
+    a white ceramic crock, a metal whisk, and a spoon resting on the counter.
+  init2final_edit_prompt: Edit the given image to ensure the garlic press remains in the exact same open
+    position with the handles separated. The blue Play-Doh ball must remain completely spherical, smooth,
+    and uncompressed inside the chamber. The metal plunger must stay raised above the Play-Doh, not touching
+    it. The hands should continue holding the handles loosely without squeezing. The scene should look
+    identical to the original state.
+  rationale: The video prompt explicitly instructs that the hands apply 'zero squeezing force' and that
+    the plunger 'stays in its raised position' throughout the duration, even while the view is occluded
+    by a book. The hands are described as holding the press 'still'. Therefore, despite the occlusion
+    offering a potential window for action, the physical state of the Play-Doh and the press must remain
+    unchanged. The final frame should show the Play-Doh as an uncompressed ball and the press open, testing
+    the model's ability to adhere to negative constraints and avoid hallucinating transformation based
+    on object affordances.
+  questions:
+  - id: q1
+    question: Is the blue Play-Doh still shaped like a round ball?
+    answer_type: yes_no
+    notes_for_judge: The prompt specifies zero squeezing force, so the ball should not be flattened or
+      extruded.
+  - id: q2
+    question: Is the metal plunger still raised above the Play-Doh?
+    answer_type: yes_no
+    notes_for_judge: The press should remain open.
+  - id: q3
+    question: Are the handles of the garlic press still separated in an open position?
+    answer_type: yes_no
+    notes_for_judge: The handles should not be squeezed together.
+  - id: q4
+    question: Is the surface of the Play-Doh smooth and free from extrusion marks?
+    answer_type: yes_no
+    notes_for_judge: No extrusion should have occurred.
+  - id: q5
+    question: Is the Play-Doh still fully contained within the chamber without coming through the holes?
+    answer_type: yes_no
+    notes_for_judge: Since no force was applied, no material should be pushed out.
+  - id: q6
+    question: Does the garlic press appear to be in the same state as it was initially?
+    answer_type: yes_no
+    notes_for_judge: The prompt requires the state to remain static.
+  - id: q7
+    question: Is the whisk still visible in the background?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: q8
+    question: Is the wooden countertop visible beneath the press?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

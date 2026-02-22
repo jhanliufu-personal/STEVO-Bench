@@ -4,9 +4,67 @@ category: structural_transformation
 transformation_type: progressive_abrasion_separation
 tags: []
 prompts:
-  image_gen_prompt: A fresh orange carrot is held against the face of a box grater positioned over a cutting board. The grater has sharp-edged holes protruding outward. A hand grips the carrot ready to push it downward along the grater surface.
-  video_WM: The hand begins pushing the carrot downward along the rough grater surface with repeated strokes. Box graters have sharp raised edges around each hole that act as cutting blades. The carrot is firm vegetable matter with cellular structure. Progressive strokes apply force against the sharp edges. The camera rotates right at constant speed until the grater and carrot completely exit the view to the right. The camera continues rotating right for several seconds while the hand remains off-screen continuing to push the carrot along the grater. Then the camera rotates left smoothly at the same rate back to the original viewpoint, bringing the grater and cutting board back into view. No zoom, no cut, no scene change. STOP.
-  camera_WM: The hand begins pushing the carrot downward along the rough grater surface with repeated strokes. Box graters have sharp raised edges around each hole that act as cutting blades. The carrot is firm vegetable matter with cellular structure. Progressive strokes apply force against the sharp edges during the occlusion period. STOP.
+  image_gen_prompt: A fresh orange carrot is held against the face of a box grater positioned over a cutting
+    board. The grater has sharp-edged holes protruding outward. A hand grips the carrot ready to push
+    it downward along the grater surface.
+  video_WM: The hand begins pushing the carrot downward along the rough grater surface with repeated strokes.
+    Box graters have sharp raised edges around each hole that act as cutting blades. The carrot is firm
+    vegetable matter with cellular structure. Progressive strokes apply force against the sharp edges.
+    The camera rotates right at constant speed until the grater and carrot completely exit the view to
+    the right. The camera continues rotating right for several seconds while the hand remains off-screen
+    continuing to push the carrot along the grater. Then the camera rotates left smoothly at the same
+    rate back to the original viewpoint, bringing the grater and cutting board back into view. No zoom,
+    no cut, no scene change. STOP.
+  camera_WM: The hand begins pushing the carrot downward along the rough grater surface with repeated
+    strokes. Box graters have sharp raised edges around each hole that act as cutting blades. The carrot
+    is firm vegetable matter with cellular structure. Progressive strokes apply force against the sharp
+    edges during the occlusion period. STOP.
 camera_control:
   HY-WorldPlay: s-3, right-30, left-30
   Genie: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot shows a metal box grater standing vertically on a
+    worn wooden cutting board. A Caucasian male hand enters from the right, holding a large, thick orange
+    carrot horizontally against the side of the grater with large circular holes. There is a small pile
+    of orange carrot shreds already present on the cutting board at the base of the grater. A window with
+    white frames is visible in the blurred background.
+  init2final_edit_prompt: Edit the given image to show the result of grating the carrot for several seconds.
+    The carrot held in the hand should be visibly shorter and smaller in volume, with the end pressed
+    against the grater appearing flattened or worn down. The pile of orange carrot shreds on the wooden
+    cutting board at the base of the grater should be significantly larger, with more accumulated fragments
+    than in the original image. Keep the grater, cutting board, and background unchanged.
+  rationale: 'The video prompt describes a continuous grating action that persists while the camera pans
+    away and then returns. Grating is an irreversible physical process that consumes the source object
+    (the carrot) and produces particulate matter (shreds). Therefore, when the camera returns to the initial
+    viewpoint, the state of the world must reflect the progress of this action: the carrot must be physically
+    reduced in size (shorter), and the pile of grated material must be increased in volume. The grater
+    and board remain static anchors.'
+  questions:
+  - id: carrot_length_reduction
+    question: Is the carrot held in the hand visibly shorter or smaller than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the length/volume of the carrot in the hand between the two frames.
+  - id: shred_pile_increase
+    question: Is the pile of carrot shreds on the cutting board larger than it was initially?
+    answer_type: yes_no
+    notes_for_judge: Look for an increase in the amount of grated material at the base of the grater.
+  - id: shred_count_increase
+    question: Are there more individual carrot fragments visible on the board compared to the start?
+    answer_type: yes_no
+    notes_for_judge: Focus on the density or spread of the shreds.
+  - id: carrot_tip_wear
+    question: Does the end of the carrot touching the grater appear worn down or flattened?
+    answer_type: yes_no
+    notes_for_judge: The contact point should show evidence of material removal.
+  - id: material_conservation
+    question: Has the solid mass of the carrot decreased while the shredded mass increased?
+    answer_type: yes_no
+    notes_for_judge: Check for the logical trade-off between the solid object and the debris.
+  - id: grater_stability
+    question: Is the metal box grater still standing upright in the same position?
+    answer_type: yes_no
+    notes_for_judge: The grater itself should not have moved significantly.
+  - id: hand_presence
+    question: Is the hand still visible holding the remaining portion of the carrot?
+    answer_type: yes_no
+    notes_for_judge: The agent (hand) should still be present.

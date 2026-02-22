@@ -1,0 +1,68 @@
+id: plastic_bottle_hand_crush_10
+level: 4
+category: structural_transformation
+tags: []
+variant_of: plastic_bottle_hand_crush
+variation_type: combined
+variation_description: Full sealed bottle (condition) + Object blocking occlusion (method).
+changes:
+  occlusion_method: A large box moves in front.
+  dynamic_conditions: Bottle is full of water and sealed.
+  expected_outcome_change: No deformation
+prompts:
+  init_frame_edit_prompt: Edit the image to show the water bottle completely filled with water up to the
+    cap.
+  video_WM: The hand grips the sealed bottle which is completely full of water. The incompressible liquid
+    inside provides internal support against the bottle walls, preventing collapse when squeezed. The
+    hand begins applying strong grip force. A large cardboard box slides across the table into the foreground,
+    completely blocking the view of the hand and bottle. The box remains there for several seconds while
+    the squeezing effort continues behind it. Then the box slides away, revealing the scene again. No
+    zoom, no cut, no scene change. STOP.
+  camera_WM: The hand grips the sealed bottle which is completely full of water. The incompressible liquid
+    inside provides internal support against the bottle walls, preventing collapse when squeezed. The
+    hand begins applying strong grip force. A large cardboard box slides across the table into the foreground,
+    completely blocking the view of the hand and bottle. The box remains there for several seconds while
+    the squeezing effort continues behind it. Then the box slides away, revealing the scene again. No
+    zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+  Genie: null
+evaluation:
+  init_frame_description: A clear plastic water bottle with a blue cap stands on a wooden table, filled
+    with water up to the neck. A human arm and hand extend from the left side of the frame, reaching towards
+    the bottle but not yet touching it. The background shows a blurred kitchen interior with a window
+    and counter.
+  init2final_edit_prompt: Edit the given image to show the hand firmly gripping the middle of the plastic
+    water bottle. The hand should be wrapped around the bottle's body. The bottle must remain full of
+    water and retain its original cylindrical shape, appearing rigid and uncrushed despite the grip. Do
+    not include any cardboard box or occluding objects.
+  rationale: The video prompt describes a physical interaction where a hand squeezes a sealed bottle full
+    of water. Physics dictates that the incompressible liquid prevents the bottle from collapsing or crumpling
+    under the grip force. The rollout includes an occlusion by a box, but the box is removed at the end.
+    Therefore, the final state must show the hand gripping the bottle, but the bottle itself must remain
+    structurally intact and uncrushed, unlike an empty bottle which would deform.
+  questions:
+  - id: grip_established
+    question: Is the hand currently gripping the plastic bottle?
+    answer_type: yes_no
+    notes_for_judge: The hand should be in contact with and wrapped around the bottle.
+  - id: bottle_shape_retention
+    question: Does the bottle retain its overall cylindrical shape?
+    answer_type: yes_no
+    notes_for_judge: The bottle should not be flattened or crumpled.
+  - id: no_crushing
+    question: Is the bottle free from significant crumpling or collapsing?
+    answer_type: yes_no
+    notes_for_judge: Because it is full of water, it should not look crushed.
+  - id: liquid_presence
+    question: Does the bottle appear to be full of liquid?
+    answer_type: yes_no
+    notes_for_judge: The water inside provides the structural support.
+  - id: cap_presence
+    question: Is the blue cap still present on the bottle?
+    answer_type: yes_no
+    notes_for_judge: The bottle is sealed.
+  - id: structural_integrity
+    question: Does the bottle appear structurally intact despite the grip?
+    answer_type: yes_no
+    notes_for_judge: Verifies the physics of incompressible fluids.

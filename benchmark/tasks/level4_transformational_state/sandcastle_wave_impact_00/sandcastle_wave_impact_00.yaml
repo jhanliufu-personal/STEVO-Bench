@@ -1,0 +1,61 @@
+id: sandcastle_wave_impact_00
+level: 4
+category: structural_transformation
+tags: []
+variant_of: sandcastle_wave_impact
+variation_type: full_observability_baseline
+variation_description: Fully observable baseline - camera remains stationary, no occlusion, always visible
+changes:
+  occlusion_method: No occlusion - camera remains stationary throughout
+  dynamic_conditions: null
+  expected_outcome_change: Same dynamics as original, but scene remains visible at all times
+prompts:
+  init_frame_edit_prompt: '[NO CHANGE]'
+  video_WM: The large ocean wave crashes down with force directly onto the sandcastle structure. The water
+    engulfs the castle. Camera remains stationary throughout. No zoom, no cut, no scene change. STOP.
+  camera_WM: The large ocean wave crashes down with force directly onto the sandcastle structure. The
+    water engulfs the castle. Camera remains stationary throughout. No zoom, no cut, no scene change.
+    STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A detailed sandcastle with multiple towers, turrets, and a bridge sits on a
+    sandy beach. The castle is decorated with seashells along its base. Looming directly behind and over
+    the sandcastle is a massive, green ocean wave that is curling and about to crash. The wave has white
+    foam at its crest. In the background, the ocean stretches to the horizon under a cloudy sky, and people
+    are visible standing on the shore in the distance to the right.
+  init2final_edit_prompt: Edit the given image to show the aftermath of the wave crashing. The sandcastle
+    structure should be collapsed, flattened, or engulfed by turbulent white water, losing its towers
+    and defined shape. The large curling wave should be replaced by a mass of rushing whitewater and foam
+    covering the foreground.
+  rationale: The video prompt describes a large wave crashing directly onto a fragile sandcastle. This
+    is a destructive, irreversible physical process. As the wave impacts, the kinetic energy of the water
+    will destroy the structural integrity of the sandcastle, flattening it or washing it away. The final
+    state must show the wave having broken (transitioning from potential to kinetic energy release) and
+    the sandcastle either completely destroyed or submerged in the turbulent flow.
+  questions:
+  - id: structure_loss
+    question: Has the sandcastle lost its defined architectural structure (towers, walls, bridge)?
+    answer_type: yes_no
+    notes_for_judge: The castle should be flattened, broken, or engulfed. If it looks pristine, the answer
+      is No.
+  - id: wave_state
+    question: Has the large curling wave broken into turbulent whitewater?
+    answer_type: yes_no
+    notes_for_judge: The smooth green face of the wave should be gone, replaced by crashing foam/water.
+  - id: engulfment
+    question: Is the area where the sandcastle stood now covered by water or foam?
+    answer_type: yes_no
+    notes_for_judge: The water should have moved forward to cover the castle's location.
+  - id: towers_gone
+    question: Are the pointed towers of the sandcastle no longer standing upright?
+    answer_type: yes_no
+    notes_for_judge: Specific check for the vertical elements of the structure.
+  - id: irreversible_change
+    question: Does the sand object appear more flattened or damaged than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Comparative check on the state of the sand.
+  - id: background_consistency
+    question: Is the sky or distant horizon still visible (unless obscured by the splash)?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check. The sky shouldn't disappear unless the splash is massive.

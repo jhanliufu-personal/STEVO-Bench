@@ -1,0 +1,77 @@
+id: wet_tissue_progressive_tear_04
+level: 4
+category: structural_transformation
+tags: []
+variant_of: wet_tissue_progressive_tear
+variation_type: dynamic_condition
+variation_description: Changes the tissue from wet to dry. Dry tissue has higher tensile strength.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Tissue is dry instead of wet. Dry cellulose bonds are strong.
+  expected_outcome_change: Tissue resists tearing or tears with a snap rather than disintegrating/mushing.
+prompts:
+  init_frame_edit_prompt: Edit the image to make the tissue paper look completely dry, opaque white, and
+    stiff, removing any water droplets or translucency.
+  video_WM: The hands begin applying gentle outward pulling tension to the dry tissue at the edges. Dry
+    tissue paper maintains strong hydrogen bonds between cellulose fibers, providing significant tensile
+    strength relative to its weight. Unlike wet tissue, it resists stretching and does not disintegrate
+    easily under light force. The hands continue applying slow, steady pulling force. The camera rotates
+    right at constant speed until the hands and tissue completely exit the view to the right. The camera
+    continues rotating right for several seconds while the hands remain off-screen continuing to pull.
+    Then the camera rotates left smoothly at the same rate back to the original viewpoint, bringing the
+    hands and tissue back into view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The hands begin applying gentle outward pulling tension to the dry tissue at the edges. Dry
+    tissue paper maintains strong hydrogen bonds between cellulose fibers, providing significant tensile
+    strength relative to its weight. Unlike wet tissue, it resists stretching and does not disintegrate
+    easily under light force. The hands continue applying slow, steady pulling force during the occlusion
+    period. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A pair of hands holding a rectangular sheet of white, dry tissue paper over
+    a stainless steel sink. The tissue is held by the left and right edges and appears crumpled but structurally
+    intact, with no visible tears or holes. A faucet is visible in the background.
+  init2final_edit_prompt: Edit the given image to show the white tissue paper torn or ripped in the center.
+    The tissue should exhibit a visible structural break, such as a vertical tear or separation into two
+    pieces, with fibrous edges characteristic of torn dry paper. The hands should be holding the torn
+    or separated parts of the tissue, maintaining the same general framing.
+  rationale: The prompt describes applying continuous pulling force to a dry tissue. Although the text
+    notes that dry tissue has higher tensile strength than wet tissue and resists stretching (deformation),
+    it is not indestructible. The 'slow, steady pulling force' applied over the duration of the occlusion
+    is intended to overcome the tensile limit of the paper, causing it to snap or tear. Unlike wet tissue
+    which disintegrates, dry tissue fails via a distinct rip or tear. Therefore, the final state should
+    show the tissue structurally compromised (torn) due to the applied tension.
+  questions:
+  - id: tear_visible
+    question: Is the tissue paper visibly torn or ripped?
+    answer_type: yes_no
+    notes_for_judge: Look for a distinct tear, rip, or separation in the paper material.
+  - id: structural_integrity
+    question: Has the tissue lost its original intact structural form?
+    answer_type: yes_no
+    notes_for_judge: The tissue should no longer be a single undamaged sheet.
+  - id: separation
+    question: Is there a visible separation or hole in the tissue that was not present initially?
+    answer_type: yes_no
+    notes_for_judge: ''
+  - id: damage_exists
+    question: Does the tissue show signs of physical damage?
+    answer_type: yes_no
+    notes_for_judge: ''
+  - id: not_intact
+    question: Is the tissue still a single, completely undamaged sheet?
+    answer_type: yes_no
+    notes_for_judge: This should be NO if the tissue is torn.
+  - id: hands_holding_pieces
+    question: Are the hands holding a torn or damaged piece of tissue?
+    answer_type: yes_no
+    notes_for_judge: ''
+  - id: background_faucet
+    question: Is the faucet still visible in the background?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: hands_present
+    question: Are the hands still visible in the frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

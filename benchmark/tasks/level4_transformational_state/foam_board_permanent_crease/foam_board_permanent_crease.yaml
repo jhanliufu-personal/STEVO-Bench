@@ -4,9 +4,69 @@ category: structural_transformation
 transformation_type: plastic_deformation
 tags: []
 prompts:
-  image_gen_prompt: A white foam board sheet is held horizontally at both ends by two hands. The foam board is flat and unbent. The hands are positioned to apply bending force to create a fold in the center.
-  video_WM: The hands begin bending the foam board by bringing the ends closer together. Foam board consists of a polystyrene foam core sandwiched between paper facings. The foam core has an elastic limit beyond which permanent plastic deformation occurs. The paper facing has a tensile strength limit. The material structure does not allow return to original shape after exceeding plastic deformation thresholds. The hands continue applying progressive bending force. The camera rotates right at constant speed until the hands and foam board completely exit the view to the right. The camera continues rotating right for several seconds while the hands remain off-screen continuing to bend the board. Then the camera rotates left smoothly at the same rate back to the original viewpoint, bringing the hands and board back into view. No zoom, no cut, no scene change. STOP.
-  camera_WM: The hands begin bending the foam board by bringing the ends closer together. Foam board consists of a polystyrene foam core sandwiched between paper facings. The foam core has an elastic limit beyond which permanent plastic deformation occurs. The paper facing has a tensile strength limit. The material structure does not allow return to original shape after exceeding plastic deformation thresholds. The hands continue applying progressive bending force during the occlusion period. STOP.
+  image_gen_prompt: A white foam board sheet is held horizontally at both ends by two hands. The foam
+    board is flat and unbent. The hands are positioned to apply bending force to create a fold in the
+    center.
+  video_WM: The hands begin bending the foam board by bringing the ends closer together. Foam board consists
+    of a polystyrene foam core sandwiched between paper facings. The foam core has an elastic limit beyond
+    which permanent plastic deformation occurs. The paper facing has a tensile strength limit. The material
+    structure does not allow return to original shape after exceeding plastic deformation thresholds.
+    The hands continue applying progressive bending force. The camera rotates right at constant speed
+    until the hands and foam board completely exit the view to the right. The camera continues rotating
+    right for several seconds while the hands remain off-screen continuing to bend the board. Then the
+    camera rotates left smoothly at the same rate back to the original viewpoint, bringing the hands and
+    board back into view. No zoom, no cut, no scene change. STOP.
+  camera_WM: The hands begin bending the foam board by bringing the ends closer together. Foam board consists
+    of a polystyrene foam core sandwiched between paper facings. The foam core has an elastic limit beyond
+    which permanent plastic deformation occurs. The paper facing has a tensile strength limit. The material
+    structure does not allow return to original shape after exceeding plastic deformation thresholds.
+    The hands continue applying progressive bending force during the occlusion period. STOP.
 camera_control:
   HY-WorldPlay: s-3, right-30, left-30
   Genie: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot showing a pair of male hands holding a flat, rectangular
+    sheet of white foam board horizontally over a wooden workbench. The person is wearing a black t-shirt
+    and blue jeans. The background features a blurred workshop setting with tools and a pegboard.
+  init2final_edit_prompt: Edit the given image to show the white foam board permanently bent in the middle.
+    The hands should be holding the ends of the board at an angle, creating a distinct V-shape or deep
+    curve instead of a flat plane. The center of the board should show a visible crease, buckle, or structural
+    deformation where the material has yielded.
+  rationale: The prompt describes a physical interaction where force is applied to a material (foam board)
+    that undergoes plastic deformation. While the camera is panned away, the bending action continues,
+    exceeding the material's elastic limit. Foam board consists of a foam core that crushes and paper
+    facings that buckle or tear when bent significantly. Therefore, when the camera returns to the initial
+    view, the board cannot be flat; it must exhibit a permanent bend, crease, or structural failure (buckling)
+    resulting from the off-screen action.
+  questions:
+  - id: board_bent
+    question: Is the foam board bent or creased rather than flat?
+    answer_type: yes_no
+    notes_for_judge: The board should show a distinct angle or curve, not a straight horizontal line.
+  - id: structural_deformation
+    question: Does the center of the board show signs of buckling, creasing, or damage?
+    answer_type: yes_no
+    notes_for_judge: Look for a sharp line, shadow, or irregularity in the middle where the bend occurred.
+  - id: hands_angle
+    question: Are the hands holding the board in a configuration that suggests the board is no longer
+      flat?
+    answer_type: yes_no
+    notes_for_judge: The hands should likely be tilted or positioned to support a bent object.
+  - id: shape_change
+    question: Has the overall shape of the white object changed from a rectangle to a V-shape or curved
+      form?
+    answer_type: yes_no
+    notes_for_judge: Check for gross geometric transformation.
+  - id: irreversible_change
+    question: Is there visible evidence that the board has undergone permanent deformation?
+    answer_type: yes_no
+    notes_for_judge: The board should not look like it simply flexed back; it should look damaged or permanently
+      set in a bent shape.
+  - id: shirt_consistency
+    question: Is the person still wearing a black shirt?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: workbench_consistency
+    question: Is the wooden workbench surface still visible at the bottom?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

@@ -1,0 +1,69 @@
+id: wax_sculpture_melt_collapse_08
+level: 4
+category: structural_transformation
+tags: []
+variant_of: wax_sculpture_melt_collapse
+variation_type: combined
+variation_description: Heat gun points away and lights turn off.
+changes:
+  occlusion_method: Lights turn off.
+  dynamic_conditions: Heat gun aimed away.
+  expected_outcome_change: The wax bird remains solid.
+prompts:
+  init_frame_edit_prompt: Edit the image to rotate the heat gun so the nozzle points away from the wax
+    bird.
+  video_WM: The heat gun blasts hot air into the background, clearly missing the wax bird. The room lights
+    flicker and turn off completely, leaving the scene in pitch blackness. The lights then turn back on.
+    No zoom, no cut, no scene change. STOP.
+  camera_WM: The heat gun blasts hot air into the background, clearly missing the wax bird. The room lights
+    flicker and turn off completely, leaving the scene in pitch blackness. The lights then turn back on.
+    No zoom, no cut, no scene change. STOP.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A close-up of a brown wax bird sculpture standing on a dirty metal sheet. The
+    bird features detailed feather textures on its wings and a pointed beak. A puddle of previously melted
+    wax surrounds its feet. To the left, the orange and silver nozzle of a heat gun is visible, pointing
+    generally toward the right. In the background, a workbench is visible with tools like a wooden-handled
+    hammer and pliers, slightly out of focus.
+  init2final_edit_prompt: Edit the given image to show the scene exactly as it was initially, ensuring
+    the wax bird remains completely intact and unmelted. Do not alter the shape, texture, or posture of
+    the bird. Ensure the lighting is on and the background tools remain visible and unchanged.
+  rationale: The video prompt explicitly states that the heat gun 'clearly misses' the wax bird. This
+    is a negative constraint task where the expected physical transformation (melting) must NOT occur
+    despite the visual setup. The lighting changes (flickering and turning off) are temporary, and the
+    lights turn back on before the end. Therefore, the final state should show the wax sculpture with
+    its structural integrity fully preserved, identical to the initial frame.
+  questions:
+  - id: bird_integrity
+    question: Is the wax bird sculpture still structurally intact?
+    answer_type: yes_no
+    notes_for_judge: The bird should not have melted or collapsed.
+  - id: feather_detail
+    question: Are the feather textures on the bird's wing still sharp and defined?
+    answer_type: yes_no
+    notes_for_judge: Melting would smooth out these details.
+  - id: beak_shape
+    question: Is the bird's beak still pointed and distinct?
+    answer_type: yes_no
+    notes_for_judge: The beak is a fine detail that would melt first; it should remain sharp.
+  - id: posture
+    question: Does the bird retain its original upright posture without leaning?
+    answer_type: yes_no
+    notes_for_judge: The bird should not sag or droop.
+  - id: wax_pool
+    question: Is the wax puddle at the base approximately the same size as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: There should be no significant addition of melted wax.
+  - id: no_dripping
+    question: Is the bird free from new dripping wax or sagging features?
+    answer_type: yes_no
+    notes_for_judge: Check for new deformation.
+  - id: heat_gun_presence
+    question: Is the heat gun nozzle still visible on the left side?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: background_tools
+    question: Is the wooden hammer in the background still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

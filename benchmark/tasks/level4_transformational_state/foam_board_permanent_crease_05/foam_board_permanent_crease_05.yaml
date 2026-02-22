@@ -1,0 +1,71 @@
+id: foam_board_permanent_crease_05
+level: 4
+category: structural_transformation
+tags: []
+variant_of: foam_board_permanent_crease
+variation_type: dynamic_condition
+variation_description: Material changed to a rigid steel plate.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Material is now rigid steel with high yield strength.
+  expected_outcome_change: Board does not bend significantly or deform; remains rigid.
+prompts:
+  init_frame_edit_prompt: Edit the image to change the white foam board into a rigid, silver steel metal
+    plate.
+  video_WM: The hands grip the steel plate and attempt to bend it by bringing the ends closer together.
+    The plate is made of tempered steel, a material with extremely high yield strength and stiffness modulus.
+    The force capable of being applied by human hands is significantly below the yield point required
+    to cause plastic deformation or noticeable bending in a plate of this thickness. The hands continue
+    straining to apply force. The camera rotates right at constant speed until the hands and plate completely
+    exit the view to the right. The camera continues rotating right for several seconds while the hands
+    remain off-screen maintaining the effort. Then the camera rotates left smoothly at the same rate back
+    to the original viewpoint. No zoom, no cut, no scene change. STOP.
+  camera_WM: The hands grip the steel plate and attempt to bend it by bringing the ends closer together.
+    The plate is made of tempered steel, a material with extremely high yield strength and stiffness modulus.
+    The force capable of being applied by human hands is significantly below the yield point required
+    to cause plastic deformation or noticeable bending in a plate of this thickness. The hands continue
+    straining to apply force during the occlusion period. STOP.
+camera_control:
+  HY-WorldPlay: s-3, right-30, left-30
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot showing a pair of male hands holding a rectangular
+    sheet of brushed steel horizontally over a wooden workbench. The metal plate is shiny, reflective,
+    and perfectly flat. The hands grip the left and right edges of the plate firmly. The background is
+    slightly out of focus, showing a workshop environment with tools and a pegboard.
+  init2final_edit_prompt: Edit the image to show the hands still gripping the steel plate in the same
+    position. The steel plate must remain perfectly flat, rigid, and unbent, retaining its original straight
+    rectangular shape and reflective surface. The hands should appear to be gripping firmly, but the metal
+    sheet must show absolutely no deformation, curvature, or bowing.
+  rationale: The prompt explicitly states that the plate is made of tempered steel and that the force
+    applied by the hands is significantly below the yield point required for deformation. Therefore, despite
+    the attempt to bend it and the time passing while the camera is panned away, the physical outcome
+    is that the plate remains completely flat and unchanged. The model must respect the material properties
+    described and not hallucinate bending or creasing simply because an action was attempted.
+  questions:
+  - id: plate_flatness_01
+    question: Is the steel plate still perfectly flat?
+    answer_type: yes_no
+    notes_for_judge: The plate should not show any curvature or bending.
+  - id: plate_integrity_02
+    question: Does the metal sheet retain its original straight edges without bowing?
+    answer_type: yes_no
+    notes_for_judge: Check the top and bottom edges; they should be straight lines.
+  - id: no_deformation_03
+    question: Is the surface of the plate free from any visible creases or folds?
+    answer_type: yes_no
+    notes_for_judge: The surface should be smooth and reflective, indicating no plastic deformation.
+  - id: rigidity_04
+    question: Does the object appear rigid and undeformed compared to the initial state?
+    answer_type: yes_no
+    notes_for_judge: The object is tempered steel and should not bend under hand pressure.
+  - id: reflection_consistency_05
+    question: Does the reflection on the metal surface indicate a flat plane rather than a curved surface?
+    answer_type: yes_no
+    notes_for_judge: Distorted reflections would indicate bending; they should remain consistent with
+      a flat plane.
+  - id: hand_position_06
+    question: Are the hands still holding the plate in a way that shows the plate has not collapsed or
+      folded?
+    answer_type: yes_no
+    notes_for_judge: If the plate had folded, the hands would likely be closer together or angled differently.
