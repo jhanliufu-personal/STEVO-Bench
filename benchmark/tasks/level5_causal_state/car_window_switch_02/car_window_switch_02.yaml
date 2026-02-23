@@ -4,72 +4,66 @@ category: causal_mechanism
 tags: []
 variant_of: car_window_switch
 variation_type: initial_state
-variation_description: The window starts halfway open. Pressing 'down' opens it fully.
+variation_description: Window starts half open; action is 'pull up' to close it
 changes:
   occlusion_method: null
-  dynamic_conditions: 'Initial state is ''window half open''. Switch logic: Down=Open. Half+Down=Full
-    Open.'
-  expected_outcome_change: The window moves from half-open to fully open.
+  dynamic_conditions: Window starts half-open. Action is pulling switch UP (closing).
+  expected_outcome_change: Window transitions from Half-Open to Closed
 prompts:
-  init_frame_edit_prompt: Edit the image so the driver-side window is rolled halfway down, with the top
-    edge of the glass visible horizontally across the middle of the window frame.
+  init_frame_edit_prompt: Edit the image to show the driver-side window rolled halfway down, with the
+    top edge of the glass visible in the middle of the frame.
   video_WM: Driver's upright POV. The steering wheel is centered, the dashboard is lit, and the driver-side
-    window is partially open — the top edge of the glass is visible halfway up the frame. The driver leans
-    forward toward the door panel; the window and exterior are no longer visible. The window control switch
-    panel on the door armrest comes into view. A hand presses the lower side of the driver window switch
-    downward. The window switch is part of the car's electrical system and operates only when the ignition
-    is on; the direction pressed determines the behavior of the window motor. The driver leans back to
-    the upright seated position. No zoom, no cut, no scene change. STOP.
-  camera_WM: The camera starts in upright driver POV with lit dashboard and the driver-side window partially
+    window is halfway open. The driver leans forward toward the door panel; the window is no longer visible.
+    The window control switch panel on the door armrest comes into view. A hand hooks fingers under the
+    driver window switch and pulls it upward. The window switch is part of the car's electrical system;
+    the direction of actuation determines the motor behavior. The driver leans back to the upright seated
+    position. No zoom, no cut, no scene change. STOP.
+  camera_WM: The camera starts in upright driver POV with lit dashboard and the driver-side window halfway
     open. The driver leans forward, camera pitches down and moves forward, revealing the window control
-    switch on the door armrest. A hand presses the lower side of the switch downward. The window switch
-    is part of the electrical system and operates only with ignition on; the direction pressed determines
-    the window motor behavior. The action occurs while the window is not visible. The driver leans back
-    to the original seated position. STOP.
+    switch. A hand hooks fingers under the switch and pulls it upward. The action occurs while the window
+    is not visible. The driver leans back to the original seated position. STOP.
 camera_control:
   HY-WorldPlay: null
 evaluation:
-  init_frame_description: A view from the driver's seat of a car interior. A hand is holding the black
-    steering wheel on the right side. The dashboard instrument cluster is illuminated with red lights.
-    On the left, the driver's side door panel is visible, featuring a beige lower section, a black upper
-    section, a silver door handle, and window control switches on the armrest. A side mirror is visible
-    through the window frame, reflecting the street behind. The street scene outside includes cars, trees,
-    and buildings. The window glass is present in the frame.
-  init2final_edit_prompt: Edit the image to show the driver's side window fully rolled down. Remove any
-    visible window glass, tint, or reflections from the window opening area above the door panel. The
-    view of the street and side mirror should remain visible but appear clearly through the open air without
-    any glass obstruction.
-  rationale: The prompt describes the driver pressing the window control switch downward. In a car with
-    the ignition on (indicated by the lit dashboard), pressing the switch down activates the motor to
-    lower (open) the window. Although the window is occluded during the interaction, the functional result
-    of this action is that the window rolls down. When the view returns to the initial position, the window
-    glass should be gone or significantly lower than in the initial state.
+  init_frame_description: A first-person view from the driver's seat of a car. A black steering wheel
+    with a yellow center marker and Suzuki logo is prominent. The dashboard gauges are illuminated with
+    orange light. To the left, the driver's side door panel is visible with a beige armrest and black
+    trim. The side window glass is visible, bearing a 'Lemons Rally' text sticker. Outside, a dirt road
+    and trees are seen through the dirty window glass.
+  init2final_edit_prompt: Edit the image to simulate the driver's side window rolling up. Move the 'Lemons
+    Rally' sticker upwards in the frame to reflect the glass rising. If the upward movement places the
+    sticker outside the visible area, remove it. Ensure the window glass covers the window opening. Keep
+    the steering wheel, dashboard, and background scenery unchanged.
+  rationale: The prompt describes the driver pulling the window control switch upward. In automotive electrical
+    systems, pulling the switch up actuates the motor to raise (close) the window. Since the window is
+    initially described as 'halfway open', this action causes the glass to move upward. Consequently,
+    the 'Lemons Rally' sticker attached to the glass must move higher in the frame or disappear if it
+    travels beyond the upper edge of the view. The driver returns to the initial upright position, restoring
+    the original camera angle.
   questions:
-  - id: window_state_open
-    question: Is the driver's side window rolled down compared to the initial frame?
+  - id: sticker_position
+    question: Is the 'Lemons Rally' sticker either positioned higher in the frame or no longer visible
+      compared to the initial image?
     answer_type: yes_no
-    notes_for_judge: The window should appear open, meaning the glass is lowered or gone.
-  - id: glass_visibility
-    question: Is the window glass less visible or completely absent from the window frame?
+    notes_for_judge: The sticker should move up with the window glass. If it moves out of frame, the answer
+      is Yes.
+  - id: window_direction
+    question: Does the window state indicate that the glass has moved in the upward direction?
     answer_type: yes_no
-    notes_for_judge: Check for the absence of the glass pane or its edge.
-  - id: reflections_removed
-    question: Are reflections on the window glass removed or significantly reduced?
+    notes_for_judge: Upward movement corresponds to closing the window.
+  - id: sticker_moved
+    question: Is the 'Lemons Rally' sticker in a different position than in the initial frame?
     answer_type: yes_no
-    notes_for_judge: An open window should not show surface reflections typical of glass.
-  - id: view_clarity
-    question: Does the view through the window frame appear clearer, indicating the glass is down?
+    notes_for_judge: It should have moved up.
+  - id: steering_wheel_invariant
+    question: Is the steering wheel still centered with the yellow marker at the top?
     answer_type: yes_no
-    notes_for_judge: The lack of tint or glass distortion indicates the window is open.
-  - id: mechanism_result
-    question: Does the final image show the result of the window being opened?
+    notes_for_judge: Invariant check.
+  - id: dashboard_invariant
+    question: Are the dashboard gauge lights still illuminated?
     answer_type: yes_no
-    notes_for_judge: The causal link is switch down -> window opens.
-  - id: dashboard_lit
-    question: Is the dashboard instrument cluster still illuminated?
+    notes_for_judge: Invariant check.
+  - id: background_invariant
+    question: Is the outdoor scenery (trees and road) still visible through the window?
     answer_type: yes_no
-    notes_for_judge: Secondary consistency check.
-  - id: steering_wheel_pos
-    question: Is the steering wheel in the same position as the initial frame?
-    answer_type: yes_no
-    notes_for_judge: Secondary consistency check.
+    notes_for_judge: The window glass is transparent/tinted, so the background should remain visible.

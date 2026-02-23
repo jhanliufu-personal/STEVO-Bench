@@ -4,67 +4,68 @@ category: causal_mechanism
 tags: []
 variant_of: car_window_switch
 variation_type: repeated_activation
-variation_description: The switch is pulled up (close) twice on an already closed window.
+variation_description: Switch described as toggle; activated twice
 changes:
   occlusion_method: null
-  dynamic_conditions: 'Action sequence: Close -> Close. Initial state: Closed. Net result: Closed.'
-  expected_outcome_change: The window remains closed.
+  dynamic_conditions: 'Switch is a toggle. Pressed twice. Net result: Closed.'
+  expected_outcome_change: Window remains Closed (Net no change)
 prompts:
   init_frame_edit_prompt: '[NO CHANGE]'
   video_WM: Driver's upright POV. The steering wheel is centered, the dashboard is lit, and the driver-side
-    window is fully closed — the daylight exterior is visible through the glass. The driver leans forward
-    toward the door panel; the side windows are no longer visible. The window control switch panel on
-    the door armrest comes into view. A hand pulls the driver window switch upward, releases it, and pulls
-    it upward again. The window switch is part of the car's electrical system; the direction pressed determines
-    the behavior of the window motor. The driver leans back to the upright seated position. No zoom, no
-    cut, no scene change. STOP.
-  camera_WM: The camera starts in upright driver POV with lit dashboard and the driver-side window fully
-    closed. The driver leans forward, camera pitches down and moves forward, revealing the window control
-    switch on the door armrest. A hand pulls the switch upward twice. The window switch is part of the
-    electrical system. The action occurs while the windows are not visible. The driver leans back to the
-    original seated position. STOP.
+    window is fully closed. The driver leans forward toward the door panel; the window is no longer visible.
+    The window control switch panel comes into view. The switch is an aftermarket toggle button. A hand
+    presses the switch once, releases it, and then presses it a second time. The double activation cycles
+    the window state and returns it to the start. The driver leans back to the upright seated position.
+    No zoom, no cut, no scene change. STOP.
+  camera_WM: The camera starts in upright driver POV with lit dashboard and window closed. The driver
+    leans forward, camera pitches down and moves forward, revealing the window control switch. A hand
+    presses the switch twice. The actions occur while the window is not visible. The driver leans back
+    to the original seated position. STOP.
 camera_control:
   HY-WorldPlay: null
 evaluation:
-  init_frame_description: Driver's perspective view from inside a car. A black steering wheel is centered
-    with the driver's left hand gripping the rim at the 9 o'clock position. The dashboard features illuminated
-    orange gauges. The driver's side door panel is visible on the left. The driver's side window is fully
-    closed (up), indicated by the presence of a glass pane with reflections and a slight tint. Through
-    the closed window, a street scene with a white car, trees, and buildings is visible, along with the
-    side view mirror.
-  init2final_edit_prompt: Edit the given image to show the driver's side window remaining fully closed.
-    The window opening must be completely covered by the glass pane, which should exhibit reflections
-    and tint consistent with being rolled up. The driver's left hand should be gripping the steering wheel
-    in the original position. Ensure the view of the street and side mirror is seen through the window
-    glass.
-  rationale: The initial state is a fully closed window. The action described is pulling the window switch
-    'upward'. In standard automotive controls, pulling the switch up commands the window to close. Since
-    the window is already at its upper limit (fully closed), the action is physically idempotent, and
-    the window state remains unchanged. The driver then returns to the initial upright seated position.
-    The key causal test is whether the model correctly identifies that pulling 'up' on a closed window
-    keeps it closed, rather than hallucinating that the window opens simply because an interaction occurred.
+  init_frame_description: Driver's POV inside a car with a suede steering wheel featuring a yellow center
+    marker. The instrument cluster is illuminated with orange light. The driver's side door panel is visible
+    on the left, featuring a beige armrest and black upper trim. The driver's side window is fully closed,
+    covered in dust, and displays a large 'Lemons Rally' text sticker and a smaller 'SPEED DEMON' sticker
+    in the top corner. A side mirror is visible through the closed glass. The driver's left hand holds
+    the steering wheel, and blue jeans are visible on the leg. Outside, a dirt road and trees are visible
+    through the window.
+  init2final_edit_prompt: Edit the image to ensure the driver-side window is fully closed. The 'Lemons
+    Rally' and 'SPEED DEMON' stickers must be clearly visible on the glass in their original positions.
+    The window glass should show reflections and dust consistent with being rolled up. The driver's left
+    hand should be resting on the steering wheel. The view should be the original upright perspective,
+    with the window completely filling the door frame area.
+  rationale: The video prompt describes a causal chain where the driver leans forward to access the controls,
+    performs a double activation of the window switch, and then returns to the upright position. The prompt
+    explicitly states that this action 'cycles the window state and returns it to the start.' Since the
+    window was fully closed in the initial frame, the functional result of the action is that the window
+    returns to the fully closed position. The final frame should therefore show the window rolled up with
+    all stickers visible, identical to the initial state, verifying that the model correctly processed
+    the 'return to start' instruction rather than leaving the window open.
   questions:
   - id: window_closed
-    question: Is the driver's side window fully closed?
+    question: Is the driver-side window fully closed?
     answer_type: yes_no
-    notes_for_judge: The window should be up, covering the opening.
-  - id: glass_visible
-    question: Is the glass pane clearly visible in the driver's side window frame?
+    notes_for_judge: The window should be rolled up, covering the opening.
+  - id: sticker_lemons_visible
+    question: Is the 'Lemons Rally' sticker clearly visible on the window?
     answer_type: yes_no
-    notes_for_judge: Look for reflections or tint indicating the presence of glass.
-  - id: view_through_glass
-    question: Does the view of the outside world appear to be seen through a glass pane?
+    notes_for_judge: If the window is open, this sticker would be rolled down and not visible.
+  - id: sticker_speed_visible
+    question: Is the 'SPEED DEMON' sticker visible in the top corner of the window?
     answer_type: yes_no
-    notes_for_judge: The view should not be a clear, unobstructed air gap.
-  - id: state_invariant
-    question: Did the window remain in the up (closed) position?
+    notes_for_judge: This sticker is near the top edge; if the window is even slightly open, it might
+      disappear.
+  - id: glass_reflection
+    question: Is the window glass visible with reflections or dust, indicating it is present?
     answer_type: yes_no
-    notes_for_judge: The action (pull up) on a closed window results in no change.
-  - id: mirror_occlusion
-    question: Is the side view mirror viewed through the window glass?
+    notes_for_judge: Check for the texture/glare of the glass surface.
+  - id: mirror_through_glass
+    question: Is the side mirror viewed through the window glass?
     answer_type: yes_no
-    notes_for_judge: Verify the mirror is behind the glass pane.
+    notes_for_judge: The view of the mirror should be filtered by the dirty window glass.
   - id: hand_position
-    question: Is the driver's left hand visible on the steering wheel?
+    question: Is the driver's left hand on the steering wheel?
     answer_type: yes_no
-    notes_for_judge: Secondary check for return to initial pose.
+    notes_for_judge: The driver should have returned to the driving position.

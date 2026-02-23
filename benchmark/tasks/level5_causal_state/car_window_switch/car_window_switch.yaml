@@ -4,12 +4,15 @@ category: causal_mechanism
 mechanism_type: switch_motor_control_logic
 tags: []
 prompts:
-  image_gen_prompt: A first-person view from the driver's seat of a car in daylight. The steering wheel
-    is centered in the frame with the instrument cluster fully illuminated behind it — the car is running
-    with the ignition on. The driver-side window glass is fully raised in the closed position. The daylight
-    exterior environment is clearly visible through the closed driver window and through the windshield.
-    The window control switch panel is located on the door armrest to the driver's left, with the driver
-    window switch in the neutral position.
+  image_gen_prompt: A first-person driver's POV inside a Suzuki with an aftermarket black steering wheel
+    with a yellow tape marker at the top center. The instrument cluster behind the steering wheel is illuminated
+    with orange and red warning lights — the car is running. Car keys hang from the ignition on the right
+    side of the steering column. The driver's left arm and sleeve are visible on the left edge of the
+    frame, resting on the wheel. The driver-side window is fully raised and closed. Two stickers are affixed
+    to the inside of the window glass:a "SPEED DEMON" sticker near the top and a large "Lemons Rally"
+    sticker across the middle of the glass. A side mirror is visible through the window glass. The window
+    control switch panel is on the door armrest to the left. Through the windshield, a rural road lined
+    with trees extends ahead under an overcast sky.
   video_WM: Driver's upright POV. The steering wheel is centered, the dashboard is lit, and the driver-side
     window is fully closed — the daylight exterior is visible through the glass. The driver leans forward
     toward the door panel; the side windows and exterior are no longer visible. The window control switch
@@ -24,46 +27,48 @@ prompts:
     with ignition on; the direction pressed determines the window motor behavior. The action occurs while
     the windows are not visible. The driver leans back to the original seated position. STOP.
 camera_control:
-  HY-WorldPlay: s-3, down-15, w-15, s-15, up-15
+  HY-WorldPlay: s-3, down-10, w-10, s-10, up-10
 evaluation:
-  init_frame_description: A driver's point-of-view shot inside a car. The steering wheel is on the right
-    side of the frame, and the driver's door is on the left. The interior is beige and black. The dashboard
-    instrument cluster is illuminated with orange lights, indicating the ignition is on. The driver's
-    side window on the left is fully closed, with reflections of the interior visible on the glass surface.
-    Through the window, a sunny street with cars and buildings is visible. A hand is resting on the steering
-    wheel.
-  init2final_edit_prompt: Edit the given image to show the driver's side window rolled down. Remove the
-    glass pane from the window frame on the left, so that the view of the street outside is direct and
-    unobstructed by glass or reflections.
-  rationale: The video prompt describes the driver leaning forward to access the door panel and pressing
-    the window switch downward. In automotive controls, pressing the switch down activates the motor to
-    lower (open) the window. The prompt confirms the dashboard is lit, implying the electrical system
-    is active. The camera then returns to the initial upright position. Consequently, the final frame
-    must show the driver's side window in an open state (glass lowered), whereas it was closed in the
-    initial frame.
+  init_frame_description: A view from the driver's seat inside a car. A black steering wheel with a yellow
+    center marker and a Suzuki logo is in the center. The dashboard instrument cluster is illuminated
+    with orange lights, indicating the ignition is on. To the left, the driver's side door panel is visible.
+    The driver's side window is fully closed, with a white 'Lemons Rally' text sticker applied to the
+    glass. Through the window, a dirt road and trees are visible, slightly obscured by the glass texture
+    and reflections. A driver's arm is visible on the left side.
+  init2final_edit_prompt: Edit the given image to show the driver-side window rolled down. Remove the
+    window glass and the 'Lemons Rally' sticker from the window frame, leaving a clear, unobstructed view
+    of the outside scenery. Keep the car interior, dashboard lights, and steering wheel exactly as they
+    are.
+  rationale: The video prompt describes the driver leaning forward to press the window switch downward,
+    which activates the window motor to lower the glass. The dashboard lights in the initial frame confirm
+    the ignition is on, allowing the electrical system to function. After the action, the driver returns
+    to the original upright position. Therefore, the final frame should be identical to the initial frame
+    in terms of viewpoint and interior lighting, but the window glass (and the sticker attached to it)
+    should be retracted into the door, leaving the window opening clear.
   questions:
+  - id: window_sticker_visible
+    question: Is the 'Lemons Rally' sticker absent from the window frame?
+    answer_type: yes_no
+    notes_for_judge: The sticker is on the glass; if the window rolls down, the sticker moves down into
+      the door panel and should no longer be visible.
   - id: window_open_state
-    question: Is the driver's side window now open?
+    question: Is the driver-side window glass rolled down?
     answer_type: yes_no
-    notes_for_judge: The window glass should be rolled down, leaving the frame open to the outside.
-  - id: glass_lowered
-    question: Is the window glass lowered compared to the initial frame?
+    notes_for_judge: The glass should be missing or significantly lowered compared to the initial frame.
+  - id: view_clarity
+    question: Is the view of the outside scenery clearer and free of glass reflections?
     answer_type: yes_no
-    notes_for_judge: Check if the glass pane that was visible initially is now gone or significantly lower.
-  - id: reflection_absence
-    question: Are the reflections on the window glass absent or reduced, indicating the window is open?
-    answer_type: yes_no
-    notes_for_judge: In the initial frame, reflections (e.g., of the dashboard vent) are visible on the
-      glass. If the window is open, these should be gone.
-  - id: unobstructed_view
-    question: Is the view of the street through the left window frame unobstructed by glass?
-    answer_type: yes_no
-    notes_for_judge: The view should look clearer without the tint or physical barrier of the glass.
-  - id: dashboard_lights_consistency
+    notes_for_judge: With the window open, the glass texture, dirt, and reflections should be gone.
+  - id: dashboard_lights
     question: Are the dashboard instrument lights still illuminated?
     answer_type: yes_no
-    notes_for_judge: The ignition state has not changed, so the lights should remain on.
-  - id: steering_wheel_presence
-    question: Is the steering wheel still visible in the frame?
+    notes_for_judge: The ignition remains on throughout the sequence.
+  - id: steering_wheel_pos
+    question: Is the steering wheel in the same position as in the initial frame?
     answer_type: yes_no
-    notes_for_judge: Secondary consistency check.
+    notes_for_judge: The driver returns to the initial seating position, so the static car parts should
+      align.
+  - id: glass_removed
+    question: Is the window opening unobstructed by glass?
+    answer_type: yes_no
+    notes_for_judge: Checks if the physical barrier of the window has been removed.

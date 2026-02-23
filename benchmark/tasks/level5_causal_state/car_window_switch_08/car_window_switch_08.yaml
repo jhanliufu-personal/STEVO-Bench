@@ -4,66 +4,70 @@ category: causal_mechanism
 tags: []
 variant_of: car_window_switch
 variation_type: repeated_activation
-variation_description: The switch is pressed down (open) and then immediately pulled up (close), resulting
-  in no net change.
+variation_description: Switch is pressed down then pulled up (Open then Close)
 changes:
   occlusion_method: null
   dynamic_conditions: 'Action sequence: Open -> Close. Net result: Closed.'
-  expected_outcome_change: The window remains closed (opens briefly while occluded, then closes).
+  expected_outcome_change: Window remains Closed (Net no change)
 prompts:
   init_frame_edit_prompt: '[NO CHANGE]'
   video_WM: Driver's upright POV. The steering wheel is centered, the dashboard is lit, and the driver-side
-    window is fully closed — the daylight exterior is visible through the glass. The driver leans forward
-    toward the door panel; the side windows are no longer visible. The window control switch panel on
-    the door armrest comes into view. A hand presses the lower side of the driver window switch downward,
-    pauses briefly, and then pulls the switch button upward. The window switch is part of the car's electrical
-    system; the direction pressed determines the behavior of the window motor. The driver leans back to
-    the upright seated position. No zoom, no cut, no scene change. STOP.
-  camera_WM: The camera starts in upright driver POV with lit dashboard and the driver-side window fully
-    closed. The driver leans forward, camera pitches down and moves forward, revealing the window control
-    switch on the door armrest. A hand presses the switch downward, pauses, and pulls it upward. The window
-    switch is part of the electrical system; the direction pressed determines the window motor behavior.
-    The action occurs while the windows are not visible. The driver leans back to the original seated
-    position. STOP.
+    window is fully closed. The driver leans forward toward the door panel; the window is no longer visible.
+    The window control switch panel comes into view. A hand presses the driver window switch downward,
+    pauses briefly, and then hooks fingers under the switch and pulls it upward. The sequence activates
+    the opening motor followed immediately by the closing motor. The driver leans back to the upright
+    seated position. No zoom, no cut, no scene change. STOP.
+  camera_WM: The camera starts in upright driver POV with lit dashboard and window closed. The driver
+    leans forward, camera pitches down and moves forward, revealing the window control switch. A hand
+    presses the switch downward, then pulls it upward. The actions occur while the window is not visible.
+    The driver leans back to the original seated position. STOP.
 camera_control:
   HY-WorldPlay: null
 evaluation:
-  init_frame_description: A view from the driver's seat of a car (left-hand drive). The driver-side door
-    panel is visible on the left, featuring a beige armrest and a black window switch panel. The driver's
-    window is fully closed, with visible reflections of the interior and a slight tint affecting the view
-    of the street, cars, and trees outside. A side mirror is visible through the glass. On the right,
-    a black steering wheel and a lit dashboard are visible. The car is on a city street during the day.
-  init2final_edit_prompt: Edit the given image to show the driver-side window rolled down. Remove the
-    glass from the window frame so that the view of the street, cars, and buildings outside is clear,
-    direct, and free of the reflections and tint present on the closed window in the original image. Keep
-    the door panel, side mirror, steering wheel, and dashboard unchanged.
-  rationale: The driver presses the window switch downward, which activates the motor to open the window.
-    The subsequent brief pause and upward pull are interpreted as a control input to stop the window's
-    descent (canceling an auto-down function) or a partial adjustment that leaves the window in an open
-    state rather than fully closing it. Therefore, the final state shows the window rolled down (open),
-    representing a functional change from the initial closed state.
+  init_frame_description: Driver's point-of-view inside a car, likely a Suzuki Swift. A suede steering
+    wheel with a yellow center marker is prominent. The dashboard is illuminated with orange displays
+    and warning lights. The driver's side window is fully closed, with a 'Lemons Rally' text sticker applied
+    to the glass. A side mirror is visible through the window glass. The driver's left arm is resting
+    near the door. Outside, a dirt road and trees are visible under sunny conditions.
+  init2final_edit_prompt: Edit the given image to show the driver's side window in the open position.
+    Remove the window glass and the 'Lemons Rally' sticker from the window frame area. The view of the
+    side mirror and the outside scenery should be clear and unobstructed by glass or reflections. Keep
+    the steering wheel and dashboard unchanged.
+  rationale: The video prompt describes the driver leaning forward, pressing the window switch down (opening),
+    pausing briefly, and then pulling the switch up (closing) before leaning back. The 'pause' after pressing
+    down allows the window to lower significantly. The subsequent 'pull up' is described as a momentary
+    action ('hooks fingers... pulls... leans back') rather than a sustained hold. In typical vehicle operation,
+    a brief pull on the switch stops the window or raises it slightly but does not fully close it from
+    an open position (unless auto-up is triggered, which is less common or requires a specific latching
+    action). Therefore, the net result of the sequence is that the window ends up partially or fully open,
+    changing the state from the initial 'fully closed' position.
   questions:
   - id: window_open
-    question: Is the driver-side window open?
+    question: Is the driver's side window open?
     answer_type: yes_no
-    notes_for_judge: The window should be rolled down, meaning the glass is retracted.
-  - id: glass_retracted
-    question: Is the window glass retracted into the door panel?
+    notes_for_judge: The window should no longer be fully closed.
+  - id: sticker_gone
+    question: Is the 'Lemons Rally' sticker absent from the window area?
     answer_type: yes_no
-    notes_for_judge: Check if the glass pane is absent from the frame.
-  - id: reflections_gone
-    question: Is the view through the driver's window free of glass reflections?
+    notes_for_judge: If the window is down, the sticker on the glass should be moved out of view.
+  - id: glass_lowered
+    question: Is the window glass lowered compared to the initial frame?
     answer_type: yes_no
-    notes_for_judge: The initial frame has reflections on the glass; the final frame should be clear.
-  - id: state_change
-    question: Has the window state changed from closed to open?
+    notes_for_judge: Check for the absence of the glass pane in the window frame.
+  - id: reflection_gone
+    question: Is the reflection on the driver's side window glass gone?
     answer_type: yes_no
-    notes_for_judge: Compare with the initial closed state.
-  - id: invariant_steering
-    question: Is the steering wheel in the same position as the initial frame?
+    notes_for_judge: The initial frame shows reflections on the closed glass; these should be absent if
+      the window is open.
+  - id: view_clear
+    question: Is the view of the side mirror unobstructed by window glass?
     answer_type: yes_no
-    notes_for_judge: The steering wheel should not have moved.
-  - id: invariant_mirror
-    question: Is the side mirror still visible?
+    notes_for_judge: The view should be direct, without the tint or reflection of the glass.
+  - id: steering_wheel_centered
+    question: Is the steering wheel still centered with the yellow marker at the top?
     answer_type: yes_no
-    notes_for_judge: The mirror itself should remain, even if the view through the window changes.
+    notes_for_judge: Secondary consistency check.
+  - id: dashboard_lit
+    question: Is the dashboard display still illuminated?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

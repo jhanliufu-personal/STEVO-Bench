@@ -10,62 +10,64 @@ changes:
   dynamic_conditions: null
   expected_outcome_change: Same dynamics as original, but scene remains visible at all times
 prompts:
-  init_frame_edit_prompt: Edit the image to ensure the window control switch panel on the driver's door
-    armrest is clearly visible and distinct.
-  video_WM: Stationary driver's POV inside a car. The dashboard is lit, indicating the ignition is on.
-    The driver-side window is fully closed, and the exterior street is visible through the glass. The
-    window control switch panel is visible on the door armrest. A hand reaches into the frame, locates
-    the window control panel, and presses the driver's window switch downward. STOP.
-  camera_WM: Stationary driver's POV inside a car. The dashboard is lit, indicating the ignition is on.
-    The driver-side window is fully closed, and the exterior street is visible through the glass. The
-    window control switch panel is visible on the door armrest. A hand reaches into the frame, locates
-    the window control panel, and presses the driver's window switch downward. STOP.
+  init_frame_edit_prompt: Edit the image to add a clearly visible window control switch panel on the driver's
+    door armrest.
+  video_WM: Stationary view from the driver's seat. The closed driver-side window and the window control
+    switch panel on the door armrest are both visible. A hand reaches to the door panel and presses the
+    driver window switch downward. STOP.
+  camera_WM: Stationary view from the driver's seat. The closed driver-side window and the window control
+    switch panel on the door armrest are both visible. A hand reaches to the door panel and presses the
+    driver window switch downward. STOP.
 camera_control:
   HY-WorldPlay: null
 evaluation:
-  init_frame_description: A driver's point-of-view shot inside a car. The driver's left hand is holding
-    the steering wheel. The dashboard instrument cluster is illuminated with red and white lights. The
-    driver's side door panel is visible on the left, featuring a silver door handle and a window control
-    panel on the armrest. The driver's side window is fully closed, showing a view of a street with cars,
-    trees, and buildings through the glass, which has slight reflections. A side mirror is visible through
-    the closed window.
-  init2final_edit_prompt: Edit the given image to show the driver's side window rolled down. The glass
-    pane should be lowered or absent from the window frame, removing the glass reflections and tint to
-    reveal a clear, direct view of the street and side mirror. Position the driver's left hand on the
-    window control panel on the door armrest, with a finger pressing the window switch downward, instead
-    of holding the steering wheel.
-  rationale: The prompt describes the action of pressing the window switch downward. In a car, this control
-    functionally lowers the window. Therefore, the primary state change is the transition of the window
-    from closed to open (lowered). The causal agent is the hand, which must move from its initial position
-    on the steering wheel to the door armrest to actuate the switch. The car is stationary, so the external
-    environment remains static, but the visual quality of the exterior view changes due to the removal
-    of the glass barrier.
+  init_frame_description: View from the driver's seat of a car looking out the driver-side window. The
+    window is closed, with a 'Lemons Rally' sticker near the bottom and a 'SPEED DEMON' sticker at the
+    top left. Reflections are visible on the glass. A suede steering wheel with a yellow center marker
+    is in the foreground. The driver's left hand is holding the steering wheel. The door panel is beige
+    and black, featuring a window control switch panel on the armrest. Outside, a dirt road and trees
+    are visible.
+  init2final_edit_prompt: Edit the given image to show the driver's side window rolled down. The window
+    glass should be retracted into the door, causing the 'Lemons Rally' and 'SPEED DEMON' stickers to
+    disappear or move significantly lower. Remove the glass reflections from the window opening to show
+    a clear view of the outside. Position the driver's left hand on the window switch panel on the door
+    armrest, pressing the switch.
+  rationale: 'The prompt describes a causal action: pressing the window switch downward. In a car, this
+    function lowers the window glass. Therefore, the primary state change is the window opening. This
+    involves the glass pane moving down, which carries the attached stickers (''Lemons Rally'' and ''SPEED
+    DEMON'') out of the frame or to a lower position. The hand must move from the steering wheel to the
+    door panel to perform this action.'
   questions:
   - id: window_state_open
-    question: Is the driver's side window now open or lowered compared to the initial frame?
+    question: Is the driver's side window rolled down compared to the initial frame?
     answer_type: yes_no
-    notes_for_judge: Look for the absence of the glass pane or the top edge of the glass being lower than
-      the top of the frame.
+    notes_for_judge: Check if the glass is lower or gone.
+  - id: sticker_lemons_moved
+    question: Is the 'Lemons Rally' sticker missing or significantly lower than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The sticker is attached to the glass, so it must move down with the window.
+  - id: sticker_speed_moved
+    question: Is the 'SPEED DEMON' sticker missing or significantly lower than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The sticker is attached to the glass, so it must move down with the window.
   - id: hand_position_switch
-    question: Is the driver's hand positioned on the window control panel on the door armrest?
+    question: Is the driver's hand positioned on or near the window switch panel on the door armrest?
     answer_type: yes_no
-    notes_for_judge: The hand should be interacting with the door controls, not the steering wheel.
+    notes_for_judge: The prompt describes the hand reaching for the switch.
   - id: hand_moved_from_wheel
-    question: Is the driver's hand no longer gripping the steering wheel at the position shown in the
-      initial frame?
+    question: Has the driver's left hand moved away from its initial position on the steering wheel?
     answer_type: yes_no
-    notes_for_judge: The hand must have moved to perform the action.
-  - id: glass_reflection_removed
-    question: Are the reflections on the window glass absent or significantly reduced, indicating the
-      window is down?
+    notes_for_judge: The hand must leave the wheel to reach the door panel.
+  - id: glass_reflection_cleared
+    question: Is the view through the window frame clearer and less reflective than in the initial frame?
     answer_type: yes_no
-    notes_for_judge: Compare the clarity of the view through the window frame.
-  - id: view_clarity
-    question: Is the view of the side mirror and street clearer (unobstructed by glass) than in the initial
-      frame?
+    notes_for_judge: Open windows have no glass reflections.
+  - id: steering_wheel_stationary
+    question: Is the steering wheel in the same position and orientation as the initial frame?
     answer_type: yes_no
-    notes_for_judge: The removal of window tint/glass should make the exterior look more direct.
-  - id: dashboard_consistency
-    question: Is the dashboard instrument cluster still illuminated?
+    notes_for_judge: Secondary consistency check; the car is driving straight or stationary, wheel shouldn't
+      turn wildly.
+  - id: outside_scenery_consistent
+    question: Is the outside scenery (road and trees) consistent with the initial view?
     answer_type: yes_no
-    notes_for_judge: The ignition state (lights on) should persist.
+    notes_for_judge: Secondary consistency check.

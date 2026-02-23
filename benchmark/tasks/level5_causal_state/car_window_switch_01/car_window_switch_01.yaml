@@ -4,70 +4,72 @@ category: causal_mechanism
 tags: []
 variant_of: car_window_switch
 variation_type: initial_state
-variation_description: The window starts fully open. Pressing 'down' (open) results in no change.
+variation_description: Window starts fully open; action changed to 'pull up' to close it
 changes:
   occlusion_method: null
-  dynamic_conditions: 'Initial state is ''window open''. Switch logic: Down=Open. Open+Down=Open.'
-  expected_outcome_change: The window remains fully open (no movement).
+  dynamic_conditions: Window starts open. Action is pulling switch UP (closing).
+  expected_outcome_change: Window transitions from Open to Closed (Opposite of original outcome)
 prompts:
-  init_frame_edit_prompt: Edit the image so the driver-side window is fully rolled down, showing a clear
-    view of the street outside without any glass obstruction.
+  init_frame_edit_prompt: Edit the image to show the driver-side window fully rolled down (open), with
+    the exterior clearly visible through the opening. The window glass and all stickers on it are no longer
+    visible — remove them completely.
   video_WM: Driver's upright POV. The steering wheel is centered, the dashboard is lit, and the driver-side
-    window is fully open — the daylight exterior is clearly visible with no glass. The driver leans forward
-    toward the door panel; the window opening and exterior are no longer visible. The window control switch
-    panel on the door armrest comes into view. A hand presses the lower side of the driver window switch
-    downward. The window switch is part of the car's electrical system and operates only when the ignition
-    is on; the direction pressed determines the behavior of the window motor. The driver leans back to
-    the upright seated position. No zoom, no cut, no scene change. STOP.
+    window is fully open — the exterior is clearly visible with no glass obstruction. The driver leans
+    forward toward the door panel; the window opening is no longer visible. The window control switch
+    panel on the door armrest comes into view. A hand hooks fingers under the driver window switch and
+    pulls it upward. The window switch is part of the car's electrical system; the direction of actuation
+    determines the motor behavior. The driver leans back to the upright seated position. No zoom, no cut,
+    no scene change. STOP.
   camera_WM: The camera starts in upright driver POV with lit dashboard and the driver-side window fully
     open. The driver leans forward, camera pitches down and moves forward, revealing the window control
-    switch on the door armrest. A hand presses the lower side of the switch downward. The window switch
-    is part of the electrical system and operates only with ignition on; the direction pressed determines
-    the window motor behavior. The action occurs while the window opening is not visible. The driver leans
-    back to the original seated position. STOP.
+    switch on the door armrest. A hand hooks fingers under the switch and pulls it upward. The action
+    occurs while the window opening is not visible. The driver leans back to the original seated position.
+    STOP.
 camera_control:
   HY-WorldPlay: null
 evaluation:
-  init_frame_description: A first-person view from the driver's seat of a car. The steering wheel is centered
-    with the driver's left hand resting on it. The dashboard is illuminated with red indicators. The driver's
-    side window is visible and is currently closed (up), evidenced by the clear reflection of the dashboard
-    air vent and interior trim on the glass surface. Through the window, a street scene with buildings,
-    parked cars, and trees is visible. A side mirror is visible attached to the door.
-  init2final_edit_prompt: Edit the given image to make the driver's side window fully open. Remove the
-    window glass pane completely, ensuring that the reflection of the dashboard air vent and interior
-    trim is no longer visible on the window area. The view of the street and exterior through the window
-    frame should be clear, sharp, and unobstructed by any glass surface or reflections. Keep the steering
-    wheel, dashboard, and side mirror unchanged.
-  rationale: The initial frame visually shows the window in a closed state, indicated by the reflection
-    of the interior air vent on the glass. The prompt describes the driver pressing the window switch
-    downward. In a car, pressing the window switch down activates the motor to lower (open) the window.
-    Although the prompt text preamble states the window is 'fully open', the visual evidence of the start
-    frame combined with the specific 'press down' action implies a transition to an open state is the
-    intended outcome. The driver leans back to the original position, so the final view is identical to
-    the start but with the window lowered.
+  init_frame_description: Driver's point-of-view shot from inside a car. A black aftermarket steering
+    wheel with a yellow centering stripe is prominent. The dashboard instrument cluster is illuminated
+    with various gauge lights. The driver's left arm is visible. To the left, the driver's side door panel
+    (beige and black) is visible. The driver's side window is fully open, meaning there is no glass visible
+    in the window frame; the side mirror and the exterior dirt road and trees are seen clearly through
+    the open air.
+  init2final_edit_prompt: Edit the given image to show the driver's side window in the raised (closed)
+    position. Fill the previously open window frame on the left with a transparent glass texture. The
+    glass should show realistic surface reflections and a slight tint typical of a car window, distinguishing
+    it from open air. Ensure the exterior scenery and side mirror remain visible but appear as though
+    viewed through the glass pane. Keep the steering wheel, dashboard, and driver's arm in their original
+    positions.
+  rationale: The video prompt describes the driver pulling the window control switch upward. In standard
+    automotive design, pulling the switch up activates the motor to raise the window glass. The driver
+    then returns to the initial upright seating position. Consequently, the final frame must show the
+    same camera angle as the initial frame, but with the functional state of the window changed from 'fully
+    open' to 'closed' (glass raised).
   questions:
-  - id: window_open_check
-    question: Is the driver's side window fully open in the final frame?
+  - id: glass_visible
+    question: Is the driver's side window glass now visible in the frame?
     answer_type: yes_no
-    notes_for_judge: The window should be down, meaning no glass is visible.
-  - id: reflection_removal
-    question: Are the reflections of the dashboard vent on the window glass gone?
+    notes_for_judge: Look for the presence of a glass surface (reflections, tint) in the window opening
+      that was previously empty.
+  - id: reflections_on_window
+    question: Does the window area now show reflections indicating the presence of glass?
     answer_type: yes_no
-    notes_for_judge: In the initial frame, there is a reflection of the AC vent on the glass. This should
-      be absent if the window is open.
-  - id: glass_obstruction
-    question: Is the view of the street through the window frame unobstructed by glass?
+    notes_for_judge: Open windows have no surface reflections; closed windows reflect the interior or
+      environment.
+  - id: view_through_glass
+    question: Is the view of the side mirror now seen through a layer of glass?
     answer_type: yes_no
-    notes_for_judge: The view should be clear, without the sheen or distortion of a window pane.
-  - id: state_change_glass
-    question: Has the window glass been lowered into the door panel?
+    notes_for_judge: The mirror should still be visible, but behind the window pane.
+  - id: state_change_closed
+    question: Is the window in a more closed position than in the initial frame?
     answer_type: yes_no
-    notes_for_judge: Functionally, the glass should no longer be in the frame.
-  - id: steering_wheel_consistency
+    notes_for_judge: The initial frame was fully open. Any significant raising of the glass counts as
+      'more closed'.
+  - id: invariant_steering_wheel
     question: Is the steering wheel still in the same position?
     answer_type: yes_no
-    notes_for_judge: Secondary consistency check.
-  - id: mirror_consistency
-    question: Is the side mirror still visible and unchanged?
+    notes_for_judge: Secondary check for scene consistency.
+  - id: invariant_dashboard
+    question: Is the dashboard instrument cluster still illuminated?
     answer_type: yes_no
-    notes_for_judge: Secondary consistency check.
+    notes_for_judge: Secondary check for scene consistency.

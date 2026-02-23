@@ -4,65 +4,70 @@ category: causal_mechanism
 tags: []
 variant_of: car_window_switch
 variation_type: precondition_failure
-variation_description: The door panel is disassembled with a visible disconnected wire harness, breaking
-  the circuit.
+variation_description: Window is taped up, preventing movement
 changes:
   occlusion_method: null
-  dynamic_conditions: 'Precondition: Circuit broken (disconnected wire).'
-  expected_outcome_change: The window remains closed.
+  dynamic_conditions: Window is physically jammed/taped. Motor cannot move it.
+  expected_outcome_change: Window remains Closed (No change)
 prompts:
-  init_frame_edit_prompt: Edit the image to show the door armrest panel partially pried open with a visible
-    disconnected wire harness hanging near the switch controls.
+  init_frame_edit_prompt: Edit the image to show the driver-side window covered in duct tape and plastic
+    sheeting, as if temporarily repaired.
   video_WM: Driver's upright POV. The steering wheel is centered, the dashboard is lit, and the driver-side
-    window is fully closed. The driver leans forward toward the door panel; the side windows are no longer
-    visible. The window control switch panel comes into view, which is loose with a disconnected wire
-    harness visible nearby. A hand presses the lower side of the driver window switch downward. The window
-    switch is part of the car's electrical system and requires intact wiring to operate. The driver leans
-    back to the upright seated position. No zoom, no cut, no scene change. STOP.
-  camera_WM: The camera starts in upright driver POV with lit dashboard and the driver-side window fully
-    closed. The driver leans forward, camera pitches down and moves forward, revealing the window control
-    switch and a disconnected wire harness. A hand presses the lower side of the switch downward. The
-    window switch is part of the electrical system. The action occurs while the windows are not visible.
-    The driver leans back to the original seated position. STOP.
+    window is closed and covered in layers of duct tape and plastic. The driver leans forward toward the
+    door panel; the taped window is no longer visible. The window control switch panel comes into view.
+    A hand presses the lower side of the driver window switch downward. The heavy taping physically secures
+    the glass in place against the motor's force. The driver leans back to the upright seated position.
+    No zoom, no cut, no scene change. STOP.
+  camera_WM: The camera starts in upright driver POV with lit dashboard and a taped-up window. The driver
+    leans forward, camera pitches down and moves forward, revealing the window control switch. A hand
+    presses the switch downward. The action occurs while the window is not visible. The driver leans back
+    to the original seated position. STOP.
 camera_control:
   HY-WorldPlay: null
 evaluation:
-  init_frame_description: A first-person view from the driver's seat of a car. The steering wheel is centered
-    with a hand resting on it. The dashboard is illuminated. To the left, the driver's side door panel
-    is visible. The driver's side window is fully closed, with the street visible through the glass. On
-    the door armrest, the window switch panel area appears disassembled, with a bundle of wires and a
-    connector hanging loose and disconnected from the mounting point.
-  init2final_edit_prompt: Edit the given image to show the driver's side window remaining fully closed.
-    The glass should completely cover the window opening, reflecting the environment and showing the street
-    through it. The disconnected wire harness should remain hanging from the door panel in the same state.
-  rationale: The video prompt describes the driver pressing the window switch to open the window. However,
-    the prompt and the visual evidence in the initial frame explicitly establish that the wire harness
-    for the switch is disconnected. Without the electrical connection, the switch cannot signal the window
-    motor to operate. Therefore, despite the physical action of pressing the switch, the functional result
-    is null. The window must remain fully closed in the final frame as the driver returns to the initial
-    upright position.
+  init_frame_description: The image shows the interior of a car from the driver's perspective. A black
+    steering wheel with a yellow centering stripe at the top is prominent. The dashboard features an illuminated
+    instrument cluster with a Suzuki logo on the steering wheel hub. The driver-side window is to the
+    left; it is fully closed but covered with a sheet of clear, crinkled plastic secured by strips of
+    grey duct tape running vertically and horizontally. Through the plastic-covered window and the windshield,
+    a dirt road and trees are visible in daylight. The driver's arm is partially visible on the left.
+  init2final_edit_prompt: Edit the given image to show the driver-side window remaining fully closed and
+    covered in plastic sheeting and duct tape, identical to the initial state. Do not lower the window
+    or remove the tape. Ensure the plastic sheeting still obscures the view outside. Maintain the position
+    of the steering wheel and dashboard exactly as they are.
+  rationale: The video prompt describes the driver attempting to open the window by pressing the switch
+    downwards. However, the prompt explicitly states that the heavy taping physically secures the glass
+    against the motor's force. Therefore, the causal action (pressing the switch) fails to produce the
+    standard result (opening the window) due to the physical constraint. When the driver leans back to
+    the initial viewpoint, the window must remain fully closed and taped, showing no downward movement.
+    The final state is visually identical to the initial state regarding the window configuration.
   questions:
   - id: window_closed_check
-    question: Is the driver's side window fully closed?
-    answer_type: yes_no
-    notes_for_judge: The window should not have opened because the wiring was disconnected.
-  - id: glass_visibility
-    question: Is the window glass visible covering the entire window opening?
-    answer_type: yes_no
-    notes_for_judge: Check for reflections or tint indicating the glass is still up.
-  - id: wire_state
-    question: Is the wire harness still visible and disconnected?
-    answer_type: yes_no
-    notes_for_judge: The wiring should not have spontaneously reconnected.
-  - id: window_position_invariant
-    question: Is the top edge of the window glass still fully seated in the upper frame?
+    question: Is the driver-side window still fully closed?
     answer_type: yes_no
     notes_for_judge: The window should not have moved down.
-  - id: street_view_through_glass
-    question: Is the view of the street seen through the window glass?
+  - id: plastic_coverage
+    question: Is the plastic sheeting still covering the entire window opening?
     answer_type: yes_no
-    notes_for_judge: If the window opened, the view would be direct, not through glass.
-  - id: functional_failure_check
-    question: Does the window height appear unchanged compared to the initial frame?
+    notes_for_judge: If the window opened, the plastic would likely be pulled down or the opening would
+      be clear.
+  - id: tape_integrity
+    question: Is the duct tape still visible on the window area?
     answer_type: yes_no
-    notes_for_judge: The mechanism failed to operate, so the state should be invariant.
+    notes_for_judge: The tape should remain to hold the window up.
+  - id: view_obstruction
+    question: Is the view of the outside through the driver's window still obstructed by the plastic?
+    answer_type: yes_no
+    notes_for_judge: The view should not be clear; it should still be seen through the plastic.
+  - id: window_position_top
+    question: Does the plastic sheeting reach the top edge of the door frame?
+    answer_type: yes_no
+    notes_for_judge: Verifies the window did not roll down.
+  - id: steering_wheel_consistency
+    question: Is the yellow marker on the steering wheel still visible?
+    answer_type: yes_no
+    notes_for_judge: Consistency check.
+  - id: dashboard_consistency
+    question: Is the instrument cluster still illuminated?
+    answer_type: yes_no
+    notes_for_judge: Consistency check.

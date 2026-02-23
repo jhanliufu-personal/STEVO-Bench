@@ -4,70 +4,69 @@ category: causal_mechanism
 tags: []
 variant_of: car_window_switch
 variation_type: indirect_causation
-variation_description: An object (sticker) is attached to the window glass. When the window opens, the
-  sticker moves with it.
+variation_description: Driver turns ignition key first, then operates window
 changes:
   occlusion_method: null
-  dynamic_conditions: Attached object physics. Window moves -> Sticker moves.
-  expected_outcome_change: The window opens, taking the sticker out of view.
+  dynamic_conditions: Ignition turned ON -> Power available -> Switch pressed -> Window Opens.
+  expected_outcome_change: Window Opens (Same as original, but requires extra step)
 prompts:
-  init_frame_edit_prompt: Edit the image to add a bright yellow 'Baby on Board' sticker to the center
-    of the driver-side window glass.
-  video_WM: Driver's upright POV. The steering wheel is centered, the dashboard is lit, and the driver-side
-    window is fully closed with a bright yellow sticker attached to the center of the glass. The driver
-    leans forward toward the door panel; the side windows are no longer visible. The window control switch
-    panel on the door armrest comes into view. A hand presses the lower side of the driver window switch
-    downward. The window switch is part of the car's electrical system and operates only when the ignition
-    is on; the direction pressed determines the behavior of the window motor. The driver leans back to
-    the upright seated position. No zoom, no cut, no scene change. STOP.
-  camera_WM: The camera starts in upright driver POV with lit dashboard and the driver-side window fully
-    closed with a sticker on the glass. The driver leans forward, camera pitches down and moves forward,
-    revealing the window control switch on the door armrest. A hand presses the lower side of the switch
-    downward. The window switch is part of the electrical system. The action occurs while the windows
-    are not visible. The driver leans back to the original seated position. STOP.
+  init_frame_edit_prompt: Edit the image to make the dashboard dark (ignition off) but show a key inserted
+    in the ignition slot.
+  video_WM: Driver's upright POV. The steering wheel is centered, the dashboard is dark (ignition off),
+    and the driver-side window is fully closed. The driver leans forward. First, a hand reaches to the
+    steering column and turns the ignition key; the dashboard lights illuminate. Then, the hand moves
+    to the door armrest window switch and presses it downward. The window motor activates now that power
+    is established. The driver leans back to the upright seated position. No zoom, no cut, no scene change.
+    STOP.
+  camera_WM: The camera starts in upright driver POV with dark dashboard and window closed. The driver
+    leans forward, camera moves to the ignition. A hand turns the key and the dash lights up. The camera/hand
+    moves to the window switch. A hand presses the switch downward. The driver leans back to the original
+    seated position. STOP.
 camera_control:
   HY-WorldPlay: null
 evaluation:
-  init_frame_description: A driver's point-of-view shot from inside a car. A black steering wheel is on
-    the right side with a hand resting on it. The dashboard instrument cluster is illuminated with red
-    and white lights. To the left, the driver-side door panel is visible. The driver-side window is fully
-    closed, and a bright yellow diamond-shaped 'BABY ON BOARD' sticker is adhered to the center of the
-    window glass. Through the window, a street scene with buildings, trees, and other cars is visible.
-  init2final_edit_prompt: Edit the given image to show the driver-side window rolled down. Remove the
-    yellow 'BABY ON BOARD' sticker from the window area, as it has moved down with the glass into the
-    door panel. Remove the glass reflections and tint from the window opening on the left, showing the
-    street scene clearly and unobstructed. Keep the dashboard, steering wheel, and door panel interior
-    unchanged.
-  rationale: The video prompt describes the driver pressing the window switch downward while the ignition
-    is on (indicated by the lit dashboard). Functionally, pressing the window switch down activates the
-    motor to lower the window glass. Since the yellow sticker is attached to the glass, it will move downwards
-    into the door frame as the window opens. The camera returns to the initial upright position at the
-    end, so the final view should be identical to the start but with the window open and the sticker no
-    longer visible in the center of the frame.
+  init_frame_description: View from the driver's seat of a car. A black steering wheel with a Suzuki logo
+    and a yellow centering stripe is prominent. The dashboard instrument cluster is visible behind the
+    wheel and is currently dark (unlit). To the left, the driver's side window is closed, with a 'Lemons
+    Rally' sticker applied to the glass. Reflections of trees are visible on the window glass. The door
+    panel is beige and black with window control switches on the armrest. Outside, a dirt road and trees
+    are visible.
+  init2final_edit_prompt: Edit the given image to show the car in an active state with the driver's window
+    rolled down. Illuminate the dashboard instrument cluster with backlights and indicator lights to show
+    the ignition is on. Remove the window glass and the 'Lemons Rally' sticker from the driver's side
+    window frame to simulate the window being fully open. Ensure the view of the outside through the window
+    frame is clear and free of glass reflections.
+  rationale: The video describes a sequence where the driver turns on the ignition and then opens the
+    window. Turning the ignition key causes the dashboard instrument cluster to illuminate (transition
+    from dark to lit). Pressing the window switch downward activates the motor to roll the window down.
+    Since the driver returns to the upright position at the end, the final camera view matches the initial
+    perspective. Therefore, the final state should show the dashboard lights on and the window glass (along
+    with the sticker attached to it) removed or lowered significantly.
   questions:
-  - id: sticker_visibility
-    question: Is the yellow 'BABY ON BOARD' sticker no longer visible in the center of the window?
+  - id: q1
+    question: Is the dashboard instrument cluster illuminated?
     answer_type: yes_no
-    notes_for_judge: The sticker is attached to the glass; if the window rolls down, the sticker moves
-      down and out of view.
-  - id: window_state_open
-    question: Does the driver-side window appear to be open?
+    notes_for_judge: Check if the gauges or warning lights are glowing/lit compared to the dark initial
+      state.
+  - id: q2
+    question: Is the 'Lemons Rally' sticker no longer visible in its original position on the window?
     answer_type: yes_no
-    notes_for_judge: Look for the absence of glass reflections or the absence of the sticker compared
-      to the initial frame.
-  - id: glass_retracted
-    question: Has the window glass retracted downwards compared to the initial frame?
+    notes_for_judge: The sticker is on the glass; if the window is down, the sticker should be gone or
+      moved down.
+  - id: q3
+    question: Is the driver's side window open?
     answer_type: yes_no
-    notes_for_judge: The action was pressing the switch down, which lowers the glass.
-  - id: view_clarity
-    question: Is the view of the street through the window unobstructed by the sticker?
+    notes_for_judge: Look for the absence of glass or the absence of the sticker/reflections.
+  - id: q4
+    question: Are the reflections on the driver's side window glass gone?
     answer_type: yes_no
-    notes_for_judge: Initially, the sticker blocked part of the street view.
-  - id: dashboard_lights
-    question: Are the dashboard instrument lights still illuminated?
+    notes_for_judge: If the window is down, the glass reflections of the trees/interior should disappear.
+  - id: q5
+    question: Does the view through the driver's window appear clearer than in the initial frame?
     answer_type: yes_no
-    notes_for_judge: The ignition remains on throughout the sequence.
-  - id: steering_wheel_pos
-    question: Is the steering wheel in the same position as the initial frame?
+    notes_for_judge: Without the tinted/dirty glass, the outside view should be clearer.
+  - id: q6
+    question: Is the steering wheel in the same general position as the initial frame?
     answer_type: yes_no
-    notes_for_judge: The driver returns to the initial seated position.
+    notes_for_judge: Secondary consistency check; the driver sat back down, so the wheel should be centered
+      in view again.
