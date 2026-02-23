@@ -114,9 +114,11 @@ def _load_task_data(run_name: str, task_id: str) -> Dict[str, Any]:
     # YAML questions + prompt
     questions: List[Dict[str, str]] = []
     video_wm_prompt: str = cr.get("video_WM_prompt", "") or ""
+    task_level: Optional[Any] = None
     yaml_path = _find_task_yaml(task_id)
     if yaml_path:
         td = load_yaml(yaml_path)
+        task_level = td.get("level")
         for q in ((td.get("evaluation") or {}).get("questions") or []):
             questions.append({
                 "id": str(q.get("id", "")),
@@ -156,6 +158,7 @@ def _load_task_data(run_name: str, task_id: str) -> Dict[str, Any]:
 
     return {
         "task_id":         task_id,
+        "task_level":      task_level,
         "run_name":        run_name,
         "init_frame_url":  furl(jr.get("init_frame", "")),
         "final_frame_url": furl(jr.get("final_frame", "")),
@@ -487,6 +490,7 @@ _HTML = r"""<!DOCTYPE html>
 
   <span id="task-info" style="display:none">
     <span class="tid" id="info-tid"></span>
+    <span id="info-level" style="color:var(--muted); font-size:12px;"></span>
     &nbsp;·&nbsp;
     <span id="info-remaining"></span>
   </span>
@@ -665,7 +669,7 @@ async function loadRandomTask() {
   setLoading(true);
   try {
     const { task_id, total } = await api(`/api/runs/${enc(S.run)}/random`);
-    updateInfoBar(task_id, total);
+    updateInfoBar(task_id, total, null);
     await loadTask(task_id);
   } catch(e) {
     alert('Failed to load random task: ' + e.message);
@@ -693,13 +697,15 @@ async function loadTask(taskId) {
   S.llmControl   = data.llm_control || {};
   S.humanAnswers = { ...data.human_answers };   // copy so we can mutate
   S.humanControl = { ...data.human_control };
-  updateInfoBar(taskId, null);
+  updateInfoBar(taskId, null, data.task_level);
   render(data);
   hideSave();
 }
 
-function updateInfoBar(taskId, total) {
+function updateInfoBar(taskId, total, level) {
   document.getElementById('info-tid').textContent = taskId;
+  const lvlEl = document.getElementById('info-level');
+  lvlEl.textContent = level != null ? ` · Level ${level}` : '';
   if (total != null)
     document.getElementById('info-remaining').textContent = `${total} tasks`;
   document.getElementById('task-info').style.display = '';
