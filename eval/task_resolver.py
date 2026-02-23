@@ -34,7 +34,7 @@ from benchmark.runners.utils import (
     load_yaml, resolve_task_paths
 )
 from eval.utils import (
-    _resolve_video_source, _copy_or_symlink, _download
+    _resolve_video_source, _download
 )
 
 # -----------------------------
@@ -56,14 +56,13 @@ class ResolvedTask:
     task_dir: Path
     task_yaml: Path
     init_frame: Path
-    gt_final_frame: Path
+    gt_final_frame: Optional[Path]  # None if not yet generated
 
     # Model output (normalized into run directory)
     wm_video: Path
 
     # Extracted ingredient
     final_frame: Path
-    extraction_meta: Path
 
     # Eval spec
     questions: List[Question]
@@ -243,12 +242,17 @@ def resolve_one_task(
     task_map: dict,
     outputs_json_path: Path,
     run_dir: Path,
-    link_mode: str = "copy", 
     download_urls: bool = True,
 ) -> ResolvedTask:
     """
-    Resolve and materialize artifacts for ONE task into:
+    Resolve artifacts for ONE task.
+
+    Images (init_frame, gt_final_frame) and local WM videos are referenced
+    by their original paths — nothing is copied. Only derived artifacts
+    (final_frame.png, extraction.json) are written into:
       run_dir/per_task/<task_id>/
+
+    URL videos are downloaded into the per-task folder (no local original exists).
 
     Returns a single ResolvedTask.
     """
@@ -262,9 +266,6 @@ def resolve_one_task(
 
     if not init_frame.exists():
         raise FileNotFoundError(f"Init frame missing for task {task_id}: {init_frame}")
-    if not gt_final_frame.exists():
-        raise FileNotFoundError(f"GT final frame missing for task {task_id}: {gt_final_frame}")
-
     questions, spec_prompt = _load_questions(task_yaml)
     task_level = _load_task_level(task_yaml)
 
@@ -272,46 +273,34 @@ def resolve_one_task(
     run_task_dir = per_task_root / task_id
     run_task_dir.mkdir(parents=True, exist_ok=True)
 
-    # Normalize init + GT final into run dir
-    run_init = run_task_dir / "init_frame.png"
-    if not run_init.exists():
-        _copy_or_symlink(init_frame, run_init, mode=link_mode)
-
-    run_gt_final = run_task_dir / "gt_final_frame.png"
-    if not run_gt_final.exists():
-        _copy_or_symlink(gt_final_frame, run_gt_final, mode=link_mode)
-
-    # Normalize WM video into run dir
-    run_video = run_task_dir / "wm_video.mp4"
-    if not run_video.exists():
-        kind, src = _resolve_video_source(str(video_link), outputs_json_path)
-
-        if kind == "url":
-            if not download_urls:
-                raise ValueError(f"URL provided but download_urls=False for task {task_id}: {video_link}")
+    # Resolve WM video: download URLs; use original path for local files.
+    kind, src = _resolve_video_source(str(video_link), outputs_json_path)
+    if kind == "url":
+        if not download_urls:
+            raise ValueError(f"URL provided but download_urls=False for task {task_id}: {video_link}")
+        run_video = run_task_dir / "wm_video.mp4"
+        if not run_video.exists():
             _download(str(src), run_video)
-        else:
-            if not src.exists():
-                raise FileNotFoundError(f"Video file not found for task {task_id}: {src}")
-            _copy_or_symlink(src, run_video, mode=link_mode)
+        wm_video = run_video
+    else:
+        if not src.exists():
+            raise FileNotFoundError(f"Video file not found for task {task_id}: {src}")
+        wm_video = src  # reference original — no copy
 
-    # Extract final frame
+    # Extract final frame (derived artifact — written to run dir)
     final_frame = run_task_dir / "final_frame.png"
-    extraction_meta = run_task_dir / "extraction.json"
-    if not final_frame.exists() or not extraction_meta.exists():
-        meta = extract_final_frame(run_video, final_frame)
-        extraction_meta.write_text(json.dumps(meta, indent=2), encoding="utf-8")
+    if not final_frame.exists():
+        extract_final_frame(wm_video, final_frame)
 
     return ResolvedTask(
         task_id=task_id,
         task_level=task_level,
         task_dir=task_dir,
         task_yaml=task_yaml,
-        init_frame=run_init,
-        gt_final_frame=run_gt_final,
-        wm_video=run_video,
+        init_frame=init_frame,       # original path
+        gt_final_frame=gt_final_frame if gt_final_frame.exists() else None,
+        wm_video=wm_video,           # original path (or downloaded)
         final_frame=final_frame,
-        extraction_meta=extraction_meta,
         questions=questions,
         spec_prompt=spec_prompt,
     )
@@ -322,14 +311,19 @@ def resolve_tasks_from_outputs_json(
     tasks_root: Path,
     outputs_json: Path,
     run_dir: Path,
-    link_mode: str = "symlink",  # "symlink" or "copy"
     download_urls: bool = True,
+    pattern: Optional[str] = None,
 ) -> List[ResolvedTask]:
     """
     Loop over (task_id -> video_link) pairs in outputs_json and resolve each task.
 
+    If pattern is given (fnmatch-style, e.g. "ice_on_burner*"), only task IDs
+    matching that pattern are resolved.
+
     Returns a list of ResolvedTask.
     """
+    import fnmatch
+
     tasks_root = Path(tasks_root).expanduser().resolve()
     outputs_json = Path(outputs_json).expanduser().resolve()
     run_dir = Path(run_dir).expanduser().resolve()
@@ -343,6 +337,9 @@ def resolve_tasks_from_outputs_json(
     if not isinstance(outputs_data, dict):
         raise ValueError("outputs_json must be a JSON object: { task_id: video_link }")
 
+    if pattern:
+        outputs_data = {k: v for k, v in outputs_data.items() if fnmatch.fnmatch(str(k), pattern)}
+
     resolved: List[ResolvedTask] = []
     for task_id, video_link in outputs_data.items():
         resolved.append(
@@ -352,7 +349,6 @@ def resolve_tasks_from_outputs_json(
                 task_map=task_map,
                 outputs_json_path=outputs_json,
                 run_dir=run_dir,
-                link_mode=link_mode,
                 download_urls=download_urls,
             )
         )

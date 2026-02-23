@@ -27,7 +27,7 @@ from typing import Any, Dict, List, Optional, Sequence
 import yaml
 
 from eval.control_judge_client import make_control_judge_client
-from eval.task_resolver import ResolvedTask 
+from eval.task_resolver import ResolvedTask
 
 
 @dataclass
@@ -37,9 +37,9 @@ class ControlJudgeResult:
     model: str
     report_path: str
 
-    requested_camera_motion: str
+    requested_occlusion: str
     requested_trigger: str
-    camera_motion_done: bool
+    occlusion_done: bool
     trigger_applied: bool
 
     raw_text: str
@@ -62,35 +62,47 @@ def build_control_judge_prompt(video_wm_prompt: str) -> str:
 
         "Your job:\n"
         "A) From the REQUESTED prompt, extract:\n"
-        "   - requested_camera_motion: a concise description of the intended camera movement (or \"none\")\n"
-        "   - requested_trigger: a concise description of the physical action or trigger that should cause the dynamic (or \"none\")\n\n"
+        "   - requested_occlusion: a concise description of the intended occlusion method\n"
+        "     (the technique used to hide the relevant scene area during the trigger).\n"
+        "     Occlusion methods include, but are not limited to:\n"
+        "       - camera motion (pan, lean, zoom out, tilt away)\n"
+        "       - lights turning off (scene goes dark)\n"
+        "       - an object moving in front of the relevant area\n"
+        "       - the subject moving out of frame\n"
+        "     Set to \"none\" if no occlusion is described.\n"
+        "   - requested_trigger: a concise description of the physical action or trigger\n"
+        "     that should cause the dynamic (or \"none\")\n\n"
 
         "B) From the GENERATED video, decide TWO INDEPENDENT things:\n"
-        "   - camera_motion_done: whether the requested camera motion was executed (based on viewpoint changes)\n"
-        "   - trigger_applied: whether the requested trigger/action was applied (based on visible evidence OR its physical effect)\n\n"
+        "   - occlusion_done: whether the requested occlusion was achieved\n"
+        "     (the relevant area was hidden from view by whatever means the prompt specified)\n"
+        "   - trigger_applied: whether the requested trigger/action was applied\n"
+        "     (based on visible evidence OR its physical effect)\n\n"
 
         "CRITICAL DECOUPLING RULE (VERY IMPORTANT):\n"
-        "- Camera motion compliance and trigger execution must be evaluated separately.\n"
-        "- If the prompt describes the trigger as happening \"while X is out of view\" or under some camera condition,\n"
-        "  DO NOT treat that condition as a prerequisite for trigger_applied.\n"
+        "- Occlusion compliance and trigger execution must be evaluated separately.\n"
+        "- If the prompt describes the trigger as happening \"while X is out of view\"\n"
+        "  or under some occlusion condition, DO NOT treat that condition as a\n"
+        "  prerequisite for trigger_applied.\n"
         "- trigger_applied should be TRUE if there is clear visual evidence that:\n"
         "    (a) the action itself occurred (e.g., switch toggled, valve turned, object released), OR\n"
         "    (b) the intended physical effect occurred (e.g., light turns off, object moves, water flows),\n"
-        "  even if the camera did not perfectly satisfy the occlusion or staging requirement.\n"
-        "- camera_motion_done should reflect only whether the requested viewpoint motion or occlusion was achieved.\n\n"
+        "  even if the occlusion was not perfectly achieved.\n"
+        "- occlusion_done should reflect only whether the requested occlusion method\n"
+        "  successfully hid the relevant area at the appropriate moment.\n\n"
 
         "Evaluation guidance:\n"
         "- Use only visual evidence from the video.\n"
         "- Prefer causal evidence over strict timing or framing constraints.\n"
         "- Ignore timestamps, watermarks, subtitles, and UI overlays.\n"
         "- If the prompt does not specify a trigger, set requested_trigger to \"none\" and trigger_applied to true.\n"
-        "- If the prompt does not specify camera motion, set requested_camera_motion to \"none\" and camera_motion_done to true.\n\n"
+        "- If the prompt does not specify an occlusion method, set requested_occlusion to \"none\" and occlusion_done to true.\n\n"
 
         "Return ONLY valid JSON in this exact format (no markdown, no commentary):\n"
         "{\n"
-        "  \"requested_camera_motion\": \"string\",\n"
+        "  \"requested_occlusion\": \"string\",\n"
         "  \"requested_trigger\": \"string\",\n"
-        "  \"camera_motion_done\": true/false,\n"
+        "  \"occlusion_done\": true/false,\n"
         "  \"trigger_applied\": true/false,\n"
         "  \"notes\": \"optional short explanation\"\n"
         "}\n\n"
@@ -152,9 +164,9 @@ def evaluate_control_one_task(
     raw = client.judge(prompt=prompt, video_path=Path(task.wm_video))
     parsed = parse_control_judge_output(raw)
 
-    requested_camera_motion = str(parsed.get("requested_camera_motion", "")).strip()
+    requested_occlusion = str(parsed.get("requested_occlusion", "")).strip()
     requested_trigger = str(parsed.get("requested_trigger", "")).strip()
-    camera_motion_done = bool(parsed.get("camera_motion_done", False))
+    occlusion_done = bool(parsed.get("occlusion_done", False))
     trigger_applied = bool(parsed.get("trigger_applied", False))
     notes = str(parsed.get("notes", "")).strip()
 
@@ -167,9 +179,9 @@ def evaluate_control_one_task(
         "model": model,
         "wm_video": str(task.wm_video),
         "video_WM_prompt": video_wm_prompt,
-        "requested_camera_motion": requested_camera_motion,
+        "requested_occlusion": requested_occlusion,
         "requested_trigger": requested_trigger,
-        "camera_motion_done": camera_motion_done,
+        "occlusion_done": occlusion_done,
         "trigger_applied": trigger_applied,
         "notes": notes,
         "raw_text": raw,
@@ -181,9 +193,9 @@ def evaluate_control_one_task(
         provider="gemini",
         model=model,
         report_path=str(report_path),
-        requested_camera_motion=requested_camera_motion,
+        requested_occlusion=requested_occlusion,
         requested_trigger=requested_trigger,
-        camera_motion_done=camera_motion_done,
+        occlusion_done=occlusion_done,
         trigger_applied=trigger_applied,
         raw_text=raw,
     )
@@ -211,7 +223,7 @@ def append_control_results_to_summary(tasks: List[ResolvedTask]) -> None:
     """
     For each task in the same run:
       - Load control_report.json from per-task folder
-      - Insert camera_motion_done and trigger_applied
+      - Insert occlusion_done and trigger_applied
         into the corresponding task entry in summary.json
 
     Assumes all tasks belong to the same run.
@@ -247,13 +259,13 @@ def append_control_results_to_summary(tasks: List[ResolvedTask]) -> None:
 
         control_data = json.loads(control_report_path.read_text(encoding="utf-8"))
 
-        camera_motion_done = bool(control_data.get("camera_motion_done", False))
+        occlusion_done = bool(control_data.get("occlusion_done", False))
         trigger_applied = bool(control_data.get("trigger_applied", False))
 
         if task_id not in task_entries:
             continue
 
-        task_entries[task_id]["camera_motion_done"] = camera_motion_done
+        task_entries[task_id]["occlusion_done"] = occlusion_done
         task_entries[task_id]["trigger_applied"] = trigger_applied
 
     # Write updated summary
