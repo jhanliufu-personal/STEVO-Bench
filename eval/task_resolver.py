@@ -341,17 +341,24 @@ def resolve_tasks_from_outputs_json(
         outputs_data = {k: v for k, v in outputs_data.items() if fnmatch.fnmatch(str(k), pattern)}
 
     resolved: List[ResolvedTask] = []
+    failed = 0
     for task_id, video_link in outputs_data.items():
-        resolved.append(
-            resolve_one_task(
-                task_id=str(task_id),
-                video_link=str(video_link),
-                task_map=task_map,
-                outputs_json_path=outputs_json,
-                run_dir=run_dir,
-                download_urls=download_urls,
+        try:
+            resolved.append(
+                resolve_one_task(
+                    task_id=str(task_id),
+                    video_link=str(video_link),
+                    task_map=task_map,
+                    outputs_json_path=outputs_json,
+                    run_dir=run_dir,
+                    download_urls=download_urls,
+                )
             )
-        )
+        except Exception as e:
+            print(f"[SKIP] {task_id}: resolution failed — {e}")
+            failed += 1
+    if failed:
+        print(f"[WARN] {failed} tasks skipped during resolution")
 
     return resolved
 
