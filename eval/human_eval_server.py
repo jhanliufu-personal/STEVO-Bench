@@ -88,7 +88,10 @@ def _list_task_ids(run_name: str) -> List[str]:
         return []
     return sorted(
         d.name for d in pt.iterdir()
-        if d.is_dir() and (d / "judge_report.json").exists()
+        if d.is_dir() and (
+            (d / "judge_report.json").exists() or
+            (d / "control_report.json").exists()
+        )
     )
 
 
@@ -99,22 +102,33 @@ def _find_task_yaml(task_id: str) -> Optional[Path]:
 def _load_task_data(run_name: str, task_id: str) -> Dict[str, Any]:
     pt_dir = RUNS_DIR / run_name / "per_task" / task_id
 
-    # Judge report
+    # Judge report (optional — may be absent for control-only runs)
     jr_path = pt_dir / "judge_report.json"
-    if not jr_path.exists():
-        raise FileNotFoundError(f"judge_report.json missing: {jr_path}")
-    jr = json.loads(jr_path.read_text(encoding="utf-8"))
+    jr: Dict[str, Any] = {}
+    if jr_path.exists():
+        jr = json.loads(jr_path.read_text(encoding="utf-8"))
 
-    # Control report
+    # Control report (optional — may be absent for quality-only runs)
     cr_path = pt_dir / "control_report.json"
     cr: Dict[str, Any] = {}
     if cr_path.exists():
         cr = json.loads(cr_path.read_text(encoding="utf-8"))
 
-    # YAML questions + prompt
-    questions: List[Dict[str, str]] = []
+    if not jr and not cr:
+        raise FileNotFoundError(f"No judge_report.json or control_report.json found in: {pt_dir}")
+
+    # video_WM_prompt comes exclusively from control_report.json — the eval
+    # pipeline bakes the correct value in at run time. An empty string means
+    # the task genuinely had no prompt (e.g. a _00 baseline). Never fall back
+    # to the YAML here, as the YAML map may point at a different benchmark
+    # version with different prompt content.
     video_wm_prompt: str = cr.get("video_WM_prompt", "") or ""
+
+    # YAML: task_level, questions, and init_frame path (none of these are
+    # stored in the per-task reports, so YAML lookup is appropriate here)
+    questions: List[Dict[str, str]] = []
     task_level: Optional[Any] = None
+    init_frame_from_yaml: str = ""
     yaml_path = _find_task_yaml(task_id)
     if yaml_path:
         td = load_yaml(yaml_path)
@@ -126,8 +140,10 @@ def _load_task_data(run_name: str, task_id: str) -> Dict[str, Any]:
                 "notes_for_judge": str(q.get("notes_for_judge", "")),
                 "answer_type": str(q.get("answer_type", "yes_no")),
             })
-        if not video_wm_prompt:
-            video_wm_prompt = (td.get("prompts") or {}).get("video_WM", "") or ""
+        # Derive init frame path from YAML location as fallback
+        init_frame_candidate = yaml_path.parent / f"{task_id}_init_frame.png"
+        if init_frame_candidate.exists():
+            init_frame_from_yaml = str(init_frame_candidate)
 
     # LLM answers indexed by question id
     llm_answers: Dict[str, Any] = {
@@ -158,12 +174,36 @@ def _load_task_data(run_name: str, task_id: str) -> Dict[str, Any]:
     def furl(raw: str) -> Optional[str]:
         return f"/file?p={_enc(raw)}" if raw else None
 
+    # init_frame: prefer judge_report path, fall back to YAML-derived path
+    init_frame_path = jr.get("init_frame", "") or init_frame_from_yaml
+    # final_frame: prefer judge_report path, fall back to per-task folder
+    final_frame_path = jr.get("final_frame", "")
+    if not final_frame_path:
+        ff_candidate = pt_dir / "final_frame.png"
+        if ff_candidate.exists():
+            final_frame_path = str(ff_candidate)
+
+    # Load human_state_evol from summary.json task entry
+    human_state_evol: Optional[bool] = None
+    summary_path = RUNS_DIR / run_name / "summary.json"
+    if summary_path.exists():
+        try:
+            summary_data = json.loads(summary_path.read_text(encoding="utf-8"))
+            task_entry = next(
+                (t for t in summary_data.get("tasks", []) if t.get("task_id") == task_id),
+                None,
+            )
+            if task_entry and "human_state_evol" in task_entry:
+                human_state_evol = task_entry["human_state_evol"]
+        except Exception:
+            pass
+
     return {
         "task_id":         task_id,
         "task_level":      task_level,
         "run_name":        run_name,
-        "init_frame_url":  furl(jr.get("init_frame", "")),
-        "final_frame_url": furl(jr.get("final_frame", "")),
+        "init_frame_url":  furl(init_frame_path),
+        "final_frame_url": furl(final_frame_path),
         "video_url":       furl(cr.get("wm_video", "")),
         "video_wm_prompt": video_wm_prompt,
         "questions":       questions,
@@ -176,9 +216,10 @@ def _load_task_data(run_name: str, task_id: str) -> Dict[str, Any]:
             "artifact":            cr.get("artifact"),
             "notes":               cr.get("notes", ""),
         },
-        "human_answers": human_answers,
-        "human_control": human_control,
-        "score":         jr.get("score", {}),
+        "human_answers":    human_answers,
+        "human_control":    human_control,
+        "human_state_evol": human_state_evol,
+        "score":            jr.get("score", {}),
     }
 
 
@@ -261,6 +302,13 @@ def api_answer(run_name: str, task_id: str):
 
     # Update judge_report.json — add/overwrite human_answer in each answer entry
     jr_path = pt_dir / "judge_report.json"
+    human_state_evol: Optional[bool] = None
+
+    # Check for a direct human_state_evol override from the frontend.
+    # Sentinel "MISSING" distinguishes "key absent" from "key present but null".
+    _se_raw = body.get("human_state_evol", "MISSING")
+    has_se_override = _se_raw != "MISSING" and _se_raw is not None
+
     if jr_path.exists():
         jr = json.loads(jr_path.read_text(encoding="utf-8"))
         human = body.get("answers", {})
@@ -268,6 +316,24 @@ def api_answer(run_name: str, task_id: str):
             if a["id"] in human:
                 a["human_answer"] = human[a["id"]]
         jr_path.write_text(json.dumps(jr, indent=2, ensure_ascii=False), encoding="utf-8")
+
+        if has_se_override:
+            # Direct override wins — skip derivation
+            human_state_evol = bool(_se_raw)
+        else:
+            # Derive human_state_evol from the full set of human answers now on record:
+            # - False as soon as any answer is "no" (even if others are unanswered)
+            # - True only when every question has been answered "yes"
+            # - None (not written) if some questions are still unanswered and none are "no"
+            all_answers = jr.get("answers", [])
+            answered = [a["human_answer"] for a in all_answers if "human_answer" in a]
+            if any(v == "no" for v in answered):
+                human_state_evol = False
+            elif answered and len(answered) == len(all_answers):
+                human_state_evol = True
+    elif has_se_override:
+        # No judge report, but a direct override was sent (control-only run)
+        human_state_evol = bool(_se_raw)
 
     # Update control_report.json
     cr_path = pt_dir / "control_report.json"
@@ -282,8 +348,8 @@ def api_answer(run_name: str, task_id: str):
             cr["human_artifact"] = ctrl["artifact"]
         cr_path.write_text(json.dumps(cr, indent=2, ensure_ascii=False), encoding="utf-8")
 
-    # Update summary.json with human control values
-    if ctrl:
+    # Update summary.json with human control values and human_state_evol
+    if ctrl or human_state_evol is not None:
         summary_path = RUNS_DIR / run_name / "summary.json"
         if summary_path.exists():
             summary = json.loads(summary_path.read_text(encoding="utf-8"))
@@ -300,6 +366,8 @@ def api_answer(run_name: str, task_id: str):
                     entry["human_trigger_applied"] = ctrl["trigger_applied"]
                 if "artifact" in ctrl:
                     entry["human_artifact"] = ctrl["artifact"]
+                if human_state_evol is not None:
+                    entry["human_state_evol"] = human_state_evol
                 summary_path.write_text(
                     json.dumps(summary, indent=2, ensure_ascii=False), encoding="utf-8"
                 )
@@ -612,14 +680,15 @@ _HTML = r"""<!DOCTYPE html>
 // State
 // =============================================================================
 let S = {
-  run:          null,   // string
-  taskId:       null,   // string
-  questions:    [],     // [{id, question, notes_for_judge, answer_type}]
-  llmAnswers:   {},     // {id: {answer, confidence, notes}}
-  llmControl:   {},     // {requested_occlusion, requested_trigger, occlusion_done, trigger_applied, notes}
-  humanAnswers: {},     // {id: "yes"|"no"}  — current human answers
-  humanControl: {},     // {occlusion_done: bool, trigger_applied: bool}
-  allTaskIds:   [],     // for search
+  run:            null,   // string
+  taskId:         null,   // string
+  questions:      [],     // [{id, question, notes_for_judge, answer_type}]
+  llmAnswers:     {},     // {id: {answer, confidence, notes}}
+  llmControl:     {},     // {requested_occlusion, requested_trigger, occlusion_done, trigger_applied, notes}
+  humanAnswers:   {},     // {id: "yes"|"no"}  — current human answers
+  humanControl:   {},     // {occlusion_done: bool, trigger_applied: bool}
+  humanStateEvol: null,   // null | true | false — direct override for state evolution verdict
+  allTaskIds:     [],     // for search
 };
 
 let _saveTimer = null;
@@ -718,12 +787,13 @@ async function pickTask(taskId) {
 
 async function loadTask(taskId) {
   const data = await api(`/api/runs/${enc(S.run)}/task/${enc(taskId)}`);
-  S.taskId       = taskId;
-  S.questions    = data.questions   || [];
-  S.llmAnswers   = data.llm_answers || {};
-  S.llmControl   = data.llm_control || {};
-  S.humanAnswers = { ...data.human_answers };   // copy so we can mutate
-  S.humanControl = { ...data.human_control };
+  S.taskId         = taskId;
+  S.questions      = data.questions   || [];
+  S.llmAnswers     = data.llm_answers || {};
+  S.llmControl     = data.llm_control || {};
+  S.humanAnswers   = { ...data.human_answers };   // copy so we can mutate
+  S.humanControl   = { ...data.human_control };
+  S.humanStateEvol = data.human_state_evol ?? null;
   updateInfoBar(taskId, null, data.task_level);
   render(data);
   hideSave();
@@ -782,7 +852,9 @@ function renderQuestions() {
     tbody.innerHTML = '<tr><td colspan="3" style="text-align:center;color:var(--muted);padding:14px">No questions</td></tr>';
     return;
   }
-  tbody.innerHTML = S.questions.map(q => {
+
+  // Per-question rows
+  const questionRows = S.questions.map(q => {
     const llm  = S.llmAnswers[q.id] || {};
     const hAns = S.humanAnswers[q.id];
     return `<tr class="q-row">
@@ -803,6 +875,33 @@ function renderQuestions() {
       </td>
     </tr>`;
   }).join('');
+
+  // State Evolution summary row — LLM verdict derived from individual answers
+  const llmFail   = S.questions.some(q => (S.llmAnswers[q.id]?.answer || '').toLowerCase() === 'no');
+  const llmHasAny = S.questions.some(q => !!S.llmAnswers[q.id]?.answer);
+  const llmSEAns  = !llmHasAny ? null : llmFail ? 'no' : 'yes';
+  const hSE       = S.humanStateEvol;
+  const seOverrideNote = hSE !== null
+    ? '<div class="q-notes" style="color:var(--accent)">Direct override — click again to clear</div>'
+    : '<div class="q-notes">Click T/F to override; click again to revert to auto-derive</div>';
+
+  const stateEvolRow = `
+    <tr style="height:6px"><td colspan="3" style="padding:0; border:none; background:transparent;"></td></tr>
+    <tr class="q-row" style="opacity:0.92">
+      <td style="border-left: 3px solid var(--accent);">
+        <div class="q-text"><strong>State Evolution</strong></div>
+        ${seOverrideNote}
+      </td>
+      <td style="text-align:center">${ansBadge(llmSEAns)}</td>
+      <td>
+        <div class="tf-wrap">
+          <button class="btn-tf ${hSE===true?'on-t':''}" onclick="setStateEvol(true)">T</button>
+          <button class="btn-tf ${hSE===false?'on-f':''}" onclick="setStateEvol(false)">F</button>
+        </div>
+      </td>
+    </tr>`;
+
+  tbody.innerHTML = questionRows + stateEvolRow;
 }
 
 function renderControl() {
@@ -903,7 +1002,6 @@ function setControl(field, value) {
   S.humanControl[field] = value;
 
   // Update button styles
-  const suffix = field === 'occlusion_done' ? 'occlusion_done' : 'trigger_applied';
   document.querySelectorAll(`[onclick*="setControl('${field}"]`).forEach(btn => {
     const isT = btn.getAttribute('onclick').includes(',true)');
     btn.className = 'btn-tf' + (
@@ -912,6 +1010,23 @@ function setControl(field, value) {
     );
   });
 
+  scheduleSave();
+}
+
+function setStateEvol(value) {
+  // Toggle off (back to auto-derive) if clicking the same value again
+  S.humanStateEvol = (S.humanStateEvol === value) ? null : value;
+
+  // Update State Evolution row button styles
+  document.querySelectorAll('[onclick*="setStateEvol("]').forEach(btn => {
+    const isT = btn.getAttribute('onclick').includes('true)');
+    btn.className = 'btn-tf' + (
+      (isT  && S.humanStateEvol === true)  ? ' on-t' :
+      (!isT && S.humanStateEvol === false) ? ' on-f' : ''
+    );
+  });
+
+  refreshVerdicts();
   scheduleSave();
 }
 
@@ -927,12 +1042,17 @@ function refreshVerdicts() {
   setVerdict('llm-verdict', 'LLM',
     !llmHasAny ? 'unk' : llmHasNo ? 'fail' : 'pass');
 
-  // Human: fail if any answer == "no"; unknown if not all answered
-  const answered = qids.filter(id => S.humanAnswers[id] !== undefined);
-  const humanFail = answered.some(id => S.humanAnswers[id] === 'no');
-  const allAnswered = answered.length === qids.length && qids.length > 0;
-  setVerdict('human-verdict', 'Human',
-    answered.length === 0 ? 'unk' : humanFail ? 'fail' : allAnswered ? 'pass' : 'partial');
+  // Human: if a direct state-evol override is set, use it; else derive from individual answers
+  let humanState;
+  if (S.humanStateEvol !== null && S.humanStateEvol !== undefined) {
+    humanState = S.humanStateEvol ? 'pass' : 'fail';
+  } else {
+    const answered   = qids.filter(id => S.humanAnswers[id] !== undefined);
+    const humanFail  = answered.some(id => S.humanAnswers[id] === 'no');
+    const allAnswered = answered.length === qids.length && qids.length > 0;
+    humanState = answered.length === 0 ? 'unk' : humanFail ? 'fail' : allAnswered ? 'pass' : 'partial';
+  }
+  setVerdict('human-verdict', 'Human', humanState);
 }
 
 function setVerdict(id, label, state) {
@@ -965,7 +1085,11 @@ async function doSave() {
       {
         method:  'POST',
         headers: { 'Content-Type': 'application/json' },
-        body:    JSON.stringify({ answers: S.humanAnswers, control: S.humanControl }),
+        body:    JSON.stringify({
+          answers:          S.humanAnswers,
+          control:          S.humanControl,
+          human_state_evol: S.humanStateEvol,   // null → derive from questions; true/false → direct override
+        }),
       }
     );
     showSave('saved');

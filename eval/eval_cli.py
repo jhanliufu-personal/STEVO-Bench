@@ -1,7 +1,8 @@
 import argparse
+import json
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
-from typing import List, Tuple
+from typing import List, Optional, Tuple
 
 from eval.task_resolver import resolve_tasks_from_outputs_json, ResolvedTask
 from eval.judge_runner import judge_one_task
@@ -11,15 +12,56 @@ from eval.judge_output_parser import JudgeResult
 from eval.control_judge import ControlJudgeResult
 
 
+def _init_summary_json(resolved_tasks: List[ResolvedTask], run_root: Path) -> None:
+    """
+    Ensure summary.json exists with a skeleton entry for every resolved task.
+
+    - If the file does not exist, create it with num_tasks / overall / by_level / tasks.
+    - If the file already exists, add entries for any task_ids not yet present
+      (handles re-runs with --pattern or newly added tasks) without touching
+      existing entries.
+    """
+    summary_path = run_root / "summary.json"
+
+    if summary_path.exists():
+        summary = json.loads(summary_path.read_text(encoding="utf-8"))
+        existing_ids = {t["task_id"] for t in summary.get("tasks", []) if "task_id" in t}
+        new_entries = [
+            {"task_id": t.task_id, "task_level": t.task_level}
+            for t in resolved_tasks
+            if t.task_id not in existing_ids
+        ]
+        if new_entries:
+            summary.setdefault("tasks", []).extend(new_entries)
+            summary_path.write_text(
+                json.dumps(summary, indent=2, ensure_ascii=False), encoding="utf-8"
+            )
+    else:
+        summary = {
+            "num_tasks": len(resolved_tasks),
+            "overall":   {},
+            "by_level":  {},
+            "tasks": [
+                {"task_id": t.task_id, "task_level": t.task_level}
+                for t in resolved_tasks
+            ],
+        }
+        summary_path.write_text(
+            json.dumps(summary, indent=2, ensure_ascii=False), encoding="utf-8"
+        )
+
+
 def _eval_one_task(
     task: ResolvedTask,
     *,
     provider: str,
     judge_model: str,
     control_model: str,
-) -> Tuple[JudgeResult, ControlJudgeResult]:
-    judge_result = judge_one_task(task, provider=provider, model=judge_model)
-    control_result = evaluate_control_one_task(task, model=control_model)
+    run_judge: bool = True,
+    run_control: bool = True,
+) -> Tuple[Optional[JudgeResult], Optional[ControlJudgeResult]]:
+    judge_result   = judge_one_task(task, provider=provider, model=judge_model) if run_judge   else None
+    control_result = evaluate_control_one_task(task, model=control_model)       if run_control else None
     return judge_result, control_result
 
 
@@ -82,8 +124,24 @@ def main() -> None:
         action="store_true",
         help="If set, download http(s) videos into the run directory.",
     )
+    parser.add_argument(
+        "--state_only",
+        action="store_true",
+        help="Run only the state evolution judge (judge_report). Skips control judge.",
+    )
+    parser.add_argument(
+        "--control_only",
+        action="store_true",
+        help="Run only the control judge (control_report). Skips quality judge and scoring.",
+    )
 
     args = parser.parse_args()
+
+    if args.state_only and args.control_only:
+        parser.error("--state_only and --control_only are mutually exclusive.")
+
+    run_judge   = not args.control_only
+    run_control = not args.state_only
 
     # ---------------------------------------------------------------------------
     # Build eval run directory
@@ -120,13 +178,27 @@ def main() -> None:
     print(f"[DONE] Resolved {len(resolved_tasks)} tasks into: {per_task_root}")
 
     # ---------------------------------------------------------------------------
+    # Initialise summary.json skeleton (always, before any judging)
+    # ---------------------------------------------------------------------------
+    _init_summary_json(resolved_tasks, run_root)
+
+    # Keep the full list for the summary-append step at the end.
+    all_resolved_tasks = resolved_tasks
+
+    # ---------------------------------------------------------------------------
     # Skip tasks that are already fully evaluated (unless --overwrite)
     # ---------------------------------------------------------------------------
     if not args.overwrite:
         pending, skipped = [], 0
         for task in resolved_tasks:
             task_dir = per_task_root / task.task_id
-            if (task_dir / "judge_report.json").exists() and (task_dir / "control_report.json").exists():
+            judge_done   = (task_dir / "judge_report.json").exists()
+            control_done = (task_dir / "control_report.json").exists()
+            already_done = (
+                (run_judge   and judge_done   or not run_judge) and
+                (run_control and control_done or not run_control)
+            )
+            if already_done:
                 skipped += 1
             else:
                 pending.append(task)
@@ -149,6 +221,8 @@ def main() -> None:
                 provider=args.judge_vlm_provider,
                 judge_model=args.judge_vlm_model,
                 control_model=args.control_judge_model,
+                run_judge=run_judge,
+                run_control=run_control,
             ): task
             for task in resolved_tasks
         }
@@ -156,8 +230,10 @@ def main() -> None:
             task = futures[future]
             try:
                 jr, cr = future.result()
-                judge_results.append(jr)
-                control_results.append(cr)
+                if jr is not None:
+                    judge_results.append(jr)
+                if cr is not None:
+                    control_results.append(cr)
             except Exception as e:
                 print(f"[ERROR] {task.task_id}: {e}")
                 failed += 1
@@ -167,15 +243,19 @@ def main() -> None:
     # ---------------------------------------------------------------------------
     # Scoring — sequential (aggregates all judge results)
     # ---------------------------------------------------------------------------
-    task_scores = score_all_tasks(judge_results=judge_results)
-    _ = write_run_report(task_scores=task_scores, run_dir=run_root)
-    print(f"[DONE] Scored {len(task_scores)} tasks")
+    if run_judge and judge_results:
+        task_scores = score_all_tasks(judge_results=judge_results)
+        _ = write_run_report(task_scores=task_scores, run_dir=run_root)
+        print(f"[DONE] Scored {len(task_scores)} tasks")
 
     # ---------------------------------------------------------------------------
     # Append control results to summary — sequential
+    # Uses all_resolved_tasks so already-skipped tasks with existing
+    # control_report.json are also merged into summary.json.
     # ---------------------------------------------------------------------------
-    append_control_results_to_summary(tasks=resolved_tasks)
-    print(f"[DONE] Controllability evaluation done")
+    if run_control:
+        append_control_results_to_summary(tasks=all_resolved_tasks)
+        print(f"[DONE] Controllability evaluation done")
 
     return
 

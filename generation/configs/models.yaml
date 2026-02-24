@@ -61,6 +61,37 @@ models:
     camera_control_default: "s-3, right-10, left-20, right-10"
     n_gpu: 8
 
+  sora:
+    type: api
+    provider: openai_sora
+    prompt_field: video_WM
+    camera_control_field: null
+    api_key_env: SORA_API_KEY
+    model_id: sora-2
+    # Output resolution ("WxH"). The init_frame is auto-resized to match.
+    # Supported 16:9 options: 1280x720, 1920x1080
+    size: "1280x720"
+    seconds: 8
+    poll_interval: 20
+    timeout: 900
+    rpm_limit: null
+
+  LingBot:
+    type: local
+    runner_class: lingbot
+    prompt_field: camera_WM
+    camera_control_field: lingbot
+    # on paros
+    repo_path: /data/jhan/StateWMBench/lingbot-world      
+    script: run_single.sh
+    extra_args: []
+    rpm_limit: null
+    # Pre-computed action folders (run precompute_lingbot_actions.py to generate)
+    lingbot_actions_root: generation/world_models/lingbot_actions
+    # Fallback when a task has lingbot: null — same pan as the standard HY-WorldPlay default
+    camera_control_default: "s-3, right-20, left-20"
+    n_gpu: 8
+
   wan22:
     type: local
     prompt_field: video_WM

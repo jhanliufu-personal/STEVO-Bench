@@ -57,7 +57,45 @@ def _load_task_fields(task_yaml_path: Path) -> tuple[str, str, str]:
     return video_wm.strip(), camera_wm.strip(), camera_pose
 
 
-_OCCLUSION_SIGNAL = ", then, after a pause,"
+_OCCLUSION_SIGNAL = "after a pause"  # case-insensitive; present in all occlusion prompts, never in baselines
+
+
+def _extract_occlusion_clause(video_wm: str) -> str:
+    """Extract just the occlusion description from video_WM.
+
+    Handles two prompt shapes:
+
+    1. image_implied (single clause, no semicolon):
+         "A curtain drops in front of X, blocking it from view, then, after a pause, rises."
+         "A metal lid is placed over Y, covering it from view. After a pause, lifted away."
+       → strips the reveal tail; returns the remaining occlusion clause.
+
+    2. simple_kickoff ("<kick-off>; while <process>, <occlusion>. After a pause, <reveal>."):
+         "Hand strikes ball; while the balls scatter, the lights turn off, leaving complete
+          darkness. After a pause, the lights turn back on."
+       → strips the reveal tail, then takes the part after the first ";" —
+         the "while <process>, <occlusion>" clause.
+    """
+    text = video_wm.strip()
+
+    # Strip the reveal tail in both patterns:
+    #   A: ", then, after a pause, ..."  (original image_implied style)
+    #   B: ". After a pause, ..."        (new object-occlusion / simple_kickoff style)
+    text = re.sub(
+        r",?\s*then[,\s]+after\s+a\s+pause\b.*", "", text,
+        flags=re.IGNORECASE | re.DOTALL,
+    ).strip()
+    text = re.sub(
+        r"\.\s*after\s+a\s+pause\b.*", "", text,
+        flags=re.IGNORECASE | re.DOTALL,
+    ).strip()
+
+    # For simple_kickoff prompts the kick-off and occlusion are separated by ";".
+    # Take only the part after the first ";" — the "while process, occlusion" clause.
+    if ";" in text:
+        text = text.split(";", 1)[1].strip()
+
+    return text
 
 
 def _compute_requested_fields(
@@ -68,36 +106,32 @@ def _compute_requested_fields(
     """Compute (requested_trigger, requested_occlusion) from task prompt fields.
 
     requested_trigger:
-      - camera_WM if non-empty (camera-controlled models)
-      - else first sentence of video_WM if video_WM contains a kickoff before the
-        occlusion sentence (simple_kickoff tasks without separate camera_WM)
-      - else "none" (image_implied tasks and all baselines)
+      - camera_WM if non-empty (simple_kickoff tasks always set camera_WM to the
+        kick-off sentence; image_implied tasks always leave it empty)
+      - else "none"
 
     requested_occlusion:
-      - in-scene description from video_WM if it contains the occlusion signal
-        (, then, after a pause,); for two-sentence video_WM the second sentence is
-        the occlusion sentence, for one-sentence video_WM the whole string is
+      - occlusion clause extracted from video_WM if it contains the occlusion signal
+        ("after a pause"); see _extract_occlusion_clause for the two supported shapes:
+          * image_implied: single clause ending in ", then, after a pause, …"
+          * simple_kickoff: "<kick-off>; while <process>, <occlusion>. After a pause, …"
       - else "camera pan" if a camera pose string is present
       - else "none" (pure baseline — no occlusion of any kind requested)
     """
+    _has_occlusion = _OCCLUSION_SIGNAL in video_wm.lower()
+
     # --- requested_trigger ---
+    # camera_WM is the authoritative source for the kick-off action.
+    # image_implied tasks always have camera_WM empty (no kickoff needed).
+    # simple_kickoff tasks always have camera_WM filled with the kickoff sentence.
     if camera_wm:
         requested_trigger = camera_wm
-    elif _OCCLUSION_SIGNAL in video_wm and ". " in video_wm:
-        # simple_kickoff without camera_WM: first sentence is the kickoff
-        requested_trigger = video_wm.split(". ", 1)[0]
     else:
         requested_trigger = "none"
 
     # --- requested_occlusion ---
-    if _OCCLUSION_SIGNAL in video_wm:
-        # In-scene occlusion is described in video_WM.
-        # Two-sentence video_WM: second sentence is the occlusion.
-        # One-sentence video_WM: the whole string is the occlusion.
-        if ". " in video_wm:
-            requested_occlusion = video_wm.split(". ", 1)[1]
-        else:
-            requested_occlusion = video_wm
+    if _has_occlusion:
+        requested_occlusion = _extract_occlusion_clause(video_wm)
     elif camera_pose:
         requested_occlusion = "camera pan"
     else:

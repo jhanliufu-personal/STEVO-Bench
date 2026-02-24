@@ -7,14 +7,14 @@ Run after the eval pipeline:
     python -m eval.compute_level_stats --run_dir runs/my_run
 
 Stats added to each level in by_level, and to overall:
-  num_tasks             : number of tasks in the group
-  avg_occlusion_done    : fraction of tasks where occlusion was successfully applied
-  avg_trigger_applied   : fraction of tasks where the trigger was applied
-  avg_artifact          : fraction of tasks where obvious visual artifacts are present
-  avg_success           : fraction of tasks where accuracy == 1.0
-  avg_compliant         : fraction of tasks where occlusion_done=True AND
-                          trigger_applied=True AND artifact=False
-  avg_success_compliant : fraction of compliant tasks where accuracy == 1.0
+  num_tasks              : number of tasks in the group
+  avg_occlusion_done     : fraction of tasks where occlusion was successfully applied
+  avg_trigger_applied    : fraction of tasks where the trigger was applied
+  avg_artifact           : fraction of tasks where obvious visual artifacts are present
+  avg_control_success    : fraction of tasks where occlusion_done=True AND trigger_applied=True
+  avg_state_evol_success : fraction of tasks where accuracy == 1.0
+  avg_task_success       : fraction of tasks where control_success=True AND
+                           state_evol_success=True AND artifact=False
 
 Tasks missing occlusion_done / trigger_applied / artifact (not yet control-judged)
 are excluded from the relevant averages.
@@ -33,21 +33,29 @@ def _avg(values: List[float]) -> float | None:
 
 def _empty_buckets() -> Dict[str, List]:
     return {
-        "occlusion_done": [],
-        "trigger_applied": [],
-        "artifact": [],
-        "success": [],
-        "compliant": [],
-        "success_compliant": [],
+        # LLM judge metrics
+        "occlusion_done":     [],
+        "trigger_applied":    [],
+        "artifact":           [],
+        "control_success":    [],
+        "state_evol_success": [],
+        "task_success":       [],
+        # Human judge metrics
+        "human_occlusion_done":     [],
+        "human_trigger_applied":    [],
+        "human_artifact":           [],
+        "human_control_success":    [],
+        "human_state_evol_success": [],
+        "human_task_success":       [],
     }
 
 
 def _fill_bucket(bucket: Dict[str, List], t: Dict[str, Any]) -> None:
     """Accumulate one task entry into a bucket dict."""
-    accuracy = t.get("accuracy")
-    occlusion_done = t.get("occlusion_done")   # bool or None
+    accuracy        = t.get("accuracy")
+    occlusion_done  = t.get("occlusion_done")   # bool or None
     trigger_applied = t.get("trigger_applied")  # bool or None
-    artifact = t.get("artifact")               # bool or None
+    artifact        = t.get("artifact")         # bool or None
 
     if occlusion_done is not None:
         bucket["occlusion_done"].append(1.0 if occlusion_done else 0.0)
@@ -56,30 +64,76 @@ def _fill_bucket(bucket: Dict[str, List], t: Dict[str, Any]) -> None:
     if artifact is not None:
         bucket["artifact"].append(1.0 if artifact else 0.0)
 
-    compliant = bool(occlusion_done) and bool(trigger_applied) and not bool(artifact)
-    if occlusion_done is not None and trigger_applied is not None and artifact is not None:
-        bucket["compliant"].append(1.0 if compliant else 0.0)
+    # control_success: occlusion_done AND trigger_applied (no artifact check)
+    control_success = bool(occlusion_done) and bool(trigger_applied)
+    if occlusion_done is not None and trigger_applied is not None:
+        bucket["control_success"].append(1.0 if control_success else 0.0)
 
-    if accuracy is None or occlusion_done is None or trigger_applied is None or artifact is None:
-        return
+    # state_evol_success: accuracy == 1.0
+    if accuracy is not None:
+        bucket["state_evol_success"].append(1.0 if accuracy == 1.0 else 0.0)
 
-    success = 1.0 if (compliant and accuracy == 1.0) else 0.0
-    bucket["success"].append(success)
+    # task_success: control_success AND accuracy == 1.0 AND no artifact
+    if accuracy is not None and occlusion_done is not None and trigger_applied is not None and artifact is not None:
+        task_success = control_success and (accuracy == 1.0) and not bool(artifact)
+        bucket["task_success"].append(1.0 if task_success else 0.0)
 
-    if compliant:
-        bucket["success_compliant"].append(success)
+    # ---- Human counterparts ----
+    human_occlusion_done  = t.get("human_occlusion_done")   # bool or None
+    human_trigger_applied = t.get("human_trigger_applied")  # bool or None
+    human_artifact        = t.get("human_artifact")         # bool or None
+    human_state_evol      = t.get("human_state_evol")       # bool or None
+
+    if human_occlusion_done is not None:
+        bucket["human_occlusion_done"].append(1.0 if human_occlusion_done else 0.0)
+    if human_trigger_applied is not None:
+        bucket["human_trigger_applied"].append(1.0 if human_trigger_applied else 0.0)
+    if human_artifact is not None:
+        bucket["human_artifact"].append(1.0 if human_artifact else 0.0)
+
+    # human_control_success: human_occlusion_done AND human_trigger_applied
+    if human_occlusion_done is not None and human_trigger_applied is not None:
+        human_ctrl = bool(human_occlusion_done) and bool(human_trigger_applied)
+        bucket["human_control_success"].append(1.0 if human_ctrl else 0.0)
+
+    # human_state_evol_success: human_state_evol is True
+    if human_state_evol is not None:
+        bucket["human_state_evol_success"].append(1.0 if human_state_evol else 0.0)
+
+    # human_task_success: human_ctrl AND human_state_evol AND NOT human_artifact
+    if (human_occlusion_done is not None and human_trigger_applied is not None
+            and human_artifact is not None and human_state_evol is not None):
+        human_task = (bool(human_occlusion_done) and bool(human_trigger_applied)
+                      and bool(human_state_evol) and not bool(human_artifact))
+        bucket["human_task_success"].append(1.0 if human_task else 0.0)
 
 
 def _bucket_to_stats(bucket: Dict[str, List], num_tasks: int) -> Dict[str, Any]:
     return {
-        "num_tasks":              num_tasks,
-        "avg_occlusion_done":     _avg(bucket["occlusion_done"]),
-        "avg_trigger_applied":    _avg(bucket["trigger_applied"]),
-        "avg_artifact":           _avg(bucket["artifact"]),
-        "avg_success":            _avg(bucket["success"]),
-        "avg_compliant":          _avg(bucket["compliant"]),
-        "avg_success_compliant":  _avg(bucket["success_compliant"]),
+        "num_tasks":               num_tasks,
+        # LLM judge averages
+        "avg_occlusion_done":      _avg(bucket["occlusion_done"]),
+        "avg_trigger_applied":     _avg(bucket["trigger_applied"]),
+        "avg_artifact":            _avg(bucket["artifact"]),
+        "avg_control_success":     _avg(bucket["control_success"]),
+        "avg_state_evol_success":  _avg(bucket["state_evol_success"]),
+        "avg_task_success":        _avg(bucket["task_success"]),
+        # Human judge averages
+        "avg_human_occlusion_done":     _avg(bucket["human_occlusion_done"]),
+        "avg_human_trigger_applied":    _avg(bucket["human_trigger_applied"]),
+        "avg_human_artifact":           _avg(bucket["human_artifact"]),
+        "avg_human_control_success":    _avg(bucket["human_control_success"]),
+        "avg_human_state_evol_success": _avg(bucket["human_state_evol_success"]),
+        "avg_human_task_success":       _avg(bucket["human_task_success"]),
     }
+
+
+def _stats_for_tasks(tasks: List[Dict[str, Any]]) -> Dict[str, Any]:
+    """Compute aggregate stats for an arbitrary list of task entries."""
+    bucket = _empty_buckets()
+    for t in tasks:
+        _fill_bucket(bucket, t)
+    return _bucket_to_stats(bucket, len(tasks))
 
 
 def compute_level_stats(
@@ -90,8 +144,8 @@ def compute_level_stats(
 
     Returns:
       (level_stats, overall_stats)
-      level_stats  — dict keyed by level string
-      overall_stats — same seven metrics aggregated across all levels
+      level_stats   — dict keyed by level string
+      overall_stats — same metrics aggregated across all levels
     """
     level_buckets: Dict[str, Dict[str, List]] = defaultdict(_empty_buckets)
     level_counts:  Dict[str, int] = defaultdict(int)
@@ -157,45 +211,44 @@ def main() -> None:
         encoding="utf-8",
     )
 
-    # Print summary table
+    # Split tasks into baseline (_00) and occluded (non-_00) groups
+    baseline_tasks = [t for t in tasks if str(t.get("task_id", "")).endswith("_00")]
+    occluded_tasks = [t for t in tasks if not str(t.get("task_id", "")).endswith("_00")]
+
+    all_stats      = _stats_for_tasks(tasks)
+    baseline_stats = _stats_for_tasks(baseline_tasks)
+    occluded_stats = _stats_for_tasks(occluded_tasks)
+
+    # Print summary tables
     print(f"Updated {summary_path}\n")
 
     def fmt(v: Any) -> str:
         return f"{v:.3f}" if isinstance(v, float) else f"{v:>5}" if isinstance(v, int) else "  n/a"
 
-    header = (
-        f"{'Level':>7}  {'N':>5}  {'occ_done':>8}  {'trig_app':>8}  "
-        f"{'artifact':>8}  {'success':>8}  {'compliant':>9}  {'succ_cmp':>8}"
-    )
-    print(header)
-    print("-" * len(header))
-
-    rows = sorted(by_level.keys(), key=lambda x: int(x) if x.isdigit() else x)
-    for level in rows:
-        s = by_level[level]
-        print(
-            f"{level:>7}  "
-            f"{s.get('num_tasks', '?'):>5}  "
-            f"{fmt(s.get('avg_occlusion_done')):>8}  "
-            f"{fmt(s.get('avg_trigger_applied')):>8}  "
-            f"{fmt(s.get('avg_artifact')):>8}  "
-            f"{fmt(s.get('avg_success')):>8}  "
-            f"{fmt(s.get('avg_compliant')):>9}  "
-            f"{fmt(s.get('avg_success_compliant')):>8}"
+    def print_table(title: str, llm_key_prefix: str) -> None:
+        p = llm_key_prefix  # "" for LLM, "human_" for Human
+        header = (
+            f"{'Group':>10}  {'N':>5}  {'occ_done':>8}  {'trig_app':>8}  "
+            f"{'artifact':>8}  {'ctrl_suc':>8}  {'se_suc':>8}  {'task_suc':>8}"
         )
+        print(title)
+        print(header)
+        print("-" * len(header))
+        for label, s in [("all", all_stats), ("baseline", baseline_stats), ("occluded", occluded_stats)]:
+            print(
+                f"{label:>10}  "
+                f"{s.get('num_tasks', '?'):>5}  "
+                f"{fmt(s.get(f'avg_{p}occlusion_done')):>8}  "
+                f"{fmt(s.get(f'avg_{p}trigger_applied')):>8}  "
+                f"{fmt(s.get(f'avg_{p}artifact')):>8}  "
+                f"{fmt(s.get(f'avg_{p}control_success')):>8}  "
+                f"{fmt(s.get(f'avg_{p}state_evol_success')):>8}  "
+                f"{fmt(s.get(f'avg_{p}task_success')):>8}"
+            )
 
-    print("-" * len(header))
-    o = summary["overall"]
-    print(
-        f"{'overall':>7}  "
-        f"{o.get('num_tasks', '?'):>5}  "
-        f"{fmt(o.get('avg_occlusion_done')):>8}  "
-        f"{fmt(o.get('avg_trigger_applied')):>8}  "
-        f"{fmt(o.get('avg_artifact')):>8}  "
-        f"{fmt(o.get('avg_success')):>8}  "
-        f"{fmt(o.get('avg_compliant')):>9}  "
-        f"{fmt(o.get('avg_success_compliant')):>8}"
-    )
+    print_table("LLM Judge",   llm_key_prefix="")
+    print()
+    print_table("Human Judge", llm_key_prefix="human_")
 
 
 if __name__ == "__main__":
