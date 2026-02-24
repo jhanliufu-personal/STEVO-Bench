@@ -140,12 +140,6 @@ def _run_one(
     """Extract the right prompt + camera_control from the task YAML and call generate()."""
     prompts = task.get("prompts") or {}
     prompt = (prompts.get(runner.prompt_field) or "").strip()
-    if not prompt:
-        print(
-            f"[{runner.name}] SKIP {task_id}: "
-            f"prompt field '{runner.prompt_field}' is empty or missing"
-        )
-        return False
 
     camera_control: Optional[str] = None
     if runner.camera_control_field:
