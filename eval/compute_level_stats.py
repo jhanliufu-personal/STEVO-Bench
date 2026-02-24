@@ -10,19 +10,14 @@ Stats added to each level in by_level, and to overall:
   num_tasks             : number of tasks in the group
   avg_occlusion_done    : fraction of tasks where occlusion was successfully applied
   avg_trigger_applied   : fraction of tasks where the trigger was applied
-  avg_acc_baseline      : accuracy on _00 (full-observability baseline) tasks
-                          where trigger_applied=True
-  avg_acc_full_obs      : accuracy on all fully-observed tasks where trigger_applied=True —
-                          baseline (_00) + non-baseline where occlusion_done=False
-  avg_acc_occluded      : accuracy on non-baseline tasks where both
-                          occlusion_done=True and trigger_applied=True
+  avg_artifact          : fraction of tasks where obvious visual artifacts are present
   avg_success           : fraction of tasks where accuracy == 1.0
-  avg_compliant         : fraction of tasks where occlusion_done=True AND trigger_applied=True
+  avg_compliant         : fraction of tasks where occlusion_done=True AND
+                          trigger_applied=True AND artifact=False
   avg_success_compliant : fraction of compliant tasks where accuracy == 1.0
 
-Tasks missing occlusion_done / trigger_applied (not yet control-judged) are
-excluded from the relevant averages but still counted in avg_acc_full_obs if
-occlusion clearly did not happen (occlusion_done absent treated as False).
+Tasks missing occlusion_done / trigger_applied / artifact (not yet control-judged)
+are excluded from the relevant averages.
 """
 
 import argparse
@@ -40,9 +35,7 @@ def _empty_buckets() -> Dict[str, List]:
     return {
         "occlusion_done": [],
         "trigger_applied": [],
-        "acc_baseline": [],
-        "acc_full_obs": [],
-        "acc_occluded": [],
+        "artifact": [],
         "success": [],
         "compliant": [],
         "success_compliant": [],
@@ -51,38 +44,30 @@ def _empty_buckets() -> Dict[str, List]:
 
 def _fill_bucket(bucket: Dict[str, List], t: Dict[str, Any]) -> None:
     """Accumulate one task entry into a bucket dict."""
-    task_id = str(t.get("task_id", ""))
     accuracy = t.get("accuracy")
     occlusion_done = t.get("occlusion_done")   # bool or None
     trigger_applied = t.get("trigger_applied")  # bool or None
-    is_baseline = task_id.endswith("_00")
+    artifact = t.get("artifact")               # bool or None
 
     if occlusion_done is not None:
         bucket["occlusion_done"].append(1.0 if occlusion_done else 0.0)
     if trigger_applied is not None:
         bucket["trigger_applied"].append(1.0 if trigger_applied else 0.0)
+    if artifact is not None:
+        bucket["artifact"].append(1.0 if artifact else 0.0)
 
-    compliant = bool(occlusion_done) and bool(trigger_applied)
-    if occlusion_done is not None and trigger_applied is not None:
+    compliant = bool(occlusion_done) and bool(trigger_applied) and not bool(artifact)
+    if occlusion_done is not None and trigger_applied is not None and artifact is not None:
         bucket["compliant"].append(1.0 if compliant else 0.0)
 
-    if accuracy is None:
+    if accuracy is None or occlusion_done is None or trigger_applied is None or artifact is None:
         return
 
-    success = 1.0 if accuracy == 1.0 else 0.0
+    success = 1.0 if (compliant and accuracy == 1.0) else 0.0
     bucket["success"].append(success)
 
     if compliant:
         bucket["success_compliant"].append(success)
-
-    if is_baseline and trigger_applied:
-        bucket["acc_baseline"].append(accuracy)
-
-    if (is_baseline or not occlusion_done) and trigger_applied:
-        bucket["acc_full_obs"].append(accuracy)
-
-    if not is_baseline and occlusion_done and trigger_applied:
-        bucket["acc_occluded"].append(accuracy)
 
 
 def _bucket_to_stats(bucket: Dict[str, List], num_tasks: int) -> Dict[str, Any]:
@@ -90,9 +75,7 @@ def _bucket_to_stats(bucket: Dict[str, List], num_tasks: int) -> Dict[str, Any]:
         "num_tasks":              num_tasks,
         "avg_occlusion_done":     _avg(bucket["occlusion_done"]),
         "avg_trigger_applied":    _avg(bucket["trigger_applied"]),
-        "avg_acc_baseline":       _avg(bucket["acc_baseline"]),
-        "avg_acc_full_obs":       _avg(bucket["acc_full_obs"]),
-        "avg_acc_occluded":       _avg(bucket["acc_occluded"]),
+        "avg_artifact":           _avg(bucket["artifact"]),
         "avg_success":            _avg(bucket["success"]),
         "avg_compliant":          _avg(bucket["compliant"]),
         "avg_success_compliant":  _avg(bucket["success_compliant"]),
@@ -182,8 +165,7 @@ def main() -> None:
 
     header = (
         f"{'Level':>7}  {'N':>5}  {'occ_done':>8}  {'trig_app':>8}  "
-        f"{'baseline':>8}  {'full_obs':>8}  {'occluded':>8}  "
-        f"{'success':>8}  {'compliant':>9}  {'succ_cmp':>8}"
+        f"{'artifact':>8}  {'success':>8}  {'compliant':>9}  {'succ_cmp':>8}"
     )
     print(header)
     print("-" * len(header))
@@ -196,9 +178,7 @@ def main() -> None:
             f"{s.get('num_tasks', '?'):>5}  "
             f"{fmt(s.get('avg_occlusion_done')):>8}  "
             f"{fmt(s.get('avg_trigger_applied')):>8}  "
-            f"{fmt(s.get('avg_acc_baseline')):>8}  "
-            f"{fmt(s.get('avg_acc_full_obs')):>8}  "
-            f"{fmt(s.get('avg_acc_occluded')):>8}  "
+            f"{fmt(s.get('avg_artifact')):>8}  "
             f"{fmt(s.get('avg_success')):>8}  "
             f"{fmt(s.get('avg_compliant')):>9}  "
             f"{fmt(s.get('avg_success_compliant')):>8}"
@@ -211,9 +191,7 @@ def main() -> None:
         f"{o.get('num_tasks', '?'):>5}  "
         f"{fmt(o.get('avg_occlusion_done')):>8}  "
         f"{fmt(o.get('avg_trigger_applied')):>8}  "
-        f"{fmt(o.get('avg_acc_baseline')):>8}  "
-        f"{fmt(o.get('avg_acc_full_obs')):>8}  "
-        f"{fmt(o.get('avg_acc_occluded')):>8}  "
+        f"{fmt(o.get('avg_artifact')):>8}  "
         f"{fmt(o.get('avg_success')):>8}  "
         f"{fmt(o.get('avg_compliant')):>9}  "
         f"{fmt(o.get('avg_success_compliant')):>8}"

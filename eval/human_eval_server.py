@@ -15,8 +15,8 @@ Each task page shows:
   - Output video (with seeking support)
   - Video WM prompt
   - LLM judge questions + answers
-  - Control judge output (occlusion / trigger)
-  - T/F buttons for human answers (auto-saved to judge_report.json / control_report.json)
+  - Control judge output (occlusion / trigger / artifact)
+  - T/F buttons for human answers (auto-saved to judge_report.json / control_report.json / summary.json)
   - Overall LLM and Human verdicts
 """
 
@@ -152,6 +152,8 @@ def _load_task_data(run_name: str, task_id: str) -> Dict[str, Any]:
         human_control["occlusion_done"] = cr["human_occlusion_done"]
     if "human_trigger_applied" in cr:
         human_control["trigger_applied"] = cr["human_trigger_applied"]
+    if "human_artifact" in cr:
+        human_control["artifact"] = cr["human_artifact"]
 
     def furl(raw: str) -> Optional[str]:
         return f"/file?p={_enc(raw)}" if raw else None
@@ -171,6 +173,7 @@ def _load_task_data(run_name: str, task_id: str) -> Dict[str, Any]:
             "requested_trigger":   cr.get("requested_trigger", ""),
             "occlusion_done":      cr.get("occlusion_done"),
             "trigger_applied":     cr.get("trigger_applied"),
+            "artifact":            cr.get("artifact"),
             "notes":               cr.get("notes", ""),
         },
         "human_answers": human_answers,
@@ -275,7 +278,31 @@ def api_answer(run_name: str, task_id: str):
             cr["human_occlusion_done"] = ctrl["occlusion_done"]
         if "trigger_applied" in ctrl:
             cr["human_trigger_applied"] = ctrl["trigger_applied"]
+        if "artifact" in ctrl:
+            cr["human_artifact"] = ctrl["artifact"]
         cr_path.write_text(json.dumps(cr, indent=2, ensure_ascii=False), encoding="utf-8")
+
+    # Update summary.json with human control values
+    if ctrl:
+        summary_path = RUNS_DIR / run_name / "summary.json"
+        if summary_path.exists():
+            summary = json.loads(summary_path.read_text(encoding="utf-8"))
+            task_entries = {
+                t["task_id"]: t
+                for t in summary.get("tasks", [])
+                if "task_id" in t
+            }
+            if task_id in task_entries:
+                entry = task_entries[task_id]
+                if "occlusion_done" in ctrl:
+                    entry["human_occlusion_done"] = ctrl["occlusion_done"]
+                if "trigger_applied" in ctrl:
+                    entry["human_trigger_applied"] = ctrl["trigger_applied"]
+                if "artifact" in ctrl:
+                    entry["human_artifact"] = ctrl["artifact"]
+                summary_path.write_text(
+                    json.dumps(summary, indent=2, ensure_ascii=False), encoding="utf-8"
+                )
 
     return jsonify({"status": "ok"})
 
@@ -781,12 +808,13 @@ function renderQuestions() {
 function renderControl() {
   const body = document.getElementById('ctrl-body');
   const c = S.llmControl;
-  if (c.occlusion_done == null && c.trigger_applied == null) {
+  if (c.occlusion_done == null && c.trigger_applied == null && c.artifact == null) {
     body.innerHTML = '<div style="color:var(--muted);font-size:13px;">No control data</div>';
     return;
   }
   const hOcc  = S.humanControl.occlusion_done;
   const hTrig = S.humanControl.trigger_applied;
+  const hArt  = S.humanControl.artifact;
 
   body.innerHTML = `
     <div class="ctrl-row">
@@ -821,6 +849,24 @@ function renderControl() {
         <div class="tf-wrap">
           <button class="btn-tf ${hTrig===true ?'on-t':''}" onclick="setControl('trigger_applied',true)">T</button>
           <button class="btn-tf ${hTrig===false?'on-f':''}" onclick="setControl('trigger_applied',false)">F</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="ctrl-row">
+      <div class="ctrl-body">
+        <div class="ctrl-lbl">Artifact</div>
+        <div class="ctrl-val">Any obvious visual artifacts?</div>
+      </div>
+      <div class="ctrl-llm">
+        <div class="ctrl-lbl">LLM</div>
+        ${boolBadge(c.artifact)}
+      </div>
+      <div class="ctrl-human">
+        <div class="ctrl-lbl">Human</div>
+        <div class="tf-wrap">
+          <button class="btn-tf ${hArt===true ?'on-t':''}" onclick="setControl('artifact',true)">T</button>
+          <button class="btn-tf ${hArt===false?'on-f':''}" onclick="setControl('artifact',false)">F</button>
         </div>
       </div>
     </div>

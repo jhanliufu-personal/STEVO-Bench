@@ -41,74 +41,131 @@ class ControlJudgeResult:
     requested_trigger: str
     occlusion_done: bool
     trigger_applied: bool
+    artifact: bool
 
     raw_text: str
 
 
-def _load_video_wm_prompt(task_yaml_path: Path) -> str:
+def _load_task_fields(task_yaml_path: Path) -> tuple[str, str, str]:
+    """Return (video_WM, camera_WM, camera_pose) from the task YAML. Empty string if absent."""
     data = yaml.safe_load(Path(task_yaml_path).read_text(encoding="utf-8")) or {}
     prompts = data.get("prompts", {}) or {}
-    s = prompts.get("video_WM", "")
-    return s.strip() if isinstance(s, str) and s.strip() else "none"
+    video_wm = prompts.get("video_WM", "") or ""
+    camera_wm = prompts.get("camera_WM", "") or ""
+    raw_pose = (data.get("camera_control") or {}).get("HY-WorldPlay") or ""
+    camera_pose = str(raw_pose).strip() if raw_pose else ""
+    return video_wm.strip(), camera_wm.strip(), camera_pose
 
 
-def build_control_judge_prompt(video_wm_prompt: str) -> str:
+_OCCLUSION_SIGNAL = ", then, after a pause,"
+
+
+def _compute_requested_fields(
+    video_wm: str,
+    camera_wm: str,
+    camera_pose: str,
+) -> tuple[str, str]:
+    """Compute (requested_trigger, requested_occlusion) from task prompt fields.
+
+    requested_trigger:
+      - camera_WM if non-empty (camera-controlled models)
+      - else first sentence of video_WM if video_WM contains a kickoff before the
+        occlusion sentence (simple_kickoff tasks without separate camera_WM)
+      - else "none" (image_implied tasks and all baselines)
+
+    requested_occlusion:
+      - in-scene description from video_WM if it contains the occlusion signal
+        (, then, after a pause,); for two-sentence video_WM the second sentence is
+        the occlusion sentence, for one-sentence video_WM the whole string is
+      - else "camera pan" if a camera pose string is present
+      - else "none" (pure baseline — no occlusion of any kind requested)
+    """
+    # --- requested_trigger ---
+    if camera_wm:
+        requested_trigger = camera_wm
+    elif _OCCLUSION_SIGNAL in video_wm and ". " in video_wm:
+        # simple_kickoff without camera_WM: first sentence is the kickoff
+        requested_trigger = video_wm.split(". ", 1)[0]
+    else:
+        requested_trigger = "none"
+
+    # --- requested_occlusion ---
+    if _OCCLUSION_SIGNAL in video_wm:
+        # In-scene occlusion is described in video_WM.
+        # Two-sentence video_WM: second sentence is the occlusion.
+        # One-sentence video_WM: the whole string is the occlusion.
+        if ". " in video_wm:
+            requested_occlusion = video_wm.split(". ", 1)[1]
+        else:
+            requested_occlusion = video_wm
+    elif camera_pose:
+        requested_occlusion = "camera pan"
+    else:
+        requested_occlusion = "none"
+
+    return requested_trigger, requested_occlusion
+
+
+def build_control_judge_prompt(requested_trigger: str, requested_occlusion: str) -> str:
+    trigger_display   = requested_trigger   or "none"
+    occlusion_display = requested_occlusion or "none"
+
     return (
-        "You are evaluating controllability of a generated video.\n\n"
+        "You are evaluating a generated video for controllability and visual quality.\n\n"
 
-        "You are given:\n"
-        "1) A REQUESTED video-generation prompt (what SHOULD happen)\n"
-        "2) The GENERATED video (what DID happen)\n\n"
+        "The following have been determined from the task specification:\n"
+        f"  requested_trigger:   {trigger_display}\n"
+        f"  requested_occlusion: {occlusion_display}\n\n"
 
-        "Your job:\n"
-        "A) From the REQUESTED prompt, extract:\n"
-        "   - requested_occlusion: a concise description of the intended occlusion method\n"
-        "     (the technique used to hide the relevant scene area during the trigger).\n"
-        "     Occlusion methods include, but are not limited to:\n"
-        "       - camera motion (pan, lean, zoom out, tilt away)\n"
-        "       - lights turning off (scene goes dark)\n"
-        "       - an object moving in front of the relevant area\n"
-        "       - the subject moving out of frame\n"
-        "     Set to \"none\" if no occlusion is described.\n"
-        "   - requested_trigger: a concise description of the physical action or trigger\n"
-        "     that should cause the dynamic (or \"none\")\n\n"
+        "PARTIAL OBSERVABILITY:\n"
+        "The video may hide the scene via in-scene occlusion (lights off, object placed in front,\n"
+        "smoke filling the view, etc.) OR by camera pan (camera moves away, taking the subject\n"
+        "fully out of frame). Both mechanisms are valid.\n"
+        "Do NOT penalise a mismatch between requested_occlusion and the mechanism shown in the video.\n"
+        "Occlusion success is judged solely by whether the subject became invisible, regardless of how.\n\n"
 
-        "B) From the GENERATED video, decide TWO INDEPENDENT things:\n"
-        "   - occlusion_done: whether the requested occlusion was achieved\n"
-        "     (the relevant area was hidden from view by whatever means the prompt specified)\n"
-        "   - trigger_applied: whether the requested trigger/action was applied\n"
-        "     (based on visible evidence OR its physical effect)\n\n"
+        "Evaluate THREE INDEPENDENT things from the GENERATED video:\n\n"
 
-        "CRITICAL DECOUPLING RULE (VERY IMPORTANT):\n"
-        "- Occlusion compliance and trigger execution must be evaluated separately.\n"
-        "- If the prompt describes the trigger as happening \"while X is out of view\"\n"
-        "  or under some occlusion condition, DO NOT treat that condition as a\n"
-        "  prerequisite for trigger_applied.\n"
-        "- trigger_applied should be TRUE if there is clear visual evidence that:\n"
-        "    (a) the action itself occurred (e.g., switch toggled, valve turned, object released), OR\n"
-        "    (b) the intended physical effect occurred (e.g., light turns off, object moves, water flows),\n"
-        "  even if the occlusion was not perfectly achieved.\n"
-        "- occlusion_done should reflect only whether the requested occlusion method\n"
-        "  successfully hid the relevant area at the appropriate moment.\n\n"
+        "1. trigger_applied — Did the requested kickoff action occur?\n"
+        "   TRUE if the action itself happened or its physical effect is clearly visible.\n"
+        "   Set to true if requested_trigger is \"none\".\n\n"
 
-        "Evaluation guidance:\n"
+        "2. occlusion_done — Were the key subject and dynamic successfully hidden from view\n"
+        "   (became invisible) at the appropriate moment, by ANY mechanism?\n"
+        "   Camera pan that moves the subject fully out of frame counts as occlusion_done = True,\n"
+        "   even if requested_occlusion described a different in-scene method — and vice versa.\n"
+        "   TRUE only if the main subject/area became clearly invisible or fully obscured.\n"
+        "   FALSE if the dynamic process already completed BEFORE the occlusion took place.\n"
+        "   FALSE if the scene was never hidden at all.\n"
+        "   Set to true if requested_occlusion is \"none\".\n\n"
+
+        "3. artifact — Are there obvious visual artifacts in the video?\n"
+        "   TRUE if ANY of the following are clearly visible:\n"
+        "     - Unrequested scene changes (background or environment suddenly different)\n"
+        "     - Scene reset: the scene briefly blacks out or cuts, then the same objects reappear\n"
+        "       in a discontinuous state or different configuration with no physical explanation\n"
+        "       (do NOT flag this if requested_occlusion describes lights turning off, since a\n"
+        "       brief darkness followed by a scene reveal is expected in that case)\n"
+        "     - Object deformation without a physical cause\n"
+        "     - Objects appearing or disappearing out of nowhere\n"
+        "     - Objects suddenly jumping to a different location with no physical explanation\n"
+        "     - Objects morphing into each other or going through each other\n"
+        "     - Any other blatantly unrealistic or incoherent visual event\n"
+        "   FALSE if the video looks physically plausible throughout.\n\n"
+
+        "DECOUPLING RULE: evaluate trigger_applied, occlusion_done, and artifact independently.\n\n"
+
+        "General guidance:\n"
         "- Use only visual evidence from the video.\n"
-        "- Prefer causal evidence over strict timing or framing constraints.\n"
-        "- Ignore timestamps, watermarks, subtitles, and UI overlays.\n"
-        "- If the prompt does not specify a trigger, set requested_trigger to \"none\" and trigger_applied to true.\n"
-        "- If the prompt does not specify an occlusion method, set requested_occlusion to \"none\" and occlusion_done to true.\n\n"
+        "- Ignore timestamps, watermarks, subtitles, and UI overlays.\n\n"
 
         "Return ONLY valid JSON in this exact format (no markdown, no commentary):\n"
         "{\n"
-        "  \"requested_occlusion\": \"string\",\n"
-        "  \"requested_trigger\": \"string\",\n"
         "  \"occlusion_done\": true/false,\n"
         "  \"trigger_applied\": true/false,\n"
+        "  \"artifact\": true/false,\n"
         "  \"notes\": \"optional short explanation\"\n"
-        "}\n\n"
-
-        "REQUESTED VIDEO PROMPT:\n"
-        f"{video_wm_prompt.strip()}\n"
+        "}\n"
     )
 
 
@@ -156,18 +213,19 @@ def evaluate_control_one_task(
     report_filename: str = "control_report.json",
 ) -> ControlJudgeResult:
     client = make_control_judge_client(model=model)
-    # print('Control judge client made')
 
-    video_wm_prompt = _load_video_wm_prompt(Path(task.task_yaml))
-    prompt = build_control_judge_prompt(video_wm_prompt)
+    video_wm_prompt, camera_wm_prompt, camera_pose = _load_task_fields(Path(task.task_yaml))
+    requested_trigger, requested_occlusion = _compute_requested_fields(
+        video_wm_prompt, camera_wm_prompt, camera_pose
+    )
+    prompt = build_control_judge_prompt(requested_trigger, requested_occlusion)
 
     raw = client.judge(prompt=prompt, video_path=Path(task.wm_video))
     parsed = parse_control_judge_output(raw)
 
-    requested_occlusion = str(parsed.get("requested_occlusion", "")).strip()
-    requested_trigger = str(parsed.get("requested_trigger", "")).strip()
     occlusion_done = bool(parsed.get("occlusion_done", False))
     trigger_applied = bool(parsed.get("trigger_applied", False))
+    artifact = bool(parsed.get("artifact", False))
     notes = str(parsed.get("notes", "")).strip()
 
     run_task_dir = Path(task.final_frame).parent  # per_task/<task_id>/
@@ -179,10 +237,12 @@ def evaluate_control_one_task(
         "model": model,
         "wm_video": str(task.wm_video),
         "video_WM_prompt": video_wm_prompt,
+        "camera_WM_prompt": camera_wm_prompt,
         "requested_occlusion": requested_occlusion,
         "requested_trigger": requested_trigger,
         "occlusion_done": occlusion_done,
         "trigger_applied": trigger_applied,
+        "artifact": artifact,
         "notes": notes,
         "raw_text": raw,
     }
@@ -197,6 +257,7 @@ def evaluate_control_one_task(
         requested_trigger=requested_trigger,
         occlusion_done=occlusion_done,
         trigger_applied=trigger_applied,
+        artifact=artifact,
         raw_text=raw,
     )
 
@@ -261,12 +322,14 @@ def append_control_results_to_summary(tasks: List[ResolvedTask]) -> None:
 
         occlusion_done = bool(control_data.get("occlusion_done", False))
         trigger_applied = bool(control_data.get("trigger_applied", False))
+        artifact = bool(control_data.get("artifact", False))
 
         if task_id not in task_entries:
             continue
 
         task_entries[task_id]["occlusion_done"] = occlusion_done
         task_entries[task_id]["trigger_applied"] = trigger_applied
+        task_entries[task_id]["artifact"] = artifact
 
     # Write updated summary
     summary_path.write_text(

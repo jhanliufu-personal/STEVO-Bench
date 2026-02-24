@@ -119,7 +119,6 @@ def judge_one_task(
         "judge_model": model,
         "init_frame": str(task.init_frame),
         "final_frame": str(task.final_frame),
-        # "final_frame": str(task.gt_final_frame),
         "prompt": prompt,
         "raw_text": raw,
         "answers": [asdict(a) for a in answers],
