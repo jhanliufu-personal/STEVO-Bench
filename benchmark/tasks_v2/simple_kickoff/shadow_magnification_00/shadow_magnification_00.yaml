@@ -1,0 +1,53 @@
+id: shadow_magnification_00
+level: 3
+category: relational_state
+relational_type: geometric_coupling
+prompts:
+  image_gen_prompt: A stationary spotlight is aimed at a white wall. A small plastic dinosaur is sitting on a pedestal halfway
+    between the light and the wall, casting a sharp shadow.
+  video_WM: A hand continuously slides the pedestal closer to a spotlight.
+  camera_WM: A hand continuously slides the pedestal closer to a spotlight.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  init_frame_description: A studio scene featuring a toy T-Rex standing on a tall wooden pedestal in the center. To the right,
+    a black stage spotlight on a stand shines a beam of light towards the left. To the left, a textured concrete wall displays
+    the cast shadow of the T-Rex. The beam of light is visible in the air, illuminating dust particles.
+  init2final_edit_prompt: Edit the given image to move the wooden pedestal and dinosaur to the right, placing them closer
+    to the spotlight. Make the shadow cast on the wall significantly larger and taller to reflect the increased magnification
+    caused by the dinosaur's closer proximity to the light source. Keep the spotlight stand and the wall in their original
+    positions. Maintain the original camera framing.
+  rationale: The prompt describes the dinosaur moving toward the light source and away from the wall. According to the laws
+    of optics, as an object moves closer to a point light source and further from the projection screen (the wall), the shadow
+    magnification increases. Therefore, the final state must show the dinosaur positioned closer to the light and a correspondingly
+    larger shadow on the wall. The camera rotation away and back serves as a temporal transition; I assume the camera returns
+    to the initial framing to allow evaluation of the relative positions.
+  questions:
+  - id: shadow_size_increase
+    question: Is the shadow of the dinosaur on the wall larger than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the height and width of the shadow on the wall.
+  - id: pedestal_position_right
+    question: Is the wooden pedestal positioned further to the right than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Check the position of the pedestal relative to the floor or wall markings.
+  - id: dino_light_proximity
+    question: Is the dinosaur closer to the spotlight than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Evaluate the gap between the dinosaur/pedestal and the light source.
+  - id: shadow_magnification_relation
+    question: Does the shadow appear magnified relative to the dinosaur's size compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The ratio of shadow size to object size should increase.
+  - id: dino_wall_distance
+    question: Is the distance between the dinosaur and the wall larger than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The dinosaur should be further from the left wall.
+  - id: light_stationary
+    question: Is the spotlight stand in the same position as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The light source should not have moved.
+  - id: wall_stationary
+    question: Is the concrete wall in the same position as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The background environment should be stable.

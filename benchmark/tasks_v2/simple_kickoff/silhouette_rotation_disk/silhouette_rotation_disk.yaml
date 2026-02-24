@@ -1,0 +1,40 @@
+id: silhouette_rotation_disk
+level: 3
+category: relational_state
+relational_type: geometric_coupling
+prompts:
+  image_gen_prompt: Generate an image that shows the following:A bright, stationary spotlight shines on a large white screen.
+    Between them sits a solid, flat, circular metal disk standing vertically on its thin edge on a motorized rotating base.
+    The current shadow cast on the screen is a large, perfect full circle.
+  video_WM: A hand gives a flat circular disk a spin, setting it into steady rotation. The spotlight then turns off
+    and leave the room in complete darkness, and the disk completely invisible. After a pause, the spotlight turns back on.
+  camera_WM: A hand gives a flat circular disk a spin, setting it into steady rotation.
+camera_control:
+  HY-WorldPlay: s-3, right-20, left-20
+evaluation:
+  questions:
+  - id: disk_orientation_face
+    question: Does the disk now appear as a full circle facing the camera, rather than a thin edge?
+    answer_type: yes_no
+    notes_for_judge: The disk should have rotated 90 degrees to face the viewer.
+  - id: shadow_shape_line
+    question: Is the shadow on the white screen a thin vertical line or narrow strip?
+    answer_type: yes_no
+    notes_for_judge: Since the disk is now edge-on to the light, the shadow must be a line, not a circle.
+  - id: shadow_circle_gone
+    question: Is the large circular shadow absent from the screen?
+    answer_type: yes_no
+    notes_for_judge: The circular shadow should be replaced by the line shadow.
+  - id: coupled_state_consistency
+    question: Is the relationship between the disk's visible face and the shadow's shape consistent with a 90-degree rotation?
+    answer_type: yes_no
+    notes_for_judge: 'Check for consistency: Face-on disk to camera implies Edge-on disk to light (assuming light/camera are
+      approx 90 deg apart or setup implies it), resulting in a line shadow.'
+  - id: disk_texture_visible
+    question: Is the surface texture of the disk's face visible?
+    answer_type: yes_no
+    notes_for_judge: The face of the disk should now be revealed.
+  - id: screen_visible
+    question: Is the white screen still visible in the frame?
+    answer_type: yes_no
+    notes_for_judge: The screen must be visible to verify the shadow state.

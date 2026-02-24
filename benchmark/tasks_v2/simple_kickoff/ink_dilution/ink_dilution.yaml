@@ -1,0 +1,52 @@
+id: ink_dilution
+level: 3
+category: relational_state
+relational_type: concentration_coupling
+scalar_variable: Fluid transparency
+prompts:
+  image_gen_prompt: A glass beaker is half-full of dark, opaque purple ink. A pitcher of clear water is tilted over the beaker,
+    beginning to pour in a steady stream.
+  video_WM: A hand pours a stream of clear water into a beaker of dark ink. A piece of cardboard is placed in front of the
+    beaker, blocking it from view, then, after a pause, removed.
+  camera_WM: A hand pours a stream of clear water into a beaker of dark ink.
+camera_control:
+  HY-WorldPlay: s-3, right-20, left-20
+evaluation:
+  init_frame_description: A glass beaker sits on a wooden lab table containing dark purple ink. A glass pitcher held above
+    is pouring a stream of clear water into the beaker. The water is crashing into the ink, creating turbulent swirls of lighter
+    purple and clear liquid within the dark mixture. In the background, there is a window with white frames and other blurred
+    lab equipment.
+  init2final_edit_prompt: Edit the given image to show the beaker filled with a significantly higher level of liquid. The
+    liquid inside the beaker should be a much lighter, more transparent shade of purple, indicating it has been diluted by
+    the added water. The glass pitcher should still be pouring a stream of clear water into the beaker. Maintain the original
+    camera angle, background, and lighting.
+  rationale: The video prompt describes a continuous pouring action while the camera pans away and then returns. During the
+    time the beaker is occluded by the camera rotation, the pouring adds volume to the beaker. According to physical principles
+    of mixing and dilution, adding clear water to dark ink increases the total volume and decreases the opacity/saturation
+    of the color. When the camera returns to the initial view, the beaker must contain more liquid, and that liquid must be
+    lighter in color.
+  questions:
+  - id: volume_increase
+    question: Is the level of liquid in the beaker higher than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the height of the liquid surface in the beaker between the first and last frames.
+  - id: color_dilution
+    question: Is the purple liquid in the beaker lighter or more transparent than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The addition of clear water should dilute the dark ink, making it paler.
+  - id: pouring_continuity
+    question: Is the pitcher still pouring water into the beaker?
+    answer_type: yes_no
+    notes_for_judge: The prompt states the pouring continues.
+  - id: coupled_change
+    question: Does the liquid show signs of both increased volume and decreased color saturation relative to the start?
+    answer_type: yes_no
+    notes_for_judge: Checks the relationship between adding solvent (volume up) and dilution (color down).
+  - id: background_consistency
+    question: Are the wooden table and background window consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The camera returns to the center view, so the static environment should match.
+  - id: beaker_presence
+    question: Is the beaker visible and centered in the frame?
+    answer_type: yes_no
+    notes_for_judge: The camera rotates back to the center view.

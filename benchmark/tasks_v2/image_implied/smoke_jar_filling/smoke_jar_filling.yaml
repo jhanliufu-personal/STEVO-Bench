@@ -1,0 +1,57 @@
+id: smoke_jar_filling
+level: 1
+category: scalar_state
+tags: []
+prompts:
+  image_gen_prompt: A clear glass jar with an open top sits on a dark surface. A lit incense stick is positioned at the jar
+    opening with its tip producing a thin stream of white smoke that begins flowing into the empty jar.
+  video_WM: The room lights switch off, leaving the jar and smoke in darkness, then, after a pause, turn back on.
+  camera_WM: ''
+camera_control:
+  HY-WorldPlay: s-3, right-20, left-20
+  Genie: null
+evaluation:
+  init_frame_description: A clear glass jar sits on a dark, weathered wooden windowsill. An incense stick is held diagonally
+    above the jar, with its burning tip positioned just over the jar's opening. Thin wisps of white smoke are curling from
+    the tip, with some smoke beginning to settle inside the clear glass jar. The background shows a blurred window frame.
+  init2final_edit_prompt: Edit the given image to fill the glass jar with significantly more white smoke. The interior of
+    the jar should appear much cloudier, denser, and more opaque with accumulated smoke compared to the original view. The
+    background seen through the glass should be more obscured by the increased volume of smoke.
+  rationale: The video prompt describes a continuous process where an incense stick produces smoke that flows into a jar.
+    While the camera pans away and the jar is occluded, the physical process of smoke generation and accumulation continues.
+    When the camera returns to the original view, the scalar quantity of smoke (mass/volume) inside the jar must have increased,
+    resulting in a visually denser and more opaque interior compared to the initial frame.
+  questions:
+  - id: smoke_density_increase
+    question: Is the smoke inside the jar denser than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the opacity of the jar's interior. It should be whiter/cloudier.
+  - id: smoke_volume_increase
+    question: Is there a greater amount of white smoke visible within the jar compared to the start?
+    answer_type: yes_no
+    notes_for_judge: Focus on the quantity of smoke matter.
+  - id: visibility_obscured
+    question: Is the background seen through the jar less visible due to the smoke than before?
+    answer_type: yes_no
+    notes_for_judge: Increased smoke density should obscure the view through the glass.
+  - id: smoke_filling
+    question: Does the jar appear more filled with smoke than it did initially?
+    answer_type: yes_no
+    notes_for_judge: Directional check for filling process.
+  - id: incense_stick_presence
+    question: Is the incense stick still visible above the jar?
+    answer_type: yes_no
+    notes_for_judge: Consistency check for the source object.
+  - id: jar_location_consistency
+    question: Is the jar still sitting on the wooden surface?
+    answer_type: yes_no
+    notes_for_judge: Consistency check for the environment.
+  generation:
+    model_provider: google_gemini
+    llm: gemini-3-pro-preview
+    temperature: 0.2
+    created_utc: '2026-02-20T10:16:55Z'
+  inputs_digest:
+    initial_frame_sha256: caad6765b4c2dd15f983dacc2df38fd553bdb95a208164b6ba91702a6d868319
+    video_prompt_sha256: f3b1ac117439dc1b75d76a15289fdd4cf97cc1b30a5f55e4c0bb9d79145cfc3d
+    task_yaml_sha256_before: c01bafbc1e7da6108c4cfb15b3f31d0cb03533ba9c5a09fbdeec4fb53a5e45a2

@@ -1,0 +1,44 @@
+id: pulley_counterweight_00
+level: 3
+category: relational_state
+relational_type: tension_coupling
+prompts:
+  image_gen_prompt: Generate an image that shows a single pulley mounted to a ceiling. A rope passes through it, with a 5kg
+    iron weight hanging from each end. The weights are currently at the same height.
+  video_WM: A hand releases one side of an unbalanced pulley, letting the heavier weight fall.
+  camera_WM: A hand releases one side of an unbalanced pulley, letting the heavier weight fall.
+camera_control:
+  HY-WorldPlay: null
+evaluation:
+  questions:
+  - id: left_weight_lower
+    question: Is the left weight positioned lower than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the vertical position of the left weight relative to background landmarks (e.g., the workbench
+      or wall) between the initial and final frames.
+  - id: right_weight_higher
+    question: Is the right weight positioned higher than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the vertical position of the right weight relative to the pulley or beam between the initial
+      and final frames.
+  - id: relative_height_diff
+    question: Is the left weight now positioned lower than the right weight?
+    answer_type: yes_no
+    notes_for_judge: In the initial frame they are level. In the final frame, the left should be lower than the right.
+  - id: coupled_motion
+    question: Do the weights appear to have moved in opposite directions (one up, one down)?
+    answer_type: yes_no
+    notes_for_judge: Check if the displacement of the left weight (down) corresponds to a displacement of the right weight
+      (up).
+  - id: rope_tautness
+    question: Does the rope appear taut between the weights and the pulley?
+    answer_type: yes_no
+    notes_for_judge: The rope should not be slack or broken.
+  - id: vertical_separation
+    question: Is the vertical distance between the two weights greater than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Initially, the distance is near zero (level). Finally, there should be a significant vertical gap.
+  - id: object_persistence
+    question: Are both '5 KG IRON' weights still visible and recognizable?
+    answer_type: yes_no
+    notes_for_judge: Ensure the objects haven't morphed into something else.
