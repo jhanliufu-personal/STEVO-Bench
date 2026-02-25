@@ -1273,7 +1273,7 @@ def main() -> None:
 
     parser = argparse.ArgumentParser(description="StateWM Human Eval UI")
     parser.add_argument("--runs_dir",  default="runs",            help="Path to runs directory (default: runs/)")
-    parser.add_argument("--tasks_dir", default="benchmark/tasks", help="Path to benchmark tasks root (default: benchmark/tasks/)")
+    parser.add_argument("--tasks_dir", default="benchmark/tasks_v4/", help="Path to benchmark tasks root (default: benchmark/tasks/)")
     parser.add_argument("--host",      default="127.0.0.1",       help="Host to bind (default: 127.0.0.1)")
     parser.add_argument("--port",      default=7860, type=int,    help="Port to listen on (default: 7860)")
     args = parser.parse_args()
