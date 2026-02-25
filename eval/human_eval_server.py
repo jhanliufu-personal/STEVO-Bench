@@ -162,6 +162,11 @@ def _load_task_data(run_name: str, task_id: str) -> Dict[str, Any]:
         if "human_answer" in a
     }
 
+    # human_final_frame_correct stored directly in judge_report.json
+    human_final_frame_correct: Optional[bool] = jr.get("human_final_frame_correct")
+    if human_final_frame_correct is not None:
+        human_final_frame_correct = bool(human_final_frame_correct)
+
     # Existing human control answers
     human_control: Dict[str, Optional[bool]] = {}
     if "human_occlusion_done" in cr:
@@ -170,6 +175,8 @@ def _load_task_data(run_name: str, task_id: str) -> Dict[str, Any]:
         human_control["trigger_applied"] = cr["human_trigger_applied"]
     if "human_artifact" in cr:
         human_control["artifact"] = cr["human_artifact"]
+    if "human_coherence" in cr:
+        human_control["coherence"] = cr["human_coherence"]
 
     def furl(raw: str) -> Optional[str]:
         return f"/file?p={_enc(raw)}" if raw else None
@@ -216,9 +223,10 @@ def _load_task_data(run_name: str, task_id: str) -> Dict[str, Any]:
             "artifact":            cr.get("artifact"),
             "notes":               cr.get("notes", ""),
         },
-        "human_answers":    human_answers,
-        "human_control":    human_control,
-        "human_state_evol": human_state_evol,
+        "human_answers":             human_answers,
+        "human_control":             human_control,
+        "human_final_frame_correct": human_final_frame_correct,
+        "human_state_evol":          human_state_evol,
         "score":            jr.get("score", {}),
     }
 
@@ -309,12 +317,18 @@ def api_answer(run_name: str, task_id: str):
     _se_raw = body.get("human_state_evol", "MISSING")
     has_se_override = _se_raw != "MISSING" and _se_raw is not None
 
+    _ffc_raw = body.get("final_frame_correct", "MISSING")
+    has_ffc = _ffc_raw != "MISSING" and _ffc_raw is not None
+    human_final_frame_correct: Optional[bool] = bool(_ffc_raw) if has_ffc else None
+
     if jr_path.exists():
         jr = json.loads(jr_path.read_text(encoding="utf-8"))
         human = body.get("answers", {})
         for a in jr.get("answers", []):
             if a["id"] in human:
                 a["human_answer"] = human[a["id"]]
+        if has_ffc:
+            jr["human_final_frame_correct"] = human_final_frame_correct
         jr_path.write_text(json.dumps(jr, indent=2, ensure_ascii=False), encoding="utf-8")
 
         if has_se_override:
@@ -346,10 +360,12 @@ def api_answer(run_name: str, task_id: str):
             cr["human_trigger_applied"] = ctrl["trigger_applied"]
         if "artifact" in ctrl:
             cr["human_artifact"] = ctrl["artifact"]
+        if "coherence" in ctrl:
+            cr["human_coherence"] = ctrl["coherence"]
         cr_path.write_text(json.dumps(cr, indent=2, ensure_ascii=False), encoding="utf-8")
 
     # Update summary.json with human control values and human_state_evol
-    if ctrl or human_state_evol is not None:
+    if ctrl or human_state_evol is not None or human_final_frame_correct is not None:
         summary_path = RUNS_DIR / run_name / "summary.json"
         if summary_path.exists():
             summary = json.loads(summary_path.read_text(encoding="utf-8"))
@@ -366,8 +382,12 @@ def api_answer(run_name: str, task_id: str):
                     entry["human_trigger_applied"] = ctrl["trigger_applied"]
                 if "artifact" in ctrl:
                     entry["human_artifact"] = ctrl["artifact"]
+                if "coherence" in ctrl:
+                    entry["human_coherence"] = ctrl["coherence"]
                 if human_state_evol is not None:
                     entry["human_state_evol"] = human_state_evol
+                if human_final_frame_correct is not None:
+                    entry["human_final_frame_correct"] = human_final_frame_correct
                 summary_path.write_text(
                     json.dumps(summary, indent=2, ensure_ascii=False), encoding="utf-8"
                 )
@@ -559,6 +579,26 @@ _HTML = r"""<!DOCTYPE html>
     ::-webkit-scrollbar { width: 6px; }
     ::-webkit-scrollbar-track { background: var(--bg); }
     ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+    /* ── Nav buttons ── */
+    .btn-nav {
+      background: var(--card-head); color: var(--text); border: 1px solid var(--border);
+      padding: 6px 13px; border-radius: 6px; font-weight: 600; font-size: 13px; cursor: pointer;
+      white-space: nowrap;
+    }
+    .btn-nav:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); }
+    .btn-nav:disabled { opacity: 0.35; cursor: default; }
+
+    /* ── Progress bar ── */
+    #progress-wrap { display: flex; align-items: center; gap: 8px; }
+    #progress-label { font-size: 12px; color: var(--muted); white-space: nowrap; }
+    #progress-bar-bg {
+      width: 100px; height: 6px; background: var(--border); border-radius: 3px; overflow: hidden;
+    }
+    #progress-bar-fill {
+      height: 100%; background: var(--accent); border-radius: 3px;
+      width: 0%; transition: width 0.2s;
+    }
   </style>
 </head>
 <body>
@@ -579,16 +619,20 @@ _HTML = r"""<!DOCTYPE html>
     <div id="search-dropdown"></div>
   </div>
 
-  <button class="btn-primary-sm" id="btn-random" disabled>→ Random task</button>
+  <button class="btn-nav" id="btn-prev" disabled>← Prev</button>
+  <button class="btn-nav" id="btn-next" disabled>Next →</button>
 
   <span class="spacer"></span>
 
   <span id="task-info" style="display:none">
     <span class="tid" id="info-tid"></span>
     <span id="info-level" style="color:var(--muted); font-size:12px;"></span>
-    &nbsp;·&nbsp;
-    <span id="info-remaining"></span>
   </span>
+
+  <div id="progress-wrap" style="display:none">
+    <span id="progress-label"></span>
+    <div id="progress-bar-bg"><div id="progress-bar-fill"></div></div>
+  </div>
 
   <span id="save-chip" class="save-chip"></span>
 </div>
@@ -682,13 +726,15 @@ _HTML = r"""<!DOCTYPE html>
 let S = {
   run:            null,   // string
   taskId:         null,   // string
+  taskIndex:      -1,     // current position in allTaskIds
   questions:      [],     // [{id, question, notes_for_judge, answer_type}]
   llmAnswers:     {},     // {id: {answer, confidence, notes}}
   llmControl:     {},     // {requested_occlusion, requested_trigger, occlusion_done, trigger_applied, notes}
   humanAnswers:   {},     // {id: "yes"|"no"}  — current human answers
-  humanControl:   {},     // {occlusion_done: bool, trigger_applied: bool}
-  humanStateEvol: null,   // null | true | false — direct override for state evolution verdict
-  allTaskIds:     [],     // for search
+  humanControl:          {},     // {occlusion_done: bool, trigger_applied: bool, coherence: bool}
+  humanFinalFrameCorrect: null,  // null | true | false
+  humanStateEvol:         null,  // null | true | false — direct override for state evolution verdict
+  allTaskIds:     [],     // ordered list for sequential navigation
 };
 
 let _saveTimer = null;
@@ -702,7 +748,8 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('run-select').addEventListener('change', e => {
     if (e.target.value) selectRun(e.target.value);
   });
-  document.getElementById('btn-random').addEventListener('click', loadRandomTask);
+  document.getElementById('btn-prev').addEventListener('click', loadPrevTask);
+  document.getElementById('btn-next').addEventListener('click', loadNextTask);
 
   // Task search
   const inp = document.getElementById('task-search');
@@ -748,8 +795,9 @@ async function selectRun(runName) {
   try {
     S.allTaskIds = await api(`/api/runs/${enc(runName)}/tasks`);
     document.getElementById('task-search').disabled = false;
-    document.getElementById('btn-random').disabled  = false;
-    await loadRandomTask();
+    if (S.allTaskIds.length > 0) {
+      await navigateToIndex(0);
+    }
   } catch(e) {
     alert('Failed to load run: ' + e.message);
   } finally {
@@ -760,23 +808,33 @@ async function selectRun(runName) {
 // =============================================================================
 // Task navigation
 // =============================================================================
-async function loadRandomTask() {
-  if (!S.run) return;
+async function navigateToIndex(idx) {
+  S.taskIndex = idx;
   setLoading(true);
   try {
-    const { task_id, total } = await api(`/api/runs/${enc(S.run)}/random`);
-    updateInfoBar(task_id, total, null);
-    await loadTask(task_id);
+    await loadTask(S.allTaskIds[idx]);
   } catch(e) {
-    alert('Failed to load random task: ' + e.message);
+    alert('Failed to load task: ' + e.message);
   } finally {
     setLoading(false);
   }
 }
 
+async function loadPrevTask() {
+  if (!S.run || S.taskIndex <= 0) return;
+  await navigateToIndex(S.taskIndex - 1);
+}
+
+async function loadNextTask() {
+  if (!S.run || S.taskIndex >= S.allTaskIds.length - 1) return;
+  await navigateToIndex(S.taskIndex + 1);
+}
+
 async function pickTask(taskId) {
   document.getElementById('search-dropdown').style.display = 'none';
   document.getElementById('task-search').value = taskId;
+  const idx = S.allTaskIds.indexOf(taskId);
+  if (idx !== -1) S.taskIndex = idx;
   setLoading(true);
   try {
     await loadTask(taskId);
@@ -793,19 +851,30 @@ async function loadTask(taskId) {
   S.llmControl     = data.llm_control || {};
   S.humanAnswers   = { ...data.human_answers };   // copy so we can mutate
   S.humanControl   = { ...data.human_control };
-  S.humanStateEvol = data.human_state_evol ?? null;
-  updateInfoBar(taskId, null, data.task_level);
+  S.humanFinalFrameCorrect = data.human_final_frame_correct ?? null;
+  S.humanStateEvol         = data.human_state_evol ?? null;
+  updateInfoBar(taskId, data.task_level);
   render(data);
   hideSave();
 }
 
-function updateInfoBar(taskId, total, level) {
+function updateInfoBar(taskId, level) {
   document.getElementById('info-tid').textContent = taskId;
-  const lvlEl = document.getElementById('info-level');
-  lvlEl.textContent = level != null ? ` · Level ${level}` : '';
-  if (total != null)
-    document.getElementById('info-remaining').textContent = `${total} tasks`;
+  document.getElementById('info-level').textContent = level != null ? ` · Level ${level}` : '';
   document.getElementById('task-info').style.display = '';
+  updateNav();
+}
+
+function updateNav() {
+  const n = S.allTaskIds.length;
+  const i = S.taskIndex;
+  document.getElementById('btn-prev').disabled = (i <= 0);
+  document.getElementById('btn-next').disabled = (i >= n - 1);
+  if (n > 0) {
+    document.getElementById('progress-label').textContent = `${i + 1} / ${n}`;
+    document.getElementById('progress-bar-fill').style.width = ((i + 1) / n * 100).toFixed(1) + '%';
+    document.getElementById('progress-wrap').style.display = '';
+  }
 }
 
 // =============================================================================
@@ -901,19 +970,39 @@ function renderQuestions() {
       </td>
     </tr>`;
 
-  tbody.innerHTML = questionRows + stateEvolRow;
+  const hFFC = S.humanFinalFrameCorrect;
+  const finalFrameCorrectRow = `
+    <tr style="height:6px"><td colspan="3" style="padding:0; border:none; background:transparent;"></td></tr>
+    <tr class="q-row" style="opacity:0.92">
+      <td style="border-left: 3px solid var(--accent);">
+        <div class="q-text"><strong>Final Frame Correct</strong></div>
+        <div class="q-notes">Is the final frame a valid output for this task?</div>
+      </td>
+      <td style="text-align:center">${boolBadge(null)}</td>
+      <td>
+        <div class="tf-wrap">
+          <button class="btn-tf ${hFFC===true?'on-t':''}" onclick="setFinalFrameCorrect(true)">T</button>
+          <button class="btn-tf ${hFFC===false?'on-f':''}" onclick="setFinalFrameCorrect(false)">F</button>
+        </div>
+      </td>
+    </tr>`;
+
+  tbody.innerHTML = questionRows + stateEvolRow + finalFrameCorrectRow;
 }
 
 function renderControl() {
   const body = document.getElementById('ctrl-body');
   const c = S.llmControl;
-  if (c.occlusion_done == null && c.trigger_applied == null && c.artifact == null) {
+  const hasLlmVerdict = c.occlusion_done != null || c.trigger_applied != null || c.artifact != null;
+  const hasRequest    = !!(c.requested_occlusion || c.requested_trigger);
+  if (!hasLlmVerdict && !hasRequest) {
     body.innerHTML = '<div style="color:var(--muted);font-size:13px;">No control data</div>';
     return;
   }
   const hOcc  = S.humanControl.occlusion_done;
   const hTrig = S.humanControl.trigger_applied;
   const hArt  = S.humanControl.artifact;
+  const hCoh  = S.humanControl.coherence;
 
   body.innerHTML = `
     <div class="ctrl-row">
@@ -966,6 +1055,24 @@ function renderControl() {
         <div class="tf-wrap">
           <button class="btn-tf ${hArt===true ?'on-t':''}" onclick="setControl('artifact',true)">T</button>
           <button class="btn-tf ${hArt===false?'on-f':''}" onclick="setControl('artifact',false)">F</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="ctrl-row">
+      <div class="ctrl-body">
+        <div class="ctrl-lbl">Coherence</div>
+        <div class="ctrl-val">Is the video visually coherent throughout?</div>
+      </div>
+      <div class="ctrl-llm">
+        <div class="ctrl-lbl">LLM</div>
+        ${boolBadge(null)}
+      </div>
+      <div class="ctrl-human">
+        <div class="ctrl-lbl">Human</div>
+        <div class="tf-wrap">
+          <button class="btn-tf ${hCoh===true ?'on-t':''}" onclick="setControl('coherence',true)">T</button>
+          <button class="btn-tf ${hCoh===false?'on-f':''}" onclick="setControl('coherence',false)">F</button>
         </div>
       </div>
     </div>
@@ -1030,6 +1137,21 @@ function setStateEvol(value) {
   scheduleSave();
 }
 
+function setFinalFrameCorrect(value) {
+  // Toggle off if clicking the same value again
+  S.humanFinalFrameCorrect = (S.humanFinalFrameCorrect === value) ? null : value;
+
+  document.querySelectorAll('[onclick*="setFinalFrameCorrect("]').forEach(btn => {
+    const isT = btn.getAttribute('onclick').includes('true)');
+    btn.className = 'btn-tf' + (
+      (isT  && S.humanFinalFrameCorrect === true)  ? ' on-t' :
+      (!isT && S.humanFinalFrameCorrect === false) ? ' on-f' : ''
+    );
+  });
+
+  scheduleSave();
+}
+
 // =============================================================================
 // Verdicts
 // =============================================================================
@@ -1086,9 +1208,10 @@ async function doSave() {
         method:  'POST',
         headers: { 'Content-Type': 'application/json' },
         body:    JSON.stringify({
-          answers:          S.humanAnswers,
-          control:          S.humanControl,
-          human_state_evol: S.humanStateEvol,   // null → derive from questions; true/false → direct override
+          answers:             S.humanAnswers,
+          control:             S.humanControl,
+          human_state_evol:    S.humanStateEvol,    // null → derive from questions; true/false → direct override
+          final_frame_correct: S.humanFinalFrameCorrect,
         }),
       }
     );
