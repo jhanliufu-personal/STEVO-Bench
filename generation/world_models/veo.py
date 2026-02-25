@@ -32,6 +32,7 @@ class VeoRunner(WorldModelRunner):
         self.model_id: str = config.get("model_id", "veo-3.1-fast-generate-preview")
         self.poll_interval: int = int(config.get("poll_interval", 10))
         self.timeout: int = int(config.get("timeout", 600))
+        self.seconds: int = int(config.get("seconds", 8))
 
     def generate(
         self,
@@ -66,7 +67,8 @@ class VeoRunner(WorldModelRunner):
                 config=types.GenerateVideosConfig(
                     number_of_videos=1,
                     aspect_ratio="16:9",
-                    resolution="720p"
+                    resolution="720p",
+                    duration_seconds=self.seconds,
                 ),
             )
 

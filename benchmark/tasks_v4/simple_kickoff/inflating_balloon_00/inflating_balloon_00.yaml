@@ -1,0 +1,48 @@
+id: inflating_balloon_00
+level: 1
+category: scalar_state
+scalar_variable: Balloon size
+prompts:
+  image_gen_prompt: A limp white latex weather balloon attached to a green helium tank nozzle on a grassy field. The tank
+    valve is visibly turned to the 'Open' position.
+  video_WM: A hand opens the valve of the helium tank, and helium is pumped into the balloon. The camera remains stationary; no scene cuts; no new people or objects enter the scene. Smooth, continuous evolution with only objects present in the initial scene.
+  camera_WM: A hand opens the valve of the helium tank, and helium is pumped into the balloon.
+camera_control:
+  HY-WorldPlay: null
+  lingbot: null
+evaluation:
+  init_frame_description: A green gas cylinder labeled 'HELIUM' sits on a grassy field with a fence and hills in the background.
+    A deflated, cream-colored balloon is attached to the tank's brass nozzle and drapes limply onto the grass. A gloved hand
+    is holding the valve handle at the top of the tank.
+  init2final_edit_prompt: Edit the given image to show the cream-colored balloon significantly inflated. The balloon should
+    appear expanded, rounder, and filled with gas, occupying more volume and extending outward or upward from the nozzle rather
+    than hanging limp and flat on the grass. Keep the green helium tank, the gloved hand, and the grassy background unchanged.
+  rationale: The prompt establishes that the balloon is connected to an open tank and is actively inflating. The camera rotates
+    away and then returns, creating a period of occlusion. During this time, the inflation process continues. Therefore, in
+    the final frame, the balloon must exhibit a scalar increase in volume (it should be larger and fuller) compared to the
+    initial deflated state. The surrounding environment and the tank itself remain static.
+  questions:
+  - id: balloon_volume_increase
+    question: Is the balloon larger in volume than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the size of the balloon in the final frame to the initial frame. It should be bigger.
+  - id: balloon_inflation_state
+    question: Does the balloon appear more inflated and fuller than in the starting image?
+    answer_type: yes_no
+    notes_for_judge: The balloon should look like it contains gas, rather than being flat.
+  - id: balloon_limpness_change
+    question: Is the balloon less limp and flat compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: In the start it is draping down; in the end it should be expanded.
+  - id: balloon_shape_expansion
+    question: Has the balloon expanded outward or upward from the nozzle?
+    answer_type: yes_no
+    notes_for_judge: Check for directional growth away from the attachment point.
+  - id: tank_presence
+    question: Is the green helium tank still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: background_consistency
+    question: Is the background still a grassy field?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

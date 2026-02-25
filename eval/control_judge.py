@@ -63,24 +63,32 @@ _OCCLUSION_SIGNAL = "after a pause"  # case-insensitive; present in all occlusio
 def _extract_occlusion_clause(video_wm: str) -> str:
     """Extract just the occlusion description from video_WM.
 
-    Handles two prompt shapes:
+    Canonical prompt templates (tasks_v4):
 
-    1. image_implied (single clause, no semicolon):
-         "A curtain drops in front of X, blocking it from view, then, after a pause, rises."
-         "A metal lid is placed over Y, covering it from view. After a pause, lifted away."
-       → strips the reveal tail; returns the remaining occlusion clause.
+    image_implied (no semicolon):
+      "<Occlusion — object held between camera and scene>, completely blocking <subject>
+       from view for a prolonged duration. After a pause, <reveal>.
+       The camera remains stationary; no scene cuts; no new people or objects enter the scene.
+       Smooth, continuous evolution with only objects present in the initial scene."
+      → strips everything from ". After a pause" onward (reveal + trailing directives);
+        returns the occlusion description.
 
-    2. simple_kickoff ("<kick-off>; while <process>, <occlusion>. After a pause, <reveal>."):
-         "Hand strikes ball; while the balls scatter, the lights turn off, leaving complete
-          darkness. After a pause, the lights turn back on."
-       → strips the reveal tail, then takes the part after the first ";" —
-         the "while <process>, <occlusion>" clause.
+    simple_kickoff ("<kick-off>; while <process>, <occlusion> for a prolonged duration.
+       After a pause, <reveal>. The camera remains stationary; …
+       Smooth, continuous evolution with only objects present in the initial scene."):
+      → strips from ". After a pause" onward, then takes the part after the first ";" —
+        the "while <process>, <occlusion>" clause.
+
+    Legacy patterns (tasks_v2) also handled:
+      A: ", then, after a pause, ..."  (image_implied old style)
+      B: ". After a pause, ..."        (simple_kickoff old style)
     """
-    text = video_wm.strip()
+    # Collapse any YAML-introduced line-wrapping whitespace
+    text = " ".join(video_wm.split())
 
-    # Strip the reveal tail in both patterns:
-    #   A: ", then, after a pause, ..."  (original image_implied style)
-    #   B: ". After a pause, ..."        (new object-occlusion / simple_kickoff style)
+    # Strip the reveal + trailing continuity clause in both patterns:
+    #   A: ", then, after a pause, ..."  (legacy image_implied)
+    #   B: ". After a pause, ..."        (v4 style, both task types)
     text = re.sub(
         r",?\s*then[,\s]+after\s+a\s+pause\b.*", "", text,
         flags=re.IGNORECASE | re.DOTALL,

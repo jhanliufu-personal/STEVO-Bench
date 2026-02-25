@@ -1,0 +1,56 @@
+id: domino_falling_00
+level: 3
+category: relational_state
+tags: []
+prompts:
+  image_gen_prompt: A row of upright rectangular dominoes is arranged in a line on a flat table. A finger is positioned just
+    behind the first domino in the row, about to push it.
+  video_WM: A finger tips over the first domino in a long standing row. The camera remains stationary; no scene cuts; no new people or objects enter the scene. Smooth, continuous evolution with only objects present in the initial scene.
+  camera_WM: A finger tips over the first domino in a long standing row.
+camera_control:
+  HY-WorldPlay: null
+  lingbot: null
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, eye-level shot of a wooden table surface featuring a long, winding row of rectangular
+    wooden dominoes standing upright. A human hand enters from the left, with an index finger touching or poised to push the
+    first domino in the sequence. The background is slightly out of focus, showing a domestic setting with a window, potted
+    plants (including a Monstera), and a stack of books.
+  init2final_edit_prompt: Edit the given image to show the row of dominoes toppled over. Render the wooden blocks lying flat
+    on the table surface, following the exact winding path of the original standing row, to depict the aftermath of a chain
+    reaction. Ensure the dominoes appear collapsed in sequence. Maintain the original background, lighting, and table texture
+    exactly as they are.
+  rationale: The video prompt describes a physical interaction where a finger pushes the first domino, initiating a chain
+    reaction. The camera pans away for several seconds and then returns to the original framing. Due to the coupled nature
+    of the dominoes (relational state), the fall of the first domino propagates through the chain. By the time the camera
+    returns, the physics of the system dictates that the dominoes in the visible row will have toppled in sequence. The final
+    state should show the dominoes lying flat along their original path.
+  questions:
+  - id: domino_state_1
+    question: Is the first domino in the sequence toppled over?
+    answer_type: yes_no
+    notes_for_judge: Check if the domino closest to the hand/start is lying down.
+  - id: domino_state_2
+    question: Are the majority of the visible dominoes lying flat on the table?
+    answer_type: yes_no
+    notes_for_judge: The chain reaction should have caused the standing blocks to fall.
+  - id: domino_height
+    question: Is the overall vertical height of the domino row significantly lower than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Fallen dominoes are shorter than standing ones.
+  - id: path_conservation
+    question: Do the fallen dominoes still follow the original winding path shape?
+    answer_type: yes_no
+    notes_for_judge: The spatial arrangement/curve should be preserved even though they fell.
+  - id: propagation_check
+    question: Does the state of the subsequent dominoes correspond to the first domino falling (i.e., are they also fallen)?
+    answer_type: yes_no
+    notes_for_judge: Tests the coupled relationship; the fall must propagate.
+  - id: background_consistency
+    question: Are the books and plants in the background in the same position as the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: table_surface
+    question: Is the table surface visible between the fallen dominoes consistent with the original texture?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.

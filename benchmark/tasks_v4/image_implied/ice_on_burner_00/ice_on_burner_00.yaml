@@ -1,0 +1,58 @@
+id: ice_on_burner_00
+level: 1
+category: scalar_state
+tags: []
+prompts:
+  image_gen_prompt: A clear ice cube sits on top of an electric cooktop burner. The burner surface is visible and the cooktop
+    display shows it is turned on. The camera view is centered on the burner and ice cube from above.
+  video_WM: The camera remains stationary; no scene cuts; no new people or objects enter the scene. Smooth, continuous evolution with only objects present in the initial scene.
+  camera_WM: ''
+camera_control:
+  HY-WorldPlay: null
+  lingbot: null
+  Genie: null
+evaluation:
+  init_frame_description: A close-up, high-angle shot of a glass-top electric stove. A glowing red spiral heating element
+    is active. In the center of the hot zone sits a clear ice cube, which is already beginning to melt, forming a small puddle.
+    Steam is rising from the ice and burner. To the right, a digital display reads 'ON' and 'HIGH' in red LED segments.
+  init2final_edit_prompt: Edit the given image to show the ice cube significantly reduced in size or completely melted into
+    a puddle of water. Increase the surface area covered by liquid water on the burner. Maintain the glowing red color of
+    the heating element and the 'ON HIGH' text on the display.
+  rationale: 'The video prompt describes a camera panning away from the stove and then returning to the original viewpoint.
+    During the time the burner is out of frame, the ''HIGH'' heat setting will cause the ice cube to melt rapidly. Therefore,
+    when the camera returns, the physical state must reflect the passage of time under high heat: the solid ice mass must
+    be smaller (or gone) and the liquid water volume must be larger.'
+  questions:
+  - id: ice_volume_reduction
+    question: Is the solid ice cube smaller than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the size of the solid ice block. It should be noticeably smaller or completely melted.
+  - id: water_volume_increase
+    question: Is there more liquid water visible on the burner than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Look for a larger puddle or boiling water spreading on the surface.
+  - id: melting_progress
+    question: Has the ice melted further compared to the start?
+    answer_type: yes_no
+    notes_for_judge: General check for state progression from solid to liquid.
+  - id: ice_height
+    question: Is the height of the remaining ice lower than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: If ice remains, it should have flattened or shrunk.
+  - id: burner_state_consistency
+    question: Is the heating element still glowing red?
+    answer_type: yes_no
+    notes_for_judge: The stove was not turned off, so the coil should remain hot.
+  - id: display_consistency
+    question: Is the 'HIGH' text still visible on the stove display?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check for the environment.
+  generation:
+    model_provider: google_gemini
+    llm: gemini-3-pro-preview
+    temperature: 0.2
+    created_utc: '2026-02-20T10:15:13Z'
+  inputs_digest:
+    initial_frame_sha256: b8eea4d42b6b13fc7538ecb97288161496fae6074ab773b2f13e663be0d33069
+    video_prompt_sha256: a700314a3107431ab78dc873e9806d5dabffaefd1cd39cfe0a07b5911004e7c5
+    task_yaml_sha256_before: 85f59dbaabcfb24c0c4d41f0aa9a8d1ac0efdb768ba1daf60780533404375240

@@ -35,11 +35,11 @@ class SoraRunner(WorldModelRunner):
             raise EnvironmentError(
                 f"[{name}] Missing required environment variable: {api_key_env}"
             )
-        self.model_id: str      = config.get("model_id",      "sora-2")
-        self.size: str          = config.get("size",          "1280x720")
-        self.seconds: int       = int(config.get("seconds",       8))
+        self.model_id: str = config.get("model_id", "sora-2")
+        self.size: str = config.get("size", "1280x720")
+        self.seconds: int = int(config.get("seconds", 8))
         self.poll_interval: int = int(config.get("poll_interval", 20))
-        self.timeout: int       = int(config.get("timeout",       900))
+        self.timeout: int = int(config.get("timeout", 900))
 
     # ------------------------------------------------------------------
     # Public interface

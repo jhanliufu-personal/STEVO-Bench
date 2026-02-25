@@ -116,14 +116,9 @@ def _fill_bucket(bucket: Dict[str, List], t: Dict[str, Any]) -> None:
     if human_state_evol is not None:
         bucket["human_state_evol_success"].append(1.0 if human_state_evol else 0.0)
 
-    # human_task_success: human_ctrl AND human_state_evol AND NOT human_artifact
-    if (human_occlusion_done is not None and human_trigger_applied is not None
-            and human_artifact is not None and human_state_evol is not None):
-        human_task = (bool(human_occlusion_done) and bool(human_trigger_applied)
-                      and bool(human_state_evol) and not bool(human_artifact))
-        bucket["human_task_success"].append(1.0 if human_task else 0.0)
-
     # ---- Conditional human metrics (only for ctrl-success tasks) ----
+    # human_task_success redefined as: ffc=1 AND artifact=0 AND coherence=1,
+    # evaluated only over tasks where human control succeeded.
     if human_ctrl:
         bucket["human_ctrl_n"].append(1)
         if human_state_evol is not None:
@@ -134,6 +129,13 @@ def _fill_bucket(bucket: Dict[str, List], t: Dict[str, Any]) -> None:
             bucket["human_artifact_ctrl"].append(1.0 if human_artifact else 0.0)
         if human_coherence is not None:
             bucket["human_coherence_ctrl"].append(1.0 if human_coherence else 0.0)
+        if (human_final_frame_correct is not None
+                and human_artifact is not None
+                and human_coherence is not None):
+            human_task = (bool(human_final_frame_correct)
+                          and not bool(human_artifact)
+                          and bool(human_coherence))
+            bucket["human_task_success"].append(1.0 if human_task else 0.0)
 
 
 def _bucket_to_stats(bucket: Dict[str, List], num_tasks: int) -> Dict[str, Any]:
@@ -291,10 +293,11 @@ def main() -> None:
         """Print human metrics conditioned on control success, one row per group."""
         header = (
             f"{'Group':>10}  {'N':>5}  {'N_ctrl':>6}  {'ctrl_suc':>8}  "
-            f"{'se_suc|c':>8}  {'ffc|c':>8}  {'artif|c':>8}  {'coher|c':>8}"
+            f"{'se_suc|c':>8}  {'ffc|c':>8}  {'artif|c':>8}  {'coher|c':>8}  {'task_suc|c':>10}"
         )
-        print("Human Metrics | state/coherence evaluated given human control success")
-        print("  (se_suc|c, ffc|c, artif|c, coher|c computed over ctrl-success tasks only)")
+        print("Human Metrics | evaluated given human control success")
+        print("  (se_suc|c, ffc|c, artif|c, coher|c, task_suc|c computed over ctrl-success tasks only)")
+        print("  task_suc|c = ffc=1 AND artif=0 AND coher=1")
         print(header)
         print("-" * len(header))
         for label, s in [("all", all_stats), ("baseline", baseline_stats), ("occluded", occluded_stats)]:
@@ -306,7 +309,8 @@ def main() -> None:
                 f"{fmt(s.get('avg_human_state_evol_ctrl')):>8}  "
                 f"{fmt(s.get('avg_human_final_frame_correct_ctrl')):>8}  "
                 f"{fmt(s.get('avg_human_artifact_ctrl')):>8}  "
-                f"{fmt(s.get('avg_human_coherence_ctrl')):>8}"
+                f"{fmt(s.get('avg_human_coherence_ctrl')):>8}  "
+                f"{fmt(s.get('avg_human_task_success')):>10}"
             )
 
     print_human_ctrl_table()
