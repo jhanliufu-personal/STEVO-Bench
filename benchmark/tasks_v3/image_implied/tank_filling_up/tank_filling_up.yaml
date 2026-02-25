@@ -1,0 +1,65 @@
+id: tank_filling_up
+level: 1
+category: scalar_state
+tags: []
+prompts:
+  image_gen_prompt: A transparent cylindrical water tank sits on the floor in a warehouse. A metal pipe extends from above,
+    flowing water into the tank. The water level in the tank is partially filled, with measurement markings visible on the
+    side. The camera view is centered on the pipe and tank.
+  video_WM: The warehouse lights switch off, leaving the tank in complete darkness and completely invisible, then, after a pause, switch back on.
+  camera_WM: ''
+camera_control:
+  HY-WorldPlay: s-3, right-20, left-20
+  lingbot: s-3, right-20, left-20
+  Genie: null
+evaluation:
+  init_frame_description: A clear cylindrical tank with red measurement markings stands in the center of a warehouse. A metal
+    pipe extends from the top right, pouring a stream of water into the tank. The water level is currently near the middle
+    of the tank, roughly at the 140-150 mark on the right-hand scale. The water surface is turbulent where the stream hits
+    it. The background shows warehouse shelving, pallets, and industrial equipment.
+  init2final_edit_prompt: Edit the given image to show the water level in the clear cylindrical tank significantly higher
+    than it was initially. The water should appear to have accumulated, reaching a higher point on the red measurement scale
+    closer to the top. The water stream should still be pouring from the overhead pipe into the tank. Maintain the exact same
+    camera angle, lighting, and background warehouse setting.
+  rationale: 'The video involves a continuous process of water filling a tank. Although the camera pans away (occluding the
+    tank) and then returns, the physical process of filling persists throughout the duration. Therefore, when the camera returns
+    to the original viewpoint, the state of the tank must have evolved: the water level must be higher due to the accumulation
+    of water over the elapsed time. The environment remains static.'
+  questions:
+  - id: q1_level_height
+    question: Is the water level in the tank higher than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the water line against the red markings or the tank rim.
+  - id: q2_volume_increase
+    question: Is there more water in the tank than there was at the start?
+    answer_type: yes_no
+    notes_for_judge: The volume should have visibly increased.
+  - id: q3_empty_space
+    question: Is the empty space at the top of the tank smaller than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: As the tank fills, the empty volume (ullage) decreases.
+  - id: q4_scale_reading
+    question: Has the water surface risen to a higher number on the red measurement scale?
+    answer_type: yes_no
+    notes_for_judge: Check if the water line is above the initial ~140-150 level.
+  - id: q5_filling_action
+    question: Is the water stream still pouring into the tank?
+    answer_type: yes_no
+    notes_for_judge: The action was continuous and not described as stopping.
+  - id: q6_tank_fullness
+    question: Is the tank fuller than it was initially?
+    answer_type: yes_no
+    notes_for_judge: General assessment of fullness.
+  - id: q7_background_consistency
+    question: Are the warehouse shelves and pallets in the background unchanged?
+    answer_type: yes_no
+    notes_for_judge: Static objects should not move.
+  generation:
+    model_provider: google_gemini
+    llm: gemini-3-pro-preview
+    temperature: 0.2
+    created_utc: '2026-02-20T10:15:14Z'
+  inputs_digest:
+    initial_frame_sha256: 75816458c4c8dd94f57a5a2831374bf9575aec6f9e735e6888efe0dc5f35911b
+    video_prompt_sha256: 60581f19895f20bac796a9d68846398169ebbaa03a2d0ba6c39291eb70614447
+    task_yaml_sha256_before: d10d1b4bbf032cd3a9f6900404f030477ac3c22d4d96c36650cab8e48f048a2e

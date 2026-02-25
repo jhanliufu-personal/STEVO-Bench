@@ -55,12 +55,21 @@ def _init_summary_json(resolved_tasks: List[ResolvedTask], run_root: Path) -> No
         )
 
 
-def _write_init_stubs(resolved_tasks: List[ResolvedTask], per_task_root: Path) -> None:
+def _write_init_stubs(
+    resolved_tasks: List[ResolvedTask],
+    per_task_root: Path,
+    camera_controlled: bool = False,
+) -> None:
     """
     Write skeleton judge_report.json and control_report.json for each task so
     human_eval_server.py can list and display tasks without any LLM judging.
 
     Only creates files that don't yet exist — safe to re-run.
+
+    Args:
+        camera_controlled: Pass True for camera-controlled models (HY-WorldPlay,
+            LingBot) so that requested_occlusion is set to "camera pan" rather than
+            being extracted from video_WM.
     """
     for task in resolved_tasks:
         task_dir = per_task_root / task.task_id
@@ -89,7 +98,7 @@ def _write_init_stubs(resolved_tasks: List[ResolvedTask], per_task_root: Path) -
             try:
                 video_wm, camera_wm, camera_pose = _load_task_fields(task.task_yaml)
                 requested_trigger, requested_occlusion = _compute_requested_fields(
-                    video_wm, camera_wm, camera_pose
+                    video_wm, camera_wm, camera_pose, camera_controlled=camera_controlled
                 )
             except Exception:
                 video_wm = ""
@@ -117,9 +126,10 @@ def _eval_one_task(
     control_model: str,
     run_judge: bool = True,
     run_control: bool = True,
+    camera_controlled: bool = False,
 ) -> Tuple[Optional[JudgeResult], Optional[ControlJudgeResult]]:
     judge_result   = judge_one_task(task, provider=provider, model=judge_model) if run_judge   else None
-    control_result = evaluate_control_one_task(task, model=control_model)       if run_control else None
+    control_result = evaluate_control_one_task(task, model=control_model, camera_controlled=camera_controlled) if run_control else None
     return judge_result, control_result
 
 
@@ -201,6 +211,15 @@ def main() -> None:
             "Use this to prepare a run for human-only evaluation."
         ),
     )
+    parser.add_argument(
+        "--camera_controlled",
+        action="store_true",
+        help=(
+            "Indicate that the world model is camera-controlled (e.g. HY-WorldPlay, LingBot). "
+            "When set, requested_occlusion is derived from the camera trajectory ('camera pan') "
+            "rather than from the video_WM text prompt, which the camera model never receives."
+        ),
+    )
 
     args = parser.parse_args()
 
@@ -253,7 +272,7 @@ def main() -> None:
     # --init: write skeleton report stubs and exit — no LLM judging
     # ---------------------------------------------------------------------------
     if args.init:
-        _write_init_stubs(resolved_tasks, per_task_root)
+        _write_init_stubs(resolved_tasks, per_task_root, camera_controlled=args.camera_controlled)
         print(f"[DONE] Initialized {len(resolved_tasks)} task(s) in: {run_root}")
         print(f"       summary.json, judge_report.json and control_report.json stubs written.")
         print(f"       Start human_eval_server.py to begin human evaluation.")
@@ -300,6 +319,7 @@ def main() -> None:
                 control_model=args.control_judge_model,
                 run_judge=run_judge,
                 run_control=run_control,
+                camera_controlled=args.camera_controlled,
             ): task
             for task in resolved_tasks
         }

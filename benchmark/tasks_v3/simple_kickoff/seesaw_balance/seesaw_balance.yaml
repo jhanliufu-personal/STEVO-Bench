@@ -1,0 +1,48 @@
+id: seesaw_balance
+level: 3
+category: relational_state
+relational_type: angular_coupling
+prompts:
+  image_gen_prompt: A wooden see-saw on a playground pivot. A heavy 20kg sandbag is on the left seat, which is currently touching
+    the ground. An empty seat is on the far right, high in the air.
+  video_WM: A hand removes the heavy sandbag from the near end of the seesaw; while the now-unloaded seesaw continues swinging to its new equilibrium, a large box is placed in front of the seesaw, blocking it from view. After a pause, the box is removed.
+  camera_WM: A hand removes the heavy sandbag from the near end of the seesaw.
+camera_control:
+  HY-WorldPlay: s-3, right-20, left-20
+  lingbot: s-3, right-20, left-20
+evaluation:
+  init_frame_description: A wooden playground seesaw with a central pivot mechanism. The left side of the seesaw is lowered
+    and resting on the wood-chip ground, holding a burlap sack labeled '20 KG SAND'. The right side of the seesaw is elevated
+    high in the air. The background shows trees and playground equipment.
+  init2final_edit_prompt: Edit the given image to show the seesaw tipped in the opposite direction. The left side with the
+    '20 KG SAND' bag should be elevated high in the air, and the right side of the seesaw should be lowered, positioned close
+    to or touching the ground. Ensure the sandbag remains on the left seat and the beam remains straight.
+  rationale: 'The prompt describes a person lifting the heavy left side (the sandbag) off the ground and the motion continuing.
+    In a coupled seesaw system, lifting the left side causes the right side to lower. The camera rotation serves as a temporal
+    transition. When the view returns to the center pivot, the state of the seesaw should be inverted compared to the start:
+    the left side (previously down) should be up, and the right side (previously up) should be down.'
+  questions:
+  - id: seesaw_inverted_slope
+    question: Does the seesaw beam now slope downwards from left to right?
+    answer_type: yes_no
+    notes_for_judge: In the initial frame, it slopes up from left to right. After lifting the left side, it should slope down.
+  - id: left_side_elevation
+    question: Is the sandbag on the left seat elevated significantly above the ground?
+    answer_type: yes_no
+    notes_for_judge: The action was to lift the sandbag/seat off the ground.
+  - id: right_side_lowered
+    question: Is the right seat lower than the left seat?
+    answer_type: yes_no
+    notes_for_judge: 'Relational check: if left goes up, right must be lower.'
+  - id: right_seat_position
+    question: Is the right seat closer to the ground than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: It started high in the air; it should now be lower.
+  - id: sandbag_presence
+    question: Is the '20 KG SAND' bag still visible on the left seat?
+    answer_type: yes_no
+    notes_for_judge: Object permanence check.
+  - id: pivot_integrity
+    question: Does the beam still appear to pivot around the central fulcrum?
+    answer_type: yes_no
+    notes_for_judge: Structural integrity check.

@@ -1,0 +1,64 @@
+id: paper_towel_wicking_00
+level: 1
+category: scalar_state
+tags: []
+prompts:
+  image_gen_prompt: A white paper towel strip hangs vertically from a clip or stand. The bottom edge of the paper towel just
+    touches the surface of blue-dyed water in a shallow clear dish below. The paper towel is currently dry and white.
+  video_WM: ''
+  camera_WM: ''
+camera_control:
+  HY-WorldPlay: null
+  lingbot: null
+  Genie: null
+evaluation:
+  init_frame_description: A laboratory setting showing a vertical strip of white paper towel suspended by a metal clamp on
+    a stand. The bottom edge of the paper towel is dipped into a glass petri dish filled with blue liquid. In the background,
+    there are glass beakers to the left and a notebook with a pen on a table to the right. The paper towel is mostly white,
+    with the blue liquid just touching the very bottom edge.
+  init2final_edit_prompt: Edit the given image to show the blue liquid having wicked up the paper towel strip. The bottom
+    portion of the paper towel should now be stained blue, extending significantly higher up the strip than the liquid surface
+    level. The blue stain should appear as a rising front of liquid within the paper material. The rest of the laboratory
+    equipment, including the stand, beakers, and notebook, should remain unchanged.
+  rationale: The video prompt describes a camera rotation that temporarily occludes the experiment before returning to the
+    original view. During this elapsed time, the physical process of capillary action (wicking) continues. The porous structure
+    of the paper towel draws the blue liquid upward against gravity. Therefore, when the camera returns, the state of the
+    paper towel must have evolved to show the blue dye having risen higher up the strip compared to the initial frame.
+  questions:
+  - id: wicking_height_increase
+    question: Is the blue liquid level on the paper towel higher than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the height of the blue stain on the paper. It should have risen.
+  - id: wicking_visible_above_surface
+    question: Does the blue stain on the paper extend visibly above the surface of the liquid in the dish?
+    answer_type: yes_no
+    notes_for_judge: The liquid should have climbed up the paper, not just coated the submerged part.
+  - id: blue_area_growth
+    question: Is the area of the paper towel colored blue larger than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: More of the paper should be wet/blue.
+  - id: white_area_reduction
+    question: Is the remaining dry white portion of the paper towel smaller than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: As the liquid rises, the dry white area decreases.
+  - id: liquid_absorption_evidence
+    question: Does the paper towel show evidence of having absorbed liquid upwards?
+    answer_type: yes_no
+    notes_for_judge: Look for the characteristic gradient or wet front rising up.
+  - id: stand_consistency
+    question: Is the metal stand and clamp holding the paper towel still present?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: beaker_consistency
+    question: Are the glass beakers in the background still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  generation:
+    model_provider: google_gemini
+    llm: gemini-3-pro-preview
+    temperature: 0.2
+    created_utc: '2026-02-20T10:17:19Z'
+  inputs_digest:
+    initial_frame_sha256: b0777e1b3efa7f4d4e6baf6831bfb694838b26dc17468606cc42ccf36faf8bc6
+    video_prompt_sha256: 8a987a637d22b5c46e2261e85a1805a0f9a26304e808ce89cf924105af0d9c19
+    task_yaml_sha256_before: 92e86f98193a5cd9f4c10f50b8227e0e7aa993cca4bb8b64f6b940b82c0221b5

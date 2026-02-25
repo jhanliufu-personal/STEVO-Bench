@@ -1,0 +1,63 @@
+id: matchstick_burning
+level: 1
+category: scalar_state
+tags: []
+prompts:
+  image_gen_prompt: A wooden matchstick is held at a 45-degree angle by a hand against a plain neutral background. The match
+    head at the tip is lit with a small orange flame actively burning.
+  video_WM: A large piece of cardboard is held up in front of the match and hand, completely blocking them from view. After a pause, the cardboard is pulled away.
+  camera_WM: ''
+camera_control:
+  HY-WorldPlay: s-3, right-20, left-20
+  lingbot: s-3, right-20, left-20
+  Genie: null
+evaluation:
+  init_frame_description: A close-up side view of a hand holding a wooden matchstick against a blurred neutral background.
+    The match is lit, with a bright orange and yellow flame burning at the blackened tip (head). The wooden shaft of the match
+    is mostly light-colored and unburnt, extending from the fingers to the burning head. Thin smoke trails rise from the flame.
+  init2final_edit_prompt: Edit the given image to show the matchstick after it has burned further down the shaft. The flame
+    should be positioned significantly closer to the fingers than in the original image. The section of the matchstick between
+    the tip and the new flame position should be blackened, charred, and thinner, representing burnt wood and ash. The remaining
+    length of unburnt light-colored wood near the fingers should be shorter than in the original image.
+  rationale: 'The prompt describes a continuous burning process while the camera pans away and returns. Since oxygen is available
+    and the match is combustible, the fire continues to consume the wood during the occlusion period. When the camera returns
+    to the original view, the state of the match must reflect the passage of time: the flame will have traveled down the stick
+    towards the hand, converting the wood into char/ash and reducing the length of the unburnt segment.'
+  questions:
+  - id: flame_position
+    question: Is the flame positioned closer to the fingers than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Check if the fire has traveled down the stick.
+  - id: unburnt_length
+    question: Is the segment of unburnt, light-colored wood shorter than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The fuel source should be depleted.
+  - id: char_amount
+    question: Is there a larger amount of blackened or charred wood visible compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The burnt area should have expanded.
+  - id: tip_condition
+    question: Does the tip of the matchstick appear more burnt or degraded than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The original tip should be fully consumed or turned to ash.
+  - id: flame_presence
+    question: Is the flame still visible on the matchstick?
+    answer_type: yes_no
+    notes_for_judge: Unless the match is fully consumed (unlikely in 'several seconds'), the flame should persist.
+  - id: hand_consistency
+    question: Is the hand holding the matchstick still visible?
+    answer_type: yes_no
+    notes_for_judge: The camera returns to the original view.
+  - id: background_consistency
+    question: Is the background still a blurred neutral color?
+    answer_type: yes_no
+    notes_for_judge: The environment should not change.
+  generation:
+    model_provider: google_gemini
+    llm: gemini-3-pro-preview
+    temperature: 0.2
+    created_utc: '2026-02-20T10:16:22Z'
+  inputs_digest:
+    initial_frame_sha256: 55697a567182a7fefab7f89bc8145e65dfa21c01ea12fc112a614f8abde3b0fb
+    video_prompt_sha256: 3602c11a4a5789109a6dc5780bf750e6f524510d8e5b739ac8f8af2da3017305
+    task_yaml_sha256_before: fa6081e0965f324dbf4639c9cfe0a4363aeab992cb6bdbb117ff234d7a8e473d

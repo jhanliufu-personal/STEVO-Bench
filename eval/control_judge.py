@@ -102,24 +102,34 @@ def _compute_requested_fields(
     video_wm: str,
     camera_wm: str,
     camera_pose: str,
+    camera_controlled: bool = False,
 ) -> tuple[str, str]:
     """Compute (requested_trigger, requested_occlusion) from task prompt fields.
+
+    Args:
+        camera_controlled: True for models that receive camera_WM + trajectory
+            (e.g. HY-WorldPlay, LingBot) rather than video_WM. For these models
+            the in-scene occlusion described in video_WM is irrelevant — the model
+            can only implement a camera pan, so requested_occlusion is always
+            derived from camera_pose, not from video_WM.
 
     requested_trigger:
       - camera_WM if non-empty (simple_kickoff tasks always set camera_WM to the
         kick-off sentence; image_implied tasks always leave it empty)
       - else "none"
 
-    requested_occlusion:
+    requested_occlusion (text model, camera_controlled=False):
       - occlusion clause extracted from video_WM if it contains the occlusion signal
         ("after a pause"); see _extract_occlusion_clause for the two supported shapes:
           * image_implied: single clause ending in ", then, after a pause, …"
           * simple_kickoff: "<kick-off>; while <process>, <occlusion>. After a pause, …"
       - else "camera pan" if a camera pose string is present
       - else "none" (pure baseline — no occlusion of any kind requested)
-    """
-    _has_occlusion = _OCCLUSION_SIGNAL in video_wm.lower()
 
+    requested_occlusion (camera model, camera_controlled=True):
+      - "camera pan" if a camera pose string is present (model always pans)
+      - else "none"
+    """
     # --- requested_trigger ---
     # camera_WM is the authoritative source for the kick-off action.
     # image_implied tasks always have camera_WM empty (no kickoff needed).
@@ -130,12 +140,20 @@ def _compute_requested_fields(
         requested_trigger = "none"
 
     # --- requested_occlusion ---
-    if _has_occlusion:
-        requested_occlusion = _extract_occlusion_clause(video_wm)
-    elif camera_pose:
-        requested_occlusion = "camera pan"
+    if camera_controlled:
+        # Camera model: video_WM was never sent to the model, so any in-scene
+        # occlusion described there is irrelevant.  The only occlusion mechanism
+        # available to this model is the camera trajectory.
+        requested_occlusion = "camera pan" if camera_pose else "none"
     else:
-        requested_occlusion = "none"
+        # Text model: inspect video_WM for in-scene occlusion signal first.
+        _has_occlusion = _OCCLUSION_SIGNAL in video_wm.lower()
+        if _has_occlusion:
+            requested_occlusion = _extract_occlusion_clause(video_wm)
+        elif camera_pose:
+            requested_occlusion = "camera pan"
+        else:
+            requested_occlusion = "none"
 
     return requested_trigger, requested_occlusion
 
@@ -245,12 +263,13 @@ def evaluate_control_one_task(
     *,
     model: str = "gemini-3-pro-preview",
     report_filename: str = "control_report.json",
+    camera_controlled: bool = False,
 ) -> ControlJudgeResult:
     client = make_control_judge_client(model=model)
 
     video_wm_prompt, camera_wm_prompt, camera_pose = _load_task_fields(Path(task.task_yaml))
     requested_trigger, requested_occlusion = _compute_requested_fields(
-        video_wm_prompt, camera_wm_prompt, camera_pose
+        video_wm_prompt, camera_wm_prompt, camera_pose, camera_controlled=camera_controlled
     )
     prompt = build_control_judge_prompt(requested_trigger, requested_occlusion)
 

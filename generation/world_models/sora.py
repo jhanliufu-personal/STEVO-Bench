@@ -60,10 +60,9 @@ class SoraRunner(WorldModelRunner):
 
             kwargs: dict = dict(
                 model=self.model_id,
-                prompt=prompt if prompt and prompt.strip() else " ",
+                prompt=prompt if prompt and prompt.strip() else "Camera remains stationary. No cuts, no scene change, do not add new entities.",
                 size=self.size,
                 seconds=self.seconds,
-                # n_variants=1,
             )
 
             # Attach the conditioning frame, resized to match `size`

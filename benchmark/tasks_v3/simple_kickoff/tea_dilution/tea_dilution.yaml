@@ -1,0 +1,42 @@
+id: tea_dilution
+level: 3
+category: relational_state
+relational_type: concentration_coupling
+prompts:
+  image_gen_prompt: A small pitcher filled with pitch-black tea concentrate is being tilted over a large glass of clear boiling
+    water.
+  video_WM: A hand tilts a pitcher of hot water over a glass of concentrated tea, beginning to pour; while the pouring continues and the tea dilutes, a cereal box is slid in front of the glass and pitcher, blocking them from the camera's view. After a pause, the cereal box is slid away.
+  camera_WM: A hand tilts a pitcher of hot water over a glass of concentrated tea, beginning to pour.
+camera_control:
+  HY-WorldPlay: s-3, right-20, left-20
+  lingbot: s-3, right-20, left-20
+evaluation:
+  questions:
+  - id: glass_level_rise
+    question: Is the liquid level in the glass higher than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The glass receives liquid, so the level must rise.
+  - id: mixture_darker
+    question: Is the liquid in the glass darker or more opaque than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: More black concentrate has been added, so the mixture must be darker.
+  - id: pitcher_emptier
+    question: Does the pitcher appear to contain less liquid than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Conservation of mass requires the source to deplete as the destination fills.
+  - id: pitcher_presence
+    question: Is the ceramic pitcher still visible in the frame?
+    answer_type: yes_no
+    notes_for_judge: The camera returns to the center view; the pitcher should still be there (even if empty or finishing).
+  - id: background_consistency
+    question: Is the window in the background still visible?
+    answer_type: yes_no
+    notes_for_judge: The camera returns to the original angle.
+  - id: table_consistency
+    question: Is the wooden table surface still visible?
+    answer_type: yes_no
+    notes_for_judge: The environment should remain stable.
+  - id: conservation_logic
+    question: Does the scene show the glass fuller relative to the pitcher being emptier?
+    answer_type: yes_no
+    notes_for_judge: 'This tests the relational state change: mass transfer from A to B.'
