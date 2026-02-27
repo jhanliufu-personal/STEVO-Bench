@@ -20,9 +20,28 @@ Deps:
 
 import json
 import re
+from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Sequence
+
+from eval.utils import _path_to_rel
+
+
+def _ensemble_decide(votes_true: int, n: int, mode: str) -> bool:
+    """
+    Aggregate n binary votes into a single decision.
+
+    mode="majority"       — True if strictly more than half vote True (ties → False).
+    mode="unanimous"      — True only if ALL n vote True; default False otherwise.
+    mode="unanimous_true" — False only if ALL n vote False; default True otherwise.
+    """
+    if mode == "unanimous_true":
+        return votes_true > 0
+    elif mode == "unanimous":
+        return votes_true == n
+    else:
+        return votes_true * 2 > n
 
 import yaml
 
@@ -41,7 +60,6 @@ class ControlJudgeResult:
     requested_trigger: str
     occlusion_done: bool
     trigger_applied: bool
-    artifact: bool
 
     raw_text: str
 
@@ -135,8 +153,7 @@ def _compute_requested_fields(
       - else "none" (pure baseline — no occlusion of any kind requested)
 
     requested_occlusion (camera model, camera_controlled=True):
-      - "camera pan" if a camera pose string is present (model always pans)
-      - else "none"
+      - always "camera pan" (these models always occlude via camera trajectory)
     """
     # --- requested_trigger ---
     # camera_WM is the authoritative source for the kick-off action.
@@ -150,9 +167,9 @@ def _compute_requested_fields(
     # --- requested_occlusion ---
     if camera_controlled:
         # Camera model: video_WM was never sent to the model, so any in-scene
-        # occlusion described there is irrelevant.  The only occlusion mechanism
-        # available to this model is the camera trajectory.
-        requested_occlusion = "camera pan" if camera_pose else "none"
+        # occlusion described there is irrelevant.  These models always implement
+        # occlusion via a camera pan, regardless of whether camera_pose is set.
+        requested_occlusion = "camera pan"
     else:
         # Text model: inspect video_WM for in-scene occlusion signal first.
         _has_occlusion = _OCCLUSION_SIGNAL in video_wm.lower()
@@ -184,7 +201,7 @@ def build_control_judge_prompt(requested_trigger: str, requested_occlusion: str)
         "Do NOT penalise a mismatch between requested_occlusion and the mechanism shown in the video.\n"
         "Occlusion success is judged solely by whether the subject became invisible, regardless of how.\n\n"
 
-        "Evaluate THREE INDEPENDENT things from the GENERATED video:\n\n"
+        "Evaluate TWO INDEPENDENT things from the GENERATED video:\n\n"
 
         "1. trigger_applied — Did the requested kickoff action occur?\n"
         "   TRUE if the action itself happened or its physical effect is clearly visible.\n"
@@ -199,21 +216,7 @@ def build_control_judge_prompt(requested_trigger: str, requested_occlusion: str)
         "   FALSE if the scene was never hidden at all.\n"
         "   Set to true if requested_occlusion is \"none\".\n\n"
 
-        "3. artifact — Are there obvious visual artifacts in the video?\n"
-        "   TRUE if ANY of the following are clearly visible:\n"
-        "     - Unrequested scene changes (background or environment suddenly different)\n"
-        "     - Scene reset: the scene briefly blacks out or cuts, then the same objects reappear\n"
-        "       in a discontinuous state or different configuration with no physical explanation\n"
-        "       (do NOT flag this if requested_occlusion describes lights turning off, since a\n"
-        "       brief darkness followed by a scene reveal is expected in that case)\n"
-        "     - Object deformation without a physical cause\n"
-        "     - Objects appearing or disappearing out of nowhere\n"
-        "     - Objects suddenly jumping to a different location with no physical explanation\n"
-        "     - Objects morphing into each other or going through each other\n"
-        "     - Any other blatantly unrealistic or incoherent visual event\n"
-        "   FALSE if the video looks physically plausible throughout.\n\n"
-
-        "DECOUPLING RULE: evaluate trigger_applied, occlusion_done, and artifact independently.\n\n"
+        "DECOUPLING RULE: evaluate trigger_applied and occlusion_done independently.\n\n"
 
         "General guidance:\n"
         "- Use only visual evidence from the video.\n"
@@ -223,7 +226,6 @@ def build_control_judge_prompt(requested_trigger: str, requested_occlusion: str)
         "{\n"
         "  \"occlusion_done\": true/false,\n"
         "  \"trigger_applied\": true/false,\n"
-        "  \"artifact\": true/false,\n"
         "  \"notes\": \"optional short explanation\"\n"
         "}\n"
     )
@@ -272,6 +274,8 @@ def evaluate_control_one_task(
     model: str = "gemini-3-pro-preview",
     report_filename: str = "control_report.json",
     camera_controlled: bool = False,
+    ensemble_size: int = 1,
+    ensemble_mode: str = "majority",
 ) -> ControlJudgeResult:
     client = make_control_judge_client(model=model)
 
@@ -281,32 +285,60 @@ def evaluate_control_one_task(
     )
     prompt = build_control_judge_prompt(requested_trigger, requested_occlusion)
 
-    raw = client.judge(prompt=prompt, video_path=Path(task.wm_video))
-    parsed = parse_control_judge_output(raw)
+    def _single_query(_: int) -> Dict[str, Any]:
+        raw = client.judge(prompt=prompt, video_path=Path(task.wm_video))
+        parsed = parse_control_judge_output(raw)
+        return {
+            "occlusion_done":  bool(parsed.get("occlusion_done", False)),
+            "trigger_applied": bool(parsed.get("trigger_applied", False)),
+            "notes":    str(parsed.get("notes", "")).strip(),
+            "raw_text": raw,
+        }
 
-    occlusion_done = bool(parsed.get("occlusion_done", False))
-    trigger_applied = bool(parsed.get("trigger_applied", False))
-    artifact = bool(parsed.get("artifact", False))
-    notes = str(parsed.get("notes", "")).strip()
+    n = max(1, ensemble_size)
+    if n > 1:
+        with ThreadPoolExecutor(max_workers=n) as ex:
+            responses = list(ex.map(_single_query, range(n)))
+    else:
+        responses = [_single_query(0)]
+
+    votes_occlusion = sum(1 for r in responses if r["occlusion_done"])
+    votes_trigger   = sum(1 for r in responses if r["trigger_applied"])
+    occlusion_done  = _ensemble_decide(votes_occlusion, n, ensemble_mode)
+    trigger_applied = _ensemble_decide(votes_trigger,   n, ensemble_mode)
+
+    if n > 1:
+        notes = (
+            f"Ensemble occlusion_done {votes_occlusion}/{n}, "
+            f"trigger_applied {votes_trigger}/{n}."
+        )
+    else:
+        notes = responses[0]["notes"]
 
     run_task_dir = Path(task.final_frame).parent  # per_task/<task_id>/
     report_path = run_task_dir / report_filename
 
-    payload = {
+    payload: Dict[str, Any] = {
         "task_id": task.task_id,
         "provider": "gemini",
         "model": model,
-        "wm_video": str(task.wm_video),
+        "wm_video": _path_to_rel(task.wm_video),
         "video_WM_prompt": video_wm_prompt,
         "camera_WM_prompt": camera_wm_prompt,
         "requested_occlusion": requested_occlusion,
         "requested_trigger": requested_trigger,
-        "occlusion_done": occlusion_done,
+        "ensemble_size": n,
+        "ensemble_mode": ensemble_mode,
+        "occlusion_done":  occlusion_done,
         "trigger_applied": trigger_applied,
-        "artifact": artifact,
         "notes": notes,
-        "raw_text": raw,
+        "prompt": prompt,
+        "raw_text": responses[0]["raw_text"],
     }
+    if n > 1:
+        payload["votes_occlusion_done"]  = votes_occlusion
+        payload["votes_trigger_applied"] = votes_trigger
+        payload["responses"] = responses
     report_path.write_text(json.dumps(payload, indent=2, ensure_ascii=False), encoding="utf-8")
 
     return ControlJudgeResult(
@@ -318,8 +350,7 @@ def evaluate_control_one_task(
         requested_trigger=requested_trigger,
         occlusion_done=occlusion_done,
         trigger_applied=trigger_applied,
-        artifact=artifact,
-        raw_text=raw,
+        raw_text=responses[0]["raw_text"],
     )
 
 
@@ -328,6 +359,8 @@ def evaluate_control_all_tasks(
     *,
     model: str = "gemini-3-pro-preview",
     report_filename: str = "control_report.json",
+    ensemble_size: int = 1,
+    ensemble_mode: str = "majority",
 ) -> List[ControlJudgeResult]:
     out: List[ControlJudgeResult] = []
     for t in tasks:
@@ -336,6 +369,8 @@ def evaluate_control_all_tasks(
                 t,
                 model=model,
                 report_filename=report_filename,
+                ensemble_size=ensemble_size,
+                ensemble_mode=ensemble_mode,
             )
         )
     return out
@@ -345,8 +380,8 @@ def append_control_results_to_summary(tasks: List[ResolvedTask]) -> None:
     """
     For each task in the same run:
       - Load control_report.json from per-task folder
-      - Insert occlusion_done and trigger_applied
-        into the corresponding task entry in summary.json
+      - Insert occlusion_done and trigger_applied into the corresponding
+        task entry in summary.json
 
     Assumes all tasks belong to the same run.
     """
@@ -383,14 +418,12 @@ def append_control_results_to_summary(tasks: List[ResolvedTask]) -> None:
 
         occlusion_done = bool(control_data.get("occlusion_done", False))
         trigger_applied = bool(control_data.get("trigger_applied", False))
-        artifact = bool(control_data.get("artifact", False))
 
         if task_id not in task_entries:
             continue
 
         task_entries[task_id]["occlusion_done"] = occlusion_done
         task_entries[task_id]["trigger_applied"] = trigger_applied
-        task_entries[task_id]["artifact"] = artifact
 
     # Write updated summary
     summary_path.write_text(

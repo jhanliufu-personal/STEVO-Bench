@@ -313,12 +313,15 @@ def resolve_tasks_from_outputs_json(
     run_dir: Path,
     download_urls: bool = True,
     pattern: Optional[str] = None,
+    exclude_baseline: bool = False,
 ) -> List[ResolvedTask]:
     """
     Loop over (task_id -> video_link) pairs in outputs_json and resolve each task.
 
     If pattern is given (fnmatch-style, e.g. "ice_on_burner*"), only task IDs
     matching that pattern are resolved.
+
+    If exclude_baseline is True, tasks whose IDs end with "_00" are skipped.
 
     Returns a list of ResolvedTask.
     """
@@ -339,6 +342,9 @@ def resolve_tasks_from_outputs_json(
 
     if pattern:
         outputs_data = {k: v for k, v in outputs_data.items() if fnmatch.fnmatch(str(k), pattern)}
+
+    if exclude_baseline:
+        outputs_data = {k: v for k, v in outputs_data.items() if not str(k).endswith("_00")}
 
     resolved: List[ResolvedTask] = []
     failed = 0

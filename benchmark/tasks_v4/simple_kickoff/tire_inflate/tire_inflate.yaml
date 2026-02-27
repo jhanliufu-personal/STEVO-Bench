@@ -3,40 +3,30 @@ level: 1
 category: scalar_state
 scalar_variable: Tire outer diameter
 prompts:
-  image_gen_prompt: A flat bicycle tire on a rim. A high-pressure air hose is attached to the valve, and the rubber is just
-    starting to push outward.
-  video_WM: Air is continuously pumped into the deflated tire through the pump nozzle; while the air pumping continues, a toolbox is slid between the camera and the tire, completely blocking it from view, without touching or interacting with any object in the scene, for a prolonged duration. After a pause, the toolbox is slid away. The camera remains stationary; no scene cuts; no new people or objects enter the scene. Smooth, continuous evolution with only objects present in the initial scene.
+  image_gen_prompt: A flat bicycle tire on a rim. A high-pressure air hose is attached to the valve, and
+    the rubber is just starting to push outward.
+  video_WM: Air is continuously pumped into the deflated tire through the pump nozzle; while the air pumping
+    continues, a toolbox is slid between the camera and the tire, completely blocking it from view, without
+    touching or interacting with any object in the scene, for a prolonged duration. After a pause, the
+    toolbox is slid away. The camera remains stationary; no scene cuts; no new people or objects enter
+    the scene. Smooth, continuous evolution with only objects present in the initial scene.
   camera_WM: Air is getting pumped into the deflated tire through the pump nozzle.
 camera_control:
   HY-WorldPlay: s-3, right-20, left-20
   lingbot: s-3, right-20, left-20
 evaluation:
-  questions:
-  - id: tire_inflation_status
-    question: Is the tire more inflated than it was in the initial frame?
-    answer_type: yes_no
-    notes_for_judge: Compare the overall fullness of the tire.
-  - id: contact_patch_shape
-    question: Is the flattened section of the tire at the bottom smaller or less pronounced than in the starting image?
-    answer_type: yes_no
-    notes_for_judge: The tire should look less squashed against the ground.
-  - id: tire_roundness
-    question: Does the tire appear rounder and firmer than it did initially?
-    answer_type: yes_no
-    notes_for_judge: The shape should be closer to a perfect circle.
-  - id: rim_height
-    question: Is the metal rim of the wheel sitting higher off the ground compared to the first frame?
-    answer_type: yes_no
-    notes_for_judge: As the tire inflates, it lifts the rim.
-  - id: sidewall_tautness
-    question: Do the sidewalls of the tire look less wrinkled or bulged than in the initial frame?
-    answer_type: yes_no
-    notes_for_judge: Inflation smooths out the sidewalls.
-  - id: hose_connection
-    question: Is the air hose still connected to the valve stem?
-    answer_type: yes_no
-    notes_for_judge: Consistency check.
-  - id: tool_consistency
-    question: Are the wrenches on the floor in the same position as in the initial frame?
-    answer_type: yes_no
-    notes_for_judge: Consistency check.
+  init_frame_description: A close-up, low-angle shot of a bicycle wheel with a significantly deflated
+    tire resting on a concrete floor. The bottom of the tire is flattened and compressed against the ground.
+    A black air hose with a brass fitting is connected to the tire's valve stem. In the foreground, several
+    metal wrenches lie on the stained concrete. In the background, a red air compressor and other workshop
+    equipment are visible but slightly out of focus.
+  init2final_edit_prompt: Edit the given image to show the bicycle tire in an inflated state. The bottom
+    section of the tire, which was previously flattened against the concrete, should now be round and
+    firm. The metal rim of the wheel should be elevated higher from the ground due to the tire's expansion.
+    The tire sidewalls should appear taut rather than compressed. Maintain the exact position of the tools
+    on the floor, the background compressor, and the air hose connected to the valve.
+  rationale: The prompt describes a continuous action of pumping air into the tire. While the view is
+    occluded by the toolbox, the inflation process continues, increasing the volume and pressure within
+    the tire. When the toolbox is removed, the tire must appear significantly more inflated than in the
+    initial frame. This manifests as the tire becoming rounder, the flattened contact patch shrinking,
+    and the rim lifting away from the floor.

@@ -3,40 +3,30 @@ level: 3
 category: relational_state
 relational_type: momentum_coupling
 prompts:
-  image_gen_prompt: A rack of fifteen colorful billiard balls arranged in a tight triangle on a green felt table. A single
-    white cue ball is positioned three feet away, aligned with the lead ball of the triangle.
-  video_WM: The robot strikes the cue ball with a pool cue, sending it toward the rack of balls. The camera remains stationary; no scene cuts; no new people or objects enter the scene. Smooth, continuous evolution with only objects present in the initial scene.
+  image_gen_prompt: A rack of fifteen colorful billiard balls arranged in a tight triangle on a green
+    felt table. A single white cue ball is positioned three feet away, aligned with the lead ball of the
+    triangle.
+  video_WM: The robot strikes the cue ball with a pool cue, sending it toward the rack of balls. The camera
+    remains stationary; no scene cuts; no new people or objects enter the scene. Smooth, continuous evolution
+    with only objects present in the initial scene.
   camera_WM: The robot strikes the cue ball with a pool cue, sending it toward the rack of balls.
 camera_control:
   HY-WorldPlay: null
   lingbot: null
 evaluation:
-  questions:
-  - id: triangle_broken
-    question: Is the triangular formation of the object balls completely broken?
-    answer_type: yes_no
-    notes_for_judge: The balls should no longer be in a tight rack.
-  - id: balls_scattered
-    question: Are the object balls distributed across a wider area of the table than in the initial frame?
-    answer_type: yes_no
-    notes_for_judge: Check for spatial distribution/scattering.
-  - id: cue_ball_moved
-    question: Is the white cue ball in a different position relative to the table center compared to the initial frame?
-    answer_type: yes_no
-    notes_for_judge: The cue ball must have moved from its starting spot.
-  - id: entropy_increase
-    question: Does the arrangement of the balls appear random rather than ordered?
-    answer_type: yes_no
-    notes_for_judge: Tests the transition from ordered state to disordered state.
-  - id: balls_separated
-    question: Are there visible gaps between most of the object balls?
-    answer_type: yes_no
-    notes_for_judge: In the initial frame, they are touching. In the final frame, they should be separated.
-  - id: background_consistency
-    question: Do the background elements (fireplace, second table) remain in the same position relative to the camera frame?
-    answer_type: yes_no
-    notes_for_judge: The camera returns to the center view, so the background should align with the initial frame.
-  - id: surface_visible
-    question: Is more of the green felt surface visible between the individual balls compared to the initial rack?
-    answer_type: yes_no
-    notes_for_judge: Scattering exposes the table surface between balls.
+  init_frame_description: A first-person perspective view from behind a rack of pool balls on a green
+    felt table. In the foreground, a standard triangle of 15 colored pool balls is tightly packed. In
+    the middle ground, a white cue ball sits on the felt. In the background, a silver humanoid robot leans
+    over the table, aiming a wooden pool cue at the cue ball. Above the table hang three green shaded
+    lamps. The room features wood paneling and a fireplace in the background.
+  init2final_edit_prompt: Edit the given image to show the aftermath of the pool break shot. The tightly
+    packed triangle of colored balls in the foreground must be scattered and spread out across the green
+    felt table surface, no longer in a formation. The white cue ball should be positioned differently,
+    having moved from its initial spot to impact the rack. The robot in the background should maintain
+    a pose consistent with having just taken the shot.
+  rationale: The video prompt describes the robot striking the cue ball to break the rack. Physically,
+    this involves a transfer of momentum from the cue stick to the cue ball, and then from the cue ball
+    to the stationary rack of balls. The primary state change is the transition from a low-entropy state
+    (ordered triangle, stationary cue ball) to a higher-entropy state (scattered balls, moving/relocated
+    cue ball). The robot's pose will likely show a follow-through, but the most significant visual change
+    is the scattering of the target balls due to the collision.

@@ -3,41 +3,30 @@ level: 3
 category: relational_state
 tags: []
 prompts:
-  image_gen_prompt: A hand holds a clear glass pitcher tilted above an empty clear glass on a table. A stream of water is
-    just beginning to pour from the pitcher's spout into the glass. The pitcher is near full, and the glass is near empty.
-  video_WM: A hand tilts a pitcher over an empty glass, beginning to pour water into it; while the pouring continues, a cereal box is slid in front of the glass and pitcher, completely blocking them from the camera view, without touching or interacting with any object in the scene, for a prolonged duration. After a pause, the cereal box is slid away. The camera remains stationary; no scene cuts; no new people or objects enter the scene. Smooth, continuous evolution with only objects present in the initial scene.
+  image_gen_prompt: A hand holds a clear glass pitcher tilted above an empty clear glass on a table. A
+    stream of water is just beginning to pour from the pitcher's spout into the glass. The pitcher is
+    near full, and the glass is near empty.
+  video_WM: A hand tilts a pitcher over an empty glass, beginning to pour water into it; while the pouring
+    continues, a cereal box is slid in front of the glass and pitcher, completely blocking them from the
+    camera view, without touching or interacting with any object in the scene, for a prolonged duration.
+    After a pause, the cereal box is slid away. The camera remains stationary; no scene cuts; no new people
+    or objects enter the scene. Smooth, continuous evolution with only objects present in the initial
+    scene.
   camera_WM: A hand tilts a pitcher over an empty glass, beginning to pour water into it.
 camera_control:
   HY-WorldPlay: s-3, right-20, left-20
   lingbot: s-3, right-20, left-20
   Genie: null
 evaluation:
-  questions:
-  - id: q1
-    question: Is the water level in the glass higher than it was in the initial frame?
-    answer_type: yes_no
-    notes_for_judge: Compare the fluid level in the final frame to the empty/near-empty state in the initial frame.
-  - id: q2
-    question: Does the glass contain a significant amount of liquid compared to the initial empty state?
-    answer_type: yes_no
-    notes_for_judge: The glass should be partially or mostly full.
-  - id: q3
-    question: Is the volume of empty space within the glass reduced compared to the initial frame?
-    answer_type: yes_no
-    notes_for_judge: As water fills the glass, the air/empty space must decrease.
-  - id: q4
-    question: Is the state of the glass consistent with water having been poured into it from the pitcher?
-    answer_type: yes_no
-    notes_for_judge: Checks for the causal relationship between the pitcher's action and the glass's state.
-  - id: q5
-    question: Is the hand still holding the pitcher in a position above the glass?
-    answer_type: yes_no
-    notes_for_judge: Invariant check.
-  - id: q6
-    question: Are the window and curtains in the background consistent with the initial frame?
-    answer_type: yes_no
-    notes_for_judge: Invariant check.
-  - id: q7
-    question: Does the liquid in the glass appear clear, consistent with water?
-    answer_type: yes_no
-    notes_for_judge: Quality check.
+  init_frame_description: A close-up shot of a glass pitcher held by a hand, tilted in a pouring position
+    over a clear, empty glass tumbler sitting on a wooden table. The pitcher contains water. The background
+    shows a blurred window with natural light coming through.
+  init2final_edit_prompt: Edit the given image to show the glass filled with water and the pitcher containing
+    significantly less water. The water level in the glass must be high, indicating a prolonged pour,
+    and the water level in the pitcher must be correspondingly lower. Maintain the exact position of the
+    glass, the hand holding the pitcher, and the background details.
+  rationale: The prompt describes a pouring action that continues for a prolonged duration while the view
+    is occluded by a cereal box. Although the interaction is hidden from the camera, the physical process
+    of fluid transfer persists. Therefore, in the final state after the occluder is removed, the glass
+    must contain a significant volume of water, and the pitcher must have lost an equivalent volume, respecting
+    the conservation of mass and the continuity of the action.

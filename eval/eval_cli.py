@@ -6,13 +6,15 @@ from pathlib import Path
 from typing import List, Optional, Tuple
 
 from eval.task_resolver import resolve_tasks_from_outputs_json, ResolvedTask
-from eval.judge_runner import judge_one_task
-from eval.score_task import score_all_tasks, write_run_report
+from eval.utils import _path_to_rel
 from eval.control_judge import (
     evaluate_control_one_task, append_control_results_to_summary,
     _load_task_fields, _compute_requested_fields,
 )
-from eval.judge_output_parser import JudgeResult
+from eval.quality_judge import (
+    evaluate_artifact_one_task, append_artifact_results_to_summary, ArtifactJudgeResult,
+    evaluate_coherence_one_task, append_coherence_results_to_summary, CoherenceJudgeResult,
+)
 from eval.control_judge import ControlJudgeResult
 
 
@@ -61,8 +63,8 @@ def _write_init_stubs(
     camera_controlled: bool = False,
 ) -> None:
     """
-    Write skeleton judge_report.json and control_report.json for each task so
-    human_eval_server.py can list and display tasks without any LLM judging.
+    Write skeleton judge_report.json, control_report.json, and quality_report.json
+    for each task so human_eval_server.py can list and display tasks without any LLM judging.
 
     Only creates files that don't yet exist — safe to re-run.
 
@@ -75,67 +77,82 @@ def _write_init_stubs(
         task_dir = per_task_root / task.task_id
         task_dir.mkdir(parents=True, exist_ok=True)
 
-        # judge_report.json — skeleton with questions from YAML, no LLM answers
-        jr_path = task_dir / "judge_report.json"
-        if not jr_path.exists():
-            jr = {
-                "task_id":    task.task_id,
-                "init_frame": str(task.init_frame),
-                "final_frame": str(task.final_frame) if task.final_frame.exists() else "",
-                "answers": [
-                    {"id": q.id, "answer": None, "confidence": None, "notes": ""}
-                    for q in task.questions
-                ],
-                "score": {},
-            }
-            jr_path.write_text(json.dumps(jr, indent=2, ensure_ascii=False), encoding="utf-8")
+        # Pre-compute task prompt fields once; used by both control and coherence stubs.
+        try:
+            video_wm, camera_wm, camera_pose = _load_task_fields(task.task_yaml)
+            requested_trigger, requested_occlusion = _compute_requested_fields(
+                video_wm, camera_wm, camera_pose, camera_controlled=camera_controlled
+            )
+        except Exception:
+            video_wm = ""
+            requested_trigger = ""
+            requested_occlusion = ""
 
         # control_report.json — skeleton with pre-computed request fields, no LLM judgments.
         # requested_trigger and requested_occlusion are derived from the task YAML using the
         # same logic as the real control judge, so the human eval UI displays them immediately.
         cr_path = task_dir / "control_report.json"
         if not cr_path.exists():
-            try:
-                video_wm, camera_wm, camera_pose = _load_task_fields(task.task_yaml)
-                requested_trigger, requested_occlusion = _compute_requested_fields(
-                    video_wm, camera_wm, camera_pose, camera_controlled=camera_controlled
-                )
-            except Exception:
-                video_wm = ""
-                requested_trigger = ""
-                requested_occlusion = ""
             cr = {
                 "task_id":             task.task_id,
                 "video_WM_prompt":     video_wm,
-                "wm_video":            str(task.wm_video),
+                "wm_video":            _path_to_rel(task.wm_video),
                 "requested_occlusion": requested_occlusion,
                 "requested_trigger":   requested_trigger,
                 "occlusion_done":      None,
                 "trigger_applied":     None,
-                "artifact":            None,
                 "notes":               "",
             }
             cr_path.write_text(json.dumps(cr, indent=2, ensure_ascii=False), encoding="utf-8")
+
+        # artifact_report.json — skeleton matching evaluate_artifact_one_task output
+        ar_path = task_dir / "artifact_report.json"
+        if not ar_path.exists():
+            ar = {
+                "task_id":  task.task_id,
+                "wm_video": _path_to_rel(task.wm_video),
+                "artifact": None,
+                "notes":    "",
+            }
+            ar_path.write_text(json.dumps(ar, indent=2, ensure_ascii=False), encoding="utf-8")
+
+        # coherence_report.json — skeleton matching evaluate_coherence_one_task output
+        cohr_path = task_dir / "coherence_report.json"
+        if not cohr_path.exists():
+            cohr = {
+                "task_id":             task.task_id,
+                "wm_video":            _path_to_rel(task.wm_video),
+                "requested_occlusion": requested_occlusion,
+                "coherence":           None,
+                "notes":               "",
+            }
+            cohr_path.write_text(json.dumps(cohr, indent=2, ensure_ascii=False), encoding="utf-8")
 
 
 def _eval_one_task(
     task: ResolvedTask,
     *,
-    provider: str,
-    judge_model: str,
+    # provider: str,
+    # judge_model: str,
     control_model: str,
-    run_judge: bool = True,
+    quality_model: str,
     run_control: bool = True,
+    run_artifact: bool = True,
+    run_coherence: bool = True,
     camera_controlled: bool = False,
-) -> Tuple[Optional[JudgeResult], Optional[ControlJudgeResult]]:
-    judge_result   = judge_one_task(task, provider=provider, model=judge_model) if run_judge   else None
-    control_result = evaluate_control_one_task(task, model=control_model, camera_controlled=camera_controlled) if run_control else None
-    return judge_result, control_result
+    ensemble_size: int = 1,
+    ensemble_mode: str = "majority",
+) -> Tuple[None, Optional[ControlJudgeResult], Optional[ArtifactJudgeResult], Optional[CoherenceJudgeResult]]:
+    judge_result     = None  # binary judge questions (judge_report.json) are obsolete
+    control_result   = evaluate_control_one_task(task, model=control_model, camera_controlled=camera_controlled, ensemble_size=ensemble_size, ensemble_mode=ensemble_mode) if run_control else None
+    artifact_result  = evaluate_artifact_one_task(task, model=quality_model, camera_controlled=camera_controlled, ensemble_size=ensemble_size, ensemble_mode=ensemble_mode) if run_artifact else None
+    coherence_result = evaluate_coherence_one_task(task, model=quality_model, camera_controlled=camera_controlled, ensemble_size=ensemble_size, ensemble_mode=ensemble_mode) if run_coherence else None
+    return judge_result, control_result, artifact_result, coherence_result
 
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--output_json", required=True, type=str, help="JSON mapping task_id -> video path or URL.")
+    parser.add_argument("--outputs", required=True, type=str, help="Outputs folder containing the JSON map (task_id -> video path or URL).")
 
     parser.add_argument(
         "--task_root",
@@ -169,6 +186,12 @@ def main() -> None:
         type=str,
         help="Name of the control judge model."
     )
+    parser.add_argument(
+        "--quality_judge_model",
+        default="gemini-3-pro-preview",
+        type=str,
+        help="Name of the quality judge model (artifact and coherence detectors).",
+    )
 
     parser.add_argument(
         "--workers",
@@ -183,6 +206,11 @@ def main() -> None:
         help="fnmatch pattern to filter task IDs (e.g. 'ice_on_burner*'). If omitted, all tasks are evaluated.",
     )
     parser.add_argument(
+        "--exclude_baseline",
+        action="store_true",
+        help="Skip all tasks whose IDs end with '_00' (baseline / no-occlusion variants).",
+    )
+    parser.add_argument(
         "--overwrite",
         action="store_true",
         help="Re-evaluate tasks that already have both judge_report.json and control_report.json.",
@@ -192,15 +220,44 @@ def main() -> None:
         action="store_true",
         help="If set, download http(s) videos into the run directory.",
     )
+    # parser.add_argument(                                    # OBSOLETE: binary judge questions
+    #     "--state",
+    #     action="store_true",
+    #     help="Run the state evolution judge (judge_report).",
+    # )
     parser.add_argument(
-        "--state_only",
+        "--control",
         action="store_true",
-        help="Run only the state evolution judge (judge_report). Skips control judge.",
+        help="Run the control judge (control_report).",
     )
     parser.add_argument(
-        "--control_only",
+        "--artifact",
         action="store_true",
-        help="Run only the control judge (control_report). Skips quality judge and scoring.",
+        help="Run the artifact quality judge (artifact_report).",
+    )
+    parser.add_argument(
+        "--coherence",
+        action="store_true",
+        help="Run the coherence quality judge (coherence_report).",
+    )
+    parser.add_argument(
+        "--ensemble_size",
+        default=1,
+        type=int,
+        help="Number of independent judge queries per task (ensemble). Default: 1 (no ensemble).",
+    )
+    parser.add_argument(
+        "--ensemble_mode",
+        default="majority",
+        choices=["majority", "unanimous", "unanimous_true"],
+        help=(
+            "How to aggregate ensemble votes into a final decision. "
+            "'majority': strict majority (ties go False). "
+            "'unanimous': True only if ALL members vote True; default False. "
+            "'unanimous_true': False only if ALL members vote False; default True "
+            "(use for judges where false-negatives dominate, e.g. coherence). "
+            "Default: majority."
+        ),
     )
     parser.add_argument(
         "--init",
@@ -211,35 +268,42 @@ def main() -> None:
             "Use this to prepare a run for human-only evaluation."
         ),
     )
-    parser.add_argument(
-        "--camera_controlled",
-        action="store_true",
-        help=(
-            "Indicate that the world model is camera-controlled (e.g. HY-WorldPlay, LingBot). "
-            "When set, requested_occlusion is derived from the camera trajectory ('camera pan') "
-            "rather than from the video_WM text prompt, which the camera model never receives."
-        ),
-    )
-
     args = parser.parse_args()
 
-    if args.state_only and args.control_only:
-        parser.error("--state_only and --control_only are mutually exclusive.")
-
-    run_judge   = not args.control_only
-    run_control = not args.state_only
+    any_selected = args.control or args.artifact or args.coherence  # args.state removed (judge is obsolete)
+    # run_judge = args.state or not any_selected  # OBSOLETE: binary judge questions
+    run_judge     = False  # binary judge questions (judge_report.json) are obsolete
+    run_control   = args.control   or not any_selected
+    run_artifact  = args.artifact  or not any_selected
+    run_coherence = args.coherence or not any_selected
 
     # ---------------------------------------------------------------------------
     # Build eval run directory
     # ---------------------------------------------------------------------------
     task_root = Path(args.task_root).expanduser().resolve()
-    output_json = Path(args.output_json).expanduser().resolve()
+    outputs_dir = Path(args.outputs).expanduser().resolve()
     run_dir = Path(args.run_dir).expanduser().resolve()
 
     if not task_root.exists():
         raise FileNotFoundError(task_root)
-    if not output_json.exists():
-        raise FileNotFoundError(output_json)
+    if not outputs_dir.exists() or not outputs_dir.is_dir():
+        raise FileNotFoundError(f"Outputs folder not found: {outputs_dir}")
+
+    json_files = list(outputs_dir.glob("*.json"))
+    if len(json_files) != 1:
+        raise RuntimeError(
+            f"Expected exactly one .json file in {outputs_dir}, found {len(json_files)}: "
+            + ", ".join(f.name for f in json_files)
+        )
+    output_json = json_files[0]
+
+    # Auto-detect camera-controlled models from the outputs folder name.
+    # These models receive a camera trajectory instead of a text prompt, so
+    # requested_occlusion is always "camera pan" rather than parsed from video_WM.
+    _CAMERA_CONTROLLED_NAMES = {"hy", "genie", "lingbot"}
+    camera_controlled = any(n in outputs_dir.name.lower() for n in _CAMERA_CONTROLLED_NAMES)
+    if camera_controlled:
+        print(f"[INFO] Camera-controlled model detected from folder name '{outputs_dir.name}' — requested_occlusion will be set to 'camera pan'.")
 
     run_dir.mkdir(parents=True, exist_ok=True)
 
@@ -259,6 +323,7 @@ def main() -> None:
         run_dir=run_root,
         download_urls=args.download_urls,
         pattern=args.pattern,
+        exclude_baseline=args.exclude_baseline,
     )
 
     print(f"[DONE] Resolved {len(resolved_tasks)} tasks into: {per_task_root}")
@@ -272,9 +337,9 @@ def main() -> None:
     # --init: write skeleton report stubs and exit — no LLM judging
     # ---------------------------------------------------------------------------
     if args.init:
-        _write_init_stubs(resolved_tasks, per_task_root, camera_controlled=args.camera_controlled)
+        _write_init_stubs(resolved_tasks, per_task_root, camera_controlled=camera_controlled)
         print(f"[DONE] Initialized {len(resolved_tasks)} task(s) in: {run_root}")
-        print(f"       summary.json, judge_report.json and control_report.json stubs written.")
+        print(f"       summary.json, judge_report.json, control_report.json, artifact_report.json and coherence_report.json stubs written.")
         print(f"       Start human_eval_server.py to begin human evaluation.")
         return
 
@@ -288,11 +353,15 @@ def main() -> None:
         pending, skipped = [], 0
         for task in resolved_tasks:
             task_dir = per_task_root / task.task_id
-            judge_done   = (task_dir / "judge_report.json").exists()
-            control_done = (task_dir / "control_report.json").exists()
+            # judge_done    = (task_dir / "judge_report.json").exists()  # OBSOLETE
+            control_done  = (task_dir / "control_report.json").exists()
+            artifact_done = (task_dir / "artifact_report.json").exists()
+            coherence_done = (task_dir / "coherence_report.json").exists()
             already_done = (
-                (run_judge   and judge_done   or not run_judge) and
-                (run_control and control_done or not run_control)
+                # (run_judge and judge_done or not run_judge) and  # OBSOLETE
+                (run_control   and control_done   or not run_control) and
+                (run_artifact  and artifact_done  or not run_artifact) and
+                (run_coherence and coherence_done or not run_coherence)
             )
             if already_done:
                 skipped += 1
@@ -305,8 +374,10 @@ def main() -> None:
     # ---------------------------------------------------------------------------
     # Per-task eval — parallel (judge + control judge run together per task)
     # ---------------------------------------------------------------------------
-    judge_results: List[JudgeResult] = []
+    # judge_results: List[JudgeResult] = []  # OBSOLETE: binary judge questions
     control_results: List[ControlJudgeResult] = []
+    artifact_results: List[ArtifactJudgeResult] = []
+    coherence_results: List[CoherenceJudgeResult] = []
     failed = 0
 
     with ThreadPoolExecutor(max_workers=args.workers) as executor:
@@ -317,33 +388,30 @@ def main() -> None:
                 provider=args.judge_vlm_provider,
                 judge_model=args.judge_vlm_model,
                 control_model=args.control_judge_model,
-                run_judge=run_judge,
+                quality_model=args.quality_judge_model,
+                # run_judge=run_judge,  # OBSOLETE: binary judge questions
                 run_control=run_control,
-                camera_controlled=args.camera_controlled,
+                run_artifact=run_artifact,
+                run_coherence=run_coherence,
+                camera_controlled=camera_controlled,
+                ensemble_size=args.ensemble_size,
+                ensemble_mode=args.ensemble_mode,
             ): task
             for task in resolved_tasks
         }
         for future in as_completed(futures):
             task = futures[future]
             try:
-                jr, cr = future.result()
-                if jr is not None:
-                    judge_results.append(jr)
-                if cr is not None:
-                    control_results.append(cr)
+                jr, cr, ar, cohr = future.result()
+                # if jr is not None: judge_results.append(jr)  # OBSOLETE
+                if cr   is not None: control_results.append(cr)
+                if ar   is not None: artifact_results.append(ar)
+                if cohr is not None: coherence_results.append(cohr)
             except Exception as e:
                 print(f"[ERROR] {task.task_id}: {e}")
                 failed += 1
 
-    print(f"[DONE] Evaluated {len(judge_results)} tasks ({failed} failed)")
-
-    # ---------------------------------------------------------------------------
-    # Scoring — sequential (aggregates all judge results)
-    # ---------------------------------------------------------------------------
-    if run_judge and judge_results:
-        task_scores = score_all_tasks(judge_results=judge_results)
-        _ = write_run_report(task_scores=task_scores, run_dir=run_root)
-        print(f"[DONE] Scored {len(task_scores)} tasks")
+    print(f"[DONE] Evaluated {len(resolved_tasks) - failed} tasks ({failed} failed)")
 
     # ---------------------------------------------------------------------------
     # Append control results to summary — sequential
@@ -353,6 +421,13 @@ def main() -> None:
     if run_control:
         append_control_results_to_summary(tasks=all_resolved_tasks)
         print(f"[DONE] Controllability evaluation done")
+
+    if run_artifact:
+        append_artifact_results_to_summary(tasks=all_resolved_tasks)
+        print(f"[DONE] Artifact evaluation done")
+    if run_coherence:
+        append_coherence_results_to_summary(tasks=all_resolved_tasks)
+        print(f"[DONE] Coherence evaluation done")
 
     return
 

@@ -1,5 +1,6 @@
 from urllib.parse import urlparse
 from pathlib import Path
+from typing import Optional
 import requests
 import shutil
 import yaml
@@ -62,6 +63,41 @@ def _copy_or_symlink(src: Path, dst: Path, *, mode: str = "symlink") -> None:
         dst.symlink_to(src)
     except OSError:
         shutil.copy2(src, dst)
+
+
+# -----------------------------
+# Portable path helpers
+# -----------------------------
+
+def _path_to_rel(path: Path, base: Optional[Path] = None) -> str:
+    """
+    Serialize a path for storage in JSON.
+
+    Returns a POSIX-style relative path from `base` (default: cwd / repo root).
+    Falls back to an absolute POSIX path if `path` is not under `base`.
+    Using POSIX separators makes stored paths portable across Windows and Linux.
+    """
+    if base is None:
+        base = Path.cwd()
+    try:
+        return path.resolve().relative_to(base.resolve()).as_posix()
+    except ValueError:
+        return path.resolve().as_posix()
+
+
+def _path_from_rel(s: str, base: Optional[Path] = None) -> Path:
+    """
+    Deserialize a path stored by `_path_to_rel`.
+
+    If `s` is already absolute, returns it as-is.
+    Otherwise resolves relative to `base` (default: cwd / repo root).
+    """
+    p = Path(s)
+    if p.is_absolute():
+        return p.resolve()
+    if base is None:
+        base = Path.cwd()
+    return (base / p).resolve()
 
 
 def _download(url: str, dst: Path) -> None:

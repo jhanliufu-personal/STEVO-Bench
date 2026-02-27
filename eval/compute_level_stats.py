@@ -13,8 +13,8 @@ Stats added to each level in by_level, and to overall:
   avg_artifact           : fraction of tasks where obvious visual artifacts are present
   avg_control_success    : fraction of tasks where occlusion_done=True AND trigger_applied=True
   avg_state_evol_success : fraction of tasks where accuracy == 1.0
-  avg_task_success       : fraction of tasks where control_success=True AND
-                           state_evol_success=True AND artifact=False
+  avg_task_success       : fraction of tasks where state_evol_success=True AND
+                           artifact=False (AND coherence=True for human)
 
 Tasks missing occlusion_done / trigger_applied / artifact (not yet control-judged)
 are excluded from the relevant averages.
@@ -82,9 +82,9 @@ def _fill_bucket(bucket: Dict[str, List], t: Dict[str, Any]) -> None:
     if accuracy is not None:
         bucket["state_evol_success"].append(1.0 if accuracy == 1.0 else 0.0)
 
-    # task_success: control_success AND accuracy == 1.0 AND no artifact
-    if accuracy is not None and occlusion_done is not None and trigger_applied is not None and artifact is not None:
-        task_success = control_success and (accuracy == 1.0) and not bool(artifact)
+    # task_success: state_evol_success AND no artifact
+    if accuracy is not None and artifact is not None:
+        task_success = (accuracy == 1.0) and not bool(artifact)
         bucket["task_success"].append(1.0 if task_success else 0.0)
 
     # ---- Human counterparts ----
@@ -129,10 +129,10 @@ def _fill_bucket(bucket: Dict[str, List], t: Dict[str, Any]) -> None:
             bucket["human_artifact_ctrl"].append(1.0 if human_artifact else 0.0)
         if human_coherence is not None:
             bucket["human_coherence_ctrl"].append(1.0 if human_coherence else 0.0)
-        if (human_final_frame_correct is not None
+        if (human_state_evol is not None
                 and human_artifact is not None
                 and human_coherence is not None):
-            human_task = (bool(human_final_frame_correct)
+            human_task = (bool(human_state_evol)
                           and not bool(human_artifact)
                           and bool(human_coherence))
             bucket["human_task_success"].append(1.0 if human_task else 0.0)
@@ -292,12 +292,12 @@ def main() -> None:
     def print_human_ctrl_table() -> None:
         """Print human metrics conditioned on control success, one row per group."""
         header = (
-            f"{'Group':>10}  {'N':>5}  {'N_ctrl':>6}  {'ctrl_suc':>8}  "
+            f"{'Group':>10}  {'N':>5}  {'N_ctrl':>6}  {'occ_done':>8}  {'trig_app':>8}  {'ctrl_suc':>8}  "
             f"{'se_suc|c':>8}  {'ffc|c':>8}  {'artif|c':>8}  {'coher|c':>8}  {'task_suc|c':>10}"
         )
         print("Human Metrics | evaluated given human control success")
         print("  (se_suc|c, ffc|c, artif|c, coher|c, task_suc|c computed over ctrl-success tasks only)")
-        print("  task_suc|c = ffc=1 AND artif=0 AND coher=1")
+        print("  task_suc|c = se=1 AND artif=0 AND coher=1")
         print(header)
         print("-" * len(header))
         for label, s in [("all", all_stats), ("baseline", baseline_stats), ("occluded", occluded_stats)]:
@@ -305,6 +305,8 @@ def main() -> None:
                 f"{label:>10}  "
                 f"{s.get('num_tasks', '?'):>5}  "
                 f"{fmt(s.get('human_ctrl_n', 0)):>6}  "
+                f"{fmt(s.get('avg_human_occlusion_done')):>8}  "
+                f"{fmt(s.get('avg_human_trigger_applied')):>8}  "
                 f"{fmt(s.get('avg_human_control_success')):>8}  "
                 f"{fmt(s.get('avg_human_state_evol_ctrl')):>8}  "
                 f"{fmt(s.get('avg_human_final_frame_correct_ctrl')):>8}  "

@@ -3,40 +3,26 @@ level: 3
 category: relational_state
 relational_type: concentration_coupling
 prompts:
-  image_gen_prompt: A small pitcher filled with pitch-black tea concentrate is being tilted over a large glass of clear boiling
-    water.
-  video_WM: A hand tilts a pitcher of hot water over a glass of concentrated tea, beginning to pour. The camera remains stationary; no scene cuts; no new people or objects enter the scene. Smooth, continuous evolution with only objects present in the initial scene.
+  image_gen_prompt: A small pitcher filled with pitch-black tea concentrate is being tilted over a large
+    glass of clear boiling water.
+  video_WM: A hand tilts a pitcher of hot water over a glass of concentrated tea, beginning to pour. The
+    camera remains stationary; no scene cuts; no new people or objects enter the scene. Smooth, continuous
+    evolution with only objects present in the initial scene.
   camera_WM: A hand tilts a pitcher of hot water over a glass of concentrated tea, beginning to pour.
 camera_control:
   HY-WorldPlay: null
   lingbot: null
 evaluation:
-  questions:
-  - id: glass_level_rise
-    question: Is the liquid level in the glass higher than it was in the initial frame?
-    answer_type: yes_no
-    notes_for_judge: The glass receives liquid, so the level must rise.
-  - id: mixture_darker
-    question: Is the liquid in the glass darker or more opaque than in the initial frame?
-    answer_type: yes_no
-    notes_for_judge: More black concentrate has been added, so the mixture must be darker.
-  - id: pitcher_emptier
-    question: Does the pitcher appear to contain less liquid than in the initial frame?
-    answer_type: yes_no
-    notes_for_judge: Conservation of mass requires the source to deplete as the destination fills.
-  - id: pitcher_presence
-    question: Is the ceramic pitcher still visible in the frame?
-    answer_type: yes_no
-    notes_for_judge: The camera returns to the center view; the pitcher should still be there (even if empty or finishing).
-  - id: background_consistency
-    question: Is the window in the background still visible?
-    answer_type: yes_no
-    notes_for_judge: The camera returns to the original angle.
-  - id: table_consistency
-    question: Is the wooden table surface still visible?
-    answer_type: yes_no
-    notes_for_judge: The environment should remain stable.
-  - id: conservation_logic
-    question: Does the scene show the glass fuller relative to the pitcher being emptier?
-    answer_type: yes_no
-    notes_for_judge: 'This tests the relational state change: mass transfer from A to B.'
+  init_frame_description: A close-up shot of a clear glass sitting on a wooden table, partially filled
+    with clear hot water emitting steam. A ceramic pitcher held by a hand is positioned above the glass,
+    pouring a dark, opaque liquid stream (resembling coffee or tea concentrate) into the clear water.
+    Dark brown swirls are visible where the stream enters the water, beginning to mix.
+  init2final_edit_prompt: Edit the given image to show the glass filled with a significantly higher level
+    of liquid. The liquid in the glass should appear as a translucent brown or amber mixture, darker than
+    the initial clear water, indicating the dark stream has mixed with the water. Maintain the presence
+    of steam and the wooden table background. The pitcher should remain positioned above the glass.
+  rationale: 'The initial frame visually depicts a dark concentrate being poured into clear hot water
+    (making an Americano or tea), despite the provided text prompt describing the reverse. The physical
+    rollout must follow the visual evidence: as the dark liquid is added, the total volume in the glass
+    increases (conservation of mass) and the clear water becomes darker and more opaque due to mixing
+    (diffusion). The final state should show a fuller glass with a uniformly darker, mixed liquid color.'

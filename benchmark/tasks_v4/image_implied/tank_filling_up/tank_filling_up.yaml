@@ -3,57 +3,34 @@ level: 1
 category: scalar_state
 tags: []
 prompts:
-  image_gen_prompt: A transparent cylindrical water tank sits on the floor in a warehouse. A metal pipe extends from above,
-    flowing water into the tank. The water level in the tank is partially filled, with measurement markings visible on the
-    side. The camera view is centered on the pipe and tank.
-  video_WM: The warehouse lights switch off, leaving the tank in complete darkness and completely invisible for a prolonged duration. After a pause, the lights switch back on. The camera remains stationary; no scene cuts; no new people or objects enter the scene. Smooth, continuous evolution with only objects present in the initial scene.
+  image_gen_prompt: A transparent cylindrical water tank sits on the floor in a warehouse. A metal pipe
+    extends from above, flowing water into the tank. The water level in the tank is partially filled,
+    with measurement markings visible on the side. The camera view is centered on the pipe and tank.
+  video_WM: The warehouse lights switch off, leaving the tank in complete darkness and completely invisible
+    for a prolonged duration. After a pause, the lights switch back on. The camera remains stationary;
+    no scene cuts; no new people or objects enter the scene. Smooth, continuous evolution with only objects
+    present in the initial scene.
   camera_WM: ''
 camera_control:
   HY-WorldPlay: s-3, right-20, left-20
   lingbot: s-3, right-20, left-20
   Genie: null
 evaluation:
-  init_frame_description: A clear cylindrical tank with red measurement markings stands in the center of a warehouse. A metal
-    pipe extends from the top right, pouring a stream of water into the tank. The water level is currently near the middle
-    of the tank, roughly at the 140-150 mark on the right-hand scale. The water surface is turbulent where the stream hits
-    it. The background shows warehouse shelving, pallets, and industrial equipment.
-  init2final_edit_prompt: Edit the given image to show the water level in the clear cylindrical tank significantly higher
-    than it was initially. The water should appear to have accumulated, reaching a higher point on the red measurement scale
-    closer to the top. The water stream should still be pouring from the overhead pipe into the tank. Maintain the exact same
-    camera angle, lighting, and background warehouse setting.
-  rationale: 'The video involves a continuous process of water filling a tank. Although the camera pans away (occluding the
-    tank) and then returns, the physical process of filling persists throughout the duration. Therefore, when the camera returns
-    to the original viewpoint, the state of the tank must have evolved: the water level must be higher due to the accumulation
-    of water over the elapsed time. The environment remains static.'
-  questions:
-  - id: q1_level_height
-    question: Is the water level in the tank higher than it was in the initial frame?
-    answer_type: yes_no
-    notes_for_judge: Compare the water line against the red markings or the tank rim.
-  - id: q2_volume_increase
-    question: Is there more water in the tank than there was at the start?
-    answer_type: yes_no
-    notes_for_judge: The volume should have visibly increased.
-  - id: q3_empty_space
-    question: Is the empty space at the top of the tank smaller than in the initial frame?
-    answer_type: yes_no
-    notes_for_judge: As the tank fills, the empty volume (ullage) decreases.
-  - id: q4_scale_reading
-    question: Has the water surface risen to a higher number on the red measurement scale?
-    answer_type: yes_no
-    notes_for_judge: Check if the water line is above the initial ~140-150 level.
-  - id: q5_filling_action
-    question: Is the water stream still pouring into the tank?
-    answer_type: yes_no
-    notes_for_judge: The action was continuous and not described as stopping.
-  - id: q6_tank_fullness
-    question: Is the tank fuller than it was initially?
-    answer_type: yes_no
-    notes_for_judge: General assessment of fullness.
-  - id: q7_background_consistency
-    question: Are the warehouse shelves and pallets in the background unchanged?
-    answer_type: yes_no
-    notes_for_judge: Static objects should not move.
+  init_frame_description: A large clear cylindrical tank sits on a concrete warehouse floor. The tank
+    has red measurement markings on its front face, with grams on the left and liters on the right. A
+    metal pipe extends from the ceiling area, pouring a stream of water into the tank. The current water
+    level is approximately at the 140-150 liter mark, with visible bubbles and turbulence where the water
+    enters. Wooden pallets and industrial shelving are visible in the background.
+  init2final_edit_prompt: Edit the given image to show the water level inside the clear tank significantly
+    higher than it was initially. The water surface should be elevated well above the 150 liter mark,
+    occupying more of the tank's volume. Maintain the appearance of the water stream pouring from the
+    pipe. Keep the background warehouse, pallets, and the tank's position exactly unchanged.
+  rationale: 'The initial frame establishes a dynamic process: water is flowing into a container. The
+    video prompt introduces a temporal gap (''prolonged duration'') during which the scene is occluded
+    by darkness. Physical consistency dictates that the water flow continues during this time, resulting
+    in an accumulation of liquid. Therefore, when visibility is restored, the scalar state variable (water
+    volume/level) must have increased. The camera is stationary, so the static background elements remain
+    invariant.'
   generation:
     model_provider: google_gemini
     llm: gemini-3-pro-preview

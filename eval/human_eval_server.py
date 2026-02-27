@@ -1,23 +1,24 @@
 #!/usr/bin/env python3
 # eval/human_eval_server.py
 """
-Localhost web UI for human evaluation of world-model benchmark runs.
+Web UI for human evaluation of world-model benchmark runs.
+
+Supports multiple independent annotators, each with a unique URL:
+    http://<host>:<port>/?annotator=<name>   — annotator mode (blind: no LLM answers shown)
+    http://<host>:<port>/                    — master view (read-only: LLM + all annotators)
 
 Dependencies:
     pip install flask
 
 Usage:
-    python -m eval.human_eval_server
-    python -m eval.human_eval_server --runs_dir runs/ --tasks_dir benchmark/tasks/ --port 7860
+    python -m eval.human_eval_server --host 0.0.0.0 --port 7860
 
 Each task page shows:
-  - Initial frame
-  - Output video (with seeking support)
+  - Initial frame and output video
   - Video WM prompt
-  - LLM judge questions + answers
-  - Control judge output (occlusion / trigger / artifact)
-  - T/F buttons for human answers (auto-saved to judge_report.json / control_report.json / summary.json)
-  - Overall LLM and Human verdicts
+  - Verifier rows (occlusion / trigger / state evolution / artifact / coherence)
+  - Annotator mode: T/F buttons; answers auto-saved to human_<name>_report.json + summary.json
+  - Master mode: read-only badges for LLM and every annotator side by side
 """
 
 import argparse
@@ -25,6 +26,7 @@ import base64
 import json
 import mimetypes
 import random
+import re
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
@@ -38,12 +40,36 @@ except ImportError:
     def load_yaml(path):  # type: ignore
         return yaml.safe_load(Path(path).read_text(encoding="utf-8")) or {}
 
+try:
+    from eval.control_judge import (
+        _load_task_fields as _ctrl_load_task_fields,
+        _compute_requested_fields,
+    )
+    _HAS_CONTROL_JUDGE = True
+except ImportError:
+    _HAS_CONTROL_JUDGE = False
+
+try:
+    from eval.utils import _path_from_rel
+except ImportError:
+    def _path_from_rel(s, base=None):  # type: ignore
+        from pathlib import Path as _P
+        p = _P(s)
+        return p if p.is_absolute() else ((_P.cwd() if base is None else base) / p).resolve()
+
+# Run-name substrings that identify camera-controlled models (same logic as eval_cli.py)
+_CAMERA_CONTROLLED_NAMES = {"hy", "genie", "lingbot"}
+
+# Matches per-task annotator report filenames: human_<annotator>_report.json
+_ANNOTATOR_RE = re.compile(r"^human_(.+)_report\.json$")
+
 
 app = Flask(__name__)
 
 # Set at startup via main()
 RUNS_DIR: Path = Path("runs")
 TASKS_ROOT: Path = Path("benchmark/tasks")
+EXCLUDE_BASELINE: bool = False  # when True, tasks ending in _00 are hidden
 
 # Built once at startup: task_id -> yaml path
 _YAML_MAP: Dict[str, Path] = {}
@@ -88,10 +114,12 @@ def _list_task_ids(run_name: str) -> List[str]:
         return []
     return sorted(
         d.name for d in pt.iterdir()
-        if d.is_dir() and (
-            (d / "judge_report.json").exists() or
-            (d / "control_report.json").exists()
+        if d.is_dir()
+        and (
+            (d / "control_report.json").exists() or
+            (d / "se_report.json").exists()
         )
+        and not (EXCLUDE_BASELINE and d.name.endswith("_00"))
     )
 
 
@@ -99,136 +127,154 @@ def _find_task_yaml(task_id: str) -> Optional[Path]:
     return _YAML_MAP.get(task_id)
 
 
-def _load_task_data(run_name: str, task_id: str) -> Dict[str, Any]:
+def _list_annotators(run_name: str) -> List[str]:
+    """Return sorted list of annotator IDs who have annotated any task in this run."""
+    pt = RUNS_DIR / run_name / "per_task"
+    if not pt.exists():
+        return []
+    annotators: set = set()
+    for task_dir in pt.iterdir():
+        if not task_dir.is_dir():
+            continue
+        for f in task_dir.iterdir():
+            m = _ANNOTATOR_RE.match(f.name)
+            if m:
+                annotators.add(m.group(1))
+    return sorted(annotators)
+
+
+def _load_annotator_report(pt_dir: Path, annotator: str) -> Dict[str, Any]:
+    """Load human_<annotator>_report.json; returns {} if missing or unreadable."""
+    p = pt_dir / f"human_{annotator}_report.json"
+    if p.exists():
+        try:
+            return json.loads(p.read_text(encoding="utf-8"))
+        except Exception:
+            return {}
+    return {}
+
+
+def _load_task_data(run_name: str, task_id: str, annotator: Optional[str] = None) -> Dict[str, Any]:
     pt_dir = RUNS_DIR / run_name / "per_task" / task_id
 
-    # Judge report (optional — may be absent for control-only runs)
-    jr_path = pt_dir / "judge_report.json"
-    jr: Dict[str, Any] = {}
-    if jr_path.exists():
-        jr = json.loads(jr_path.read_text(encoding="utf-8"))
-
-    # Control report (optional — may be absent for quality-only runs)
+    # LLM reports
     cr_path = pt_dir / "control_report.json"
     cr: Dict[str, Any] = {}
     if cr_path.exists():
         cr = json.loads(cr_path.read_text(encoding="utf-8"))
 
-    if not jr and not cr:
-        raise FileNotFoundError(f"No judge_report.json or control_report.json found in: {pt_dir}")
+    se_path = pt_dir / "se_report.json"
+    se: Dict[str, Any] = {}
+    if se_path.exists():
+        se = json.loads(se_path.read_text(encoding="utf-8"))
 
-    # video_WM_prompt comes exclusively from control_report.json — the eval
-    # pipeline bakes the correct value in at run time. An empty string means
-    # the task genuinely had no prompt (e.g. a _00 baseline). Never fall back
-    # to the YAML here, as the YAML map may point at a different benchmark
-    # version with different prompt content.
-    video_wm_prompt: str = cr.get("video_WM_prompt", "") or ""
+    art_path = pt_dir / "artifact_report.json"
+    art: Dict[str, Any] = {}
+    if art_path.exists():
+        art = json.loads(art_path.read_text(encoding="utf-8"))
 
-    # YAML: task_level, questions, and init_frame path (none of these are
-    # stored in the per-task reports, so YAML lookup is appropriate here)
-    questions: List[Dict[str, str]] = []
+    cohr_path = pt_dir / "coherence_report.json"
+    cohr: Dict[str, Any] = {}
+    if cohr_path.exists():
+        cohr = json.loads(cohr_path.read_text(encoding="utf-8"))
+
+    if not cr and not se:
+        raise FileNotFoundError(f"No control_report.json or se_report.json found in: {pt_dir}")
+
+    camera_controlled = any(n in run_name.lower() for n in _CAMERA_CONTROLLED_NAMES)
+
+    # YAML: task_level and init_frame
     task_level: Optional[Any] = None
-    init_frame_from_yaml: str = ""
+    init_frame_path: str = ""
     yaml_path = _find_task_yaml(task_id)
     if yaml_path:
         td = load_yaml(yaml_path)
         task_level = td.get("level")
-        for q in ((td.get("evaluation") or {}).get("questions") or []):
-            questions.append({
-                "id": str(q.get("id", "")),
-                "question": str(q.get("question", "")),
-                "notes_for_judge": str(q.get("notes_for_judge", "")),
-                "answer_type": str(q.get("answer_type", "yes_no")),
-            })
-        # Derive init frame path from YAML location as fallback
         init_frame_candidate = yaml_path.parent / f"{task_id}_init_frame.png"
         if init_frame_candidate.exists():
-            init_frame_from_yaml = str(init_frame_candidate)
+            init_frame_path = str(init_frame_candidate)
 
-    # LLM answers indexed by question id
-    llm_answers: Dict[str, Any] = {
-        a["id"]: {
-            "answer":     a.get("answer", ""),
-            "confidence": a.get("confidence"),
-            "notes":      a.get("notes", ""),
-        }
-        for a in jr.get("answers", [])
-    }
-
-    # Existing human answers (stored as human_answer field inside each answer entry)
-    human_answers: Dict[str, str] = {
-        a["id"]: a["human_answer"]
-        for a in jr.get("answers", [])
-        if "human_answer" in a
-    }
-
-    # human_final_frame_correct stored directly in judge_report.json
-    human_final_frame_correct: Optional[bool] = jr.get("human_final_frame_correct")
-    if human_final_frame_correct is not None:
-        human_final_frame_correct = bool(human_final_frame_correct)
-
-    # Existing human control answers
-    human_control: Dict[str, Optional[bool]] = {}
-    if "human_occlusion_done" in cr:
-        human_control["occlusion_done"] = cr["human_occlusion_done"]
-    if "human_trigger_applied" in cr:
-        human_control["trigger_applied"] = cr["human_trigger_applied"]
-    if "human_artifact" in cr:
-        human_control["artifact"] = cr["human_artifact"]
-    if "human_coherence" in cr:
-        human_control["coherence"] = cr["human_coherence"]
+    # WM prompts and requested fields from YAML
+    video_wm_prompt: str = ""
+    requested_trigger   = cr.get("requested_trigger",   "")
+    requested_occlusion = cr.get("requested_occlusion", "")
+    if _HAS_CONTROL_JUDGE and yaml_path:
+        try:
+            video_wm, camera_wm, camera_pose = _ctrl_load_task_fields(yaml_path)
+            requested_trigger, requested_occlusion = _compute_requested_fields(
+                video_wm, camera_wm, camera_pose, camera_controlled=camera_controlled
+            )
+            video_wm_prompt = (camera_wm if camera_controlled else video_wm) or ""
+        except Exception:
+            pass
 
     def furl(raw: str) -> Optional[str]:
         return f"/file?p={_enc(raw)}" if raw else None
 
-    # init_frame: prefer judge_report path, fall back to YAML-derived path
-    init_frame_path = jr.get("init_frame", "") or init_frame_from_yaml
-    # final_frame: prefer judge_report path, fall back to per-task folder
-    final_frame_path = jr.get("final_frame", "")
-    if not final_frame_path:
-        ff_candidate = pt_dir / "final_frame.png"
-        if ff_candidate.exists():
-            final_frame_path = str(ff_candidate)
+    final_frame_path: str = ""
+    ff_candidate = pt_dir / "final_frame.png"
+    if ff_candidate.exists():
+        final_frame_path = str(ff_candidate)
 
-    # Load human_state_evol from summary.json task entry
-    human_state_evol: Optional[bool] = None
-    summary_path = RUNS_DIR / run_name / "summary.json"
-    if summary_path.exists():
-        try:
-            summary_data = json.loads(summary_path.read_text(encoding="utf-8"))
-            task_entry = next(
-                (t for t in summary_data.get("tasks", []) if t.get("task_id") == task_id),
-                None,
-            )
-            if task_entry and "human_state_evol" in task_entry:
-                human_state_evol = task_entry["human_state_evol"]
-        except Exception:
-            pass
+    llm_control = {
+        "requested_occlusion": requested_occlusion,
+        "requested_trigger":   requested_trigger,
+        "occlusion_done":      cr.get("occlusion_done"),
+        "trigger_applied":     cr.get("trigger_applied"),
+        "state_evol":          se.get("llm_state_evol"),
+        "artifact":            art.get("artifact"),
+        "coherence":           cohr.get("coherence"),
+        "notes":               cr.get("notes", ""),
+        "se_prompt":           se.get("filled_prompt1", ""),
+        "artifact_prompt":     art.get("prompt", ""),
+        "coherence_prompt":    cohr.get("prompt", ""),
+    }
 
-    return {
+    base: Dict[str, Any] = {
         "task_id":         task_id,
         "task_level":      task_level,
         "run_name":        run_name,
         "init_frame_url":  furl(init_frame_path),
         "final_frame_url": furl(final_frame_path),
-        "video_url":       furl(cr.get("wm_video", "")),
+        "video_url":       furl(str(_path_from_rel(cr["wm_video"])) if cr.get("wm_video") else ""),
         "video_wm_prompt": video_wm_prompt,
-        "questions":       questions,
-        "llm_answers":     llm_answers,
-        "llm_control": {
-            "requested_occlusion": cr.get("requested_occlusion", ""),
-            "requested_trigger":   cr.get("requested_trigger", ""),
-            "occlusion_done":      cr.get("occlusion_done"),
-            "trigger_applied":     cr.get("trigger_applied"),
-            "artifact":            cr.get("artifact"),
-            "notes":               cr.get("notes", ""),
-        },
-        "human_answers":             human_answers,
-        "human_control":             human_control,
-        "human_final_frame_correct": human_final_frame_correct,
-        "human_state_evol":          human_state_evol,
-        "score":            jr.get("score", {}),
+        "llm_control":     llm_control,
     }
+
+    if annotator:
+        # Annotator mode: load only this annotator's saved answers from their report file.
+        # This is the primary persistence mechanism — the file is written by api_answer
+        # and re-read every time the annotator loads a task, restoring their prior choices.
+        rep = _load_annotator_report(pt_dir, annotator)
+        human_control = {
+            k: rep[k]
+            for k in ("occlusion_done", "trigger_applied", "artifact", "coherence")
+            if k in rep
+        }
+        base["mode"] = "annotator"
+        base["annotator"] = annotator
+        base["human_control"] = human_control
+        base["human_state_evol"] = rep.get("state_evol")  # None if not yet answered
+    else:
+        # Master mode: collect every annotator's answers from all human_*_report.json files.
+        annotations: Dict[str, Any] = {}
+        for f in sorted(pt_dir.iterdir()):
+            m = _ANNOTATOR_RE.match(f.name)
+            if m:
+                ann_name = m.group(1)
+                try:
+                    rep = json.loads(f.read_text(encoding="utf-8"))
+                    annotations[ann_name] = {
+                        k: rep.get(k)
+                        for k in ("occlusion_done", "trigger_applied", "state_evol", "artifact", "coherence")
+                    }
+                except Exception:
+                    pass
+        base["mode"] = "master"
+        base["annotator"] = None
+        base["annotations"] = annotations
+
+    return base
 
 
 # ---------------------------------------------------------------------------
@@ -285,6 +331,11 @@ def api_tasks(run_name: str):
     return jsonify(_list_task_ids(run_name))
 
 
+@app.route("/api/runs/<run_name>/annotators")
+def api_annotators(run_name: str):
+    return jsonify(_list_annotators(run_name))
+
+
 @app.route("/api/runs/<run_name>/random")
 def api_random(run_name: str):
     ids = _list_task_ids(run_name)
@@ -295,8 +346,9 @@ def api_random(run_name: str):
 
 @app.route("/api/runs/<run_name>/task/<task_id>")
 def api_task(run_name: str, task_id: str):
+    annotator = request.args.get("annotator") or None
     try:
-        return jsonify(_load_task_data(run_name, task_id))
+        return jsonify(_load_task_data(run_name, task_id, annotator=annotator))
     except FileNotFoundError as e:
         abort(404, str(e))
     except Exception as e:
@@ -305,92 +357,58 @@ def api_task(run_name: str, task_id: str):
 
 @app.route("/api/runs/<run_name>/task/<task_id>/answer", methods=["POST"])
 def api_answer(run_name: str, task_id: str):
+    annotator = request.args.get("annotator") or None
+    if not annotator:
+        abort(400, "Missing ?annotator= query parameter — master view is read-only")
+
     body = request.get_json(force=True) or {}
     pt_dir = RUNS_DIR / run_name / "per_task" / task_id
+    pt_dir.mkdir(parents=True, exist_ok=True)
 
-    # Update judge_report.json — add/overwrite human_answer in each answer entry
-    jr_path = pt_dir / "judge_report.json"
-    human_state_evol: Optional[bool] = None
-
-    # Check for a direct human_state_evol override from the frontend.
-    # Sentinel "MISSING" distinguishes "key absent" from "key present but null".
+    # "MISSING" sentinel distinguishes absent key from explicitly null value.
     _se_raw = body.get("human_state_evol", "MISSING")
-    has_se_override = _se_raw != "MISSING" and _se_raw is not None
+    has_se = _se_raw != "MISSING" and _se_raw is not None
+    state_evol: Optional[bool] = bool(_se_raw) if has_se else None
 
-    _ffc_raw = body.get("final_frame_correct", "MISSING")
-    has_ffc = _ffc_raw != "MISSING" and _ffc_raw is not None
-    human_final_frame_correct: Optional[bool] = bool(_ffc_raw) if has_ffc else None
-
-    if jr_path.exists():
-        jr = json.loads(jr_path.read_text(encoding="utf-8"))
-        human = body.get("answers", {})
-        for a in jr.get("answers", []):
-            if a["id"] in human:
-                a["human_answer"] = human[a["id"]]
-        if has_ffc:
-            jr["human_final_frame_correct"] = human_final_frame_correct
-        jr_path.write_text(json.dumps(jr, indent=2, ensure_ascii=False), encoding="utf-8")
-
-        if has_se_override:
-            # Direct override wins — skip derivation
-            human_state_evol = bool(_se_raw)
-        else:
-            # Derive human_state_evol from the full set of human answers now on record:
-            # - False as soon as any answer is "no" (even if others are unanswered)
-            # - True only when every question has been answered "yes"
-            # - None (not written) if some questions are still unanswered and none are "no"
-            all_answers = jr.get("answers", [])
-            answered = [a["human_answer"] for a in all_answers if "human_answer" in a]
-            if any(v == "no" for v in answered):
-                human_state_evol = False
-            elif answered and len(answered) == len(all_answers):
-                human_state_evol = True
-    elif has_se_override:
-        # No judge report, but a direct override was sent (control-only run)
-        human_state_evol = bool(_se_raw)
-
-    # Update control_report.json
-    cr_path = pt_dir / "control_report.json"
     ctrl = body.get("control", {})
-    if cr_path.exists() and ctrl:
-        cr = json.loads(cr_path.read_text(encoding="utf-8"))
-        if "occlusion_done" in ctrl:
-            cr["human_occlusion_done"] = ctrl["occlusion_done"]
-        if "trigger_applied" in ctrl:
-            cr["human_trigger_applied"] = ctrl["trigger_applied"]
-        if "artifact" in ctrl:
-            cr["human_artifact"] = ctrl["artifact"]
-        if "coherence" in ctrl:
-            cr["human_coherence"] = ctrl["coherence"]
-        cr_path.write_text(json.dumps(cr, indent=2, ensure_ascii=False), encoding="utf-8")
 
-    # Update summary.json with human control values and human_state_evol
-    if ctrl or human_state_evol is not None or human_final_frame_correct is not None:
+    # ── Write human_<annotator>_report.json ─────────────────────────────────
+    report_path = pt_dir / f"human_{annotator}_report.json"
+    if report_path.exists():
+        report = json.loads(report_path.read_text(encoding="utf-8"))
+    else:
+        report = {"annotator": annotator, "task_id": task_id}
+
+    for field in ("occlusion_done", "trigger_applied", "artifact", "coherence"):
+        if field in ctrl:
+            report[field] = ctrl[field]
+    if has_se:
+        report["state_evol"] = state_evol
+
+    report_path.write_text(json.dumps(report, indent=2, ensure_ascii=False), encoding="utf-8")
+
+    # ── Update summary.json annotations.<annotator> ──────────────────────────
+    if ctrl or has_se:
         summary_path = RUNS_DIR / run_name / "summary.json"
         if summary_path.exists():
-            summary = json.loads(summary_path.read_text(encoding="utf-8"))
-            task_entries = {
-                t["task_id"]: t
-                for t in summary.get("tasks", [])
-                if "task_id" in t
-            }
-            if task_id in task_entries:
-                entry = task_entries[task_id]
-                if "occlusion_done" in ctrl:
-                    entry["human_occlusion_done"] = ctrl["occlusion_done"]
-                if "trigger_applied" in ctrl:
-                    entry["human_trigger_applied"] = ctrl["trigger_applied"]
-                if "artifact" in ctrl:
-                    entry["human_artifact"] = ctrl["artifact"]
-                if "coherence" in ctrl:
-                    entry["human_coherence"] = ctrl["coherence"]
-                if human_state_evol is not None:
-                    entry["human_state_evol"] = human_state_evol
-                if human_final_frame_correct is not None:
-                    entry["human_final_frame_correct"] = human_final_frame_correct
-                summary_path.write_text(
-                    json.dumps(summary, indent=2, ensure_ascii=False), encoding="utf-8"
+            try:
+                summary = json.loads(summary_path.read_text(encoding="utf-8"))
+                task_entry = next(
+                    (t for t in summary.get("tasks", []) if t.get("task_id") == task_id),
+                    None,
                 )
+                if task_entry is not None:
+                    ann_entry = task_entry.setdefault("annotations", {}).setdefault(annotator, {})
+                    for field in ("occlusion_done", "trigger_applied", "artifact", "coherence"):
+                        if field in ctrl:
+                            ann_entry[field] = ctrl[field]
+                    if has_se:
+                        ann_entry["state_evol"] = state_evol
+                    summary_path.write_text(
+                        json.dumps(summary, indent=2, ensure_ascii=False), encoding="utf-8"
+                    )
+            except Exception:
+                pass  # summary update is best-effort
 
     return jsonify({"status": "ok"})
 
@@ -535,7 +553,7 @@ _HTML = r"""<!DOCTYPE html>
     .ctrl-row {
       display: flex; align-items: flex-start; gap: 10px; padding: 10px;
       background: var(--card-head); border-radius: 6px; margin-bottom: 8px;
-      border: 1px solid var(--border);
+      border: 1px solid var(--border); flex-wrap: wrap;
     }
     .ctrl-body { flex: 1; }
     .ctrl-lbl  { font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--muted); margin-bottom: 3px; }
@@ -560,6 +578,39 @@ _HTML = r"""<!DOCTYPE html>
       background: var(--card-head); border: 1px solid var(--border); border-radius: 6px;
       padding: 11px; font-size: 13px; line-height: 1.6; white-space: pre-wrap;
       color: var(--text); max-height: 200px; overflow-y: auto;
+    }
+
+    /* ── Prompt dropdown ── */
+    .prompt-details {
+      flex-basis: 100%; margin-top: 4px; padding-top: 6px;
+      border-top: 1px solid var(--border);
+    }
+    .prompt-details summary {
+      font-size: 13px; color: var(--muted); cursor: pointer;
+      user-select: none; list-style: none; display: inline-flex; align-items: center; gap: 4px;
+    }
+    .prompt-details summary::before { content: '▶'; font-size: 10px; transition: transform 0.15s; }
+    .prompt-details[open] summary::before { transform: rotate(90deg); }
+    .prompt-details summary:hover { color: var(--accent); }
+    .prompt-details .prompt-text {
+      font-size: 13px; white-space: pre-wrap; color: var(--muted);
+      background: var(--bg); border: 1px solid var(--border); border-radius: 4px;
+      padding: 10px 12px; margin-top: 6px; max-height: 260px; overflow-y: auto; line-height: 1.6;
+      width: 100%;
+    }
+
+    /* ── Mode chip ── */
+    .mode-chip {
+      font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: 10px;
+      white-space: nowrap;
+    }
+    .mode-chip.annotator { background: rgba(88,166,255,0.15); color: var(--accent); border: 1px solid var(--accent); }
+    .mode-chip.master    { background: rgba(139,148,158,0.15); color: var(--muted); border: 1px solid var(--border); }
+
+    /* ── Annotator badge columns ── */
+    .ctrl-ann {
+      display: flex; flex-direction: column; align-items: center; gap: 3px;
+      min-width: 54px;
     }
 
     /* ── Misc ── */
@@ -624,6 +675,8 @@ _HTML = r"""<!DOCTYPE html>
 
   <span class="spacer"></span>
 
+  <span id="mode-chip" class="mode-chip" style="display:none"></span>
+
   <span id="task-info" style="display:none">
     <span class="tid" id="info-tid"></span>
     <span id="info-level" style="color:var(--muted); font-size:12px;"></span>
@@ -678,38 +731,12 @@ _HTML = r"""<!DOCTYPE html>
     <!-- Right column: evaluation -->
     <div class="col-lg-7">
 
-      <!-- Verdicts -->
-      <div class="verdict-row">
-        <div class="v-box" id="llm-verdict">
-          <div class="v-label">LLM Verdict</div>
-          <span>—</span>
-        </div>
-        <div class="v-box" id="human-verdict">
-          <div class="v-label">Human Verdict</div>
-          <span>—</span>
-        </div>
-      </div>
+      <!-- Verdicts (rendered dynamically by refreshVerdicts()) -->
+      <div id="verdict-row" class="verdict-row"></div>
 
-      <!-- Judge questions -->
+      <!-- Verifier -->
       <div class="ev-card">
-        <div class="ev-card-header">Judge Questions</div>
-        <div class="ev-card-body" style="overflow-x:auto;">
-          <table class="q-table">
-            <thead>
-              <tr>
-                <th style="width:48%">Question</th>
-                <th style="width:22%; text-align:center">LLM Answer</th>
-                <th style="width:30%; text-align:center">Human</th>
-              </tr>
-            </thead>
-            <tbody id="q-body"></tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- Control judge -->
-      <div class="ev-card">
-        <div class="ev-card-header">Control Judge</div>
+        <div class="ev-card-header">Verifier</div>
         <div class="ev-card-body" id="ctrl-body">
           <div style="color:var(--muted); font-size:13px;">No control data</div>
         </div>
@@ -721,19 +748,24 @@ _HTML = r"""<!DOCTYPE html>
 
 <script>
 // =============================================================================
+// Mode detection — read from URL query param once at page load.
+// Annotator URL : http://host:port/?annotator=alice
+// Master URL    : http://host:port/
+// =============================================================================
+const ANNOTATOR = new URLSearchParams(location.search).get('annotator') || null;
+const IS_MASTER = !ANNOTATOR;
+
+// =============================================================================
 // State
 // =============================================================================
 let S = {
   run:            null,   // string
   taskId:         null,   // string
   taskIndex:      -1,     // current position in allTaskIds
-  questions:      [],     // [{id, question, notes_for_judge, answer_type}]
-  llmAnswers:     {},     // {id: {answer, confidence, notes}}
-  llmControl:     {},     // {requested_occlusion, requested_trigger, occlusion_done, trigger_applied, notes}
-  humanAnswers:   {},     // {id: "yes"|"no"}  — current human answers
-  humanControl:          {},     // {occlusion_done: bool, trigger_applied: bool, coherence: bool}
-  humanFinalFrameCorrect: null,  // null | true | false
-  humanStateEvol:         null,  // null | true | false — direct override for state evolution verdict
+  llmControl:     {},     // LLM judge answers
+  humanControl:   {},     // this annotator's answers (annotator mode only)
+  humanStateEvol: null,   // this annotator's state-evol answer (annotator mode only)
+  annotations:    {},     // all annotators' answers keyed by name (master mode only)
   allTaskIds:     [],     // ordered list for sequential navigation
 };
 
@@ -743,6 +775,17 @@ let _saveTimer = null;
 // Initialise
 // =============================================================================
 document.addEventListener('DOMContentLoaded', () => {
+  // Show mode chip
+  const chip = document.getElementById('mode-chip');
+  if (IS_MASTER) {
+    chip.textContent = 'Master View';
+    chip.classList.add('master');
+  } else {
+    chip.textContent = 'Annotator: ' + ANNOTATOR;
+    chip.classList.add('annotator');
+  }
+  chip.style.display = '';
+
   loadRuns();
 
   document.getElementById('run-select').addEventListener('change', e => {
@@ -777,6 +820,12 @@ async function api(url, opts) {
   const r = await fetch(url, opts);
   if (!r.ok) throw new Error(`HTTP ${r.status}: ${await r.text()}`);
   return r.json();
+}
+
+// Build task API URL — include ?annotator= in annotator mode
+function taskUrl(runName, taskId) {
+  const base = `/api/runs/${enc(runName)}/task/${enc(taskId)}`;
+  return ANNOTATOR ? `${base}?annotator=${enc(ANNOTATOR)}` : base;
 }
 
 // =============================================================================
@@ -844,15 +893,23 @@ async function pickTask(taskId) {
 }
 
 async function loadTask(taskId) {
-  const data = await api(`/api/runs/${enc(S.run)}/task/${enc(taskId)}`);
-  S.taskId         = taskId;
-  S.questions      = data.questions   || [];
-  S.llmAnswers     = data.llm_answers || {};
-  S.llmControl     = data.llm_control || {};
-  S.humanAnswers   = { ...data.human_answers };   // copy so we can mutate
-  S.humanControl   = { ...data.human_control };
-  S.humanFinalFrameCorrect = data.human_final_frame_correct ?? null;
-  S.humanStateEvol         = data.human_state_evol ?? null;
+  // Fetching the task loads the annotator's saved answers from disk, ensuring
+  // session persistence across browser reloads and return visits.
+  const data = await api(taskUrl(S.run, taskId));
+  S.taskId     = taskId;
+  S.llmControl = data.llm_control || {};
+
+  if (IS_MASTER) {
+    S.annotations    = data.annotations || {};
+    S.humanControl   = {};
+    S.humanStateEvol = null;
+  } else {
+    // Restore this annotator's previously saved choices (may all be null on first visit).
+    S.humanControl   = { ...data.human_control };
+    S.humanStateEvol = data.human_state_evol ?? null;
+    S.annotations    = {};
+  }
+
   updateInfoBar(taskId, data.task_level);
   render(data);
   hideSave();
@@ -905,313 +962,196 @@ function render(data) {
   // Prompt
   document.getElementById('video-prompt').textContent = data.video_wm_prompt || '(none)';
 
-  // Questions
-  renderQuestions();
-
-  // Control
   renderControl();
-
-  // Verdicts
   refreshVerdicts();
 }
 
-function renderQuestions() {
-  const tbody = document.getElementById('q-body');
-  if (!S.questions.length) {
-    tbody.innerHTML = '<tr><td colspan="3" style="text-align:center;color:var(--muted);padding:14px">No questions</td></tr>';
-    return;
+// Build one ctrl-row. `humanCol` is the HTML string for the rightmost column(s).
+function ctrlRow(labelText, questionHtml, promptHtml, llmVal, humanCol) {
+  const llmColHtml = IS_MASTER
+    ? `<div class="ctrl-llm"><div class="ctrl-lbl">LLM</div>${boolBadge(llmVal)}</div>`
+    : '';
+  return `
+    <div class="ctrl-row">
+      <div class="ctrl-body">
+        <div class="ctrl-lbl">${labelText}</div>
+        <div class="ctrl-val">${questionHtml}</div>
+        ${promptHtml}
+      </div>
+      ${llmColHtml}
+      ${humanCol}
+    </div>`;
+}
+
+// Build annotator column(s) for a given field.
+// Annotator mode: T/F buttons for the current annotator.
+// Master mode: one read-only badge per annotator.
+function humanCols(field, isStateEvol) {
+  if (IS_MASTER) {
+    const names = Object.keys(S.annotations).sort();
+    if (!names.length) return '';
+    return names.map(name => {
+      const val = isStateEvol
+        ? S.annotations[name]?.state_evol
+        : S.annotations[name]?.[field];
+      const initials = name.slice(0, 6);
+      return `<div class="ctrl-ann"><div class="ctrl-lbl">${esc(initials)}</div>${boolBadge(val)}</div>`;
+    }).join('');
   }
 
-  // Per-question rows
-  const questionRows = S.questions.map(q => {
-    const llm  = S.llmAnswers[q.id] || {};
-    const hAns = S.humanAnswers[q.id];
-    return `<tr class="q-row">
-      <td>
-        <div class="q-text">${esc(q.question)}</div>
-        ${q.notes_for_judge ? `<div class="q-notes">${esc(q.notes_for_judge)}</div>` : ''}
-      </td>
-      <td style="text-align:center">
-        ${ansBadge(llm.answer)}
-        ${llm.confidence != null ? `<div class="conf-pct">${Math.round(llm.confidence*100)}%</div>` : ''}
-        ${llm.notes ? `<div class="q-notes" style="max-width:160px">${esc(llm.notes)}</div>` : ''}
-      </td>
-      <td>
-        <div class="tf-wrap">
-          <button class="btn-tf ${hAns==='yes'?'on-t':''}" onclick="setAnswer('${esc(q.id)}','yes')">T</button>
-          <button class="btn-tf ${hAns==='no' ?'on-f':''}" onclick="setAnswer('${esc(q.id)}','no')">F</button>
-        </div>
-      </td>
-    </tr>`;
-  }).join('');
-
-  // State Evolution summary row — LLM verdict derived from individual answers
-  const llmFail   = S.questions.some(q => (S.llmAnswers[q.id]?.answer || '').toLowerCase() === 'no');
-  const llmHasAny = S.questions.some(q => !!S.llmAnswers[q.id]?.answer);
-  const llmSEAns  = !llmHasAny ? null : llmFail ? 'no' : 'yes';
-  const hSE       = S.humanStateEvol;
-  const seOverrideNote = hSE !== null
-    ? '<div class="q-notes" style="color:var(--accent)">Direct override — click again to clear</div>'
-    : '<div class="q-notes">Click T/F to override; click again to revert to auto-derive</div>';
-
-  const stateEvolRow = `
-    <tr style="height:6px"><td colspan="3" style="padding:0; border:none; background:transparent;"></td></tr>
-    <tr class="q-row" style="opacity:0.92">
-      <td style="border-left: 3px solid var(--accent);">
-        <div class="q-text"><strong>State Evolution</strong></div>
-        ${seOverrideNote}
-      </td>
-      <td style="text-align:center">${ansBadge(llmSEAns)}</td>
-      <td>
-        <div class="tf-wrap">
-          <button class="btn-tf ${hSE===true?'on-t':''}" onclick="setStateEvol(true)">T</button>
-          <button class="btn-tf ${hSE===false?'on-f':''}" onclick="setStateEvol(false)">F</button>
-        </div>
-      </td>
-    </tr>`;
-
-  const hFFC = S.humanFinalFrameCorrect;
-  const finalFrameCorrectRow = `
-    <tr style="height:6px"><td colspan="3" style="padding:0; border:none; background:transparent;"></td></tr>
-    <tr class="q-row" style="opacity:0.92">
-      <td style="border-left: 3px solid var(--accent);">
-        <div class="q-text"><strong>Final Frame Correct</strong></div>
-        <div class="q-notes">Is the final frame a valid output for this task?</div>
-      </td>
-      <td style="text-align:center">${boolBadge(null)}</td>
-      <td>
-        <div class="tf-wrap">
-          <button class="btn-tf ${hFFC===true?'on-t':''}" onclick="setFinalFrameCorrect(true)">T</button>
-          <button class="btn-tf ${hFFC===false?'on-f':''}" onclick="setFinalFrameCorrect(false)">F</button>
-        </div>
-      </td>
-    </tr>`;
-
-  tbody.innerHTML = questionRows + stateEvolRow + finalFrameCorrectRow;
+  // Annotator mode
+  const cur = isStateEvol ? S.humanStateEvol : S.humanControl[field];
+  const onT  = isStateEvol ? `setStateEvol(true)`        : `setControl('${field}',true)`;
+  const onF  = isStateEvol ? `setStateEvol(false)`       : `setControl('${field}',false)`;
+  return `
+    <div class="ctrl-human">
+      <div class="ctrl-lbl">Your answer</div>
+      <div class="tf-wrap">
+        <button class="btn-tf ${cur===true ?'on-t':''}" onclick="${onT}">T</button>
+        <button class="btn-tf ${cur===false?'on-f':''}" onclick="${onF}">F</button>
+      </div>
+    </div>`;
 }
 
 function renderControl() {
   const body = document.getElementById('ctrl-body');
   const c = S.llmControl;
-  const hasLlmVerdict = c.occlusion_done != null || c.trigger_applied != null || c.artifact != null;
-  const hasRequest    = !!(c.requested_occlusion || c.requested_trigger);
-  if (!hasLlmVerdict && !hasRequest) {
+  const hasData = c.occlusion_done != null || c.trigger_applied != null ||
+                  c.state_evol != null || c.artifact != null || c.coherence != null ||
+                  c.requested_occlusion || c.requested_trigger;
+  if (!hasData) {
     body.innerHTML = '<div style="color:var(--muted);font-size:13px;">No control data</div>';
     return;
   }
-  const hOcc  = S.humanControl.occlusion_done;
-  const hTrig = S.humanControl.trigger_applied;
-  const hArt  = S.humanControl.artifact;
-  const hCoh  = S.humanControl.coherence;
 
-  body.innerHTML = `
-    <div class="ctrl-row">
-      <div class="ctrl-body">
-        <div class="ctrl-lbl">Occlusion method</div>
-        <div class="ctrl-val">${esc(c.requested_occlusion || '—')}</div>
-      </div>
-      <div class="ctrl-llm">
-        <div class="ctrl-lbl">LLM</div>
-        ${boolBadge(c.occlusion_done)}
-      </div>
-      <div class="ctrl-human">
-        <div class="ctrl-lbl">Human</div>
-        <div class="tf-wrap">
-          <button class="btn-tf ${hOcc===true ?'on-t':''}" onclick="setControl('occlusion_done',true)">T</button>
-          <button class="btn-tf ${hOcc===false?'on-f':''}" onclick="setControl('occlusion_done',false)">F</button>
-        </div>
-      </div>
-    </div>
+  const pd = (txt) => txt
+    ? `<details class="prompt-details"><summary>View full prompt</summary><div class="prompt-text">${esc(txt)}</div></details>`
+    : '';
 
-    <div class="ctrl-row">
-      <div class="ctrl-body">
-        <div class="ctrl-lbl">Trigger / action</div>
-        <div class="ctrl-val">${esc(c.requested_trigger || '—')}</div>
-      </div>
-      <div class="ctrl-llm">
-        <div class="ctrl-lbl">LLM</div>
-        ${boolBadge(c.trigger_applied)}
-      </div>
-      <div class="ctrl-human">
-        <div class="ctrl-lbl">Human</div>
-        <div class="tf-wrap">
-          <button class="btn-tf ${hTrig===true ?'on-t':''}" onclick="setControl('trigger_applied',true)">T</button>
-          <button class="btn-tf ${hTrig===false?'on-f':''}" onclick="setControl('trigger_applied',false)">F</button>
-        </div>
-      </div>
-    </div>
-
-    <div class="ctrl-row">
-      <div class="ctrl-body">
-        <div class="ctrl-lbl">Artifact</div>
-        <div class="ctrl-val">Any obvious visual artifacts?</div>
-      </div>
-      <div class="ctrl-llm">
-        <div class="ctrl-lbl">LLM</div>
-        ${boolBadge(c.artifact)}
-      </div>
-      <div class="ctrl-human">
-        <div class="ctrl-lbl">Human</div>
-        <div class="tf-wrap">
-          <button class="btn-tf ${hArt===true ?'on-t':''}" onclick="setControl('artifact',true)">T</button>
-          <button class="btn-tf ${hArt===false?'on-f':''}" onclick="setControl('artifact',false)">F</button>
-        </div>
-      </div>
-    </div>
-
-    <div class="ctrl-row">
-      <div class="ctrl-body">
-        <div class="ctrl-lbl">Coherence</div>
-        <div class="ctrl-val">Is the video visually coherent throughout?</div>
-      </div>
-      <div class="ctrl-llm">
-        <div class="ctrl-lbl">LLM</div>
-        ${boolBadge(null)}
-      </div>
-      <div class="ctrl-human">
-        <div class="ctrl-lbl">Human</div>
-        <div class="tf-wrap">
-          <button class="btn-tf ${hCoh===true ?'on-t':''}" onclick="setControl('coherence',true)">T</button>
-          <button class="btn-tf ${hCoh===false?'on-f':''}" onclick="setControl('coherence',false)">F</button>
-        </div>
-      </div>
-    </div>
-
-    ${c.notes ? `<div class="ctrl-notes">${esc(c.notes)}</div>` : ''}
-  `;
+  body.innerHTML =
+    ctrlRow(
+      'Occlusion method',
+      `Does the video correctly apply the following occlusion method:<br><em>${esc(c.requested_occlusion||'—')}</em><br>so the main object(s) are completely blocked out of view?`,
+      '',
+      c.occlusion_done,
+      humanCols('occlusion_done', false)
+    ) +
+    ctrlRow(
+      'Trigger / action',
+      `Does the video correctly apply the following trigger action:<br><em>${esc(c.requested_trigger||'—')}</em>?`,
+      '',
+      c.trigger_applied,
+      humanCols('trigger_applied', false)
+    ) +
+    ctrlRow(
+      'State Evolution',
+      'Does the state evolve as expected?',
+      pd(c.se_prompt),
+      c.state_evol,
+      humanCols('state_evol', true)
+    ) +
+    ctrlRow(
+      'Artifact',
+      'Any obvious visual artifacts?',
+      pd(c.artifact_prompt),
+      c.artifact,
+      humanCols('artifact', false)
+    ) +
+    ctrlRow(
+      'Coherence',
+      'Is the video visually coherent throughout?',
+      pd(c.coherence_prompt),
+      c.coherence,
+      humanCols('coherence', false)
+    ) +
+    (c.notes ? `<div class="ctrl-notes">${esc(c.notes)}</div>` : '');
 }
 
 // =============================================================================
-// Human answer handlers
+// Human answer handlers  (annotator mode only)
 // =============================================================================
-function setAnswer(qid, value) {
-  S.humanAnswers[qid] = value;
-
-  // Update button styles without full re-render
-  const rows = document.querySelectorAll('#q-body .q-row');
-  rows.forEach(row => {
-    const btnT = row.querySelector('.btn-tf:first-child');
-    if (!btnT) return;
-    // Find the question id from onclick attribute
-    const onclickT = btnT.getAttribute('onclick') || '';
-    const m = onclickT.match(/setAnswer\('([^']+)','yes'\)/);
-    if (!m || m[1] !== qid) return;
-    const btnF = row.querySelector('.btn-tf:last-child');
-    btnT.className = 'btn-tf' + (value === 'yes' ? ' on-t' : '');
-    btnF.className = 'btn-tf' + (value === 'no'  ? ' on-f' : '');
-  });
-
-  refreshVerdicts();
-  scheduleSave();
-}
-
 function setControl(field, value) {
+  if (IS_MASTER) return;
   S.humanControl[field] = value;
-
-  // Update button styles
-  document.querySelectorAll(`[onclick*="setControl('${field}"]`).forEach(btn => {
-    const isT = btn.getAttribute('onclick').includes(',true)');
-    btn.className = 'btn-tf' + (
-      (isT && value === true)  ? ' on-t' :
-      (!isT && value === false) ? ' on-f' : ''
-    );
-  });
-
+  // Re-render just the human column buttons (cheapest: full re-render of ctrl-body)
+  renderControl();
+  refreshVerdicts();
   scheduleSave();
 }
 
 function setStateEvol(value) {
-  // Toggle off (back to auto-derive) if clicking the same value again
+  if (IS_MASTER) return;
+  // Toggle off if tapping the same value again
   S.humanStateEvol = (S.humanStateEvol === value) ? null : value;
-
-  // Update State Evolution row button styles
-  document.querySelectorAll('[onclick*="setStateEvol("]').forEach(btn => {
-    const isT = btn.getAttribute('onclick').includes('true)');
-    btn.className = 'btn-tf' + (
-      (isT  && S.humanStateEvol === true)  ? ' on-t' :
-      (!isT && S.humanStateEvol === false) ? ' on-f' : ''
-    );
-  });
-
+  renderControl();
   refreshVerdicts();
-  scheduleSave();
-}
-
-function setFinalFrameCorrect(value) {
-  // Toggle off if clicking the same value again
-  S.humanFinalFrameCorrect = (S.humanFinalFrameCorrect === value) ? null : value;
-
-  document.querySelectorAll('[onclick*="setFinalFrameCorrect("]').forEach(btn => {
-    const isT = btn.getAttribute('onclick').includes('true)');
-    btn.className = 'btn-tf' + (
-      (isT  && S.humanFinalFrameCorrect === true)  ? ' on-t' :
-      (!isT && S.humanFinalFrameCorrect === false) ? ' on-f' : ''
-    );
-  });
-
   scheduleSave();
 }
 
 // =============================================================================
 // Verdicts
 // =============================================================================
-function refreshVerdicts() {
-  const qids = S.questions.map(q => q.id);
-
-  // LLM: fail if any answer == "no"
-  const llmHasNo  = qids.some(id => (S.llmAnswers[id]?.answer || '').toLowerCase() === 'no');
-  const llmHasAny = qids.some(id => !!S.llmAnswers[id]?.answer);
-  setVerdict('llm-verdict', 'LLM',
-    !llmHasAny ? 'unk' : llmHasNo ? 'fail' : 'pass');
-
-  // Human: if a direct state-evol override is set, use it; else derive from individual answers
-  let humanState;
-  if (S.humanStateEvol !== null && S.humanStateEvol !== undefined) {
-    humanState = S.humanStateEvol ? 'pass' : 'fail';
-  } else {
-    const answered   = qids.filter(id => S.humanAnswers[id] !== undefined);
-    const humanFail  = answered.some(id => S.humanAnswers[id] === 'no');
-    const allAnswered = answered.length === qids.length && qids.length > 0;
-    humanState = answered.length === 0 ? 'unk' : humanFail ? 'fail' : allAnswered ? 'pass' : 'partial';
-  }
-  setVerdict('human-verdict', 'Human', humanState);
+function computeVerdict(occlusion_done, trigger_applied, state_evol, artifact, coherence) {
+  const vals = [occlusion_done, trigger_applied, state_evol, artifact, coherence];
+  if (vals.every(v => v === null || v === undefined)) return 'unk';
+  if (vals.some(v => v === null || v === undefined)) return 'partial';
+  if (occlusion_done === false || trigger_applied === false || state_evol === false ||
+      artifact === true || coherence === false) return 'fail';
+  if (occlusion_done === true && trigger_applied === true && state_evol === true &&
+      artifact === false && coherence === true) return 'pass';
+  return 'partial';
 }
 
-function setVerdict(id, label, state) {
-  const el = document.getElementById(id);
-  const labels = { 'LLM': 'LLM Verdict', 'Human': 'Human Verdict' };
-  const content = {
-    pass:    `<div class="v-label">${labels[label]}</div><span>PASS ✓</span>`,
-    fail:    `<div class="v-label">${labels[label]}</div><span>FAIL ✗</span>`,
-    partial: `<div class="v-label">${labels[label]}</div><span>PARTIAL</span>`,
-    unk:     `<div class="v-label">${labels[label]}</div><span>—</span>`,
-  };
-  el.innerHTML = content[state] || content.unk;
-  el.className = 'v-box' + (state === 'pass' ? ' v-pass' : state === 'fail' ? ' v-fail' : '');
+function verdictBox(label, state) {
+  const cls = state === 'pass' ? ' v-pass' : state === 'fail' ? ' v-fail' : '';
+  const txt = { pass: 'PASS ✓', fail: 'FAIL ✗', partial: 'PARTIAL', unk: '—' }[state] || '—';
+  return `<div class="v-box${cls}"><div class="v-label">${esc(label)}</div><span>${txt}</span></div>`;
+}
+
+function refreshVerdicts() {
+  const row = document.getElementById('verdict-row');
+  const c = S.llmControl;
+
+  if (IS_MASTER) {
+    // LLM verdict + one box per annotator
+    const llmState = computeVerdict(c.occlusion_done, c.trigger_applied, c.state_evol, c.artifact, c.coherence);
+    let html = verdictBox('LLM Verdict', llmState);
+    for (const [name, ann] of Object.entries(S.annotations).sort()) {
+      const state = computeVerdict(ann.occlusion_done, ann.trigger_applied, ann.state_evol, ann.artifact, ann.coherence);
+      html += verdictBox(name, state);
+    }
+    row.innerHTML = html;
+  } else {
+    // Single "Your Verdict" box
+    const state = computeVerdict(
+      S.humanControl.occlusion_done, S.humanControl.trigger_applied,
+      S.humanStateEvol, S.humanControl.artifact, S.humanControl.coherence
+    );
+    row.innerHTML = verdictBox('Your Verdict', state);
+  }
 }
 
 // =============================================================================
-// Save (debounced)
+// Save (debounced) — annotator mode only
 // =============================================================================
 function scheduleSave() {
+  if (IS_MASTER) return;
   clearTimeout(_saveTimer);
   showSave('saving');
   _saveTimer = setTimeout(doSave, 450);
 }
 
 async function doSave() {
-  if (!S.run || !S.taskId) return;
+  if (IS_MASTER || !S.run || !S.taskId) return;
   try {
     await api(
-      `/api/runs/${enc(S.run)}/task/${enc(S.taskId)}/answer`,
+      `/api/runs/${enc(S.run)}/task/${enc(S.taskId)}/answer?annotator=${enc(ANNOTATOR)}`,
       {
         method:  'POST',
         headers: { 'Content-Type': 'application/json' },
         body:    JSON.stringify({
-          answers:             S.humanAnswers,
-          control:             S.humanControl,
-          human_state_evol:    S.humanStateEvol,    // null → derive from questions; true/false → direct override
-          final_frame_correct: S.humanFinalFrameCorrect,
+          control:          S.humanControl,
+          human_state_evol: S.humanStateEvol,
         }),
       }
     );
@@ -1226,12 +1166,6 @@ async function doSave() {
 // =============================================================================
 // Badge helpers
 // =============================================================================
-function ansBadge(ans) {
-  if (!ans) return '<span class="abadge ab-unk">?</span>';
-  const cls = ans === 'yes' ? 'ab-yes' : ans === 'no' ? 'ab-no' : 'ab-unk';
-  return `<span class="abadge ${cls}">${esc(ans)}</span>`;
-}
-
 function boolBadge(val) {
   if (val === true)  return '<span class="abadge ab-yes">T</span>';
   if (val === false) return '<span class="abadge ab-no">F</span>';
@@ -1244,7 +1178,7 @@ function boolBadge(val) {
 function showSave(state) {
   const el = document.getElementById('save-chip');
   el.className = 'save-chip ' + state;
-  el.textContent = state === 'saving' ? 'Saving…' : state === 'saved' ? 'Saved ✓' : 'Save failed!';
+  el.textContent = state === 'saving' ? 'Saving\u2026' : state === 'saved' ? 'Saved \u2713' : 'Save failed!';
 }
 function hideSave() {
   document.getElementById('save-chip').className = 'save-chip';
@@ -1269,17 +1203,19 @@ function esc(s) {
 # ---------------------------------------------------------------------------
 
 def main() -> None:
-    global RUNS_DIR, TASKS_ROOT
+    global RUNS_DIR, TASKS_ROOT, EXCLUDE_BASELINE
 
     parser = argparse.ArgumentParser(description="StateWM Human Eval UI")
-    parser.add_argument("--runs_dir",  default="runs",            help="Path to runs directory (default: runs/)")
-    parser.add_argument("--tasks_dir", default="benchmark/tasks_v4/", help="Path to benchmark tasks root (default: benchmark/tasks/)")
-    parser.add_argument("--host",      default="127.0.0.1",       help="Host to bind (default: 127.0.0.1)")
-    parser.add_argument("--port",      default=7860, type=int,    help="Port to listen on (default: 7860)")
+    parser.add_argument("--runs_dir",         default="runs",            help="Path to runs directory (default: runs/)")
+    parser.add_argument("--tasks_dir",        default="benchmark/tasks_v4/", help="Path to benchmark tasks root (default: benchmark/tasks/)")
+    parser.add_argument("--host",             default="0.0.0.0",         help="Host to bind (default: 0.0.0.0 — all interfaces)")
+    parser.add_argument("--port",             default=7860, type=int,    help="Port to listen on (default: 7860)")
+    parser.add_argument("--exclude_baseline", action="store_true",       help="Hide tasks ending in _00 (baseline variants) from all views")
     args = parser.parse_args()
 
-    RUNS_DIR   = Path(args.runs_dir).expanduser().resolve()
-    TASKS_ROOT = Path(args.tasks_dir).expanduser().resolve()
+    RUNS_DIR          = Path(args.runs_dir).expanduser().resolve()
+    TASKS_ROOT        = Path(args.tasks_dir).expanduser().resolve()
+    EXCLUDE_BASELINE  = args.exclude_baseline
 
     print("StateWM Human Eval UI")
     print(f"  Runs dir  : {RUNS_DIR}")
@@ -1288,7 +1224,9 @@ def main() -> None:
 
     _build_yaml_map()
 
-    print(f"  URL       : http://{args.host}:{args.port}")
+    display_host = "localhost" if args.host in ("0.0.0.0", "") else args.host
+    print(f"  Master URL     : http://{display_host}:{args.port}/")
+    print(f"  Annotator URLs : http://{display_host}:{args.port}/?annotator=<name>")
     print()
 
     app.run(host=args.host, port=args.port, debug=False, threaded=True)
