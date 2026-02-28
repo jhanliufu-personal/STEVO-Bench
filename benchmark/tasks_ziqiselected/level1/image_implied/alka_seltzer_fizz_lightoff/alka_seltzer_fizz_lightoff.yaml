@@ -1,0 +1,69 @@
+id: alka_seltzer_fizz_lightoff
+level: 1
+category: scalar_state
+tags: []
+prompts:
+  image_gen_prompt: A clear glass filled with room-temperature water sits on a white table. An effervescent
+    tablet is suspended mid-drop just above the water surface, about to enter the glass.
+  video_WM: The room lights switch off, leaving the cup in complete darkness and completely invisible for a prolonged duration. After a pause, the lights turn back on. The camera remains stationary; no scene cuts; no new people or objects enter the scene. Smooth, continuous evolution with only objects present in the initial scene.
+  camera_WM: ''
+camera_control:
+  HY-WorldPlay: s-3, right-20, left-20
+  lingbot: s-3, right-20, left-20
+  Genie: null
+evaluation:
+  init_frame_description: A clear glass filled with water sits on a white table in a kitchen setting.
+    A round white effervescent tablet is suspended in mid-air directly above the center of the water surface,
+    with a small droplet bridging the gap between the tablet and the water. The background is blurred,
+    showing kitchen cabinets and warm lighting.
+  init2final_edit_prompt: Edit the given image to show the white tablet submerged at the bottom of the
+    glass. The tablet should appear significantly smaller than its original size, indicating partial dissolution.
+    The water inside the glass should be filled with numerous small gas bubbles and appear cloudy or fizzy.
+    Ensure the tablet is no longer suspended in the air above the glass.
+  rationale: The prompt describes the tablet entering the water and undergoing a vigorous exothermic reaction
+    that produces gas. The camera rotates away and returns after several seconds. During this elapsed
+    time (occlusion), the tablet falls into the water, sinks to the bottom, and dissolves significantly
+    while releasing carbon dioxide bubbles. The final state must show the tablet submerged and reduced
+    in mass, with the water visually changed by the presence of bubbles.
+  questions:
+  - id: tablet_submerged
+    question: Is the white tablet inside the water rather than suspended in the air?
+    answer_type: yes_no
+    notes_for_judge: The tablet should have fallen into the glass.
+  - id: bubbles_visible
+    question: Are there gas bubbles visible in the water?
+    answer_type: yes_no
+    notes_for_judge: The reaction produces CO2 bubbles.
+  - id: tablet_mass_reduction
+    question: Is the solid tablet smaller than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The tablet dissolves over time, reducing its volume/mass.
+  - id: water_clarity_change
+    question: Is the water less clear or more turbulent than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The fizzing reaction changes the visual texture of the water.
+  - id: tablet_position_change
+    question: Is the tablet no longer visible in its original position above the glass rim?
+    answer_type: yes_no
+    notes_for_judge: It must have fallen.
+  - id: dissolution_progress
+    question: Does the tablet appear to be dissolving or breaking down?
+    answer_type: yes_no
+    notes_for_judge: Visual signs of dissolution (rough edges, bubbles attached, size reduction).
+  - id: glass_persistence
+    question: Is the glass still standing on the table?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: background_consistency
+    question: Is the blurred kitchen background still visible?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  generation:
+    model_provider: google_gemini
+    llm: gemini-3-pro-preview
+    temperature: 0.2
+    created_utc: '2026-02-20T10:16:50Z'
+  inputs_digest:
+    initial_frame_sha256: c27d9e3c5438797a2fa18d03d2ede5de9c47e73008edfef1549e3f49ed69c142
+    video_prompt_sha256: ac6a4a7f84f092ca3b800dcae8e47173c13dd8a80d8ce1e03c7846b3eb594a14
+    task_yaml_sha256_before: fac1f266107bf92dc87a4999c29cb3278f3bee1e37fe91252a532a2fe3af1aa8

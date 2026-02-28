@@ -1,0 +1,65 @@
+id: syrup_fill_lightoff
+level: 1
+category: scalar_state
+scalar_variable: Maple syrup height
+prompts:
+  image_gen_prompt: A clear cylindrical glass jar on a wooden counter, 25% filled with amber maple syrup.
+    A thick, steady stream of syrup is pouring from a silver spout above into the center of the jar.
+  video_WM: The room lights switch off, leaving the jar in complete darkness and completely invisible for a prolonged duration. After a pause, the lights turn back on. The camera remains stationary; no scene cuts; no new people or objects enter the scene. Smooth, continuous evolution with only objects present in the initial scene.
+  camera_WM: ""
+camera_control:
+  HY-WorldPlay: s-3, right-20, left-20
+  lingbot: s-3, right-20, left-20
+evaluation:
+  init_frame_description: A clear glass jar sits on a wooden countertop, filled approximately 25% with
+    amber-colored syrup. A metal pour spout enters from the top right, pouring a steady stream of syrup
+    into the jar, creating bubbles on the surface. To the left is a worn wooden cutting board. Behind
+    the jar is a beige ceramic jug. In the background, a window looks out onto a forest scene.
+  init2final_edit_prompt: Edit the given image to show the glass jar filled with a significantly higher
+    level of amber syrup. The liquid level should be well above the initial 25% mark, making the jar appear
+    much fuller. Maintain the stream of syrup pouring from the spout into the jar. Keep the wooden countertop,
+    the cutting board on the left, the ceramic jug in the background, and the window view exactly as they
+    are in the original image.
+  rationale: 'The prompt describes a steady stream pouring syrup into the jar while the camera rotates
+    away and then back. Since the pouring action is continuous and time elapses during the camera movement
+    (occlusion), the physical state of the jar must change: the volume of liquid inside must increase.
+    When the camera returns to the initial view, the primary difference should be a visibly higher level
+    of syrup in the jar.'
+  questions:
+  - id: syrup_level_higher
+    question: Is the level of syrup in the jar higher than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the liquid height in the jar between the first and last frame.
+  - id: jar_fuller
+    question: Is the jar fuller than it was at the start?
+    answer_type: yes_no
+    notes_for_judge: The volume of liquid should have increased.
+  - id: volume_increased
+    question: Has the amount of amber liquid inside the jar increased?
+    answer_type: yes_no
+    notes_for_judge: Check for accumulation of the poured substance.
+  - id: surface_closer_to_top
+    question: Is the surface of the liquid closer to the rim of the jar than before?
+    answer_type: yes_no
+    notes_for_judge: Directional check on the liquid level.
+  - id: cutting_board_presence
+    question: Is the wooden cutting board still visible on the left?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: jug_presence
+    question: Is the ceramic jug still visible behind the jar?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
+  - id: spout_presence
+    question: Is the metal pouring spout still visible?
+    answer_type: yes_no
+    notes_for_judge: The prompt implies the setup remains, just the camera moved.
+  generation:
+    model_provider: google_gemini
+    llm: gemini-3-pro-preview
+    temperature: 0.2
+    created_utc: '2026-02-20T10:15:10Z'
+  inputs_digest:
+    initial_frame_sha256: 8e4de35b8e736a23aab9aa33614652e516309e9209c9480e466fcf8a7567855e
+    video_prompt_sha256: 5ffc0536858eb47eb92a1cededf0e39a4ec26f79563f3826234a488b28b73020
+    task_yaml_sha256_before: 9e7ba5eaf95b39a2111680fff6784f4f12cd587c2fc7d33ee752f41c73543f8e

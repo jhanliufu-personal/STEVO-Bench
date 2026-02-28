@@ -1,0 +1,52 @@
+id: ballistic_pendulum_cardboard
+level: 3
+category: relational_state
+relational_type: energy_coupling
+prompts:
+  image_gen_prompt: A large, stationary block of wood is suspended by two long wires. A small metal projectile
+    is mid-air, traveling at high velocity toward the center of the wooden block.
+  video_WM: A piece of cardboard is held up in front of the camera view, completely blocking the wood block and bullet from view, without touching or interacting with any object in the scene, for a prolonged duration. After a pause, the cardboard is lowered. The camera remains stationary; no scene cuts; no new people or objects enter the scene. removed. Smooth, continuous evolution with only objects present in the initial scene.
+  camera_WM: ""
+camera_control:
+  HY-WorldPlay: s-3, right-20, left-20
+  lingbot: s-3, right-20, left-20
+evaluation:
+  init_frame_description: A large, dark, rectangular wooden block hangs suspended by two braided steel
+    cables in a room with an industrial ceiling featuring pipes and conduits. A shiny, cylindrical metal
+    projectile is visible in mid-air on the left side of the frame, flying towards the left face of the
+    wooden block. A small amount of dust or debris is visible near the impact point on the wood.
+  init2final_edit_prompt: Edit the given image to show the aftermath of the collision. Remove the flying
+    metal projectile from the air. Add a visible entry hole or impact damage on the left face of the wooden
+    block. Shift the position of the wooden block and its suspension cables to the right to simulate the
+    pendulum swinging upward due to the impact. Keep the background pipes and ceiling structure in their
+    original positions to reflect the camera returning to the initial view.
+  rationale: The scenario describes a ballistic pendulum experiment. The projectile undergoes an inelastic
+    collision, embedding itself into the wooden block. Conservation of momentum dictates that the combined
+    mass (block + projectile) must acquire velocity to the right, causing the block to swing upward and
+    to the right. The camera pans away and then returns to the center; in the final frame, the projectile
+    should be gone (inside the wood), the block should show an entry point, and the block should be displaced
+    to the right of its initial resting position due to the imparted momentum.
+  questions:
+  - id: projectile_embedded
+    question: Is the flying metal projectile no longer visible in the air?
+    answer_type: yes_no
+    notes_for_judge: The projectile should be embedded in the wood, so it should not be visible as a separate
+      object in the air.
+  - id: impact_damage
+    question: Is there a visible hole or impact mark on the left face of the wooden block?
+    answer_type: yes_no
+    notes_for_judge: Look for a dark spot, splintering, or hole where the projectile entered.
+  - id: block_displacement
+    question: Is the wooden block positioned to the right of its initial location in the frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the block's position relative to the background pipes. It should have swung
+      to the right.
+  - id: cable_angle
+    question: Do the suspension cables appear angled to the right rather than hanging vertically?
+    answer_type: yes_no
+    notes_for_judge: The wires should follow the block's displacement, angling towards the right.
+  - id: background_consistency
+    question: Are the ceiling pipes and conduits in the same position as in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The camera returns to the center view, so the static background should align with
+      the start.

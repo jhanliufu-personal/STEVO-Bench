@@ -1,0 +1,56 @@
+id: deflating_air_mattress_06_lightoff
+level: 1
+category: scalar_state
+tags: []
+variant_of: deflating_air_mattress
+variation_type: dynamic_condition
+variation_description: A heavy suitcase is placed on top of the mattress, increasing pressure.
+changes:
+  occlusion_method: null
+  dynamic_conditions: Heavy suitcase placed on top of the mattress.
+  expected_outcome_change: Faster deflation rate due to increased pressure.
+prompts:
+  init_frame_edit_prompt: Edit the image to place a heavy suitcase on top of the deflating mattress.
+  video_WM: The room lights switch off, leaving the air mattress and luggage in complete darkness and completely invisible for a prolonged duration. After a pause, the lights turn back on. The camera remains stationary; no scene cuts; no new people or objects enter the scene. Smooth, continuous evolution with only objects present in the initial scene.
+  camera_WM: ''
+camera_control:
+  HY-WorldPlay: s-3, right-20, left-20
+  lingbot: s-3, right-20, left-20
+evaluation:
+  init_frame_description: A blue inflatable air mattress placed on a wooden floor. A brown vintage suitcase
+    rests on top of the mattress. In the foreground, a black valve on the side of the mattress is open,
+    with the cap hanging loose.
+  init2final_edit_prompt: Edit the given image so that the blue air mattress appears significantly deflated
+    and flattened. Show the brown suitcase sitting lower, closer to the floor, as if the air has escaped
+    from beneath it. The sides of the mattress should look less taut and more collapsed or wrinkled. Maintain
+    the open valve and the original background.
+  rationale: The video prompt sets up a scenario where a heavy object (suitcase) is pressing on an air
+    mattress with an open valve. Physically, the weight will force air out through the valve, causing
+    the mattress to deflate over time. The camera motion (panning away and back) serves as a temporal
+    occlusion; when the camera returns to the initial view, the deflation process should have progressed,
+    resulting in a flatter mattress and a lower suitcase position.
+  questions:
+  - id: mattress_flatter
+    question: Is the air mattress flatter than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the height/thickness of the mattress between frames.
+  - id: suitcase_lower
+    question: Is the brown suitcase positioned lower relative to the floor compared to the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The suitcase should have sunk down as the mattress deflated.
+  - id: less_inflated
+    question: Does the mattress appear less inflated than in the starting image?
+    answer_type: yes_no
+    notes_for_judge: Look for signs of volume loss.
+  - id: volume_decrease
+    question: Has the overall volume of the air mattress visibly decreased compared to the start?
+    answer_type: yes_no
+    notes_for_judge: The mattress should take up less vertical space.
+  - id: surface_wrinkles
+    question: Are the sides of the mattress less taut or more wrinkled than in the initial view?
+    answer_type: yes_no
+    notes_for_judge: Deflation usually causes slack in the material.
+  - id: valve_state
+    question: Is the black valve still visible and open?
+    answer_type: yes_no
+    notes_for_judge: Secondary consistency check.
