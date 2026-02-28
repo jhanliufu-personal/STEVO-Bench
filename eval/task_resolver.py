@@ -34,7 +34,7 @@ from benchmark.runners.utils import (
     load_yaml, resolve_task_paths
 )
 from eval.utils import (
-    _resolve_video_source, _download
+    _resolve_video_source, _download, occlusion_base,
 )
 
 # -----------------------------
@@ -117,6 +117,16 @@ def discover_tasks(tasks_root: Path) -> Dict[str, Tuple[Path, Path, Path, Path]]
 
     if not mapping:
         raise RuntimeError(f"No tasks found under: {tasks_root}")
+
+    # Add base-name aliases so camera-controlled runs (whose output JSON keys
+    # use the base name, e.g. "ice_on_burner") can resolve to the correct task
+    # yaml and init frame.  sorted() ensures _cardboard wins over _curtain/_lightoff.
+    base_aliases: Dict[str, Tuple[Path, Path, Path, Path]] = {}
+    for task_id in sorted(mapping):
+        base = occlusion_base(task_id)
+        if base != task_id and base not in mapping and base not in base_aliases:
+            base_aliases[base] = mapping[task_id]
+    mapping.update(base_aliases)
 
     return mapping
 

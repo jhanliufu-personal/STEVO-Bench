@@ -5,6 +5,25 @@ import requests
 import shutil
 import yaml
 
+# ---------------------------------------------------------------------------
+# Occlusion-variant helpers
+# ---------------------------------------------------------------------------
+
+_OCCLUSION_SUFFIXES = ("_cardboard", "_curtain", "_lightoff")
+
+
+def occlusion_base(task_id: str) -> str:
+    """Strip the occlusion suffix from a task ID, returning the base name.
+
+    Examples:
+        "ice_on_burner_cardboard" -> "ice_on_burner"
+        "ice_on_burner"           -> "ice_on_burner"  (unchanged)
+    """
+    for s in _OCCLUSION_SUFFIXES:
+        if task_id.endswith(s):
+            return task_id[: -len(s)]
+    return task_id
+
 # -----------------------------
 # Output links / paths
 # -----------------------------

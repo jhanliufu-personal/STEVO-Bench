@@ -38,6 +38,39 @@ import yaml
 
 from generation.world_models import WorldModelRunner, build_runner
 
+# ---------------------------------------------------------------------------
+# Occlusion-variant deduplication (camera-controlled models only)
+# ---------------------------------------------------------------------------
+
+_OCCLUSION_SUFFIXES = ("_cardboard", "_curtain", "_lightoff")
+
+
+def _occlusion_base(task_id: str) -> str:
+    for s in _OCCLUSION_SUFFIXES:
+        if task_id.endswith(s):
+            return task_id[: -len(s)]
+    return task_id
+
+
+def _dedup_for_camera_model(
+    tasks: List[Tuple[str, dict, Optional[Path]]],
+) -> List[Tuple[str, dict, Optional[Path]]]:
+    """For camera-controlled models, collapse occlusion variants to one per base name.
+
+    Keeps the first variant encountered (tasks are sorted alphabetically by
+    discover_tasks, so _cardboard wins over _curtain/_lightoff).
+    The returned task_id is the base name (suffix stripped), so the output
+    video and map entry use e.g. "ice_on_burner" rather than "ice_on_burner_cardboard".
+    """
+    seen: set = set()
+    result: List[Tuple[str, dict, Optional[Path]]] = []
+    for task_id, task, init_frame in tasks:
+        base = _occlusion_base(task_id)
+        if base not in seen:
+            seen.add(base)
+            result.append((base, task, init_frame))
+    return result
+
 
 # ---------------------------------------------------------------------------
 # RPM limiter
@@ -339,11 +372,19 @@ def main() -> int:
     overall_failed: Dict[str, List[str]] = {}
 
     for model_name, runner in runners.items():
+        model_tasks = tasks
+        if runner.camera_control_field:
+            model_tasks = _dedup_for_camera_model(tasks)
+            print(
+                f"[{model_name}] Camera-controlled: deduplicated"
+                f" {len(tasks)} → {len(model_tasks)} tasks (one per occlusion group)"
+            )
+
         out_dir = output_root / f"{model_name}_{args.run_name}"
         results = run_model(
             runner=runner,
             model_type=models_config[model_name].get("type", "local"),
-            tasks=tasks,
+            tasks=model_tasks,
             out_dir=out_dir,
             run_name=args.run_name,
             workers=args.workers,

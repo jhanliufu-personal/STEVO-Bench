@@ -50,8 +50,13 @@ except ImportError:
     _HAS_CONTROL_JUDGE = False
 
 try:
-    from eval.utils import _path_from_rel
+    from eval.utils import _path_from_rel, occlusion_base
 except ImportError:
+    def occlusion_base(task_id):  # type: ignore
+        for s in ("_cardboard", "_curtain", "_lightoff"):
+            if task_id.endswith(s):
+                return task_id[: -len(s)]
+        return task_id
     def _path_from_rel(s, base=None):  # type: ignore
         from pathlib import Path as _P
         p = _P(s)
@@ -76,10 +81,20 @@ _YAML_MAP: Dict[str, Path] = {}
 
 
 def _build_yaml_map() -> None:
-    """Scan TASKS_ROOT once and index every <task_id>.yaml file."""
+    """Scan TASKS_ROOT once and index every <task_id>.yaml file.
+
+    Also adds base-name aliases (e.g. "ice_on_burner" -> ice_on_burner_cardboard.yaml)
+    so that camera-controlled runs whose task IDs use the base name can still
+    resolve the correct yaml and init frame.  sorted() ensures _cardboard wins.
+    """
     global _YAML_MAP
     print(f"Scanning tasks directory: {TASKS_ROOT} …", flush=True)
-    _YAML_MAP = {p.stem: p for p in TASKS_ROOT.rglob("*.yaml")}
+    _YAML_MAP = {}
+    for p in sorted(TASKS_ROOT.rglob("*.yaml")):
+        _YAML_MAP[p.stem] = p
+        base = occlusion_base(p.stem)
+        if base != p.stem and base not in _YAML_MAP:
+            _YAML_MAP[base] = p
     print(f"  Found {len(_YAML_MAP)} task YAML files.", flush=True)
 
 
@@ -190,7 +205,10 @@ def _load_task_data(run_name: str, task_id: str, annotator: Optional[str] = None
     if yaml_path:
         td = load_yaml(yaml_path)
         task_level = td.get("level")
-        init_frame_candidate = yaml_path.parent / f"{task_id}_init_frame.png"
+        # Use yaml_path.stem (the actual variant name) so that base-name aliases
+        # (e.g. task_id="ice_on_burner" -> yaml_path.stem="ice_on_burner_cardboard")
+        # correctly locate the init frame on disk.
+        init_frame_candidate = yaml_path.parent / f"{yaml_path.stem}_init_frame.png"
         if init_frame_candidate.exists():
             init_frame_path = str(init_frame_candidate)
 
