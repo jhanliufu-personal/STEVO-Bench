@@ -61,6 +61,21 @@ models:
     # Matches the length of the standard pan (s-3, right-20, left-20 = 43 latents).
     camera_control_default: "s-3, right-10, left-20, right-10"
     n_gpu: 8
+    # Daemon: load pipeline once, iterate all tasks in one torchrun invocation.
+    daemon_script: generate_daemon.py
+    daemon_args:
+      - "--model_path"
+      - "/data/jhan/HF_hub/hub/models--tencent--HunyuanVideo-1.5/snapshots/9b49404b3f5df2a8f0b31df27a0c7ab872e7b038"
+      - "--action_ckpt"
+      - "/data/jhan/HF_hub/hub/models--tencent--HY-WorldPlay/snapshots/969249711ab41203e8d8d9f784a82372e9070ac5/ar_distilled_action_model/diffusion_pytorch_model.safetensors"
+      - "--model_type"
+      - "ar"
+      - "--few_step"
+      - "true"
+      - "--num_inference_steps"
+      - "4"
+      - "--video_length"
+      - "173"
 
   sora:
     type: api
@@ -98,7 +113,7 @@ models:
     prompt_field: camera_WM
     camera_control_field: lingbot
     # on paros
-    repo_path: /data/jhan/StateWMBench/lingbot-world      
+    repo_path: /data/jhan/StateWMBench/lingbot-world
     script: run_single.sh
     extra_args: []
     rpm_limit: null
@@ -107,6 +122,13 @@ models:
     # Fallback when a task has lingbot: null — same pan as the standard HY-WorldPlay default
     camera_control_default: "s-3, right-10, left-20, right-10"
     n_gpu: 8
+    # Daemon: load weights once, iterate all tasks in one torchrun invocation.
+    daemon_script: generate_daemon.py
+    daemon_args:
+      - "--ckpt_dir"
+      - "lingbot-world-base-cam"
+      - "--dit_fsdp"
+      - "--t5_fsdp"
 
   wan22:
     type: local
@@ -117,3 +139,10 @@ models:
     extra_args: []
     rpm_limit: null
     n_gpu: 8
+    # Daemon: load weights once, iterate all tasks in one torchrun invocation.
+    daemon_script: generate_daemon.py
+    daemon_args:
+      - "--ckpt_dir"
+      - "Wan2.2-I2V-A14B"    # *** update path for your machine ***
+      - "--dit_fsdp"
+      - "--t5_fsdp"

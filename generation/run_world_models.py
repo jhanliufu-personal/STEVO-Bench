@@ -25,7 +25,9 @@ import argparse
 import collections
 import fnmatch
 import json
+import subprocess
 import sys
+import tempfile
 import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
@@ -195,6 +197,83 @@ def _run_one(
 
 
 # ---------------------------------------------------------------------------
+# Daemon batch execution (local models only — loads weights once)
+# ---------------------------------------------------------------------------
+
+def _run_batch_daemon(
+    runner,
+    work_queue: List[Tuple[str, dict, Optional[Path], Path]],
+    map_path: Path,
+    map_lock: Lock,
+) -> Dict[str, bool]:
+    """Launch a single daemon subprocess that processes all tasks in one shot.
+
+    The runner must have `daemon_script` set and must implement
+    `build_daemon_cmd(tasks_json_path)`.  Each task entry in the JSON has:
+        task_id, prompt, image (abs path or ""), output (abs path), camera_control.
+    Results are determined by checking whether each output file was created.
+    """
+    tasks_for_daemon = []
+    for task_id, task, init_frame, out_path in work_queue:
+        out_path.parent.mkdir(parents=True, exist_ok=True)
+
+        prompts = task.get("prompts") or {}
+        prompt = (prompts.get(runner.prompt_field) or "").strip()
+
+        camera_control: Optional[str] = None
+        if runner.camera_control_field:
+            cc = (task.get("camera_control") or {}).get(runner.camera_control_field)
+            if cc and str(cc).strip().lower() not in ("null", "none", ""):
+                camera_control = str(cc).strip()
+        effective_cc = camera_control or getattr(runner, "camera_control_default", None) or ""
+
+        tasks_for_daemon.append({
+            "task_id": task_id,
+            "prompt": prompt,
+            "image": str(init_frame) if (init_frame and init_frame.exists()) else "",
+            "output": str(out_path),
+            "camera_control": effective_cc,
+        })
+
+    with tempfile.NamedTemporaryFile(
+        mode="w", suffix=".json", delete=False, encoding="utf-8"
+    ) as tmp:
+        json.dump(tasks_for_daemon, tmp, indent=2)
+        tasks_json_path = tmp.name
+
+    try:
+        cmd = runner.build_daemon_cmd(tasks_json_path)
+        print(f"[{runner.name}] Launching daemon ({len(work_queue)} tasks): {' '.join(cmd[:3])} ...")
+        proc = subprocess.run(
+            cmd,
+            cwd=str(runner.repo_path),
+            capture_output=not runner.verbose,
+            text=not runner.verbose,
+        )
+        if not runner.verbose and proc.returncode != 0:
+            if proc.stdout:
+                print(proc.stdout, end="")
+            if proc.stderr:
+                print(proc.stderr, end="")
+        if proc.returncode != 0:
+            print(f"[{runner.name}] Daemon exited with code {proc.returncode}")
+    finally:
+        Path(tasks_json_path).unlink(missing_ok=True)
+
+    # Collect results by checking whether each output file was written.
+    results: Dict[str, bool] = {}
+    for task_id, _task, _init_frame, out_path in work_queue:
+        ok = out_path.exists()
+        if ok:
+            _update_map(map_path, task_id, out_path.name, map_lock)
+            print(f"[{runner.name}] DONE  {task_id}")
+        else:
+            print(f"[{runner.name}] FAIL  {task_id}")
+        results[task_id] = ok
+    return results
+
+
+# ---------------------------------------------------------------------------
 # Per-model run loop
 # ---------------------------------------------------------------------------
 
@@ -227,6 +306,10 @@ def run_model(
     print(f"\n[{runner.name}] {len(work_queue)} task(s) to generate → {out_dir}")
     if limiter:
         print(f"[{runner.name}] RPM limit: {rpm_limit} requests/min")
+
+    # Daemon path: load weights once, iterate the whole queue in one subprocess.
+    if work_queue and getattr(runner, "daemon_script", None):
+        return _run_batch_daemon(runner, work_queue, map_path, map_lock)
 
     results: Dict[str, bool] = {}
 

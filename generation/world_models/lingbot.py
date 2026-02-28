@@ -1,6 +1,6 @@
 import subprocess
 from pathlib import Path
-from typing import Optional
+from typing import List, Optional
 
 from .local_script import LocalScriptRunner
 
@@ -32,6 +32,12 @@ class LingBotRunner(LocalScriptRunner):
             # Resolve relative to the repo root (this file lives two levels deep)
             p = (Path(__file__).parents[2] / p).resolve()
         self._actions_root = p
+
+    def build_daemon_cmd(self, tasks_json_path: str) -> List[str]:
+        """Extend the base daemon command with the LingBot actions root."""
+        return super().build_daemon_cmd(tasks_json_path) + [
+            "--lingbot_actions_root", str(self._actions_root),
+        ]
 
     @staticmethod
     def _pose_to_folder(pose_string: str) -> str:
