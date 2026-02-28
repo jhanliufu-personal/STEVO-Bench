@@ -132,8 +132,13 @@ def discover_tasks(tasks_root: Path) -> List[Tuple[str, dict, Optional[Path]]]:
             task = yaml.safe_load(f) or {}
 
         task_id = str(task.get("id") or d.name)
-        init_frame = d / f"{d.name}_init_frame.png"
-        found.append((task_id, task, init_frame if init_frame.exists() else None))
+        init_frame = None
+        for ext in (".png", ".jpg", ".jpeg"):
+            candidate = d / f"{d.name}_init_frame{ext}"
+            if candidate.exists():
+                init_frame = candidate
+                break
+        found.append((task_id, task, init_frame))
 
     return found
 
