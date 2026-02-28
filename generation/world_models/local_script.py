@@ -42,6 +42,7 @@ class LocalScriptRunner(WorldModelRunner):
         self.camera_control_default: Optional[str] = config.get("camera_control_default") or None
         self.n_gpu: Optional[int] = config.get("n_gpu") or None
         self.verbose: bool = bool(config.get("verbose", False))
+        self.batch_script: Optional[str] = config.get("batch_script") or None
 
     def generate(
         self,

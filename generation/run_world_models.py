@@ -25,7 +25,9 @@ import argparse
 import collections
 import fnmatch
 import json
+import subprocess
 import sys
+import tempfile
 import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
@@ -195,6 +197,78 @@ def _run_one(
 
 
 # ---------------------------------------------------------------------------
+# Batch local-model run (single torchrun invocation, model loaded once)
+# ---------------------------------------------------------------------------
+
+def _run_batch_local(
+    runner,
+    work_queue: List[Tuple],
+    map_path: Path,
+    map_lock: Lock,
+) -> Dict[str, bool]:
+    """Build a tasks JSON and call runner.batch_script once for all tasks."""
+    tasks_data = []
+    for task_id, task, init_frame, out_path in work_queue:
+        cc = None
+        if runner.camera_control_field:
+            cc = (task.get("camera_control") or {}).get(runner.camera_control_field)
+            if not cc or str(cc).strip().lower() in ("null", "none", ""):
+                cc = runner.camera_control_default
+        if not cc:
+            cc = runner.camera_control_default
+        tasks_data.append({
+            "task_id": task_id,
+            "init_frame": str(init_frame) if init_frame else None,
+            "camera_control": str(cc).strip() if cc else "",
+            "output": str(out_path),
+        })
+
+    with tempfile.NamedTemporaryFile("w", suffix=".json", delete=False) as f:
+        json.dump(tasks_data, f, indent=2)
+        tasks_json_path = f.name
+
+    script_path = runner.repo_path / runner.batch_script
+    cmd = ["bash", str(script_path), "--tasks_json", tasks_json_path]
+    if runner.n_gpu is not None:
+        cmd += ["--n_gpu", str(runner.n_gpu)]
+
+    print(f"[{runner.name}] Batch: {len(tasks_data)} task(s) → {script_path.name}")
+    result = subprocess.run(
+        cmd,
+        cwd=str(runner.repo_path),
+        capture_output=not runner.verbose,
+        text=not runner.verbose,
+    )
+
+    if not runner.verbose and result.returncode != 0:
+        if result.stdout:
+            print(result.stdout, end="")
+        if result.stderr:
+            print(result.stderr, end="")
+
+    # Read per-task failure details written by gen3c_batch.py
+    failures_path = tasks_json_path.replace(".json", "_failures.json")
+    failed_details: dict = {}
+    if Path(failures_path).exists():
+        with open(failures_path) as f:
+            for entry in json.load(f):
+                failed_details[entry["task_id"]] = entry["error"]
+
+    results: Dict[str, bool] = {}
+    for task_id, _, _, out_path in work_queue:
+        ok = out_path.exists()
+        results[task_id] = ok
+        if ok:
+            _update_map(map_path, task_id, out_path.name, map_lock)
+            print(f"[{runner.name}] DONE  {task_id}")
+        else:
+            error_msg = failed_details.get(task_id, "")
+            print(f"[{runner.name}] FAIL  {task_id}" + (f": {error_msg}" if error_msg else ""))
+
+    return results
+
+
+# ---------------------------------------------------------------------------
 # Per-model run loop
 # ---------------------------------------------------------------------------
 
@@ -225,6 +299,11 @@ def run_model(
         work_queue.append((task_id, task, init_frame, out_path))
 
     print(f"\n[{runner.name}] {len(work_queue)} task(s) to generate → {out_dir}")
+
+    # Batch mode: single subprocess invocation, model loaded once
+    if getattr(runner, "batch_script", None) and work_queue:
+        return _run_batch_local(runner, work_queue, map_path, map_lock)
+
     if limiter:
         print(f"[{runner.name}] RPM limit: {rpm_limit} requests/min")
 
