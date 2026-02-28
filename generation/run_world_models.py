@@ -200,6 +200,27 @@ def _run_one(
 # Daemon batch execution (local models only — loads weights once)
 # ---------------------------------------------------------------------------
 
+def _num_frames_from_pose(pose_string: str) -> int:
+    """Compute the number of video frames from a camera pose string.
+
+    Each token has the form 'action-duration' where duration is the number of
+    camera latents.  Total latents are summed, then converted to frames via:
+        num_frames = total_latents * 4 + 1
+
+    Example: "s-3, right-10, left-20, right-10" → 43 latents → 173 frames.
+    """
+    total = 0
+    for token in pose_string.split(","):
+        token = token.strip()
+        if not token:
+            continue
+        parts = token.split("-", 1)
+        if len(parts) != 2:
+            raise ValueError(f"Invalid pose token: '{token}'")
+        total += int(float(parts[1].strip()))
+    return total * 4 + 1
+
+
 def _run_batch_daemon(
     runner,
     work_queue: List[Tuple[str, dict, Optional[Path], Path]],
@@ -227,12 +248,20 @@ def _run_batch_daemon(
                 camera_control = str(cc).strip()
         effective_cc = camera_control or getattr(runner, "camera_control_default", None) or ""
 
+        num_frames: Optional[int] = None
+        if effective_cc:
+            try:
+                num_frames = _num_frames_from_pose(effective_cc)
+            except Exception as e:
+                print(f"[{runner.name}] WARN: could not compute num_frames for '{effective_cc}': {e}")
+
         tasks_for_daemon.append({
             "task_id": task_id,
             "prompt": prompt,
             "image": str(init_frame) if (init_frame and init_frame.exists()) else "",
             "output": str(out_path),
             "camera_control": effective_cc,
+            "num_frames": num_frames,
         })
 
     with tempfile.NamedTemporaryFile(
