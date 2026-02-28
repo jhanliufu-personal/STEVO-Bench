@@ -1,0 +1,62 @@
+id: spray_foam_curtain
+level: 1
+category: scalar_state
+scalar_variable: Foam volume
+prompts:
+  image_gen_prompt: A nozzle is spraying yellow expanding insulation foam into a gap between two wooden
+    studs. A small mound of wet, bubbly foam is rapidly puffing up.
+  video_WM: While the foam gun continues spraying, a heavy curtain drops from the ceiling between the camera and the spray gun and foam, completely blocking the spray gun and foam from view, without touching or interacting with any object in the scene, for a prolonged duration. After a pause, the curtain rises. The camera remains stationary; no scene cuts; no new people or objects enter the scene. Smooth, continuous evolution with only objects present in the initial scene.
+  camera_WM: The foam gun continues to spray.
+camera_control:
+  HY-WorldPlay: s-3, right-20, left-20
+  lingbot: s-3, right-20, left-20
+evaluation:
+  init_frame_description: A close-up view of a wooden wall frame construction. Two vertical wooden studs
+    frame a cavity. Inside the cavity, a mound of yellow, bubbly spray foam insulation is accumulating
+    at the bottom against the backing board. A spray gun nozzle is visible in the top right, directing
+    a stream of foam onto the mound. Sawdust and wood shavings are scattered on the floor at the base
+    of the wall.
+  init2final_edit_prompt: Edit the given image to show the mound of yellow spray foam significantly expanded
+    in size. The foam should occupy a much larger volume within the wall cavity, reaching higher up the
+    wooden studs and bulging outward more than in the original state. The texture should remain bubbly
+    and irregular, consistent with expanded insulation foam. Maintain the appearance of the wooden studs
+    and the sawdust on the floor, but ensure the foam mass is visibly larger.
+  rationale: The prompt describes a continuous process of rapid chemical expansion of the insulation foam.
+    Although the camera pans away and then returns, the physical process of expansion continues throughout
+    the duration. Therefore, when the camera returns to the initial viewpoint, the primary state change
+    is a significant increase in the volume and height of the foam mound due to the ongoing chemical reaction.
+  questions:
+  - id: foam_volume_increase
+    question: Is the mound of yellow foam larger than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the overall size of the yellow mass.
+  - id: foam_height_increase
+    question: Does the foam reach higher up the wall cavity than in the starting image?
+    answer_type: yes_no
+    notes_for_judge: Check the vertical extent of the foam against the back wall.
+  - id: foam_coverage_increase
+    question: Does the foam cover more of the back wall surface than before?
+    answer_type: yes_no
+    notes_for_judge: Assess the surface area covered by the foam.
+  - id: foam_expansion_width
+    question: Has the foam expanded to fill more of the width between the studs?
+    answer_type: yes_no
+    notes_for_judge: Look for lateral expansion between the vertical wood beams.
+  - id: stud_invariant
+    question: Are the vertical wooden studs still visible in the same positions?
+    answer_type: yes_no
+    notes_for_judge: The camera returns to the center, so the static structure should be aligned.
+  - id: sawdust_invariant
+    question: Is the sawdust on the floor still visible?
+    answer_type: yes_no
+    notes_for_judge: Unless covered by falling foam (unlikely given the upward growth), the floor debris
+      should remain.
+  generation:
+    model_provider: google_gemini
+    llm: gemini-3-pro-preview
+    temperature: 0.2
+    created_utc: '2026-02-20T10:15:52Z'
+  inputs_digest:
+    initial_frame_sha256: 31b1a05b0ae89769106ca6a4d7b0f0a698c3f101bc312f3db9259626e36b2486
+    video_prompt_sha256: ca8b79419b030295052d1c0a5404997853d1ab7f8b7609badaa59475f4bcf015
+    task_yaml_sha256_before: 042afe2277d42f7d6a90a594950fb1bb488a54214c4a1dfa427319f7ddbd8f70

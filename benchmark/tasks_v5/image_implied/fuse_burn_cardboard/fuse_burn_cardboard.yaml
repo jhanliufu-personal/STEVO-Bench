@@ -1,0 +1,63 @@
+id: fuse_burn_cardboard
+level: 1
+category: scalar_state
+scalar_variable: Unburned fuse length
+prompts:
+  image_gen_prompt: A thick black gunpowder fuse is laid out on a concrete floor. One end is lit and sizzling
+    with a bright spark, moving quickly toward the other end.
+  video_WM: A piece of cardboard is held up in front of the camera view, completely blocking the fuse from view, without touching or interacting with any object in the scene, for a prolonged duration. After a pause, the cardboard is lowered. The camera remains stationary; no scene cuts; no new people or objects enter the scene. removed. Smooth, continuous evolution with only objects present in the initial scene.
+  camera_WM: ""
+camera_control:
+  HY-WorldPlay: s-3, right-20, left-20
+  lingbot: s-3, right-20, left-20
+evaluation:
+  init_frame_description: A close-up, high-angle shot of a thick, textured rope fuse lying on a concrete
+    floor. The fuse is curved, extending from the left foreground towards the right background. The tip
+    of the fuse on the left is actively burning, emitting a bright orange flame, sparks, and smoke. The
+    unburnt portion of the rope is brownish-grey and textured.
+  init2final_edit_prompt: Edit the given image to show the fuse having burned significantly further along
+    its length. Move the bright orange burning tip and sparks further along the rope's curve towards the
+    right. The section of the rope where the fire started (on the left) should be removed or replaced
+    with a charred ash trail to indicate it has been consumed. The remaining unburnt section of the rope
+    must be visibly shorter than in the original image.
+  rationale: 'The video prompt describes a rapid burning process that continues while the camera rotates
+    away and then back to the original view. The camera motion (rotating right until the object exits
+    view, then rotating back left) implies a passage of time during which the fuse is occluded. Upon returning
+    to the initial view, the physical state of the fuse must reflect this elapsed time: the fire should
+    have advanced along the rope, consuming a portion of it, resulting in a shorter unburnt segment and
+    a shifted burning point.'
+  questions:
+  - id: fuse_shorter
+    question: Is the unburnt section of the rope shorter than it was in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Compare the length of the intact rope. It should be reduced.
+  - id: flame_position
+    question: Is the burning tip located further along the rope's path than in the initial frame?
+    answer_type: yes_no
+    notes_for_judge: The fire should have moved along the curve of the rope away from the starting point.
+  - id: consumption_check
+    question: Has the section of the rope where the fire started been consumed or turned to ash?
+    answer_type: yes_no
+    notes_for_judge: The original starting tip should no longer be intact rope.
+  - id: fire_movement
+    question: Has the source of the sparks moved relative to the concrete floor features?
+    answer_type: yes_no
+    notes_for_judge: The fire should be in a different physical location on the floor, following the rope's
+      path.
+  - id: floor_consistency
+    question: Is the concrete floor texture consistent with the initial frame?
+    answer_type: yes_no
+    notes_for_judge: Secondary check for background consistency.
+  - id: smoke_presence
+    question: Is there smoke or fire visible at the new burning location?
+    answer_type: yes_no
+    notes_for_judge: The burning process should still be active.
+  generation:
+    model_provider: google_gemini
+    llm: gemini-3-pro-preview
+    temperature: 0.2
+    created_utc: '2026-02-20T10:16:26Z'
+  inputs_digest:
+    initial_frame_sha256: 18a23784277e9ae74968a71930001c13bff97fc68ea00032747313344a6e525c
+    video_prompt_sha256: 054d5d90f6b39b0d56224e34e7977e561985a0b88871c47012cf482560ff91f8
+    task_yaml_sha256_before: d0d6579867bb3d86652d7a2f4755b0afbdc53d3fbc5fc54b5584101132fcf485

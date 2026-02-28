@@ -1,0 +1,32 @@
+id: gas_pump_nozzle_trigger
+level: 5
+category: causal_mechanism
+mechanism_type: trigger_valve_flow_logic
+prompts:
+  image_gen_prompt: A gas pump display screen shows $0.00 and 0.00 gallons on the digital readout. The
+    display is in an idle state with no fuel being pumped. The camera view is centered on the pump display
+    screen.
+  video_WM: The camera rotates right at constant speed until the display completely exits the view. While the pump display 
+    is out of view, a hand inserts the fuel nozzle into a car's gas tank opening and squeezes the
+    trigger handle, dispensing fuel. Then the camera rotates left smoothly at the same rate back to the original viewpoint, 
+    bringing the pump display back into view. Smooth, continuous evolution with no scene changes or cuts.
+  camera_WM: While the pump display is out of view, a hand inserts the fuel nozzle into a car's gas tank opening and squeezes the
+    trigger handle, dispensing fuel.
+camera_control:
+  HY-WorldPlay: s-3, right-20, left-20
+  lingbot: s-3, right-20, left-20
+evaluation:
+  init_frame_description: A close-up view of a black gas pump interface. The central LCD screen displays
+    '$0.00' on the top line and '0.00' on the middle line, with 'gallons' text to the right. To the left
+    of the screen is a vertical column of square silver buttons. To the right, a black hose and part of
+    a green nozzle handle are visible. The background shows a blurred outdoor gas station setting.
+  init2final_edit_prompt: Edit the given image to show the gas pump display after fuel has been dispensed.
+    Change the top digital price reading from '0.00' to a positive number (e.g., '4.50') and the middle
+    gallons reading from '0.00' to a corresponding positive number (e.g., '1.25'). Ensure the new digits
+    match the style, color, and glare of the original LCD segments. Keep the pump housing, buttons, hose,
+    and background exactly as they are in the original image.
+  rationale: The video prompt describes a causal chain where the camera rotates away to reveal the nozzle,
+    a hand squeezes the trigger, and then the camera returns to the display. Squeezing the trigger opens
+    the valve and dispenses fuel, which mechanically drives the flow meter. Consequently, when the camera
+    returns to the display, the counters for price and gallons must have incremented from their initial
+    zero state to reflect the amount of fuel dispensed during the occlusion.
