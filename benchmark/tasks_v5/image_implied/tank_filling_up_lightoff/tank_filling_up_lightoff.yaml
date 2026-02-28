@@ -1,0 +1,42 @@
+id: tank_filling_up_lightoff
+level: 1
+category: scalar_state
+tags: []
+prompts:
+  image_gen_prompt: A transparent cylindrical water tank sits on the floor in a warehouse. A metal pipe
+    extends from above, flowing water into the tank. The water level in the tank is partially filled,
+    with measurement markings visible on the side. The camera view is centered on the pipe and tank.
+  video_WM: The warehouse lights switch off, leaving the tank in complete darkness and completely invisible
+    for a prolonged duration. After a pause, the lights switch back on. The camera remains stationary;
+    no scene cuts; no new people or objects enter the scene. Smooth, continuous evolution with only objects
+    present in the initial scene.
+  camera_WM: ''
+camera_control:
+  HY-WorldPlay: s-3, right-20, left-20
+  lingbot: s-3, right-20, left-20
+  Genie: null
+evaluation:
+  init_frame_description: A large clear cylindrical tank sits on a concrete warehouse floor. The tank
+    has red measurement markings on its front face, with grams on the left and liters on the right. A
+    metal pipe extends from the ceiling area, pouring a stream of water into the tank. The current water
+    level is approximately at the 140-150 liter mark, with visible bubbles and turbulence where the water
+    enters. Wooden pallets and industrial shelving are visible in the background.
+  init2final_edit_prompt: Edit the given image to show the water level inside the clear tank significantly
+    higher than it was initially. The water surface should be elevated well above the 150 liter mark,
+    occupying more of the tank's volume. Maintain the appearance of the water stream pouring from the
+    pipe. Keep the background warehouse, pallets, and the tank's position exactly unchanged.
+  rationale: 'The initial frame establishes a dynamic process: water is flowing into a container. The
+    video prompt introduces a temporal gap (''prolonged duration'') during which the scene is occluded
+    by darkness. Physical consistency dictates that the water flow continues during this time, resulting
+    in an accumulation of liquid. Therefore, when visibility is restored, the scalar state variable (water
+    volume/level) must have increased. The camera is stationary, so the static background elements remain
+    invariant.'
+  generation:
+    model_provider: google_gemini
+    llm: gemini-3-pro-preview
+    temperature: 0.2
+    created_utc: '2026-02-20T10:15:14Z'
+  inputs_digest:
+    initial_frame_sha256: 75816458c4c8dd94f57a5a2831374bf9575aec6f9e735e6888efe0dc5f35911b
+    video_prompt_sha256: 60581f19895f20bac796a9d68846398169ebbaa03a2d0ba6c39291eb70614447
+    task_yaml_sha256_before: d10d1b4bbf032cd3a9f6900404f030477ac3c22d4d96c36650cab8e48f048a2e
