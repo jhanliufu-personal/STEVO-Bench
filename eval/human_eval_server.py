@@ -225,6 +225,8 @@ def _load_task_data(run_name: str, task_id: str, annotator: Optional[str] = None
         "artifact":            art.get("artifact"),
         "coherence":           cohr.get("coherence"),
         "notes":               cr.get("notes", ""),
+        "occlusion_prompt":    cr.get("occlusion_prompt", ""),
+        "trigger_prompt":      cr.get("trigger_prompt", ""),
         "se_prompt":           se.get("filled_prompt1", ""),
         "artifact_prompt":     art.get("prompt", ""),
         "coherence_prompt":    cohr.get("prompt", ""),
@@ -769,7 +771,9 @@ let S = {
   allTaskIds:     [],     // ordered list for sequential navigation
 };
 
-let _saveTimer = null;
+let _saveTimer   = null;
+let _saving      = false;  // true while a save attempt (or retry loop) is in flight
+let _pendingSave = false;  // true if a new change arrived while _saving was true
 
 // =============================================================================
 // Initialise
@@ -1031,35 +1035,35 @@ function renderControl() {
   body.innerHTML =
     ctrlRow(
       'Occlusion method',
-      `Does the video correctly apply the following occlusion method:<br><em>${esc(c.requested_occlusion||'—')}</em><br>so the main object(s) are completely blocked out of view?`,
+      `Does the video correctly apply the following occlusion method:<br><strong style="color:var(--red)">${esc(c.requested_occlusion||'—')}</strong><br>so the main object(s) become <strong>COMPLETELY</strong> invisible <strong>DURING</strong> the process for a <strong>PROLONGED</strong> time, then <strong>REMOVED</strong> to reveal the objects again? Missing anyone of the four means False. If the process ends <strong>BEFORE</strong> occlusion takes place, that's a False.`,
       '',
       c.occlusion_done,
       humanCols('occlusion_done', false)
     ) +
     ctrlRow(
       'Trigger / action',
-      `Does the video correctly apply the following trigger action:<br><em>${esc(c.requested_trigger||'—')}</em>?`,
+      `Does the following trigger action correctly follow in the video:<br><strong style="color:var(--red)">${esc(c.requested_trigger||'—')}</strong>?`,
       '',
       c.trigger_applied,
       humanCols('trigger_applied', false)
     ) +
     ctrlRow(
       'State Evolution',
-      'Does the state evolve as expected?',
+      'Does the scene state evolve as expected? Click on the dropdown to see the full definition of successful state evolution and follow all guidance to make your decision.',
       pd(c.se_prompt),
       c.state_evol,
       humanCols('state_evol', true)
     ) +
     ctrlRow(
-      'Artifact',
-      'Any obvious visual artifacts?',
+      'Physical artifact',
+      'Did anything unphysical or unrealistic happen? Click on the dropdown to see the full definition of an artifact and follow all guidance to make your decision.',
       pd(c.artifact_prompt),
       c.artifact,
       humanCols('artifact', false)
     ) +
     ctrlRow(
-      'Coherence',
-      'Is the video visually coherent throughout?',
+      'Main object coherence',
+      'Is the main object of the scene coherent throughout the video? Click on the dropdown to see the full definition of coherence and follow all guidance to make your decision.',
       pd(c.coherence_prompt),
       c.coherence,
       humanCols('coherence', false)
@@ -1143,23 +1147,44 @@ function scheduleSave() {
 
 async function doSave() {
   if (IS_MASTER || !S.run || !S.taskId) return;
+  if (_saving) { _pendingSave = true; return; }
+  _saving = true;
+  _pendingSave = false;
+
+  const savedRun    = S.run;
+  const savedTaskId = S.taskId;
+  let delay = 2000;  // ms before first retry; doubles each time, capped at 30 s
+
   try {
-    await api(
-      `/api/runs/${enc(S.run)}/task/${enc(S.taskId)}/answer?annotator=${enc(ANNOTATOR)}`,
-      {
-        method:  'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body:    JSON.stringify({
-          control:          S.humanControl,
-          human_state_evol: S.humanStateEvol,
-        }),
+    while (true) {
+      // Annotator navigated away — stop retrying (their new task will save separately)
+      if (S.run !== savedRun || S.taskId !== savedTaskId) return;
+      try {
+        await api(
+          `/api/runs/${enc(savedRun)}/task/${enc(savedTaskId)}/answer?annotator=${enc(ANNOTATOR)}`,
+          {
+            method:  'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body:    JSON.stringify({
+              control:          S.humanControl,
+              human_state_evol: S.humanStateEvol,
+            }),
+          }
+        );
+        showSave('saved');
+        setTimeout(hideSave, 2500);
+        return;
+      } catch(e) {
+        console.error(`Save failed, retrying in ${delay / 1000}s:`, e);
+        showSave('retrying');
+        await new Promise(r => setTimeout(r, delay));
+        delay = Math.min(delay * 2, 30000);
+        showSave('saving');
       }
-    );
-    showSave('saved');
-    setTimeout(hideSave, 2500);
-  } catch(e) {
-    console.error('Save failed:', e);
-    showSave('error');
+    }
+  } finally {
+    _saving = false;
+    if (_pendingSave) { _pendingSave = false; doSave(); }
   }
 }
 
@@ -1177,8 +1202,8 @@ function boolBadge(val) {
 // =============================================================================
 function showSave(state) {
   const el = document.getElementById('save-chip');
-  el.className = 'save-chip ' + state;
-  el.textContent = state === 'saving' ? 'Saving\u2026' : state === 'saved' ? 'Saved \u2713' : 'Save failed!';
+  el.className = 'save-chip ' + (state === 'retrying' ? 'saving' : state);
+  el.textContent = { saving: 'Saving\u2026', saved: 'Saved \u2713', retrying: 'Retrying\u2026', error: 'Save failed!' }[state] || '';
 }
 function hideSave() {
   document.getElementById('save-chip').className = 'save-chip';

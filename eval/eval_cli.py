@@ -132,8 +132,8 @@ def _write_init_stubs(
 def _eval_one_task(
     task: ResolvedTask,
     *,
-    # provider: str,
-    # judge_model: str,
+    provider: str,
+    judge_model: str,
     control_model: str,
     quality_model: str,
     run_control: bool = True,
@@ -350,15 +350,23 @@ def main() -> None:
     # Skip tasks that are already fully evaluated (unless --overwrite)
     # ---------------------------------------------------------------------------
     if not args.overwrite:
+        def _report_evaluated(path: Path, *fields: str) -> bool:
+            """True only if the file exists and every listed field is non-None."""
+            if not path.exists():
+                return False
+            try:
+                data = json.loads(path.read_text(encoding="utf-8"))
+                return all(data.get(f) is not None for f in fields)
+            except Exception:
+                return False
+
         pending, skipped = [], 0
         for task in resolved_tasks:
             task_dir = per_task_root / task.task_id
-            # judge_done    = (task_dir / "judge_report.json").exists()  # OBSOLETE
-            control_done  = (task_dir / "control_report.json").exists()
-            artifact_done = (task_dir / "artifact_report.json").exists()
-            coherence_done = (task_dir / "coherence_report.json").exists()
+            control_done  = _report_evaluated(task_dir / "control_report.json",  "occlusion_done", "trigger_applied")
+            artifact_done = _report_evaluated(task_dir / "artifact_report.json", "artifact")
+            coherence_done = _report_evaluated(task_dir / "coherence_report.json", "coherence")
             already_done = (
-                # (run_judge and judge_done or not run_judge) and  # OBSOLETE
                 (run_control   and control_done   or not run_control) and
                 (run_artifact  and artifact_done  or not run_artifact) and
                 (run_coherence and coherence_done or not run_coherence)

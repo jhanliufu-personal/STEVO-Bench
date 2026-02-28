@@ -33,7 +33,7 @@ class GeminiControlJudgeClient:
     def __post_init__(self) -> None:
         from google import genai  # type: ignore
 
-        api_key = os.environ.get("GOOGLE_API_KEY", "").strip()
+        api_key = os.environ.get("GOOGLE_ZIQI_KEY", "").strip()
         if not api_key:
             raise RuntimeError("Missing GOOGLE_API_KEY environment variable.")
         self._client = genai.Client(api_key=api_key)

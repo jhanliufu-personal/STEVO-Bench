@@ -183,15 +183,13 @@ def _compute_requested_fields(
     return requested_trigger, requested_occlusion
 
 
-def build_control_judge_prompt(requested_trigger: str, requested_occlusion: str) -> str:
-    trigger_display   = requested_trigger   or "none"
+def build_occlusion_judge_prompt(requested_occlusion: str) -> str:
     occlusion_display = requested_occlusion or "none"
 
     return (
-        "You are evaluating a generated video for controllability and visual quality.\n\n"
+        "You are evaluating a generated video for whether a partial observability mechanism was correctly applied.\n\n"
 
-        "The following have been determined from the task specification:\n"
-        f"  requested_trigger:   {trigger_display}\n"
+        "The following has been determined from the task specification:\n"
         f"  requested_occlusion: {occlusion_display}\n\n"
 
         "PARTIAL OBSERVABILITY:\n"
@@ -201,13 +199,9 @@ def build_control_judge_prompt(requested_trigger: str, requested_occlusion: str)
         "Do NOT penalise a mismatch between requested_occlusion and the mechanism shown in the video.\n"
         "Occlusion success is judged solely by whether the subject became invisible, regardless of how.\n\n"
 
-        "Evaluate TWO INDEPENDENT things from the GENERATED video:\n\n"
+        "Evaluate ONE thing from the GENERATED video:\n\n"
 
-        "1. trigger_applied — Did the requested kickoff action occur?\n"
-        "   TRUE if the action itself happened or its physical effect is clearly visible.\n"
-        "   Set to true if requested_trigger is \"none\".\n\n"
-
-        "2. occlusion_done — Were the key subject and dynamic successfully hidden from view\n"
+        "occlusion_done — Were the key subject and dynamic successfully hidden from view\n"
         "   (became invisible) at the appropriate moment, by ANY mechanism?\n"
         "   Camera pan that moves the subject fully out of frame counts as occlusion_done = True,\n"
         "   even if requested_occlusion described a different in-scene method — and vice versa.\n"
@@ -216,8 +210,6 @@ def build_control_judge_prompt(requested_trigger: str, requested_occlusion: str)
         "   FALSE if the scene was never hidden at all.\n"
         "   Set to true if requested_occlusion is \"none\".\n\n"
 
-        "DECOUPLING RULE: evaluate trigger_applied and occlusion_done independently.\n\n"
-
         "General guidance:\n"
         "- Use only visual evidence from the video.\n"
         "- Ignore timestamps, watermarks, subtitles, and UI overlays.\n\n"
@@ -225,6 +217,32 @@ def build_control_judge_prompt(requested_trigger: str, requested_occlusion: str)
         "Return ONLY valid JSON in this exact format (no markdown, no commentary):\n"
         "{\n"
         "  \"occlusion_done\": true/false,\n"
+        "  \"notes\": \"optional short explanation\"\n"
+        "}\n"
+    )
+
+
+def build_trigger_judge_prompt(requested_trigger: str) -> str:
+    trigger_display = requested_trigger or "none"
+
+    return (
+        "You are evaluating a generated video for whether a trigger action was correctly applied.\n\n"
+
+        "The following has been determined from the task specification:\n"
+        f"  requested_trigger: {trigger_display}\n\n"
+
+        "Evaluate ONE thing from the GENERATED video:\n\n"
+
+        "trigger_applied — Did the requested kickoff action occur?\n"
+        "   TRUE if the action itself happened or its physical effect is clearly visible.\n"
+        "   Set to true if requested_trigger is \"none\".\n\n"
+
+        "General guidance:\n"
+        "- Use only visual evidence from the video.\n"
+        "- Ignore timestamps, watermarks, subtitles, and UI overlays.\n\n"
+
+        "Return ONLY valid JSON in this exact format (no markdown, no commentary):\n"
+        "{\n"
         "  \"trigger_applied\": true/false,\n"
         "  \"notes\": \"optional short explanation\"\n"
         "}\n"
@@ -277,33 +295,46 @@ def evaluate_control_one_task(
     ensemble_size: int = 1,
     ensemble_mode: str = "majority",
 ) -> ControlJudgeResult:
-    client = make_control_judge_client(model=model)
+    # Two independent clients — one per judge so they can run fully in parallel.
+    occ_client  = make_control_judge_client(model=model)
+    trig_client = make_control_judge_client(model=model)
 
     video_wm_prompt, camera_wm_prompt, camera_pose = _load_task_fields(Path(task.task_yaml))
     requested_trigger, requested_occlusion = _compute_requested_fields(
         video_wm_prompt, camera_wm_prompt, camera_pose, camera_controlled=camera_controlled
     )
-    prompt = build_control_judge_prompt(requested_trigger, requested_occlusion)
 
-    def _single_query(_: int) -> Dict[str, Any]:
-        raw = client.judge(prompt=prompt, video_path=Path(task.wm_video))
+    occlusion_prompt = build_occlusion_judge_prompt(requested_occlusion)
+    trigger_prompt   = build_trigger_judge_prompt(requested_trigger)
+
+    def _occ_query(_: int) -> Dict[str, Any]:
+        raw    = occ_client.judge(prompt=occlusion_prompt, video_path=Path(task.wm_video))
         parsed = parse_control_judge_output(raw)
         return {
-            "occlusion_done":  bool(parsed.get("occlusion_done", False)),
+            "occlusion_done": bool(parsed.get("occlusion_done", False)),
+            "notes":          str(parsed.get("notes", "")).strip(),
+            "raw_text":       raw,
+        }
+
+    def _trig_query(_: int) -> Dict[str, Any]:
+        raw    = trig_client.judge(prompt=trigger_prompt, video_path=Path(task.wm_video))
+        parsed = parse_control_judge_output(raw)
+        return {
             "trigger_applied": bool(parsed.get("trigger_applied", False)),
-            "notes":    str(parsed.get("notes", "")).strip(),
-            "raw_text": raw,
+            "notes":           str(parsed.get("notes", "")).strip(),
+            "raw_text":        raw,
         }
 
     n = max(1, ensemble_size)
-    if n > 1:
-        with ThreadPoolExecutor(max_workers=n) as ex:
-            responses = list(ex.map(_single_query, range(n)))
-    else:
-        responses = [_single_query(0)]
+    # All n occlusion queries and n trigger queries run concurrently.
+    with ThreadPoolExecutor(max_workers=n * 2) as ex:
+        occ_futures  = [ex.submit(_occ_query,  i) for i in range(n)]
+        trig_futures = [ex.submit(_trig_query, i) for i in range(n)]
+        occ_responses  = [f.result() for f in occ_futures]
+        trig_responses = [f.result() for f in trig_futures]
 
-    votes_occlusion = sum(1 for r in responses if r["occlusion_done"])
-    votes_trigger   = sum(1 for r in responses if r["trigger_applied"])
+    votes_occlusion = sum(1 for r in occ_responses  if r["occlusion_done"])
+    votes_trigger   = sum(1 for r in trig_responses if r["trigger_applied"])
     occlusion_done  = _ensemble_decide(votes_occlusion, n, ensemble_mode)
     trigger_applied = _ensemble_decide(votes_trigger,   n, ensemble_mode)
 
@@ -313,32 +344,36 @@ def evaluate_control_one_task(
             f"trigger_applied {votes_trigger}/{n}."
         )
     else:
-        notes = responses[0]["notes"]
+        parts = [p for p in (occ_responses[0]["notes"], trig_responses[0]["notes"]) if p]
+        notes = "; ".join(parts)
 
     run_task_dir = Path(task.final_frame).parent  # per_task/<task_id>/
-    report_path = run_task_dir / report_filename
+    report_path  = run_task_dir / report_filename
 
     payload: Dict[str, Any] = {
-        "task_id": task.task_id,
-        "provider": "gemini",
-        "model": model,
-        "wm_video": _path_to_rel(task.wm_video),
-        "video_WM_prompt": video_wm_prompt,
-        "camera_WM_prompt": camera_wm_prompt,
+        "task_id":             task.task_id,
+        "provider":            "gemini",
+        "model":               model,
+        "wm_video":            _path_to_rel(task.wm_video),
+        "video_WM_prompt":     video_wm_prompt,
+        "camera_WM_prompt":    camera_wm_prompt,
         "requested_occlusion": requested_occlusion,
-        "requested_trigger": requested_trigger,
-        "ensemble_size": n,
-        "ensemble_mode": ensemble_mode,
-        "occlusion_done":  occlusion_done,
-        "trigger_applied": trigger_applied,
-        "notes": notes,
-        "prompt": prompt,
-        "raw_text": responses[0]["raw_text"],
+        "requested_trigger":   requested_trigger,
+        "ensemble_size":       n,
+        "ensemble_mode":       ensemble_mode,
+        "occlusion_done":      occlusion_done,
+        "trigger_applied":     trigger_applied,
+        "notes":               notes,
+        "occlusion_prompt":    occlusion_prompt,
+        "occlusion_raw_text":  occ_responses[0]["raw_text"],
+        "trigger_prompt":      trigger_prompt,
+        "trigger_raw_text":    trig_responses[0]["raw_text"],
     }
     if n > 1:
         payload["votes_occlusion_done"]  = votes_occlusion
+        payload["occlusion_responses"]   = occ_responses
         payload["votes_trigger_applied"] = votes_trigger
-        payload["responses"] = responses
+        payload["trigger_responses"]     = trig_responses
     report_path.write_text(json.dumps(payload, indent=2, ensure_ascii=False), encoding="utf-8")
 
     return ControlJudgeResult(
@@ -350,7 +385,7 @@ def evaluate_control_one_task(
         requested_trigger=requested_trigger,
         occlusion_done=occlusion_done,
         trigger_applied=trigger_applied,
-        raw_text=responses[0]["raw_text"],
+        raw_text=occ_responses[0]["raw_text"],
     )
 
 
