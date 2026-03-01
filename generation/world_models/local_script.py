@@ -42,7 +42,25 @@ class LocalScriptRunner(WorldModelRunner):
         self.camera_control_default: Optional[str] = config.get("camera_control_default") or None
         self.n_gpu: Optional[int] = config.get("n_gpu") or None
         self.verbose: bool = bool(config.get("verbose", False))
-        self.batch_script: Optional[str] = config.get("batch_script") or None
+        self.daemon_script: Optional[str] = config.get("daemon_script") or None
+        self.daemon_args: List[str] = list(config.get("daemon_args") or [])
+        self.torchrun_path: str = config.get("torchrun_path") or "torchrun"
+
+    def build_daemon_cmd(self, tasks_json_path: str) -> List[str]:
+        """Return the torchrun command to launch the batch daemon.
+
+        Subclasses may override to append runner-specific flags.
+        The daemon script receives --tasks_json and any extra daemon_args.
+        """
+        if not self.daemon_script:
+            raise RuntimeError(f"[{self.name}] No daemon_script configured.")
+        script_path = self.repo_path / self.daemon_script
+        return [
+            self.torchrun_path,
+            f"--nproc_per_node={self.n_gpu or 1}",
+            str(script_path),
+            "--tasks_json", tasks_json_path,
+        ] + self.daemon_args
 
     def generate(
         self,

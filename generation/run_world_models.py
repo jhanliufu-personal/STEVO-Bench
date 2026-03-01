@@ -197,74 +197,108 @@ def _run_one(
 
 
 # ---------------------------------------------------------------------------
-# Batch local-model run (single torchrun invocation, model loaded once)
+# Daemon batch execution (local models only — loads weights once)
 # ---------------------------------------------------------------------------
 
-def _run_batch_local(
+def _num_frames_from_pose(pose_string: str) -> int:
+    """Compute the number of video frames from a camera pose string.
+
+    Each token has the form 'action-duration' where duration is the number of
+    camera latents.  Total latents are summed, then converted to frames via:
+        num_frames = total_latents * 4 + 1
+
+    Example: "s-3, right-10, left-20, right-10" → 43 latents → 173 frames.
+    """
+    total = 0
+    for token in pose_string.split(","):
+        token = token.strip()
+        if not token:
+            continue
+        parts = token.split("-", 1)
+        if len(parts) != 2:
+            raise ValueError(f"Invalid pose token: '{token}'")
+        total += int(float(parts[1].strip()))
+    return total * 4 + 1
+
+
+def _run_batch_daemon(
     runner,
-    work_queue: List[Tuple],
+    work_queue: List[Tuple[str, dict, Optional[Path], Path]],
     map_path: Path,
     map_lock: Lock,
 ) -> Dict[str, bool]:
-    """Build a tasks JSON and call runner.batch_script once for all tasks."""
-    tasks_data = []
+    """Launch a single daemon subprocess that processes all tasks in one shot.
+
+    The runner must have `daemon_script` set and must implement
+    `build_daemon_cmd(tasks_json_path)`.  Each task entry in the JSON has:
+        task_id, prompt, image (abs path or ""), output (abs path), camera_control.
+    Results are determined by checking whether each output file was created.
+    """
+    tasks_for_daemon = []
     for task_id, task, init_frame, out_path in work_queue:
-        cc = None
+        out_path.parent.mkdir(parents=True, exist_ok=True)
+
+        prompts = task.get("prompts") or {}
+        prompt = (prompts.get(runner.prompt_field) or "").strip()
+
+        camera_control: Optional[str] = None
         if runner.camera_control_field:
             cc = (task.get("camera_control") or {}).get(runner.camera_control_field)
-            if not cc or str(cc).strip().lower() in ("null", "none", ""):
-                cc = runner.camera_control_default
-        if not cc:
-            cc = runner.camera_control_default
-        tasks_data.append({
+            if cc and str(cc).strip().lower() not in ("null", "none", ""):
+                camera_control = str(cc).strip()
+        effective_cc = camera_control or getattr(runner, "camera_control_default", None) or ""
+
+        num_frames: Optional[int] = None
+        if effective_cc:
+            try:
+                num_frames = _num_frames_from_pose(effective_cc)
+            except Exception as e:
+                print(f"[{runner.name}] WARN: could not compute num_frames for '{effective_cc}': {e}")
+
+        tasks_for_daemon.append({
             "task_id": task_id,
-            "init_frame": str(init_frame) if init_frame else None,
-            "camera_control": str(cc).strip() if cc else "",
+            "prompt": prompt,
+            "image": str(init_frame) if (init_frame and init_frame.exists()) else "",
             "output": str(out_path),
+            "camera_control": effective_cc,
+            "num_frames": num_frames,
         })
 
-    with tempfile.NamedTemporaryFile("w", suffix=".json", delete=False) as f:
-        json.dump(tasks_data, f, indent=2)
-        tasks_json_path = f.name
+    with tempfile.NamedTemporaryFile(
+        mode="w", suffix=".json", delete=False, encoding="utf-8"
+    ) as tmp:
+        json.dump(tasks_for_daemon, tmp, indent=2)
+        tasks_json_path = tmp.name
 
-    script_path = runner.repo_path / runner.batch_script
-    cmd = ["bash", str(script_path), "--tasks_json", tasks_json_path]
-    if runner.n_gpu is not None:
-        cmd += ["--n_gpu", str(runner.n_gpu)]
+    try:
+        cmd = runner.build_daemon_cmd(tasks_json_path)
+        print(f"[{runner.name}] Launching daemon ({len(work_queue)} tasks): {' '.join(cmd[:3])} ...")
+        proc = subprocess.run(
+            cmd,
+            cwd=str(runner.repo_path),
+            capture_output=not runner.verbose,
+            text=not runner.verbose,
+        )
+        if not runner.verbose and proc.returncode != 0:
+            if proc.stdout:
+                print(proc.stdout, end="")
+            if proc.stderr:
+                print(proc.stderr, end="")
+        if proc.returncode != 0:
+            print(f"[{runner.name}] Daemon exited with code {proc.returncode}")
+    finally:
+        Path(tasks_json_path).unlink(missing_ok=True)
 
-    print(f"[{runner.name}] Batch: {len(tasks_data)} task(s) → {script_path.name}")
-    result = subprocess.run(
-        cmd,
-        cwd=str(runner.repo_path),
-        capture_output=not runner.verbose,
-        text=not runner.verbose,
-    )
-
-    if not runner.verbose and result.returncode != 0:
-        if result.stdout:
-            print(result.stdout, end="")
-        if result.stderr:
-            print(result.stderr, end="")
-
-    # Read per-task failure details written by gen3c_batch.py
-    failures_path = tasks_json_path.replace(".json", "_failures.json")
-    failed_details: dict = {}
-    if Path(failures_path).exists():
-        with open(failures_path) as f:
-            for entry in json.load(f):
-                failed_details[entry["task_id"]] = entry["error"]
-
+    # Collect results by checking whether each output file was written.
     results: Dict[str, bool] = {}
-    for task_id, _, _, out_path in work_queue:
+    for task_id, _task, _init_frame, out_path in work_queue:
         ok = out_path.exists()
-        results[task_id] = ok
         if ok:
             _update_map(map_path, task_id, out_path.name, map_lock)
             print(f"[{runner.name}] DONE  {task_id}")
         else:
-            error_msg = failed_details.get(task_id, "")
-            print(f"[{runner.name}] FAIL  {task_id}" + (f": {error_msg}" if error_msg else ""))
-
+            print(f"[{runner.name}] FAIL  {task_id}")
+        results[task_id] = ok
     return results
 
 
@@ -306,6 +340,10 @@ def run_model(
 
     if limiter:
         print(f"[{runner.name}] RPM limit: {rpm_limit} requests/min")
+
+    # Daemon path: load weights once, iterate the whole queue in one subprocess.
+    if work_queue and getattr(runner, "daemon_script", None):
+        return _run_batch_daemon(runner, work_queue, map_path, map_lock)
 
     results: Dict[str, bool] = {}
 
