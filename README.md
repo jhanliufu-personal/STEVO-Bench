@@ -1,6 +1,6 @@
 # STEVO-Bench
 
-STEVO-Bench is a benchmark that tests whether video world models can evolve the state of the world regardless of observation. In other words, it tests whether video world models can simulate and continue evolving dynamic processes that are temporarily unobserved. Read our [paper](), blog [post]() and visit our [website]() to see our findings on SOTA video world models!
+STEVO-Bench is a benchmark that tests whether video world models can evolve the state of the world regardless of observation. In other words, it tests whether video world models can simulate and continue evolving dynamic processes that are temporarily unobserved. Read our [paper](), blog [post]() and visit our [website](https://glab-caltech.github.io/STEVOBench/) to see our findings on SOTA video world models!
 
 ---
 
@@ -25,7 +25,7 @@ The benchmark tasks are hosted on HuggingFace. Download them using the HuggingFa
 
 ```bash
 pip install huggingface_hub
-hf download .../StEvo-Bench --repo-type dataset --local-dir benchmark/tasks
+hf download JhanLiufu/StEvo-Bench --repo-type dataset --local-dir benchmark/tasks
 ```
 
 ---
