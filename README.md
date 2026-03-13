@@ -2,7 +2,7 @@
 
 STEVO-Bench is a benchmark that tests whether video world models can evolve the state of the world regardless of observation. In other words, it tests whether video world models can simulate and continue evolving dynamic processes that are temporarily unobserved.
 
-![STEVOBench pipeline](figures/steobench_pipeline.png)
+![STEVOBench pipeline](figures/steobench_pipeline_darkcolor.png)
 
 <p align="center">
   📄 <a href="">Paper</a> &nbsp;|&nbsp;
