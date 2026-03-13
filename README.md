@@ -1,6 +1,8 @@
 # STEVO-Bench
 
-STEVO-Bench is a benchmark that tests whether video world models can evolve the state of the world regardless of observation. In other words, it tests whether video world models can simulate and continue evolving dynamic processes that are temporarily unobserved.
+STEVO-Bench evalutes whether video world models can “simulate” a world beyond the pixel frame. We introduce observation control such as occlusion, camera lookaway or illumination dimming to probe whether video world models can evolve state successfully.
+
+STEVO-Bench includes **225** tasks from **6** different categories, each of which captures a fundamentally distinct mode by which the world changes. The categories span scalar processes that accumulate gradually over time, simple few-object kinematics, irreversible structural or material transformations, and intent-driven behavior of agents etc. Together, they cover the physical, chemical, and social dimensions of world dynamics, providing a comprehensive probe of a model's internal simulation capacity.
 
 ![STEVOBench pipeline](figures/stevobench_pipeline_darkcolor.png)
 
