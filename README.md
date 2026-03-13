@@ -5,7 +5,7 @@ STEVO-Bench is a benchmark that tests whether video world models can evolve the 
 <p align="center">
   📄 <a href="">Paper</a> &nbsp;|&nbsp;
   📝 <a href="">Blog</a> &nbsp;|&nbsp;
-  🌐 <a href="">Website</a> &nbsp;|&nbsp;
+  🌐 <a href="https://glab-caltech.github.io/STEVOBench/">Website</a> &nbsp;|&nbsp;
   🤗 <a href="https://huggingface.co/datasets/JhanLiufu/StEvo-Bench">Dataset</a>
 </p>
 
