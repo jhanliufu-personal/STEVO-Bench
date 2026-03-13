@@ -1,5 +1,7 @@
 # STEVO-Bench
 
+A melting ice cube does not stop melting just because we stop looking at it. Generally, the world evolves regardless of whether we observe it or not.
+
 STEVO-Bench evalutes whether video world models can “simulate” a world beyond the pixel frame. We introduce observation control such as occlusion, camera lookaway or illumination dimming to probe whether video world models can evolve state successfully.
 
 STEVO-Bench includes **225** tasks from **6** different categories, each of which captures a fundamentally distinct mode by which the world changes. The categories span scalar processes that accumulate gradually over time, simple few-object kinematics, irreversible structural or material transformations, and intent-driven behavior of agents etc. Together, they cover the physical, chemical, and social dimensions of world dynamics, providing a comprehensive probe of a model's internal simulation capacity.
