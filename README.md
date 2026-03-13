@@ -23,7 +23,7 @@ cd StEvo-Bench
 pip install -r requirements.txt
 ```
 
-Set your API key for the VLM judge (Gemini is used by default):
+Set your API key for the VLM-based video verifiers (Gemini is used by default):
 ```bash
 export GOOGLE_API_KEY=<your_key_here>
 ```
