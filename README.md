@@ -36,7 +36,7 @@ The benchmark tasks are hosted on HuggingFace. Download them using the HuggingFa
 
 ```bash
 pip install huggingface_hub
-hf download .../StEvo-Bench --repo-type dataset --local-dir benchmark/tasks
+hf download JhanLiufu/StEvo-Bench --repo-type dataset --local-dir benchmark/tasks
 ```
 
 ---
