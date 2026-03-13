@@ -1,6 +1,6 @@
 # STEVO-Bench
 
-A melting ice cube doesn’t pause its decay just because you look away. In the physical world, **state evolution is decoupled from observation** - the gears of reality turn whether they are witnessed or not. To be reliable world simulators, video models must therefore be able to model evolving processes out-of-sight.
+A melting ice cube doesn’t pause its decay just because you look away. In the physical world, **state evolution is decoupled from observation** - the gears of reality turn whether they are witnessed or not. Therefore, to be reliable world simulators, video models must be able to model evolving processes out-of-sight.
 
 **STEVO-Bench probes the unseen**. The benchmark evalutes whether video world models can “simulate” a world beyond the pixel frame. We introduce observation control such as occlusion, camera lookaway or illumination dimming to probe whether video world models can evolve state successfully.
 
