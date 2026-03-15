@@ -10,7 +10,7 @@ STEVO-Bench includes **225** tasks from **6** different categories, each of whic
 
 <p align="center">
   📄 <a href="">Paper</a> &nbsp;|&nbsp;
-  📝 <a href="">Blog</a> &nbsp;|&nbsp;
+  📝 <a href="https://ziqi-ma.github.io/blog/2026/outofsight/">Blog</a> &nbsp;|&nbsp;
   🌐 <a href="https://glab-caltech.github.io/STEVOBench/">Website</a> &nbsp;|&nbsp;
   🤗 <a href="https://huggingface.co/datasets/JhanLiufu/StEvo-Bench">Dataset</a>
 </p>
