@@ -12,18 +12,17 @@ Outputs:
 
 Usage (single run):
     python -m eval.analyze_llm_human_agreement --run_dir runs/my_run --metric occlusion_done
-    python -m eval.analyze_llm_human_agreement --run_dir runs/my_run --metric artifact --level 3
+    python -m eval.analyze_llm_human_agreement --run_dir runs/my_run --metric physical_inaccuracy --level 3
 
 Usage (multiple runs — combined confusion matrix + pairwise agreement):
-    python -m eval.analyze_llm_human_agreement --run_dir runs/run_a runs/run_b runs/run_c --metric artifact
+    python -m eval.analyze_llm_human_agreement --run_dir runs/run_a runs/run_b runs/run_c --metric physical_inaccuracy
     python -m eval.analyze_llm_human_agreement --run_dir runs/run_a runs/run_b --metric state_evol --output cm.png
 
-Supported metrics  (LLM value source             → human value source)
-  occlusion_done   task["occlusion_done"]          task["human_occlusion_done"]
-  trigger_applied  task["trigger_applied"]         task["human_trigger_applied"]
-  artifact         task["artifact"]                task["human_artifact"]
-  coherence        task["coherence"]               task["human_coherence"]
-  state_evol       task["accuracy"] == 1.0         task["human_state_evol"]
+Supported metrics  (LLM value source                    → human value source)
+  occlusion_done      task["occlusion_done"]              task["human_occlusion_done"]
+  trigger_applied     task["trigger_applied"]             task["human_trigger_applied"]
+  physical_inaccuracy task["physical_inaccuracy"]         task["human_physical_inaccuracy"]
+  state_evol          task["accuracy"] == 1.0             task["human_state_evol"]
 
 Only tasks where both the LLM value and the human value are non-null are included.
 """
@@ -44,7 +43,7 @@ import numpy as np
 # Supported metrics
 # ---------------------------------------------------------------------------
 
-SUPPORTED_METRICS = ["occlusion_done", "trigger_applied", "artifact", "coherence", "state_evol"]
+SUPPORTED_METRICS = ["occlusion_done", "trigger_applied", "physical_inaccuracy", "state_evol"]
 
 
 def _get_llm_value(task: dict, metric: str) -> Optional[bool]:

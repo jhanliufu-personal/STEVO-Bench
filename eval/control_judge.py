@@ -1,6 +1,6 @@
 # eval/control_judge.py
 """
-Gemini-only controllability evaluator.
+Controllability evaluator (provider-agnostic).
 
 Input:
 - ResolvedTask (assumes task_resolver already ran)
@@ -23,7 +23,7 @@ import re
 from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Sequence
+from typing import Any, Dict, List, Optional, Sequence, Tuple
 
 from eval.utils import _path_to_rel
 
@@ -45,7 +45,7 @@ def _ensemble_decide(votes_true: int, n: int, mode: str) -> bool:
 
 import yaml
 
-from eval.control_judge_client import make_control_judge_client
+from eval.judge_client import make_judge_client
 from eval.task_resolver import ResolvedTask
 
 
@@ -64,7 +64,7 @@ class ControlJudgeResult:
     raw_text: str
 
 
-def _load_task_fields(task_yaml_path: Path) -> tuple[str, str, str]:
+def _load_task_fields(task_yaml_path: Path) -> Tuple[str, str, str]:
     """Return (video_WM, camera_WM, camera_pose) from the task YAML. Empty string if absent."""
     data = yaml.safe_load(Path(task_yaml_path).read_text(encoding="utf-8")) or {}
     prompts = data.get("prompts", {}) or {}
@@ -129,7 +129,7 @@ def _compute_requested_fields(
     camera_wm: str,
     camera_pose: str,
     camera_controlled: bool = False,
-) -> tuple[str, str]:
+) -> Tuple[str, str]:
     """Compute (requested_trigger, requested_occlusion) from task prompt fields.
 
     Args:
@@ -289,17 +289,18 @@ def parse_control_judge_output(raw_text: str) -> Dict[str, Any]:
 def evaluate_control_one_task(
     task: ResolvedTask,
     *,
+    provider: str = "gemini",
     model: str = "gemini-3.1-pro-preview",
     report_filename: str = "control_report.json",
     camera_controlled: bool = False,
     ensemble_size: int = 1,
     ensemble_mode: str = "majority",
 ) -> ControlJudgeResult:
+    print(f"[control_judge] task={task.task_id}  provider={provider!r}  model={model!r}")
+
     # Two independent clients — one per judge so they can run fully in parallel.
-    occ_client  = make_control_judge_client(model=model)
-    trig_client = make_control_judge_client(model=model)
-    print(f"[control_judge] occ_client:  provider={occ_client.provider!r}  model={occ_client.model!r}")
-    print(f"[control_judge] trig_client: provider={trig_client.provider!r}  model={trig_client.model!r}")
+    occ_client  = make_judge_client(model=model, provider=provider)
+    trig_client = make_judge_client(model=model, provider=provider)
 
     video_wm_prompt, camera_wm_prompt, camera_pose = _load_task_fields(Path(task.task_yaml))
     requested_trigger, requested_occlusion = _compute_requested_fields(
@@ -354,7 +355,7 @@ def evaluate_control_one_task(
 
     payload: Dict[str, Any] = {
         "task_id":             task.task_id,
-        "provider":            "gemini",
+        "provider":            occ_client.provider,
         "model":               model,
         "wm_video":            _path_to_rel(task.wm_video),
         "video_WM_prompt":     video_wm_prompt,
@@ -380,7 +381,7 @@ def evaluate_control_one_task(
 
     return ControlJudgeResult(
         task_id=task.task_id,
-        provider="gemini",
+        provider=occ_client.provider,
         model=model,
         report_path=str(report_path),
         requested_occlusion=requested_occlusion,
@@ -394,6 +395,7 @@ def evaluate_control_one_task(
 def evaluate_control_all_tasks(
     tasks: Sequence[ResolvedTask],
     *,
+    provider: str = "gemini",
     model: str = "gemini-3-pro-preview",
     report_filename: str = "control_report.json",
     ensemble_size: int = 1,
@@ -404,6 +406,7 @@ def evaluate_control_all_tasks(
         out.append(
             evaluate_control_one_task(
                 t,
+                provider=provider,
                 model=model,
                 report_filename=report_filename,
                 ensemble_size=ensemble_size,
@@ -413,21 +416,23 @@ def evaluate_control_all_tasks(
     return out
 
 
-def append_control_results_to_summary(tasks: List[ResolvedTask]) -> None:
+def append_control_results_to_summary(
+    tasks: List[ResolvedTask],
+    *,
+    judge_slug: str,
+    report_filename: str,
+) -> None:
     """
     For each task in the same run:
-      - Load control_report.json from per-task folder
-      - Insert occlusion_done and trigger_applied into the corresponding
-        task entry in summary.json
+      - Load the judge-tagged control report (report_filename) from the per-task folder
+      - Insert occlusion_done and trigger_applied into summary.json under
+        task["llm_evals"][judge_slug]
 
     Assumes all tasks belong to the same run.
     """
-
     if not tasks:
         return
 
-    # Infer run_dir from first task
-    # per_task/<task_id>/... → go up two levels
     first_task_dir = Path(tasks[0].final_frame).parent
     run_dir = first_task_dir.parent.parent
     summary_path = run_dir / "summary.json"
@@ -436,33 +441,27 @@ def append_control_results_to_summary(tasks: List[ResolvedTask]) -> None:
         raise FileNotFoundError(f"summary.json not found: {summary_path}")
 
     summary = json.loads(summary_path.read_text(encoding="utf-8"))
-
     if "tasks" not in summary or not isinstance(summary["tasks"], list):
         raise ValueError("summary.json does not contain valid 'tasks' list.")
 
-    # Build quick lookup for task entries
     task_entries = {t["task_id"]: t for t in summary["tasks"] if "task_id" in t}
 
     for task in tasks:
         task_id = task.task_id
         run_task_dir = Path(task.final_frame).parent
-        control_report_path = run_task_dir / "control_report.json"
+        report_path = run_task_dir / report_filename
 
-        if not control_report_path.exists():
-            continue  # skip if no control report
-
-        control_data = json.loads(control_report_path.read_text(encoding="utf-8"))
-
-        occlusion_done = bool(control_data.get("occlusion_done", False))
-        trigger_applied = bool(control_data.get("trigger_applied", False))
-
-        if task_id not in task_entries:
+        if not report_path.exists() or task_id not in task_entries:
             continue
 
-        task_entries[task_id]["occlusion_done"] = occlusion_done
-        task_entries[task_id]["trigger_applied"] = trigger_applied
+        data = json.loads(report_path.read_text(encoding="utf-8"))
+        occlusion_done  = bool(data.get("occlusion_done", False))
+        trigger_applied = bool(data.get("trigger_applied", False))
 
-    # Write updated summary
+        ev = task_entries[task_id].setdefault("llm_evals", {}).setdefault(judge_slug, {})
+        ev["occlusion_done"]  = occlusion_done
+        ev["trigger_applied"] = trigger_applied
+
     summary_path.write_text(
         json.dumps(summary, indent=2, ensure_ascii=False),
         encoding="utf-8",

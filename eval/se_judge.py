@@ -1,15 +1,15 @@
 # eval/se_judge.py
 """
-Two-step state-evolution (SE) judge.
+Two-step state-evolution (SE) judge (provider-agnostic).
 
 Step 1 — predict:
   Given the task's initial frame image and optional trigger prompt (camera_WM),
-  call Gemini to predict what physical process should occur and produce a
-  one-sentence concise description.
+  call the judge VLM to predict what physical process should occur and produce
+  a one-sentence concise description.
 
 Step 2 — verify (ensemble-able):
-  Given the WM output video and the predicted process, call Gemini to verify
-  whether the process actually happened during the occlusion / camera movement.
+  Given the WM output video and the predicted process, call the judge VLM to
+  verify whether the process actually happened during the occlusion / camera movement.
 
 Prompts and decision logic match eval/eval_se/gemini_evaluator.py.
 
@@ -27,7 +27,7 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional, Sequence
 
 from eval.control_judge import _load_task_fields, _ensemble_decide
-from eval.control_judge_client import make_control_judge_client
+from eval.judge_client import make_judge_client
 from eval.task_resolver import ResolvedTask
 from eval.utils import _path_to_rel
 
@@ -163,13 +163,14 @@ def build_se_verify_prompt(expected_process: str, camera_controlled: bool) -> st
 def evaluate_se_one_task(
     task: ResolvedTask,
     *,
+    provider: str = "gemini",
     model: str = "gemini-3-pro-preview",
     report_filename: str = "se_report.json",
     camera_controlled: bool = False,
     ensemble_size: int = 1,
     ensemble_mode: str = "majority",
 ) -> SEJudgeResult:
-    client = make_control_judge_client(model=model)
+    client = make_judge_client(model=model, provider=provider)
 
     # Load camera_WM as the trigger-action context for step 1 prediction.
     # For image_implied tasks camera_WM is empty → action_prompt=None (image-only prediction).
@@ -216,7 +217,7 @@ def evaluate_se_one_task(
 
     payload: Dict[str, Any] = {
         "task_id":                    task.task_id,
-        "provider":                   "gemini",
+        "provider":                   client.provider,
         "model":                      model,
         "wm_video":                   _path_to_rel(task.wm_video),
         "action_prompt":              action_prompt,
@@ -239,7 +240,7 @@ def evaluate_se_one_task(
 
     return SEJudgeResult(
         task_id=task.task_id,
-        provider="gemini",
+        provider=client.provider,
         model=model,
         report_path=str(report_path),
         state_evol=state_evol,
@@ -255,12 +256,13 @@ def evaluate_se_one_task(
 def append_se_results_to_summary(
     tasks: List[ResolvedTask],
     *,
-    report_filename: str = "se_report.json",
+    judge_slug: str,
+    report_filename: str,
 ) -> None:
     """
     For each task in the same run:
-      - Load se_report.json from per-task folder
-      - Insert state_evol into the corresponding task entry in summary.json
+      - Load the judge-tagged SE report (report_filename) from the per-task folder
+      - Insert state_evol into summary.json under task["llm_evals"][judge_slug]
 
     Assumes all tasks belong to the same run.
     """
@@ -285,7 +287,8 @@ def append_se_results_to_summary(
         if not report_path.exists() or task.task_id not in task_entries:
             continue
         data = json.loads(report_path.read_text(encoding="utf-8"))
-        task_entries[task.task_id]["state_evol"] = bool(data.get("state_evol", False))
+        ev = task_entries[task.task_id].setdefault("llm_evals", {}).setdefault(judge_slug, {})
+        ev["state_evol"] = bool(data.get("state_evol", False))
 
     summary_path.write_text(
         json.dumps(summary, indent=2, ensure_ascii=False), encoding="utf-8"

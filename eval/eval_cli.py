@@ -11,14 +11,27 @@ from eval.control_judge import (
     evaluate_control_one_task, append_control_results_to_summary,
     _load_task_fields, _compute_requested_fields,
 )
-from eval.quality_judge import (
-    evaluate_artifact_one_task, append_artifact_results_to_summary, ArtifactJudgeResult,
-    evaluate_coherence_one_task, append_coherence_results_to_summary, CoherenceJudgeResult,
+# from eval.__quality_judge import (  # OBSOLETE: replaced by physics_judge
+#     evaluate_artifact_one_task, append_artifact_results_to_summary, ArtifactJudgeResult,
+#     evaluate_coherence_one_task, append_coherence_results_to_summary, CoherenceJudgeResult,
+# )
+from eval.physics_judge import (
+    evaluate_physics_one_task, append_physics_results_to_summary, PhysicsJudgeResult,
 )
 from eval.control_judge import ControlJudgeResult
 from eval.se_judge import (
     evaluate_se_one_task, append_se_results_to_summary, SEJudgeResult,
 )
+
+
+def _make_judge_slug(provider: str, model: str) -> str:
+    """Stable filesystem-safe identifier for a (provider, model) pair."""
+    return f"{provider}__{model.replace('.', '-')}"
+
+
+def _report_filename(report_type: str, judge_slug: str) -> str:
+    """Return the per-task report filename for this judge."""
+    return f"{report_type}_report__{judge_slug}.json"
 
 
 def _init_summary_json(resolved_tasks: List[ResolvedTask], run_root: Path) -> None:
@@ -80,7 +93,7 @@ def _write_init_stubs(
         task_dir = per_task_root / task.task_id
         task_dir.mkdir(parents=True, exist_ok=True)
 
-        # Pre-compute task prompt fields once; used by both control and coherence stubs.
+        # Pre-compute task prompt fields once; used by both control and physics stubs.
         try:
             video_wm, camera_wm, camera_pose = _load_task_fields(task.task_yaml)
             requested_trigger, requested_occlusion = _compute_requested_fields(
@@ -108,28 +121,17 @@ def _write_init_stubs(
             }
             cr_path.write_text(json.dumps(cr, indent=2, ensure_ascii=False), encoding="utf-8")
 
-        # artifact_report.json — skeleton matching evaluate_artifact_one_task output
-        ar_path = task_dir / "artifact_report.json"
-        if not ar_path.exists():
-            ar = {
-                "task_id":  task.task_id,
-                "wm_video": _path_to_rel(task.wm_video),
-                "artifact": None,
-                "notes":    "",
-            }
-            ar_path.write_text(json.dumps(ar, indent=2, ensure_ascii=False), encoding="utf-8")
-
-        # coherence_report.json — skeleton matching evaluate_coherence_one_task output
-        cohr_path = task_dir / "coherence_report.json"
-        if not cohr_path.exists():
-            cohr = {
+        # physics_report.json — skeleton matching evaluate_physics_one_task output
+        phys_path = task_dir / "physics_report.json"
+        if not phys_path.exists():
+            phys = {
                 "task_id":             task.task_id,
                 "wm_video":            _path_to_rel(task.wm_video),
                 "requested_occlusion": requested_occlusion,
-                "coherence":           None,
+                "physical_inaccuracy": None,
                 "notes":               "",
             }
-            cohr_path.write_text(json.dumps(cohr, indent=2, ensure_ascii=False), encoding="utf-8")
+            phys_path.write_text(json.dumps(phys, indent=2, ensure_ascii=False), encoding="utf-8")
 
         # se_report.json — skeleton matching evaluate_se_one_task output
         se_path = task_dir / "se_report.json"
@@ -149,22 +151,23 @@ def _eval_one_task(
     provider: str,
     judge_model: str,
     control_model: str,
-    quality_model: str,
+    physics_model: str,
     se_model: str,
+    control_report_fn: str,
+    physics_report_fn: str,
+    se_report_fn: str,
     run_control: bool = True,
-    run_artifact: bool = True,
-    run_coherence: bool = True,
+    run_physics: bool = True,
     run_state: bool = True,
     camera_controlled: bool = False,
     ensemble_size: int = 1,
     ensemble_mode: str = "majority",
-) -> Tuple[None, Optional[ControlJudgeResult], Optional[ArtifactJudgeResult], Optional[CoherenceJudgeResult], Optional[SEJudgeResult]]:
-    judge_result     = None  # binary judge questions (judge_report.json) are obsolete
-    control_result   = evaluate_control_one_task(task, model=control_model, camera_controlled=camera_controlled, ensemble_size=ensemble_size, ensemble_mode=ensemble_mode) if run_control else None
-    artifact_result  = evaluate_artifact_one_task(task, model=quality_model, camera_controlled=camera_controlled, ensemble_size=ensemble_size, ensemble_mode=ensemble_mode) if run_artifact else None
-    coherence_result = evaluate_coherence_one_task(task, model=quality_model, camera_controlled=camera_controlled, ensemble_size=ensemble_size, ensemble_mode=ensemble_mode) if run_coherence else None
-    se_result        = evaluate_se_one_task(task, model=se_model, camera_controlled=camera_controlled, ensemble_size=ensemble_size, ensemble_mode=ensemble_mode) if run_state else None
-    return judge_result, control_result, artifact_result, coherence_result, se_result
+) -> Tuple[None, Optional[ControlJudgeResult], Optional[PhysicsJudgeResult], Optional[SEJudgeResult]]:
+    judge_result   = None  # binary judge questions (judge_report.json) are obsolete
+    control_result = evaluate_control_one_task(task, provider=provider, model=control_model, report_filename=control_report_fn, camera_controlled=camera_controlled, ensemble_size=ensemble_size, ensemble_mode=ensemble_mode) if run_control else None
+    physics_result = evaluate_physics_one_task(task, provider=provider, model=physics_model, report_filename=physics_report_fn, camera_controlled=camera_controlled, ensemble_size=ensemble_size, ensemble_mode=ensemble_mode) if run_physics else None
+    se_result      = evaluate_se_one_task(task, provider=provider, model=se_model, report_filename=se_report_fn, camera_controlled=camera_controlled, ensemble_size=ensemble_size, ensemble_mode=ensemble_mode) if run_state else None
+    return judge_result, control_result, physics_result, se_result
 
 
 def main() -> None:
@@ -204,10 +207,10 @@ def main() -> None:
         help="Name of the control judge model."
     )
     parser.add_argument(
-        "--quality_judge_model",
+        "--physics_judge_model",
         default="gemini-3.1-pro-preview",
         type=str,
-        help="Name of the quality judge model (artifact and coherence detectors).",
+        help="Name of the physics judge model (physical inaccuracy detector).",
     )
     parser.add_argument(
         "--se_judge_model",
@@ -254,15 +257,13 @@ def main() -> None:
         help="Run the control judge (control_report).",
     )
     parser.add_argument(
-        "--artifact",
+        "--physics",
         action="store_true",
-        help="Run the artifact quality judge (artifact_report).",
+        help="Run the physics judge (physics_report).",
     )
-    parser.add_argument(
-        "--coherence",
-        action="store_true",
-        help="Run the coherence quality judge (coherence_report).",
-    )
+    # --artifact and --coherence are OBSOLETE; replaced by --physics
+    # parser.add_argument("--artifact", ...)
+    # parser.add_argument("--coherence", ...)
     parser.add_argument(
         "--state",
         action="store_true",
@@ -283,7 +284,7 @@ def main() -> None:
             "'majority': strict majority (ties go False). "
             "'unanimous': True only if ALL members vote True; default False. "
             "'unanimous_true': False only if ALL members vote False; default True "
-            "(use for judges where false-negatives dominate, e.g. coherence). "
+            "(use for judges where false-negatives dominate, e.g. physics). "
             "Default: majority."
         ),
     )
@@ -298,12 +299,20 @@ def main() -> None:
     )
     args = parser.parse_args()
 
-    any_selected = args.control or args.artifact or args.coherence or args.state
-    run_judge     = False  # binary judge questions (judge_report.json) are obsolete
-    run_control   = args.control   or not any_selected
-    run_artifact  = args.artifact  or not any_selected
-    run_coherence = args.coherence or not any_selected
-    run_state     = args.state     or not any_selected
+    any_selected = args.control or args.physics or args.state
+    run_judge   = False  # binary judge questions (judge_report.json) are obsolete
+    run_control = args.control or not any_selected
+    run_physics = args.physics or not any_selected
+    run_state   = args.state   or not any_selected
+
+    # Judge slugs uniquely identify (provider, model) pairs in filenames and summary.json.
+    control_slug = _make_judge_slug(args.judge_vlm_provider, args.control_judge_model)
+    physics_slug = _make_judge_slug(args.judge_vlm_provider, args.physics_judge_model)
+    se_slug      = _make_judge_slug(args.judge_vlm_provider, args.se_judge_model)
+
+    control_report_fn = _report_filename("control", control_slug)
+    physics_report_fn = _report_filename("physics", physics_slug)
+    se_report_fn      = _report_filename("se",      se_slug)
 
     # ---------------------------------------------------------------------------
     # Build eval run directory
@@ -367,8 +376,8 @@ def main() -> None:
     if args.init:
         _write_init_stubs(resolved_tasks, per_task_root, camera_controlled=camera_controlled)
         print(f"[DONE] Initialized {len(resolved_tasks)} task(s) in: {run_root}")
-        print(f"       summary.json, judge_report.json, control_report.json, artifact_report.json and coherence_report.json stubs written.")
-        print(f"       Start human_eval_server.py to begin human evaluation.")
+        print(f"summary.json, judge_report.json, control_report.json, physics_report.json and se_report.json stubs written.")
+        print(f"Start human_eval_server.py to begin human evaluation.")
         return
 
     # Keep the full list for the summary-append step at the end.
@@ -391,15 +400,13 @@ def main() -> None:
         pending, skipped = [], 0
         for task in resolved_tasks:
             task_dir = per_task_root / task.task_id
-            control_done   = _report_evaluated(task_dir / "control_report.json",  "occlusion_done", "trigger_applied")
-            artifact_done  = _report_evaluated(task_dir / "artifact_report.json", "artifact")
-            coherence_done = _report_evaluated(task_dir / "coherence_report.json", "coherence")
-            se_done        = _report_evaluated(task_dir / "se_report.json",        "state_evol")
+            control_done = _report_evaluated(task_dir / control_report_fn, "occlusion_done", "trigger_applied")
+            physics_done = _report_evaluated(task_dir / physics_report_fn, "physical_inaccuracy")
+            se_done      = _report_evaluated(task_dir / se_report_fn, "state_evol")
             already_done = (
-                (run_control   and control_done   or not run_control) and
-                (run_artifact  and artifact_done  or not run_artifact) and
-                (run_coherence and coherence_done or not run_coherence) and
-                (run_state     and se_done        or not run_state)
+                (run_control and control_done or not run_control) and
+                (run_physics and physics_done or not run_physics) and
+                (run_state   and se_done      or not run_state)
             )
             if already_done:
                 skipped += 1
@@ -414,8 +421,7 @@ def main() -> None:
     # ---------------------------------------------------------------------------
     # judge_results: List[JudgeResult] = []  # OBSOLETE: binary judge questions
     control_results: List[ControlJudgeResult] = []
-    artifact_results: List[ArtifactJudgeResult] = []
-    coherence_results: List[CoherenceJudgeResult] = []
+    physics_results: List[PhysicsJudgeResult] = []
     se_results: List[SEJudgeResult] = []
     failed = 0
 
@@ -427,11 +433,13 @@ def main() -> None:
                 provider=args.judge_vlm_provider,
                 judge_model=args.judge_vlm_model,
                 control_model=args.control_judge_model,
-                quality_model=args.quality_judge_model,
+                physics_model=args.physics_judge_model,
                 se_model=args.se_judge_model,
+                control_report_fn=control_report_fn,
+                physics_report_fn=physics_report_fn,
+                se_report_fn=se_report_fn,
                 run_control=run_control,
-                run_artifact=run_artifact,
-                run_coherence=run_coherence,
+                run_physics=run_physics,
                 run_state=run_state,
                 camera_controlled=camera_controlled,
                 ensemble_size=args.ensemble_size,
@@ -442,11 +450,10 @@ def main() -> None:
         for future in as_completed(futures):
             task = futures[future]
             try:
-                jr, cr, ar, cohr, ser = future.result()
+                jr, cr, phys, ser = future.result()
                 # if jr is not None: judge_results.append(jr)  # OBSOLETE
                 if cr   is not None: control_results.append(cr)
-                if ar   is not None: artifact_results.append(ar)
-                if cohr is not None: coherence_results.append(cohr)
+                if phys is not None: physics_results.append(phys)
                 if ser  is not None: se_results.append(ser)
             except Exception as e:
                 print(f"[ERROR] {task.task_id}: {e}")
@@ -460,18 +467,15 @@ def main() -> None:
     # control_report.json are also merged into summary.json.
     # ---------------------------------------------------------------------------
     if run_control:
-        append_control_results_to_summary(tasks=all_resolved_tasks)
+        append_control_results_to_summary(tasks=all_resolved_tasks, judge_slug=control_slug, report_filename=control_report_fn)
         print(f"[DONE] Controllability evaluation done")
 
-    if run_artifact:
-        append_artifact_results_to_summary(tasks=all_resolved_tasks)
-        print(f"[DONE] Artifact evaluation done")
-    if run_coherence:
-        append_coherence_results_to_summary(tasks=all_resolved_tasks)
-        print(f"[DONE] Coherence evaluation done")
+    if run_physics:
+        append_physics_results_to_summary(tasks=all_resolved_tasks, judge_slug=physics_slug, report_filename=physics_report_fn)
+        print(f"[DONE] Physics evaluation done")
 
     if run_state:
-        append_se_results_to_summary(tasks=all_resolved_tasks)
+        append_se_results_to_summary(tasks=all_resolved_tasks, judge_slug=se_slug, report_filename=se_report_fn)
         print(f"[DONE] State evolution evaluation done")
 
     return

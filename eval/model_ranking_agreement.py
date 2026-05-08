@@ -30,7 +30,7 @@ import numpy as np
 import pandas as pd
 
 
-METRICS = ["state_evol", "artifact", "coherence", "task_success",
+METRICS = ["state_evol", "physical_inaccuracy", "task_success",
            "occlusion_done", "trigger_applied", "control_success"]
 
 

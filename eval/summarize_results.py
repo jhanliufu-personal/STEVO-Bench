@@ -4,23 +4,25 @@ Post-pipeline script: computes per-level breakdown statistics and writes them
 back into the by_level and overall sections of summary.json.
 
 Also annotates each task entry in-place with derived fields:
-  - Top-level (LLM):       control_success, task_success
+  - Top-level (LLM):       control_success, task_success  (inside llm_evals[judge])
   - Per-annotator (human): control_success, task_success
 
 Run after the eval pipeline:
-    python -m eval.summarize_results --run_dir runs/my_run
-    python -m eval.summarize_results --run_dir runs/my_run --print_llm
-    python -m eval.summarize_results --run_dir runs/my_run --print_llm --print_human
+    python -m eval.summarize_results --run_dir runs/my_run --judge gemini__gemini-3-1-pro-preview
+    python -m eval.summarize_results --run_dir runs/my_run --judge gemini__gemini-3-1-pro-preview --print_llm
+    python -m eval.summarize_results --run_dir runs/my_run --judge gemini__gemini-3-1-pro-preview --print_llm --print_human
 
-Stats added to each level in by_level, and to overall:
+If --judge is omitted, the script will auto-detect the judge from available llm_evals keys
+(works when only one judge has been run). Falls back to legacy flat fields for old runs.
+
+Stats added to each level in by_level[judge] and overall[judge]:
   num_tasks              : number of tasks in the group
   avg_occlusion_done     : fraction of tasks where occlusion was successfully applied (LLM) [Observation]
   avg_trigger_applied    : fraction of tasks where the trigger was applied (LLM) [Action]
-  avg_artifact           : fraction of tasks where obvious visual artifacts are present (LLM) [Physics]
-  avg_coherence          : fraction of tasks where video is coherent (LLM) [Coherence]
+  avg_physical_inaccuracy : fraction of tasks where a physical inaccuracy was detected (LLM)
   avg_control_success    : fraction of tasks where occlusion_done AND trigger_applied (LLM)
   avg_state_evol_success : fraction of tasks where state_evol=True (LLM) [State Progress]
-  avg_task_success       : fraction of tasks where state_evol=True AND coherence=True AND artifact=False (LLM)
+  avg_task_success       : fraction of tasks where state_evol=True AND physical_inaccuracy=False (LLM)
 
 Tasks missing the relevant fields are excluded from those averages.
 """
@@ -36,66 +38,82 @@ def _avg(values: List[float]) -> float | None:
     return sum(values) / len(values) if values else None
 
 
-def _annotate_task(t: Dict[str, Any]) -> None:
-    """Write control_success and task_success into task top-level (LLM) and
-    into each task["annotations"][name] dict (per annotator)."""
+def _get_task_fields(t: Dict[str, Any], judge: Optional[str]) -> Dict[str, Any]:
+    """
+    Return the metric dict for task t under the given judge.
 
-    # ── LLM fields (top-level) ────────────────────────────────────────────────
-    occ  = t.get("occlusion_done")
-    trig = t.get("trigger_applied")
-    art  = t.get("artifact")
-    se   = t.get("state_evol")
+    With the new nested format, values live in t["llm_evals"][judge].
+    For backward compat with old flat-field runs (no llm_evals key), fall back
+    to reading directly from t.
+    """
+    if judge and "llm_evals" in t:
+        return t["llm_evals"].get(judge, {})
+    # Legacy flat format
+    return t
+
+
+def _annotate_task(t: Dict[str, Any], judge: Optional[str]) -> None:
+    """Write control_success and task_success into the judge's eval dict
+    and into each task["annotations"][name] dict (per annotator)."""
+
+    # ── LLM fields (nested under judge) ──────────────────────────────────────
+    ev = _get_task_fields(t, judge)
+
+    occ  = ev.get("occlusion_done")
+    trig = ev.get("trigger_applied")
+    pi   = ev.get("physical_inaccuracy")
+    se   = ev.get("state_evol")
 
     if occ is not None and trig is not None:
-        t["control_success"] = bool(occ) and bool(trig)
-    coh = t.get("coherence")
-    if se is not None and art is not None and coh is not None:
-        t["task_success"] = bool(se) and bool(coh) and not bool(art)
+        ev["control_success"] = bool(occ) and bool(trig)
+    if se is not None and pi is not None:
+        ev["task_success"] = bool(se) and not bool(pi)
+
+    # When using nested format, write derived fields back into the nested dict.
+    if judge and "llm_evals" in t and judge in t["llm_evals"]:
+        t["llm_evals"][judge] = ev
 
     # ── Per-annotator fields ──────────────────────────────────────────────────
     for ann in t.get("annotations", {}).values():
-        a_occ  = ann.get("occlusion_done")
+        a_occ = ann.get("occlusion_done")
         a_trig = ann.get("trigger_applied")
-        a_art  = ann.get("artifact")
-        a_se   = ann.get("state_evol")
-        a_coh  = ann.get("coherence")
+        a_pi  = ann.get("physical_inaccuracy")
+        a_se  = ann.get("state_evol")
 
         if a_occ is not None and a_trig is not None:
             ann["control_success"] = bool(a_occ) and bool(a_trig)
-        if a_se is not None and a_art is not None and a_coh is not None:
-            ann["task_success"] = bool(a_se) and bool(a_coh) and not bool(a_art)
+        if a_se is not None and a_pi is not None:
+            ann["task_success"] = bool(a_se) and not bool(a_pi)
 
 
 def _empty_buckets() -> Dict[str, List]:
     return {
-        "occlusion_done":     [],
-        "trigger_applied":    [],
-        "artifact":           [],
-        "coherence":          [],
-        "control_success":    [],
-        "state_evol_success": [],
-        "task_success":       [],
+        "occlusion_done":      [],
+        "trigger_applied":     [],
+        "physical_inaccuracy": [],
+        "control_success":     [],
+        "state_evol_success":  [],
+        "task_success":        [],
     }
 
 
-def _fill_bucket(bucket: Dict[str, List], t: Dict[str, Any]) -> None:
+def _fill_bucket(bucket: Dict[str, List], t: Dict[str, Any], judge: Optional[str]) -> None:
     """Accumulate one task entry into a bucket dict (LLM metrics only)."""
-    occlusion_done  = t.get("occlusion_done")
-    trigger_applied = t.get("trigger_applied")
-    artifact        = t.get("artifact")
-    coherence       = t.get("coherence")
-    state_evol      = t.get("state_evol")
-    control_success = t.get("control_success")
-    task_success    = t.get("task_success")
+    ev = _get_task_fields(t, judge)
+
+    occlusion_done     = ev.get("occlusion_done")
+    trigger_applied    = ev.get("trigger_applied")
+    physical_inaccuracy = ev.get("physical_inaccuracy")
+    state_evol         = ev.get("state_evol")
+    control_success    = ev.get("control_success")
+    task_success       = ev.get("task_success")
 
     if occlusion_done is not None:
         bucket["occlusion_done"].append(1.0 if occlusion_done else 0.0)
     if trigger_applied is not None:
         bucket["trigger_applied"].append(1.0 if trigger_applied else 0.0)
-    if artifact is not None:
-        bucket["artifact"].append(1.0 if artifact else 0.0)
-    if coherence is not None:
-        bucket["coherence"].append(1.0 if coherence else 0.0)
+    if physical_inaccuracy is not None:
+        bucket["physical_inaccuracy"].append(1.0 if physical_inaccuracy else 0.0)
     if control_success is not None:
         bucket["control_success"].append(1.0 if control_success else 0.0)
     if state_evol is not None:
@@ -106,22 +124,21 @@ def _fill_bucket(bucket: Dict[str, List], t: Dict[str, Any]) -> None:
 
 def _bucket_to_stats(bucket: Dict[str, List], num_tasks: int) -> Dict[str, Any]:
     return {
-        "num_tasks":              num_tasks,
-        "avg_occlusion_done":     _avg(bucket["occlusion_done"]),
-        "avg_trigger_applied":    _avg(bucket["trigger_applied"]),
-        "avg_artifact":           _avg(bucket["artifact"]),
-        "avg_coherence":          _avg(bucket["coherence"]),
-        "avg_control_success":    _avg(bucket["control_success"]),
-        "avg_state_evol_success": _avg(bucket["state_evol_success"]),
-        "avg_task_success":       _avg(bucket["task_success"]),
+        "num_tasks":               num_tasks,
+        "avg_occlusion_done":      _avg(bucket["occlusion_done"]),
+        "avg_trigger_applied":     _avg(bucket["trigger_applied"]),
+        "avg_physical_inaccuracy": _avg(bucket["physical_inaccuracy"]),
+        "avg_control_success":     _avg(bucket["control_success"]),
+        "avg_state_evol_success":  _avg(bucket["state_evol_success"]),
+        "avg_task_success":        _avg(bucket["task_success"]),
     }
 
 
-def _stats_for_tasks(tasks: List[Dict[str, Any]]) -> Dict[str, Any]:
+def _stats_for_tasks(tasks: List[Dict[str, Any]], judge: Optional[str]) -> Dict[str, Any]:
     """Compute aggregate stats for an arbitrary list of task entries."""
     bucket = _empty_buckets()
     for t in tasks:
-        _fill_bucket(bucket, t)
+        _fill_bucket(bucket, t, judge)
     return _bucket_to_stats(bucket, len(tasks))
 
 
@@ -143,13 +160,12 @@ def _fill_bucket_human(bucket: Dict[str, List], t: Dict[str, Any]) -> None:
         return
     # (annotation key, bucket key)
     fields = [
-        ("occlusion_done",  "occlusion_done"),
-        ("trigger_applied", "trigger_applied"),
-        ("artifact",        "artifact"),
-        ("coherence",       "coherence"),
-        ("control_success", "control_success"),
-        ("state_evol",      "state_evol_success"),
-        ("task_success",    "task_success"),
+        ("occlusion_done",     "occlusion_done"),
+        ("trigger_applied",    "trigger_applied"),
+        ("physical_inaccuracy", "physical_inaccuracy"),
+        ("control_success",    "control_success"),
+        ("state_evol",         "state_evol_success"),
+        ("task_success",       "task_success"),
     ]
     for ann_key, bucket_key in fields:
         vals = [ann[ann_key] for ann in anns if ann_key in ann]
@@ -168,6 +184,7 @@ def _stats_for_tasks_human(tasks: List[Dict[str, Any]]) -> Dict[str, Any]:
 
 def compute_level_stats(
     tasks: List[Dict[str, Any]],
+    judge: Optional[str],
 ) -> Tuple[Dict[str, Dict[str, Any]], Dict[str, Any]]:
     """
     Compute per-level and overall breakdown stats.
@@ -186,9 +203,9 @@ def compute_level_stats(
         level = str(t.get("task_level", ""))
         if not level:
             continue
-        _fill_bucket(level_buckets[level], t)
+        _fill_bucket(level_buckets[level], t, judge)
         level_counts[level] += 1
-        _fill_bucket(overall_bucket, t)
+        _fill_bucket(overall_bucket, t, judge)
         overall_count += 1
 
     level_stats = {
@@ -200,6 +217,16 @@ def compute_level_stats(
     return level_stats, overall_stats
 
 
+def _detect_judge(tasks: List[Dict[str, Any]]) -> Optional[str]:
+    """Auto-detect the judge slug when exactly one judge appears in llm_evals."""
+    judges: set = set()
+    for t in tasks:
+        judges.update(t.get("llm_evals", {}).keys())
+    if len(judges) == 1:
+        return next(iter(judges))
+    return None
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(
         description="Compute per-level breakdown stats and write them into summary.json."
@@ -209,6 +236,15 @@ def main() -> None:
         required=True,
         type=str,
         help="Path to the eval run directory containing summary.json.",
+    )
+    parser.add_argument(
+        "--judge",
+        default=None,
+        type=str,
+        help=(
+            "Judge slug to summarize (e.g. 'gemini__gemini-3-1-pro-preview' or "
+            "'openai__gpt-4o'). Auto-detected when only one judge is present."
+        ),
     )
     parser.add_argument(
         "--print_llm",
@@ -234,22 +270,42 @@ def main() -> None:
     if not tasks:
         raise ValueError("summary.json contains no tasks.")
 
-    # Annotate each task with derived control_success / task_success fields
-    # (written into top-level LLM fields and each annotation entry).
+    # Determine which judge to summarize.
+    judge = args.judge
+    if judge is None:
+        judge = _detect_judge(tasks)
+        if judge:
+            print(f"[INFO] Auto-detected judge: {judge}")
+        else:
+            any_nested = any("llm_evals" in t for t in tasks)
+            if any_nested:
+                available = sorted({k for t in tasks for k in t.get("llm_evals", {})})
+                raise ValueError(
+                    f"Multiple judges found in llm_evals; specify --judge. "
+                    f"Available: {available}"
+                )
+            # Old flat-field run — judge=None means read from top-level fields.
+
+    # Annotate each task with derived control_success / task_success fields.
     for t in tasks:
-        _annotate_task(t)
+        _annotate_task(t, judge)
 
-    level_stats, overall_stats = compute_level_stats(tasks)
+    level_stats, overall_stats = compute_level_stats(tasks, judge)
 
-    # Update by_level
+    # Write stats nested under the judge slug so multiple judges coexist in
+    # summary.json. Falls back to flat keys for legacy (judge=None) runs.
+    def _set_stats(section: dict, key: Optional[str], stats: dict) -> None:
+        if key:
+            section[key] = stats
+        else:
+            section.update(stats)
+
     by_level = summary.setdefault("by_level", {})
     for level, stats in level_stats.items():
-        if level not in by_level:
-            by_level[level] = {}
-        by_level[level].update(stats)
+        level_dict = by_level.setdefault(level, {})
+        _set_stats(level_dict, judge, stats)
 
-    # Update overall
-    summary.setdefault("overall", {}).update(overall_stats)
+    _set_stats(summary.setdefault("overall", {}), judge, overall_stats)
 
     summary_path.write_text(
         json.dumps(summary, indent=2, ensure_ascii=False),
@@ -266,11 +322,8 @@ def main() -> None:
     def fmt(v: Any) -> str:
         return f"{v:.3f}" if isinstance(v, float) else f"{v:>5}" if isinstance(v, int) else "  n/a"
 
-    # Columns ordered to match spreadsheet layout:
-    # State Progress | Physics | Coherence | task success |
-    # Observation    | Action  | control success
     header = (
-        f"{'Group':>10}  {'N':>5}  {'St.Prog':>8}  {'Physics':>8}  {'Coherence':>9}  "
+        f"{'Group':>10}  {'N':>5}  {'St.Prog':>8}  {'Phys.Inac':>10}  "
         f"{'Success':>8}  {'Observ.':>8}  {'Action':>8}  {'Ctrl.Suc':>8}"
     )
 
@@ -283,8 +336,7 @@ def main() -> None:
                 f"{label:>10}  "
                 f"{s.get('num_tasks', '?'):>5}  "
                 f"{fmt(s.get('avg_state_evol_success')):>8}  "
-                f"{fmt(s.get('avg_artifact')):>8}  "
-                f"{fmt(s.get('avg_coherence')):>9}  "
+                f"{fmt(s.get('avg_physical_inaccuracy')):>10}  "
                 f"{fmt(s.get('avg_task_success')):>8}  "
                 f"{fmt(s.get('avg_occlusion_done')):>8}  "
                 f"{fmt(s.get('avg_trigger_applied')):>8}  "
@@ -292,11 +344,12 @@ def main() -> None:
             )
 
     if args.print_llm:
-        all_stats      = _stats_for_tasks(tasks)
-        baseline_stats = _stats_for_tasks(baseline_tasks)
-        occluded_stats = _stats_for_tasks(occluded_tasks)
+        all_stats      = _stats_for_tasks(tasks, judge)
+        baseline_stats = _stats_for_tasks(baseline_tasks, judge)
+        occluded_stats = _stats_for_tasks(occluded_tasks, judge)
+        title = f"LLM Judge" + (f" ({judge})" if judge else "")
         _print_table(
-            "LLM Judge",
+            title,
             [("all", all_stats), ("baseline", baseline_stats), ("occluded", occluded_stats)],
         )
 

@@ -6,7 +6,7 @@ Inter-rater agreement across a user-specified set of annotators.
 Computes per-metric agreement statistics from a summary.json produced by
 the eval pipeline.  Seven metrics are supported:
 
-    state_evol  occlusion_done  trigger_applied  artifact  coherence
+    state_evol  occlusion_done  trigger_applied  physical_inaccuracy
     control_success  task_success
 
 control_success and task_success are derived fields written by
@@ -55,9 +55,10 @@ import numpy as np
 import pandas as pd
 
 
-METRICS = ["state_evol", "artifact", "coherence", "task_success",
-           "occlusion_done", "trigger_applied", "control_success"]
+# METRICS = ["state_evol", "physical_inaccuracy", "task_success",
+#            "occlusion_done", "trigger_applied", "control_success"]
 
+METRICS = ["physical_inaccuracy",]
 
 # ---------------------------------------------------------------------------
 # Value extraction

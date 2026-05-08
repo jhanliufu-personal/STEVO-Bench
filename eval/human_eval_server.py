@@ -16,7 +16,7 @@ Usage:
 Each task page shows:
   - Initial frame and output video
   - Video WM prompt
-  - Verifier rows (occlusion / trigger / state evolution / artifact / coherence)
+  - Verifier rows (occlusion / trigger / state evolution / physical inaccuracy)
   - Annotator mode: T/F buttons; answers auto-saved to human_<name>_report.json + summary.json
   - Master mode: read-only badges for LLM and every annotator side by side
 """
@@ -131,8 +131,8 @@ def _list_task_ids(run_name: str) -> List[str]:
         d.name for d in pt.iterdir()
         if d.is_dir()
         and (
-            (d / "control_report.json").exists() or
-            (d / "se_report.json").exists()
+            any(d.glob("control_report*.json")) or
+            any(d.glob("se_report*.json"))
         )
         and not (EXCLUDE_BASELINE and d.name.endswith("_00"))
     )
@@ -169,32 +169,39 @@ def _load_annotator_report(pt_dir: Path, annotator: str) -> Dict[str, Any]:
     return {}
 
 
+def _load_llm_report(pt_dir: Path, prefix: str) -> Dict[str, Any]:
+    """Load a per-task LLM judge report.
+
+    Prefers judge-tagged files (``prefix__<judge>.json``, sorted — last = most
+    recent alphabetically) so new runs with multi-VLM naming are handled
+    automatically. Falls back to the legacy untagged file (``prefix.json``)
+    for old runs and human-eval init stubs.
+    """
+    tagged = sorted(pt_dir.glob(f"{prefix}__*.json"))
+    if tagged:
+        try:
+            return json.loads(tagged[-1].read_text(encoding="utf-8"))
+        except Exception:
+            pass
+    legacy = pt_dir / f"{prefix}.json"
+    if legacy.exists():
+        try:
+            return json.loads(legacy.read_text(encoding="utf-8"))
+        except Exception:
+            pass
+    return {}
+
+
 def _load_task_data(run_name: str, task_id: str, annotator: Optional[str] = None) -> Dict[str, Any]:
     pt_dir = RUNS_DIR / run_name / "per_task" / task_id
 
-    # LLM reports
-    cr_path = pt_dir / "control_report.json"
-    cr: Dict[str, Any] = {}
-    if cr_path.exists():
-        cr = json.loads(cr_path.read_text(encoding="utf-8"))
-
-    se_path = pt_dir / "se_report.json"
-    se: Dict[str, Any] = {}
-    if se_path.exists():
-        se = json.loads(se_path.read_text(encoding="utf-8"))
-
-    art_path = pt_dir / "artifact_report.json"
-    art: Dict[str, Any] = {}
-    if art_path.exists():
-        art = json.loads(art_path.read_text(encoding="utf-8"))
-
-    cohr_path = pt_dir / "coherence_report.json"
-    cohr: Dict[str, Any] = {}
-    if cohr_path.exists():
-        cohr = json.loads(cohr_path.read_text(encoding="utf-8"))
+    # LLM reports — prefer judge-tagged files, fall back to legacy/stub names.
+    cr   = _load_llm_report(pt_dir, "control_report")
+    se   = _load_llm_report(pt_dir, "se_report")
+    phys = _load_llm_report(pt_dir, "physics_report")
 
     if not cr and not se:
-        raise FileNotFoundError(f"No control_report.json or se_report.json found in: {pt_dir}")
+        raise FileNotFoundError(f"No control or se report found in: {pt_dir}")
 
     camera_controlled = any(n in run_name.lower() for n in _CAMERA_CONTROLLED_NAMES)
 
@@ -240,14 +247,12 @@ def _load_task_data(run_name: str, task_id: str, annotator: Optional[str] = None
         "occlusion_done":      cr.get("occlusion_done"),
         "trigger_applied":     cr.get("trigger_applied"),
         "state_evol":          se.get("llm_state_evol"),
-        "artifact":            art.get("artifact"),
-        "coherence":           cohr.get("coherence"),
+        "physical_inaccuracy": phys.get("physical_inaccuracy"),
         "notes":               cr.get("notes", ""),
         "occlusion_prompt":    cr.get("occlusion_prompt", ""),
         "trigger_prompt":      cr.get("trigger_prompt", ""),
         "se_prompt":           se.get("filled_prompt1", ""),
-        "artifact_prompt":     art.get("prompt", ""),
-        "coherence_prompt":    cohr.get("prompt", ""),
+        "physics_prompt":      phys.get("prompt", ""),
     }
 
     base: Dict[str, Any] = {
@@ -268,7 +273,7 @@ def _load_task_data(run_name: str, task_id: str, annotator: Optional[str] = None
         rep = _load_annotator_report(pt_dir, annotator)
         human_control = {
             k: rep[k]
-            for k in ("occlusion_done", "trigger_applied", "artifact", "coherence")
+            for k in ("occlusion_done", "trigger_applied", "physical_inaccuracy")
             if k in rep
         }
         base["mode"] = "annotator"
@@ -286,7 +291,7 @@ def _load_task_data(run_name: str, task_id: str, annotator: Optional[str] = None
                     rep = json.loads(f.read_text(encoding="utf-8"))
                     annotations[ann_name] = {
                         k: rep.get(k)
-                        for k in ("occlusion_done", "trigger_applied", "state_evol", "artifact", "coherence")
+                        for k in ("occlusion_done", "trigger_applied", "state_evol", "physical_inaccuracy")
                     }
                 except Exception:
                     pass
@@ -399,7 +404,7 @@ def api_answer(run_name: str, task_id: str):
     else:
         report = {"annotator": annotator, "task_id": task_id}
 
-    for field in ("occlusion_done", "trigger_applied", "artifact", "coherence"):
+    for field in ("occlusion_done", "trigger_applied", "physical_inaccuracy"):
         if field in ctrl:
             report[field] = ctrl[field]
     if has_se:
@@ -419,7 +424,7 @@ def api_answer(run_name: str, task_id: str):
                 )
                 if task_entry is not None:
                     ann_entry = task_entry.setdefault("annotations", {}).setdefault(annotator, {})
-                    for field in ("occlusion_done", "trigger_applied", "artifact", "coherence"):
+                    for field in ("occlusion_done", "trigger_applied", "physical_inaccuracy"):
                         if field in ctrl:
                             ann_entry[field] = ctrl[field]
                     if has_se:
@@ -1039,7 +1044,7 @@ function renderControl() {
   const body = document.getElementById('ctrl-body');
   const c = S.llmControl;
   const hasData = c.occlusion_done != null || c.trigger_applied != null ||
-                  c.state_evol != null || c.artifact != null || c.coherence != null ||
+                  c.state_evol != null || c.physical_inaccuracy != null ||
                   c.requested_occlusion || c.requested_trigger;
   if (!hasData) {
     body.innerHTML = '<div style="color:var(--muted);font-size:13px;">No control data</div>';
@@ -1073,18 +1078,11 @@ function renderControl() {
       humanCols('state_evol', true)
     ) +
     ctrlRow(
-      'Physical artifact',
-      'Did anything unphysical or unrealistic happen? Click on the dropdown to see the full definition of an artifact and follow all guidance to make your decision.',
-      pd(c.artifact_prompt),
-      c.artifact,
-      humanCols('artifact', false)
-    ) +
-    ctrlRow(
-      'Main object coherence',
-      'Is the main object of the scene coherent throughout the video? Click on the dropdown to see the full definition of coherence and follow all guidance to make your decision.',
-      pd(c.coherence_prompt),
-      c.coherence,
-      humanCols('coherence', false)
+      'Physical inaccuracy',
+      'Does the video contain a physically impossible event in the visible portions? This includes: (1) instantaneous violations — object deforms/teleports/changes material with no cause; (2) dynamic violations — cause is shown but wrong effect follows (e.g. water poured in but level drops); (3) continuity violations — background changes instantaneously or scene resets after a blackout. Do NOT flag the intended change not happening — that is a separate metric. Click the prompt dropdown for full guidance.',
+      pd(c.physics_prompt),
+      c.physical_inaccuracy,
+      humanCols('physical_inaccuracy', false)
     ) +
     (c.notes ? `<div class="ctrl-notes">${esc(c.notes)}</div>` : '');
 }
@@ -1113,14 +1111,14 @@ function setStateEvol(value) {
 // =============================================================================
 // Verdicts
 // =============================================================================
-function computeVerdict(occlusion_done, trigger_applied, state_evol, artifact, coherence) {
-  const vals = [occlusion_done, trigger_applied, state_evol, artifact, coherence];
+function computeVerdict(occlusion_done, trigger_applied, state_evol, physical_inaccuracy) {
+  const vals = [occlusion_done, trigger_applied, state_evol, physical_inaccuracy];
   if (vals.every(v => v === null || v === undefined)) return 'unk';
   if (vals.some(v => v === null || v === undefined)) return 'partial';
   if (occlusion_done === false || trigger_applied === false || state_evol === false ||
-      artifact === true || coherence === false) return 'fail';
+      physical_inaccuracy === true) return 'fail';
   if (occlusion_done === true && trigger_applied === true && state_evol === true &&
-      artifact === false && coherence === true) return 'pass';
+      physical_inaccuracy === false) return 'pass';
   return 'partial';
 }
 
@@ -1136,10 +1134,10 @@ function refreshVerdicts() {
 
   if (IS_MASTER) {
     // LLM verdict + one box per annotator
-    const llmState = computeVerdict(c.occlusion_done, c.trigger_applied, c.state_evol, c.artifact, c.coherence);
+    const llmState = computeVerdict(c.occlusion_done, c.trigger_applied, c.state_evol, c.physical_inaccuracy);
     let html = verdictBox('LLM Verdict', llmState);
     for (const [name, ann] of Object.entries(S.annotations).sort()) {
-      const state = computeVerdict(ann.occlusion_done, ann.trigger_applied, ann.state_evol, ann.artifact, ann.coherence);
+      const state = computeVerdict(ann.occlusion_done, ann.trigger_applied, ann.state_evol, ann.physical_inaccuracy);
       html += verdictBox(name, state);
     }
     row.innerHTML = html;
@@ -1147,7 +1145,7 @@ function refreshVerdicts() {
     // Single "Your Verdict" box
     const state = computeVerdict(
       S.humanControl.occlusion_done, S.humanControl.trigger_applied,
-      S.humanStateEvol, S.humanControl.artifact, S.humanControl.coherence
+      S.humanStateEvol, S.humanControl.physical_inaccuracy
     );
     row.innerHTML = verdictBox('Your Verdict', state);
   }

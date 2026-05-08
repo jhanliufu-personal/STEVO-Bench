@@ -1,6 +1,6 @@
 # eval/quality_judge.py
 """
-Gemini-only visual quality evaluator: artifact detection and coherence scoring.
+Visual quality evaluator (provider-agnostic): artifact detection and coherence scoring.
 
 Each metric is a separate Gemini query with its own prompt.
 
@@ -29,7 +29,7 @@ from typing import Any, Dict, List, Optional, Sequence
 
 import yaml
 
-from eval.control_judge_client import make_control_judge_client
+from eval.judge_client import make_judge_client
 from eval.control_judge import _load_task_fields, _compute_requested_fields
 from eval.task_resolver import ResolvedTask
 from eval.utils import _path_to_rel
@@ -392,13 +392,14 @@ def _parse_judge_output(raw_text: str, judge_name: str) -> Dict[str, Any]:
 def evaluate_artifact_one_task(
     task: ResolvedTask,
     *,
+    provider: str = "gemini",
     model: str = "gemini-3-pro-preview",
     report_filename: str = "artifact_report.json",
     camera_controlled: bool = False,
     ensemble_size: int = 1,
     ensemble_mode: str = "majority",
 ) -> ArtifactJudgeResult:
-    client = make_control_judge_client(model=model)
+    client = make_judge_client(model=model, provider=provider)
     print(f"[artifact_judge] occ_client: model={client.model!r}")
 
     video_wm, camera_wm, camera_pose = _load_task_fields(Path(task.task_yaml))
@@ -442,7 +443,7 @@ def evaluate_artifact_one_task(
 
     payload: Dict[str, Any] = {
         "task_id": task.task_id,
-        "provider": "gemini",
+        "provider": client.provider,
         "model": model,
         "wm_video": _path_to_rel(task.wm_video),
         "requested_occlusion": requested_occlusion,
@@ -462,7 +463,7 @@ def evaluate_artifact_one_task(
 
     return ArtifactJudgeResult(
         task_id=task.task_id,
-        provider="gemini",
+        provider=client.provider,
         model=model,
         report_path=str(report_path),
         artifact=artifact,
@@ -474,6 +475,7 @@ def evaluate_artifact_one_task(
 def evaluate_artifact_all_tasks(
     tasks: Sequence[ResolvedTask],
     *,
+    provider: str = "gemini",
     model: str = "gemini-3-pro-preview",
     report_filename: str = "artifact_report.json",
     camera_controlled: bool = False,
@@ -485,6 +487,7 @@ def evaluate_artifact_all_tasks(
         out.append(
             evaluate_artifact_one_task(
                 t,
+                provider=provider,
                 model=model,
                 report_filename=report_filename,
                 camera_controlled=camera_controlled,
@@ -498,12 +501,13 @@ def evaluate_artifact_all_tasks(
 def append_artifact_results_to_summary(
     tasks: List[ResolvedTask],
     *,
-    report_filename: str = "artifact_report.json",
+    judge_slug: str,
+    report_filename: str,
 ) -> None:
     """
     For each task in the same run:
-      - Load artifact_report.json from per-task folder
-      - Insert artifact into the corresponding task entry in summary.json
+      - Load the judge-tagged artifact report (report_filename) from the per-task folder
+      - Insert artifact into summary.json under task["llm_evals"][judge_slug]
 
     Assumes all tasks belong to the same run.
     """
@@ -528,7 +532,8 @@ def append_artifact_results_to_summary(
         if not report_path.exists() or task.task_id not in task_entries:
             continue
         data = json.loads(report_path.read_text(encoding="utf-8"))
-        task_entries[task.task_id]["artifact"] = bool(data.get("artifact", False))
+        ev = task_entries[task.task_id].setdefault("llm_evals", {}).setdefault(judge_slug, {})
+        ev["artifact"] = bool(data.get("artifact", False))
 
     summary_path.write_text(
         json.dumps(summary, indent=2, ensure_ascii=False), encoding="utf-8"
@@ -542,13 +547,14 @@ def append_artifact_results_to_summary(
 def evaluate_coherence_one_task(
     task: ResolvedTask,
     *,
+    provider: str = "gemini",
     model: str = "gemini-3-pro-preview",
     report_filename: str = "coherence_report.json",
     camera_controlled: bool = False,
     ensemble_size: int = 1,
     ensemble_mode: str = "majority",
 ) -> CoherenceJudgeResult:
-    client = make_control_judge_client(model=model)
+    client = make_judge_client(model=model, provider=provider)
     print(f"[coherence_judge] occ_client: model={client.model!r}")
 
     video_wm, camera_wm, camera_pose = _load_task_fields(Path(task.task_yaml))
@@ -595,7 +601,7 @@ def evaluate_coherence_one_task(
 
     payload: Dict[str, Any] = {
         "task_id": task.task_id,
-        "provider": "gemini",
+        "provider": client.provider,
         "model": model,
         "wm_video": _path_to_rel(task.wm_video),
         "requested_occlusion": requested_occlusion,
@@ -622,7 +628,7 @@ def evaluate_coherence_one_task(
 
     return CoherenceJudgeResult(
         task_id=task.task_id,
-        provider="gemini",
+        provider=client.provider,
         model=model,
         report_path=str(report_path),
         coherence=coherence,
@@ -633,6 +639,7 @@ def evaluate_coherence_one_task(
 def evaluate_coherence_all_tasks(
     tasks: Sequence[ResolvedTask],
     *,
+    provider: str = "gemini",
     model: str = "gemini-3-pro-preview",
     report_filename: str = "coherence_report.json",
     camera_controlled: bool = False,
@@ -644,6 +651,7 @@ def evaluate_coherence_all_tasks(
         out.append(
             evaluate_coherence_one_task(
                 t,
+                provider=provider,
                 model=model,
                 report_filename=report_filename,
                 camera_controlled=camera_controlled,
@@ -657,12 +665,13 @@ def evaluate_coherence_all_tasks(
 def append_coherence_results_to_summary(
     tasks: List[ResolvedTask],
     *,
-    report_filename: str = "coherence_report.json",
+    judge_slug: str,
+    report_filename: str,
 ) -> None:
     """
     For each task in the same run:
-      - Load coherence_report.json from per-task folder
-      - Insert coherence into the corresponding task entry in summary.json
+      - Load the judge-tagged coherence report (report_filename) from the per-task folder
+      - Insert coherence into summary.json under task["llm_evals"][judge_slug]
 
     Assumes all tasks belong to the same run.
     """
@@ -687,7 +696,8 @@ def append_coherence_results_to_summary(
         if not report_path.exists() or task.task_id not in task_entries:
             continue
         data = json.loads(report_path.read_text(encoding="utf-8"))
-        task_entries[task.task_id]["coherence"] = bool(data.get("coherence", True))
+        ev = task_entries[task.task_id].setdefault("llm_evals", {}).setdefault(judge_slug, {})
+        ev["coherence"] = bool(data.get("coherence", True))
 
     summary_path.write_text(
         json.dumps(summary, indent=2, ensure_ascii=False), encoding="utf-8"
