@@ -11,10 +11,6 @@ from eval.control_judge import (
     evaluate_control_one_task, append_control_results_to_summary,
     _load_task_fields, _compute_requested_fields,
 )
-# from eval.__quality_judge import (  # OBSOLETE: replaced by physics_judge
-#     evaluate_artifact_one_task, append_artifact_results_to_summary, ArtifactJudgeResult,
-#     evaluate_coherence_one_task, append_coherence_results_to_summary, CoherenceJudgeResult,
-# )
 from eval.physics_judge import (
     evaluate_physics_one_task, append_physics_results_to_summary, PhysicsJudgeResult,
 )
@@ -149,7 +145,6 @@ def _eval_one_task(
     task: ResolvedTask,
     *,
     provider: str,
-    judge_model: str,
     control_model: str,
     physics_model: str,
     se_model: str,
@@ -163,10 +158,10 @@ def _eval_one_task(
     ensemble_size: int = 1,
     ensemble_mode: str = "majority",
 ) -> Tuple[None, Optional[ControlJudgeResult], Optional[PhysicsJudgeResult], Optional[SEJudgeResult]]:
-    judge_result   = None  # binary judge questions (judge_report.json) are obsolete
+    judge_result = None  # binary judge questions (judge_report.json) are obsolete
     control_result = evaluate_control_one_task(task, provider=provider, model=control_model, report_filename=control_report_fn, camera_controlled=camera_controlled, ensemble_size=ensemble_size, ensemble_mode=ensemble_mode) if run_control else None
     physics_result = evaluate_physics_one_task(task, provider=provider, model=physics_model, report_filename=physics_report_fn, camera_controlled=camera_controlled, ensemble_size=ensemble_size, ensemble_mode=ensemble_mode) if run_physics else None
-    se_result      = evaluate_se_one_task(task, provider=provider, model=se_model, report_filename=se_report_fn, camera_controlled=camera_controlled, ensemble_size=ensemble_size, ensemble_mode=ensemble_mode) if run_state else None
+    se_result = evaluate_se_one_task(task, provider=provider, model=se_model, report_filename=se_report_fn, camera_controlled=camera_controlled, ensemble_size=ensemble_size, ensemble_mode=ensemble_mode) if run_state else None
     return judge_result, control_result, physics_result, se_result
 
 
@@ -189,16 +184,10 @@ def main() -> None:
 
     # Judge LLM provider info
     parser.add_argument(
-        "--judge_vlm_provider",
+        "--vlm_provider",
         default="gemini",
         type=str,
         help="Provider of the judge VLM, currently support OpenAI, Anthropic and Gemini. API key must be configured."
-    )
-    parser.add_argument(
-        "--judge_vlm_model",
-        default="gemini-3-pro-preview",
-        type=str,
-        help="Name of the judge VLM model."
     )
     parser.add_argument(
         "--control_judge_model",
@@ -261,9 +250,6 @@ def main() -> None:
         action="store_true",
         help="Run the physics judge (physics_report).",
     )
-    # --artifact and --coherence are OBSOLETE; replaced by --physics
-    # parser.add_argument("--artifact", ...)
-    # parser.add_argument("--coherence", ...)
     parser.add_argument(
         "--state",
         action="store_true",
@@ -300,19 +286,18 @@ def main() -> None:
     args = parser.parse_args()
 
     any_selected = args.control or args.physics or args.state
-    run_judge   = False  # binary judge questions (judge_report.json) are obsolete
     run_control = args.control or not any_selected
     run_physics = args.physics or not any_selected
-    run_state   = args.state   or not any_selected
+    run_state = args.state or not any_selected
 
     # Judge slugs uniquely identify (provider, model) pairs in filenames and summary.json.
-    control_slug = _make_judge_slug(args.judge_vlm_provider, args.control_judge_model)
-    physics_slug = _make_judge_slug(args.judge_vlm_provider, args.physics_judge_model)
-    se_slug      = _make_judge_slug(args.judge_vlm_provider, args.se_judge_model)
+    control_slug = _make_judge_slug(args.vlm_provider, args.control_judge_model)
+    physics_slug = _make_judge_slug(args.vlm_provider, args.physics_judge_model)
+    se_slug = _make_judge_slug(args.vlm_provider, args.se_judge_model)
 
     control_report_fn = _report_filename("control", control_slug)
     physics_report_fn = _report_filename("physics", physics_slug)
-    se_report_fn      = _report_filename("se",      se_slug)
+    se_report_fn = _report_filename("se", se_slug)
 
     # ---------------------------------------------------------------------------
     # Build eval run directory
@@ -402,11 +387,11 @@ def main() -> None:
             task_dir = per_task_root / task.task_id
             control_done = _report_evaluated(task_dir / control_report_fn, "occlusion_done", "trigger_applied")
             physics_done = _report_evaluated(task_dir / physics_report_fn, "physical_inaccuracy")
-            se_done      = _report_evaluated(task_dir / se_report_fn, "state_evol")
+            se_done = _report_evaluated(task_dir / se_report_fn, "state_evol")
             already_done = (
                 (run_control and control_done or not run_control) and
                 (run_physics and physics_done or not run_physics) and
-                (run_state   and se_done      or not run_state)
+                (run_state and se_done or not run_state)
             )
             if already_done:
                 skipped += 1
@@ -430,8 +415,7 @@ def main() -> None:
             executor.submit(
                 _eval_one_task,
                 task,
-                provider=args.judge_vlm_provider,
-                judge_model=args.judge_vlm_model,
+                provider=args.vlm_provider,
                 control_model=args.control_judge_model,
                 physics_model=args.physics_judge_model,
                 se_model=args.se_judge_model,
@@ -451,10 +435,9 @@ def main() -> None:
             task = futures[future]
             try:
                 jr, cr, phys, ser = future.result()
-                # if jr is not None: judge_results.append(jr)  # OBSOLETE
-                if cr   is not None: control_results.append(cr)
+                if cr is not None: control_results.append(cr)
                 if phys is not None: physics_results.append(phys)
-                if ser  is not None: se_results.append(ser)
+                if ser is not None: se_results.append(ser)
             except Exception as e:
                 print(f"[ERROR] {task.task_id}: {e}")
                 failed += 1
