@@ -329,29 +329,52 @@ def evaluate_control_one_task(
         }
 
     n = max(1, ensemble_size)
-    # All n occlusion queries and n trigger queries run concurrently.
-    with ThreadPoolExecutor(max_workers=n * 2) as ex:
-        occ_futures  = [ex.submit(_occ_query,  i) for i in range(n)]
-        trig_futures = [ex.submit(_trig_query, i) for i in range(n)]
-        occ_responses  = [f.result() for f in occ_futures]
-        trig_responses = [f.result() for f in trig_futures]
+
+    run_task_dir = Path(task.final_frame).parent  # per_task/<task_id>/
+    report_path  = run_task_dir / report_filename
+
+    # Load existing responses so we only generate the delta needed.
+    existing_occ_responses: list = []
+    existing_trig_responses: list = []
+    if report_path.exists():
+        try:
+            existing = json.loads(report_path.read_text(encoding="utf-8"))
+            existing_occ_responses  = existing.get("occlusion_responses", [])
+            existing_trig_responses = existing.get("trigger_responses", [])
+        except Exception:
+            pass
+
+    n_needed_occ  = max(0, n - len(existing_occ_responses))
+    n_needed_trig = max(0, n - len(existing_trig_responses))
+
+    new_occ_responses: list = []
+    new_trig_responses: list = []
+    max_workers = n_needed_occ + n_needed_trig
+    if max_workers > 0:
+        with ThreadPoolExecutor(max_workers=max_workers) as ex:
+            occ_futures  = [ex.submit(_occ_query,  i) for i in range(n_needed_occ)]
+            trig_futures = [ex.submit(_trig_query, i) for i in range(n_needed_trig)]
+            new_occ_responses  = [f.result() for f in occ_futures]
+            new_trig_responses = [f.result() for f in trig_futures]
+
+    occ_responses  = existing_occ_responses  + new_occ_responses
+    trig_responses = existing_trig_responses + new_trig_responses
 
     votes_occlusion = sum(1 for r in occ_responses  if r["occlusion_done"])
     votes_trigger   = sum(1 for r in trig_responses if r["trigger_applied"])
-    occlusion_done  = _ensemble_decide(votes_occlusion, n, ensemble_mode)
-    trigger_applied = _ensemble_decide(votes_trigger,   n, ensemble_mode)
+    occlusion_done  = _ensemble_decide(votes_occlusion, len(occ_responses), ensemble_mode)
+    trigger_applied = _ensemble_decide(votes_trigger,   len(trig_responses), ensemble_mode)
 
-    if n > 1:
+    n_occ  = len(occ_responses)
+    n_trig = len(trig_responses)
+    if n_occ > 1 or n_trig > 1:
         notes = (
-            f"Ensemble occlusion_done {votes_occlusion}/{n}, "
-            f"trigger_applied {votes_trigger}/{n}."
+            f"Ensemble occlusion_done {votes_occlusion}/{n_occ}, "
+            f"trigger_applied {votes_trigger}/{n_trig}."
         )
     else:
         parts = [p for p in (occ_responses[0]["notes"], trig_responses[0]["notes"]) if p]
         notes = "; ".join(parts)
-
-    run_task_dir = Path(task.final_frame).parent  # per_task/<task_id>/
-    report_path  = run_task_dir / report_filename
 
     payload: Dict[str, Any] = {
         "task_id":             task.task_id,

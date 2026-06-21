@@ -372,22 +372,44 @@ def main() -> None:
     # Skip tasks that are already fully evaluated (unless --overwrite)
     # ---------------------------------------------------------------------------
     if not args.overwrite:
-        def _report_evaluated(path: Path, *fields: str) -> bool:
-            """True only if the file exists and every listed field is non-None."""
+        def _report_evaluated(path: Path, *fields: str, ensemble_size: int = 1, response_keys: tuple = ()) -> bool:
+            """True if the file exists, every listed field is non-None, and (when ensemble_size > 1) each response_key array has >= ensemble_size entries."""
             if not path.exists():
                 return False
             try:
                 data = json.loads(path.read_text(encoding="utf-8"))
-                return all(data.get(f) is not None for f in fields)
+                if not all(data.get(f) is not None for f in fields):
+                    return False
+                if ensemble_size > 1:
+                    for key in response_keys:
+                        if len(data.get(key, [])) < ensemble_size:
+                            return False
+                return True
             except Exception:
                 return False
 
+        ens = args.ensemble_size
         pending, skipped = [], 0
         for task in resolved_tasks:
             task_dir = per_task_root / task.task_id
-            control_done = _report_evaluated(task_dir / control_report_fn, "occlusion_done", "trigger_applied")
-            physics_done = _report_evaluated(task_dir / physics_report_fn, "physical_inaccuracy")
-            se_done = _report_evaluated(task_dir / se_report_fn, "state_evol")
+            control_done = _report_evaluated(
+                task_dir / control_report_fn,
+                "occlusion_done", "trigger_applied",
+                ensemble_size=ens,
+                response_keys=("occlusion_responses", "trigger_responses"),
+            )
+            physics_done = _report_evaluated(
+                task_dir / physics_report_fn,
+                "physical_inaccuracy",
+                ensemble_size=ens,
+                response_keys=("responses",),
+            )
+            se_done = _report_evaluated(
+                task_dir / se_report_fn,
+                "state_evol",
+                ensemble_size=ens,
+                response_keys=("responses",),
+            )
             already_done = (
                 (run_control and control_done or not run_control) and
                 (run_physics and physics_done or not run_physics) and

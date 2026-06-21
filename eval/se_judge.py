@@ -178,18 +178,36 @@ def evaluate_se_one_task(
     _, camera_wm, _ = _load_task_fields(Path(task.task_yaml))
     action_prompt: Optional[str] = camera_wm.strip() or None
 
-    # Step 1: predict expected process from init frame (single call, no ensemble needed)
+    n = max(1, ensemble_size)
+
+    run_task_dir = Path(task.final_frame).parent  # per_task/<task_id>/
+    report_path = run_task_dir / report_filename
+
+    # Load existing responses so we only generate the delta needed.
+    # Also reuse step-1 output (expected_process_concise) to avoid re-running it.
+    existing_responses: list = []
+    concise_process = ""
+    full_prediction = ""
+    if report_path.exists():
+        try:
+            existing = json.loads(report_path.read_text(encoding="utf-8"))
+            existing_responses = existing.get("responses", [])
+            concise_process    = existing.get("expected_process_concise", "")
+            full_prediction    = existing.get("expected_process_full", "")
+        except Exception:
+            pass
+
+    # Step 1: predict expected process from init frame — skip if already stored.
     predict_prompt = build_se_predict_prompt(action_prompt)
-    full_prediction = client.judge_image(
-        prompt=predict_prompt,
-        image_path=Path(task.init_frame),
-    )
-    concise_process = _parse_process_line(full_prediction)
+    if not concise_process:
+        full_prediction = client.judge_image(
+            prompt=predict_prompt,
+            image_path=Path(task.init_frame),
+        )
+        concise_process = _parse_process_line(full_prediction)
 
     # Step 2: verify process in video (ensemble over this step)
     verify_prompt = build_se_verify_prompt(concise_process, camera_controlled=camera_controlled)
-
-    n = max(1, ensemble_size)
 
     def _single_verify(_: int) -> Dict[str, Any]:
         raw = client.judge(prompt=verify_prompt, video_path=Path(task.wm_video))
@@ -198,22 +216,21 @@ def evaluate_se_one_task(
             "raw_text": raw,
         }
 
-    if n > 1:
-        with ThreadPoolExecutor(max_workers=n) as ex:
-            responses = list(ex.map(_single_verify, range(n)))
+    n_needed = max(0, n - len(existing_responses))
+    if n_needed > 0:
+        with ThreadPoolExecutor(max_workers=n_needed) as ex:
+            new_responses = list(ex.map(_single_verify, range(n_needed)))
     else:
-        responses = [_single_verify(0)]
+        new_responses = []
+    responses = existing_responses + new_responses
 
     votes_true = sum(1 for r in responses if r["state_evol"])
-    state_evol = _ensemble_decide(votes_true, n, ensemble_mode)
+    state_evol = _ensemble_decide(votes_true, len(responses), ensemble_mode)
 
-    if n > 1:
-        notes = f"Ensemble {votes_true}/{n} members found state evolution occurred."
+    if len(responses) > 1:
+        notes = f"Ensemble {votes_true}/{len(responses)} members found state evolution occurred."
     else:
         notes = ""
-
-    run_task_dir = Path(task.final_frame).parent  # per_task/<task_id>/
-    report_path = run_task_dir / report_filename
 
     payload: Dict[str, Any] = {
         "task_id":                    task.task_id,

@@ -264,23 +264,35 @@ def evaluate_physics_one_task(
         }
 
     n = max(1, ensemble_size)
-    if n > 1:
-        with ThreadPoolExecutor(max_workers=n) as ex:
-            responses = list(ex.map(_single_query, range(n)))
-    else:
-        responses = [_single_query(0)]
-
-    votes_inaccurate = sum(1 for r in responses if r["physical_inaccuracy"])
-    physical_inaccuracy = _ensemble_decide(votes_inaccurate, n, ensemble_mode)
-
-    intended_state_evolution = responses[0]["intended_state_evolution"]
-    if n > 1:
-        notes = f"Ensemble {votes_inaccurate}/{n} members flagged a physical inaccuracy."
-    else:
-        notes = responses[0]["notes"]
 
     run_task_dir = Path(task.final_frame).parent
     report_path = run_task_dir / report_filename
+
+    # Load existing responses so we only generate the delta needed.
+    existing_responses: list = []
+    if report_path.exists():
+        try:
+            existing = json.loads(report_path.read_text(encoding="utf-8"))
+            existing_responses = existing.get("responses", [])
+        except Exception:
+            pass
+
+    n_needed = max(0, n - len(existing_responses))
+    if n_needed > 0:
+        with ThreadPoolExecutor(max_workers=n_needed) as ex:
+            new_responses = list(ex.map(_single_query, range(n_needed)))
+    else:
+        new_responses = []
+    responses = existing_responses + new_responses
+
+    votes_inaccurate = sum(1 for r in responses if r["physical_inaccuracy"])
+    physical_inaccuracy = _ensemble_decide(votes_inaccurate, len(responses), ensemble_mode)
+
+    intended_state_evolution = responses[0]["intended_state_evolution"] if responses else ""
+    if len(responses) > 1:
+        notes = f"Ensemble {votes_inaccurate}/{len(responses)} members flagged a physical inaccuracy."
+    else:
+        notes = responses[0]["notes"] if responses else ""
 
     payload: Dict[str, Any] = {
         "task_id":                   task.task_id,

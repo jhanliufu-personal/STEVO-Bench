@@ -144,7 +144,7 @@ class OpenAIControlJudgeClient:
     model: str = "gpt-4o"
     provider: str = "openai"
     n_frames: int = 32   # frames sampled from the video for judging
-    max_side: int = 512  # longest frame dimension before encoding; controls token cost
+    max_side: int = 1024  # longest frame dimension before encoding; controls token cost
 
     def __post_init__(self) -> None:
         import openai  # type: ignore
